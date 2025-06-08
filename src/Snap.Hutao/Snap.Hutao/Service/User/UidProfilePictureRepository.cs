@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using System.Data.Common;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.User;
 

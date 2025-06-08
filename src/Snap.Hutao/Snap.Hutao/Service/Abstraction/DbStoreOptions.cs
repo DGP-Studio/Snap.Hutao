@@ -58,7 +58,15 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            storage = GetValue(appDbContext, key) ?? defaultValueFactory();
+
+            try
+            {
+                storage = GetValue(appDbContext, key) ?? defaultValueFactory();
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
         }
 
         return storage;

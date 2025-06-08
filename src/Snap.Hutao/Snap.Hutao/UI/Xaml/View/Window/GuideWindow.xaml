@@ -25,5 +25,6 @@
                 TextWrapping="NoWrap"/>
         </Grid>
         <shuxv:GuideView x:Name="GuideView" Grid.Row="1"/>
+        <shuxv:InfoBarView Grid.Row="1" Margin="0,44,0,0"/>
     </Grid>
 </Window>

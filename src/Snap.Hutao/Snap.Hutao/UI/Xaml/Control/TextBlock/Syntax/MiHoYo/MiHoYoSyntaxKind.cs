@@ -10,4 +10,5 @@ internal enum MiHoYoSyntaxKind
     PlainText,
     ColorText,
     ItalicText,
+    LinkText,
 }

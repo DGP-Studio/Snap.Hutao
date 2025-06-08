@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.UI.Windowing;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;

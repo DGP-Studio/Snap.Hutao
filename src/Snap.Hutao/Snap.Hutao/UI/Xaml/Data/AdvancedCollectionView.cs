@@ -685,6 +685,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         }
         catch (Exception ex)
         {
+            // E_FAIL 0x80004005 can happen when moving items around
             ex.Data["CollectionElementType"] = TypeNameHelper.GetTypeDisplayName(typeof(T));
             throw;
         }

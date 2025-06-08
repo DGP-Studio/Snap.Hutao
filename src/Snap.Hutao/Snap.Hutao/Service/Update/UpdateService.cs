@@ -64,7 +64,16 @@ internal sealed partial class UpdateService : IUpdateService
 
     public async ValueTask<ValueResult<bool, Exception>> LaunchUpdaterAsync()
     {
-        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath;
+        try
+        {
+            updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Access to the path '?' is denied.
+            return new(false, ex);
+        }
 
         try
         {
@@ -72,6 +81,7 @@ internal sealed partial class UpdateService : IUpdateService
         }
         catch (IOException ex)
         {
+            // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
             // The process cannot access the file '?' because it is being used by another process.
             return new(false, ex);
         }

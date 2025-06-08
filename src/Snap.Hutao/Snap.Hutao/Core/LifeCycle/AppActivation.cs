@@ -13,7 +13,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Shell;
-using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Achievement;
@@ -108,9 +108,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case null:
             case MainWindow:
-                await WaitWindowAsync<MainWindow>().ConfigureAwait(true);
-                INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-                await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
+                if (await WaitWindowAsync<MainWindow>().ConfigureAwait(true) is not null)
+                {
+                    INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
+                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
+                }
+
                 return;
 
             default:
@@ -307,14 +310,27 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private async ValueTask<Window> WaitWindowAsync<TWindow>()
+    private async ValueTask<Window?> WaitWindowAsync<TWindow>()
         where TWindow : Window
     {
         await taskContext.SwitchToMainThreadAsync();
 
         if (currentXamlWindowReference.Window is not { } window)
         {
-            window = serviceProvider.GetRequiredService<TWindow>();
+            try
+            {
+                window = serviceProvider.GetRequiredService<TWindow>();
+            }
+            catch (COMException)
+            {
+                if (XamlApplicationLifetime.Exiting)
+                {
+                    return default;
+                }
+
+                throw;
+            }
+
             currentXamlWindowReference.Window = window;
         }
 

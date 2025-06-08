@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.Win32.Foundation;
-using WinRT;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -23,6 +22,6 @@ internal static class CurrentXamlWindowReferenceExtension
     public static ElementTheme GetRequestedTheme(this ICurrentXamlWindowReference reference)
     {
         ArgumentNullException.ThrowIfNull(reference.Window);
-        return reference.Window.Content.As<FrameworkElement>().RequestedTheme;
+        return ((FrameworkElement)reference.Window.Content).RequestedTheme;
     }
 }

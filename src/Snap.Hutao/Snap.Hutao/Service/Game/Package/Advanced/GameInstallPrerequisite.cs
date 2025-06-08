@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.Collections.Immutable;
 using System.IO;
 
@@ -28,7 +30,22 @@ internal sealed class GameInstallPrerequisite
                 return false;
             }
 
-            ImmutableArray<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath());
+            ImmutableArray<IniElement> ini;
+            try
+            {
+                ini = IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath());
+            }
+            catch (IOException ex)
+            {
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY))
+                {
+                    locker = default;
+                    return false;
+                }
+
+                throw;
+            }
+
             if (!ini.Any(e => e is IniParameter { Key: InstallingName }))
             {
                 locker = default;

@@ -7,6 +7,8 @@ using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Net;
+using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Island;
 
@@ -40,25 +42,26 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             return false;
         }
 
-        IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-        if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
+        try
         {
-            return false;
+            IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
+            IslandFeature? feature = await featureService.GetGameIslandFeatureAsync(gameVersion).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(feature);
+            offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
         }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode is HttpStatusCode.NotFound)
+            {
+                throw HutaoException.NotSupported(SH.ServiceGameIslandFeature404);
+            }
 
-        offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
+            throw;
+        }
 
         if (!resume && !GlobalSwitch.PreventCopyIslandDll)
         {
-            try
-            {
-                InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
-            }
-            catch
-            {
-                context.Logger.LogError("Failed to copy island file.");
-                throw;
-            }
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
         }
 
         return true;
@@ -66,7 +69,27 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     public async ValueTask WaitForExitAsync(CancellationToken token = default)
     {
-        using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
+        MemoryMappedFile file;
+        if (resume)
+        {
+            try
+            {
+                file = MemoryMappedFile.OpenExisting(IslandEnvironmentName);
+            }
+            catch (FileNotFoundException)
+            {
+                // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
+                // Simply return if the game is running without island injected previously
+                // We do not inject the island to process that not started by us.
+                return;
+            }
+        }
+        else
+        {
+            file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024);
+        }
+
+        using (file)
         {
             using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
             {
@@ -92,13 +115,6 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                         {
                             if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
                             {
-                                if (resume)
-                                {
-                                    // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
-                                    // Simply return if the game is running without island injected previously
-                                    return;
-                                }
-
                                 HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
                             }
                         }

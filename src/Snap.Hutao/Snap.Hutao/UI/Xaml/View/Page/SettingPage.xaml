@@ -631,51 +631,41 @@
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding Home}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewpageSettingHomeHeader}"/>
-                                <cwc:SettingsExpander
-                                    Description="{shuxm:ResourceString Name=ViewpageSettingHomeCardDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardHeader}"
-                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEE40;}"
-                                    IsExpanded="True">
-                                    <cwc:SettingsExpander.Items>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemLaunchGameHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardLaunchGamePresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemgachaStatisticsHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardGachaStatisticsPresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemAchievementHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardAchievementPresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemDailyNoteHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardDailyNotePresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemCalendarHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardCalendarPresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingHomeCardItemSignInHeader}">
-                                            <ToggleSwitch
-                                                IsOn="{Binding HomeCardOptions.IsHomeCardSignInPresented, Mode=TwoWay}"
-                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
-                                        </cwc:SettingsCard>
-                                    </cwc:SettingsExpander.Items>
-                                </cwc:SettingsExpander>
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingHomeHeader}"/>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHomeCardDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHomeCardHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEE40;}"/>
+                                <ListView
+                                    Margin="0,-3,0,0"
+                                    AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    ItemContainerStyle="{StaticResource NoneSelectionListViewItemStyleMarginTop3}"
+                                    ItemsSource="{Binding HomeCards}"
+                                    SelectionMode="None">
+                                    <ListView.Header>
+                                        <InfoBar
+                                            Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                            Margin="4,0,4,3"
+                                            IsClosable="True"
+                                            IsOpen="True"
+                                            Severity="Warning"
+                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <cwc:SettingsCard Header="{Binding Name}">
+                                                <cwc:SettingsCard.HeaderIcon>
+                                                    <FontIcon Glyph="&#xEC8F;" Opacity="0.5"/>
+                                                </cwc:SettingsCard.HeaderIcon>
+                                                <ToggleSwitch
+                                                    IsOn="{Binding IsPresented, Mode=TwoWay}"
+                                                    OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                                    OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                            </cwc:SettingsCard>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader}"

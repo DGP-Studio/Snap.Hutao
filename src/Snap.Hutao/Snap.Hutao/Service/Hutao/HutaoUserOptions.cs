@@ -337,9 +337,17 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
+                UserInfo? userInfo;
+                try
                 {
-                    infoEvent.Set();
+                    if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out userInfo))
+                    {
+                        infoEvent.Set();
+                        return;
+                    }
+                }
+                catch (ObjectDisposedException)
+                {
                     return;
                 }
 

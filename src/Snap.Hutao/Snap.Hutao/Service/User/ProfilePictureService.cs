@@ -31,7 +31,14 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
             UidProfilePicture? profilePicture;
             lock (syncRoot)
             {
-                profilePicture = uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid);
+                try
+                {
+                    profilePicture = uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid);
+                }
+                catch (DbException ex)
+                {
+                    throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+                }
             }
 
             if (profilePicture is not null)

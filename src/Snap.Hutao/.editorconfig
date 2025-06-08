@@ -1,4 +1,4 @@
-﻿[*]
+[*]
 # General
 charset = utf-8
 end_of_line = crlf
@@ -165,6 +165,7 @@ dotnet_diagnostic.CA1820.severity = suggestion  # CA1820: 使用字符串长度�
 dotnet_diagnostic.CA1823.severity = suggestion  # CA1823: 避免未使用的私有字段
 dotnet_diagnostic.CA1849.severity = suggestion  # CA1849: 当在异步方法中时，调用异步方法
 dotnet_diagnostic.CA1852.severity = suggestion  # CA1852: 密封内部类型
+dotnet_diagnostic.CA1859.severity = none        # CA1859: 尽可能使用具体类型来提高性能
 dotnet_diagnostic.CA2000.severity = none        # CA2000: 丢失范围之前释放对象
 dotnet_diagnostic.CA2002.severity = suggestion  # CA2002: 不要锁定具有弱标识的对象
 dotnet_diagnostic.CA2007.severity = suggestion  # CA2007: 考虑对等待的任务调用 ConfigureAwait

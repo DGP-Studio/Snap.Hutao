@@ -24,76 +24,19 @@ namespace Snap.Hutao.Web.Bridge;
 
 internal class MiHoYoJSBridge
 {
-    /* lang=javascript */
-    private const string InitializeJsInterfaceScript = """
-        window.MiHoYoJSInterface = {
-            postMessage: function(arg) { window.chrome.webview.postMessage(arg) },
-            closePage: function() { this.postMessage('{"method":"closePage"}') },
-        };
-        """;
-
-    /* lang=javascript */
-    private const string HideScrollBarScript = """
-        let hideStyle = document.createElement('style');
-        hideStyle.innerHTML = '::-webkit-scrollbar{ display:none }';
-        document.querySelector('body').appendChild(hideStyle);
-        """;
-
-    /* lang=javascript */
-    private const string ConvertMouseToTouchScript = """
-        function mouseListener (e, event) {
-            let touch = new Touch({
-                identifier: Date.now(),
-                target: e.target,
-                clientX: e.clientX,
-                clientY: e.clientY,
-                screenX: e.screenX,
-                screenY: e.screenY,
-                pageX: e.pageX,
-                pageY: e.pageY,
-            });
-            let touchEvent = new TouchEvent(event, {
-                cancelable: true,
-                bubbles: true,
-                touches: [touch],
-                targetTouches: [touch],
-                changedTouches: [touch],
-            });
-            e.target.dispatchEvent(touchEvent);
-        }
-
-        let mouseMoveListener = (e) => {
-            mouseListener(e, 'touchmove'); 
-        };
-
-        let mouseUpListener = (e) => {
-            mouseListener(e, 'touchend'); 
-            document.removeEventListener('mousemove', mouseMoveListener);
-            document.removeEventListener('mouseup', mouseUpListener);
-        };
-
-        let mouseDownListener = (e) => {
-            mouseListener(e, 'touchstart'); 
-            document.addEventListener('mousemove', mouseMoveListener);
-            document.addEventListener('mouseup', mouseUpListener);
-        };
-        document.addEventListener('mousedown', mouseDownListener);
-        """;
-
-    private readonly AsyncLock webMessageLock = new();
     private readonly Guid bridgeId = Guid.NewGuid();
+    private readonly AsyncLock webMessageLock = new();
     private readonly UserAndUid userAndUid;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSBridge> logger;
+    private readonly ITaskContext taskContext;
 
-    private CoreWebView2 coreWebView2;
+    private CoreWebView2? coreWebView2;
 
     public MiHoYoJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         this.serviceProvider = serviceProvider;
-
         this.coreWebView2 = coreWebView2;
         this.userAndUid = userAndUid;
 
@@ -107,26 +50,20 @@ internal class MiHoYoJSBridge
 
     public event Action? ClosePageRequested;
 
-    protected ILogger Logger { get => logger; }
-
     public void Detach()
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (coreWebView2 is null)
+        if (Interlocked.Exchange(ref this.coreWebView2, null) is { } coreWebView2)
         {
-            return;
+            coreWebView2.WebMessageReceived -= OnWebMessageReceived;
+            coreWebView2.DOMContentLoaded -= OnDOMContentLoaded;
+            coreWebView2.NavigationStarting -= OnNavigationStarting;
         }
-
-        coreWebView2.WebMessageReceived -= OnWebMessageReceived;
-        coreWebView2.DOMContentLoaded -= OnDOMContentLoaded;
-        coreWebView2.NavigationStarting -= OnNavigationStarting;
-        coreWebView2 = default!;
     }
 
-    protected virtual async ValueTask<IJsBridgeResult?> ClosePageAsync(JsParam param)
+    protected virtual async ValueTask<IJsBridgeResult> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
-        if (coreWebView2.CanGoBack)
+        if (coreWebView2 is { CanGoBack: true })
         {
             coreWebView2.GoBack();
         }
@@ -135,15 +72,30 @@ internal class MiHoYoJSBridge
             ClosePageRequested?.Invoke();
         }
 
-        return null;
+        return default!;
     }
 
-    protected virtual IJsBridgeResult? ConfigureShare(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> ConfigureShareAsync(JsParam param)
     {
-        return null;
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual async ValueTask<IJsBridgeResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
+    protected virtual ValueTask<IJsBridgeResult> EventTrackAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual ValueTask<IJsBridgeResult> GenAppAuthKeyAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual ValueTask<IJsBridgeResult> GenAuthKeyAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual async ValueTask<IJsBridgeResult> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
             .GetRequiredService<AuthClient>()
@@ -151,11 +103,11 @@ internal class MiHoYoJSBridge
             .ConfigureAwait(false);
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> GetCookieInfoAsync(JsParam param)
     {
         ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
 
-        return new()
+        IJsBridgeResult result = new JsResult<Dictionary<string, string>>()
         {
             Data = new()
             {
@@ -164,9 +116,11 @@ internal class MiHoYoJSBridge
                 [Cookie.LOGIN_TICKET] = string.Empty,
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 
-    protected virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
+    protected virtual async ValueTask<IJsBridgeResult> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
         if (param.Payload.ForceRefresh)
@@ -178,15 +132,21 @@ internal class MiHoYoJSBridge
         coreWebView2.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
 
         ArgumentNullException.ThrowIfNull(userAndUid.User.CookieToken);
-        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
+        return new JsResult<Dictionary<string, string>>()
+        {
+            Data = new()
+            {
+                [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN]
+            }
+        };
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
+    protected virtual ValueTask<IJsBridgeResult> GetCurrentLocaleAsync(JsParam<PushPagePayload> param)
     {
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
         TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now);
 
-        return new()
+        IJsBridgeResult result = new JsResult<Dictionary<string, string>>()
         {
             Data = new()
             {
@@ -194,33 +154,39 @@ internal class MiHoYoJSBridge
                 ["timeZone"] = $"GMT{(offset.Hours >= 0 ? "+" : " - ")}{Math.Abs(offset.Hours):D1}",
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetDataSignV1(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> GetDataSignV1Async(JsParam param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration1(SaltType.LK2, true);
-        return new()
+        IJsBridgeResult result = new JsResult<Dictionary<string, string>>()
         {
             Data = new()
             {
                 ["DS"] = DataSignAlgorithm.GetDataSign(options),
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetDataSignV2(JsParam<DataSignV2Payload> param)
+    protected virtual ValueTask<IJsBridgeResult> GetDataSignV2Async(JsParam<DataSignV2Payload> param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration2(SaltType.X4, false, param.Payload.Body, param.Payload.GetQueryParam());
-        return new()
+        IJsBridgeResult result = new JsResult<Dictionary<string, string>>()
         {
             Data = new()
             {
                 ["DS"] = DataSignAlgorithm.GetDataSign(options),
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> GetHttpRequestHeaderAsync(JsParam param)
     {
         Dictionary<string, string> headers = new()
         {
@@ -243,22 +209,36 @@ internal class MiHoYoJSBridge
 
         GetHttpRequestHeaderOverride(headers);
 
-        return new()
+        IJsBridgeResult result = new JsResult<Dictionary<string, string>>()
         {
             Data = headers,
         };
+
+        return ValueTask.FromResult(result);
     }
 
     protected virtual void GetHttpRequestHeaderOverride(Dictionary<string, string> headers)
     {
     }
 
-    protected virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> GetNotificationSettingsAsync(JsParam param)
     {
-        return new() { Data = new() { ["statusBarHeight"] = 0 } };
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> GetStatusBarHeightAsync(JsParam param)
+    {
+        IJsBridgeResult result = new JsResult<Dictionary<string, object>>()
+        {
+            Data = new()
+            {
+                ["statusBarHeight"] = 0,
+            },
+        };
+        return ValueTask.FromResult(result);
+    }
+
+    protected virtual async ValueTask<IJsBridgeResult> GetUserInfoAsync(JsParam param)
     {
         UserFullInfoWrapper? wrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -273,12 +253,12 @@ internal class MiHoYoJSBridge
 
             if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out wrapper))
             {
-                return new();
+                return new JsResult<Dictionary<string, object>>();
             }
         }
 
         UserInfo info = wrapper.UserInfo;
-        return new()
+        return new JsResult<Dictionary<string, object>>()
         {
             Data = new()
             {
@@ -291,7 +271,27 @@ internal class MiHoYoJSBridge
         };
     }
 
-    protected virtual async ValueTask<IJsBridgeResult?> PushPageAsync(JsParam<PushPagePayload> param)
+    protected virtual ValueTask<IJsBridgeResult> HideLoadingAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual ValueTask<IJsBridgeResult> IsFloatingWindowAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual ValueTask<IJsBridgeResult> LoginAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual ValueTask<IJsBridgeResult> OpenSystemBrowserAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual async ValueTask<IJsBridgeResult> PushPageAsync(JsParam<PushPagePayload> param)
     {
         const string BbsSchema = "mihoyobbs://";
         string pageUrl = param.Payload.Page;
@@ -311,11 +311,16 @@ internal class MiHoYoJSBridge
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        coreWebView2.Navigate(targetUrl);
-        return null;
+        coreWebView2?.Navigate(targetUrl);
+        return default!;
     }
 
-    protected virtual async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param)
+    protected virtual ValueTask<IJsBridgeResult> SaveLoginTicketAsync(JsParam param)
+    {
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
+    }
+
+    protected virtual async ValueTask<IJsBridgeResult> ShareAsync(JsParam<SharePayload> param)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -326,55 +331,39 @@ internal class MiHoYoJSBridge
             IFileSystemPickerInteraction fileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>();
             BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType;
 
-            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
+            if (coreWebView2 is null)
+            {
+                return default!;
+            }
 
+            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
             return await BridgeShare.ShareAsync(param, context).ConfigureAwait(false);
         }
     }
 
-    protected virtual ValueTask<IJsBridgeResult?> ShowAlertDialogAsync(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> ShowAlertDialogAsync(JsParam param)
     {
-        return ValueTask.FromException<IJsBridgeResult?>(new NotSupportedException());
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual IJsBridgeResult? StartRealPersonValidation(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> ShowLoadingAsync(JsParam param)
     {
-        throw new NotImplementedException();
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual IJsBridgeResult? StartRealnameAuth(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> ShowToastAsync(JsParam param)
     {
-        throw new NotImplementedException();
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual IJsBridgeResult? GenAuthKey(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> StartRealPersonValidationAsync(JsParam param)
     {
-        throw new NotImplementedException();
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
-    protected virtual IJsBridgeResult? GenAppAuthKey(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult> StartRealnameAuthAsync(JsParam param)
     {
-        throw new NotImplementedException();
-    }
-
-    protected virtual IJsBridgeResult? OpenSystemBrowser(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected virtual IJsBridgeResult? SaveLoginTicket(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected virtual ValueTask<IJsBridgeResult?> GetNotificationSettingsAsync(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected virtual IJsBridgeResult? ShowToast(JsParam param)
-    {
-        throw new NotImplementedException();
+        return ValueTask.FromResult<IJsBridgeResult>(default!);
     }
 
     protected virtual void DOMContentLoaded(CoreWebView2 coreWebView2)
@@ -388,7 +377,7 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
+            coreWebView2.ExecuteScriptAsync(MiHoYoJavaScripts.InitializeJsInterfaceScript).AsTask().SafeForget();
         }
     }
 
@@ -410,7 +399,7 @@ internal class MiHoYoJSBridge
             .Append(')')
             .ToString();
 
-        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", bridgeId, callback, payload);
+        logger.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", bridgeId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
 
@@ -483,22 +472,23 @@ internal class MiHoYoJSBridge
             return param.Method switch
             {
                 "closePage" => await ClosePageAsync(param).ConfigureAwait(false),
-                "configure_share" => ConfigureShare(param),
-                "eventTrack" => null,
+                "configure_share" => await ConfigureShareAsync(param).ConfigureAwait(false),
+                "eventTrack" => await EventTrackAsync(param).ConfigureAwait(false),
                 "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
-                "getCookieInfo" => GetCookieInfo(param),
+                "getCookieInfo" => await GetCookieInfoAsync(param).ConfigureAwait(false),
                 "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
-                "getCurrentLocale" => GetCurrentLocale(param),
-                "getDS" => GetDataSignV1(param),
-                "getDS2" => GetDataSignV2(param),
-                "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
-                "getStatusBarHeight" => GetStatusBarHeight(param),
+                "getCurrentLocale" => await GetCurrentLocaleAsync(param).ConfigureAwait(false),
+                "getDS" => await GetDataSignV1Async(param).ConfigureAwait(false),
+                "getDS2" => await GetDataSignV2Async(param).ConfigureAwait(false),
+                "getHTTPRequestHeaders" => await GetHttpRequestHeaderAsync(param).ConfigureAwait(false),
+                "getStatusBarHeight" => await GetStatusBarHeightAsync(param).ConfigureAwait(false),
                 "getUserInfo" => await GetUserInfoAsync(param).ConfigureAwait(false),
-                "hideLoading" => null,
-                "login" => null,
+                "hideLoading" => await HideLoadingAsync(param).ConfigureAwait(false),
+                "isFloatingWindow" => await IsFloatingWindowAsync(param).ConfigureAwait(false),
+                "login" => await LoginAsync(param).ConfigureAwait(false),
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "share" => await ShareAsync(param).ConfigureAwait(false),
-                "showLoading" => null,
+                "showLoading" => await ShowLoadingAsync(param).ConfigureAwait(false),
                 _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
         }
@@ -512,7 +502,7 @@ internal class MiHoYoJSBridge
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
         DOMContentLoaded(coreWebView2);
-        coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget();
-        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget();
+        coreWebView2.ExecuteScriptAsync(MiHoYoJavaScripts.HideScrollBarScript).AsTask().SafeForget();
+        coreWebView2.ExecuteScriptAsync(MiHoYoJavaScripts.ConvertMouseToTouchScript).AsTask().SafeForget();
     }
 }

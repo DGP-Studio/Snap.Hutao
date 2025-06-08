@@ -20,4 +20,14 @@ internal sealed partial class ProgressFactory : IProgressFactory
 
         return new DispatcherQueueProgress<T>(handler, @unsafe.DispatcherQueue);
     }
+
+    public IProgress<T> CreateForMainThread<T, TState>(Action<T, TState> handler, TState state)
+    {
+        if (taskContext is not ITaskContextUnsafe @unsafe)
+        {
+            throw HutaoException.NotSupported();
+        }
+
+        return new DispatcherQueueProgress<T, TState>(handler, state, @unsafe.DispatcherQueue);
+    }
 }

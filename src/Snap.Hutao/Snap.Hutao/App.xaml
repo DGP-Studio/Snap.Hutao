@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/VerticalCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Image/CachedImage.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Panel/DataTable/DataColumn.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TextBlock/LinkPresenter.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TextBlock/RateDeltaTextBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Card.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Color.xaml"/>
@@ -54,6 +55,13 @@
                 BasedOn="{StaticResource DefaultListViewItemStyle}"
                 TargetType="ListViewItem">
                 <Setter Property="Margin" Value="0,4,0,0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+            <Style
+                x:Name="NoneSelectionListViewItemStyleMarginTop3"
+                BasedOn="{StaticResource DefaultListViewItemStyle}"
+                TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,3,0,0"/>
                 <Setter Property="Padding" Value="0"/>
             </Style>
             <Style

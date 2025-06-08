@@ -14,7 +14,7 @@ internal static class StaticResource
 
     private static readonly ApplicationDataCompositeValue DefaultResourceVersionMap = new()
     {
-        // DO NOT MODIFY THIS MAP
+        // DO NOT MODIFY THIS MAP EXCEPT WHEN ADDING ENTRY
         { "AchievementIcon", 0 },
         { "AvatarCard", 0 },
         { "AvatarIcon", 0 },
@@ -93,12 +93,6 @@ internal static class StaticResource
     public static void FailAll()
     {
         LocalSetting.Set(ContractMap, DefaultResourceVersionMap);
-    }
-
-    [Obsolete]
-    public static bool IsContractUnfulfilled(string contractKey)
-    {
-        return !LocalSetting.Get(contractKey, false);
     }
 
     public static bool IsAnyUnfulfilledCategoryPresent()

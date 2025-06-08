@@ -7,6 +7,7 @@ using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel;
 using Windows.Graphics;

@@ -14,7 +14,7 @@ internal static class HoyolabCoreWebView2Extension
         return webView.DeleteCookiesAsync(isOversea ? ".hoyolab.com" : ".mihoyo.com");
     }
 
-    [return:NotNullIfNotNull(nameof(webView))]
+    [return: NotNullIfNotNull(nameof(webView))]
     public static CoreWebView2? SetMobileUserAgent(this CoreWebView2? webView, bool isOversea)
     {
         if (webView is null)
@@ -39,7 +39,7 @@ internal static class HoyolabCoreWebView2Extension
         return webView;
     }
 
-    [return:NotNullIfNotNull(nameof(webView))]
+    [return: NotNullIfNotNull(nameof(webView))]
     public static CoreWebView2? SetCookie(this CoreWebView2? webView, Cookie? cookieToken = null, Cookie? lToken = null, bool isOversea = false)
     {
         if (webView is null)

@@ -33,7 +33,7 @@ internal sealed partial class GameAccount : ObservableObject,
 
     public int Index { get; set; }
 
-    public static GameAccount From(string name, string sdk, SchemeType type)
+    public static GameAccount Create(string name, string sdk, SchemeType type)
     {
         return new()
         {

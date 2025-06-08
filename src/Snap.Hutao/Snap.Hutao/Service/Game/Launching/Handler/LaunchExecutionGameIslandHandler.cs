@@ -20,7 +20,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
     {
         if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
         {
-            context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
+            context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
 
             try
             {
@@ -43,7 +43,6 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
         }
         else
         {
-            context.Logger.LogInformation("Unlock FPS skipped");
             await next().ConfigureAwait(false);
         }
     }

@@ -3,22 +3,13 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Http.Proxy;
+using Snap.Hutao.Win32;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Logging;
 
 internal static class LoggerFactoryExtension
 {
-    public static ILoggingBuilder AddConsoleWindow(this ILoggingBuilder builder)
-    {
-        builder.AddSimpleConsole(options =>
-        {
-            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff ";
-        });
-
-        return builder;
-    }
-
     public static ILoggingBuilder AddSentryTelemetry(this ILoggingBuilder builder)
     {
         return builder.AddSentry(options =>
@@ -67,9 +58,10 @@ internal static class LoggerFactoryExtension
             options.SetBeforeSend(@event =>
             {
                 Sentry.Protocol.OperatingSystem operatingSystem = @event.Contexts.OperatingSystem;
-                operatingSystem.Build = UniversalApiContract.WindowsVersion?.Build;
+                HutaoPrivateWindowsVersion windowsVersion = HutaoNative.Instance.GetCurrentWindowsVersion();
+                operatingSystem.Build = $"{windowsVersion.Build}";
                 operatingSystem.Name = "Windows";
-                operatingSystem.Version = UniversalApiContract.WindowsVersion?.ToString();
+                operatingSystem.Version = $"{windowsVersion}";
 
                 return @event;
             });

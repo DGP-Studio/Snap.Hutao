@@ -6,6 +6,8 @@ using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.InterChange.Inventory;
+using Snap.Hutao.Service.Feature;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -23,6 +25,7 @@ internal sealed partial class YaeService : IYaeService
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
+    private readonly IFeatureService featureService;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -37,12 +40,17 @@ internal sealed partial class YaeService : IYaeService
         {
             await taskContext.SwitchToBackgroundAsync();
             YaeDataArrayReceiver receiver = new();
-
+            string? version = default;
             try
             {
                 UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
                 using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
                 {
+                    if (context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
+                    {
+                        _ = gameFileSystem.TryGetGameVersion(out version);
+                    }
+
                     LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
 
                     if (result.Kind is not LaunchExecutionResultKind.Ok)
@@ -59,6 +67,8 @@ internal sealed partial class YaeService : IYaeService
             }
 
             UIAF? uiaf = default;
+
+            // System.NullReferenceException
             foreach (YaeData data in receiver.Array)
             {
                 using (data)
@@ -66,11 +76,18 @@ internal sealed partial class YaeService : IYaeService
                     if (data.Kind is YaeDataKind.Achievement)
                     {
                         Debug.Assert(uiaf is null);
-                        uiaf = AchievementParser.Parse(data.Bytes);
+                        AchievementFieldId? fieldId = default;
+                        if (!string.IsNullOrEmpty(version))
+                        {
+                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version).ConfigureAwait(false);
+                        }
+
+                        uiaf = AchievementParser.Parse(data.Bytes, fieldId);
                     }
                 }
             }
 
+            GC.KeepAlive(receiver);
             return uiaf;
         }
     }

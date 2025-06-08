@@ -52,7 +52,7 @@
                 <TextBlock
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding TimeFormatted}"/>
+                    Text="{Binding FormattedTime}"/>
             </StackPanel>
         </DataTemplate>
 
@@ -487,7 +487,7 @@
                                                                 </ItemsControl>
                                                             </cwc:SettingsCard>
 
-                                                            <cwc:SettingsCard Content="{Binding TotalBattleTimesFormatted}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatTotalBattleTime}"/>
+                                                            <cwc:SettingsCard Content="{Binding FormattedTotalBattleTimes}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatTotalBattleTime}"/>
 
                                                             <cwc:SettingsCard Content="{Binding MaxRound}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatMaxRound}"/>
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
@@ -14,6 +15,7 @@ using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ModelItem = Snap.Hutao.Model.Item;
@@ -40,7 +42,14 @@ internal sealed partial class CultivationService : ICultivationService
     {
         using (await projectsLock.LockAsync().ConfigureAwait(false))
         {
-            return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
+            try
+            {
+                return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
         }
     }
 

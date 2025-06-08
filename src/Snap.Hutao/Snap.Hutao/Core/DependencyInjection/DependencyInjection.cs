@@ -17,7 +17,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class DependencyInjection
 {
-    public static Implementation.ServiceProvider Initialize()
+    public static ServiceProvider Initialize()
     {
         IServiceCollection services = new ServiceCollection()
 
@@ -29,8 +29,7 @@ internal static class DependencyInjection
                     .AddFilter(DbLoggerCategory.Database.Command.Name, level => level >= LogLevel.Information)
                     .AddFilter(DbLoggerCategory.Query.Name, level => level >= LogLevel.Information)
                     .AddDebug()
-                    .AddSentryTelemetry()
-                    .AddConsoleWindow();
+                    .AddSentryTelemetry();
             })
             .AddMemoryCache()
 
@@ -47,7 +46,7 @@ internal static class DependencyInjection
             // Discrete services
             .AddSingleton<IMessenger, WeakReferenceMessenger>();
 
-        Implementation.ServiceProvider serviceProvider = Implementation.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(services, true, true);
+        ServiceProvider serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
 
         Ioc.Default.ConfigureServices(serviceProvider);
 

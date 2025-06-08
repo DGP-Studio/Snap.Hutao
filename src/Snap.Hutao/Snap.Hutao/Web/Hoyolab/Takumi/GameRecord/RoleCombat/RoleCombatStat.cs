@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
@@ -17,7 +18,7 @@ internal sealed class RoleCombatStat
     public RoleCombatDifficultyLevel Heraldry { get; set; }
 
     [JsonPropertyName("get_medal_round_list")]
-    public List<int> GetMedalRoundList { get; set; } = default!;
+    public ImmutableArray<int> GetMedalRoundList { get; set; }
 
     [JsonPropertyName("medal_num")]
     public int MedalNumber { get; set; }

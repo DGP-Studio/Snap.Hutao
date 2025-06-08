@@ -216,6 +216,7 @@
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
+
     <StackPanel
         Margin="0,0,0,-2"
         Padding="0,0,0,0"
@@ -444,7 +445,8 @@
                                     ItemTemplate="{StaticResource UserTemplate}"
                                     ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding Users.CurrentItem, Mode=TwoWay}"
-                                    SelectionMode="Single">
+                                    SelectionMode="Single"
+                                    Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                     <ListView.Header>
                                         <InfoBar
                                             Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"

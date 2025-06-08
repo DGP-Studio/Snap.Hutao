@@ -135,7 +135,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             Response<SophonBuild> response = await scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(gameFileSystem.IsOversea())
+                .Create(gameFileSystem.IsExecutableOversea())
                 .GetBuildAsync(branch, token)
                 .ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))

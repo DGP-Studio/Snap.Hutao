@@ -6,7 +6,7 @@ using Snap.Hutao.Core.IO;
 
 namespace Snap.Hutao.Core.Caching;
 
-internal interface IImageCache
+internal interface IImageCache : IImageCacheFilePathOperation
 {
     ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri);
 

@@ -12,7 +12,7 @@ internal sealed partial class HttpContext : IDisposable
 
     public required CancellationToken RequestAborted { get; init; }
 
-    public HttpCompletionOption CompletionOption { get; set; } = HttpCompletionOption.ResponseContentRead;
+    public HttpCompletionOption CompletionOption { get; init; } = HttpCompletionOption.ResponseContentRead;
 
     public HttpRequestMessage? Request { get; set; }
 

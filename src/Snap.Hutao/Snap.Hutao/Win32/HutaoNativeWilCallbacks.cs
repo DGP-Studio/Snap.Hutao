@@ -4,7 +4,6 @@
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -138,8 +137,7 @@ internal static unsafe class HutaoNativeWilCallbacks
             Data["Module"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszModule));
             Data["ReturnAddress"] = $"0x{info.returnAddress:X16}";
             Data["CallerReturnAddress"] = $"0x{info.callerReturnAddress:X16}";
-
-            ExceptionDispatchInfo.SetRemoteStackTrace(this, $"at <AnomymousMethod> in {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:line {info.ulineNumber}");
+            Data["FileAndLineNumber"] = $"{Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:line {info.ulineNumber}";
         }
     }
 }

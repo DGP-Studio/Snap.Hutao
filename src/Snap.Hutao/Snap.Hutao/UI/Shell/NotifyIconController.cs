@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -99,7 +99,7 @@ internal sealed partial class NotifyIconController : IDisposable
         catch (Exception ex)
         {
             // If the lpValue registry value does not exist, the function returns ERROR_FILE_NOT_FOUND
-            if (ex is not (FileNotFoundException or COMException))
+            if (ex is not (FileNotFoundException or COMException or ObjectDisposedException))
             {
                 SentrySdk.CaptureException(ex);
             }
@@ -180,29 +180,29 @@ internal sealed partial class NotifyIconController : IDisposable
         switch (currentXamlWindowReference.Window)
         {
             case null:
-            {
-                // MainWindow is closed, show it
-                MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-                currentXamlWindowReference.Window = mainWindow;
-                mainWindow.SwitchTo();
-                mainWindow.AppWindow.MoveInZOrderAtTop();
-                return;
-            }
-
-            default:
-            {
-                Window window = currentXamlWindowReference.Window;
-
-                // While window is closing, currentXamlWindowReference can still retrieve the window,
-                // just ignore it
-                if (window.AppWindow is not null)
                 {
-                    window.SwitchTo();
-                    window.AppWindow.MoveInZOrderAtTop();
+                    // MainWindow is closed, show it
+                    MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+                    currentXamlWindowReference.Window = mainWindow;
+                    mainWindow.SwitchTo();
+                    mainWindow.AppWindow.MoveInZOrderAtTop();
+                    return;
                 }
 
-                return;
-            }
+            default:
+                {
+                    Window window = currentXamlWindowReference.Window;
+
+                    // While window is closing, currentXamlWindowReference can still retrieve the window,
+                    // just ignore it
+                    if (window.AppWindow is not null)
+                    {
+                        window.SwitchTo();
+                        window.AppWindow.MoveInZOrderAtTop();
+                    }
+
+                    return;
+                }
         }
     }
 }

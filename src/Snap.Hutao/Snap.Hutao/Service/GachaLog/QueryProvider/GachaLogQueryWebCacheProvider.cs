@@ -65,7 +65,17 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
         // Must copy the file to avoid the following exception:
         // System.IO.IOException: The process cannot access the file
-        using (TempFileStream fileStream = TempFileStream.CopyFrom(cacheFile, FileMode.Open, FileAccess.Read))
+        TempFileStream fileStream;
+        try
+        {
+            fileStream = TempFileStream.CopyFrom(cacheFile, FileMode.Open, FileAccess.Read);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess));
+        }
+
+        using (fileStream)
         {
             using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
             {

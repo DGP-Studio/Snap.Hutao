@@ -7,7 +7,7 @@ namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
 internal sealed class MiHoYoSyntaxTree
 {
-    public MiHoYoSyntaxNode Root { get; set; } = default!;
+    public MiHoYoSyntaxNode Root { get; init; } = default!;
 
     public string Text { get; set; } = default!;
 
@@ -29,7 +29,7 @@ internal sealed class MiHoYoSyntaxTree
     {
         TextPosition contentPosition = syntax switch
         {
-            MiHoYoXmlElementSyntax xmlSyntax => xmlSyntax.ContentPosition,
+            MiHoYoXmlLikeElementSyntax xmlLikeSyntax => xmlLikeSyntax.ContentPosition,
             _ => syntax.Position,
         };
         ReadOnlySpan<char> contentSpan = text.AsSpan().Slice(contentPosition.Start, contentPosition.Length);
@@ -42,10 +42,10 @@ internal sealed class MiHoYoSyntaxTree
                 break;
             }
 
-            int indexOfXmlLeftOpeningAtUnprocessedContent = contentSpan[endOfProcessedAtContent..].IndexOf('<');
+            int indexOfLeftOpeningAtUnprocessedContent = contentSpan[endOfProcessedAtContent..].IndexOfAny("<{");
 
             // End of content
-            if (indexOfXmlLeftOpeningAtUnprocessedContent < 0)
+            if (indexOfLeftOpeningAtUnprocessedContent < 0)
             {
                 TextPosition position = new(contentPosition.Start + endOfProcessedAtContent, contentPosition.End);
                 MiHoYoPlainTextSyntax plainText = new(text, position);
@@ -53,10 +53,10 @@ internal sealed class MiHoYoSyntaxTree
                 break;
             }
 
-            // We have plain text between xml elements
-            if (indexOfXmlLeftOpeningAtUnprocessedContent > 0)
+            // We have plain text between elements
+            if (indexOfLeftOpeningAtUnprocessedContent > 0)
             {
-                TextPosition position = new(0, indexOfXmlLeftOpeningAtUnprocessedContent);
+                TextPosition position = new(0, indexOfLeftOpeningAtUnprocessedContent);
                 TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
                 TextPosition positionAtText = positionAtContent.RightShift(contentPosition.Start);
                 MiHoYoPlainTextSyntax plainText = new(text, positionAtText);
@@ -65,13 +65,13 @@ internal sealed class MiHoYoSyntaxTree
                 continue;
             }
 
-            // Peek the next character after '<'
-            int indexOfXmlLeftOpeningAtContent = endOfProcessedAtContent + indexOfXmlLeftOpeningAtUnprocessedContent;
-            switch (contentSpan[indexOfXmlLeftOpeningAtContent + 1])
+            // Peek the next character after '<' or '{'
+            int indexOfLeftOpeningAtContent = endOfProcessedAtContent + indexOfLeftOpeningAtUnprocessedContent;
+            switch (contentSpan[indexOfLeftOpeningAtContent + 1])
             {
                 case 'c':
                     {
-                        int endOfXmlColorRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfXmlLeftOpeningAtContent..], out int endOfXmlColorLeftClosingAtUnprocessedContent);
+                        int endOfXmlColorRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfLeftOpeningAtContent..], out int endOfXmlColorLeftClosingAtUnprocessedContent);
 
                         MiHoYoColorKind colorKind = endOfXmlColorLeftClosingAtUnprocessedContent switch
                         {
@@ -93,7 +93,7 @@ internal sealed class MiHoYoSyntaxTree
 
                 case 'i':
                     {
-                        int endOfXmlItalicRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfXmlLeftOpeningAtContent..], out _);
+                        int endOfXmlItalicRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfLeftOpeningAtContent..], out _);
 
                         TextPosition position = new(0, endOfXmlItalicRightClosingAtUnprocessedContent);
                         TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
@@ -105,11 +105,44 @@ internal sealed class MiHoYoSyntaxTree
                         endOfProcessedAtContent = positionAtContent.End;
                         break;
                     }
+
+                case 'L':
+                    {
+                        int endOfLinkRightClosingAtUnprocessedContent = EndOfLinkClosing(contentSpan[indexOfLeftOpeningAtContent..], out int endOfLinkLeftClosingAtUnprocessedContent);
+
+                        MiHoYoLinkKind linkKind = contentSpan[indexOfLeftOpeningAtContent..][6] switch
+                        {
+                            'P' => MiHoYoLinkKind.Inherent,
+                            'N' => MiHoYoLinkKind.Name,
+                            'S' => MiHoYoLinkKind.Skill,
+                            _ => throw HutaoException.NotSupported(),
+                        };
+
+                        TextPosition position = new(0, endOfLinkRightClosingAtUnprocessedContent);
+                        TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
+                        TextPosition positionAtText = positionAtContent.RightShift(contentPosition.Start);
+
+                        MiHoYoLinkTextSyntax linkText = new(linkKind, endOfLinkLeftClosingAtUnprocessedContent - 8, text, positionAtText);
+                        ParseComponents(text, linkText);
+                        syntax.Children.Add(linkText);
+                        endOfProcessedAtContent = positionAtContent.End;
+                        break;
+                    }
             }
         }
     }
 
     private static int EndOfXmlClosing(in ReadOnlySpan<char> span, out int endOfLeftClosing)
+    {
+        return EndOfClosing(span, '<', '>', out endOfLeftClosing);
+    }
+
+    private static int EndOfLinkClosing(in ReadOnlySpan<char> span, out int endOfLeftClosing)
+    {
+        return EndOfClosing(span, '{', '}', out endOfLeftClosing);
+    }
+
+    private static int EndOfClosing(in ReadOnlySpan<char> span, char leftMark, char rightMark, out int endOfLeftClosing)
     {
         endOfLeftClosing = 0;
 
@@ -118,11 +151,9 @@ internal sealed class MiHoYoSyntaxTree
 
         int current = 0;
 
-        // Considering <i>text1</i>text2<i>text3</i>
-        // Considering <i>text1<span>text2</span>text3</i>
         while (true)
         {
-            int leftMarkIndex = span[current..].IndexOf('<');
+            int leftMarkIndex = span[current..].IndexOf(leftMark);
             if (span[current..][leftMarkIndex + 1] is '/')
             {
                 closingCount++;
@@ -132,7 +163,7 @@ internal sealed class MiHoYoSyntaxTree
                 openingCount++;
             }
 
-            current += span[current..].IndexOf('>') + 1;
+            current += span[current..].IndexOf(rightMark) + 1;
 
             if (openingCount is 1 && closingCount is 0)
             {

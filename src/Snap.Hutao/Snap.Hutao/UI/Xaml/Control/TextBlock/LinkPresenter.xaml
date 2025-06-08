@@ -1,0 +1,35 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock">
+
+    <Style BasedOn="{StaticResource DefaultLinkPresenterStyle}" TargetType="shuxct:LinkPresenter"/>
+
+    <Style x:Key="DefaultLinkPresenterStyle" TargetType="shuxct:LinkPresenter">
+        <Setter Property="MaxWidth" Value="320"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxct:LinkPresenter">
+                    <Grid RowSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.Row="0"
+                            Padding="8"
+                            Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <shuxct:DescriptionTextBlock Description="{TemplateBinding LinkName}"/>
+                        </Border>
+                        <Border
+                            Grid.Row="1"
+                            Padding="8"
+                            Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <shuxct:DescriptionTextBlock Description="{TemplateBinding LinkDescription}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Bridge.Model;
-using System.Buffers.Text;
 using System.IO;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -14,7 +13,7 @@ namespace Snap.Hutao.Web.Bridge;
 
 internal static class BridgeShare
 {
-    public static async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
+    public static async ValueTask<IJsBridgeResult> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
     {
         SharePayload payload = param.Payload;
         switch (payload.Type)
@@ -72,7 +71,7 @@ internal static class BridgeShare
         byte[] data;
         try
         {
-            data = Base64Url.DecodeFromChars(base64ImageData);
+            data = Convert.FromBase64String(base64ImageData);
         }
         catch (Exception ex)
         {

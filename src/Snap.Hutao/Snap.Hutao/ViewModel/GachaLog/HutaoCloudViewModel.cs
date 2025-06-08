@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -140,7 +139,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
                     UidOperations = collection;
                 }
             }
-            catch (ServiceProviderDisposedException)
+            catch (ObjectDisposedException)
             {
                 // Ignored
             }

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>利用可能な URL が見つかりません</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>ウェブキャッシュを一時フォルダーにコピー中に問題が発生しました、権限不足</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供された URL が無効です</value>
   </data>
@@ -914,6 +917,9 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>サポートされていない Item Id：{0}</value>
   </data>
+  <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
+    <value>Bilibili サーバーはアカウント機能をサポートしていません</value>
+  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名前は {0} のアカウントは既に存在します</value>
   </data>
@@ -925,6 +931,9 @@
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>ゲームリソースのインデックスをダウンロード</value>
+  </data>
+  <data name="ServiceGameIslandFeature404" xml:space="preserve">
+    <value>注入の配置情報の取得に失敗しました、現在のゲームバージョンはサポートされていません</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>ゲームは実行中です</value>
@@ -1052,6 +1061,9 @@
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>他の方法でバッグのアイテムを同期してください</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>1つ以上のメタデータファイルのダウンロードに失敗しました：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
   </data>
@@ -1095,7 +1107,7 @@
     <value>ログインボーナスを獲得しました。{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>サポートされていないアイテム, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>新しいバージョン {0} が利用できます</value>
@@ -1611,13 +1623,13 @@
     <value>インストール後、胡桃を再起動し、効果が正常かどうかを確認してください</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>上のアイコンに文字化けがある場合は、どうぞこちらへ</value>
+    <value>上のアイコンに文字化けがある場合は、こちらから</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
     <value>アイコンフォントをダウンロード、自動的にインストールします</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>WebView2 ランタイム情報が検出されない場合は、どうぞこちらへ</value>
+    <value>WebView2 ランタイム情報が検出されない場合は、こちらから</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
     <value>ランタイムをダウンロード、自動的にインストールします</value>
@@ -1638,7 +1650,7 @@
     <value>リソース</value>
   </data>
   <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
-    <value>* 画像を表示する際に自動で補完を試みるから、ファイルのダウンロードに失敗した場合でも心配ありません</value>
+    <value>* 画像を表示する際に自動で補完を行います。ファイルのダウンロードに失敗しても問題はありません。</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>画像アセットの設定</value>
@@ -1919,6 +1931,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>UIGF JSON ファイルをインポート</value>
   </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>ゲームバージョン設定の取得に失敗しました</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>ゲームチャンネル SDK の取得に失敗しました</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>ローカルゲーム設定 [{0}]</value>
+  </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>ローカルバージョン: {0}</value>
   </data>
@@ -1988,6 +2009,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>ゲーム設定ファイルの読み込み中に問題が発生しました: {0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>ゲーム設定ファイル {0} は読み込めませんでした，ファイルが無い、また権限不足の可能性があります。</value>
   </data>
@@ -1996,6 +2020,9 @@
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>米游社 / HoYoLAB ユーザーでログインに失敗しました。もう一度ログインしてください</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>無効なゲームパスです、ハードウェア接続を確認してください</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
@@ -2164,6 +2191,12 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>キャラクターの攻略情報は暫くありません</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
+    <value>Embedded Yae は管理者権限で起動し、ゲームに注入する必要があります</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
+    <value>胡桃プロセスの権限が不足です</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>戦闘中のダメージ数を消去</value>
@@ -2448,7 +2481,7 @@
     <value>このUidのクラウドバックアップをダウンロードする</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料に獲得できます</value>
+    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料で獲得できます</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>螺旋の記録をアップロード</value>
@@ -2698,10 +2731,10 @@
     <value>起動のパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>ゲーム起動後 Better GI を開始してみ、自動化任務しようとします</value>
+    <value>ゲーム起動後 Better GI を開始し、任務の自動化を行います。</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>自動化任務</value>
+    <value>任務自動化</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
     <value>エラーコード 31-4302 があった場合はこのオプションを有効にしてください</value>
@@ -2713,7 +2746,7 @@
     <value>ゲームの起動後に変更できません。</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
-    <value>注入機能は非常に危険で、重大な結果をもたらす可能性があるため、是非とも慎重に使用してください！</value>
+    <value>注入機能は非常に危険で、重大な結果をもたらす可能性があるため、慎重に使用してください！</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>照明レンダリングの霧を除去する</value>
@@ -2758,7 +2791,7 @@
     <value>ゲーム起動後にリアルタイムで切り替えることができます</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>メッセージモジュールをゲームに注入し、高度だが危険な機能を実現します</value>
+    <value>メッセージモジュールをゲームに注入し、危険ですが高度な機能を実現します。</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -2809,7 +2842,7 @@
     <value>ゲームを修復</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
-    <value>ゲームの開始後に Starward を起動してみ、プレイ時間の統計を行おうとします。</value>
+    <value>ゲームの開始後に Starward を起動し、プレイ時間の計測を行います。</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>プレイ時間</value>
@@ -3117,26 +3150,26 @@
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>カレンダーサーバー</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>ホームのダッシュボードでカードを管理する</value>
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
+    <value>ホームのダッシュボードでカードを管理し、ドラッグして並べ替えます</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>ホームカード</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
     <value>カレンダー</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>リアルタイムノート</value>
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願履歴</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>ゲームランチャー</value>
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>ゲーム起動</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>ログイン</value>
@@ -3147,7 +3180,7 @@
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>表示</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>ホーム</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
@@ -3235,7 +3268,7 @@
     <value>仮想キーコード</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
+    <value>同じショートカットキーに複数の機能を設定すると予期せぬ動作が発生し、正常状態に戻すために追加の操作やアプリの再起動が必要になる可能性があります</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>美化のためカストマイズツールを使用して標準のタスクバーを置き換えた場合、通知領域アイコンを有効にすると：アイコンとの操作ができない/正常にアイコンを作成できない/エクスプローラーを再起動すると固まる/プログラムの起動後にクラッシュする等の問題が発生する可能性があります</value>
@@ -3289,7 +3322,7 @@
     <value>共有の保存モード</value>
   </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
-    <value>0は無制限速度</value>
+    <value>0は速度無制限</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
     <value>ダウンロード速度制限</value>
@@ -3328,10 +3361,10 @@
     <value>UIGF ファイルの古いバージョンを更新</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>まだ引かないのアイテムは「祈願履歴-キャラクター」と「祈願履歴-武器」に表示されます。</value>
+    <value>引いていないアイテムを「祈願履歴-キャラクター」と「祈願履歴-武器」に表示します。</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
-    <value>未引きの祈願アイテム</value>
+    <value>未抽選の祈願アイテム</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 ランタイム</value>

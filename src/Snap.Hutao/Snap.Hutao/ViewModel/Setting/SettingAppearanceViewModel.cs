@@ -25,7 +25,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => field ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
+        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture);
         set
         {
             if (SetProperty(ref field, value) && value is not null)

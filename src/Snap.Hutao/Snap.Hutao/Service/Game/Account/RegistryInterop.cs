@@ -23,8 +23,8 @@ internal static class RegistryInterop
     {
         if (account is not null)
         {
-            byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
             (string keyName, string valueName) = GetKeyValueName(account.Type);
+            byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
             Registry.SetValue(keyName, valueName, target);
 
             if (Get(account.Type) == account.MihoyoSDK)
@@ -48,7 +48,6 @@ internal static class RegistryInterop
 
         fixed (byte* pByte = bytes)
         {
-            // 从注册表获取的字节数组带有 '\0' 结尾，需要舍去
             ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
             return Encoding.UTF8.GetString(span);
         }
@@ -66,7 +65,7 @@ internal static class RegistryInterop
         {
             SchemeType.ChineseOfficial => (ChineseKeyName, SdkChineseValueName),
             SchemeType.Oversea => (OverseaKeyName, SdkOverseaValueName),
-            _ => throw HutaoException.NotSupported($"Invalid account SchemeType: {scheme}"),
+            _ => throw HutaoException.NotSupported($"Unsupported account SchemeType: {scheme}"),
         };
     }
 }

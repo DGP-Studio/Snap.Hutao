@@ -5,7 +5,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Graphics;
@@ -146,7 +149,18 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
     private void LoadAnnouncement(CoreWebView2 coreWebView2)
     {
-        coreWebView2.NavigateToString(GenerateHtml(Announcement, ActualTheme));
+        try
+        {
+            coreWebView2.NavigateToString(GenerateHtml(Announcement, ActualTheme));
+        }
+        catch (COMException ex)
+        {
+            // 组或资源的状态不是执行请求操作的正确状态。
+            if (!HutaoNative.IsWin32(ex.ErrorCode, WIN32_ERROR.ERROR_INVALID_STATE))
+            {
+                throw;
+            }
+        }
     }
 
     private void OnWebMessageReceived(CoreWebView2 coreWebView2, CoreWebView2WebMessageReceivedEventArgs args)

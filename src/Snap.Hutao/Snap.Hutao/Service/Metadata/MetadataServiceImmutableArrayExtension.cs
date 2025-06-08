@@ -55,6 +55,11 @@ internal static class MetadataServiceImmutableArrayExtension
         return metadataService.FromCacheOrFileAsync<GachaEvent>(MetadataFileStrategies.GachaEvent, token);
     }
 
+    public static ValueTask<ImmutableArray<HyperLinkName>> GetHyperLinkNameArrayAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheOrFileAsync<HyperLinkName>(MetadataFileStrategies.HyperLinkName, token);
+    }
+
     public static ValueTask<ImmutableArray<Material>> GetMaterialArrayAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheOrFileAsync<Material>(MetadataFileStrategies.Material, token);

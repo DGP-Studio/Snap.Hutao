@@ -9,9 +9,10 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -59,8 +60,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
         catch (Win32Exception ex)
         {
-            // E_FAIL 组或资源的状态不是执行请求操作的正确状态
-            if (ex.HResult is unchecked((int)0x80004005))
+            // 组或资源的状态不是执行请求操作的正确状态
+            if (ex.HResult is HRESULT.E_FAIL)
             {
                 try
                 {

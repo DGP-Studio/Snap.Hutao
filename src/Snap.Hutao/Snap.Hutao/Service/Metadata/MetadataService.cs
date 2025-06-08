@@ -12,6 +12,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -221,9 +223,7 @@ internal sealed partial class MetadataService : IMetadataService
         {
             try
             {
-                await JsonSerializer
-                    .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
-                    .ConfigureAwait(false);
+                await JsonSerializer.SerializeAsync(metaFileStream, metadataFileHashes, options, token).ConfigureAwait(false);
             }
             catch (UnauthorizedAccessException)
             {
@@ -233,7 +233,7 @@ internal sealed partial class MetadataService : IMetadataService
         }
 
         fileNames = checkResult.SucceedFiles.ToFrozenSet();
-        return true;
+        return checkResult.NoError;
     }
 
     private async ValueTask<MetadataTemplate?> GetMetadataTemplateAsync()
@@ -312,41 +312,41 @@ internal sealed partial class MetadataService : IMetadataService
         await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
             (string fileName, string metaHash) = pair;
-            string fileFullName = $"{fileName}.json";
-            string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
-            if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            if (File.Exists(fileFullPath))
-            {
-                string fileHash;
-                try
-                {
-                    fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
-                }
-                catch (IOException ex)
-                {
-                    // ERROR_CLOUD_FILE_UNSUCCESSFUL
-                    if (ex.HResult is unchecked((int)0x80070185))
-                    {
-                        context.SetResult(fileName, false);
-                        return;
-                    }
-
-                    throw;
-                }
-
-                if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
-                {
-                    context.SetResult(fileName, true);
-                    return;
-                }
-            }
 
             try
             {
+                string fileFullName = $"{fileName}.json";
+                string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
+                if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                if (File.Exists(fileFullPath))
+                {
+                    string fileHash;
+                    try
+                    {
+                        fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                    }
+                    catch (IOException ex)
+                    {
+                        if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL))
+                        {
+                            context.SetResult(fileName, false);
+                            return;
+                        }
+
+                        throw;
+                    }
+
+                    if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
+                    {
+                        context.SetResult(fileName, true);
+                        return;
+                    }
+                }
+
                 await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
                 context.SetResult(fileName, true);
             }
@@ -406,7 +406,7 @@ internal sealed partial class MetadataService : IMetadataService
 
         public bool NoError
         {
-            get => results.All(r => r.Value);
+            get => !FailedFiles.Any();
         }
 
         public IEnumerable<string> SucceedFiles

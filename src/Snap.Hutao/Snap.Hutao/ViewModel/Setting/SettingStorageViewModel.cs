@@ -5,15 +5,15 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
-using Windows.Storage;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -31,58 +31,6 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
-    internal static async ValueTask<bool> InternalSetDataFolderAsync(IFileSystemPickerInteraction fileSystemPickerInteraction, IContentDialogFactory contentDialogFactory)
-    {
-        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolderPath))
-        {
-            return false;
-        }
-
-        string oldFolderPath = HutaoRuntime.DataFolder;
-        if (Path.GetFullPath(oldFolderPath).Equals(Path.GetFullPath(newFolderPath), StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        if (Path.GetDirectoryName(newFolderPath) is null)
-        {
-            await contentDialogFactory.CreateForConfirmAsync(
-                SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.ViewModelSettingStorageSetDataFolderDescription2)
-                .ConfigureAwait(false);
-
-            return false;
-        }
-
-        Directory.CreateDirectory(newFolderPath);
-        if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
-        {
-            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-                SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.FormatViewModelSettingStorageSetDataFolderDescription3(newFolderPath))
-                .ConfigureAwait(false);
-
-            if (result is not ContentDialogResult.Primary)
-            {
-                return false;
-            }
-        }
-
-        try
-        {
-            StorageFolder oldFolder = await StorageFolder.GetFolderFromPathAsync(oldFolderPath);
-            await oldFolder.CopyAsync(newFolderPath).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            HutaoException.Throw("Copy DataFolder failed", ex);
-        }
-
-        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolderPath);
-        LocalSetting.Set(SettingKeys.DataFolderPath, newFolderPath);
-        return true;
-    }
-
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()
     {
@@ -95,7 +43,14 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set data folder path", "SettingStorageViewModel.Command"));
 
-        if (await InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
+        SettingStorageSetDataFolderOperation operation = new()
+        {
+            FileSystemPickerInteraction = fileSystemPickerInteraction,
+            ContentDialogFactory = contentDialogFactory,
+            InfoBarService = infoBarService,
+        };
+
+        if (await operation.TryExecuteAsync().ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
@@ -143,7 +98,30 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
-            Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
+            try
+            {
+                Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                // Could not find a part of the path '.*?'.
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_PATH_NOT_FOUND))
+                {
+                    return;
+                }
+
+                SentrySdk.CaptureException(ex);
+            }
+            catch (IOException ex)
+            {
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_SHARING_VIOLATION))
+                {
+                    return;
+                }
+
+                SentrySdk.CaptureException(ex);
+            }
+
             UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.StaticResourceBegin);
         }
 

@@ -24,6 +24,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
             }
             catch (COMException ex)
             {
+                // E_UNEXPECTED: the UIElement is unloaded
                 if (ex.HResult == unchecked((int)0x8000FFFF))
                 {
                     Debug.Assert(XamlApplicationLifetime.Exiting);

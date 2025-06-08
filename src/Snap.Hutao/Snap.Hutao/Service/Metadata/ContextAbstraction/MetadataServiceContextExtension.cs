@@ -40,6 +40,11 @@ internal static class MetadataServiceContextExtension
                 arrayGachaEventSource.GachaEvents = await metadataService.GetGachaEventArrayAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataArrayHyperLinkNameSource arrayHyperLinkNameSource)
+            {
+                arrayHyperLinkNameSource.HyperLinkNames = await metadataService.GetHyperLinkNameArrayAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataArrayMaterialSource arrayMaterialSource)
             {
                 arrayMaterialSource.Materials = await metadataService.GetMaterialArrayAsync(token).ConfigureAwait(false);
@@ -111,6 +116,11 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdDisplayItemAndMaterialSource dictionaryIdDisplayItemAndMaterialSource)
             {
                 dictionaryIdDisplayItemAndMaterialSource.IdDisplayItemAndMaterialMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdHyperLinkNameSource dictionaryIdHyperLinkNameSource)
+            {
+                dictionaryIdHyperLinkNameSource.IdHyperLinkNameMap = await metadataService.GetIdToHyperLinkNameMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)

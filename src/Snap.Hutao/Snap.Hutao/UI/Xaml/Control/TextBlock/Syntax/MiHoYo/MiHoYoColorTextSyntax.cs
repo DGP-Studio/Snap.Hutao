@@ -5,7 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlElementSyntax
+internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlLikeElementSyntax
 {
     public MiHoYoColorTextSyntax(MiHoYoColorKind colorKind, string text, int start, int end)
         : base(MiHoYoSyntaxKind.ColorText, text, start, end)

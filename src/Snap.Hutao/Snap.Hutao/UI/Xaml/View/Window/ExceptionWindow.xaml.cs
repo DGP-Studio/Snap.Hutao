@@ -6,6 +6,7 @@ using Microsoft.UI.Windowing;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.UI.Windowing;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;

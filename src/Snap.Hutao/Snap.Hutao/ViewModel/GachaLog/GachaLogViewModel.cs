@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -19,6 +18,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Setting;
+using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -172,7 +172,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>(serviceProvider).ConfigureAwait(false);
         }
-        catch (ServiceProviderDisposedException)
+        catch (ObjectDisposedException)
         {
             // Previous query provider operation toke too long, and the service provider is disposed.
             // For example, the SToken query provider can take a long time to perform a network request.
@@ -186,8 +186,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
         catch (COMException ex)
         {
-            // E_ASYNC_OPERATION_NOT_STARTED
-            if (ex.HResult is unchecked((int)0x80000019))
+            if (ex.HResult is HRESULT.E_ASYNC_OPERATION_NOT_STARTED)
             {
                 infoBarService.Error(ex);
                 return;

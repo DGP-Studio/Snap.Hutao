@@ -109,7 +109,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             contents = contentsWrapper.List;
         }
 
-        Dictionary<int, string> contentMap = contents.ToDictionary(id => id.AnnId, content => content.Content);
+        Dictionary<int, string> contentMap = contents.ToDictionaryIgnoringDuplicateKeys(id => id.AnnId, content => content.Content);
 
         // 将活动公告置于前方
         wrapper.List = wrapper.List.Reverse();
@@ -144,7 +144,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         // Workaround for some long-term activities
         // Why does the project team extend the fucking end time for the fucking activity?
-        versionStartTimes.TryAdd("5.0", new(2024, 8, 28, 6, 0, 0, offset));
+        versionStartTimes.TryAdd("5.0", new(2024, 8, 28, 6, 0, 0, TimeSpan.FromHours(8)));
+        versionStartTimes.TryAdd("5.5", new(2025, 3, 26, 6, 0, 0, TimeSpan.FromHours(8)));
 
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 

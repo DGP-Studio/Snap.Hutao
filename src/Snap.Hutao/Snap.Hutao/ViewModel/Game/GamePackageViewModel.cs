@@ -13,7 +13,6 @@ using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Response;
 using System.IO;
-using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -185,7 +184,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } targetLaunchScheme)
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
         {
             return;
         }
@@ -201,8 +200,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         {
             ArgumentNullException.ThrowIfNull(LocalVersion);
 
-            GameBranch? branch = await GetCurrentGameBranchAsync(targetLaunchScheme).ConfigureAwait(false);
-            ArgumentNullException.ThrowIfNull(branch);
+            GameBranch? branch = await GetCurrentGameBranchAsync(launchScheme).ConfigureAwait(false);
+            if (branch is null)
+            {
+                return;
+            }
 
             SophonDecodedBuild? localBuild;
             SophonDecodedBuild? remoteBuild;
@@ -220,7 +222,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                     BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
                     serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
                     return;
@@ -244,7 +246,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 gameFileSystem,
                 localBuild,
                 remoteBuild,
-                await GetCurrentGameChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false),
+                await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
                 default);
 
             if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
@@ -278,12 +280,18 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
+            if (!ResponseValidator.TryValidate(branchResp, scope.ServiceProvider, out GameBranchesWrapper? branchesWrapper))
             {
                 return default;
             }
 
-            return branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId);
+            if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } branch)
+            {
+                serviceProvider.GetRequiredService<IInfoBarService>().Error(SH.ViewModelGamePackageGetGameBranchFailed, SH.FormatViewModelGamePackageLocalLaunchScheme(launchScheme.DisplayName));
+                return default;
+            }
+
+            return branch;
         }
     }
 
@@ -295,12 +303,18 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
+            if (!ResponseValidator.TryValidate(sdkResp, scope.ServiceProvider, out channelSDKsWrapper))
             {
                 return default;
             }
         }
 
-        return channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
+        if (channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId) is not { } sdk)
+        {
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(SH.ViewModelGamePackageGetGameChannelSDKFailed, SH.FormatViewModelGamePackageLocalLaunchScheme(launchScheme.DisplayName));
+            return default;
+        }
+
+        return sdk;
     }
 }

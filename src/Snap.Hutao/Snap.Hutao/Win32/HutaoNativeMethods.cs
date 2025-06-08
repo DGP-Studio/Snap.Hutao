@@ -19,6 +19,7 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNative = "D00F73FF-A1C7-4091-8CB6-D90991DD40CB";
     public const string IID_IHutaoNativeDeviceCapabilities = "1920EFA1-9953-4260-AFB1-35B1672758C1";
     public const string IID_IHutaoNativePhysicalDrive = "F90535D7-AFF6-4008-BA8C-15C47FC9660D";
+    public const string IID_IHutaoNativeLogicalDrive = "D8E6C944-C964-4909-8BFF-901C40670DFF";
     public const string IID_IHutaoNative2 = "338487EE-9592-4171-89DD-1E6B9EDB2C8E";
     public const string IID_IHutaoNativeInputLowLevelKeyboardSource = "8628902F-835C-4293-8580-794EC9BCCB98";
     public const string IID_IHutaoNative3 = "135FACE1-3184-4D12-B4D0-21FFB6A88D25";
@@ -43,6 +44,14 @@ internal static unsafe class HutaoNativeMethods
         return new(ObjectReference<HutaoNative.Vftbl>.Attach(ref pv, typeof(HutaoNative.Vftbl).GUID));
     }
 
+    public static BOOL IsWin32(HRESULT hr, WIN32_ERROR error)
+    {
+        return HutaoHResultIsWin32(hr, error);
+    }
+
     [DllImport(DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern BOOL HutaoHResultIsWin32(HRESULT hr, WIN32_ERROR error);
 }

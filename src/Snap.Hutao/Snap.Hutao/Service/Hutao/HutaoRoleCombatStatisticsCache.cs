@@ -35,6 +35,6 @@ internal sealed partial class HutaoRoleCombatStatisticsCache : StatisticsCache, 
         }
 
         RecordTotal = raw.RecordTotal;
-        AvatarAppearances = [.. CurrentLeftJoinLast(raw.BackupAvatarRates.OrderByDescending(ir => ir.Rate), default, data => data.Item, (data, dataLast) => new AvatarView(context.GetAvatar(data.Item), data.Rate, dataLast?.Rate))];
+        AvatarAppearances = [.. CurrentLeftJoinLast(raw.BackupAvatarRates.EmptyIfDefault().OrderByDescending(ir => ir.Rate), default, data => data.Item, (data, dataLast) => new AvatarView(context.GetAvatar(data.Item), data.Rate, dataLast?.Rate))];
     }
 }

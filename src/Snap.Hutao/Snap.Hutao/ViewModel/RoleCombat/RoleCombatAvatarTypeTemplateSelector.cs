@@ -11,11 +11,11 @@ internal sealed partial class RoleCombatAvatarTypeTemplateSelector : DataTemplat
 {
     private static readonly DataTemplate EmptyDataTemplate = new();
 
-    public DataTemplate TrialTemplate { get; set; } = default!;
+    public DataTemplate? TrialTemplate { get; set; }
 
-    public DataTemplate SupportTemplate { get; set; } = default!;
+    public DataTemplate? SupportTemplate { get; set; }
 
-    protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+    protected override DataTemplate? SelectTemplateCore(object item, DependencyObject container)
     {
         if (item is RoleCombatAvatarType type)
         {

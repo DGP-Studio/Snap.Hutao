@@ -61,6 +61,9 @@ internal static class HttpRequestExceptionHandling
                     case NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR:
                         builder.AppendLine(ex.InnerException?.Message); // AuthenticationException has more details
                         break;
+                    case NetworkError.ERR_UNKNOWN_AUTHENTICATION_ERROR:
+                        builder.AppendLine(ex.InnerException?.InnerException?.Message); // AuthenticationException has more details
+                        break;
                     default:
                         builder.AppendLine(ex.Message);
                         break;
@@ -106,6 +109,8 @@ internal static class HttpRequestExceptionHandling
                                 return NetworkError.ERR_CONNECTION_ABORTED;
                             case SocketError.ConnectionRefused:
                                 return NetworkError.ERR_CONNECTION_REFUSED;
+                            case SocketError.HostUnreachable:
+                                return NetworkError.ERR_CONNECTION_HOST_UNREACHABLE;
                             case SocketError.NetworkUnreachable:
                                 return NetworkError.ERR_CONNECTION_NETWORK_UNREACHABLE;
                             case SocketError.NoBufferSpaceAvailable:
@@ -215,6 +220,16 @@ internal static class HttpRequestExceptionHandling
                     case IOException ioException:
                         switch (ioException.InnerException)
                         {
+                            case AuthenticationException authenticationException:
+                                switch (authenticationException.HResult)
+                                {
+                                    // COR_E_SYSTEM Cannot determine the frame size or a corrupted frame was received.
+                                    case unchecked((int)0x80131501):
+                                        return NetworkError.ERR_UNKNOWN_AUTHENTICATION_ERROR;
+                                }
+
+                                break;
+
                             case SocketException socketException:
                                 switch (socketException.SocketErrorCode)
                                 {
@@ -222,6 +237,8 @@ internal static class HttpRequestExceptionHandling
                                         return NetworkError.ERR_UNKNOWN_CONNECTION_ABORTED;
                                     case SocketError.ConnectionReset:
                                         return NetworkError.ERR_UNKNOWN_CONNECTION_RESET;
+                                    case SocketError.TimedOut:
+                                        return NetworkError.ERR_UNKNOWN_TIMED_OUT;
                                 }
 
                                 break;

@@ -50,19 +50,28 @@ internal readonly struct ChannelOptions
         return new(ChannelOptionsErrorKind.GamePathNullOrEmpty, string.Empty);
     }
 
+    public static ChannelOptions DeviceNotFound(string directory)
+    {
+        return new(ChannelOptionsErrorKind.DeviceNotFound, directory);
+    }
+
     public static ChannelOptions GameContentCorrupted(string directory)
     {
         return new(ChannelOptionsErrorKind.GameContentCorrupted, directory);
     }
 
+    public static ChannelOptions SharingViolation(string filePath)
+    {
+        return new(ChannelOptionsErrorKind.SharingViolation, filePath);
+    }
+
     public override string ToString()
     {
         return $$"""
-            { ChannelType: {{Channel}}, SubChannel: {{SubChannel}}, IsOversea: {{IsOversea}}}
+            { Channel: {{Channel}}, SubChannel: {{SubChannel}}, IsOversea: {{IsOversea}} }
             """;
     }
 
-    // DO NOT DELETE, used in HashSet
     public override int GetHashCode()
     {
         return HashCode.Combine(Channel, SubChannel, IsOversea);

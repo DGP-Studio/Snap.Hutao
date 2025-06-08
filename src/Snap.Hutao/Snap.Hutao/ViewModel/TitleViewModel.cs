@@ -59,6 +59,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             // Check if the window showed, only set to false if it is shown
             if (ShowWebView2WindowAction.TryShow<UpdateLogContentProvider>(currentXamlWindowReference.GetXamlRoot()) is not null)
             {
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Show update log window", "TitleViewModel.Command"));
                 XamlApplicationLifetime.IsFirstRunAfterUpdate = false;
             }
         }
@@ -66,6 +67,8 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     private async ValueTask CheckUpdateAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Check for update", "TitleViewModel.Command"));
+
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync().ConfigureAwait(false);
 
         if (currentXamlWindowReference.Window is null)
@@ -96,6 +99,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     {
         if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("Data folder has reparse point", "TitleViewModel.Command"));
             infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataFolder));
         }
     }
@@ -110,6 +114,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             IsMetadataInitialized = true;
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Metadata initialized", "TitleViewModel.Command"));
         }
     }
 }

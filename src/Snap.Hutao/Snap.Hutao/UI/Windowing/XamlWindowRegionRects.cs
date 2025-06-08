@@ -5,7 +5,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Windowing.Abstraction;
-using Snap.Hutao.UI.Xaml;
 using Windows.Foundation;
 using Windows.Graphics;
 
@@ -27,6 +26,7 @@ internal static class XamlWindowRegionRects
         }
 
         InputNonClientPointerSource inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
+
         {
             FrameworkElement element = xamlWindow.TitleBarCaptionAccess;
             Point position = element.TransformToVisual(window.Content).TransformPoint(default);
