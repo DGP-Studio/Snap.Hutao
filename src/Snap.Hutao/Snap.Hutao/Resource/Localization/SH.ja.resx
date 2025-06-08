@@ -2010,7 +2010,7 @@
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>ゲーム設定ファイルの読み込み中に問題が発生しました: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>ゲーム設定ファイル {0} は読み込めませんでした，ファイルが無い、また権限不足の可能性があります。</value>
@@ -2022,7 +2022,7 @@
     <value>米游社 / HoYoLAB ユーザーでログインに失敗しました。もう一度ログインしてください</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>無効なゲームパスです、ハードウェア接続を確認してください</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
