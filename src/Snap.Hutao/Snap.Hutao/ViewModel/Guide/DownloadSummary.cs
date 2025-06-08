@@ -46,13 +46,13 @@ internal sealed partial class DownloadSummary : ObservableObject
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
-        Filename = fileName;
+        FileName = fileName;
 
         fileUrl = StaticResourcesEndpoints.StaticZip(fileName);
         progress = serviceProvider.GetRequiredService<IProgressFactory>().CreateForMainThread<StreamCopyStatus>(UpdateProgressStatus);
     }
 
-    public string Filename { get; }
+    public string FileName { get; }
 
     [ObservableProperty]
     public partial string Description { get; private set; } = SH.ViewModelWelcomeDownloadSummaryDefault;
@@ -80,6 +80,8 @@ internal sealed partial class DownloadSummary : ObservableObject
                 {
                     using (HttpResponseMessage response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                     {
+                        response.EnsureSuccessStatusCode();
+
                         if (!AllowedMediaTypes.Contains(response.Content.Headers.ContentType?.MediaType))
                         {
                             await taskContext.SwitchToMainThreadAsync();
@@ -102,7 +104,7 @@ internal sealed partial class DownloadSummary : ObservableObject
                                     await taskContext.SwitchToMainThreadAsync();
                                     ProgressValue = 1;
                                     Description = SH.ViewModelWelcomeDownloadSummaryComplete;
-                                    StaticResource.Fulfill(Filename);
+                                    StaticResource.Fulfill(FileName);
                                     return true;
                                 }
                             }
@@ -149,7 +151,8 @@ internal sealed partial class DownloadSummary : ObservableObject
         {
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
-                string destPath = imageCache.GetFileFromCategoryAndName(Filename, entry.FullName);
+                string destPath = imageCache.GetFileFromCategoryAndName(FileName, entry.FullName);
+
                 try
                 {
                     entry.ExtractToFile(destPath, true);

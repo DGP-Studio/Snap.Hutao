@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Content;
@@ -36,7 +37,7 @@ internal sealed class XamlWindowController
     private readonly AppOptions appOptions;
 
     private readonly XamlWindowSubclass subclass;
-    private readonly XamlWindowNonRude windowNonRude;
+    private readonly XamlWindowNonRude nonRude;
 
     public XamlWindowController(Window window, IServiceProvider serviceProvider)
     {
@@ -49,7 +50,7 @@ internal sealed class XamlWindowController
 
         // Subclassing and NonRudeHWND are standard infrastructure.
         subclass = new(window);
-        windowNonRude = new(window.GetWindowHandle());
+        nonRude = new(window.GetWindowHandle());
 
         window.AppWindow.Title = SH.FormatAppNameAndVersion(HutaoRuntime.Version);
         window.AppWindow.SetIcon(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"));
@@ -119,6 +120,8 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateDebug("WindowClosing", "XamlWindowController", [("type", TypeNameHelper.GetTypeDisplayName(window, false))]));
+
         if (args.Handled)
         {
             return;
@@ -140,11 +143,11 @@ internal sealed class XamlWindowController
             ICurrentXamlWindowReference currentXamlWindowReference = isKeyedService.IsKeyedService(typeof(ICurrentXamlWindowReference), windowType)
                 ? ServiceProvider.GetRequiredKeyedService<ICurrentXamlWindowReference>(windowType)
                 : ServiceProvider.GetRequiredService<ICurrentXamlWindowReference>();
+
             if (currentXamlWindowReference.Window == window)
             {
                 // Only a CurrentWindow can show dialogs
                 // Some users might try to close the window while a dialog is showing
-                // If not LaunchedWithNotifyIcon: the process should be terminated anyway.
                 if (ServiceProvider.GetRequiredService<IContentDialogFactory>().IsDialogShowing)
                 {
                     args.Handled = true;
@@ -166,7 +169,7 @@ internal sealed class XamlWindowController
 
         // Dispose components
         subclass.Dispose();
-        windowNonRude.Dispose();
+        nonRude.Dispose();
 
         (window as IXamlWindowClosedHandler)?.OnWindowClosed();
 

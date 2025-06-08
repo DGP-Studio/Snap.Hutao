@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -173,7 +172,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>(serviceProvider).ConfigureAwait(false);
         }
-        catch (ServiceProviderDisposedException)
+        catch (ObjectDisposedException)
         {
             // Previous query provider operation toke too long, and the service provider is disposed.
             // For example, the SToken query provider can take a long time to perform a network request.

@@ -20,6 +20,14 @@ internal static class PhysicalDrive
     /// </returns>
     public static bool? GetIsSolidState(string path)
     {
+        if (Uri.TryCreate(path, UriKind.Absolute, out Uri? pathUri))
+        {
+            if (pathUri.IsUnc)
+            {
+                return false;
+            }
+        }
+
         try
         {
             return DangerousGetIsSolidState(path);

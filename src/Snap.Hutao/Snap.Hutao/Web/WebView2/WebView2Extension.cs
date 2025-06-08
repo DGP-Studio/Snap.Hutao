@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Web.WebView2;
 
@@ -12,9 +14,22 @@ internal static class WebView2Extension
     public static void DisableDevToolsForReleaseBuild(this CoreWebView2 webView)
     {
         CoreWebView2Settings settings = webView.Settings;
-        settings.AreBrowserAcceleratorKeysEnabled = false;
         settings.AreDefaultContextMenusEnabled = false;
         settings.AreDevToolsEnabled = false;
+
+        try
+        {
+            settings.AreBrowserAcceleratorKeysEnabled = false; // ICoreWebView2Settings3
+        }
+        catch (COMException ex)
+        {
+            if (ex.HResult is HRESULT.E_NOINTERFACE)
+            {
+                return;
+            }
+
+            throw;
+        }
     }
 
     public static void DisableAutoCompletion(this CoreWebView2 webView)

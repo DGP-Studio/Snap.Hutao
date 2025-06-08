@@ -10,6 +10,7 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Animation;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -76,39 +77,45 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                 previousBackgroundImage = backgroundImage;
                 await taskContext.SwitchToMainThreadAsync();
 
-                await AnimationBuilder
-                    .Create()
-                    .Opacity(
-                        to: 0D,
-                        duration: Constants.ImageOpacityFadeInOut,
-                        easingType: EasingType.Quartic,
-                        easingMode: EasingMode.EaseInOut)
-                    .StartAsync(backgroundImagePresenter)
-                    .ConfigureAwait(false);
-
-                if (XamlApplicationLifetime.Exiting)
+                try
                 {
-                    return;
+                    await AnimationBuilder
+                        .Create()
+                        .Opacity(
+                            to: 0D,
+                            duration: Constants.ImageOpacityFadeInOut,
+                            easingType: EasingType.Quartic,
+                            easingMode: EasingMode.EaseInOut)
+                        .StartAsync(backgroundImagePresenter)
+                        .ConfigureAwait(false);
+
+                    if (XamlApplicationLifetime.Exiting)
+                    {
+                        return;
+                    }
+
+                    backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
+
+                    double targetOpacity = backgroundImage is not null
+                        ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
+                            ? 1 - backgroundImage.Luminance
+                            : backgroundImage.Luminance
+                        : 0;
+
+                    await AnimationBuilder
+                        .Create()
+                        .Opacity(
+                            to: targetOpacity,
+                            duration: Constants.ImageOpacityFadeInOut,
+                            easingType: EasingType.Quartic,
+                            easingMode: EasingMode.EaseInOut)
+                        .StartAsync(backgroundImagePresenter)
+                        .ConfigureAwait(false);
                 }
-
-                await taskContext.SwitchToMainThreadAsync();
-                backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
-
-                double targetOpacity = backgroundImage is not null
-                    ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
-                        ? 1 - backgroundImage.Luminance
-                        : backgroundImage.Luminance
-                    : 0;
-
-                await AnimationBuilder
-                    .Create()
-                    .Opacity(
-                        to: targetOpacity,
-                        duration: Constants.ImageOpacityFadeInOut,
-                        easingType: EasingType.Quartic,
-                        easingMode: EasingMode.EaseInOut)
-                    .StartAsync(backgroundImagePresenter)
-                    .ConfigureAwait(false);
+                catch (COMException)
+                {
+                    // 0x8001010E The given object has already been closed / disposed and may no longer be used.
+                }
             }
         }
     }

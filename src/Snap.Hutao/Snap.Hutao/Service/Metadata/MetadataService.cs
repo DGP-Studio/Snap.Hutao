@@ -223,9 +223,7 @@ internal sealed partial class MetadataService : IMetadataService
         {
             try
             {
-                await JsonSerializer
-                    .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
-                    .ConfigureAwait(false);
+                await JsonSerializer.SerializeAsync(metaFileStream, metadataFileHashes, options, token).ConfigureAwait(false);
             }
             catch (UnauthorizedAccessException)
             {
@@ -235,7 +233,7 @@ internal sealed partial class MetadataService : IMetadataService
         }
 
         fileNames = checkResult.SucceedFiles.ToFrozenSet();
-        return true;
+        return checkResult.NoError;
     }
 
     private async ValueTask<MetadataTemplate?> GetMetadataTemplateAsync()
@@ -408,7 +406,7 @@ internal sealed partial class MetadataService : IMetadataService
 
         public bool NoError
         {
-            get => results.All(r => r.Value);
+            get => !FailedFiles.Any();
         }
 
         public IEnumerable<string> SucceedFiles

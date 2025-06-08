@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
@@ -86,7 +85,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
                     ActionType = mobileCaptcha.ActionType;
                 }
             }
-            catch (ServiceProviderDisposedException)
+            catch (ObjectDisposedException)
             {
                 // The user close the dialog before network request finished
                 return;

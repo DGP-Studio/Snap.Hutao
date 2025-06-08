@@ -94,6 +94,8 @@ public static partial class Bootstrap
                 Application.Start(AppInitializationCallback);
                 XamlApplicationLifetime.Exited = true;
             }
+
+            SentrySdk.Flush();
         }
     }
 

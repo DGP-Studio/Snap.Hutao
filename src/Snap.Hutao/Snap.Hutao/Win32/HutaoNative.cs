@@ -136,6 +136,14 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativePhysicalDrive.Vftbl>.Attach(ref pv, typeof(HutaoNativePhysicalDrive.Vftbl).GUID));
     }
 
+    public HutaoNativeLogicalDrive MakeLogicalDrive()
+    {
+        HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNative2 is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.MakeLogicalDrive(ObjRef2.ThisPtr, (HutaoNativeLogicalDrive.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeLogicalDrive.Vftbl>.Attach(ref pv, typeof(HutaoNativeLogicalDrive.Vftbl).GUID));
+    }
+
     public HutaoNativeInputLowLevelKeyboardSource MakeInputLowLevelKeyboardSource()
     {
         HutaoException.NotSupportedIf(ObjRef3 is null, "IHutaoNative3 is not supported");
@@ -193,6 +201,7 @@ internal sealed unsafe class HutaoNative
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeDeviceCapabilities.Vftbl**, HRESULT> MakeLoopbackSupport;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativePhysicalDrive.Vftbl**, HRESULT> MakePhysicalDrive;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeLogicalDrive.Vftbl**, HRESULT> MakeLogicalDrive;
 #pragma warning restore CS0649
     }
 
