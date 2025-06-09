@@ -41,7 +41,7 @@ internal static class AchievementParser
                                 varInts[WireFormat.GetTagFieldNumber(tag2)] = inputStream.ReadUInt32();
                             }
 
-                            if (varInts is not null)
+                            if (varInts is { Count: > 2 })
                             {
                                 dataList.Add(varInts);
                             }
