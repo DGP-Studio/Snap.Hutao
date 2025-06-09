@@ -23,7 +23,13 @@ internal static unsafe class HutaoNativeWilCallbacks
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        SentrySdk.CaptureException(new HutaoNativeException(*failure));
+        HutaoNativeException exception = new(*failure);
+        if (string.IsNullOrWhiteSpace(exception.Message))
+        {
+            return;
+        }
+
+        SentrySdk.CaptureException(exception);
         SentrySdk.Flush();
     }
 
