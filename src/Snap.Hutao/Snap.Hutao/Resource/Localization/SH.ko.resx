@@ -162,6 +162,9 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>목록</value>
   </data>
+  <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
+    <value>通知区域图标创建失败</value>
+  </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>세마포어가 해제되어 작업이 취소되었습니다.</value>
   </data>
