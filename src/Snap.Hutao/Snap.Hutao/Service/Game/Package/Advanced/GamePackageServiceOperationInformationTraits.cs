@@ -42,7 +42,8 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
             _ => throw HutaoException.NotSupported(),
         };
 
-        long actualTotalBytes = installTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
+        long downloadedTotalBytes = DirectoryOperation.GetSize(context.EffectiveChunksDirectory);
+        long actualTotalBytes = installTotalBytes - downloadedTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
         long availableBytes = LogicalDrive.GetAvailableFreeSpace(context.EffectiveGameDirectory);
 
         string formattedDownloadTotalBytes = Converters.ToFileSizeString(downloadTotalBytes);

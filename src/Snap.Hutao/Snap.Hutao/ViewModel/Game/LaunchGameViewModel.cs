@@ -116,10 +116,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         if (SelectedScheme is not null && GameAccountsView is not null)
                         {
                             // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                            if (GameAccountsView.CurrentItem is null)
-                            {
-                                GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccount(SelectedScheme));
-                            }
+                            // Except when scheme is bilibili, which is not supported
+                            _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(SelectedScheme));
                         }
                         else
                         {

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
 using System.IO;
 using Windows.System;
@@ -47,22 +48,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
             return;
         }
 
-        try
-        {
-            foreach (string file in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
-            {
-                token.ThrowIfCancellationRequested();
-                totalSize += new FileInfo(file).Length;
-            }
-        }
-        catch (UnauthorizedAccessException)
-        {
-            // Mostly 'System Volume Information' folder,
-            // Users prefer to store their data in root directory
-            // For all situations, we can't do anything about it
-            totalSize = 0;
-        }
-
+        totalSize = DirectoryOperation.GetSize(Folder, token);
         await taskContext.SwitchToMainThreadAsync();
         Size = SH.FormatViewModelSettingFolderSizeDescription(Converters.ToFileSizeString(totalSize));
     }

@@ -8,6 +8,37 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class DirectoryOperation
 {
+    public static long GetSize(string path, CancellationToken token = default)
+    {
+        if (!Directory.Exists(path))
+        {
+            return 0;
+        }
+
+        long size = 0;
+        try
+        {
+            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories))
+            {
+                token.ThrowIfCancellationRequested();
+
+                try
+                {
+                    size += new FileInfo(file).Length;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+            }
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+
+        return size;
+    }
+
     public static bool Copy(string sourceDirName, string destDirName, out Exception? exception)
     {
         if (!Directory.Exists(sourceDirName))
