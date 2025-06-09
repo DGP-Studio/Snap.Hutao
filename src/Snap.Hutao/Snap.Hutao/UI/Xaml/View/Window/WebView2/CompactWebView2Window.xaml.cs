@@ -13,6 +13,7 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -182,6 +183,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         lock (layeredWindowLock)
         {
+            HWND windowHandle = this.GetWindowHandle();
+            if (windowHandle.Value is 0)
+            {
+                return;
+            }
+
             if (enter)
             {
                 this.RemoveExtendedStyleLayered();
