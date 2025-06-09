@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
@@ -14,9 +15,11 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     private bool isDisposed;
@@ -24,11 +27,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     static unsafe HotKeyOptions()
     {
         HutaoNativeHotKeyAction.InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback.Create(&OnCallback));
-    }
-
-    public HotKeyOptions(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     public static bool IsInGameOnly
@@ -49,8 +47,8 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        MouseClickRepeatForeverKeyCombination = new(HutaoNativeHotKeyActionKind.MouseClickRepeatForever, SettingKeys.HotKeyMouseClickRepeatForever);
-        KeyPressRepeatForeverKeyCombination = new(HutaoNativeHotKeyActionKind.KeyPressRepeatForever, SettingKeys.HotKeyKeyPressRepeatForever);
+        MouseClickRepeatForeverKeyCombination = new(serviceProvider, HutaoNativeHotKeyActionKind.MouseClickRepeatForever, SettingKeys.HotKeyMouseClickRepeatForever);
+        KeyPressRepeatForeverKeyCombination = new(serviceProvider, HutaoNativeHotKeyActionKind.KeyPressRepeatForever, SettingKeys.HotKeyKeyPressRepeatForever);
 
         MouseClickRepeatForeverKeyCombination.Initialize();
         KeyPressRepeatForeverKeyCombination.Initialize();

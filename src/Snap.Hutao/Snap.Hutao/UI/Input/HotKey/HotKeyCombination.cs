@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
@@ -16,6 +17,7 @@ namespace Snap.Hutao.UI.Input.HotKey;
 
 internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 {
+    private readonly IInfoBarService infoBarService;
     private readonly HutaoNativeHotKeyActionKind kind;
     private readonly string settingKey;
 
@@ -31,8 +33,9 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private bool isEnabled;
     private VIRTUAL_KEY key;
 
-    public HotKeyCombination(HutaoNativeHotKeyActionKind kind, string settingKey)
+    public HotKeyCombination(IServiceProvider serviceProvider, HutaoNativeHotKeyActionKind kind, string settingKey)
     {
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         this.kind = kind;
         this.settingKey = settingKey;
 
@@ -86,7 +89,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref modifiers, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                SaveModifiersAndKeyThenUpdate();
+                SaveAndUpdate();
             }
         }
     }
@@ -99,7 +102,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref key, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                SaveModifiersAndKeyThenUpdate();
+                SaveAndUpdate();
             }
         }
     }
@@ -134,7 +137,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     public unsafe void Initialize()
     {
         native = HutaoNative.Instance.MakeHotKeyAction(kind, HutaoNativeHotKeyActionCallback.Create(&OnAction), GCHandle.ToIntPtr(handle));
-        native.Update(modifiers, (uint)key);
+        SaveAndUpdate();
     }
 
     public void Dispose()
@@ -201,10 +204,25 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         return true;
     }
 
-    private unsafe void SaveModifiersAndKeyThenUpdate()
+    private unsafe void SaveAndUpdate()
     {
         HotKeyParameter current = new(Modifiers, Key);
         LocalSetting.Set(settingKey, *(long*)&current);
-        native?.Update(modifiers, (uint)key);
+
+        try
+        {
+            native?.Update(modifiers, (uint)key);
+        }
+        catch (COMException ex)
+        {
+            if (HutaoNative.IsWin32(ex.ErrorCode, WIN32_ERROR.ERROR_HOTKEY_ALREADY_REGISTERED))
+            {
+                infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(kind, DisplayName));
+            }
+            else
+            {
+                infoBarService.Error(ex);
+            }
+        }
     }
 }
