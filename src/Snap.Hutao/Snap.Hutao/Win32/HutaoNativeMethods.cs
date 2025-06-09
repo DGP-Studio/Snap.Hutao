@@ -13,6 +13,7 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoString = "F1F44E9E-858D-4746-B44E-213A1DDA4510";
 
     public const string IID_IHutaoNativeLoopbackSupport = "8607ACE4-313C-4C26-B1FB-CA11173B6953";
+    public const string IID_IHutaoNativeLoopbackSupport2 = "A5D67980-F495-4F52-BEF0-27D047E20174";
     public const string IID_IHutaoNativeRegistryNotification = "EF118E91-8AD9-4C27-997D-DAF8910B34BE";
     public const string IID_IHutaoNativeWindowSubclass = "9631921E-A6CA-4150-9939-99B5467B2FD6";
     public const string IID_IHutaoNativeWindowNonRude = "A0AD4485-702B-44B6-B48E-F82240EBBAEF";

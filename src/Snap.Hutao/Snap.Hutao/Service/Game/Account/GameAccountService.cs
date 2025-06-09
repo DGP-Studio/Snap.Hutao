@@ -91,7 +91,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         if (schemeType is SchemeType.ChineseBilibili)
         {
-            throw HutaoException.NotSupported(SH.ServiceGameAccountBilibiliNotSupported);
+            throw HutaoException.Throw(SH.ServiceGameAccountBilibiliNotSupported);
         }
 
         string? registrySdk = RegistryInterop.Get(schemeType);

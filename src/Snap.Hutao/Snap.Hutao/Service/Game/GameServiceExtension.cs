@@ -13,6 +13,18 @@ internal static class GameServiceExtension
         return gameService.DetectCurrentGameAccount(scheme.GetSchemeType());
     }
 
+    public static GameAccount? DetectCurrentGameAccountNoThrow(this IGameService gameService, LaunchScheme scheme)
+    {
+        try
+        {
+            return gameService.DetectCurrentGameAccount(scheme.GetSchemeType());
+        }
+        catch
+        {
+            return default;
+        }
+    }
+
     public static ValueTask<GameAccount?> DetectGameAccountAsync(this IGameService gameService, LaunchScheme scheme)
     {
         return gameService.DetectGameAccountAsync(scheme.GetSchemeType());
