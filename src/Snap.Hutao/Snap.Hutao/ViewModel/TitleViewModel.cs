@@ -71,13 +71,13 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync().ConfigureAwait(false);
 
-        if (currentXamlWindowReference.Window is null)
-        {
-            return;
-        }
-
         if (checkUpdateResult.Kind is CheckUpdateResultKind.UpdateAvailable)
         {
+            if (currentXamlWindowReference.Window is null)
+            {
+                return;
+            }
+
             ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
                 .CreateForConfirmCancelAsync(
                     SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),

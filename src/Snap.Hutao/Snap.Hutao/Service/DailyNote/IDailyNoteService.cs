@@ -17,5 +17,5 @@ internal interface IDailyNoteService
 
     ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default);
 
-    ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default);
+    ValueTask<bool> UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default);
 }

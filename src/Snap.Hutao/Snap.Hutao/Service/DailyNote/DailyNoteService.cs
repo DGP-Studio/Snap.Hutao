@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
@@ -122,10 +123,18 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         dailyNoteRepository.DeleteDailyNoteEntryById(entry.InnerId);
     }
 
-    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
+    public async ValueTask<bool> UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
+        string uid = entry.Uid;
+        if (!dailyNoteRepository.Execute(query => query.Any(e => e.Uid == uid)))
+        {
+            return false;
+        }
+
         dailyNoteRepository.UpdateDailyNoteEntry(entry);
+        return true;
+
     }
 
     private static async ValueTask<Response<WebDailyNote>> ScopedGetDailyNoteAsync(IServiceScope scope, UserAndUid userAndUid, CancellationToken token = default)

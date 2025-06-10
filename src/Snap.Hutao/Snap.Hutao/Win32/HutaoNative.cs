@@ -58,6 +58,19 @@ internal sealed unsafe class HutaoNative
         return HutaoNativeMethods.IsWin32(hr, error);
     }
 
+    public static BOOL IsWin32(HRESULT hr, ReadOnlySpan<WIN32_ERROR> errors)
+    {
+        foreach (ref readonly WIN32_ERROR error in errors)
+        {
+            if (HutaoNativeMethods.IsWin32(hr, error))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public BOOL IsCurrentWindowsVersionSupported()
     {
         HutaoException.NotSupportedIf(ObjRefPrivate is null, "IHutaoPrivate is not supported");

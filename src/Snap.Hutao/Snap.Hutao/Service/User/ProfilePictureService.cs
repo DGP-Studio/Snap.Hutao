@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -79,7 +80,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
                     uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
                     uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
                 }
-                catch (DbException ex)
+                catch (Exception ex)
                 {
                     throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
                 }

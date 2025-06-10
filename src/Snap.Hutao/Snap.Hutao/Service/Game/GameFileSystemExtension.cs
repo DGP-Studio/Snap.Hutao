@@ -286,7 +286,7 @@ internal static class GameFileSystemExtension
         }
         catch (IOException ex)
         {
-            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
+            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_NO_SUCH_DEVICE, WIN32_ERROR.ERROR_DEVICE_HARDWARE_ERROR]))
             {
                 return false;
             }

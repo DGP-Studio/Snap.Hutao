@@ -19,7 +19,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
         this.taskContext = taskContext;
         Folder = folder;
 
-        SetFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).SafeForget();
+        UpdateFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).SafeForget();
     }
 
     public string Folder { get; }
@@ -28,17 +28,24 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
     public partial string? Size { get; set; }
 
     [SuppressMessage("", "SH003")]
-    public async Task SetFolderSizeTimeoutAsync(TimeSpan timeout)
+    public async Task UpdateFolderSizeTimeoutAsync(TimeSpan timeout)
     {
         // We don't want this function to run indefinitely in principle,
         // users can have a lot of files in the folder if they manually put them in
         using (CancellationTokenSource source = new(timeout))
         {
-            await SetFolderSizeAsync(source.Token).ConfigureAwait(false);
+            try
+            {
+                await UpdateFolderSizeAsync(source.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Ignore
+            }
         }
     }
 
-    private async ValueTask SetFolderSizeAsync(CancellationToken token)
+    private async ValueTask UpdateFolderSizeAsync(CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         long totalSize = 0;

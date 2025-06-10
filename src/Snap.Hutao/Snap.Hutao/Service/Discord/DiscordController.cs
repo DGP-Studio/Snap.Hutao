@@ -169,6 +169,11 @@ internal static class DiscordController
                 Process.GetCurrentProcess().Kill();
             }
 
+            if (ptr is null)
+            {
+                return;
+            }
+
             currentClientId = clientId;
             discordCorePtr = ptr;
             discordCorePtr->set_log_hook(discordCorePtr, DiscordLogLevel.Debug, default, &DebugWriteDiscordMessage);

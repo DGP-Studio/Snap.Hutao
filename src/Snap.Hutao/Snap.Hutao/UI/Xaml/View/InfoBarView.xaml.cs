@@ -114,7 +114,14 @@ internal sealed partial class InfoBarView : UserControl
 
     private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        InfoBars.Remove((InfoBarOptions)sender.DataContext);
+        try
+        {
+            InfoBars.Remove((InfoBarOptions)sender.DataContext);
+        }
+        catch (COMException)
+        {
+            // 0x80004005
+        }
     }
 
     private void OnClearAllButtonClick(object sender, RoutedEventArgs e)

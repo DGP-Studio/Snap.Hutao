@@ -35,10 +35,21 @@ internal sealed partial class LoopbackSupport : ObservableObject
     }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanEnableLoopback))]
     public partial bool IsLoopbackEnabled { get; private set; }
+
+    public bool CanEnableLoopback
+    {
+        get => HutaoRuntime.IsProcessElevated && !IsLoopbackEnabled && !string.IsNullOrEmpty(hutaoContainerStringSid);
+    }
 
     public void EnableLoopback()
     {
+        if (!CanEnableLoopback)
+        {
+            return;
+        }
+
         native.Enable(hutaoContainerStringSid);
         IsLoopbackEnabled = true;
     }
