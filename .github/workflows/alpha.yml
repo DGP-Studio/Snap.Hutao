@@ -35,13 +35,16 @@ jobs:
         id: select_runner
         run: |
           runner_id=${{ vars.RUNNER_ID }}
-          runner_status=$(curl -s -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id | jq -r '.status')
+          runner_status=$(curl -s -X GET \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" \
+            https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id \
+            | jq -r '.status')
           if [ "$runner_status" == "online" ]; then
             runner=self-hosted
           else
             runner=windows-latest
           fi
-          echo "$runner is selected"
           echo "runner=$runner" >> $GITHUB_OUTPUT
 
   build:
@@ -50,6 +53,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup .NET (self-hosted)
+        if: needs.select-runner.outputs.runner == 'self-hosted'
+        shell: pwsh
+        run: |
+          Write-Host "Running enviornment setup script…"
+          Invoke-WebRequest `
+            -Uri 'https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.DevelopEnvironment.Setup/refs/heads/main/setup.ps1' `
+            -OutFile 'setup.ps1' `
+            -UseBasicParsing
+          Write-Host "Executing setup.ps1"
+          .\setup.ps1
 
       - name: Setup .NET
         if: ${{ needs.select-runner.outputs.runner == 'windows-latest' }}
@@ -93,7 +108,6 @@ jobs:
           > [!IMPORTANT]
           > 请先安装 **[DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt)** 到 **受信任的根证书颁发机构** 以安装测试版安装包
           "
-
           echo $summary >> $Env:GITHUB_STEP_SUMMARY
 
       - name: Clean up
