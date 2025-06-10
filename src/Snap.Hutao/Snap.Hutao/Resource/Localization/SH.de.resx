@@ -162,6 +162,9 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>Liste</value>
   </data>
+  <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
+    <value>通知区域图标创建失败</value>
+  </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore wurde freigegeben, Operation abgebrochen</value>
   </data>
@@ -274,10 +277,12 @@
     <value>Phase {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>Charakter</value>
+    <value>Figur</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
     <value>Waffe</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>Fatui</value>

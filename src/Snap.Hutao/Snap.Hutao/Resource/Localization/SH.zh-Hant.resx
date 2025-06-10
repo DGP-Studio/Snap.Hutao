@@ -162,6 +162,9 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>清單</value>
   </data>
+  <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
+    <value>通知区域图标创建失败</value>
+  </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>訊號量已經被釋放，操作取消</value>
   </data>
