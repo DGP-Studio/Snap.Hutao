@@ -277,10 +277,12 @@
     <value>Расписание {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>Персонаж</value>
+    <value>Персонажи</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
     <value>Оружие</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>Фатуи</value>
