@@ -97,7 +97,7 @@ internal sealed partial class DailyNoteNotificationOperation
         }
         catch (COMException ex)
         {
-            ExceptionAttachment.SetAttachment(ex, "RawXml", rawXml);
+            ExceptionAttachment.SetAttachment(ex, "raw.xml", rawXml);
             throw;
         }
 

@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -102,10 +103,15 @@ internal sealed partial class UserService : IUserService
 
         // Check null and create a new one to avoid System.NullReferenceException
         user.CookieToken ??= new();
-
         user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken;
-        userRepository.UpdateUser(user);
 
+        string? mid = user.Mid;
+        if (!userRepository.Execute(query => query.Any(u => u.Mid == mid)))
+        {
+            return false;
+        }
+
+        userRepository.UpdateUser(user);
         return true;
     }
 

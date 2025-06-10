@@ -10,6 +10,7 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
@@ -30,8 +31,15 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     {
         this.parentWindowId = parentWindowId;
 
-        // Make sure this window has a parent window before we make modal
-        WindowUtilities.SetWindowOwner(this.GetWindowHandle(), Win32Interop.GetWindowFromWindowId(parentWindowId));
+        try
+        {
+            // Make sure this window has a parent window before we make modal
+            WindowUtilities.SetWindowOwner(this.GetWindowHandle(), Win32Interop.GetWindowFromWindowId(parentWindowId));
+        }
+        catch (FileLoadException)
+        {
+            // Ignore
+        }
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {

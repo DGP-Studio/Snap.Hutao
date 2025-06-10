@@ -50,7 +50,20 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsLastWindowCloseBehaviorSet, false))
+        if (XamlApplicationLifetime.Exiting)
+        {
+            cancel = false;
+            return;
+        }
+
+        // Wait for title view to be initialized (show update content webview window)
+        if (TitleView.IsLoaded && (TitleView.DataContext is ViewModel.Abstraction.ViewModel { IsInitialized: false }))
+        {
+            cancel = true;
+            return;
+        }
+
+        if (XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsLastWindowCloseBehaviorSet, false))
         {
             closeBehaviorTraits.SetAsync(this).SafeForget();
             cancel = true;

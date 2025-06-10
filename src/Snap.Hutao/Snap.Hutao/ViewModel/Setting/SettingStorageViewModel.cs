@@ -79,7 +79,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
         if (DataFolderView is not null)
         {
-            await DataFolderView.SetFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+            await DataFolderView.UpdateFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         infoBarService.Success(SH.ViewModelSettingActionComplete);
