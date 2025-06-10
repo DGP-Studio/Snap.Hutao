@@ -15,12 +15,55 @@ jobs:
           PURGE_URL: ${{ secrets.PURGE_URL }}
         run: |
           curl -X PATCH $PURGE_URL
-      - uses: benc-uk/workflow-dispatch@v1.2.4
-        with:
-          workflow: overwrite
-          repo: qhy040404/CN-Overwriter
-          ref: main
-          token: "${{ secrets.RUNNER_CHECK_TOKEN }}"
+      - name: Overwrite CN patch mirrors
+        shell: pwsh
+        run: |
+          $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/DGP-Studio/Snap.Hutao/releases/latest"
+          $asset = $latestRelease.assets[1]
+          $assetUrl = "https://ghproxy.qhy04.cc/" + $asset.browser_download_url
+          $tagName = $latestRelease.tag_name
+          
+          Write-Output "Waiting Patch API to update"
+          while ($true) {
+              $patchData = Invoke-RestMethod -Uri "https://api.snapgenshin.com/patch/hutao"
+              $cachedVersion = $patchData.data.version.Substring(0, $patchData.data.version.Length - 2)
+              
+              if ($cachedVersion -eq $tagName) {
+                  break
+              }
+              Start-Sleep -Seconds 3
+          }
+          
+          Write-Output "Add GitHub Proxy to Patch API"
+          $mirrorData = @{
+              key = "snap-hutao"
+              url = $assetUrl
+              mirror_name = "GitHub Proxy"
+              mirror_type = "direct"
+          } | ConvertTo-Json
+          
+          $response1 = Invoke-WebRequest -Uri "https://api.snapgenshin.com/patch/mirror" `
+              -Method POST `
+              -Headers @{"API-Token" = "${{ secrets.OVERWRITE_TOKEN }}"} `
+              -Body $mirrorData `
+              -ContentType "application/json"
+          Write-Output $response1.Content
+          
+          Write-Output "Add R2 to Patch API"
+          $r2Url = "https://hutao-dist.qhy04.cc/$($asset.name)"
+          $r2Data = @{
+              key = "snap-hutao"
+              url = $r2Url
+              mirror_name = "Cloudflare R2"
+              mirror_type = "direct"
+          } | ConvertTo-Json
+          
+          $response2 = Invoke-WebRequest -Uri "https://api.snapgenshin.com/patch/mirror" `
+              -Method POST `
+              -Headers @{"API-Token" = "${{ secrets.OVERWRITE_TOKEN }}"} `
+              -Body $r2Data `
+              -ContentType "application/json"
+          Write-Output $response2.Content
       - uses: benc-uk/workflow-dispatch@v1.2.4
         with:
           workflow: Build
