@@ -150,18 +150,6 @@ internal static unsafe partial class HPatch
         }
     }
 
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
-    private static BOOL ZstandardReset(nint handle, ulong dataSize, StreamInput* codeStream, ulong codeBegin, ulong codeEnd)
-    {
-        GCHandle gcHandle = GCHandle.FromIntPtr(handle);
-        if (gcHandle.Target is not ZstandardDecompressStream stream)
-        {
-            return true;
-        }
-
-        return true;
-    }
-
     // ReSharper disable NotAccessedField.Local
     internal readonly struct StreamInput
     {
@@ -229,7 +217,7 @@ internal static unsafe partial class HPatch
 
         public static Decompress CreateZstandard()
         {
-            return new(&ZstandardIsCanOpen, &ZstandardOpen, &ZstandardClose, &ZstandardDecompress, &ZstandardReset);
+            return new(&ZstandardIsCanOpen, &ZstandardOpen, &ZstandardClose, &ZstandardDecompress, null);
         }
     }
 
