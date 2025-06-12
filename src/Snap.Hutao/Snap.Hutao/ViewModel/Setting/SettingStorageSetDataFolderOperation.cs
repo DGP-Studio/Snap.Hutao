@@ -44,7 +44,17 @@ internal sealed class SettingStorageSetDataFolderOperation
         }
 
         Directory.CreateDirectory(newFolderPath);
-        if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
+        IEnumerable<string> entries;
+        try
+        {
+            entries = Directory.EnumerateDirectories(newFolderPath);
+        }
+        catch (DirectoryNotFoundException)
+        {
+            return false;
+        }
+
+        if (entries.Any())
         {
             ContentDialogResult result = await ContentDialogFactory.CreateForConfirmCancelAsync(
                     SH.ViewModelSettingStorageSetDataFolderTitle,

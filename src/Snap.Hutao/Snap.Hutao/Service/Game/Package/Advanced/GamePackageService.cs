@@ -170,20 +170,27 @@ internal sealed partial class GamePackageService : IGamePackageService
                 totalBytes += sophonManifest.Stats.UncompressedSize;
 
                 string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
-                using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
+                try
                 {
-                    using (ZstandardDecompressStream decompressor = new(rawManifestStream))
+                    using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
                     {
-                        using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
+                        using (ZstandardDecompressStream decompressor = new(rawManifestStream))
                         {
-                            string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
-                            if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                            using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                             {
-                                inMemoryManifestStream.Position = 0;
-                                decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                                string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
+                                if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    inMemoryManifestStream.Position = 0;
+                                    decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                                }
                             }
                         }
                     }
+                }
+                catch (OperationCanceledException)
+                {
+                    return default;
                 }
             }
         }

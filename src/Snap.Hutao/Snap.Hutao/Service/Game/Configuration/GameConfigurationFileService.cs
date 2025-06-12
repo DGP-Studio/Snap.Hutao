@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
@@ -41,6 +43,18 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
             return;
         }
 
-        FileOperation.Copy(source, destination, true);
+        try
+        {
+            FileOperation.Copy(source, destination, true);
+        }
+        catch (IOException ex)
+        {
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
+            {
+                return;
+            }
+
+            throw;
+        }
     }
 }

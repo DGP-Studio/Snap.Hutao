@@ -233,6 +233,8 @@ internal static class HttpRequestExceptionHandling
                             case SocketException socketException:
                                 switch (socketException.SocketErrorCode)
                                 {
+                                    case SocketError.AccessDenied:
+                                        return NetworkError.ERR_UNKNOWN_ACCESS_DENIED;
                                     case SocketError.ConnectionAborted:
                                         return NetworkError.ERR_UNKNOWN_CONNECTION_ABORTED;
                                     case SocketError.ConnectionReset:
