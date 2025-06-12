@@ -112,7 +112,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     {
                         using (FileStream chunkFile = File.OpenRead(chunkPath))
                         {
-                            using (ZstandardDecompressionStream decompressor = new(chunkFile))
+                            using (ZstandardDecompressStream decompressor = new(chunkFile))
                             {
                                 long offset = chunk.ChunkOnFileOffset;
                                 do

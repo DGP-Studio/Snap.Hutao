@@ -172,7 +172,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
                 using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
                 {
-                    using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
+                    using (ZstandardDecompressStream decompressor = new(rawManifestStream))
                     {
                         using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                         {

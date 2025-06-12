@@ -323,7 +323,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         {
                             using (FileStream diffStream = File.OpenRead(chunkPath))
                             {
-                                using (ZstandardDecompressionStream decompressor = new(diffStream))
+                                using (ZstandardDecompressStream decompressor = new(diffStream))
                                 {
                                     await decompressor.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
                                     context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 0, chunk.ChunkName));

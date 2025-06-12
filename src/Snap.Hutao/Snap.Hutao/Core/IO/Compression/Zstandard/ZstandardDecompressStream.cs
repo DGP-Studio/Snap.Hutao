@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
 // See https://github.com/skbkontur/ZstdNet
 // ReSharper disable LocalizableElement
-internal sealed partial class ZstandardDecompressionStream : Stream
+internal sealed partial class ZstandardDecompressStream : Stream
 {
     [SuppressMessage("", "CA2213")]
     private readonly Stream inputStream;
@@ -22,7 +22,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     private nuint position;
     private nuint size;
 
-    public unsafe ZstandardDecompressionStream(Stream inputStream, int bufferSize = 0)
+    public unsafe ZstandardDecompressStream(Stream inputStream, int bufferSize = 0)
     {
         ArgumentNullException.ThrowIfNull(inputStream);
 
@@ -56,7 +56,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
         position = size = (nuint)inputBufferSize;
     }
 
-    ~ZstandardDecompressionStream()
+    ~ZstandardDecompressStream()
     {
         Dispose(false);
     }
@@ -105,7 +105,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         CheckParamsValid(buffer, offset, count);
         ObjectDisposedException.ThrowIf(decompressStreamContext is null, this);
-        return ReadInternal(new(buffer, offset, count));
+        return ReadInternal(buffer.AsSpan(offset, count));
     }
 
     public override unsafe ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken token = default)
@@ -118,7 +118,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         CheckParamsValid(buffer, offset, count);
         ObjectDisposedException.ThrowIf(decompressStreamContext is null, this);
-        return ReadInternalAsync(new(buffer, offset, count), token).AsTask();
+        return ReadInternalAsync(buffer.AsMemory(offset, count), token).AsTask();
     }
 
     protected override unsafe void Dispose(bool disposing)

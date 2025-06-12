@@ -236,12 +236,12 @@ internal sealed partial class PackageConverter : IPackageConverter
             {
                 using (FileStream chunkFile = File.OpenRead(chunkPath))
                 {
-                    using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                    using (ZstandardDecompressStream decompressStream = new(chunkFile))
                     {
                         long offset = chunk.ChunkOnFileOffset;
                         do
                         {
-                            int bytesRead = await decompressionStream.ReadAsync(buffer).ConfigureAwait(true);
+                            int bytesRead = await decompressStream.ReadAsync(buffer).ConfigureAwait(true);
                             if (bytesRead <= 0)
                             {
                                 break;
@@ -282,7 +282,7 @@ internal sealed partial class PackageConverter : IPackageConverter
         string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
         using (Stream rawManifestStream = await context.HttpClient.GetStreamAsync(manifestDownloadUrl).ConfigureAwait(false))
         {
-            using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
+            using (ZstandardDecompressStream decompressor = new(rawManifestStream))
             {
                 using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                 {
@@ -400,7 +400,7 @@ internal sealed partial class PackageConverter : IPackageConverter
                         {
                             using (FileStream diffStream = File.OpenRead(chunkPath))
                             {
-                                using (ZstandardDecompressionStream decompressor = new(diffStream))
+                                using (ZstandardDecompressStream decompressor = new(diffStream))
                                 {
                                     await decompressor.CopyToAsync(newAssetStream).ConfigureAwait(false);
                                 }

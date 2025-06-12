@@ -100,12 +100,12 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
             {
                 using (FileStream chunkFile = File.OpenRead(chunkPath))
                 {
-                    using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                    using (ZstandardDecompressStream decompressStream = new(chunkFile))
                     {
                         long offset = chunk.ChunkOnFileOffset;
                         do
                         {
-                            int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(true);
+                            int bytesRead = await decompressStream.ReadAsync(buffer, token).ConfigureAwait(true);
                             if (bytesRead <= 0)
                             {
                                 break;

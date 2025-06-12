@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
 // See https://github.com/skbkontur/ZstdNet
 // ReSharper disable LocalizableElement
-internal sealed partial class ZstandardCompressionStream : Stream
+internal sealed partial class ZstandardCompressStream : Stream
 {
     [SuppressMessage("", "CA2213")]
     private readonly Stream outputStream;
@@ -22,7 +22,7 @@ internal sealed partial class ZstandardCompressionStream : Stream
     private unsafe ZSTD_CCtx_s* compressStreamContext;
     private nuint position;
 
-    public unsafe ZstandardCompressionStream(Stream outputStream, int bufferSize = 0)
+    public unsafe ZstandardCompressStream(Stream outputStream, int bufferSize = 0)
     {
         ArgumentNullException.ThrowIfNull(outputStream);
 
@@ -55,7 +55,7 @@ internal sealed partial class ZstandardCompressionStream : Stream
         size = (nuint)outputBufferSize;
     }
 
-    ~ZstandardCompressionStream()
+    ~ZstandardCompressStream()
     {
         Dispose(false);
     }
