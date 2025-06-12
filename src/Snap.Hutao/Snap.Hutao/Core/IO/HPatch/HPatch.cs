@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.IO.HPatch;
 
-internal static unsafe class HPatch
+internal static unsafe partial class HPatch
 {
     public static bool Patch(SafeFileHandle source, SafeFileHandle diff, ulong targetSize, SafeFileHandle target)
     {
@@ -233,7 +233,7 @@ internal static unsafe class HPatch
         }
     }
 
-    private sealed class StreamInputStream : Stream
+    private sealed partial class StreamInputStream : Stream
     {
         private readonly StreamInput* input;
         private readonly ulong begin;
