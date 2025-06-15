@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Win32.Foundation;
@@ -13,51 +12,28 @@ namespace Snap.Hutao.Core.IO.HPatch;
 
 internal static unsafe partial class HPatch
 {
-    public static bool Patch(SafeFileHandle source, SafeFileHandle diff, ulong targetSize, SafeFileHandle target)
+    public static long GetNewDataSize(FileSegment diff)
+    {
+        StreamInput diffAdapter = new(diff);
+        ulong size = 0;
+        NewDataSize(&diffAdapter, &size);
+        return (long)size;
+    }
+
+    public static bool Patch(FileSegment source, FileSegment diff, FileSegment target)
     {
         StreamInput sourceAdapter = new(source);
         StreamInput diffAdapter = new(diff);
-        StreamOutput targetAdapter = new(target, targetSize);
+        StreamOutput targetAdapter = new(target);
 
         return Patch(&sourceAdapter, &diffAdapter, &targetAdapter);
     }
 
-    public static bool Patch(SafeFileHandle source, SafeFileHandle diff, SafeFileHandle target)
+    public static bool PatchZstandard(FileSegment source, FileSegment diff, FileSegment target)
     {
         StreamInput sourceAdapter = new(source);
         StreamInput diffAdapter = new(diff);
-        ulong newDataSize;
-        if (!NewDataSize(&diffAdapter, &newDataSize))
-        {
-            return false;
-        }
-
-        StreamOutput targetAdapter = new(target, newDataSize);
-
-        return Patch(&sourceAdapter, &diffAdapter, &targetAdapter);
-    }
-
-    public static bool PatchZstandard(SafeFileHandle source, SafeFileHandle diff, ulong targetSize, SafeFileHandle target)
-    {
-        StreamInput sourceAdapter = new(source);
-        StreamInput diffAdapter = new(diff);
-        StreamOutput targetAdapter = new(target, targetSize);
-        Decompress decompressor = Decompress.CreateZstandard();
-
-        return PatchWithDecompressor(&sourceAdapter, &diffAdapter, &targetAdapter, &decompressor);
-    }
-
-    public static bool PatchZstandard(SafeFileHandle source, SafeFileHandle diff, SafeFileHandle target)
-    {
-        StreamInput sourceAdapter = new(source);
-        StreamInput diffAdapter = new(diff);
-        ulong newDataSize;
-        if (!NewDataSize(&diffAdapter, &newDataSize))
-        {
-            return false;
-        }
-
-        StreamOutput targetAdapter = new(target, newDataSize);
+        StreamOutput targetAdapter = new(target);
         Decompress decompressor = Decompress.CreateZstandard();
 
         return PatchWithDecompressor(&sourceAdapter, &diffAdapter, &targetAdapter, &decompressor);
@@ -78,29 +54,13 @@ internal static unsafe partial class HPatch
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static BOOL StreamRead(void* input, ulong position, byte* start, byte* end)
     {
-        try
-        {
-            bool result = RandomAccessRead.Exactly(new(((StreamInput*)input)->Handle, ownsHandle: false), new(start, (int)(end - start)), (long)position);
-            return result;
-        }
-        catch
-        {
-            return false;
-        }
+        return GCHandle.FromIntPtr(((StreamInput*)input)->Handle).Target is FileSegment file && file.Read(position, start, end);
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static BOOL StreamWrite(void* output, ulong position, byte* start, byte* end)
     {
-        try
-        {
-            RandomAccess.Write(new(((StreamOutput*)output)->Handle, ownsHandle: false), new ReadOnlySpan<byte>(start, (int)(end - start)), (long)position);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        return GCHandle.FromIntPtr(((StreamInput*)output)->Handle).Target is FileSegment file && file.Write(position, start, end);
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -162,10 +122,10 @@ internal static unsafe partial class HPatch
 #pragma warning restore CA1823
 #pragma warning restore CS0169
 
-        public StreamInput(SafeFileHandle handle)
+        public StreamInput(FileSegment file)
         {
-            Handle = handle.DangerousGetHandle();
-            Length = (ulong)RandomAccess.GetLength(handle);
+            Handle = file.Handle;
+            Length = (ulong)file.Length;
             Read = &StreamRead;
         }
     }
@@ -181,10 +141,10 @@ internal static unsafe partial class HPatch
 #pragma warning restore CS0649
 #pragma warning restore CS0169
 
-        public StreamOutput(SafeFileHandle handle, ulong length)
+        public StreamOutput(FileSegment file)
         {
-            Handle = handle.DangerousGetHandle();
-            Length = length;
+            Handle = file.Handle;
+            Length = (ulong)file.Length;
             Read = &StreamRead;
             Write = &StreamWrite;
         }

@@ -31,11 +31,11 @@ internal sealed partial class NotifyIconController : IDisposable
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly IServiceProvider serviceProvider;
     private readonly HutaoNativeNotifyIcon native;
-    private GCHandle handle;
+    private readonly nint handle;
 
     private bool disposed;
 
-    public unsafe NotifyIconController(IServiceProvider serviceProvider)
+    public NotifyIconController(IServiceProvider serviceProvider)
     {
         if (Interlocked.Exchange(ref constructed, true))
         {
@@ -56,7 +56,7 @@ internal sealed partial class NotifyIconController : IDisposable
         xamlHostWindow = new(serviceProvider);
         xamlHostWindow.MoveAndResize(default);
 
-        handle = GCHandle.Alloc(this);
+        handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
     }
 
     public static Lock InitializationSyncRoot { get; } = new();
@@ -80,13 +80,13 @@ internal sealed partial class NotifyIconController : IDisposable
                 SentrySdk.CaptureException(ex);
             }
 
-            handle.Free();
+            GCHandle.FromIntPtr(handle).Free();
         }
     }
 
     public unsafe void Create()
     {
-        native.Create(HutaoNativeNotifyIconCallback.Create(&OnNotifyIconCallback), GCHandle.ToIntPtr(handle), "Snap Hutao");
+        native.Create(HutaoNativeNotifyIconCallback.Create(&OnNotifyIconCallback), handle, "Snap Hutao");
     }
 
     public bool IsPromoted()

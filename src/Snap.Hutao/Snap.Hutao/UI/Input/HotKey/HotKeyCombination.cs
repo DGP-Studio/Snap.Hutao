@@ -20,9 +20,9 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private readonly IInfoBarService infoBarService;
     private readonly HutaoNativeHotKeyActionKind kind;
     private readonly string settingKey;
+    private readonly nint handle;
 
     private HutaoNativeHotKeyAction? native;
-    private GCHandle handle;
 
     // IMPORTANT: DO NOT CONVERT TO AUTO PROPERTIES
     private bool modifierHasControl;
@@ -30,7 +30,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private bool modifierHasAlt;
     private NameValue<VIRTUAL_KEY> keyNameValue;
     private HOT_KEY_MODIFIERS modifiers;
-    private bool isEnabled;
     private VIRTUAL_KEY key;
 
     public HotKeyCombination(IServiceProvider serviceProvider, HutaoNativeHotKeyActionKind kind, string settingKey)
@@ -41,9 +40,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
         // Initialize Property backing fields
         {
-            // Retrieve from LocalSetting
-            isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
-
             HotKeyParameter parameter = HotKeyParameter.Default;
             long value = LocalSetting.Get(settingKey, Unsafe.As<HotKeyParameter, long>(ref parameter));
             HotKeyParameter actual = Unsafe.As<long, HotKeyParameter>(ref value);
@@ -59,7 +55,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             key = keyNameValue.Value;
         }
 
-        handle = GCHandle.Alloc(this);
+        handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
     }
 
     public bool ModifierHasControl { get => modifierHasControl; set => _ = SetProperty(ref modifierHasControl, value) && UpdateModifiers(); }
@@ -136,13 +132,13 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     public unsafe void Initialize()
     {
-        native = HutaoNative.Instance.MakeHotKeyAction(kind, HutaoNativeHotKeyActionCallback.Create(&OnAction), GCHandle.ToIntPtr(handle));
+        native = HutaoNative.Instance.MakeHotKeyAction(kind, HutaoNativeHotKeyActionCallback.Create(&OnAction), handle);
         SaveAndUpdate();
     }
 
     public void Dispose()
     {
-        handle.Free();
+        GCHandle.FromIntPtr(handle).Free();
         native = default;
     }
 
