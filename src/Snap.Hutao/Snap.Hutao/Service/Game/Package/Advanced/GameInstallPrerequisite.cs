@@ -22,7 +22,9 @@ internal sealed class GameInstallPrerequisite
 
     public static bool TryLock(IGameFileSystem gameFileSystem, string version, LaunchScheme launchScheme, [NotNullWhen(true)] out GameInstallPrerequisite? locker)
     {
-        if (Directory.EnumerateFileSystemEntries(gameFileSystem.GetGameDirectory()).Any())
+        string gameDirectory = gameFileSystem.GetGameDirectory();
+        Directory.CreateDirectory(gameDirectory);
+        if (Directory.EnumerateFileSystemEntries(gameDirectory).Any())
         {
             if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
             {

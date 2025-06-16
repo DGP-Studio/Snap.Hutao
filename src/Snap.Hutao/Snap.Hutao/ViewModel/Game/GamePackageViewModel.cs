@@ -221,23 +221,15 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
                     BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
+                    ArgumentNullException.ThrowIfNull(localBuild);
+                    ArgumentNullException.ThrowIfNull(remoteBuild);
                 }
                 catch (Exception ex)
                 {
                     serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
                     return;
                 }
-            }
-
-            try
-            {
-                ArgumentNullException.ThrowIfNull(localBuild);
-                ArgumentNullException.ThrowIfNull(remoteBuild);
-            }
-            catch (ArgumentNullException ex)
-            {
-                ex.Data["LocalVersion"] = LocalVersion.ToString();
-                throw;
             }
 
             GamePackageOperationContext context = new(
@@ -309,12 +301,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             }
         }
 
-        if (channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId) is not { } sdk)
-        {
-            serviceProvider.GetRequiredService<IInfoBarService>().Error(SH.ViewModelGamePackageGetGameChannelSDKFailed, SH.FormatViewModelGamePackageLocalLaunchScheme(launchScheme.DisplayName));
-            return default;
-        }
-
-        return sdk;
+        // Channel sdk can be null
+        return channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
     }
 }

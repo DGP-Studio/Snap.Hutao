@@ -117,7 +117,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(entries);
-        Debug.Assert(entries.Remove(entry));
+        entries.Remove(entry);
 
         await taskContext.SwitchToBackgroundAsync();
         dailyNoteRepository.DeleteDailyNoteEntryById(entry.InnerId);
@@ -157,7 +157,17 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
 
-            foreach (DailyNoteEntry dbEntry in dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser())
+            ImmutableArray<DailyNoteEntry> dailyNoteEntries;
+            try
+            {
+                dailyNoteEntries = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
+            }
+            catch (Exception ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
+
+            foreach (DailyNoteEntry dbEntry in dailyNoteEntries)
             {
                 if (!(forceRefresh || (autoRefresh && dbEntry.RefreshTime < DateTimeOffset.Now - threshold)))
                 {

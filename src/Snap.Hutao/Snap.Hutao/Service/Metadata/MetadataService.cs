@@ -331,7 +331,7 @@ internal sealed partial class MetadataService : IMetadataService
                     }
                     catch (IOException ex)
                     {
-                        if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL))
+                        if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL, WIN32_ERROR.ERROR_SHARING_VIOLATION]))
                         {
                             context.SetResult(fileName, false);
                             return;

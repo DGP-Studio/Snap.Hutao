@@ -47,6 +47,9 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
         {
             FileOperation.Copy(source, destination, true);
         }
+        catch (UnauthorizedAccessException)
+        {
+        }
         catch (IOException ex)
         {
             if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))

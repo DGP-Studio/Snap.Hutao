@@ -8,8 +8,8 @@ internal sealed class PlayerInfo
     [JsonPropertyName("role")]
     public BasicRoleInfo Role { get; set; } = default!;
 
-    [JsonPropertyName("avatars")]
-    public List<Avatar.Avatar> Avatars { get; set; } = default!;
+    // [JsonPropertyName("avatars")]
+    // public List<Avatar.Avatar> Avatars { get; set; } = default!;
 
     [JsonPropertyName("stats")]
     public PlayerStats PlayerStat { get; set; } = default!;

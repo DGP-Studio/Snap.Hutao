@@ -78,19 +78,27 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                 return;
             }
 
-            ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
-                .CreateForConfirmCancelAsync(
-                    SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),
-                    SH.ViewTitileUpdatePackageAvailableContent,
-                    ContentDialogButton.Primary)
-                .ConfigureAwait(false);
-
-            if (installUpdateUserConsentResult is ContentDialogResult.Primary)
+            try
             {
-                if (await updateService.LaunchUpdaterAsync().ConfigureAwait(false) is (false, { } ex))
+                ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
+                    .CreateForConfirmCancelAsync(
+                        SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),
+                        SH.ViewTitileUpdatePackageAvailableContent,
+                        ContentDialogButton.Primary)
+                    .ConfigureAwait(false);
+
+                if (installUpdateUserConsentResult is ContentDialogResult.Primary)
                 {
-                    infoBarService.Error(ex);
+                    await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
                 }
+            }
+            catch (Exception ex)
+            {
+                // Access to the path '?' is denied.
+                // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
+                // The process cannot access the file '?' because it is being used by another process.
+                // 0x80070005 Attempted to perform an unauthorized operation.
+                infoBarService.Error(ex);
             }
         }
     }

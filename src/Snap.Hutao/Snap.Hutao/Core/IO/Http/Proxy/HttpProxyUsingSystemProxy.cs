@@ -97,6 +97,11 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void OnSystemProxySettingsChanged(nint userData)
     {
+        if (XamlApplicationLifetime.Exiting)
+        {
+            return;
+        }
+
         Instance.UpdateInnerProxy();
 
         Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");

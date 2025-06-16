@@ -127,7 +127,7 @@ internal sealed partial class DownloadSummary : ObservableObject
         }
         catch (Exception ex)
         {
-            if (ex is not (IOException or OperationCanceledException) &&
+            if (ex is not (IOException or OperationCanceledException or UnauthorizedAccessException) &&
                 HttpRequestExceptionHandling.TryHandle(builder, ex, out StringBuilder message))
             {
                 infoBarService.Error(SH.ViewModelWelcomeDownloadSummaryException, message.ToString());
