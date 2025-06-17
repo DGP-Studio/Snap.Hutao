@@ -162,6 +162,9 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>Lista</value>
   </data>
+  <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
+    <value>通知区域图标创建失败</value>
+  </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semáforo eliminado, operación cancelada</value>
   </data>
@@ -209,6 +212,9 @@
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
     <value>Vagabundo</value>
+  </data>
+  <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
+    <value>服务器时区</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Refinar {0}</value>
@@ -275,9 +281,11 @@
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Personaje</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
     <value>Arma</value>
+    <comment>Need EXACT same string in official API</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>Fatui</value>
