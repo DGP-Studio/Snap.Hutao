@@ -213,6 +213,9 @@
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
     <value>流浪者</value>
   </data>
+  <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
+    <value>服务器时区</value>
+  </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>精炼 {0}</value>
   </data>
