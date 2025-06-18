@@ -41,13 +41,13 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get; private set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         IPInformation? info;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+            Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync(token).ConfigureAwait(false);
             ResponseValidator.TryValidate(resp, infoBarService, out info);
         }
 

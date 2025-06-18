@@ -14,7 +14,7 @@ internal interface IViewModel : IPageScoped, IResurrectable
 
     IDeferContentLoader? DeferContentLoader { get; set; }
 
-    bool IsViewDisposed { get; set; }
+    bool IsViewUnloaded { get; set; }
 
     void Uninitialize();
 }

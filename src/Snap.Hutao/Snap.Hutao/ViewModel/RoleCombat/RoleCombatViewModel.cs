@@ -47,7 +47,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
         }
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -56,7 +56,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
 
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
+            metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>(token).ConfigureAwait(false);
             await UpdateRoleCombatCollectionAsync(userAndUid).ConfigureAwait(false);
         }
         else

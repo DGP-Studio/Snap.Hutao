@@ -46,7 +46,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         weakGachaLogBorder.SetTarget(gachaLogBorder);
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
@@ -70,7 +70,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         return false;
     }
 
-    protected override ValueTask<bool> LoadOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCache);
         Storage.DataFolderView = new(taskContext, HutaoRuntime.DataFolder);
@@ -80,13 +80,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override void UninitializeOverride()
     {
-        Geetest.IsViewDisposed = true;
-        Appearance.IsViewDisposed = true;
-        Storage.IsViewDisposed = true;
-        HotKey.IsViewDisposed = true;
-        Home.IsViewDisposed = true;
-        Game.IsViewDisposed = true;
-        GachaLog.IsViewDisposed = true;
+        Geetest.IsViewUnloaded = true;
+        Appearance.IsViewUnloaded = true;
+        Storage.IsViewUnloaded = true;
+        HotKey.IsViewUnloaded = true;
+        Home.IsViewUnloaded = true;
+        Game.IsViewUnloaded = true;
+        GachaLog.IsViewUnloaded = true;
     }
 
     [Command("CreateDesktopShortcutCommand")]

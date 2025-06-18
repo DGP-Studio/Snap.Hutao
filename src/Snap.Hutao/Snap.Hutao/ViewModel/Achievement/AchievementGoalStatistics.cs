@@ -16,7 +16,7 @@ internal struct AchievementGoalStatistics
         AchievementGoal = goal;
     }
 
-    public static AchievementGoalStatistics From(BindingAchievementGoal goal)
+    public static AchievementGoalStatistics Create(BindingAchievementGoal goal)
     {
         return new(goal);
     }

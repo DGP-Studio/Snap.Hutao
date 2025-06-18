@@ -19,6 +19,29 @@ internal sealed partial class AchievementImporter
 {
     private readonly AchievementImporterScopeContext scopeContext;
 
+    public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
+    {
+        if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
+        {
+            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            return false;
+        }
+
+        UIAF? uiaf;
+        try
+        {
+            uiaf = await scopeContext.ClipboardProvider.DeserializeFromJsonAsync<UIAF>().ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(uiaf);
+        }
+        catch (Exception ex)
+        {
+            scopeContext.InfoBarService.Error(ex, SH.ViewModelImportFromClipboardErrorTitle);
+            return false;
+        }
+
+        return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
+    }
+
     public async ValueTask<bool> FromEmbeddedYaeAsync(AchievementViewModelScopeContext context)
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
@@ -36,23 +59,6 @@ internal sealed partial class AchievementImporter
         return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
     }
 
-    public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
-    {
-        if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
-        {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
-            return false;
-        }
-
-        if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is not { } uiaf)
-        {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-            return false;
-        }
-
-        return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
-    }
-
     public async ValueTask<bool> FromFileAsync(AchievementViewModelScopeContext context)
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
@@ -61,38 +67,18 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        ValueResult<bool, ValueFile> pickerResult = scopeContext.FileSystemPickerInteraction.PickFile(
-            SH.ServiceAchievementUIAFImportPickerTitile,
-            SH.ServiceAchievementUIAFImportPickerFilterText,
-            "*.json");
-
-        if (!pickerResult.TryGetValue(out ValueFile file))
+        if (scopeContext.FileSystemPickerInteraction.PickFile(SH.ServiceAchievementUIAFImportPickerTitile, SH.ServiceAchievementUIAFImportPickerFilterText, "*.json") is not (true, { HasValue: true } file))
         {
             return false;
         }
 
-        ValueResult<bool, UIAF?> uiafResult = await file.DeserializeFromJsonAsync<UIAF>(scopeContext.JsonSerializerOptions).ConfigureAwait(false);
-
-        if (!uiafResult.TryGetValue(out UIAF? uiaf))
+        if (await file.DeserializeFromJsonNoThrowAsync<UIAF>(scopeContext.JsonSerializerOptions).ConfigureAwait(false) is not (true, { } uiaf))
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
             return false;
         }
 
         return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
-    }
-
-    private async ValueTask<UIAF?> TryCatchGetUIAFFromClipboardAsync()
-    {
-        try
-        {
-            return await scopeContext.ClipboardProvider.DeserializeFromJsonAsync<UIAF>().ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            scopeContext.InfoBarService.Error(ex, SH.ViewModelImportFromClipboardErrorTitle);
-            return null;
-        }
     }
 
     private async ValueTask<bool> TryImportAsync(AchievementViewModelScopeContext context, EntityAchievementArchive archive, UIAF uiaf)
@@ -103,28 +89,22 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        AchievementImportDialog importDialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<AchievementImportDialog>(scopeContext.ServiceProvider, uiaf).ConfigureAwait(false);
-        (bool isOk, ImportStrategyKind strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        AchievementImportDialog importDialog = await scopeContext.ContentDialogFactory.CreateInstanceAsync<AchievementImportDialog>(scopeContext.ServiceProvider, uiaf).ConfigureAwait(false);
+        if (await importDialog.GetImportStrategyAsync().ConfigureAwait(false) is not (true, var strategy))
         {
             return false;
         }
 
-        await scopeContext.TaskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = await scopeContext.ContentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
             .ConfigureAwait(false);
 
-        ImportResult result;
         using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
+            ImportResult result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
+            scopeContext.InfoBarService.Success(SH.FormatServiceAchievementImportResultFormat(result.Add, result.Update, result.Remove));
         }
 
-        // ReSharper disable once LocalizableElement
-        scopeContext.InfoBarService.Success($"{result}");
         return true;
     }
 }

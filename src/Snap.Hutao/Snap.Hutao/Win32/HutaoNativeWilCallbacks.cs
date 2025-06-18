@@ -134,7 +134,7 @@ internal static unsafe class HutaoNativeWilCallbacks
     internal sealed class HutaoNativeException : Exception
     {
         public HutaoNativeException(FailureInfo info)
-            : base(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString())
+            : base($"0x{info.hr}: {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString()}")
         {
             Data["Type"] = info.type;
             Data["Flags"] = info.flags;

@@ -69,7 +69,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     public partial WishCountdownViewModel WishCountdownViewModel { get; }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         try
         {
@@ -78,7 +78,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            metadataContext = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>().ConfigureAwait(false);
+            metadataContext = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>(token).ConfigureAwait(false);
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 IAdvancedDbCollectionView<GachaArchive> archives = await gachaLogService.GetArchiveCollectionAsync().ConfigureAwait(false);

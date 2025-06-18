@@ -180,7 +180,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
@@ -200,7 +200,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         taskContext.InvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (LaunchOptions.GamePathEntries.IsDefaultOrEmpty)
         {

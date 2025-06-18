@@ -3,23 +3,23 @@
 
 namespace Snap.Hutao.Core.IO;
 
-internal readonly struct ValueFile
+internal readonly struct ValueDirectory
 {
     private readonly string value;
 
-    private ValueFile(string value)
+    private ValueDirectory(string value)
     {
         this.value = value;
     }
 
     public bool HasValue { get => value is not null; }
 
-    public static implicit operator string(ValueFile value)
+    public static implicit operator string(ValueDirectory value)
     {
         return value.value;
     }
 
-    public static implicit operator ValueFile(string? value)
+    public static implicit operator ValueDirectory(string? value)
     {
         return new(value!);
     }

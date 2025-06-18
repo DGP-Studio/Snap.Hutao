@@ -85,14 +85,14 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         weakItemsRepeater.SetTarget(itemsRepeater);
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        metadataContext = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+        metadataContext = await metadataService.GetContextAsync<CultivationMetadataContext>(token).ConfigureAwait(false);
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {

@@ -31,7 +31,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
     public List<CardReference>? Cards { get; set => SetProperty(ref field, value); }
 
-    protected override ValueTask<bool> LoadOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         InitializeDashboard();
         InitializeInGameAnnouncementAsync().SafeForget();

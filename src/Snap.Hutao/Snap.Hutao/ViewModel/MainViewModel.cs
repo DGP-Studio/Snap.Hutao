@@ -34,7 +34,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
         PrivateUpdateBackgroundAsync(true).SafeForget();
     }
 
-    protected override ValueTask<bool> LoadOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         AppOptions.PropertyChanged += OnAppOptionsPropertyChanged;
         return ValueTask.FromResult(true);

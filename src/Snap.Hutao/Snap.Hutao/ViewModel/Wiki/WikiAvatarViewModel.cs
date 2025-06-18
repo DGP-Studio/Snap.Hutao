@@ -69,7 +69,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public partial WikiAvatarStrategyComponent StrategyComponent { get; }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -78,7 +78,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         try
         {
-            metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>().ConfigureAwait(false);
+            metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>(token).ConfigureAwait(false);
 
             List<Avatar> list = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
 

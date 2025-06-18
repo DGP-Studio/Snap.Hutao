@@ -23,6 +23,8 @@ internal partial class ScopedPage : Page
         Unloaded += OnUnloaded;
     }
 
+    public CancellationToken CancellationToken { get => viewCts.Token; }
+
     public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
     {
         XamlMarkupHelper.UnloadObject(unloadableObject);
@@ -40,7 +42,7 @@ internal partial class ScopedPage : Page
         using (viewModel.DisposeLock.Enter())
         {
             viewModel.Resurrect();
-            viewModel.CancellationToken = viewCts.Token;
+            viewModel.CancellationToken = CancellationToken;
             viewModel.DeferContentLoader = new DeferContentLoader(this);
         }
 
@@ -51,9 +53,7 @@ internal partial class ScopedPage : Page
     {
         if (e.Parameter is INavigationCompletionSource data)
         {
-            NavigationExtraDataSupport
-                .NotifyRecipientAsync(this, data)
-                .SafeForget();
+            NavigationExtraDataSupport.NotifyRecipientAsync(this, data, CancellationToken).SafeForget();
         }
     }
 

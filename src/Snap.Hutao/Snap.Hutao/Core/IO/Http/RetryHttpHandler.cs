@@ -11,8 +11,15 @@ namespace Snap.Hutao.Core.IO.Http;
 [Injection(InjectAs.Transient)]
 internal sealed partial class RetryHttpHandler : DelegatingHandler
 {
+    public static HttpRequestOptionsKey<bool> DisableRetry { get; } = new("DisableRetry");
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        if (request.Options.TryGetValue(DisableRetry, out bool skipRetry) && skipRetry)
+        {
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
         ExceptionDispatchInfo? exception = default;
         int requestCount = 0;
         while (requestCount < 3)

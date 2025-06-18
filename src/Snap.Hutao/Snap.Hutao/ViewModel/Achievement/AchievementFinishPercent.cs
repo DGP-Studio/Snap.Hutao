@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Primitive;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -26,23 +25,18 @@ internal static class AchievementFinishPercent
             return;
         }
 
-        if (achievements.Source is not AchievementView[] array)
+        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.Source.ToDictionary(x => x.Id, AchievementGoalStatistics.Create);
+
+        foreach (AchievementView achievementView in achievements.Source)
         {
-            throw HutaoException.InvalidCast<IList<AchievementView>, AchievementView[]>("AchievementViewModel.Achievements.Source");
-        }
+            ref AchievementGoalStatistics goalStats = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievementView.Inner.Goal);
+            Debug.Assert(!Unsafe.IsNullRef(in goalStats));
 
-        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.Source.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
-
-        foreach (ref readonly AchievementView achievementView in array.AsSpan())
-        {
-            ref AchievementGoalStatistics goalStat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievementView.Inner.Goal);
-            Debug.Assert(!Unsafe.IsNullRef(in goalStat));
-
-            goalStat.TotalCount += 1;
+            goalStats.TotalCount += 1;
             totalCount += 1;
             if (achievementView.IsChecked)
             {
-                goalStat.Finished += 1;
+                goalStats.Finished += 1;
                 totalFinished += 1;
             }
         }

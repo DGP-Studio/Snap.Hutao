@@ -38,8 +38,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private readonly AchievementViewModelScopeContext scopeContext;
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
         get;
@@ -75,7 +73,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [GeneratedRegex("\\d\\.\\d")]
     private static partial Regex VersionRegex { get; }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
@@ -91,30 +89,33 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        IAdvancedCollectionView<AchievementGoalView> sortedGoals;
+        token.ThrowIfCancellationRequested();
 
+        IAdvancedCollectionView<AchievementGoalView> sortedGoals;
+        IAdvancedDbCollectionView<EntityArchive> archives;
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             ImmutableArray<MetadataAchievementGoal> goals = await scopeContext.MetadataService
-                .GetAchievementGoalArrayAsync(CancellationToken)
+                .GetAchievementGoalArrayAsync(token)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().AsAdvancedCollectionView();
+            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.Create).AsAdvancedCollectionView();
+            archives = await scopeContext.AchievementService.GetArchiveCollectionAsync(token).ConfigureAwait(false);
         }
 
-        IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchiveCollectionAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
         AchievementGoals = sortedGoals;
         Archives = archives;
         Archives.MoveCurrentTo(Archives.Source.SelectedOrDefault());
+
         return true;
     }
 
@@ -229,7 +230,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
 
         UIAF uiaf = await scopeContext.AchievementService.ExportToUIAFAsync(Archives.CurrentItem).ConfigureAwait(false);
-        if (await file.SerializeToJsonAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false))
+        if (await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false))
         {
             scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
         }

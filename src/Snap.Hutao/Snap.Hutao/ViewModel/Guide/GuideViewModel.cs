@@ -159,12 +159,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public ObservableCollection<DownloadSummary>? DownloadSummaries { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
+            HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync(token).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out StaticResourceSizeInformation? sizeInformation))
             {
                 await taskContext.SwitchToMainThreadAsync();

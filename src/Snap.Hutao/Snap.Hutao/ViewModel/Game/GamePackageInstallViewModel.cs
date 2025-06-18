@@ -30,7 +30,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     public string RemoteVersionText { get => SH.FormatViewModelGamePackageRemoteVersion(RemoteVersion); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         // TODO: Why we are using this instead of Selected one?
         LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(scheme => scheme.IsNotCompatOnly);
@@ -39,7 +39,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme, token).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
             {
                 return false;

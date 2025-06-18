@@ -43,7 +43,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public bool IsMetadataInitialized { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDataFolderHasReparsePoint();

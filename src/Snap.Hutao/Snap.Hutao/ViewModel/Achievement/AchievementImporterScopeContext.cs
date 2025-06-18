@@ -25,7 +25,5 @@ internal sealed partial class AchievementImporterScopeContext
 
     public partial IInfoBarService InfoBarService { get; }
 
-    public partial ITaskContext TaskContext { get; }
-
     public partial IYaeService YaeService { get; }
 }

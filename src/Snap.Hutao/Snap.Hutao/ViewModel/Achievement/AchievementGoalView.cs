@@ -36,7 +36,7 @@ internal sealed partial class AchievementGoalView : ObservableObject,
     [ObservableProperty]
     public partial string? FinishDescription { get; private set; }
 
-    public static AchievementGoalView From(AchievementGoal source)
+    public static AchievementGoalView Create(AchievementGoal source)
     {
         return new(source);
     }

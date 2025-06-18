@@ -45,7 +45,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(jsonOptions).ConfigureAwait(false);
+        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonNoThrowAsync<UIGF>(jsonOptions).ConfigureAwait(false);
         if (!result.TryGetValue(out UIGF? uigf))
         {
             infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);

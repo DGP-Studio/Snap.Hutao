@@ -72,13 +72,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
     /// <inheritdoc/>
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             try
             {
-                metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>().ConfigureAwait(false);
+                metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>(token).ConfigureAwait(false);
 
                 List<Weapon> list = [.. metadataContext.Weapons.OrderByDescending(weapon => weapon.Sort)];
 

@@ -99,7 +99,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     return;
                 }
 
-                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewDisposed)
+                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewUnloaded)
                 {
                     viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, viewModel.CancellationToken).SafeForget();
                 }
@@ -107,7 +107,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             TaskScheduler.Current);
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
         {

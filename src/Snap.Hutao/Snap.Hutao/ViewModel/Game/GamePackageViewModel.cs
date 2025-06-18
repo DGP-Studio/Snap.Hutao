@@ -130,12 +130,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public async ValueTask ForceLoadAsync()
     {
-        bool result = await LoadOverrideAsync().ConfigureAwait(false);
+        bool result = await LoadOverrideAsync(CancellationToken).ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
         IsInitialized = result;
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
         {
