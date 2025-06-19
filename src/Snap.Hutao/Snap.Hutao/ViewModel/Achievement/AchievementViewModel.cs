@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -151,28 +152,18 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
 
         AchievementArchiveCreateDialog dialog = await scopeContext.ContentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
-        (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        if (await dialog.GetInputAsync().ConfigureAwait(false) is not (true, { } name))
         {
             return;
         }
 
-        switch (await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.From(name)).ConfigureAwait(false))
+        _ = await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.Create(name)).ConfigureAwait(false) switch
         {
-            case ArchiveAddResultKind.Added:
-                await scopeContext.TaskContext.SwitchToMainThreadAsync();
-                scopeContext.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
-                break;
-            case ArchiveAddResultKind.InvalidName:
-                scopeContext.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
-                break;
-            case ArchiveAddResultKind.AlreadyExists:
-                scopeContext.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
-                break;
-            default:
-                throw HutaoException.NotSupported();
-        }
+            ArchiveAddResultKind.Added => scopeContext.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name)),
+            ArchiveAddResultKind.InvalidName => scopeContext.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName),
+            ArchiveAddResultKind.AlreadyExists => scopeContext.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
+            _ => throw HutaoException.NotSupported(),
+        };
     }
 
     [Command("RemoveArchiveCommand")]
@@ -218,26 +209,24 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        (bool isOk, ValueFile file) = scopeContext.FileSystemPickerInteraction.SaveFile(
-            SH.ViewModelAchievementUIAFExportPickerTitle,
-            $"{Archives.CurrentItem.Name}.json",
-            SH.ViewModelAchievementExportFileType,
-            "*.json");
+        FileSystemPickerOptions pickerOptions = new()
+        {
+            Title = SH.ViewModelAchievementUIAFExportPickerTitle,
+            DefaultFileName = $"{Archives.CurrentItem.Name}.json",
+            FilterName = SH.ViewModelAchievementExportFileType,
+            FilterType = "*.json",
+        };
 
-        if (!isOk)
+        if (scopeContext.FileSystemPickerInteraction.SaveFile(pickerOptions) is not (true, { HasValue: true } file))
         {
             return;
         }
 
         UIAF uiaf = await scopeContext.AchievementService.ExportToUIAFAsync(Archives.CurrentItem).ConfigureAwait(false);
-        if (await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false))
-        {
-            scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-        }
-        else
-        {
-            scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
-        }
+
+        _ = await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false)
+            ? scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage)
+            : scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
     }
 
     [Command("ImportUIAFFromEmbeddedYaeCommand")]
