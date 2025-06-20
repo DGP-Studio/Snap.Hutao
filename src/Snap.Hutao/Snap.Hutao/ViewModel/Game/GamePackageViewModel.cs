@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -149,8 +150,17 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
 
-        RemoteVersion = new(branch.Main.Tag);
-        PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+        if (LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false))
+        {
+            BranchWrapper remoteBranch = branch.PreDownload ?? branch.Main;
+            RemoteVersion = new(remoteBranch.Tag);
+            PreVersion = default;
+        }
+        else
+        {
+            RemoteVersion = new(branch.Main.Tag);
+            PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+        }
 
         if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
@@ -219,7 +229,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                     BranchWrapper localBranch = branch.Main.GetTaggedCopy(LocalVersion.ToString());
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
-                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
+                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                        ? branch.PreDownload ?? branch.Main
+                        : operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
 
                     ArgumentNullException.ThrowIfNull(localBuild);

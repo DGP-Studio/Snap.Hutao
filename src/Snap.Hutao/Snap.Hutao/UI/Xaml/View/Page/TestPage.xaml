@@ -287,6 +287,10 @@
                     IsClickEnabled="True"/>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Game Package"/>
+                <cwc:SettingsCard Header="Treat Predownload As Main">
+                    <ToggleSwitch IsOn="{Binding TreatPredownloadAsMain, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <cwc:SettingsCard
                     Command="{Binding ExtractGameBlocksCommand}"
                     Header="Extract Game Blocks"

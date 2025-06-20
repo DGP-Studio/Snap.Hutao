@@ -116,6 +116,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
+    public bool TreatPredownloadAsMain
+    {
+        get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.TreatPredownloadAsMain, value);
+    }
+
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
     private static partial Regex AssetBundlesBlockRegex { get; }
 

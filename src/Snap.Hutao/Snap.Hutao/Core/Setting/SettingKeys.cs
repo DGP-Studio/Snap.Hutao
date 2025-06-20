@@ -99,6 +99,7 @@ internal static class SettingKeys
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
     public const string AlphaBuildUseCnPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
     public const string AlphaBuildUseFjPatchEndpoint = "AlphaBuildUseFJPatchEndpoint";
+    public const string TreatPredownloadAsMain = "TreatPredownloadAsMain";
     #endregion
 
     #region Obsolete
