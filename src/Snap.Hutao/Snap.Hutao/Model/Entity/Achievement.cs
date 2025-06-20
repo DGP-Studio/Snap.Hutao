@@ -31,7 +31,7 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
 
     public AchievementStatus Status { get; set; }
 
-    public static Achievement From(Guid archiveId, AchievementId id)
+    public static Achievement Create(Guid archiveId, AchievementId id)
     {
         return new()
         {
@@ -42,7 +42,7 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
         };
     }
 
-    public static Achievement From(Guid archiveId, UIAFItem uiaf)
+    public static Achievement Create(Guid archiveId, UIAFItem uiaf)
     {
         return new()
         {

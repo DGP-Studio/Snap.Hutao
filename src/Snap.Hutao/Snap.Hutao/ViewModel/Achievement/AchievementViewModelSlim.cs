@@ -24,20 +24,22 @@ internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSl
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
             IMetadataService metadataService = scope.ServiceProvider.GetRequiredService<IMetadataService>();
 
-            if (await metadataService.InitializeAsync().ConfigureAwait(false))
+            if (!await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                AchievementServiceMetadataContext context = await metadataService
-                    .GetContextAsync<AchievementServiceMetadataContext>()
-                    .ConfigureAwait(false);
-                ImmutableArray<AchievementStatistics> array = await scope.ServiceProvider
-                    .GetRequiredService<IAchievementStatisticsService>()
-                    .GetAchievementStatisticsAsync(context)
-                    .ConfigureAwait(false);
-
-                await taskContext.SwitchToMainThreadAsync();
-                StatisticsList = array;
-                IsInitialized = true;
+                return;
             }
+
+            AchievementServiceMetadataContext context = await metadataService
+                .GetContextAsync<AchievementServiceMetadataContext>()
+                .ConfigureAwait(false);
+            ImmutableArray<AchievementStatistics> array = await scope.ServiceProvider
+                .GetRequiredService<IAchievementStatisticsService>()
+                .GetAchievementStatisticsAsync(context)
+                .ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            StatisticsList = array;
+            IsInitialized = true;
         }
     }
 }

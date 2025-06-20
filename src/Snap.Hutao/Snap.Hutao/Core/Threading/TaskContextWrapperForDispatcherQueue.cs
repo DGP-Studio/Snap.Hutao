@@ -7,35 +7,35 @@ namespace Snap.Hutao.Core.Threading;
 
 internal sealed class TaskContextWrapperForDispatcherQueue : ITaskContext
 {
-    private readonly DispatcherQueue dispatcherQueue;
-
     public TaskContextWrapperForDispatcherQueue(DispatcherQueue dispatcherQueue)
     {
-        this.dispatcherQueue = dispatcherQueue;
+        DispatcherQueue = dispatcherQueue;
     }
+
+    public DispatcherQueue DispatcherQueue { get; }
 
     public void BeginInvokeOnMainThread(Action action)
     {
-        dispatcherQueue.TryEnqueue(() => action());
+        DispatcherQueue.TryEnqueue(() => action());
     }
 
     public void InvokeOnMainThread(Action action)
     {
-        dispatcherQueue.Invoke(action);
+        DispatcherQueue.Invoke(action);
     }
 
     public T InvokeOnMainThread<T>(Func<T> func)
     {
-        return dispatcherQueue.Invoke(func);
+        return DispatcherQueue.Invoke(func);
     }
 
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
-        return new(dispatcherQueue);
+        return new(DispatcherQueue);
     }
 
     public DispatcherQueueSwitchOperation SwitchToMainThreadAsync()
     {
-        return new(dispatcherQueue);
+        return new(DispatcherQueue);
     }
 }

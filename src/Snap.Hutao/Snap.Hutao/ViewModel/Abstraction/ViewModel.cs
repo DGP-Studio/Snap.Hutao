@@ -50,6 +50,11 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         }
     }
 
+    /// <summary>
+    /// Override this method to implement the loading logic.
+    /// </summary>
+    /// <param name="token">The same as <see cref="CancellationToken"/></param>
+    /// <returns>Is the initialization successful</returns>
     protected virtual ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         token.ThrowIfCancellationRequested();

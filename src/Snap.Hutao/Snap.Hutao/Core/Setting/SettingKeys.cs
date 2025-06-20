@@ -37,6 +37,10 @@ internal static class SettingKeys
     public const string PassportPassword = "PassportPassword";
     #endregion
 
+    #region AvatarProperty
+    public const string AvatarPropertySortDescriptionKind = "AvatarPropertySortDescriptionKind";
+    #endregion
+
     #region Cultivation
     public const string CultivationAvatarLevelCurrent = "CultivationAvatarLevelCurrent";
     public const string CultivationAvatarLevelTarget = "CultivationAvatarLevelTarget";
