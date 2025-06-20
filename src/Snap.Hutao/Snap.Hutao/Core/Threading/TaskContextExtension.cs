@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI;
 
 namespace Snap.Hutao.Core.Threading;
 
-#if DEBUG
+[SuppressMessage("", "SH003")]
 internal static class TaskContextExtension
 {
     public static Task<T> InvokeOnMainThreadAsync<T>(this ITaskContext taskContext, Func<T> func)
@@ -13,6 +13,12 @@ internal static class TaskContextExtension
         return taskContext.DispatcherQueue.EnqueueAsync(func);
     }
 
+    public static Task InvokeOnMainThreadAsync(this ITaskContext taskContext, Action func)
+    {
+        return taskContext.DispatcherQueue.EnqueueAsync(func);
+    }
+
+#if DEBUG
     [Obsolete("Do not pass a function that returns a Task<T> to InvokeOnMainThreadAsync method", true)]
     public static Task<Task<T>> InvokeOnMainThreadAsync<T>(this ITaskContext taskContext, Func<Task<T>> func)
     {
@@ -36,5 +42,5 @@ internal static class TaskContextExtension
     {
         return Task.FromException<ValueTask>(new NotSupportedException());
     }
-}
 #endif
+}
