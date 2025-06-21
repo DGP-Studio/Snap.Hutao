@@ -306,7 +306,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate (Import/Export)", "GachaLogViewModel.Command"));
 
-        INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(SettingViewModel.UIGFImportExport);
+        INavigationCompletionSource navigationAwaiter = new NavigationExtraData(SettingViewModel.UIGFImportExport);
         serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(navigationAwaiter, true);
     }
 

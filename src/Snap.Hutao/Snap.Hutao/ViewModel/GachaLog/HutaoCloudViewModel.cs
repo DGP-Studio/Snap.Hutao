@@ -58,7 +58,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to passport page", "HutaoCloudViewModel.Command"));
 
-        await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true).ConfigureAwait(false);
+        await navigationService.NavigateAsync<HutaoPassportPage>(NavigationExtraData.Default, true).ConfigureAwait(false);
     }
 
     [Command("UploadCommand")]
@@ -118,7 +118,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to spiralabyss page", "HutaoCloudViewModel.Command"));
 
-        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationCompletionSource.Default, true);
+        navigationService.Navigate<SpiralAbyssRecordPage>(NavigationExtraData.Default, true);
     }
 
     private async ValueTask RefreshUidCollectionAsync()

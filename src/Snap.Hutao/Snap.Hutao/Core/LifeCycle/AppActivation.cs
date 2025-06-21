@@ -232,7 +232,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                             {
                                 await taskContext.SwitchToMainThreadAsync();
 
-                                INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
+                                INavigationCompletionSource navigationAwaiter = new NavigationExtraData(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
                                 // We can't await there to navigate to Achievement Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.

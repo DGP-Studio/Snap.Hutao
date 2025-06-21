@@ -61,7 +61,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public LinkMetadataContext? LinkContext { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
+    public ObservableCollection<SearchToken> FilterTokens { get; set => SetProperty(ref field, value); } = [];
 
     public string? FilterToken { get; set => SetProperty(ref field, value); }
 
@@ -92,8 +92,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 Avatars = avatarsView;
                 Avatars.MoveCurrentToFirst();
             }
-
-            FilterTokens = [];
 
             AvailableTokens = FrozenDictionary.ToFrozenDictionary(
             [

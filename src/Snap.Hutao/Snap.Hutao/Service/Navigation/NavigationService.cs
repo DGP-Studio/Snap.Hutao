@@ -87,7 +87,9 @@ internal sealed partial class NavigationService : INavigationService
         bool navigated = false;
         try
         {
-            navigated = frame.Navigate(pageType, data);
+            navigated = data is ISupportNavigationTransitionInfo { TransitionInfo: { } transitionInfo }
+                ? frame.Navigate(pageType, data, transitionInfo)
+                : frame.Navigate(pageType, data);
         }
         catch (Exception ex)
         {
@@ -196,7 +198,7 @@ internal sealed partial class NavigationService : INavigationService
         // Ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationCompletionSource data = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(item));
+            INavigationCompletionSource data = new NavigationExtraData(NavigationViewItemHelper.GetExtraData(item));
             Navigate(targetType, data, syncNavigationViewItem: false); // Because we are already invoking the item
         }
     }

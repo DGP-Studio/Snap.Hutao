@@ -136,8 +136,8 @@ internal class MiHoYoJSBridge
         {
             Data = new()
             {
-                [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN]
-            }
+                [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN],
+            },
         };
     }
 

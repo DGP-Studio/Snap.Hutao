@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Navigation;
@@ -34,6 +35,6 @@ internal abstract partial class ViewModelSlim<TPage> : ViewModelSlim
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI($"Navigate to {TypeNameHelper.GetTypeDisplayName(typeof(TPage), fullName: false)}", "ViewModelSlim.Command"));
 
         INavigationService navigationService = ServiceProvider.GetRequiredService<INavigationService>();
-        navigationService.Navigate<TPage>(INavigationCompletionSource.Default, true);
+        navigationService.Navigate<TPage>(new NavigationExtraData(new DrillInNavigationTransitionInfo()), true);
     }
 }

@@ -15,6 +15,6 @@ internal sealed partial class WikiWeaponPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<WikiWeaponViewModel>();
+        InitializeDataContext<WikiWeaponViewModel>();
     }
 }

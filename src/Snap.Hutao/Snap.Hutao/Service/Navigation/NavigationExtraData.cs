@@ -1,18 +1,30 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Media.Animation;
+
 namespace Snap.Hutao.Service.Navigation;
 
-internal class NavigationCompletionSource : INavigationExtraData, INavigationCompletionSource
+internal class NavigationExtraData : INavigationExtraData, ISupportNavigationTransitionInfo
 {
     private readonly TaskCompletionSource navigationCompletedTcs = new();
 
-    public NavigationCompletionSource(object? data = null)
+    public NavigationExtraData(object? data = null)
     {
         Data = data;
     }
 
+    public NavigationExtraData(NavigationTransitionInfo transitionInfo, object? data = null)
+    {
+        TransitionInfo = transitionInfo;
+        Data = data;
+    }
+
+    public static NavigationExtraData Default { get => new(); }
+
     public object? Data { get; set; }
+
+    public NavigationTransitionInfo? TransitionInfo { get; }
 
     [SuppressMessage("", "SH003")]
     public Task WaitForCompletionAsync()
@@ -32,10 +44,15 @@ internal class NavigationCompletionSource : INavigationExtraData, INavigationCom
 }
 
 [SuppressMessage("", "SA1402")]
-internal class NavigationCompletionSource<T> : NavigationCompletionSource
+internal class NavigationExtraData<T> : NavigationExtraData
     where T : class
 {
-    public NavigationCompletionSource(T data)
+    public NavigationExtraData(NavigationTransitionInfo transitionInfo, T data)
+        : base(transitionInfo, data)
+    {
+    }
+
+    public NavigationExtraData(T data)
         : base(data)
     {
     }

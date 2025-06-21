@@ -15,7 +15,7 @@ internal sealed partial class SettingPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<SettingViewModel>();
+        InitializeDataContext<SettingViewModel>();
         this.DataContext<SettingViewModel>()?.AttachXamlElement(RootScrollViewer, GachaLogBorder);
     }
 }

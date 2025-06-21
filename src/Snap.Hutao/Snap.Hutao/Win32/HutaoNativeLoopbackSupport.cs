@@ -11,7 +11,6 @@ namespace Snap.Hutao.Win32;
 
 internal sealed unsafe class HutaoNativeLoopbackSupport
 {
-
     private readonly ObjectReference<Vftbl2>? objRef2;
 
     public HutaoNativeLoopbackSupport(ObjectReference<Vftbl> objRef)

@@ -15,6 +15,6 @@ internal sealed partial class WikiMonsterPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<WikiMonsterViewModel>();
+        InitializeDataContext<WikiMonsterViewModel>();
     }
 }

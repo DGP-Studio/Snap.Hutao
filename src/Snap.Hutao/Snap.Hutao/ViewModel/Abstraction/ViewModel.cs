@@ -9,19 +9,24 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-internal abstract partial class ViewModel : ObservableObject, IViewModel
+internal abstract partial class ViewModel : ObservableObject, IViewModel, IDisposable
 {
     public bool IsInitialized { get; protected set => SetProperty(ref field, value); }
 
     public CancellationToken CancellationToken { get; set; }
 
-    public SemaphoreSlim DisposeLock { get; set; } = new(1);
+    public SemaphoreSlim DisposeLock { get; } = new(1);
 
     public IDeferContentLoader? DeferContentLoader { get; set; }
 
     public bool IsViewUnloaded { get; set; }
 
     protected TaskCompletionSource<bool> Initialization { get; set; } = new();
+
+    public virtual void Dispose()
+    {
+        DisposeLock.Dispose();
+    }
 
     public void Resurrect()
     {

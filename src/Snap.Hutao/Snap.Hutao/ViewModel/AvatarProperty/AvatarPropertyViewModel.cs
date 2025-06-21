@@ -113,9 +113,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             TaskScheduler.Current);
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
         refreshTokenProvider.Dispose();
+        base.Dispose();
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)

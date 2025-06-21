@@ -92,9 +92,10 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
         achievementsTokenProvider.Dispose();
+        base.Dispose();
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)

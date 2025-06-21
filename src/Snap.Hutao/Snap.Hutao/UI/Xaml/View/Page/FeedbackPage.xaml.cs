@@ -15,6 +15,6 @@ internal sealed partial class FeedbackPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<FeedbackViewModel>();
+        InitializeDataContext<FeedbackViewModel>();
     }
 }

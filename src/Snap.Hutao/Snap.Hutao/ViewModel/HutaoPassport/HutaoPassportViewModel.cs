@@ -24,7 +24,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private async Task OpenTestPageAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to TestPage", "HutaoPassportViewModel.Command"));
-        await navigationService.NavigateAsync<TestPage>(INavigationCompletionSource.Default).ConfigureAwait(false);
+        await navigationService.NavigateAsync<TestPage>(NavigationExtraData.Default).ConfigureAwait(false);
     }
 
     [Command("RegisterCommand")]

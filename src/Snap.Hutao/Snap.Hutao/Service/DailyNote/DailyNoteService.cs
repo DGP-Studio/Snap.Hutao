@@ -14,7 +14,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Data.Common;
-using System.Diagnostics;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.Service.DailyNote;
@@ -134,7 +133,6 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         dailyNoteRepository.UpdateDailyNoteEntry(entry);
         return true;
-
     }
 
     private static async ValueTask<Response<WebDailyNote>> ScopedGetDailyNoteAsync(IServiceScope scope, UserAndUid userAndUid, CancellationToken token = default)

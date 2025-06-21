@@ -15,6 +15,6 @@ internal sealed partial class AvatarPropertyPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<AvatarPropertyViewModel>();
+        InitializeDataContext<AvatarPropertyViewModel>();
     }
 }

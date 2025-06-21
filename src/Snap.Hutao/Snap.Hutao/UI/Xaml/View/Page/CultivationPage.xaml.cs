@@ -15,7 +15,7 @@ internal sealed partial class CultivationPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<CultivationViewModel>();
+        InitializeDataContext<CultivationViewModel>();
         this.DataContext<CultivationViewModel>()?.AttachXamlElement(CultivateEntryItemsRepeater);
     }
 }

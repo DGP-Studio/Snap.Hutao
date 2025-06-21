@@ -15,6 +15,6 @@ internal sealed partial class AchievementPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<AchievementViewModel>();
+        InitializeDataContext<AchievementViewModel>();
     }
 }

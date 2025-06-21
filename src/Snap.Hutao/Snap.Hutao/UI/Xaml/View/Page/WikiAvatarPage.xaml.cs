@@ -15,6 +15,6 @@ internal sealed partial class WikiAvatarPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<WikiAvatarViewModel>();
+        InitializeDataContext<WikiAvatarViewModel>();
     }
 }

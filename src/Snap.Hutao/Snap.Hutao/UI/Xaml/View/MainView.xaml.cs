@@ -26,7 +26,7 @@ internal sealed partial class MainView : UserControl, IDataContextInitialized
 
         INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
         navigationService.AttachXamlElement(NavView, ContentFrame);
-        navigationService.Navigate<AnnouncementPage>(INavigationCompletionSource.Default, true);
+        navigationService.Navigate<AnnouncementPage>(NavigationExtraData.Default, true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

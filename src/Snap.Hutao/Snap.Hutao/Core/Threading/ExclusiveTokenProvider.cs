@@ -5,8 +5,8 @@ namespace Snap.Hutao.Core.Threading;
 
 public sealed class ExclusiveTokenProvider : IDisposable
 {
-    private CancellationTokenSource cts = new();
     private readonly Lock syncRoot = new();
+    private CancellationTokenSource cts = new();
 
     public CancellationToken CurrentToken
     {

@@ -9,44 +9,42 @@ namespace Snap.Hutao.Core.IO.HPatch;
 
 internal sealed partial class FileSegment : IDisposable
 {
-    private readonly SafeFileHandle handle;
+    private readonly SafeFileHandle fileHandle;
     private readonly bool ownsHandle;
     private readonly long offset;
-    private readonly long length;
-    private readonly nint gcHandle;
     private bool disposed;
 
-    public FileSegment(SafeFileHandle handle, bool ownsHandle = true)
-        : this(handle, 0L, RandomAccess.GetLength(handle), ownsHandle)
+    public FileSegment(SafeFileHandle fileHandle, bool ownsHandle = true)
+        : this(fileHandle, 0L, RandomAccess.GetLength(fileHandle), ownsHandle)
     {
     }
 
-    public FileSegment(SafeFileHandle handle, long length, bool ownsHandle = true)
-        : this(handle, 0L, length, ownsHandle)
+    public FileSegment(SafeFileHandle fileHandle, long length, bool ownsHandle = true)
+        : this(fileHandle, 0L, length, ownsHandle)
     {
     }
 
-    public FileSegment(SafeFileHandle handle, long offset, long length, bool ownsHandle = true)
+    public FileSegment(SafeFileHandle fileHandle, long offset, long length, bool ownsHandle = true)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(offset);
 
-        this.handle = handle;
+        this.fileHandle = fileHandle;
         this.ownsHandle = ownsHandle;
         this.offset = offset;
-        this.length = length;
+        this.Length = length;
 
-        gcHandle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
+        Handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
     }
 
-    public long Length { get => length; }
+    public long Length { get; }
 
-    public nint Handle { get => gcHandle; }
+    public nint Handle { get; }
 
     public unsafe bool Read(ulong position, byte* start, byte* end)
     {
         try
         {
-            return RandomAccessRead.Exactly(handle, new(start, (int)(end - start)), offset + (long)position);
+            return RandomAccessRead.Exactly(fileHandle, new(start, (int)(end - start)), offset + (long)position);
         }
         catch
         {
@@ -58,7 +56,7 @@ internal sealed partial class FileSegment : IDisposable
     {
         try
         {
-            RandomAccess.Write(handle, new ReadOnlySpan<byte>(start, (int)(end - start)), offset + (long)position);
+            RandomAccess.Write(fileHandle, new ReadOnlySpan<byte>(start, (int)(end - start)), offset + (long)position);
             return true;
         }
         catch
@@ -76,9 +74,9 @@ internal sealed partial class FileSegment : IDisposable
 
         if (ownsHandle)
         {
-            handle.Dispose();
+            fileHandle.Dispose();
         }
 
-        GCHandle.FromIntPtr(gcHandle).Free();
+        GCHandle.FromIntPtr(Handle).Free();
     }
 }

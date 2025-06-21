@@ -169,6 +169,6 @@ internal sealed partial class LaunchGameShared
     private void HandleGamePathNullOrEmpty()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to LaunchGamePage", "LaunchGameShared.Command"));
-        navigationService.Navigate<LaunchGamePage>(INavigationCompletionSource.Default, true);
+        navigationService.Navigate<LaunchGamePage>(NavigationExtraData.Default, true);
     }
 }
