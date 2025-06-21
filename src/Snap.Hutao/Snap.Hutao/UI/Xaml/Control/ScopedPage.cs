@@ -70,7 +70,7 @@ internal partial class ScopedPage : Page
         ArgumentNullException.ThrowIfNull(scope);
 
         TViewModel viewModel = scope.ServiceProvider.GetRequiredService<TViewModel>();
-        using (viewModel.DisposeLock.Enter())
+        using (viewModel.CriticalSection.Enter())
         {
             viewModel.Resurrect();
             viewModel.CancellationToken = CancellationToken;
@@ -107,14 +107,14 @@ internal partial class ScopedPage : Page
 
         if (DataContext is IViewModel viewModel)
         {
-            // Wait to ensure viewmodel operation is completed
-            using (viewModel.DisposeLock.Enter())
+            // Wait to ensure critical viewmodel operation is completed
+            using (viewModel.CriticalSection.Enter())
             {
                 viewModel.Uninitialize();
             }
-        }
 
-        DataContext = default;
+            DataContext = default;
+        }
 
         viewCts.Dispose();
 

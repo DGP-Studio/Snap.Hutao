@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel
+internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
 {
     private readonly WeakReference<Image> weakBackgroundImagePresenter = new(default!);
     private readonly AsyncLock backgroundImageLock = new();
@@ -27,6 +27,16 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
     private BackgroundImage? previousBackgroundImage;
 
     public partial AppOptions AppOptions { get; }
+
+    public override void Dispose()
+    {
+        using (CriticalSection.Enter())
+        {
+            Uninitialize();
+        }
+
+        base.Dispose();
+    }
 
     public void AttachXamlElement(Image backgroundImagePresenter)
     {

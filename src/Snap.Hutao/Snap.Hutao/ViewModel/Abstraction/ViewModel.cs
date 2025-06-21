@@ -15,7 +15,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 
     public CancellationToken CancellationToken { get; set; }
 
-    public SemaphoreSlim DisposeLock { get; } = new(1);
+    public SemaphoreSlim CriticalSection { get; } = new(1);
 
     public IDeferContentLoader? DeferContentLoader { get; set; }
 
@@ -25,7 +25,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 
     public virtual void Dispose()
     {
-        DisposeLock.Dispose();
+        CriticalSection.Dispose();
     }
 
     public void Resurrect()
@@ -73,7 +73,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
     protected async ValueTask<IDisposable> EnterCriticalSectionAsync()
     {
         ThrowIfViewDisposed();
-        IDisposable disposable = await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false);
+        IDisposable disposable = await CriticalSection.EnterAsync(CancellationToken).ConfigureAwait(false);
         ThrowIfViewDisposed();
         return disposable;
     }
