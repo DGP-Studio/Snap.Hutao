@@ -637,7 +637,7 @@
                                             Margin="0,4"
                                             HorizontalAlignment="Center"
                                             Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{Binding TotalAvatarCount}"/>
+                                            Text="{Binding FormattedTotalAvatarCount}"/>
                                     </Grid>
                                 </SplitView.Pane>
                                 <SplitView.Content>

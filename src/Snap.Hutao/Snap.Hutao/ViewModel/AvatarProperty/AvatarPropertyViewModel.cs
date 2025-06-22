@@ -51,7 +51,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
 
-    public string TotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
+    public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
     public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
 
@@ -392,7 +392,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         Summary.Avatars.Filter = FilterTokens.Any() ? AvatarViewFilter.Compile(FilterTokens) : default;
-        OnPropertyChanged(nameof(TotalAvatarCount));
+        OnPropertyChanged(nameof(FormattedTotalAvatarCount));
 
         if (Summary.Avatars.CurrentItem is null)
         {
