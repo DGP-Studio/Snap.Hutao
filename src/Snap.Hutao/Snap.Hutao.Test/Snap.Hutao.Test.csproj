@@ -15,8 +15,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.9.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.9.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.9.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.9.3" />
     <PackageReference Include="coverlet.collector" Version="6.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
