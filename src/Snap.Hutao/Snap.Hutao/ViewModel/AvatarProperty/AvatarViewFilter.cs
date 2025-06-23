@@ -9,6 +9,11 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal static class AvatarViewFilter
 {
+    public static Predicate<AvatarView>? Compile(SearchData? searchData)
+    {
+        return searchData is { FilterTokens.Count: > 0 } ? Compile(searchData.FilterTokens) : default;
+    }
+
     public static Predicate<AvatarView> Compile(ObservableCollection<SearchToken> input)
     {
         return avatar => DoFilter(input, avatar);

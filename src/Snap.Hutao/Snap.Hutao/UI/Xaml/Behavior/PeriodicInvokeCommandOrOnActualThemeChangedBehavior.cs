@@ -82,7 +82,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     }
                 }
 
-                taskContext.BeginInvokeOnMainThread(TryExecuteCommand);
+                await taskContext.InvokeOnMainThreadAsync(TryExecuteCommand).ConfigureAwait(false);
 
                 actualThemeChangedCts.Dispose();
                 actualThemeChangedCts = new();

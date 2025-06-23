@@ -23,9 +23,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -41,15 +39,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private SummaryFactoryMetadataContext? metadataContext;
-    private FrozenDictionary<string, SearchToken> availableTokens;
 
     public Summary? Summary { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken> FilterTokens { get; set => SetProperty(ref field, value); } = [];
-
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
-
-    public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
+    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
 
     public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
@@ -127,7 +120,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>(token).ConfigureAwait(false);
-        availableTokens = SearchTokens.GetForAvatarProperty();
+        SearchData = SearchData.CreateForAvatarProperty();
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
@@ -391,7 +384,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        Summary.Avatars.Filter = FilterTokens.Any() ? AvatarViewFilter.Compile(FilterTokens) : default;
+        Summary.Avatars.Filter = AvatarViewFilter.Compile(SearchData);
         OnPropertyChanged(nameof(FormattedTotalAvatarCount));
 
         if (Summary.Avatars.CurrentItem is null)

@@ -6,8 +6,6 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Intrinsic.Frozen;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Cultivation;
@@ -21,9 +19,7 @@ using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -49,68 +45,39 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         get;
         set
         {
-            if (field is not null)
-            {
-                field.CurrentChanged -= OnCurrentWeaponChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentWeaponChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentWeaponChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentWeaponChanged);
         }
     }
 
     public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
+    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
-
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
-
-    /// <inheritdoc/>
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            try
-            {
-                metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>(token).ConfigureAwait(false);
-
-                List<Weapon> list = [.. metadataContext.Weapons.OrderByDescending(weapon => weapon.Sort)];
-
-                await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
-
-                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-                {
-                    IAdvancedCollectionView<Weapon> weaponsView = list.AsAdvancedCollectionView();
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    Weapons = weaponsView;
-                    Weapons.MoveCurrentToFirst();
-                }
-
-                FilterTokens = [];
-
-                AvailableTokens = FrozenDictionary.ToFrozenDictionary(
-                [
-                    .. metadataContext.Weapons.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
-                    .. IntrinsicFrozen.FightPropertyNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.FightProperty, nv.Name, (int)nv.Value))),
-                    .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
-                    .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
-                ]);
-
-                return true;
-            }
-            catch (OperationCanceledException)
-            {
-            }
+            return false;
         }
 
-        return false;
+        metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>(token).ConfigureAwait(false);
+        ImmutableArray<Weapon> weapons = [.. metadataContext.Weapons.OrderByDescending(weapon => weapon.Sort)];
+        SearchData = SearchData.CreateForWikiWeapon(weapons);
+
+        await CombineComplexDataAsync(weapons, metadataContext).ConfigureAwait(false);
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            IAdvancedCollectionView<Weapon> weaponsView = weapons.AsAdvancedCollectionView();
+
+            await taskContext.SwitchToMainThreadAsync();
+            Weapons = weaponsView;
+            Weapons.MoveCurrentToFirst();
+        }
+
+        return true;
     }
 
     private void OnCurrentWeaponChanged(object? sender, object? e)
@@ -118,7 +85,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, WikiWeaponMetadataContext context)
+    private async ValueTask CombineComplexDataAsync(ImmutableArray<Weapon> weapons, WikiWeaponMetadataContext context)
     {
         HutaoSpiralAbyssStatisticsMetadataContext context2 = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
         await hutaoCache.InitializeForWikiWeaponViewAsync(context2).ConfigureAwait(false);
@@ -226,7 +193,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        Weapons.Filter = FilterTokens is null or [] ? default! : WeaponFilter.Compile(FilterTokens);
+        Weapons.Filter = WeaponFilter.Compile(SearchData);
 
         if (Weapons.CurrentItem is null)
         {

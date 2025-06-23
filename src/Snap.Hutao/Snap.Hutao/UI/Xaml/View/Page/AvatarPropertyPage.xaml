@@ -564,16 +564,16 @@
                                 Margin="6,-2,6,6"
                                 HorizontalAlignment="Right"
                                 VerticalContentAlignment="Center"
-                                AvailableTokens="{Binding AvailableTokens}"
+                                AvailableTokens="{Binding SearchData.AvailableTokens}"
                                 FilterCommand="{Binding FilterCommand}"
-                                ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                ItemsSource="{Binding SearchData.FilterTokens, Mode=TwoWay}"
                                 MaximumTokens="5"
                                 PlaceholderText="{shuxm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
                                 Style="{StaticResource DefaultAutoSuggestTokenBoxStyle}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
-                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
-                                Text="{Binding FilterToken, Mode=TwoWay}"
+                                SuggestedItemsSource="{Binding SearchData.AvailableTokens.Values}"
+                                Text="{Binding SearchData.FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>
                         <AppBarButton
