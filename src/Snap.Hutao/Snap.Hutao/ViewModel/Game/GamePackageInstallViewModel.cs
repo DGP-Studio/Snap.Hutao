@@ -6,13 +6,18 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -32,7 +37,6 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
-        // TODO: Why we are using this instead of Selected one?
         LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(scheme => scheme.IsNotCompatOnly);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -70,8 +74,6 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>(scope.ServiceProvider).ConfigureAwait(false);
-            dialog.KnownSchemes = KnownLaunchSchemes.Values;
-            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
             (bool isOk, gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
 
             if (!isOk)
@@ -80,44 +82,67 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             }
         }
 
-        (IGameFileSystem gameFileSystem, LaunchScheme launchScheme) = gameInstallOptions;
-
-        GameBranchesWrapper? branchesWrapper;
-        GameChannelSDKsWrapper? channelSDKsWrapper;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-
-            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
-            {
-                return;
-            }
-
-            Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
-            {
-                return;
-            }
-        }
-
-        GameBranch? branch = branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId);
-        GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
-
-        ArgumentNullException.ThrowIfNull(branch);
+        IGameFileSystem gameFileSystem;
+        LaunchScheme launchScheme;
+        SophonDecodedBuild? build;
+        GameChannelSDK? gameChannelSDK = default;
+        string installLockTag;
 
         ContentDialog fetchManifestDialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
             .ConfigureAwait(false);
 
-        SophonDecodedBuild? build;
         using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
         {
-            build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch.Main).ConfigureAwait(false);
-            if (build is null)
+            if (gameInstallOptions.IsBeta)
             {
-                infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
-                return;
+                (gameFileSystem, launchScheme, SophonBuild betaBuild) = gameInstallOptions;
+
+                build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, betaBuild).ConfigureAwait(false);
+                if (build is null)
+                {
+                    infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                    return;
+                }
+
+                installLockTag = betaBuild.Tag;
+            }
+            else
+            {
+                (gameFileSystem, launchScheme) = gameInstallOptions;
+
+                GameBranchesWrapper? branchesWrapper;
+                GameChannelSDKsWrapper? channelSDKsWrapper;
+                using (IServiceScope scope = serviceProvider.CreateScope())
+                {
+                    HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+
+                    Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
+                    {
+                        return;
+                    }
+
+                    Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
+                    {
+                        return;
+                    }
+                }
+
+                GameBranch? branch = branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId);
+                gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
+
+                ArgumentNullException.ThrowIfNull(branch);
+
+                build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch.Main).ConfigureAwait(false);
+                if (build is null)
+                {
+                    infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                    return;
+                }
+
+                installLockTag = branch.Main.Tag;
             }
         }
 
@@ -130,7 +155,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameChannelSDK,
             default);
 
-        if (!GameInstallPrerequisite.TryLock(gameFileSystem, branch.Main.Tag, launchScheme, out GameInstallPrerequisite? installToken))
+        if (!GameInstallPrerequisite.TryLock(gameFileSystem, installLockTag, launchScheme, out GameInstallPrerequisite? installToken))
         {
             infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
             return;

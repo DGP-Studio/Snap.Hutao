@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 
@@ -101,7 +102,7 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
             {
                 if (localManifest.Data.Assets.FirstOrDefault(localAsset => localAsset.AssetName.Equals(remoteAsset.AssetName, StringComparison.OrdinalIgnoreCase)) is not { } localAsset)
                 {
-                    yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, remoteAsset);
+                    yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, remoteAsset);
                     continue;
                 }
 
@@ -115,11 +116,11 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
                 {
                     if (localAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
                     {
-                        diffChunks.Add(new(remoteManifest.UrlPrefix, chunk));
+                        diffChunks.Add(new(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, chunk));
                     }
                 }
 
-                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, remoteAsset, diffChunks.ToImmutable());
+                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, localAsset, remoteAsset, diffChunks.ToImmutable());
             }
 
             foreach (AssetProperty localAsset in localManifest.Data.Assets)

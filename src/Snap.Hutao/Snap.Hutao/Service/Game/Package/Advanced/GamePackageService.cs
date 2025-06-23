@@ -7,6 +7,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -144,6 +145,16 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
+        return await DecodeManifestsAsync(gameFileSystem, build, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(IGameFileSystemView gameFileSystem, SophonBuild? build, CancellationToken token = default)
+    {
+        if (build is null)
+        {
+            return default;
+        }
+
         long downloadTotalBytes = 0L;
         long totalBytes = 0L;
         ImmutableArray<SophonDecodedManifest>.Builder decodedManifests = ImmutableArray.CreateBuilder<SophonDecodedManifest>();
@@ -169,7 +180,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 downloadTotalBytes += sophonManifest.Stats.CompressedSize;
                 totalBytes += sophonManifest.Stats.UncompressedSize;
 
-                string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
+                string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}?{sophonManifest.ManifestDownload.UrlSuffix}";
                 try
                 {
                     using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
@@ -182,7 +193,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                                 if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                                 {
                                     inMemoryManifestStream.Position = 0;
-                                    decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                                    decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, sophonManifest.ChunkDownload.UrlSuffix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
                                 }
                             }
                         }

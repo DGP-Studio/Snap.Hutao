@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
+
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
 [Injection(InjectAs.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.ExtractExecutable)]

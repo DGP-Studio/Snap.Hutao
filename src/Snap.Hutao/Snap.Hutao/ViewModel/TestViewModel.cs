@@ -16,6 +16,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Windowing;
@@ -120,6 +121,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);
         set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.TreatPredownloadAsMain, value);
+    }
+
+    public bool EnableBetaGameInstall
+    {
+        get => LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.EnableBetaGameInstall, value);
     }
 
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
@@ -438,7 +445,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.AddRange(manifest.Data.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-                return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, proto)]);
+                return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }
@@ -527,7 +534,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.Add(manifest.Data.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
-                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }

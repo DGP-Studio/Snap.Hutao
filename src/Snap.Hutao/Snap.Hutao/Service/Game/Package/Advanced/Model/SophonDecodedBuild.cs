@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Service.Game.Package.Advanced;
+namespace Snap.Hutao.Service.Game.Package.Advanced.Model;
 
 internal sealed class SophonDecodedBuild
 {

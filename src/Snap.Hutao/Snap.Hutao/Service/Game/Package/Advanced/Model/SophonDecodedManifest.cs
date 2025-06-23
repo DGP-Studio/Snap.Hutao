@@ -3,17 +3,20 @@
 
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 
-namespace Snap.Hutao.Service.Game.Package.Advanced;
+namespace Snap.Hutao.Service.Game.Package.Advanced.Model;
 
 internal sealed class SophonDecodedManifest
 {
-    public SophonDecodedManifest(string urlPrefix, SophonManifestProto sophonData)
+    public SophonDecodedManifest(string urlPrefix, string urlSuffix, SophonManifestProto sophonData)
     {
         UrlPrefix = string.Intern(urlPrefix);
+        UrlSuffix = string.IsNullOrEmpty(urlSuffix) ? string.Empty : string.Intern($"?{urlSuffix}");
         Data = sophonData;
     }
 
     public string UrlPrefix { get; }
+
+    public string UrlSuffix { get; }
 
     public SophonManifestProto Data { get; }
 }

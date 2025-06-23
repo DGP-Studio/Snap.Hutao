@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 using System.IO;

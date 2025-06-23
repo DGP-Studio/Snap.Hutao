@@ -291,6 +291,10 @@
                     <ToggleSwitch IsOn="{Binding TreatPredownloadAsMain, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Enable Beta Game Install">
+                    <ToggleSwitch IsOn="{Binding EnableBetaGameInstall, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <cwc:SettingsCard
                     Command="{Binding ExtractGameBlocksCommand}"
                     Header="Extract Game Blocks"

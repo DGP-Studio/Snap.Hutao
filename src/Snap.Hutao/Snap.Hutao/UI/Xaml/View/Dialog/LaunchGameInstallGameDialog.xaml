@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Title="{shuxm:ResourceString Name=ViewDialogGameInstallTitle}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
@@ -29,12 +30,28 @@
             HeaderIcon="{shuxm:FontIcon Glyph=&#xED25;}"
             IsClickEnabled="True"/>
 
+        <CheckBox
+            MinWidth="64"
+            VerticalAlignment="Center"
+            Content="Beta Game"
+            IsChecked="{x:Bind IsBetaGameInstall, Mode=TwoWay}"
+            Visibility="{x:Bind IsBetaGameInstallEnabled}"/>
+
+        <cwc:SettingsCard
+            Width="480"
+            Command="{x:Bind PickBetaBuildBodyFilePathCommand}"
+            Description="{x:Bind BetaBuildBodyFilePath, Mode=OneWay}"
+            Header="GetBuildWithStokenLogin Body JSON File, Raw Body, including retcode"
+            HeaderIcon="{shuxm:FontIcon Glyph=&#xED25;}"
+            IsClickEnabled="True"
+            Visibility="{x:Bind IsBetaGameInstall, Mode=OneWay}"/>
+
         <shuxc:ComboBox2
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             DisplayMemberPath="DisplayName"
             EnableMemberPath="IsNotCompatOnly"
-            ItemsSource="{x:Bind KnownSchemes}"
+            ItemsSource="{x:Bind KnownSchemes, Mode=OneWay}"
             PlaceholderText="{shuxm:ResourceString Name=ViewDialogGameInstallLaunchScheme}"
             SelectedItem="{x:Bind SelectedScheme, Mode=TwoWay}"
             Style="{StaticResource DefaultComboBoxStyle}"/>

@@ -7,6 +7,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.Collections.Immutable;
@@ -122,7 +123,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         if (!File.Exists(assetPath))
         {
-            conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+            conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.UrlSuffix, asset.AssetProperty));
             context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count, asset.AssetProperty.AssetName));
 
             return;
@@ -172,7 +173,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
                     if (readFailed || !chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
-                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.UrlSuffix, asset.AssetProperty));
                         context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
                         return;
                     }
@@ -260,7 +261,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         IReadOnlyList<SophonChunk> chunks = asset.Kind switch
         {
-            SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk))],
+            SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, asset.UrlSuffix, chunk))],
             SophonAssetOperationKind.Modify => asset.DiffChunks,
             _ => [],
         };

@@ -4,6 +4,7 @@
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.Collections.Immutable;
@@ -19,7 +20,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         foreach (SophonDecodedManifest manifest in remoteBuild.Manifests)
         {
-            IEnumerable<SophonAssetOperation> assets = manifest.Data.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
+            IEnumerable<SophonAssetOperation> assets = manifest.Data.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, manifest.UrlSuffix, asset));
             foreach (SophonAssetOperation asset in assets)
             {
                 await EnsureAssetAsync(context, asset).ConfigureAwait(false);
@@ -48,7 +49,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         {
             IReadOnlyList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c))],
+                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, asset.UrlSuffix, c))],
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -69,7 +70,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         foreach (AssetProperty asset in manifest.Data.Assets)
         {
-            await VerifyAssetAsync(context, new(manifest.UrlPrefix, asset), conflictHandler).ConfigureAwait(false);
+            await VerifyAssetAsync(context, new(manifest.UrlPrefix, manifest.UrlSuffix, asset), conflictHandler).ConfigureAwait(false);
         }
     }
 

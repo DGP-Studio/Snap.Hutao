@@ -10,6 +10,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -113,7 +114,7 @@ internal sealed partial class PackageConverter : IPackageConverter
             {
                 if (currentManifest.Data.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
                 {
-                    yield return PackageItemOperationForSophonChunks.Add(targetManifest.UrlPrefix, targetAsset);
+                    yield return PackageItemOperationForSophonChunks.Add(targetManifest.UrlPrefix, targetManifest.UrlSuffix, targetAsset);
                     continue;
                 }
 
@@ -127,11 +128,11 @@ internal sealed partial class PackageConverter : IPackageConverter
                 {
                     if (currentAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
                     {
-                        diffChunks.Add(new(targetManifest.UrlPrefix, chunk));
+                        diffChunks.Add(new(targetManifest.UrlPrefix, targetManifest.UrlSuffix, chunk));
                     }
                 }
 
-                yield return PackageItemOperationForSophonChunks.ModifyOrReplace(targetManifest.UrlPrefix, currentAsset, targetAsset, diffChunks);
+                yield return PackageItemOperationForSophonChunks.ModifyOrReplace(targetManifest.UrlPrefix, targetManifest.UrlSuffix, currentAsset, targetAsset, diffChunks);
             }
 
             foreach (AssetProperty currentAsset in currentManifest.Data.Assets)
@@ -293,7 +294,7 @@ internal sealed partial class PackageConverter : IPackageConverter
                     }
 
                     inMemoryManifestStream.Position = 0;
-                    SophonDecodedManifest decodedManifest = new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream));
+                    SophonDecodedManifest decodedManifest = new(sophonManifest.ChunkDownload.UrlPrefix, sophonManifest.ChunkDownload.UrlSuffix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream));
                     return new(build.Tag, sophonManifest.Stats.CompressedSize, sophonManifest.Stats.UncompressedSize, [decodedManifest]);
                 }
             }
@@ -348,7 +349,7 @@ internal sealed partial class PackageConverter : IPackageConverter
     {
         IEnumerable<SophonChunk> chunks = asset.Kind switch
         {
-            PackageItemOperationKind.Add => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
+            PackageItemOperationKind.Add => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, asset.UrlSuffix, chunk)),
             PackageItemOperationKind.Replace => asset.DiffChunks,
             _ => [],
         };

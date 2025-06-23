@@ -4,6 +4,7 @@
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.Collections.Immutable;
@@ -20,7 +21,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(remoteBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
         {
             token.ThrowIfCancellationRequested();
-            IEnumerable<SophonAssetOperation> assets = manifest.Data.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
+            IEnumerable<SophonAssetOperation> assets = manifest.Data.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, manifest.UrlSuffix, asset));
             await Parallel.ForEachAsync(assets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(true);
         }).ConfigureAwait(false);
     }
@@ -42,7 +43,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
             token.ThrowIfCancellationRequested();
             IReadOnlyList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c))],
+                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, asset.UrlSuffix, c))],
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -59,7 +60,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
     protected override async ValueTask VerifyManifestAsync(GamePackageServiceContext context, SophonDecodedManifest manifest, Action<SophonAssetOperation> conflictHandler)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
-        await Parallel.ForEachAsync(manifest.Data.Assets, context.ParallelOptions, (asset, token) => VerifyAssetAsync(context, new(manifest.UrlPrefix, asset), conflictHandler)).ConfigureAwait(false);
+        await Parallel.ForEachAsync(manifest.Data.Assets, context.ParallelOptions, (asset, token) => VerifyAssetAsync(context, new(manifest.UrlPrefix, manifest.UrlSuffix, asset), conflictHandler)).ConfigureAwait(false);
     }
 
     protected override async ValueTask RepairAssetsAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info)

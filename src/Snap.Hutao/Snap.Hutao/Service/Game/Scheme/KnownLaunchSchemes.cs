@@ -50,4 +50,10 @@ internal static class KnownLaunchSchemes
         ServerGlobalChannelOfficialSubChannelGoogle,
         ServerGlobalChannelBilibiliSubChannel14Compat,
     ];
+
+    public static ImmutableArray<LaunchScheme> BetaValues { get; } =
+    [
+        ServerChineseChannelOfficialSubChannelOfficial,
+        ServerGlobalChannelOfficialSubChannelDefault,
+    ];
 }
