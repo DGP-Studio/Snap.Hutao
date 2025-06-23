@@ -56,8 +56,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         MiHoYoSyntaxLexer lexer = new(content);
         MiHoYoSyntaxParser parser = new(lexer);
         ImmutableArray<MiHoYoSyntaxElement> elements = parser.Parse();
-        string format = MiHoYoSyntaxFormatter.Format(elements, content);
-
         foreach (ref readonly MiHoYoSyntaxElement element in elements.AsSpan())
         {
             AppendNode(textBlock, textBlock.Inlines, element, content);
