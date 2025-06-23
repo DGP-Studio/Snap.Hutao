@@ -37,13 +37,6 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
 
-    partial void PostConstruct(IServiceProvider serviceProvider)
-    {
-        IsBetaGameInstallEnabled = LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
-        KnownSchemes = KnownLaunchSchemes.Values;
-        SelectedScheme = KnownSchemes.First(s => s.IsNotCompatOnly);
-    }
-
     public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameInstallOptionsAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
@@ -118,6 +111,13 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
         LaunchGameInstallGameDialog dialog = (LaunchGameInstallGameDialog)sender;
         dialog.KnownSchemes = (bool)args.NewValue ? KnownLaunchSchemes.BetaValues : KnownLaunchSchemes.Values;
         dialog.SelectedScheme = dialog.KnownSchemes.First(s => s.IsNotCompatOnly);
+    }
+
+    partial void PostConstruct(IServiceProvider serviceProvider)
+    {
+        IsBetaGameInstallEnabled = LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
+        KnownSchemes = KnownLaunchSchemes.Values;
+        SelectedScheme = KnownSchemes.First(s => s.IsNotCompatOnly);
     }
 
     [Command("PickGameDirectoryCommand")]
