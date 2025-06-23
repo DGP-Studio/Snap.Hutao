@@ -61,6 +61,7 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
+        Debugger.Break();
         XamlApplicationLifetime.Exiting = true;
 
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs

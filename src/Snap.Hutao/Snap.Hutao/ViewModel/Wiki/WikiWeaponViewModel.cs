@@ -64,7 +64,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>(token).ConfigureAwait(false);
         ImmutableArray<Weapon> weapons = [.. metadataContext.Weapons.OrderByDescending(weapon => weapon.Sort)];
-        SearchData = SearchData.CreateForWikiWeapon(weapons);
+        SearchData searchData = SearchData.CreateForWikiWeapon(weapons);
 
         await CombineComplexDataAsync(weapons, metadataContext).ConfigureAwait(false);
 
@@ -73,6 +73,9 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             IAdvancedCollectionView<Weapon> weaponsView = weapons.AsAdvancedCollectionView();
 
             await taskContext.SwitchToMainThreadAsync();
+            token.ThrowIfCancellationRequested();
+
+            SearchData = searchData;
             Weapons = weaponsView;
             Weapons.MoveCurrentToFirst();
         }

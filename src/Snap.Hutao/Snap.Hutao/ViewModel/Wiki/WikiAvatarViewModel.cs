@@ -69,8 +69,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>(token).ConfigureAwait(false);
         ImmutableArray<Avatar> avatars = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
-        SearchData = SearchData.CreateForWikiAvatar(avatars);
-
+        SearchData searchData = SearchData.CreateForWikiAvatar(avatars);
         await CombineComplexDataAsync(avatars, metadataContext).ConfigureAwait(false);
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
@@ -80,6 +79,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             token.ThrowIfCancellationRequested();
 
+            SearchData = searchData;
             Avatars = avatarsView;
             Avatars.MoveCurrentToFirst();
         }

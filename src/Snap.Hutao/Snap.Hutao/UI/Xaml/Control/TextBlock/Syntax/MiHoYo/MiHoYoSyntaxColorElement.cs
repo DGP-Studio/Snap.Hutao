@@ -14,4 +14,9 @@ internal sealed class MiHoYoSyntaxColorElement : MiHoYoSyntaxElement
     }
 
     public TextPosition ColorPosition { get; }
+
+    public ReadOnlySpan<char> GetColorSpan(ReadOnlySpan<char> source)
+    {
+        return source.Slice(ColorPosition.Start, ColorPosition.Length);
+    }
 }

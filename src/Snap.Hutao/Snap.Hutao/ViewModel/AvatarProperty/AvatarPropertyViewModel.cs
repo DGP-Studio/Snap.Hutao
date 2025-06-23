@@ -120,13 +120,16 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>(token).ConfigureAwait(false);
-        SearchData = SearchData.CreateForAvatarProperty();
+        SearchData searchData = SearchData.CreateForAvatarProperty();
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, refreshTokenProvider.GetNewToken());
             await PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, linkedCts.Token).ConfigureAwait(false);
         }
+
+        await scopeContext.TaskContext.SwitchToMainThreadAsync();
+        SearchData = searchData;
 
         return true;
     }
