@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal enum MiHoYoColorKind
+internal enum MiHoYoSyntaxColorKind
 {
     None,
     Rgba,

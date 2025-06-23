@@ -17,24 +17,24 @@ internal sealed class LinkMetadataContext
 
     public ImmutableArray<ProudSkill> Inherents { get; init; }
 
-    public bool TryGetNameAndDescription(MiHoYoLinkKind kind, uint id, out string name, out string description)
+    public bool TryGetNameAndDescription(MiHoYoSyntaxLinkKind kind, uint id, out string name, out string description)
     {
         name = default!;
         description = default!;
 
         switch (kind)
         {
-            case MiHoYoLinkKind.Name:
+            case MiHoYoSyntaxLinkKind.Name:
                 HyperLinkName hyperLinkName = IdNameMap[id];
                 name = hyperLinkName.Name;
                 description = hyperLinkName.Description;
                 break;
-            case MiHoYoLinkKind.Inherent:
+            case MiHoYoSyntaxLinkKind.Inherent:
                 ProudSkill inherent = Inherents.Single(s => s.Id == id);
                 name = inherent.Name;
                 description = inherent.Description;
                 break;
-            case MiHoYoLinkKind.Skill:
+            case MiHoYoSyntaxLinkKind.Skill:
                 ProudSkill skill = Skills.Single(s => s.Id == id);
                 name = skill.Name;
                 description = skill.Description;
