@@ -66,6 +66,11 @@ internal ref struct MiHoYoSyntaxLexer
         return new(MiHoYoSyntaxTokenType.Text, new(start, position));
     }
 
+    private static bool IsSpecialStart(char c)
+    {
+        return c is '{' or '<';
+    }
+
     private bool Match(string keyword)
     {
         ReadOnlySpan<char> slice = Input[position..];
@@ -90,10 +95,5 @@ internal ref struct MiHoYoSyntaxLexer
 
         endPos = -1;
         return false;
-    }
-
-    private static bool IsSpecialStart(char c)
-    {
-        return c is '{' or '<';
     }
 }

@@ -258,7 +258,7 @@ internal class MiHoYoJSBridge
         }
 
         UserInfo info = wrapper.UserInfo;
-        return new JsResult<Dictionary<string, object>>()
+        return new JsResult<Dictionary<string, object?>>()
         {
             Data = new()
             {

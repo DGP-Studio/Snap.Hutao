@@ -42,7 +42,7 @@ internal ref struct MiHoYoSyntaxParser
             MiHoYoSyntaxTokenType.ItalicOpen => ParseItalic(),
             MiHoYoSyntaxTokenType.ColorOpen => ParseColor(),
             MiHoYoSyntaxTokenType.LinkOpen => ParseLink(),
-            _ => throw HutaoException.Throw($"Unexpected token: {current.Type}")
+            _ => throw HutaoException.Throw($"Unexpected token: {current.Type}"),
         };
     }
 

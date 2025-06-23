@@ -18,7 +18,7 @@ internal sealed class CommunityInfo
     public long ForbidEndTime { get; set; }
 
     [JsonPropertyName("info_upd_time")]
-    public long InfoUpdTime { get; set; }
+    public long InfoUpdatedTime { get; set; }
 
     [JsonPropertyName("privacy_invisible")]
     public PrivacyInvisible PrivacyInvisible { get; set; } = default!;
