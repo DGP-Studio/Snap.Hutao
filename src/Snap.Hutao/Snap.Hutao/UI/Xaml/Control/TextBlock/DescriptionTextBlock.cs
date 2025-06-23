@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.ViewModel.Wiki;
+using System.Collections.Immutable;
 using System.Globalization;
 using Windows.Foundation;
 using Windows.UI;
@@ -38,7 +39,11 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     {
         DescriptionTextBlock descriptionTextBlock = (DescriptionTextBlock)d;
         MUXCTextBlock textBlock = (MUXCTextBlock)descriptionTextBlock.Content;
-        descriptionTextBlock.UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandling.Handle((string)e.NewValue)));
+
+        string content = SpecialNameHandling.Handle((string)e.NewValue);
+        MiHoYoSyntaxLexer lexer = new(content);
+        MiHoYoSyntaxParser parser = new(lexer);
+        descriptionTextBlock.UpdateDescription(textBlock, parser.Parse(), content);
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -46,11 +51,15 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         ((MUXCTextBlock)((DescriptionTextBlock)d).Content).Style = (Style)e.NewValue;
     }
 
-    private void UpdateDescription(MUXCTextBlock textBlock, MiHoYoSyntaxTree syntaxTree)
+    private void UpdateDescription(MUXCTextBlock textBlock, ImmutableArray<MiHoYoSyntaxElement> elements, ReadOnlySpan<char> content)
     {
         DetachHyperLinkClickEvent(textBlock.Inlines);
         textBlock.Inlines.Clear();
-        AppendNode(textBlock, textBlock.Inlines, syntaxTree.Root);
+
+        foreach (MiHoYoSyntaxElement element in elements)
+        {
+            AppendNode(textBlock, textBlock.Inlines, element, content);
+        }
     }
 
     private void DetachHyperLinkClickEvent(InlineCollection inlineCollection)
@@ -70,41 +79,34 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         }
     }
 
-    private void AppendNode(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxNode node)
+    private void AppendNode(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxElement syntaxElement, ReadOnlySpan<char> content)
     {
-        switch (node.Kind)
+        switch (syntaxElement)
         {
-            case MiHoYoSyntaxKind.Root:
-                foreach (MiHoYoSyntaxNode child in ((MiHoYoRootSyntax)node).Children)
-                {
-                    AppendNode(textBlock, inlines, child);
-                }
-
+            case MiHoYoSyntaxTextElement textElement:
+                AppendPlainText(textBlock, inlines, textElement, content);
                 break;
-            case MiHoYoSyntaxKind.PlainText:
-                AppendPlainText(textBlock, inlines, (MiHoYoPlainTextSyntax)node);
+            case MiHoYoSyntaxColorElement colorElement:
+                AppendColorText(textBlock, inlines, colorElement, content);
                 break;
-            case MiHoYoSyntaxKind.ColorText:
-                AppendColorText(textBlock, inlines, (MiHoYoColorTextSyntax)node);
+            case MiHoYoSyntaxItalicElement italicElement:
+                AppendItalicText(textBlock, inlines, italicElement, content);
                 break;
-            case MiHoYoSyntaxKind.ItalicText:
-                AppendItalicText(textBlock, inlines, (MiHoYoItalicTextSyntax)node);
-                break;
-            case MiHoYoSyntaxKind.LinkText:
-                AppendLinkText(textBlock, inlines, (MiHoYoLinkTextSyntax)node);
+            case MiHoYoSyntaxLinkElement linkElement:
+                AppendLinkText(textBlock, inlines, linkElement, content);
                 break;
         }
     }
 
-    private void AppendPlainText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoPlainTextSyntax plainText)
+    private void AppendPlainText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxTextElement syntaxTextElement, ReadOnlySpan<char> content)
     {
         // PlainText doesn't have children
-        inlines.Add(new Run { Text = plainText.Span.ToString() });
+        inlines.Add(new Run { Text = syntaxTextElement.Span.ToString() });
     }
 
-    private void AppendColorText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoColorTextSyntax colorText)
+    private void AppendColorText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxColorElement syntaxColorText, ReadOnlySpan<char> content)
     {
-        Rgba32 color = new(colorText.ColorSpan.ToString());
+        Rgba32 color = new(syntaxColorText.ColorSpan.ToString());
         Color targetColor;
         if (ThemeHelper.IsDarkMode(textBlock.ActualTheme))
         {
@@ -118,14 +120,14 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             targetColor = ColorHelper.ToRgba32(hsl);
         }
 
-        if (colorText.Children.Count > 1 || colorText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
+        if (syntaxColorText.Children.Count > 1 || syntaxColorText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
         {
             Span span = new()
             {
                 Foreground = new SolidColorBrush(targetColor),
             };
 
-            foreach (MiHoYoSyntaxNode child in colorText.Children)
+            foreach (MiHoYoSyntaxElement child in syntaxColorText.Children)
             {
                 AppendNode(textBlock, span.Inlines, child);
             }
@@ -136,22 +138,22 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         {
             inlines.Add(new Run
             {
-                Text = colorText.ContentSpan.ToString(),
+                Text = syntaxColorText.ContentSpan.ToString(),
                 Foreground = new SolidColorBrush(targetColor),
             });
         }
     }
 
-    private void AppendItalicText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoItalicTextSyntax italicText)
+    private void AppendItalicText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxItalicElement syntaxItalicText, ReadOnlySpan<char> content)
     {
-        if (italicText.Children.Count > 1 || italicText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
+        if (syntaxItalicText.Children.Count > 1 || syntaxItalicText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
         {
             Span span = new()
             {
                 FontStyle = FontStyle.Italic,
             };
 
-            foreach (MiHoYoSyntaxNode child in italicText.Children)
+            foreach (MiHoYoSyntaxElement child in syntaxItalicText.Children)
             {
                 AppendNode(textBlock, span.Inlines, child);
             }
@@ -162,21 +164,21 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         {
             inlines.Add(new Run
             {
-                Text = italicText.ContentSpan.ToString(),
+                Text = syntaxItalicText.ContentSpan.ToString(),
                 FontStyle = FontStyle.Italic,
             });
         }
     }
 
-    private void AppendLinkText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoLinkTextSyntax linkText)
+    private void AppendLinkText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxLinkElement syntaxLinkText, ReadOnlySpan<char> content)
     {
         Hyperlink span = new();
-        DescriptionHyperLinkHelper.SetLinkData(span, Tuple.Create(linkText.LinkKind, uint.Parse(linkText.IdSpan, CultureInfo.InvariantCulture)));
+        DescriptionHyperLinkHelper.SetLinkData(span, Tuple.Create(syntaxLinkText.LinkKind, uint.Parse(syntaxLinkText.IdSpan, CultureInfo.InvariantCulture)));
         span.Click += OnLinkClicked;
 
-        if (linkText.Children.Count > 1 || linkText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
+        if (syntaxLinkText.Children.Count > 1 || syntaxLinkText.Children is [{ Kind: not MiHoYoSyntaxKind.PlainText }])
         {
-            foreach (MiHoYoSyntaxNode child in linkText.Children)
+            foreach (MiHoYoSyntaxElement child in syntaxLinkText.Children)
             {
                 AppendNode(textBlock, span.Inlines, child);
             }
@@ -185,7 +187,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         {
             span.Inlines.Add(new Run
             {
-                Text = linkText.ContentSpan.ToString(),
+                Text = syntaxLinkText.ContentSpan.ToString(),
             });
         }
 
@@ -199,7 +201,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             return;
         }
 
-        (MiHoYoLinkKind kind, uint id) = DescriptionHyperLinkHelper.GetLinkData(sender);
+        (MiHoYoSyntaxLinkKind kind, uint id) = DescriptionHyperLinkHelper.GetLinkData(sender);
 
         LinkContext.TryGetNameAndDescription(kind, id, out string name, out string description);
 
