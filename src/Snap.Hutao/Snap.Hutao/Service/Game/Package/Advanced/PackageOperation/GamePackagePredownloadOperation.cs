@@ -17,6 +17,8 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
 
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
+        // TODO: LDiff implementation
+
         SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
         ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
         int totalBlocks = context.Information.DownloadTotalChunks;

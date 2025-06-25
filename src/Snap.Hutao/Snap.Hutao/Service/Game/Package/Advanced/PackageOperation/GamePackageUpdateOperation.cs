@@ -12,6 +12,8 @@ internal sealed class GamePackageUpdateOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
+        // TODO: LDiff implementation
+
         SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
         ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
         int downloadTotalChunks = context.Information.DownloadTotalChunks;

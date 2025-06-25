@@ -14,6 +14,8 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
+        // TODO: LDiff implementation
+
         SophonDecodedBuild localBuild = context.Operation.LocalBuild;
         ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
         int downloadTotalChunks = context.Information.DownloadTotalChunks;
