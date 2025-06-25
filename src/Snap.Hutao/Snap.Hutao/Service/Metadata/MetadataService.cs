@@ -8,6 +8,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service.BackgroundActivity;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -31,6 +32,7 @@ internal sealed partial class MetadataService : IMetadataService
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly BackgroundActivityOptions activityOptions;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -55,6 +57,7 @@ internal sealed partial class MetadataService : IMetadataService
             return;
         }
 
+        await activityOptions.AddActivityAsync().ConfigureAwait(false);
         using (ValueStopwatch.MeasureExecution(logger))
         {
             isInitialized = await DownloadMetadataDescriptionFileAndCheckAsync(token).ConfigureAwait(false);
