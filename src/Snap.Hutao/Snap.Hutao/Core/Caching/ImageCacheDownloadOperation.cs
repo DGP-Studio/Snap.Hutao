@@ -27,17 +27,13 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     ]);
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IHttpClientFactory httpClientFactory;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
-            {
-                await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
-            }
+            await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
         }
 
         if (!File.Exists(baseFile))

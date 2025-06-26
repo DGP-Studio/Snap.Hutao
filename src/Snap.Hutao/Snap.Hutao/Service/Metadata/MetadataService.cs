@@ -31,7 +31,9 @@ internal sealed partial class MetadataService : IMetadataService
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly IHttpRequestMessageBuilderFactory requestBuilderFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
@@ -79,34 +81,28 @@ internal sealed partial class MetadataService : IMetadataService
             : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
     }
 
-    private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
+    private async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
-        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope())
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
+            using (HttpRequestMessage message = builder.HttpRequestMessage)
             {
-                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
-
-                using (HttpRequestMessage message = builder.HttpRequestMessage)
+                // We have too much line endings now, should cache the response.
+                using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
                 {
-                    // We have too much line endings now, should cache the response.
-                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                    // Write stream while convert LF to CRLF
+                    using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
                     {
-                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-
-                        // Write stream while convert LF to CRLF
-                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
+                        while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
                         {
-                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                            {
-                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
+                            await readerWriter.WriteAsync(line).ConfigureAwait(false);
 
-                                if (!readerWriter.Reader.EndOfStream)
-                                {
-                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
-                                }
+                            if (!readerWriter.Reader.EndOfStream)
+                            {
+                                await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
                             }
                         }
                     }
@@ -238,23 +234,17 @@ internal sealed partial class MetadataService : IMetadataService
 
     private async ValueTask<MetadataTemplate?> GetMetadataTemplateAsync()
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetTemplateEndpoint()).Get();
+            Response<MetadataTemplate>? resp = await builder.SendAsync<Response<MetadataTemplate>>(httpClient, CancellationToken.None).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(Response.DefaultIfNull(resp), infoBarService, out MetadataTemplate? metadataTemplate))
             {
-                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetTemplateEndpoint()).Get();
-
-                Response<MetadataTemplate>? resp = await builder.SendAsync<Response<MetadataTemplate>>(httpClient, CancellationToken.None).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(Response.DefaultIfNull(resp), infoBarService, out MetadataTemplate? metadataTemplate))
-                {
-                    return default;
-                }
-
-                return metadataTemplate;
+                return default;
             }
+
+            return metadataTemplate;
         }
     }
 
@@ -265,7 +255,6 @@ internal sealed partial class MetadataService : IMetadataService
             ImmutableDictionary<string, string>? metadataFileHashes;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
-                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
                     IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
@@ -307,7 +296,7 @@ internal sealed partial class MetadataService : IMetadataService
     [SuppressMessage("", "SH003")]
     private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        MetadataDownloadContext context = new(serviceScopeFactory, metadataOptions, template);
+        MetadataDownloadContext context = new(metadataOptions, template);
 
         await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
@@ -365,14 +354,11 @@ internal sealed partial class MetadataService : IMetadataService
         private readonly Lock syncRoot = new();
         private readonly Dictionary<string, bool> results = [];
 
-        public MetadataDownloadContext(IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
+        public MetadataDownloadContext(MetadataOptions options, MetadataTemplate? template)
         {
-            ServiceScopeFactory = serviceScopeFactory;
             Options = options;
             Template = template;
         }
-
-        public IServiceScopeFactory ServiceScopeFactory { get; }
 
         public MetadataOptions Options { get; }
 
