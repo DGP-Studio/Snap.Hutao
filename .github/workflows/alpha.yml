@@ -41,7 +41,7 @@ jobs:
             https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id \
             | jq -r '.status')
           if [ "$runner_status" == "online" ]; then
-            runner=self-hosted
+            runner='["self-hosted","Windows"]'
           else
             runner=windows-latest
           fi
