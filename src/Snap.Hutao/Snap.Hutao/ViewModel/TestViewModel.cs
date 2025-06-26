@@ -456,7 +456,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedPatchManifest manifest = patchBuild.Manifests.First();
                 PatchManifest proto = new();
                 proto.FileDatas.AddRange(manifest.Data.FileDatas.Where(fd => AssetBundlesBlockRegex.IsMatch(fd.FileName)));
-                return new(patchBuild.OriginalTag, patchBuild.Tag, patchBuild.DownloadTotalBytes, patchBuild.DownloadFileCount, patchBuild.UncompressedTotalBytes, patchBuild.InstallFileCount, [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+                return new(patchBuild.OriginalTag, patchBuild.Tag, patchBuild.DownloadTotalBytes, patchBuild.DownloadFileCount, patchBuild.UncompressedTotalBytes, patchBuild.InstallFileCount, [new(patchBuild.OriginalTag, patchBuild.Tag, manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }

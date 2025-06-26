@@ -7,12 +7,18 @@ namespace Snap.Hutao.Service.Game.Package.Advanced.Model;
 
 internal sealed class SophonDecodedPatchManifest
 {
-    public SophonDecodedPatchManifest(string urlPrefix, string urlSuffix, PatchManifest patchManifest)
+    public SophonDecodedPatchManifest(string originalTag, string tag, string urlPrefix, string urlSuffix, PatchManifest data)
     {
-        UrlPrefix = string.Intern(urlPrefix);
-        UrlSuffix = string.IsNullOrEmpty(urlSuffix) ? string.Empty : string.Intern($"?{urlSuffix}");
-        Data = patchManifest;
+        OriginalTag = originalTag;
+        Tag = tag;
+        UrlPrefix = urlPrefix;
+        UrlSuffix = urlSuffix;
+        Data = data;
     }
+
+    public string OriginalTag { get; }
+
+    public string Tag { get; }
 
     public string UrlPrefix { get; }
 

@@ -7,8 +7,6 @@ internal sealed class PredownloadStatus
 {
     public PredownloadStatus(string tag, bool finished, int totalBlocks)
     {
-        // TODO: LDiff special handling
-
         Tag = tag;
         Finished = finished;
         TotalBlocks = totalBlocks;

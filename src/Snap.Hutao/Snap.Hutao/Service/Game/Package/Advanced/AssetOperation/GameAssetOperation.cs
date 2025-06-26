@@ -381,7 +381,51 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     #region LDiff
 
-    // TODO: Implement LDiff asset operations
+    // TODO: SSD/HDD implementation
+
+    public async ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is { })
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => InstallOrPatchAssetAsync(context, patchAsset)).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
+
+    public async ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
+            await Parallel.ForEachAsync(assetNames, context.ParallelOptions, (assetName, token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, assetName);
+                if (File.Exists(assetPath))
+                {
+                    File.Delete(assetPath);
+                }
+
+                return ValueTask.CompletedTask;
+            }).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
+
+    public async ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is { })
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => DownloadPatchAsync(context, patchAsset)).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
 
     public async ValueTask InstallOrPatchAssetAsync(GamePackageServiceContext context, SophonPatchAsset asset)
     {
@@ -394,6 +438,16 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         long patchLength = patchInfo.PatchLength;
 
         string patchFilePath = Path.Combine(context.Operation.EffectiveChunksDirectory, patchInfo.Id);
+
+        if (!File.Exists(patchFilePath))
+        {
+            await DownloadPatchAsync(context, asset).ConfigureAwait(false);
+            if (!File.Exists(patchFilePath))
+            {
+                // Patch file hash not match, skip this asset and repair later
+                return;
+            }
+        }
 
         using (SafeFileHandle patchFileHandle = File.OpenHandle(patchFilePath, options: FileOptions.RandomAccess))
         {
@@ -464,6 +518,10 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
         string patchPath = Path.Combine(context.Operation.EffectiveChunksDirectory, asset.PatchInfo.Id);
 
+        // TODO: 这里要先防重入，但是要检测当前的patch是否已经检查过
+        // 如果已经完成预下载，那么需要检查文件的hash是否匹配，如果匹配则加入一个新的Set，然后后续再次触发此方法时应直接跳过，如果不匹配则删除文件并重新下载
+        // 如果没有完成预下载，那么需要下载文件并检查hash是否匹配，如果匹配则加入一个新的Set，然后后续再次触发此方法时应直接跳过，如果不匹配则删除文件并重新下载
+        // 主要是为了避免重复hash导致的性能问题
         using (await context.ExclusiveProcessChunkAsync(asset.PatchInfo.Id, token).ConfigureAwait(false))
         {
             if (File.Exists(patchPath))

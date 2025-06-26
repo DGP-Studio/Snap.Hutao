@@ -216,7 +216,12 @@ internal sealed partial class GamePackageService : IGamePackageService
             return default;
         }
 
-        if (!gameFileSystem.TryGetGameVersion(out _))
+        if (!gameFileSystem.TryGetGameVersion(out string? version))
+        {
+            return default;
+        }
+
+        if (!branch.DiffTags.Contains(version))
         {
             return default;
         }
@@ -249,6 +254,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             return default;
         }
+
+        // If we call this overload directly, we need to add version check here to ensure the patch contains local version.
 
         long downloadTotalBytes = 0L;
         long downloadFileCount = 0L;
@@ -293,7 +300,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                                 if (manifestMd5.Equals(sophonPatchManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                                 {
                                     inMemoryManifestStream.Position = 0;
-                                    decodedPatchManifests.Add(new(sophonPatchManifest.DiffDownload.UrlPrefix, sophonPatchManifest.DiffDownload.UrlSuffix, PatchManifest.Parser.ParseFrom(inMemoryManifestStream)));
+                                    decodedPatchManifests.Add(new(version, patchBuild.Tag, sophonPatchManifest.DiffDownload.UrlPrefix, sophonPatchManifest.DiffDownload.UrlSuffix, PatchManifest.Parser.ParseFrom(inMemoryManifestStream)));
                                 }
                             }
                         }
