@@ -58,7 +58,7 @@ internal ref struct MiHoYoSyntaxParser
         int start = current.Position.Start;
         NextToken();
 
-        ImmutableArray<MiHoYoSyntaxElement>.Builder children =  ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
+        ImmutableArray<MiHoYoSyntaxElement>.Builder children = ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
         while (current.Type is not (MiHoYoSyntaxTokenType.ItalicClose or MiHoYoSyntaxTokenType.EndOfFile))
         {
             children.Add(ParseElement());
