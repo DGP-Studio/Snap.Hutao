@@ -367,22 +367,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelAdvancing" xml:space="preserve">
-    <value>进阶</value>
+    <value>Advancing</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelDire" xml:space="preserve">
-    <value>绝境</value>
+    <value>Dire</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelFearless" xml:space="preserve">
-    <value>无畏</value>
+    <value>Fearless</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelHard" xml:space="preserve">
-    <value>困难</value>
+    <value>Hard</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelMenacing" xml:space="preserve">
-    <value>险恶</value>
+    <value>Menacing</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelNormal" xml:space="preserve">
-    <value>普通</value>
+    <value>Normal</value>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>3 Stars</value>
