@@ -59,7 +59,7 @@ internal partial class Avatar : INameQualityAccess,
 
     public required ImmutableArray<MaterialId> CultivationItems { get; init; }
 
-    public required NameCard NameCard { get; init; }
+    public required AvatarNameCard NameCard { get; init; }
 
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }

@@ -6,11 +6,11 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatEnemy
 {
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
     [JsonPropertyName("level")]
-    public uint Level { get; set; }
+    public required uint Level { get; init; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 }

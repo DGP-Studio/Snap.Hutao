@@ -8,6 +8,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -145,6 +146,40 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForRoleCombat, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<Response<HardChallenge.HardChallenge>> GetHardChallengeAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordHardChallenge(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(apiEndpoints.WebStaticReferer())
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<HardChallenge.HardChallenge>? resp = await builder
+            .SendAsync<Response<HardChallenge.HardChallenge>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForHardChallenge, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<Response<HardChallengePopularity>> GetHardChallengePopularityAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordHardChallengePopularity(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(apiEndpoints.WebStaticReferer())
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<HardChallengePopularity>? resp = await builder
+            .SendAsync<Response<HardChallengePopularity>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForHardChallenge, token).ConfigureAwait(false);
     }
 
     private async ValueTask<TResponse> RetryIf1034Async<TResponse>(HttpRequestMessageBuilder builder, UserAndUid userAndUid, TResponse? response, string message, Func<IApiEndpoints, CardVerifiationHeaders> headersFactory, CancellationToken token = default)

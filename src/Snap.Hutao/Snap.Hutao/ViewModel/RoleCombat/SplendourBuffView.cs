@@ -12,6 +12,8 @@ internal sealed class SplendourBuffView
         Icon = roleCombatSplendourBuff.Icon.ToUri();
         Level = roleCombatSplendourBuff.Level;
         Name = roleCombatSplendourBuff.Name;
+
+        // TODO: It's a miHoYo description syntax string
         Effects = roleCombatSplendourBuff.LevelEffects.Select(e => e.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase)).ToList();
     }
 

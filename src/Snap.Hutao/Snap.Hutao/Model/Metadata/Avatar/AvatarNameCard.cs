@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-internal sealed class NameCard : NameDescription
+internal sealed class AvatarNameCard : NameDescription
 {
     public required string Icon { get; init; }
 

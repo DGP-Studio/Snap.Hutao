@@ -6,17 +6,18 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
-internal sealed class RoleCombatAvatarDamage
+internal sealed class RoleCombatAvatarStatistics
 {
     [JsonPropertyName("avatar_id")]
-    public AvatarId AvatarId { get; set; }
+    public required AvatarId AvatarId { get; init; }
 
     [JsonPropertyName("avatar_icon")]
-    public string AvatarIcon { get; set; } = default!;
+    public required string AvatarIcon { get; init; }
 
+    // Can be "" for 0
     [JsonPropertyName("value")]
-    public string Value { get; set; } = default!;
+    public required string Value { get; init; }
 
     [JsonPropertyName("rarity")]
-    public QualityType Rarity { get; set; }
+    public required QualityType Rarity { get; init; }
 }

@@ -36,14 +36,14 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
                 .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
         ];
         Rounds = [.. roleCombatData.Detail.RoundsData.Select(r => RoundView.From(r, offset, context))];
-        TotalBattleTimes = roleCombatData.Detail.FightStatistic.TotalUseTime;
+        TotalBattleTimes = roleCombatData.Detail.FightStatistics.TotalUseTime;
 
-        if (roleCombatData.Detail.FightStatistic.IsShowBattleStats)
+        if (roleCombatData.Detail.FightStatistics.IsShowBattleStats)
         {
-            Shortest = ToAvatarDamages(roleCombatData.Detail.FightStatistic.ShortestAvatarList, context);
-            Defeat = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDefeatAvatar, context);
-            Damage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDamageAvatar, context);
-            TakeDamage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxTakeDamageAvatar, context);
+            Shortest = ToAvatarDamages(roleCombatData.Detail.FightStatistics.ShortestAvatarList, context);
+            Defeat = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxDefeatAvatar, context);
+            Damage = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxDamageAvatar, context);
+            TakeDamage = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxTakeDamageAvatar, context);
         }
 
         Engaged = true;
@@ -91,7 +91,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
-    public List<AvatarDamage> Shortest { get; } = default!;
+    public ImmutableArray<AvatarDamage> Shortest { get; }
 
     public AvatarDamage? Defeat { get; }
 
@@ -109,12 +109,12 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         return entity is not null ? new(entity, context) : new(meta, context);
     }
 
-    private static List<AvatarDamage> ToAvatarDamages(List<RoleCombatAvatarDamage> avatarDamages, RoleCombatMetadataContext context)
+    private static ImmutableArray<AvatarDamage> ToAvatarDamages(ImmutableArray<RoleCombatAvatarStatistics> avatarDamages, RoleCombatMetadataContext context)
     {
-        return avatarDamages.Select(r => new AvatarDamage(r.Value, context.IdAvatarMap[r.AvatarId])).ToList();
+        return avatarDamages.SelectAsArray(static (r, map) => new AvatarDamage(r.Value, map[r.AvatarId]), context.IdAvatarMap);
     }
 
-    private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarDamage avatarDamage, RoleCombatMetadataContext context)
+    private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarStatistics avatarDamage, RoleCombatMetadataContext context)
     {
         if (avatarDamage is not { AvatarId.Value: not 0U })
         {
