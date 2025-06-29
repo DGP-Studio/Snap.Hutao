@@ -87,10 +87,19 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                         ContentDialogButton.Primary)
                     .ConfigureAwait(false);
 
-                if (installUpdateUserConsentResult is ContentDialogResult.Primary)
+                if (installUpdateUserConsentResult is not ContentDialogResult.Primary)
                 {
-                    await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                    return;
                 }
+
+#if IS_ALPHA_BUILD
+                if (checkUpdateResult.PackageInformation?.Mirrors.SingleOrDefault() is { MirrorType: Web.Hutao.HutaoPackageMirrorType.Browser } mirror)
+                {
+                    await Windows.System.Launcher.LaunchUriAsync(mirror.Url.ToUri());
+                }
+#else
+                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+#endif
             }
             catch (Exception ex)
             {
