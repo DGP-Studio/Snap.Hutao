@@ -26,7 +26,7 @@ internal static unsafe class StreamIO
 
         try
         {
-            stream.Seek((long)position, SeekOrigin.Begin);
+            stream.Position = (long)position;
             stream.ReadExactly(new(start, (int)(end - start)));
             return true;
         }
@@ -52,7 +52,7 @@ internal static unsafe class StreamIO
 
         try
         {
-            stream.Seek((long)position, SeekOrigin.Begin);
+            stream.Position = (long)position;
             stream.Write(new(start, (int)(end - start)));
             return true;
         }

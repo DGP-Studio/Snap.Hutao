@@ -514,6 +514,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
                     using (FileStream newAssetFileStream = File.Create(context.EnsureAssetTargetDirectoryExists(fileData.FileName)))
                     {
+                        newAssetStream.Position = 0;
                         newAssetFileStream.Position = 0;
                         await newAssetStream.CopyToAsync(newAssetFileStream, token).ConfigureAwait(false);
                     }
