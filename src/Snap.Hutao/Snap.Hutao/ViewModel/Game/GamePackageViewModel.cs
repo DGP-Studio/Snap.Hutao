@@ -240,7 +240,6 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
                     ArgumentNullException.ThrowIfNull(localBuild);
                     ArgumentNullException.ThrowIfNull(remoteBuild);
-                    ArgumentNullException.ThrowIfNull(patchBuild);
                 }
                 catch (Exception ex)
                 {
