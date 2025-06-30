@@ -43,7 +43,7 @@ internal sealed partial class FeatureService : IFeatureService
         {
             entry.SetSlidingExpiration(TimeSpan.FromHours(6));
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}"))
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"AchievementFieldId_{tag}"))
                 .Get();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
