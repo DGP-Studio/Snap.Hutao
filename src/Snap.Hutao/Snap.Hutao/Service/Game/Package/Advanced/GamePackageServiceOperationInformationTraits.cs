@@ -9,6 +9,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
+using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -42,7 +43,7 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
             _ => throw HutaoException.NotSupported(),
         };
 
-        long downloadedTotalBytes = DirectoryOperation.GetSize(context.EffectiveChunksDirectory);
+        long downloadedTotalBytes = GetSize(context.EffectiveChunksDirectory);
         long actualTotalBytes = installTotalBytes - downloadedTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
         long availableBytes = LogicalDrive.GetAvailableFreeSpace(context.EffectiveGameDirectory);
 
@@ -233,5 +234,51 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         }
 
         return totalBlocks;
+    }
+
+    private static long GetSize(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            return 0;
+        }
+
+        long size = 0;
+        DateTime cutoffDate = DateTime.Now.AddDays(-5);
+
+        try
+        {
+            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    System.IO.FileInfo fileInfo = new(file);
+                    if (fileInfo.CreationTime <= cutoffDate)
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch (Exception)
+                        {
+                            // Ignore
+                        }
+
+                        continue;
+                    }
+
+                    size += fileInfo.Length;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+            }
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+
+        return size;
     }
 }
