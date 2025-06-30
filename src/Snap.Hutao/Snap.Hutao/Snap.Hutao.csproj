@@ -352,7 +352,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="2.4.10">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="2.4.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
