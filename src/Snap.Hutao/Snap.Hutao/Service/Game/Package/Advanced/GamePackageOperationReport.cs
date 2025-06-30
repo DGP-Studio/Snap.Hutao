@@ -54,7 +54,16 @@ internal abstract class GamePackageOperationReport
             Kind = GamePackageOperationReportKind.Reset;
             Title = title;
             DownloadTotalChunks = InstallTotalChunks = totalChunks;
-            ContentLength = contentLength;
+            DownloadTotalBytes = InstallTotalBytes = contentLength;
+        }
+
+        public Reset(string title, int totalChunks, long downloadTotalBytes, long installTotalBytes)
+        {
+            Kind = GamePackageOperationReportKind.Reset;
+            Title = title;
+            DownloadTotalChunks = InstallTotalChunks = totalChunks;
+            DownloadTotalBytes = downloadTotalBytes;
+            InstallTotalBytes = installTotalBytes;
         }
 
         public Reset(string title, int downloadTotalChunks, int installTotalChunks, long contentLength)
@@ -63,7 +72,17 @@ internal abstract class GamePackageOperationReport
             Title = title;
             DownloadTotalChunks = downloadTotalChunks;
             InstallTotalChunks = installTotalChunks;
-            ContentLength = contentLength;
+            DownloadTotalBytes = InstallTotalBytes = contentLength;
+        }
+
+        public Reset(string title, int downloadTotalChunks, int installTotalChunks, long downloadTotalBytes, long installTotalBytes)
+        {
+            Kind = GamePackageOperationReportKind.Reset;
+            Title = title;
+            DownloadTotalChunks = downloadTotalChunks;
+            InstallTotalChunks = installTotalChunks;
+            DownloadTotalBytes = downloadTotalBytes;
+            InstallTotalBytes = installTotalBytes;
         }
 
         public string Title { get; }
@@ -72,7 +91,9 @@ internal abstract class GamePackageOperationReport
 
         public int InstallTotalChunks { get; }
 
-        public long ContentLength { get; }
+        public long DownloadTotalBytes { get; }
+
+        public long InstallTotalBytes { get; }
     }
 
     internal sealed class Finish : GamePackageOperationReport

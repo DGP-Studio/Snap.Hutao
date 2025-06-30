@@ -149,6 +149,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameFileSystem,
             default!,
             build,
+            default,
             gameChannelSDK,
             default);
 

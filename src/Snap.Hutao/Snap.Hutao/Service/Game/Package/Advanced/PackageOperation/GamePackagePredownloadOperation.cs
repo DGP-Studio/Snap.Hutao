@@ -17,27 +17,31 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
 
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
-        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
-        ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
-        int totalBlocks = context.Information.DownloadTotalChunks;
-        long totalBytes = context.Information.InstallTotalBytes;
+        int downloadTotalChunks = context.Information.DownloadTotalChunks;
+        long downloadTotalBytes = context.Information.DownloadTotalBytes;
+        int uniqueTotalBlocks = GetUniqueTotalBlocks(context);
 
-        int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
-
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, 0, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, downloadTotalChunks, 0, downloadTotalBytes));
 
         if (!Directory.Exists(context.Operation.GameFileSystem.GetChunksDirectory()))
         {
             Directory.CreateDirectory(context.Operation.GameFileSystem.GetChunksDirectory());
         }
 
-        PredownloadStatus predownloadStatus = new(remoteBuild.Tag, false, uniqueTotalBlocks);
+        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBuild.Tag, false, uniqueTotalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
 
-        await context.Operation.Asset.PredownloadDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
+        if (context.Operation.PatchBuild is { } patchBuild)
+        {
+            await context.Operation.Asset.PredownloadPatchesAsync(context, patchBuild).ConfigureAwait(false);
+        }
+        else
+        {
+            await context.Operation.Asset.PredownloadDiffAssetsAsync(context, context.Information.DiffAssetOperations).ConfigureAwait(false);
+        }
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
 
@@ -48,10 +52,15 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
         }
     }
 
-    private static int GetUniqueTotalBlocks(ImmutableArray<SophonAssetOperation> assets)
+    private static int GetUniqueTotalBlocks(GamePackageServiceContext context)
     {
+        if (context.Operation.RemoteBuild is not null)
+        {
+            return context.Information.DownloadTotalChunks;
+        }
+
         HashSet<string> uniqueChunkNames = [];
-        foreach (ref readonly SophonAssetOperation asset in assets.AsSpan())
+        foreach (ref readonly SophonAssetOperation asset in context.Information.DiffAssetOperations.AsSpan())
         {
             switch (asset.Kind)
             {

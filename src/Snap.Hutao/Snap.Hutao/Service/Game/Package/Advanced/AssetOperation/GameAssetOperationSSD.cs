@@ -12,10 +12,13 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
+[SuppressMessage("", "SA1202")]
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
 internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 {
+    #region Chunk
+
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)
     {
         await Parallel.ForEachAsync(remoteBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
@@ -129,4 +132,54 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
             context.Progress.Report(new GamePackageOperationReport.Install(0, 1, chunk.ChunkName));
         }
     }
+
+    #endregion
+
+    #region LDiff
+
+    public override async ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => InstallOrPatchAssetAsync(context, patchAsset)).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
+
+    public override async ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
+            await Parallel.ForEachAsync(assetNames, context.ParallelOptions, (assetName, token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, assetName);
+                if (File.Exists(assetPath))
+                {
+                    File.Delete(assetPath);
+                }
+
+                return ValueTask.CompletedTask;
+            }).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
+
+    public override async ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => DownloadPatchAsync(context, patchAsset)).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+    }
+
+    #endregion
 }

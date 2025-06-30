@@ -12,6 +12,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
+[SuppressMessage("", "SA1202")]
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
 internal sealed partial class GameAssetOperationHDD : GameAssetOperation
@@ -140,6 +141,52 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
                     context.Progress.Report(new GamePackageOperationReport.Install(0, 1, chunk.ChunkName));
                 }
+            }
+        }
+    }
+
+    public override async ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        foreach (SophonDecodedPatchManifest manifest in patchBuild.Manifests)
+        {
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            foreach (SophonPatchAsset patchAsset in assets)
+            {
+                await InstallOrPatchAssetAsync(context, patchAsset).ConfigureAwait(false);
+            }
+        }
+    }
+
+    public override ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        foreach (SophonDecodedPatchManifest manifest in patchBuild.Manifests)
+        {
+            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
+            foreach (string assetName in assetNames)
+            {
+                string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, assetName);
+                if (File.Exists(assetPath))
+                {
+                    File.Delete(assetPath);
+                }
+            }
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    public override async ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    {
+        foreach (SophonDecodedPatchManifest manifest in patchBuild.Manifests)
+        {
+            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
+                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
+            foreach (SophonPatchAsset patchAsset in assets)
+            {
+                await DownloadPatchAsync(context, patchAsset).ConfigureAwait(false);
             }
         }
     }

@@ -17,6 +17,7 @@ internal readonly struct GamePackageServiceContext
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
     public readonly TokenBucketRateLimiter? StreamCopyRateLimiter;
+    public readonly ConcurrentDictionary<string, Void> DownloadedPatches = [];
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 

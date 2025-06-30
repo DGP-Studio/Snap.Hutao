@@ -16,6 +16,7 @@ internal readonly struct GamePackageOperationContext
     public readonly IGameFileSystem GameFileSystem;
     public readonly SophonDecodedBuild LocalBuild;
     public readonly SophonDecodedBuild RemoteBuild;
+    public readonly SophonDecodedPatchBuild? PatchBuild;
     public readonly GameChannelSDK? GameChannelSDK;
     public readonly string EffectiveGameDirectory;
     public readonly string EffectiveChunksDirectory;
@@ -26,6 +27,7 @@ internal readonly struct GamePackageOperationContext
         IGameFileSystem gameFileSystem,
         SophonDecodedBuild localBuild,
         SophonDecodedBuild remoteBuild,
+        SophonDecodedPatchBuild? patchBuild,
         GameChannelSDK? gameChannelSDK,
         string? extractDirectory)
     {
@@ -34,6 +36,7 @@ internal readonly struct GamePackageOperationContext
         GameFileSystem = gameFileSystem;
         LocalBuild = localBuild;
         RemoteBuild = remoteBuild;
+        PatchBuild = patchBuild;
         GameChannelSDK = gameChannelSDK;
         EffectiveGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
 

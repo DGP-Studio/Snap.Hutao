@@ -417,11 +417,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
                 SophonDecodedBuild? localBuild;
                 SophonDecodedBuild? remoteBuild;
+                SophonDecodedPatchBuild? patchBuild;
                 using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
-                    if (localBuild is null || remoteBuild is null)
+                    patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+                    if (localBuild is null || remoteBuild is null || patchBuild is null)
                     {
                         infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
                         return;
@@ -434,6 +436,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     gameFileSystem,
                     ExtractGameAssetBundles(localBuild),
                     ExtractGameAssetBundles(remoteBuild),
+                    ExtractGameAssetBundlesPatched(patchBuild),
                     default,
                     extractDirectory);
 
@@ -445,7 +448,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.AddRange(manifest.Data.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-                return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+            }
+
+            SophonDecodedPatchBuild ExtractGameAssetBundlesPatched(SophonDecodedPatchBuild patchBuild)
+            {
+                SophonDecodedPatchManifest manifest = patchBuild.Manifests.First();
+                PatchManifest proto = new();
+                proto.FileDatas.AddRange(manifest.Data.FileDatas.Where(fd => AssetBundlesBlockRegex.IsMatch(fd.FileName)));
+                return new(patchBuild.OriginalTag, patchBuild.Tag, proto.FileDatas.Sum(fd => fd.PatchesEntries.Where(pe => pe.Key == patchBuild.OriginalTag).Sum(pe => pe.PatchInfo.PatchFileSize)), proto.FileDatas.Sum(fd => fd.PatchesEntries.Count(pe => pe.Key == patchBuild.OriginalTag)), proto.FileDatas.Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null).Sum(fd => fd.FileSize), proto.FileDatas.Count(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null), [new(patchBuild.OriginalTag, patchBuild.Tag, manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }
@@ -523,6 +534,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     gameFileSystem,
                     default!,
                     ExtractGameExecutable(build),
+                    default,
                     default,
                     default);
 
