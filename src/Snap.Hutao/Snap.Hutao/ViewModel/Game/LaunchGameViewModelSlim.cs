@@ -54,7 +54,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 await taskContext.SwitchToMainThreadAsync();
                 if (GameAccountsView.CurrentItem is null)
                 {
-                    GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccount(scheme));
+                    GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(scheme));
                 }
             }
         }

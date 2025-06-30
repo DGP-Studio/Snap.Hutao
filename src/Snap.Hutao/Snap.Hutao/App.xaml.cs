@@ -74,6 +74,7 @@ public sealed partial class App : Application
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
                 SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting on RedirectActivationTo", "Hutao"));
+                XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
                 Exit();
                 return;
             }

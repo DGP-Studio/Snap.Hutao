@@ -14,9 +14,11 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     private bool isDisposed;
@@ -24,11 +26,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     static unsafe HotKeyOptions()
     {
         HutaoNativeHotKeyAction.InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback.Create(&OnCallback));
-    }
-
-    public HotKeyOptions(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     public static bool IsInGameOnly
@@ -49,8 +46,8 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        MouseClickRepeatForeverKeyCombination = new(HutaoNativeHotKeyActionKind.MouseClickRepeatForever, SettingKeys.HotKeyMouseClickRepeatForever);
-        KeyPressRepeatForeverKeyCombination = new(HutaoNativeHotKeyActionKind.KeyPressRepeatForever, SettingKeys.HotKeyKeyPressRepeatForever);
+        MouseClickRepeatForeverKeyCombination = new(serviceProvider, HutaoNativeHotKeyActionKind.MouseClickRepeatForever, SettingKeys.HotKeyMouseClickRepeatForever);
+        KeyPressRepeatForeverKeyCombination = new(serviceProvider, HutaoNativeHotKeyActionKind.KeyPressRepeatForever, SettingKeys.HotKeyKeyPressRepeatForever);
 
         MouseClickRepeatForeverKeyCombination.Initialize();
         KeyPressRepeatForeverKeyCombination.Initialize();

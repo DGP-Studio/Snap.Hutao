@@ -7,5 +7,5 @@ internal interface IUpdateService
 {
     ValueTask<CheckUpdateResult> CheckUpdateAsync(CancellationToken token = default);
 
-    ValueTask<ValueResult<bool, Exception>> LaunchUpdaterAsync();
+    ValueTask LaunchUpdaterAsync();
 }

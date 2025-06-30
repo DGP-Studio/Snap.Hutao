@@ -64,7 +64,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -73,7 +73,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            metadataContext = await metadataService.GetContextAsync<SpiralAbyssMetadataContext>().ConfigureAwait(false);
+            metadataContext = await metadataService.GetContextAsync<SpiralAbyssMetadataContext>(token).ConfigureAwait(false);
             await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
         }
         else
@@ -169,7 +169,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 switch (result)
                 {
                     case ContentDialogResult.Primary:
-                        await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true).ConfigureAwait(false);
+                        await navigationService.NavigateAsync<HutaoPassportPage>(NavigationExtraData.Default, true).ConfigureAwait(false);
                         return;
 
                     case ContentDialogResult.Secondary:

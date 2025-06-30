@@ -10,11 +10,11 @@ internal interface IViewModel : IPageScoped, IResurrectable
 {
     CancellationToken CancellationToken { get; set; }
 
-    SemaphoreSlim DisposeLock { get; set; }
+    SemaphoreSlim CriticalSection { get; }
 
     IDeferContentLoader? DeferContentLoader { get; set; }
 
-    bool IsViewDisposed { get; set; }
+    bool IsViewUnloaded { get; set; }
 
     void Uninitialize();
 }

@@ -8,9 +8,16 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameServiceExtension
 {
-    public static GameAccount? DetectCurrentGameAccount(this IGameService gameService, LaunchScheme scheme)
+    public static GameAccount? DetectCurrentGameAccountNoThrow(this IGameService gameService, LaunchScheme scheme)
     {
-        return gameService.DetectCurrentGameAccount(scheme.GetSchemeType());
+        try
+        {
+            return gameService.DetectCurrentGameAccount(scheme.GetSchemeType());
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     public static ValueTask<GameAccount?> DetectGameAccountAsync(this IGameService gameService, LaunchScheme scheme)

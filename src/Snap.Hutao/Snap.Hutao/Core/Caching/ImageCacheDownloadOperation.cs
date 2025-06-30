@@ -27,17 +27,13 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     ]);
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IHttpClientFactory httpClientFactory;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
-            {
-                await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
-            }
+            await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
         }
 
         if (!File.Exists(baseFile))
@@ -115,6 +111,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                 try
                                 {
                                     await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                    await fileStream.FlushAsync().ConfigureAwait(false);
                                 }
                                 catch (IOException ex)
                                 {
@@ -122,6 +119,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                     // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
                                     // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
                                     // HttpIOException: The response ended prematurely. (ResponseEnded)
+                                    // 磁盘空间不足。 : '?'.
                                     throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
                                 }
 

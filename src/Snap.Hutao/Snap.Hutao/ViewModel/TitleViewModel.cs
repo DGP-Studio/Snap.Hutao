@@ -43,7 +43,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public bool IsMetadataInitialized { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDataFolderHasReparsePoint();
@@ -71,26 +71,43 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync().ConfigureAwait(false);
 
-        if (currentXamlWindowReference.Window is null)
-        {
-            return;
-        }
-
         if (checkUpdateResult.Kind is CheckUpdateResultKind.UpdateAvailable)
         {
-            ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
-                .CreateForConfirmCancelAsync(
-                    SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),
-                    SH.ViewTitileUpdatePackageAvailableContent,
-                    ContentDialogButton.Primary)
-                .ConfigureAwait(false);
-
-            if (installUpdateUserConsentResult is ContentDialogResult.Primary)
+            if (currentXamlWindowReference.Window is null)
             {
-                if (await updateService.LaunchUpdaterAsync().ConfigureAwait(false) is (false, { } ex))
+                return;
+            }
+
+            try
+            {
+                ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
+                    .CreateForConfirmCancelAsync(
+                        SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),
+                        SH.ViewTitileUpdatePackageAvailableContent,
+                        ContentDialogButton.Primary)
+                    .ConfigureAwait(false);
+
+                if (installUpdateUserConsentResult is not ContentDialogResult.Primary)
                 {
-                    infoBarService.Error(ex);
+                    return;
                 }
+
+#if IS_ALPHA_BUILD
+                if (checkUpdateResult.PackageInformation?.Mirrors.SingleOrDefault() is { MirrorType: Web.Hutao.HutaoPackageMirrorType.Browser } mirror)
+                {
+                    await Windows.System.Launcher.LaunchUriAsync(mirror.Url.ToUri());
+                }
+#else
+                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+#endif
+            }
+            catch (Exception ex)
+            {
+                // Access to the path '?' is denied.
+                // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
+                // The process cannot access the file '?' because it is being used by another process.
+                // 0x80070005 Attempted to perform an unauthorized operation.
+                infoBarService.Error(ex);
             }
         }
     }

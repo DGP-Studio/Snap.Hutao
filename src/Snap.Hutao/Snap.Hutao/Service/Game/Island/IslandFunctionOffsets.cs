@@ -4,6 +4,7 @@
 namespace Snap.Hutao.Service.Game.Island;
 
 // IMPORTANT: DO NOT REORDER FIELDS
+// ISLAND VERSION: 1.3.3
 internal struct IslandFunctionOffsets
 {
     [JsonInclude]
@@ -16,6 +17,8 @@ internal struct IslandFunctionOffsets
     public uint SetFieldOfView;
     [JsonInclude]
     public uint SetEnableFogRendering;
+    [JsonInclude]
+    public uint GetTargetFrameRate;
     [JsonInclude]
     public uint SetTargetFrameRate;
     [JsonInclude]

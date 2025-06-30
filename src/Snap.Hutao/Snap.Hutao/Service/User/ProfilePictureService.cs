@@ -79,7 +79,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
                     uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
                     uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
                 }
-                catch (DbException ex)
+                catch (Exception ex)
                 {
                     throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
                 }

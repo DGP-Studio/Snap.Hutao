@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace Snap.Hutao.Core.Threading;
 
-internal interface ITaskContext
+internal interface ITaskContext : ITaskContextUnsafe
 {
     void BeginInvokeOnMainThread([RequireStaticDelegate] Action action);
 

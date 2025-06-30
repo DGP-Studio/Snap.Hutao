@@ -73,48 +73,15 @@ internal static class TaskExtension
         }
     }
 
-    /// <summary>
-    /// Immediately stop waiting the <paramref name="task"/> when the <paramref name="token"/> is triggered.
-    /// </summary>
-    /// <param name="task">The task to cancel waiting with</param>
-    /// <param name="token">The cancellation token to trigger</param>
-    /// <returns>A new task that will complete when <paramref name="task"/> is completed or <paramref name="token"/> is triggered</returns>
-    /// <exception cref="OperationCanceledException">The <paramref name="token"/> is triggered</exception>
-    [SuppressMessage("", "SH003")]
-    [SuppressMessage("", "SH007")]
-    public static async Task WithCancellation(this Task task, CancellationToken token)
+    public static async Task SuppressThrowing<T>(this Task task)
+        where T : Exception
     {
-        TaskCompletionSource tcs = new();
-        using (token.UnsafeRegister(s => ((TaskCompletionSource)s!).TrySetResult(), tcs))
+        try
         {
-            if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(true))
-            {
-                throw new OperationCanceledException(token);
-            }
+            await task;
         }
-    }
-
-    /// <summary>
-    /// Immediately stop waiting the <paramref name="task"/> when the <paramref name="token"/> is triggered.
-    /// </summary>
-    /// <typeparam name="T">Task return value's type</typeparam>
-    /// <param name="task">The task to cancel waiting with</param>
-    /// <param name="token">The cancellation token to trigger</param>
-    /// <returns>A new task that will complete when <paramref name="task"/> is completed or <paramref name="token"/> is triggered</returns>
-    /// <exception cref="OperationCanceledException">The <paramref name="token"/> is triggered</exception>
-    [SuppressMessage("", "SH003")]
-    [SuppressMessage("", "SH007")]
-    public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken token)
-    {
-        TaskCompletionSource tcs = new();
-        using (token.UnsafeRegister(s => ((TaskCompletionSource)s!).TrySetResult(), tcs))
+        catch (T)
         {
-            if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(true))
-            {
-                throw new OperationCanceledException(token);
-            }
         }
-
-        return await task.ConfigureAwait(true);
     }
 }

@@ -23,6 +23,7 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefaultCompat = new LaunchSchemeOversea(ChannelType.Default, SubChannelType.Default, false);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Default);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelOfficial = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Official);
+    private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelNoTapTapCompat = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.NoTapTap, false);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Epic);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelGoogle = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Google);
     private static readonly LaunchScheme ServerGlobalChannelBilibiliSubChannel14Compat = new LaunchSchemeOversea(ChannelType.Bili, (SubChannelType)14, false);
@@ -44,8 +45,15 @@ internal static class KnownLaunchSchemes
         ServerGlobalChannelDefaultSubChannelDefaultCompat,
         ServerGlobalChannelOfficialSubChannelDefault,
         ServerGlobalChannelOfficialSubChannelOfficial,
+        ServerGlobalChannelOfficialSubChannelNoTapTapCompat,
         ServerGlobalChannelOfficialSubChannelEpic,
         ServerGlobalChannelOfficialSubChannelGoogle,
         ServerGlobalChannelBilibiliSubChannel14Compat,
+    ];
+
+    public static ImmutableArray<LaunchScheme> BetaValues { get; } =
+    [
+        ServerChineseChannelOfficialSubChannelOfficial,
+        ServerGlobalChannelOfficialSubChannelDefault,
     ];
 }

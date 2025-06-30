@@ -6,30 +6,30 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [Localization]
 internal enum AvatarPropertySortDescriptionKind
 {
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindDefault")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindDefault))]
     Default,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindLevelNumber")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindLevelNumber))]
     LevelNumber,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindQuality")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindQuality))]
     Quality,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount))]
     ActivatedConstellationCount,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindFetterLevel")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindFetterLevel))]
     FetterLevel,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindMaxHp")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindMaxHp))]
     MaxHp,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindCurAttack")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindCurAttack))]
     CurAttack,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindCurDefense")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindCurDefense))]
     CurDefense,
 
-    [LocalizationKey("ViewModelAvatarPropertySortDescriptionKindElementMastery")]
+    [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindElementMastery))]
     ElementMastery,
 }

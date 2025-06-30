@@ -7,29 +7,32 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal static class NavigationExtraDataSupport
 {
-    public static Task NotifyRecipientAsync(object? target, INavigationCompletionSource data)
+    public static Task<bool> NotifyRecipientAsync(object? target, INavigationCompletionSource data, CancellationToken token)
     {
         if (data is INavigationExtraData extra)
         {
-            return NotifyRecipientAsync(target, extra);
+            return NotifyRecipientAsync(target, extra, token);
         }
 
-        return Task.CompletedTask;
+        return token.IsCancellationRequested ? Task.FromCanceled<bool>(token) : Task.FromResult(false);
     }
 
-    public static async Task NotifyRecipientAsync(object? target, INavigationExtraData extra)
+    public static async Task<bool> NotifyRecipientAsync(object? target, INavigationExtraData extra, CancellationToken token)
     {
+        bool result = false;
         if (target is FrameworkElement frameworkElement)
         {
-            await new FrameworkElementLoaded(frameworkElement).WaitAsync().ConfigureAwait(true); // Accessing DataContext requires MainThread
+            await new FrameworkElementLoaded(frameworkElement).WaitAsync().ConfigureAwait(true);
 
+            // Accessing DataContext requires MainThread
             if (frameworkElement is { DataContext: INavigationRecipient recipient } && extra.Data is not null)
             {
-                await recipient.ReceiveAsync(extra).ConfigureAwait(false);
+                result = await recipient.ReceiveAsync(extra, token).ConfigureAwait(false);
             }
         }
 
         extra.NotifyNavigationCompleted();
+        return result;
     }
 
     internal sealed class FrameworkElementLoaded

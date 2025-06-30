@@ -51,7 +51,16 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             return;
         }
 
-        IsInitialized = false;
+        try
+        {
+            IsInitialized = false;
+        }
+        catch (ObjectDisposedException)
+        {
+            // Cannot access a disposed object. Object name: 'ObjectReference'.
+            return;
+        }
+
         if (message.UserAndUid is { } userAndUid)
         {
             UpdateSignInInfoAsync(userAndUid).SafeForget();

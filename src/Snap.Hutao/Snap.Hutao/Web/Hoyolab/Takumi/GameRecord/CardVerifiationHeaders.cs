@@ -43,6 +43,11 @@ internal sealed class CardVerifiationHeaders
         return Create(apiEndpoints.GameRecordRoleCombatPath());
     }
 
+    public static CardVerifiationHeaders CreateForHardChallenge(IApiEndpoints apiEndpoints)
+    {
+        return Create(apiEndpoints.GameRecordHardChallengePath());
+    }
+
     private static CardVerifiationHeaders Create(string path, string page = $"{HoyolabOptions.ToolVersion}_#/ys")
     {
         return new()

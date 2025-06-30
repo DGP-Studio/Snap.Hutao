@@ -4,12 +4,10 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Diagnostics;
-using System.IO;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -62,29 +60,10 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public async ValueTask<ValueResult<bool, Exception>> LaunchUpdaterAsync()
+    public async ValueTask LaunchUpdaterAsync()
     {
-        string updaterTargetPath;
-        try
-        {
-            updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            // Access to the path '?' is denied.
-            return new(false, ex);
-        }
-
-        try
-        {
-            InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
-        }
-        catch (IOException ex)
-        {
-            // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
-            // The process cannot access the file '?' because it is being used by another process.
-            return new(false, ex);
-        }
+        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -94,23 +73,13 @@ internal sealed partial class UpdateService : IUpdateService
                 .Append("update", await hutaoUserOptions.GetAuthTokenAsync().ConfigureAwait(false))
                 .ToString();
 
-            try
+            // The updater will request UAC permissions itself
+            Process.Start(new ProcessStartInfo
             {
-                // The updater will request UAC permissions itself
-                Process.Start(new ProcessStartInfo
-                {
-                    Arguments = commandLine,
-                    FileName = updaterTargetPath,
-                    UseShellExecute = true,
-                });
-
-                return new(true, default!);
-            }
-            catch (Exception ex)
-            {
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
-                return new(false, ex);
-            }
+                Arguments = commandLine,
+                FileName = updaterTargetPath,
+                UseShellExecute = true,
+            });
         }
     }
 }

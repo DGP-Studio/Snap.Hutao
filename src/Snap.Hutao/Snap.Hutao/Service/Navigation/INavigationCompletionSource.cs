@@ -5,8 +5,6 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal interface INavigationCompletionSource
 {
-    static readonly INavigationCompletionSource Default = new NavigationCompletionSource();
-
     [SuppressMessage("", "SH003")]
     Task WaitForCompletionAsync();
 }

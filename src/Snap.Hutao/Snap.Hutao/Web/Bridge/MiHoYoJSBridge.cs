@@ -136,8 +136,8 @@ internal class MiHoYoJSBridge
         {
             Data = new()
             {
-                [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN]
-            }
+                [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN],
+            },
         };
     }
 
@@ -258,7 +258,7 @@ internal class MiHoYoJSBridge
         }
 
         UserInfo info = wrapper.UserInfo;
-        return new JsResult<Dictionary<string, object>>()
+        return new JsResult<Dictionary<string, object?>>()
         {
             Data = new()
             {

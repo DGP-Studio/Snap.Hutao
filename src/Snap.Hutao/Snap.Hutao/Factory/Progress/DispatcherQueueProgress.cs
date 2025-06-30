@@ -34,6 +34,7 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
     }
 }
 
+[SuppressMessage("", "SA1402")]
 internal class DispatcherQueueProgress<T, TState> : IProgress<T>
 {
     private readonly DispatcherQueue dispatcherQueue;

@@ -36,6 +36,7 @@ internal static partial class SpecialNameHandling
             .Replace("{PLAYERAVATAR#SEXPRO[INFO_MALE_PRONOUN_HE|INFO_FEMALE_PRONOUN_SHE]}", SH.MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe)
             .Replace("{REALNAME[ID(1)|HOSTONLY(true)]}", SH.MetadataSpecialNameRealNameId1)
             .Replace("{REALNAME[ID(1)]}", SH.MetadataSpecialNameRealNameId1)
+            .Replace("{TIMEZONE}", SH.MetadataSpecialNameServerTimeZone)
             .Replace("{NICKNAME}", SH.MetadataSpecialNameNickname)
             .Replace("{NON_BREAK_SPACE}", "\u00A0");
 

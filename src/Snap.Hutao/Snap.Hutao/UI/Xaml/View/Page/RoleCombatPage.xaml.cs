@@ -15,6 +15,6 @@ internal sealed partial class RoleCombatPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<RoleCombatViewModel>();
+        InitializeDataContext<RoleCombatViewModel>();
     }
 }

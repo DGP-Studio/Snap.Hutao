@@ -12,6 +12,8 @@ internal readonly struct ValueFile
         this.value = value;
     }
 
+    public bool HasValue { get => value is not null; }
+
     public static implicit operator string(ValueFile value)
     {
         return value.value;

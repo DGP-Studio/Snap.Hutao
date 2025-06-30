@@ -15,6 +15,6 @@ internal sealed partial class TestPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<TestViewModel>();
+        InitializeDataContext<TestViewModel>();
     }
 }

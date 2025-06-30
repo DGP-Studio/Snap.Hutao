@@ -114,7 +114,9 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
             {
                 // Item has not been measured yet. Get the element and store the values
                 UIElement element = context.GetOrCreateElementAt(i);
-                element.Measure(new Size(state.ColumnWidth, availableHeight));
+
+                // E_FAIL: Failed to assign to property 'Microsoft.UI.Xaml.Shapes.Shape.Stroke'. [Line: 0 Position: 0]
+                element.Measure(new(state.ColumnWidth, availableHeight));
                 item.Height = element.DesiredSize.Height;
                 item.Element = element;
                 measured = true;

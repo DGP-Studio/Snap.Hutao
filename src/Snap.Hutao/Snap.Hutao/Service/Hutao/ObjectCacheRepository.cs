@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -30,15 +31,22 @@ internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
         where T : class
     {
         await taskContext.SwitchToBackgroundAsync();
-        if (this.SingleOrDefault(e => e.Key == key) is { } entry)
+        try
         {
-            if (!entry.IsExpired)
+            if (this.SingleOrDefault(e => e.Key == key) is { } entry)
             {
-                ArgumentNullException.ThrowIfNull(entry.Value);
-                return JsonSerializer.Deserialize<T>(entry.Value, jsonSerializerOptions);
-            }
+                if (!entry.IsExpired)
+                {
+                    ArgumentNullException.ThrowIfNull(entry.Value);
+                    return JsonSerializer.Deserialize<T>(entry.Value, jsonSerializerOptions);
+                }
 
-            this.Delete(entry);
+                this.Delete(entry);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
         }
 
         return default;

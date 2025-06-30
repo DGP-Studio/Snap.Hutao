@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.IO.Http;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
@@ -53,6 +54,7 @@ internal sealed partial class EnkaClient
         try
         {
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetOptions(RetryHttpHandler.DisableRetry, true)
                 .SetRequestUri(url)
                 .Get();
 
@@ -63,7 +65,6 @@ internal sealed partial class EnkaClient
                     return await response.Content.ReadFromJsonAsync<EnkaResponse>(options, token).ConfigureAwait(false);
                 }
 
-                // We want to fallback to original API and retry when requesting our forward api
                 if (isForward)
                 {
                     string content = await response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
@@ -88,7 +89,7 @@ internal sealed partial class EnkaClient
                     HttpStatusCode.FailedDependency => SH.WebEnkaResponseStatusCode424,
                     HttpStatusCode.TooManyRequests => SH.WebEnkaResponseStatusCode429,
                     HttpStatusCode.InternalServerError => SH.WebEnkaResponseStatusCode500,
-                    HttpStatusCode.ServiceUnavailable => SH.WebEnkaResponseStatusCode503,
+                    HttpStatusCode.ServiceUnavailable or HttpStatusCode.GatewayTimeout => SH.WebEnkaResponseStatusCode503,
                     _ => SH.WebEnkaResponseStatusCodeUnknown,
                 };
 

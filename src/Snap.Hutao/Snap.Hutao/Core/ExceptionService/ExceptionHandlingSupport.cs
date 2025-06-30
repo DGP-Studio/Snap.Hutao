@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
@@ -21,11 +22,34 @@ internal sealed partial class ExceptionHandlingSupport
         serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
     }
 
+    [StackTraceHidden]
+    public static Exception KillProcessOnDbException(Exception exception)
+    {
+        ExceptionDispatchInfo dispatch = ExceptionDispatchInfo.Capture(exception);
+
+        if (dispatch.SourceException is DbException dbException)
+        {
+            throw KillProcessOnDbException(dbException);
+        }
+
+        if (dispatch.SourceException is DbUpdateException { InnerException: DbException dbEx })
+        {
+            throw KillProcessOnDbException(dbEx);
+        }
+
+        // In case it's not a DbException, we should preserve the original stack trace
+        dispatch.Throw();
+
+        // Should never be reached
+        return dispatch.SourceException;
+    }
+
+    [StackTraceHidden]
     public static DbException KillProcessOnDbException(DbException exception)
     {
         HutaoNative.Instance.ShowErrorMessage("Warning | 警告", exception.Message);
         Process.GetCurrentProcess().Kill();
-        throw exception;
+        return exception;
     }
 
     private static void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -37,6 +61,7 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
+        Debugger.Break();
         XamlApplicationLifetime.Exiting = true;
 
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs

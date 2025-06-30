@@ -60,7 +60,7 @@ internal sealed partial class AchievementService : IAchievementService
             ImmutableArray<AchievementView>.Builder results = ImmutableArray.CreateBuilder<AchievementView>(context.Achievements.Length);
             foreach (ref readonly Model.Metadata.Achievement.Achievement meta in context.Achievements.AsSpan())
             {
-                results.Add(AchievementView.Create(entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id), meta));
+                results.Add(AchievementView.Create(entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.Create(archive.InnerId, meta.Id), meta));
             }
 
             IAdvancedCollectionView<AchievementView> collection = results.ToArray().AsAdvancedCollectionView();
@@ -139,7 +139,7 @@ internal sealed partial class AchievementService : IAchievementService
             case ImportStrategyKind.Overwrite:
                 {
                     IEnumerable<EntityAchievement> orderedUIAF = array
-                        .Select(uiaf => EntityAchievement.From(archiveId, uiaf))
+                        .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
                         .OrderBy(a => a.Id);
                     return achievementDbBulkOperation.Overwrite(archiveId, orderedUIAF);
                 }

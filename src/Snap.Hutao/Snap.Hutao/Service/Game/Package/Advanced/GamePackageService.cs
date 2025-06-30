@@ -7,6 +7,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -144,6 +145,16 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
+        return await DecodeManifestsAsync(gameFileSystem, build, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(IGameFileSystemView gameFileSystem, SophonBuild? build, CancellationToken token = default)
+    {
+        if (build is null)
+        {
+            return default;
+        }
+
         long downloadTotalBytes = 0L;
         long totalBytes = 0L;
         ImmutableArray<SophonDecodedManifest>.Builder decodedManifests = ImmutableArray.CreateBuilder<SophonDecodedManifest>();
@@ -169,25 +180,139 @@ internal sealed partial class GamePackageService : IGamePackageService
                 downloadTotalBytes += sophonManifest.Stats.CompressedSize;
                 totalBytes += sophonManifest.Stats.UncompressedSize;
 
-                string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
-                using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
+                string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}?{sophonManifest.ManifestDownload.UrlSuffix}";
+                try
                 {
-                    using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
+                    using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
                     {
-                        using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
+                        using (ZstandardDecompressStream decompressor = new(rawManifestStream))
                         {
-                            string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
-                            if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                            using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                             {
-                                inMemoryManifestStream.Position = 0;
-                                decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                                string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
+                                if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    inMemoryManifestStream.Position = 0;
+                                    decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, sophonManifest.ChunkDownload.UrlSuffix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                                }
                             }
                         }
                     }
+                }
+                catch (OperationCanceledException)
+                {
+                    return default;
                 }
             }
         }
 
         return new(build.Tag, downloadTotalBytes, totalBytes, decodedManifests.ToImmutable());
+    }
+
+    public async ValueTask<SophonDecodedPatchBuild?> DecodeDiffManifestsAsync(IGameFileSystemView gameFileSystem, BranchWrapper? branch, CancellationToken token = default)
+    {
+        if (branch is null)
+        {
+            return default;
+        }
+
+        if (!gameFileSystem.TryGetGameVersion(out string? version))
+        {
+            return default;
+        }
+
+        if (!branch.DiffTags.Contains(version))
+        {
+            return default;
+        }
+
+        SophonPatchBuild? build;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            Response<SophonPatchBuild> response = await scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
+                .Create(gameFileSystem.IsExecutableOversea())
+                .GetPatchBuildAsync(branch, token)
+                .ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))
+            {
+                return default;
+            }
+        }
+
+        return await DecodeDiffManifestsAsync(gameFileSystem, build, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<SophonDecodedPatchBuild?> DecodeDiffManifestsAsync(IGameFileSystemView gameFileSystem, SophonPatchBuild? patchBuild, CancellationToken token = default)
+    {
+        if (patchBuild is null)
+        {
+            return default;
+        }
+
+        if (!gameFileSystem.TryGetGameVersion(out string? version))
+        {
+            return default;
+        }
+
+        // If we call this overload directly, we need to add version check here to ensure the patch contains local version.
+
+        long downloadTotalBytes = 0L;
+        long downloadFileCount = 0L;
+        long totalBytes = 0L;
+        long installFileCount = 0L;
+        ImmutableArray<SophonDecodedPatchManifest>.Builder decodedPatchManifests = ImmutableArray.CreateBuilder<SophonDecodedPatchManifest>();
+        using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
+        {
+            foreach (SophonPatchManifest sophonPatchManifest in patchBuild.Manifests)
+            {
+                bool exclude = sophonPatchManifest.MatchingField switch
+                {
+                    "game" => false,
+                    "zh-cn" => !gameFileSystem.Audio.Chinese,
+                    "en-us" => !gameFileSystem.Audio.English,
+                    "ja-jp" => !gameFileSystem.Audio.Japanese,
+                    "ko-kr" => !gameFileSystem.Audio.Korean,
+                    _ => true,
+                };
+
+                if (exclude)
+                {
+                    continue;
+                }
+
+                ManifestStats stats = sophonPatchManifest.Stats[version];
+                downloadTotalBytes += stats.CompressedSize;
+                downloadFileCount += stats.ChunkCount;
+                totalBytes += stats.UncompressedSize;
+                installFileCount += stats.FileCount;
+
+                string manifestDownloadUrl = $"{sophonPatchManifest.ManifestDownload.UrlPrefix}/{sophonPatchManifest.Manifest.Id}?{sophonPatchManifest.ManifestDownload.UrlSuffix}";
+                try
+                {
+                    using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
+                    {
+                        using (ZstandardDecompressStream decompressor = new(rawManifestStream))
+                        {
+                            using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
+                            {
+                                string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
+                                if (manifestMd5.Equals(sophonPatchManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    inMemoryManifestStream.Position = 0;
+                                    decodedPatchManifests.Add(new(version, patchBuild.Tag, sophonPatchManifest.DiffDownload.UrlPrefix, sophonPatchManifest.DiffDownload.UrlSuffix, PatchManifest.Parser.ParseFrom(inMemoryManifestStream)));
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    return default;
+                }
+            }
+        }
+
+        return new(version, patchBuild.Tag, downloadTotalBytes, downloadFileCount, totalBytes, installFileCount, decodedPatchManifests.ToImmutable());
     }
 }

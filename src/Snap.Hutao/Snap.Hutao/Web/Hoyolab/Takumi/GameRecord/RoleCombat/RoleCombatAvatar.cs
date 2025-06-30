@@ -10,24 +10,24 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatAvatar
 {
     [JsonPropertyName("avatar_id")]
-    public AvatarId AvatarId { get; set; }
+    public required AvatarId AvatarId { get; init; }
 
     [JsonPropertyName("avatar_type")]
-    public RoleCombatAvatarType AvatarType { get; set; }
+    public required RoleCombatAvatarType AvatarType { get; init; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
     [JsonPropertyName("element")]
     [JsonEnum(JsonEnumSerializeHandling.String)]
-    public ElementName Element { get; set; } = default!;
+    public required ElementName Element { get; init; }
 
     [JsonPropertyName("image")]
-    public string Image { get; set; } = default!;
+    public required string Image { get; init; }
 
     [JsonPropertyName("level")]
-    public Level Level { get; set; }
+    public required Level Level { get; init; }
 
     [JsonPropertyName("rarity")]
-    public QualityType Rarity { get; set; }
+    public required QualityType Rarity { get; init; }
 }

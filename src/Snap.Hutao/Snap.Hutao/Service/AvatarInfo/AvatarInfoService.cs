@@ -19,7 +19,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
 
-    public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(SummaryFactoryMetadataContext context, UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
+    public async ValueTask<Summary?> GetSummaryAsync(SummaryFactoryMetadataContext context, UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
     {
         switch (refreshOptionKind)
         {
@@ -27,14 +27,14 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
                 {
                     ImmutableArray<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
                     Summary summary = await PrivateGetSummaryAsync(context, list, token).ConfigureAwait(false);
-                    return new(RefreshResultKind.Ok, summary);
+                    return summary;
                 }
 
             default:
                 {
                     ImmutableArray<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(userAndUid.Uid.Value);
                     Summary summary = await PrivateGetSummaryAsync(context, list, token).ConfigureAwait(false);
-                    return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
+                    return summary.Avatars.Count == 0 ? null : summary;
                 }
         }
     }

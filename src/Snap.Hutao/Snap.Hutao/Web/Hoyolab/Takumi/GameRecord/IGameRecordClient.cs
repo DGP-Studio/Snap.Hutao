@@ -21,5 +21,9 @@ internal interface IGameRecordClient
 
     ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default);
 
+    ValueTask<Response<HardChallenge.HardChallenge>> GetHardChallengeAsync(UserAndUid userAndUid, CancellationToken token = default);
+
+    ValueTask<Response<HardChallenge.HardChallengePopularity>> GetHardChallengePopularityAsync(UserAndUid userAndUid, CancellationToken token = default);
+
     ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, ImmutableArray<AvatarId> characterIds, CancellationToken token = default);
 }

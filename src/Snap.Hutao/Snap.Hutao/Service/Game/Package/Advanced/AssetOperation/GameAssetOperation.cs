@@ -6,7 +6,9 @@ using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.IO.HPatch;
 using Snap.Hutao.Factory.IO;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.Collections.Immutable;
@@ -16,6 +18,7 @@ using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
+[SuppressMessage("", "SA1202")]
 [ConstructorGenerated]
 internal abstract partial class GameAssetOperation : IGameAssetOperation
 {
@@ -23,6 +26,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly JsonSerializerOptions jsonOptions;
+
+    #region Chunk
 
     public abstract ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 
@@ -122,7 +127,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         if (!File.Exists(assetPath))
         {
-            conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+            conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.UrlSuffix, asset.AssetProperty));
             context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count, asset.AssetProperty.AssetName));
 
             return;
@@ -172,7 +177,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
                     if (readFailed || !chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
-                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.UrlSuffix, asset.AssetProperty));
                         context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
                         return;
                     }
@@ -260,7 +265,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         IReadOnlyList<SophonChunk> chunks = asset.Kind switch
         {
-            SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk))],
+            SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, asset.UrlSuffix, chunk))],
             SophonAssetOperationKind.Modify => asset.DiffChunks,
             _ => [],
         };
@@ -323,7 +328,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         {
                             using (FileStream diffStream = File.OpenRead(chunkPath))
                             {
-                                using (ZstandardDecompressionStream decompressor = new(diffStream))
+                                using (ZstandardDecompressStream decompressor = new(diffStream))
                                 {
                                     await decompressor.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
                                     context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 0, chunk.ChunkName));
@@ -371,4 +376,161 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
             }
         }
     }
+
+    #endregion
+
+    #region LDiff
+
+    public abstract ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
+
+    public abstract ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
+
+    public abstract ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
+
+    protected static async ValueTask DownloadPatchAsync(GamePackageServiceContext context, SophonPatchAsset asset)
+    {
+        CancellationToken token = context.CancellationToken;
+        token.ThrowIfCancellationRequested();
+        Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
+        string patchPath = Path.Combine(context.Operation.EffectiveChunksDirectory, asset.PatchInfo.Id);
+
+        using (await context.ExclusiveProcessChunkAsync(asset.PatchInfo.Id, token).ConfigureAwait(false))
+        {
+            if (context.DownloadedPatches.ContainsKey(asset.PatchInfo.Id))
+            {
+                return;
+            }
+
+            if (File.Exists(patchPath))
+            {
+                if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashFileAsync(patchPath, token).ConfigureAwait(false)))
+                {
+                    context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
+                    context.Progress.Report(new GamePackageOperationReport.Download(asset.PatchInfo.PatchFileSize, 1, asset.PatchInfo.Id));
+                    return;
+                }
+
+                File.Delete(patchPath);
+            }
+
+            using (FileStream fileStream = File.Create(patchPath))
+            {
+                fileStream.Position = 0;
+
+                using (Stream webStream = await context.HttpClient.GetStreamAsync(asset.PatchDownloadUrl, token).ConfigureAwait(false))
+                {
+                    using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0, asset.PatchInfo.Id)))
+                    {
+                        await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
+
+                        fileStream.Position = 0;
+                        if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false)))
+                        {
+                            context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
+                            context.Progress.Report(new GamePackageOperationReport.Download(0, 1, asset.PatchInfo.Id));
+                            return;
+                        }
+
+                        // We should delete patch file if the hash doesn't match. Retry until all assets rely on this patch file all failed.
+                        // Failed assets will be repaired later.
+                        File.Delete(patchPath);
+                    }
+                }
+            }
+        }
+    }
+
+    protected async ValueTask InstallOrPatchAssetAsync(GamePackageServiceContext context, SophonPatchAsset asset)
+    {
+        CancellationToken token = context.CancellationToken;
+
+        FileData fileData = asset.FileData;
+        PatchInfo patchInfo = asset.PatchInfo;
+
+        string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), fileData.FileName);
+        if (File.Exists(assetPath) && fileData.FileHash.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, assetPath, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        {
+            context.Progress.Report(new GamePackageOperationReport.Install(fileData.FileSize, 1, fileData.FileName));
+            return;
+        }
+
+        long patchStartOffset = patchInfo.PatchStartOffset;
+        long patchLength = patchInfo.PatchLength;
+
+        string patchFilePath = Path.Combine(context.Operation.EffectiveChunksDirectory, patchInfo.Id);
+
+        if (!context.DownloadedPatches.ContainsKey(patchInfo.Id))
+        {
+            await DownloadPatchAsync(context, asset).ConfigureAwait(false);
+            if (!File.Exists(patchFilePath))
+            {
+                // Patch file hash not match, skip this asset and repair later
+                return;
+            }
+        }
+
+        using (SafeFileHandle patchFileHandle = File.OpenHandle(patchFilePath, options: FileOptions.RandomAccess))
+        {
+            if (string.IsNullOrEmpty(patchInfo.OriginalFileName))
+            {
+                using (FileStream newAssetStream = File.Create(context.EnsureAssetTargetDirectoryExists(fileData.FileName)))
+                {
+                    newAssetStream.Position = 0;
+                    using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(ChunkBufferSize))
+                    {
+                        Memory<byte> buffer = memoryOwner.Memory;
+                        while (patchLength > 0)
+                        {
+                            int bytesRead = await RandomAccess.ReadAsync(patchFileHandle, buffer[..(int)Math.Min(buffer.Length, patchLength)], patchStartOffset, token).ConfigureAwait(false);
+                            if (bytesRead <= 0)
+                            {
+                                break;
+                            }
+
+                            await newAssetStream.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
+                            context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0, fileData.FileName));
+                            patchStartOffset += bytesRead;
+                            patchLength -= bytesRead;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), fileData.FileName);
+                if (!File.Exists(oldAssetPath))
+                {
+                    // File not found, skip this asset and repair later
+                    return;
+                }
+
+                using (MemoryStream newAssetStream = memoryStreamFactory.GetStreamExactly(fileData.FileSize))
+                {
+                    SafeFileHandle oldAssetHandle = File.OpenHandle(oldAssetPath, options: FileOptions.RandomAccess);
+                    using (FileSegment oldFileSegment = new(oldAssetHandle))
+                    {
+                        using (FileSegment patchFileSegment = new(patchFileHandle, patchStartOffset, patchLength, false))
+                        {
+                            if (!HPatch.PatchZstandard(oldFileSegment, patchFileSegment, newAssetStream))
+                            {
+                                // HPatch failed, skip this asset and repair later
+                                return;
+                            }
+                        }
+                    }
+
+                    using (FileStream newAssetFileStream = File.Create(context.EnsureAssetTargetDirectoryExists(fileData.FileName)))
+                    {
+                        newAssetStream.Position = 0;
+                        newAssetFileStream.Position = 0;
+                        await newAssetStream.CopyToAsync(newAssetFileStream, token).ConfigureAwait(false);
+                    }
+                }
+            }
+
+            context.Progress.Report(new GamePackageOperationReport.Install(fileData.FileSize, 1, fileData.FileName));
+        }
+    }
+
+    #endregion
 }

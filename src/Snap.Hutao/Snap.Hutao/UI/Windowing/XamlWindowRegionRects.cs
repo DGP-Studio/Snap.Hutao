@@ -26,7 +26,6 @@ internal static class XamlWindowRegionRects
         }
 
         InputNonClientPointerSource inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
-
         {
             FrameworkElement element = xamlWindow.TitleBarCaptionAccess;
             Point position = element.TransformToVisual(window.Content).TransformPoint(default);

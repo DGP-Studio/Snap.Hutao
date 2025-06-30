@@ -41,13 +41,13 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             try
             {
-                metadataContext = await metadataService.GetContextAsync<WikiMonsterMetadataContext>().ConfigureAwait(false);
+                metadataContext = await metadataService.GetContextAsync<WikiMonsterMetadataContext>(token).ConfigureAwait(false);
 
                 foreach (Monster monster in metadataContext.Monsters)
                 {

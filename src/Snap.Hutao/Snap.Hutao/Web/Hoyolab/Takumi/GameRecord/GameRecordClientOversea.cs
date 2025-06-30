@@ -7,6 +7,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -119,5 +120,15 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
+    }
+
+    public ValueTask<Response<HardChallengePopularity>> GetHardChallengePopularityAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<HardChallengePopularity>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<HardChallenge.HardChallenge>> GetHardChallengeAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<HardChallenge.HardChallenge>>(new NotSupportedException());
     }
 }

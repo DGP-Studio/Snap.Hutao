@@ -116,10 +116,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         if (SelectedScheme is not null && GameAccountsView is not null)
                         {
                             // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                            if (GameAccountsView.CurrentItem is null)
-                            {
-                                GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccount(SelectedScheme));
-                            }
+                            // Except when scheme is bilibili, which is not supported
+                            _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(SelectedScheme));
                         }
                         else
                         {
@@ -182,7 +180,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
@@ -202,7 +200,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         taskContext.InvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (LaunchOptions.GamePathEntries.IsDefaultOrEmpty)
         {

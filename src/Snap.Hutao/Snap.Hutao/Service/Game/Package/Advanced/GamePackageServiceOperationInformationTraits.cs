@@ -6,8 +6,10 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
+using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -37,12 +39,12 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         (long downloadTotalBytes, long installTotalBytes) = context.Kind switch
         {
             GamePackageOperationKind.Install or GamePackageOperationKind.ExtractExecutable => (remoteBuild.DownloadTotalBytes, remoteBuild.UncompressedTotalBytes),
-            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload => (GetDownloadTotalBytes(diffAssets), GetUnCompressedTotalBytes(diffAssets)),
-            GamePackageOperationKind.ExtractBlocks => (GetUnCompressedTotalBytes(diffAssets, true), GetUnCompressedTotalBytes(diffAssets, true)),
+            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload or GamePackageOperationKind.ExtractBlocks => GetTotalByteGroupsWithPatchBuild(context, diffAssets),
             _ => throw HutaoException.NotSupported(),
         };
 
-        long actualTotalBytes = installTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
+        long downloadedTotalBytes = GetSize(context.EffectiveChunksDirectory);
+        long actualTotalBytes = installTotalBytes - downloadedTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
         long availableBytes = LogicalDrive.GetAvailableFreeSpace(context.EffectiveGameDirectory);
 
         string formattedDownloadTotalBytes = Converters.ToFileSizeString(downloadTotalBytes);
@@ -66,12 +68,41 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         (int downloadTotalBlocks, int installTotalBlocks) = context.Kind switch
         {
             GamePackageOperationKind.Install or GamePackageOperationKind.ExtractExecutable => (remoteBuild.TotalChunks, remoteBuild.TotalChunks),
-            GamePackageOperationKind.Update or GamePackageOperationKind.ExtractBlocks => (GetDownloadTotalBlocks(diffAssets), GetInstallTotalBlocks(diffAssets)),
-            GamePackageOperationKind.Predownload => (GetDownloadTotalBlocks(diffAssets), 0),
+            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload or GamePackageOperationKind.ExtractBlocks => GetTotalBlockGroupsWithPatchBuild(context, diffAssets),
             _ => throw HutaoException.NotSupported(),
         };
 
         return new(downloadTotalBlocks, installTotalBlocks, downloadTotalBytes, installTotalBytes, diffAssets);
+    }
+
+    private static (long DownloadTotalBytes, long InstallTotalBytes) GetTotalByteGroupsWithPatchBuild(GamePackageOperationContext context, ImmutableArray<SophonAssetOperation> assets)
+    {
+        if (context.PatchBuild is { } patchBuild)
+        {
+            return (patchBuild.DownloadTotalBytes, patchBuild.UncompressedTotalBytes);
+        }
+
+        return context.Kind switch
+        {
+            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload => (GetDownloadTotalBytes(assets), GetUnCompressedTotalBytes(assets)),
+            GamePackageOperationKind.ExtractBlocks => (GetUnCompressedTotalBytes(assets, true), GetUnCompressedTotalBytes(assets, true)),
+            _ => throw HutaoException.NotSupported(),
+        };
+    }
+
+    private static (int DownloadTotalBlocks, int InstallTotalBlocks) GetTotalBlockGroupsWithPatchBuild(GamePackageOperationContext context, ImmutableArray<SophonAssetOperation> assets)
+    {
+        if (context.PatchBuild is { } patchBuild)
+        {
+            return ((int)patchBuild.DownloadFileCount, (int)patchBuild.InstallFileCount);
+        }
+
+        return context.Kind switch
+        {
+            GamePackageOperationKind.Update or GamePackageOperationKind.ExtractBlocks => (GetDownloadTotalBlocks(assets), GetInstallTotalBlocks(assets)),
+            GamePackageOperationKind.Predownload => (GetDownloadTotalBlocks(assets), 0),
+            _ => throw HutaoException.NotSupported(),
+        };
     }
 
     private static string GetDialogTitle(GamePackageOperationContext context, bool hasAvailableFreeSpace)
@@ -100,7 +131,7 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
             {
                 if (localManifest.Data.Assets.FirstOrDefault(localAsset => localAsset.AssetName.Equals(remoteAsset.AssetName, StringComparison.OrdinalIgnoreCase)) is not { } localAsset)
                 {
-                    yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, remoteAsset);
+                    yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, remoteAsset);
                     continue;
                 }
 
@@ -114,11 +145,11 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
                 {
                     if (localAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
                     {
-                        diffChunks.Add(new(remoteManifest.UrlPrefix, chunk));
+                        diffChunks.Add(new(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, chunk));
                     }
                 }
 
-                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, remoteAsset, diffChunks.ToImmutable());
+                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, remoteManifest.UrlSuffix, localAsset, remoteAsset, diffChunks.ToImmutable());
             }
 
             foreach (AssetProperty localAsset in localManifest.Data.Assets)
@@ -203,5 +234,51 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         }
 
         return totalBlocks;
+    }
+
+    private static long GetSize(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            return 0;
+        }
+
+        long size = 0;
+        DateTime cutoffDate = DateTime.Now.AddDays(-5);
+
+        try
+        {
+            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    System.IO.FileInfo fileInfo = new(file);
+                    if (fileInfo.CreationTime <= cutoffDate)
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch (Exception)
+                        {
+                            // Ignore
+                        }
+
+                        continue;
+                    }
+
+                    size += fileInfo.Length;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+            }
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+
+        return size;
     }
 }

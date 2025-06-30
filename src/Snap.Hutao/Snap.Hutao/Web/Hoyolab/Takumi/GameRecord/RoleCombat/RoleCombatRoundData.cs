@@ -1,34 +1,37 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 internal sealed class RoleCombatRoundData
 {
     [JsonPropertyName("avatars")]
-    public List<RoleCombatAvatar> Avatars { get; set; } = default!;
+    public required ImmutableArray<RoleCombatAvatar> Avatars { get; init; }
 
     [JsonPropertyName("choice_cards")]
-    public List<RoleCombatBuff> ChoiceCards { get; set; } = default!;
+    public required ImmutableArray<RoleCombatBuff> ChoiceCards { get; init; }
 
     [JsonPropertyName("buffs")]
-    public List<RoleCombatBuff> Buffs { get; set; } = default!;
-
-    [JsonPropertyName("enemies")]
-    public List<RoleCombatEnemy> Enemies { get; set; } = default!;
+    public required ImmutableArray<RoleCombatBuff> Buffs { get; init; }
 
     [JsonPropertyName("is_get_medal")]
-    public bool IsGetMedal { get; set; }
+    public required bool IsGetMedal { get; init; }
 
     [JsonPropertyName("round_id")]
-    public uint RoundId { get; set; }
+    public required uint RoundId { get; init; }
 
     [JsonPropertyName("finish_time")]
-    public long FinishTime { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public required long FinishTime { get; init; }
 
     [JsonPropertyName("finish_date_time")]
-    public DateTime FinishDateTime { get; set; } = default!;
+    public required DateTime FinishDateTime { get; init; }
+
+    [JsonPropertyName("enemies")]
+    public required ImmutableArray<RoleCombatEnemy> Enemies { get; init; }
 
     [JsonPropertyName("splendour_buff")]
-    public RoleCombatSplendourBuffWrapper SplendourBuff { get; set; } = default!;
+    public required RoleCombatSplendourBuffWrapper SplendourBuff { get; init; }
 }

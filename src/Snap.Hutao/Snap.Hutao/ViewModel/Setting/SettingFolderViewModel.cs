@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
 using System.IO;
 using Windows.System;
@@ -18,7 +19,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
         this.taskContext = taskContext;
         Folder = folder;
 
-        SetFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).SafeForget();
+        UpdateFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).SafeForget();
     }
 
     public string Folder { get; }
@@ -27,17 +28,24 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
     public partial string? Size { get; set; }
 
     [SuppressMessage("", "SH003")]
-    public async Task SetFolderSizeTimeoutAsync(TimeSpan timeout)
+    public async Task UpdateFolderSizeTimeoutAsync(TimeSpan timeout)
     {
         // We don't want this function to run indefinitely in principle,
         // users can have a lot of files in the folder if they manually put them in
         using (CancellationTokenSource source = new(timeout))
         {
-            await SetFolderSizeAsync(source.Token).ConfigureAwait(false);
+            try
+            {
+                await UpdateFolderSizeAsync(source.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Ignore
+            }
         }
     }
 
-    private async ValueTask SetFolderSizeAsync(CancellationToken token)
+    private async ValueTask UpdateFolderSizeAsync(CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         long totalSize = 0;
@@ -47,22 +55,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
             return;
         }
 
-        try
-        {
-            foreach (string file in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
-            {
-                token.ThrowIfCancellationRequested();
-                totalSize += new FileInfo(file).Length;
-            }
-        }
-        catch (UnauthorizedAccessException)
-        {
-            // Mostly 'System Volume Information' folder,
-            // Users prefer to store their data in root directory
-            // For all situations, we can't do anything about it
-            totalSize = 0;
-        }
-
+        totalSize = DirectoryOperation.GetSize(Folder, token);
         await taskContext.SwitchToMainThreadAsync();
         Size = SH.FormatViewModelSettingFolderSizeDescription(Converters.ToFileSizeString(totalSize));
     }

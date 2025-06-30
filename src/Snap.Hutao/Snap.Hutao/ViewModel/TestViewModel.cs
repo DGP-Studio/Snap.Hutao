@@ -16,6 +16,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Windowing;
@@ -65,55 +66,67 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.SuppressMetadataInitialization, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.SuppressMetadataInitialization, value);
     }
 
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideElevationRequirement, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideElevationRequirement, value);
     }
 
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideUpdateVersionComparison, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
     }
 
     public bool OverrideHardDriveType
     {
         get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePhysicalDriverType, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePhysicalDriverType, value);
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
         get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
     }
 
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
     }
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
     }
 
     public bool AlphaBuildUseFJPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
+    }
+
+    public bool TreatPredownloadAsMain
+    {
+        get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.TreatPredownloadAsMain, value);
+    }
+
+    public bool EnableBetaGameInstall
+    {
+        get => LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.EnableBetaGameInstall, value);
     }
 
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
@@ -404,11 +417,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
                 SophonDecodedBuild? localBuild;
                 SophonDecodedBuild? remoteBuild;
+                SophonDecodedPatchBuild? patchBuild;
                 using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
-                    if (localBuild is null || remoteBuild is null)
+                    patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+                    if (localBuild is null || remoteBuild is null || patchBuild is null)
                     {
                         infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
                         return;
@@ -421,6 +436,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     gameFileSystem,
                     ExtractGameAssetBundles(localBuild),
                     ExtractGameAssetBundles(remoteBuild),
+                    ExtractGameAssetBundlesPatched(patchBuild),
                     default,
                     extractDirectory);
 
@@ -432,7 +448,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.AddRange(manifest.Data.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-                return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, proto)]);
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+            }
+
+            SophonDecodedPatchBuild ExtractGameAssetBundlesPatched(SophonDecodedPatchBuild patchBuild)
+            {
+                SophonDecodedPatchManifest manifest = patchBuild.Manifests.First();
+                PatchManifest proto = new();
+                proto.FileDatas.AddRange(manifest.Data.FileDatas.Where(fd => AssetBundlesBlockRegex.IsMatch(fd.FileName)));
+                return new(patchBuild.OriginalTag, patchBuild.Tag, proto.FileDatas.Sum(fd => fd.PatchesEntries.Where(pe => pe.Key == patchBuild.OriginalTag).Sum(pe => pe.PatchInfo.PatchFileSize)), proto.FileDatas.Sum(fd => fd.PatchesEntries.Count(pe => pe.Key == patchBuild.OriginalTag)), proto.FileDatas.Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null).Sum(fd => fd.FileSize), proto.FileDatas.Count(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null), [new(patchBuild.OriginalTag, patchBuild.Tag, manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }
@@ -511,6 +535,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     default!,
                     ExtractGameExecutable(build),
                     default,
+                    default,
                     default);
 
                 await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
@@ -521,7 +546,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.Add(manifest.Data.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
-                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }

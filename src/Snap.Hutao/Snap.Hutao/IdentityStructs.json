@@ -84,6 +84,12 @@
     "EqualityOperators": true
   },
   {
+    "Name": "HardChallengeScheduleId",
+    "Documentation": "幽境危战 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "HyperLinkNameId",
     "Documentation": "超链接名称 Id",
     "Equatable": true,
@@ -110,6 +116,12 @@
   {
     "Name": "MonsterId",
     "Documentation": "怪物 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "NameCardId",
+    "Documentation": "名片 Id",
     "Equatable": true,
     "EqualityOperators": true
   },

@@ -11,6 +11,11 @@ namespace Snap.Hutao.ViewModel.Wiki;
 // ReSharper disable PossibleMultipleEnumeration
 internal static class AvatarFilter
 {
+    public static Predicate<Avatar>? Compile(SearchData? searchData)
+    {
+        return searchData is { FilterTokens.Count: > 0 } ? Compile(searchData.FilterTokens) : default;
+    }
+
     public static Predicate<Avatar> Compile(IEnumerable<SearchToken> input)
     {
         ILookup<SearchTokenKind, string> lookup = input.ToLookup(token => token.Kind, token => token.Value);

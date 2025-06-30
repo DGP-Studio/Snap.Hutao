@@ -63,7 +63,7 @@ internal sealed partial class OverlayViewModel : Abstraction.ViewModel
         SelectedCatalog = Catalogs[index];
     }
 
-    protected override ValueTask<bool> LoadOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         string selectedId = LocalSetting.Get(SettingKeys.OverlaySelectedCatalogId, "HotKey");
         SelectedCatalog = Catalogs.SingleOrDefault(c => c.Id == selectedId);

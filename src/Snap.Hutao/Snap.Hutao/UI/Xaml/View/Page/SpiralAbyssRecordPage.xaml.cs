@@ -15,6 +15,6 @@ internal sealed partial class SpiralAbyssRecordPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<SpiralAbyssRecordViewModel>();
+        InitializeDataContext<SpiralAbyssRecordViewModel>();
     }
 }

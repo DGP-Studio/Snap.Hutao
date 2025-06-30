@@ -4,15 +4,13 @@
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Frozen;
-using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Cultivation;
@@ -25,9 +23,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -37,45 +33,44 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
+internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>, IDisposable
 {
+    private readonly ExclusiveTokenProvider refreshTokenProvider = new();
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private SummaryFactoryMetadataContext? metadataContext;
-    private FrozenDictionary<string, SearchToken> availableTokens;
 
     public Summary? Summary { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
+    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
-
-    public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
-
-    public string TotalAvatarCount
-    {
-        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0);
-    }
+    public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
     public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
 
     public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
     {
-        get => field ??= SortDescriptionKinds.FirstOrDefault();
+        get => field ??= Selection.Initialize(SortDescriptionKinds, UnsafeLocalSetting.Get(SettingKeys.AvatarPropertySortDescriptionKind, AvatarPropertySortDescriptionKind.Default));
         set
         {
             if (value is not null && SetProperty(ref field, value))
             {
-                using (Summary?.Avatars.DeferRefresh())
+                UnsafeLocalSetting.Set(SettingKeys.AvatarPropertySortDescriptionKind, value.Value);
+                if (Summary?.Avatars is not { } avatars)
                 {
-                    Summary?.Avatars.SortDescriptions.Clear();
+                    return;
+                }
+
+                using (avatars.DeferRefresh())
+                {
+                    avatars.SortDescriptions.Clear();
                     foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(value.Value).AsSpan())
                     {
-                        Summary?.Avatars.SortDescriptions.Add(sd);
+                        avatars.SortDescriptions.Add(sd);
                     }
                 }
 
-                Summary?.Avatars.MoveCurrentToFirst();
+                avatars.MoveCurrentToFirst();
             }
         }
     }
@@ -87,6 +82,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
+        CancellationToken token = refreshTokenProvider.GetNewToken();
         WeakReference<AvatarPropertyViewModel> weakThis = new(this);
 
         // 1. We need to wait for the view initialization (mainly for metadata context).
@@ -99,36 +95,42 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     return;
                 }
 
-                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewDisposed)
+                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewUnloaded)
                 {
-                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, viewModel.CancellationToken).SafeForget();
+                    using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, viewModel.CancellationToken);
+                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, linkedCts.Token).SafeForget();
                 }
             },
+            token,
+            TaskContinuationOptions.None,
             TaskScheduler.Current);
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    public override void Dispose()
+    {
+        refreshTokenProvider.Dispose();
+        base.Dispose();
+    }
+
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>().ConfigureAwait(false);
-        availableTokens = FrozenDictionary.ToFrozenDictionary(
-        [
-            .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
-            .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
-            .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
-        ]);
+        metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>(token).ConfigureAwait(false);
+        SearchData searchData = SearchData.CreateForAvatarProperty();
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
+            using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, refreshTokenProvider.GetNewToken());
+            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, linkedCts.Token).ConfigureAwait(false);
         }
 
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        FilterTokens = [];
+        SearchData = searchData;
+
         return true;
     }
 
@@ -139,7 +141,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
+            using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken, refreshTokenProvider.GetNewToken());
+            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, linkedCts.Token).ConfigureAwait(false);
         }
     }
 
@@ -150,49 +153,27 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         try
         {
-            await scopeContext.TaskContext.SwitchToMainThreadAsync();
-            Summary = default;
-
-            ValueResult<RefreshResultKind, Summary?> summaryResult;
+            Summary? summary;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 ContentDialog dialog = await scopeContext.ContentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
 
                 using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
-                    summaryResult = await scopeContext.AvatarInfoService
+                    token.ThrowIfCancellationRequested();
+                    summary = await scopeContext.AvatarInfoService
                         .GetSummaryAsync(metadataContext, userAndUid, optionKind, token)
                         .ConfigureAwait(false);
                 }
             }
 
-            (RefreshResultKind result, Summary? summary) = summaryResult;
-            if (result is RefreshResultKind.Ok)
-            {
-                await scopeContext.TaskContext.SwitchToMainThreadAsync();
-                Summary = summary;
-                Summary?.Avatars.MoveCurrentToFirst();
-            }
-            else
-            {
-                switch (result)
-                {
-                    case RefreshResultKind.APIUnavailable:
-                        scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyEnkaApiUnavailable);
-                        break;
-
-                    case RefreshResultKind.StatusCodeNotSucceed:
-                        ArgumentNullException.ThrowIfNull(summary);
-                        scopeContext.InfoBarService.Warning(summary.Message);
-                        break;
-
-                    case RefreshResultKind.ShowcaseNotOpen:
-                        scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyShowcaseNotOpen);
-                        break;
-                }
-            }
+            await scopeContext.TaskContext.SwitchToMainThreadAsync();
+            token.ThrowIfCancellationRequested();
+            Summary = summary;
+            Summary?.Avatars.MoveCurrentToFirst();
         }
         catch (OperationCanceledException)
         {
@@ -221,12 +202,12 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+        CalculableOptions options = new(avatar, avatar.Weapon);
         CultivatePromotionDeltaDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(scopeContext.ServiceProvider, options).ConfigureAwait(false);
-        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(scopeContext.ServiceProvider, options)
+            .ConfigureAwait(false);
 
-        if (!isOk)
+        if (await dialog.GetPromotionDeltaAsync().ConfigureAwait(false) is not (true, { } deltaOptions))
         {
             return;
         }
@@ -236,7 +217,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         {
             CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
             Response<CalculatorBatchConsumption> response = await calculatorClient
-                .BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+                .BatchComputeAsync(userAndUid, deltaOptions.Delta)
+                .ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
             {
@@ -267,15 +249,15 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         CultivatePromotionDeltaBatchDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
-        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaBaselineAsync().ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>(scopeContext.ServiceProvider)
+            .ConfigureAwait(false);
 
-        if (!isOk)
+        if (await dialog.GetPromotionDeltaBaselineAsync().ConfigureAwait(false) is not (true, { } baseline))
         {
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(deltaOptions.Delta.Weapon);
+        ArgumentNullException.ThrowIfNull(baseline.Delta.Weapon);
 
         ContentDialog progressDialog = await scopeContext.ContentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyBatchCultivateProgressTitle)
@@ -287,7 +269,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ImmutableArray<CalculatorAvatarPromotionDelta>.Builder deltasBuilder = ImmutableArray.CreateBuilder<CalculatorAvatarPromotionDelta>();
             foreach (AvatarView avatar in avatars)
             {
-                if (!deltaOptions.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
+                if (!baseline.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
                 {
                     ++result.SkippedCount;
                     continue;
@@ -312,7 +294,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
             foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in batchConsumption.Items.Zip(deltas))
             {
-                if (!await SaveCultivationAsync(consumption, new(delta, deltaOptions.Strategy)).ConfigureAwait(false))
+                if (!await SaveCultivationAsync(consumption, new(delta, baseline.Strategy), true).ConfigureAwait(false))
                 {
                     break;
                 }
@@ -321,18 +303,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             }
         }
 
-        if (result.SkippedCount > 0)
-        {
-            scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
-        }
-        else
-        {
-            scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
-        }
+        _ = result.SkippedCount > 0
+            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount))
+            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
     }
 
     /// <returns><see langword="true"/> if we can continue saving consumptions, otherwise <see langword="false"/>.</returns>
-    private async ValueTask<bool> SaveCultivationAsync(CalculatorConsumption consumption, CultivatePromotionDeltaOptions options)
+    private async ValueTask<bool> SaveCultivationAsync(CalculatorConsumption consumption, CultivatePromotionDeltaOptions options, bool isBatch = false)
     {
         LevelInformation levelInformation = LevelInformation.From(options.Delta);
 
@@ -350,8 +327,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         _ = avatarSaveKind switch
         {
             ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
-            ConsumptionSaveResultKind.Skipped => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
-            ConsumptionSaveResultKind.NoItem => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+            ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+            ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
             ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
             _ => default,
         };
@@ -361,37 +338,28 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return false;
         }
 
-        try
+        ArgumentNullException.ThrowIfNull(options.Delta.Weapon);
+
+        InputConsumption weaponInput = new()
         {
-            ArgumentNullException.ThrowIfNull(options.Delta.Weapon);
+            Type = CultivateType.Weapon,
+            ItemId = options.Delta.Weapon.Id,
+            Items = consumption.WeaponConsume,
+            LevelInformation = levelInformation,
+            Strategy = options.Strategy,
+        };
 
-            InputConsumption weaponInput = new()
-            {
-                Type = CultivateType.Weapon,
-                ItemId = options.Delta.Weapon.Id,
-                Items = consumption.WeaponConsume,
-                LevelInformation = levelInformation,
-                Strategy = options.Strategy,
-            };
-
-            ConsumptionSaveResultKind weaponSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(weaponInput).ConfigureAwait(false);
-            _ = weaponSaveKind switch
-            {
-                ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
-                ConsumptionSaveResultKind.Skipped => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
-                ConsumptionSaveResultKind.NoItem => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-                ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
-                _ => default,
-            };
-
-            return weaponSaveKind is not ConsumptionSaveResultKind.NoProject;
-        }
-        catch (HutaoException ex)
+        ConsumptionSaveResultKind weaponSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(weaponInput).ConfigureAwait(false);
+        _ = weaponSaveKind switch
         {
-            scopeContext.InfoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
-        }
+            ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
+            ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+            ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+            ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            _ => default,
+        };
 
-        return false;
+        return weaponSaveKind is not ConsumptionSaveResultKind.NoProject;
     }
 
     [Command("ExportToTextCommand")]
@@ -404,14 +372,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false))
-        {
-            scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess);
-        }
-        else
-        {
-            scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
-        }
+        _ = await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false)
+            ? scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess)
+            : scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
     }
 
     [Command("FilterCommand")]
@@ -424,8 +387,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        Summary.Avatars.Filter = FilterTokens is null or [] ? default! : AvatarViewFilter.Compile(FilterTokens);
-        OnPropertyChanged(nameof(TotalAvatarCount));
+        Summary.Avatars.Filter = AvatarViewFilter.Compile(SearchData);
+        OnPropertyChanged(nameof(FormattedTotalAvatarCount));
 
         if (Summary.Avatars.CurrentItem is null)
         {

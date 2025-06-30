@@ -6,17 +6,17 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatData
 {
     [JsonPropertyName("detail")]
-    public RoleCombatDetail Detail { get; set; } = default!;
+    public required RoleCombatDetail Detail { get; init; }
 
     [JsonPropertyName("stat")]
-    public RoleCombatStat Stat { get; set; } = default!;
+    public required RoleCombatStat Stat { get; init; }
 
     [JsonPropertyName("schedule")]
-    public RoleCombatSchedule Schedule { get; set; } = default!;
+    public required RoleCombatSchedule Schedule { get; init; }
 
     [JsonPropertyName("has_data")]
-    public bool HasData { get; set; }
+    public required bool HasData { get; init; }
 
     [JsonPropertyName("has_detail_data")]
-    public bool HasDetailData { get; set; }
+    public required bool HasDetailData { get; init; }
 }

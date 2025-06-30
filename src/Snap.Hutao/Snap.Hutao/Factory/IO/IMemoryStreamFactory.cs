@@ -8,4 +8,6 @@ namespace Snap.Hutao.Factory.IO;
 internal interface IMemoryStreamFactory
 {
     MemoryStream GetStream();
+
+    MemoryStream GetStreamExactly(long requiredSize);
 }

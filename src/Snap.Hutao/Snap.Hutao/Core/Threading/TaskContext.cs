@@ -8,7 +8,7 @@ using WinRT;
 namespace Snap.Hutao.Core.Threading;
 
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
-internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
+internal sealed class TaskContext : ITaskContext
 {
     public TaskContext()
     {

@@ -15,6 +15,6 @@ internal sealed partial class LaunchGamePage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<LaunchGameViewModel>();
+        InitializeDataContext<LaunchGameViewModel>();
     }
 }

@@ -19,11 +19,19 @@
         </Style>
 
         <DataTemplate x:Key="SkillHeaderTemplate">
-            <StackPanel Background="Transparent" ToolTipService.ToolTip="{Binding Name}">
+            <StackPanel
+                Background="Transparent"
+                Spacing="4"
+                ToolTipService.ToolTip="{Binding Name}">
                 <shuxci:CachedImage
                     shux:FrameworkElementHelper.SquareLength="36"
                     ShowAsMonoChrome="True"
                     Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Opacity="0.8"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

@@ -19,7 +19,7 @@ internal sealed partial class AchievementArchive : ISelectable, IAdvancedCollect
 
     public bool IsSelected { get; set; }
 
-    public static AchievementArchive From(string name)
+    public static AchievementArchive Create(string name)
     {
         return new() { Name = name };
     }

@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -25,7 +26,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
+internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient, IDisposable
 {
     public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
@@ -36,9 +37,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly SortDescription achievementDefaultSortDescription = new(nameof(AchievementView.Order), SortDirection.Ascending);
     private readonly SortDescription achievementGoalDefaultSortDescription = new(nameof(AchievementGoalView.Order), SortDirection.Ascending);
 
-    private readonly AchievementViewModelScopeContext scopeContext;
+    private readonly ExclusiveTokenProvider achievementsTokenProvider = new();
 
-    public partial RuntimeOptions RuntimeOptions { get; }
+    private readonly AchievementViewModelScopeContext scopeContext;
 
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
@@ -75,7 +76,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [GeneratedRegex("\\d\\.\\d")]
     private static partial Regex VersionRegex { get; }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
@@ -91,30 +92,39 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    public override void Dispose()
+    {
+        achievementsTokenProvider.Dispose();
+        base.Dispose();
+    }
+
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        IAdvancedCollectionView<AchievementGoalView> sortedGoals;
+        token.ThrowIfCancellationRequested();
 
+        IAdvancedCollectionView<AchievementGoalView> sortedGoals;
+        IAdvancedDbCollectionView<EntityArchive> archives;
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             ImmutableArray<MetadataAchievementGoal> goals = await scopeContext.MetadataService
-                .GetAchievementGoalArrayAsync(CancellationToken)
+                .GetAchievementGoalArrayAsync(token)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().AsAdvancedCollectionView();
+            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.Create).AsAdvancedCollectionView();
+            archives = await scopeContext.AchievementService.GetArchiveCollectionAsync(token).ConfigureAwait(false);
         }
 
-        IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchiveCollectionAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
         AchievementGoals = sortedGoals;
         Archives = archives;
         Archives.MoveCurrentTo(Archives.Source.SelectedOrDefault());
+
         return true;
     }
 
@@ -130,7 +140,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void OnCurrentArchiveChanged(object? sender, object? e)
     {
-        UpdateAchievementsAsync(Archives?.CurrentItem).SafeForget();
+        UpdateAchievementCollectionAsync(Archives?.CurrentItem, achievementsTokenProvider.GetNewToken()).SafeForget();
     }
 
     private void OnCurrentAchievementGoalChanged(object? sender, object? e)
@@ -150,28 +160,18 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
 
         AchievementArchiveCreateDialog dialog = await scopeContext.ContentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
-        (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        if (await dialog.GetInputAsync().ConfigureAwait(false) is not (true, { } name))
         {
             return;
         }
 
-        switch (await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.From(name)).ConfigureAwait(false))
+        _ = await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.Create(name)).ConfigureAwait(false) switch
         {
-            case ArchiveAddResultKind.Added:
-                await scopeContext.TaskContext.SwitchToMainThreadAsync();
-                scopeContext.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
-                break;
-            case ArchiveAddResultKind.InvalidName:
-                scopeContext.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
-                break;
-            case ArchiveAddResultKind.AlreadyExists:
-                scopeContext.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
-                break;
-            default:
-                throw HutaoException.NotSupported();
-        }
+            ArchiveAddResultKind.Added => scopeContext.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name)),
+            ArchiveAddResultKind.InvalidName => scopeContext.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName),
+            ArchiveAddResultKind.AlreadyExists => scopeContext.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
+            _ => throw HutaoException.NotSupported(),
+        };
     }
 
     [Command("RemoveArchiveCommand")]
@@ -217,26 +217,24 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        (bool isOk, ValueFile file) = scopeContext.FileSystemPickerInteraction.SaveFile(
-            SH.ViewModelAchievementUIAFExportPickerTitle,
-            $"{Archives.CurrentItem.Name}.json",
-            SH.ViewModelAchievementExportFileType,
-            "*.json");
+        FileSystemPickerOptions pickerOptions = new()
+        {
+            Title = SH.ViewModelAchievementUIAFExportPickerTitle,
+            DefaultFileName = $"{Archives.CurrentItem.Name}.json",
+            FilterName = SH.ViewModelAchievementExportFileType,
+            FilterType = "*.json",
+        };
 
-        if (!isOk)
+        if (scopeContext.FileSystemPickerInteraction.SaveFile(pickerOptions) is not (true, { HasValue: true } file))
         {
             return;
         }
 
         UIAF uiaf = await scopeContext.AchievementService.ExportToUIAFAsync(Archives.CurrentItem).ConfigureAwait(false);
-        if (await file.SerializeToJsonAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false))
-        {
-            scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-        }
-        else
-        {
-            scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
-        }
+
+        _ = await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false)
+            ? scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage)
+            : scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
     }
 
     [Command("ImportUIAFFromEmbeddedYaeCommand")]
@@ -252,7 +250,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (await scopeContext.AchievementImporter.FromEmbeddedYaeAsync(scopeContext).ConfigureAwait(false))
         {
-            await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+            await UpdateAchievementCollectionAsync(Archives?.CurrentItem, achievementsTokenProvider.GetNewToken()).ConfigureAwait(false);
         }
     }
 
@@ -263,7 +261,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (await scopeContext.AchievementImporter.FromClipboardAsync(scopeContext).ConfigureAwait(false))
         {
-            await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+            await UpdateAchievementCollectionAsync(Archives?.CurrentItem, achievementsTokenProvider.GetNewToken()).ConfigureAwait(false);
         }
     }
 
@@ -274,37 +272,40 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (await scopeContext.AchievementImporter.FromFileAsync(scopeContext).ConfigureAwait(false))
         {
-            await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+            await UpdateAchievementCollectionAsync(Archives?.CurrentItem, achievementsTokenProvider.GetNewToken()).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask UpdateAchievementsAsync(EntityArchive? archive)
+    private async ValueTask UpdateAchievementCollectionAsync(EntityArchive? archive, CancellationToken token)
     {
-        await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        Achievements = default;
+        await scopeContext.TaskContext.InvokeOnMainThreadAsync(() => Achievements = default).ConfigureAwait(false);
+        token.ThrowIfCancellationRequested();
 
         if (archive is null)
         {
             return;
         }
 
+        using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, CancellationToken);
         AchievementServiceMetadataContext context = await scopeContext.MetadataService
-            .GetContextAsync<AchievementServiceMetadataContext>(CancellationToken)
+            .GetContextAsync<AchievementServiceMetadataContext>(linkedCts.Token)
             .ConfigureAwait(false);
 
-        if (!TryGetAchievements(archive, context, out IAdvancedCollectionView<AchievementView>? combined))
+        if (!TryGetAchievementViewCollection(archive, context, out IAdvancedCollectionView<AchievementView>? collection))
         {
             return;
         }
 
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        Achievements = combined;
+        token.ThrowIfCancellationRequested();
+
+        Achievements = collection;
         AchievementFinishPercent.Update(this);
         UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
         UpdateAchievementsSort();
     }
 
-    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out IAdvancedCollectionView<AchievementView>? view)
+    private bool TryGetAchievementViewCollection(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out IAdvancedCollectionView<AchievementView>? view)
     {
         try
         {

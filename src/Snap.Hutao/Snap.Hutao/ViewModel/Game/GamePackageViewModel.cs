@@ -3,9 +3,11 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
@@ -130,12 +132,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public async ValueTask ForceLoadAsync()
     {
-        bool result = await LoadOverrideAsync().ConfigureAwait(false);
+        bool result = await LoadOverrideAsync(CancellationToken).ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
         IsInitialized = result;
     }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
         {
@@ -149,8 +151,17 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
 
-        RemoteVersion = new(branch.Main.Tag);
-        PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+        if (LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false))
+        {
+            BranchWrapper remoteBranch = branch.PreDownload ?? branch.Main;
+            RemoteVersion = new(remoteBranch.Tag);
+            PreVersion = default;
+        }
+        else
+        {
+            RemoteVersion = new(branch.Main.Tag);
+            PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+        }
 
         if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
@@ -208,6 +219,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
             SophonDecodedBuild? localBuild;
             SophonDecodedBuild? remoteBuild;
+            SophonDecodedPatchBuild? patchBuild;
 
             ContentDialog fetchManifestDialog = await contentDialogFactory
                 .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
@@ -219,8 +231,15 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                     BranchWrapper localBranch = branch.Main.GetTaggedCopy(LocalVersion.ToString());
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
-                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
+                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                        ? branch.PreDownload ?? branch.Main
+                        : operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
+                    patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
+                    ArgumentNullException.ThrowIfNull(localBuild);
+                    ArgumentNullException.ThrowIfNull(remoteBuild);
                 }
                 catch (Exception ex)
                 {
@@ -229,23 +248,13 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 }
             }
 
-            try
-            {
-                ArgumentNullException.ThrowIfNull(localBuild);
-                ArgumentNullException.ThrowIfNull(remoteBuild);
-            }
-            catch (ArgumentNullException ex)
-            {
-                ex.Data["LocalVersion"] = LocalVersion.ToString();
-                throw;
-            }
-
             GamePackageOperationContext context = new(
                 serviceProvider,
                 operationKind,
                 gameFileSystem,
                 localBuild,
                 remoteBuild,
+                patchBuild,
                 await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
                 default);
 
@@ -309,12 +318,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             }
         }
 
-        if (channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId) is not { } sdk)
-        {
-            serviceProvider.GetRequiredService<IInfoBarService>().Error(SH.ViewModelGamePackageGetGameChannelSDKFailed, SH.FormatViewModelGamePackageLocalLaunchScheme(launchScheme.DisplayName));
-            return default;
-        }
-
-        return sdk;
+        // Channel sdk can be null
+        return channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
     }
 }

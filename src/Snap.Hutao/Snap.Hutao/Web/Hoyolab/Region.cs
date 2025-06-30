@@ -79,6 +79,7 @@ internal readonly struct Region : IEquatable<Region>
     {
         return obj is Region other && Equals(other);
     }
+
     public override int GetHashCode()
     {
         return Value.GetHashCode();

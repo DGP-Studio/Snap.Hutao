@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
@@ -11,6 +12,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing;
@@ -192,10 +194,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
             catch (Exception ex)
             {
-                if (ex is not InvalidOperationException)
-                {
-                    SentrySdk.CaptureException(ex);
-                }
+                serviceProvider.GetRequiredService<IInfoBarService>().Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex));
             }
         }
 
@@ -233,7 +232,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                             {
                                 await taskContext.SwitchToMainThreadAsync();
 
-                                INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
+                                INavigationCompletionSource navigationAwaiter = new NavigationExtraData(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
                                 // We can't await there to navigate to Achievement Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.

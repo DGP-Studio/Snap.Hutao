@@ -26,6 +26,9 @@ internal sealed partial class DownloadSummary : ObservableObject
     [
         MediaTypeNames.Application.Octet,
         MediaTypeNames.Application.Zip,
+
+        // Super hacking, we now upload zip files as images
+        MediaTypeNames.Image.Jpeg,
     ];
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
@@ -124,12 +127,14 @@ internal sealed partial class DownloadSummary : ObservableObject
         }
         catch (Exception ex)
         {
-            if (HttpRequestExceptionHandling.TryHandle(builder, ex, out StringBuilder message))
+            if (ex is not (IOException or OperationCanceledException or UnauthorizedAccessException) &&
+                HttpRequestExceptionHandling.TryHandle(builder, ex, out StringBuilder message))
             {
                 infoBarService.Error(SH.ViewModelWelcomeDownloadSummaryException, message.ToString());
             }
             else
             {
+                // SSL certificate not trusted: The decryption operation failed, see inner exception. -> 无法解密指定的数据。
                 infoBarService.Error(ex, SH.ViewModelWelcomeDownloadSummaryException);
             }
 

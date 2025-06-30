@@ -5,51 +5,32 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.UI.Xaml;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-internal abstract partial class ViewModel : ObservableObject, IViewModel
+internal abstract partial class ViewModel : ObservableObject, IViewModel, IDisposable
 {
-    public bool IsInitialized
-    {
-        get;
-        set
-        {
-            try
-            {
-                SetProperty(ref field, value);
-            }
-            catch (COMException ex)
-            {
-                // E_UNEXPECTED: the UIElement is unloaded
-                if (ex.HResult == unchecked((int)0x8000FFFF))
-                {
-                    Debug.Assert(XamlApplicationLifetime.Exiting);
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
-    }
+    public bool IsInitialized { get; protected set => SetProperty(ref field, value); }
 
     public CancellationToken CancellationToken { get; set; }
 
-    public SemaphoreSlim DisposeLock { get; set; } = new(1);
+    public SemaphoreSlim CriticalSection { get; } = new(1);
 
     public IDeferContentLoader? DeferContentLoader { get; set; }
 
-    public bool IsViewDisposed { get; set; }
+    public bool IsViewUnloaded { get; set; }
 
     protected TaskCompletionSource<bool> Initialization { get; set; } = new();
 
+    public virtual void Dispose()
+    {
+        CriticalSection.Dispose();
+    }
+
     public void Resurrect()
     {
-        IsViewDisposed = false;
+        IsViewUnloaded = false;
         Initialization = new();
     }
 
@@ -57,7 +38,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     {
         IsInitialized = false;
         UninitializeOverride();
-        IsViewDisposed = true;
+        IsViewUnloaded = true;
         DeferContentLoader = default;
     }
 
@@ -66,8 +47,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     {
         try
         {
-            // ConfigureAwait(true) sets value on UI thread
-            IsInitialized = await LoadOverrideAsync().ConfigureAwait(true);
+            IsInitialized = await LoadOverrideAsync(CancellationToken).ConfigureAwait(true);
             Initialization.TrySetResult(IsInitialized);
         }
         catch (OperationCanceledException)
@@ -75,8 +55,14 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         }
     }
 
-    protected virtual ValueTask<bool> LoadOverrideAsync()
+    /// <summary>
+    /// Override this method to implement the loading logic.
+    /// </summary>
+    /// <param name="token">The same as <see cref="CancellationToken"/></param>
+    /// <returns>Is the initialization successful</returns>
+    protected virtual ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
+        token.ThrowIfCancellationRequested();
         return ValueTask.FromResult(true);
     }
 
@@ -87,7 +73,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     protected async ValueTask<IDisposable> EnterCriticalSectionAsync()
     {
         ThrowIfViewDisposed();
-        IDisposable disposable = await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false);
+        IDisposable disposable = await CriticalSection.EnterAsync(CancellationToken).ConfigureAwait(false);
         ThrowIfViewDisposed();
         return disposable;
     }
@@ -97,46 +83,46 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewDisposed && base.SetProperty(ref field, newValue, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(ref field, newValue, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewDisposed && base.SetProperty(ref field, newValue, comparer, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(ref field, newValue, comparer, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewDisposed && base.SetProperty(oldValue, newValue, callback, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewDisposed && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !IsViewDisposed && base.SetProperty(oldValue, newValue, model, callback, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, model, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !IsViewDisposed && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
     }
 
     #endregion
 
     private void ThrowIfViewDisposed()
     {
-        if (IsViewDisposed)
+        if (IsViewUnloaded)
         {
             HutaoException.OperationCanceled(SH.ViewModelViewDisposedOperationCancel);
         }

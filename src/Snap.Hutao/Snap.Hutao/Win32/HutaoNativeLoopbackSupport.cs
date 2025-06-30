@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -10,12 +11,17 @@ namespace Snap.Hutao.Win32;
 
 internal sealed unsafe class HutaoNativeLoopbackSupport
 {
-    private readonly ObjectReference<Vftbl> objRef;
+    private readonly ObjectReference<Vftbl2>? objRef2;
 
     public HutaoNativeLoopbackSupport(ObjectReference<Vftbl> objRef)
     {
-        this.objRef = objRef;
+        this.ObjRef = objRef;
+        objRef.TryAs<Vftbl2>(typeof(Vftbl2).GUID, out objRef2);
     }
+
+    private ObjectReference<Vftbl> ObjRef { get; }
+
+    private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
 
     public BOOL IsEnabled(ReadOnlySpan<char> familyName, out string? sid)
     {
@@ -23,7 +29,7 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         {
             nint pSid = default;
             BOOL enabled = default;
-            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsEnabled(objRef.ThisPtr, pFamilyName, (HutaoString.Vftbl**)&pSid, &enabled));
+            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.IsEnabled(ObjRef.ThisPtr, pFamilyName, (HutaoString.Vftbl**)&pSid, &enabled));
             sid = HutaoString.AttachAbi(ref pSid).Get();
             return enabled;
         }
@@ -33,8 +39,17 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
     {
         fixed (char* pSid = sid)
         {
-            Marshal.ThrowExceptionForHR(objRef.Vftbl.Enable(objRef.ThisPtr, pSid));
+            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.Enable(ObjRef.ThisPtr, pSid));
         }
+    }
+
+    public BOOL IsPublicFirewallEnabled()
+    {
+        HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNativeLoopbackSupport2 is not supported");
+
+        BOOL isEnabled = default;
+        Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.IsPublicFirewallEnabled(ObjRef2.ThisPtr, &isEnabled));
+        return isEnabled;
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNativeLoopbackSupport)]
@@ -44,6 +59,15 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HutaoString.Vftbl**, BOOL*, HRESULT> IsEnabled;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> Enable;
+#pragma warning restore CS0649
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeLoopbackSupport2)]
+    internal readonly struct Vftbl2
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, BOOL*, HRESULT> IsPublicFirewallEnabled;
 #pragma warning restore CS0649
     }
 }

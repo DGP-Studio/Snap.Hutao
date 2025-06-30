@@ -50,20 +50,20 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        metadataContext = await metadataService.GetContextAsync<DailyNoteMetadataContext>().ConfigureAwait(false);
+        metadataContext = await metadataService.GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
 
         try
         {
             await taskContext.SwitchToBackgroundAsync();
             AdvancedDbCollectionView<User.User, Model.Entity.User> users = await userService.GetUsersAsync().ConfigureAwait(false);
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync(metadataContext).ConfigureAwait(false);
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync(metadataContext, false, token).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             Users = users;

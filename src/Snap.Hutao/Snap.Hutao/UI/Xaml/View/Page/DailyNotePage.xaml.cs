@@ -15,6 +15,6 @@ internal sealed partial class DailyNotePage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<DailyNoteViewModel>();
+        InitializeDataContext<DailyNoteViewModel>();
     }
 }

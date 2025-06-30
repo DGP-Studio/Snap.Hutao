@@ -14,4 +14,9 @@ internal readonly struct CalculableOptions
         Avatar = avatar;
         Weapon = weapon;
     }
+
+    public CalculableOptions(ICalculableSource<ICalculableAvatar> avatar, ICalculableSource<ICalculableWeapon> weapon)
+        : this(avatar?.ToCalculable(), weapon?.ToCalculable())
+    {
+    }
 }

@@ -8,20 +8,20 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatSchedule
 {
     [JsonPropertyName("start_time")]
-    public long StartTime { get; set; } = default!;
+    public required long StartTime { get; init; }
 
     [JsonPropertyName("end_time")]
-    public long EndTime { get; set; } = default!;
+    public required long EndTime { get; init; }
 
     [JsonPropertyName("schedule_type")]
-    public ScheduleType ScheduleType { get; set; } = default!;
+    public required ScheduleType ScheduleType { get; init; }
 
     [JsonPropertyName("schedule_id")]
-    public RoleCombatScheduleId ScheduleId { get; set; }
+    public required RoleCombatScheduleId ScheduleId { get; init; }
 
     [JsonPropertyName("start_date_time")]
-    public DateTime StartDateTime { get; set; } = default!;
+    public required DateTime StartDateTime { get; init; }
 
     [JsonPropertyName("end_date_time")]
-    public DateTime EndDateTime { get; set; } = default!;
+    public required DateTime EndDateTime { get; init; }
 }

@@ -22,11 +22,13 @@ internal sealed partial class NavigationService : INavigationService
 
     public bool IsXamlElementAttached { get => weakNavigationView.TryGetTarget(out _); }
 
-    public Type? CurrentPageType
+    public Type? CurrentPageType { get => CurrentPage?.GetType(); }
+
+    private Page? CurrentPage
     {
         get
         {
-            return weakFrame.TryGetTarget(out Frame? frame) ? frame.Content?.GetType() : default;
+            return weakFrame.TryGetTarget(out Frame? frame) ? frame.Content as Page : default;
         }
     }
 
@@ -65,16 +67,18 @@ internal sealed partial class NavigationService : INavigationService
 
     public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
+        Type? currentPageType = CurrentPageType;
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateNavigation(
-            CurrentPageType is null ? "Empty" : TypeNameHelper.GetTypeDisplayName(CurrentPageType, fullName: false),
+            currentPageType is null ? "Empty" : TypeNameHelper.GetTypeDisplayName(currentPageType, fullName: false),
             TypeNameHelper.GetTypeDisplayName(pageType, fullName: false),
             "Navigation"));
 
         Verify.Operation(weakFrame.TryGetTarget(out Frame? frame), "NavigationService not initialized, no target frame set");
 
-        if (CurrentPageType == pageType)
+        if (currentPageType == pageType)
         {
-            NavigationExtraDataSupport.NotifyRecipientAsync(frame.Content, data).SafeForget();
+            CancellationToken token = CurrentPage is ScopedPage scopedPage ? scopedPage.CancellationToken : CancellationToken.None;
+            NavigationExtraDataSupport.NotifyRecipientAsync(frame.Content, data, token).SafeForget();
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -83,7 +87,9 @@ internal sealed partial class NavigationService : INavigationService
         bool navigated = false;
         try
         {
-            navigated = frame.Navigate(pageType, data);
+            navigated = data is ISupportNavigationTransitionInfo { TransitionInfo: { } transitionInfo }
+                ? frame.Navigate(pageType, data, transitionInfo)
+                : frame.Navigate(pageType, data);
         }
         catch (Exception ex)
         {
@@ -192,7 +198,7 @@ internal sealed partial class NavigationService : INavigationService
         // Ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationCompletionSource data = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(item));
+            INavigationCompletionSource data = new NavigationExtraData(NavigationViewItemHelper.GetExtraData(item));
             Navigate(targetType, data, syncNavigationViewItem: false); // Because we are already invoking the item
         }
     }

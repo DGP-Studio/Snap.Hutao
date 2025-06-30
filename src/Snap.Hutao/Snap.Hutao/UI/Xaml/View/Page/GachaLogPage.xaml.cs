@@ -15,6 +15,6 @@ internal sealed partial class GachaLogPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<GachaLogViewModel>();
+        InitializeDataContext<GachaLogViewModel>();
     }
 }

@@ -7,12 +7,6 @@ namespace Snap.Hutao.Service;
 
 internal static class Selection
 {
-    public static T? Initialize<T>(ImmutableArray<T> options, T current)
-        where T : class
-    {
-        return options.SingleOrDefault(option => option.Equals(current));
-    }
-
     public static TNameValue? Initialize<TNameValue, T>(Lazy<ImmutableArray<TNameValue>> options, T current)
         where TNameValue : NameValue<T>
         where T : struct, IEquatable<T>
@@ -22,7 +16,7 @@ internal static class Selection
 
     public static TNameValue? Initialize<TNameValue, T>(ImmutableArray<TNameValue> options, T current)
         where TNameValue : NameValue<T>
-        where T : class
+        where T : notnull
     {
         return options.SingleOrDefault(option => option.Value.Equals(current));
     }

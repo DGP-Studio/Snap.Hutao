@@ -13,6 +13,7 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -53,8 +54,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }}
         """;
 
-    private readonly CancellationTokenSource loadCts = new();
-    private readonly SemaphoreSlim scopeLock = new(1, 1);
+    private readonly CancellationTokenSource webview2LoadCts = new();
+    private readonly SemaphoreSlim webview2LoadLock = new(1, 1);
     private readonly Lock layeredWindowLock = new();
     private readonly byte opacity;
 
@@ -135,9 +136,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (scopeLock.Wait(TimeSpan.Zero))
+        if (webview2LoadLock.Wait(TimeSpan.Zero))
         {
-            scopeLock.Release();
+            webview2LoadLock.Release();
             cancel = false;
             return;
         }
@@ -149,10 +150,13 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
 
+        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Uninitialize();
+
         InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
 
-        scopeLock.Wait();
-        scopeLock.Dispose();
+        webview2LoadLock.Wait();
+        webview2LoadLock.Dispose();
     }
 
     private static void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
@@ -182,6 +186,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         lock (layeredWindowLock)
         {
+            HWND windowHandle = this.GetWindowHandle();
+            if (windowHandle.Value is 0)
+            {
+                return;
+            }
+
             if (enter)
             {
                 this.RemoveExtendedStyleLayered();
@@ -301,7 +311,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            using (await scopeLock.EnterAsync().ConfigureAwait(true))
+            using (await webview2LoadLock.EnterAsync().ConfigureAwait(true))
             {
                 try
                 {
@@ -336,11 +346,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnWebViewUnloaded(object sender, RoutedEventArgs e)
     {
-        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        InputLowLevelKeyboardSource.Uninitialize();
-
-        loadCts.Cancel();
-        loadCts.Dispose();
+        webview2LoadCts.Cancel();
+        webview2LoadCts.Dispose();
 
         if (WebView.CoreWebView2 is not null)
         {

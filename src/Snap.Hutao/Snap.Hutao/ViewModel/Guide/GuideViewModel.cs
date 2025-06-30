@@ -16,6 +16,7 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
@@ -158,12 +159,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public ObservableCollection<DownloadSummary>? DownloadSummaries { get; set => SetProperty(ref field, value); }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
+            HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync(token).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out StaticResourceSizeInformation? sizeInformation))
             {
                 await taskContext.SwitchToMainThreadAsync();
@@ -204,7 +205,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
         if (await operation.TryExecuteAsync().ConfigureAwait(false))
         {
-            AppInstance.Restart(string.Empty);
+            try
+            {
+                AppInstance.Restart(string.Empty);
+            }
+            catch (COMException ex)
+            {
+                infoBarService.Error(ex);
+            }
         }
     }
 

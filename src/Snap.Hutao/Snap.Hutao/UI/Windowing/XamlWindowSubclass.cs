@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
@@ -20,15 +19,14 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 {
     private readonly HutaoNativeWindowSubclass native;
     private readonly Window window;
-
-    private GCHandle handle;
+    private readonly nint handle;
 
     public unsafe XamlWindowSubclass(Window window)
     {
         this.window = window;
-        handle = GCHandle.Alloc(this);
+        handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
         HutaoNativeWindowSubclassCallback callback = HutaoNativeWindowSubclassCallback.Create(&OnSubclassProcedure);
-        native = HutaoNative.Instance.MakeWindowSubclass(window.GetWindowHandle(), callback, GCHandle.ToIntPtr(handle));
+        native = HutaoNative.Instance.MakeWindowSubclass(window.GetWindowHandle(), callback, handle);
     }
 
     public void Initialize()
@@ -47,7 +45,7 @@ internal sealed partial class XamlWindowSubclass : IDisposable
             // 0x80004005 E_FAIL
         }
 
-        handle.Free();
+        GCHandle.FromIntPtr(handle).Free();
     }
 
     /// <returns>Whether to call DefSubclassProc</returns>
@@ -124,13 +122,6 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     {
         public readonly short Low;
         public readonly short High;
-        private readonly int reserved;
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private readonly struct LPARAM2NCHITTEST
-    {
-        public readonly PointInt16 Point;
         private readonly int reserved;
     }
 

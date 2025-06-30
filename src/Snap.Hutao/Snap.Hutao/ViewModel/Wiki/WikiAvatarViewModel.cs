@@ -6,11 +6,8 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
@@ -23,9 +20,7 @@ using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -59,59 +54,37 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
+    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
+
     public LinkMetadataContext? LinkContext { get; set => SetProperty(ref field, value); }
-
-    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
-
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
-
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
     public partial WikiAvatarStrategyComponent StrategyComponent { get; }
 
-    protected override async ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             return false;
         }
 
-        try
+        metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>(token).ConfigureAwait(false);
+        ImmutableArray<Avatar> avatars = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
+        SearchData searchData = SearchData.CreateForWikiAvatar(avatars);
+        await CombineComplexDataAsync(avatars, metadataContext).ConfigureAwait(false);
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>().ConfigureAwait(false);
+            IAdvancedCollectionView<Avatar> avatarsView = avatars.AsAdvancedCollectionView();
 
-            List<Avatar> list = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
+            await taskContext.SwitchToMainThreadAsync();
+            token.ThrowIfCancellationRequested();
 
-            await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
-
-            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-            {
-                IAdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
-
-                await taskContext.SwitchToMainThreadAsync();
-                Avatars = avatarsView;
-                Avatars.MoveCurrentToFirst();
-            }
-
-            FilterTokens = [];
-
-            AvailableTokens = FrozenDictionary.ToFrozenDictionary(
-            [
-                .. list.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
-                .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
-                .. IntrinsicFrozen.BodyTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.BodyType, nv.Name, (int)nv.Value))),
-                .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
-                .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
-                .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
-            ]);
-
-            return true;
-        }
-        catch (OperationCanceledException)
-        {
+            SearchData = searchData;
+            Avatars = avatarsView;
+            Avatars.MoveCurrentToFirst();
         }
 
-        return false;
+        return true;
     }
 
     private void OnCurrentAvatarChanged(object? sender, object? e)
@@ -121,7 +94,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst();
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
+    private async ValueTask CombineComplexDataAsync(ImmutableArray<Avatar> avatars, WikiAvatarMetadataContext context)
     {
         HutaoSpiralAbyssStatisticsMetadataContext context2 = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
         await hutaoCache.InitializeForWikiAvatarViewAsync(context2).ConfigureAwait(false);
@@ -247,7 +220,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        Avatars.Filter = FilterTokens is null or [] ? default! : AvatarFilter.Compile(FilterTokens);
+        Avatars.Filter = AvatarFilter.Compile(SearchData);
 
         if (Avatars.CurrentItem is null)
         {

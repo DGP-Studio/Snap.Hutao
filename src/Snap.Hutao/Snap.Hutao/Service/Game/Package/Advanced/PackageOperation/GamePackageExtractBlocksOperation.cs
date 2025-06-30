@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 using System.IO;
@@ -17,20 +18,21 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
         ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
         int downloadTotalChunks = context.Information.DownloadTotalChunks;
         int installTotalChunks = context.Information.InstallTotalChunks;
-        long totalBytes = context.Information.InstallTotalBytes;
+        long downloadTotalBytes = context.Information.DownloadTotalBytes;
+        long installTotalBytes = context.Information.InstallTotalBytes;
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
+        ImmutableArray<SophonAssetOperation> targetAssets = diffAssets.Where(ao => ao.Kind is SophonAssetOperationKind.Modify).ToImmutableArray();
+        ImmutableArray<string> targetAssetNames = targetAssets.Select(ao => Path.GetFileName(ao.OldAsset.AssetName)).ToImmutableArray();
 
-        context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, localBuild.TotalChunks, localBuild.UncompressedTotalBytes));
-        List<string> usefulChunks = diffAssets
-            .Where(ao => ao.Kind is SophonAssetOperationKind.Modify)
-            .Select(ao => Path.GetFileName(ao.OldAsset.AssetName))
-            .ToList();
+        context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, targetAssets.Length, targetAssets.Sum(sao => sao.OldAsset.AssetSize)));
+
+        // We can just use the legacy chunk diffs to copy the required old blocks files because the files needed to patch are the same
         string oldBlksDirectory = Path.Combine(context.Operation.GameFileSystem.GetDataDirectory(), @"StreamingAssets\AssetBundles\blocks");
         foreach (string file in Directory.GetFiles(oldBlksDirectory, "*.blk", SearchOption.AllDirectories))
         {
             string fileName = Path.GetFileName(file);
-            if (!usefulChunks.Contains(fileName, StringComparer.OrdinalIgnoreCase))
+            if (!targetAssetNames.Contains(fileName, StringComparer.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -41,8 +43,15 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
             context.Progress.Report(new GamePackageOperationReport.Install(asset.AssetSize, asset.AssetChunks.Count));
         }
 
-        context.Progress.Report(new GamePackageOperationReport.Reset("Extracting", downloadTotalChunks, installTotalChunks, totalBytes));
-        await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
+        context.Progress.Report(new GamePackageOperationReport.Reset("Extracting", downloadTotalChunks, installTotalChunks, downloadTotalBytes, installTotalBytes));
+        if (context.Operation.PatchBuild is { } patchBuild)
+        {
+            await context.Operation.Asset.InstallOrPatchAssetsAsync(context, patchBuild).ConfigureAwait(false);
+        }
+        else
+        {
+            await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
+        }
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
     }

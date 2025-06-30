@@ -15,6 +15,6 @@ internal sealed partial class AnnouncementPage : ScopedPage
 
     protected override void LoadingOverride()
     {
-        InitializeWith<AnnouncementViewModel>();
+        InitializeDataContext<AnnouncementViewModel>();
     }
 }

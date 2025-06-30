@@ -23,7 +23,13 @@ internal static unsafe class HutaoNativeWilCallbacks
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        SentrySdk.CaptureException(new HutaoNativeException(*failure));
+        HutaoNativeException exception = new(*failure);
+        if (string.IsNullOrWhiteSpace(exception.Message))
+        {
+            return;
+        }
+
+        SentrySdk.CaptureException(exception);
         SentrySdk.Flush();
     }
 
@@ -128,7 +134,7 @@ internal static unsafe class HutaoNativeWilCallbacks
     internal sealed class HutaoNativeException : Exception
     {
         public HutaoNativeException(FailureInfo info)
-            : base(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString())
+            : base($"0x{info.hr}: {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString()}")
         {
             Data["Type"] = info.type;
             Data["Flags"] = info.flags;

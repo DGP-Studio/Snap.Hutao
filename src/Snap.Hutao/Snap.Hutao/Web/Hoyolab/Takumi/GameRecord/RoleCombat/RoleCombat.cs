@@ -1,16 +1,18 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 internal sealed class RoleCombat
 {
     [JsonPropertyName("data")]
-    public List<RoleCombatData> Data { get; set; } = default!;
+    public required ImmutableArray<RoleCombatData> Data { get; init; }
 
     [JsonPropertyName("is_unlock")]
-    public bool IsUnlock { get; set; }
+    public required bool IsUnlock { get; init; }
 
     [JsonPropertyName("links")]
-    public RoleCombatLinks Links { get; set; } = default!;
+    public required RoleCombatLinks Links { get; init; }
 }

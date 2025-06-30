@@ -64,7 +64,7 @@ internal sealed partial class HutaoRoleCombatClient
 
         if (roleCombat.Data.FirstOrDefault() is { HasData: true } data)
         {
-            return new(userAndUid.Uid.Value, data.Detail.BackupAvatars.SelectList(a => a.AvatarId.Value), data.Schedule.ScheduleId.Value);
+            return new(userAndUid.Uid.Value, data.Detail.BackupAvatars.SelectAsArray(static a => a.AvatarId.Value), data.Schedule.ScheduleId.Value);
         }
 
         return default;

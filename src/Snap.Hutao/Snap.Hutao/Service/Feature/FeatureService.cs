@@ -6,8 +6,9 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Island;
 using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Service.Feature;
 
@@ -16,8 +17,9 @@ namespace Snap.Hutao.Service.Feature;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class FeatureService : IFeatureService
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache memoryCache;
 
     public async ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag)
@@ -25,14 +27,12 @@ internal sealed partial class FeatureService : IFeatureService
         return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.GameIslandFeature.{tag}", async entry =>
         {
             entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}"))
+                .Get();
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
-                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
-                {
-                    string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}");
-                    return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
-                }
+                return (await builder.SendAsync<IslandFeature>(httpClient, CancellationToken.None).ConfigureAwait(false)).Body;
             }
         }).ConfigureAwait(false);
     }
@@ -42,14 +42,12 @@ internal sealed partial class FeatureService : IFeatureService
         return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.AchievementFieldIdFeature.{tag}", async entry =>
         {
             entry.SetSlidingExpiration(TimeSpan.FromHours(6));
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}"))
+                .Get();
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
-                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
-                {
-                    string url = hutaoEndpointsFactory.Create().Feature($"AchievementFieldId_{tag}");
-                    return await httpClient.GetFromJsonAsync<AchievementFieldId>(url).ConfigureAwait(false);
-                }
+                return (await builder.SendAsync<AchievementFieldId>(httpClient, CancellationToken.None).ConfigureAwait(false)).Body;
             }
         }).ConfigureAwait(false);
     }

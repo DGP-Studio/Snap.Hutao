@@ -9,26 +9,26 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatStat
 {
     [JsonPropertyName("difficulty_id")]
-    public RoleCombatDifficultyLevel DifficultyId { get; set; }
+    public required RoleCombatDifficultyLevel DifficultyId { get; init; }
 
     [JsonPropertyName("max_round_id")]
-    public uint MaxRoundId { get; set; }
+    public required uint MaxRoundId { get; init; }
 
     [JsonPropertyName("heraldry")]
-    public RoleCombatDifficultyLevel Heraldry { get; set; }
+    public required RoleCombatDifficultyLevel Heraldry { get; init; }
 
     [JsonPropertyName("get_medal_round_list")]
-    public ImmutableArray<int> GetMedalRoundList { get; set; }
+    public required ImmutableArray<int> GetMedalRoundList { get; init; }
 
     [JsonPropertyName("medal_num")]
-    public int MedalNumber { get; set; }
+    public required int MedalNumber { get; init; }
 
     [JsonPropertyName("coin_num")]
-    public int CoinNumber { get; set; }
+    public required int CoinNumber { get; init; }
 
     [JsonPropertyName("avatar_bonus_num")]
-    public int AvatarBonusNumber { get; set; }
+    public required int AvatarBonusNumber { get; init; }
 
     [JsonPropertyName("rent_cnt")]
-    public int RentCount { get; set; }
+    public required int RentCount { get; init; }
 }
