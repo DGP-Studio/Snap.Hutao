@@ -38,4 +38,11 @@ internal sealed class MemoryStreamFactory : IMemoryStreamFactory
     {
         return manager.GetStream();
     }
+
+    public MemoryStream GetStreamExactly(long requiredSize)
+    {
+        MemoryStream stream = manager.GetStream(default, requiredSize);
+        stream.SetLength(requiredSize);
+        return stream;
+    }
 }

@@ -219,6 +219,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
             SophonDecodedBuild? localBuild;
             SophonDecodedBuild? remoteBuild;
+            SophonDecodedPatchBuild? patchBuild;
 
             ContentDialog fetchManifestDialog = await contentDialogFactory
                 .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
@@ -235,8 +236,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                         : operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
 
+                    patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
                     ArgumentNullException.ThrowIfNull(localBuild);
                     ArgumentNullException.ThrowIfNull(remoteBuild);
+                    ArgumentNullException.ThrowIfNull(patchBuild);
                 }
                 catch (Exception ex)
                 {
@@ -251,6 +255,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 gameFileSystem,
                 localBuild,
                 remoteBuild,
+                patchBuild,
                 await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
                 default);
 
