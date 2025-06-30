@@ -447,6 +447,13 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         FileData fileData = asset.FileData;
         PatchInfo patchInfo = asset.PatchInfo;
 
+        string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), fileData.FileName);
+        if (File.Exists(assetPath) && fileData.FileHash.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, assetPath, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        {
+            context.Progress.Report(new GamePackageOperationReport.Install(fileData.FileSize, 1, fileData.FileName));
+            return;
+        }
+
         long patchStartOffset = patchInfo.PatchStartOffset;
         long patchLength = patchInfo.PatchLength;
 

@@ -37,7 +37,7 @@ internal static partial class IocHttpClientConfiguration
             {
                 SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
-                typedHandler.MaxConnectionsPerServer = 16;
+                typedHandler.MaxConnectionsPerServer = 12;
             });
 
         return services;
