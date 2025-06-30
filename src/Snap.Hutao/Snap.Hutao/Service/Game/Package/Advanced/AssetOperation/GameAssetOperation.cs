@@ -381,53 +381,65 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     #region LDiff
 
-    // TODO: SSD/HDD implementation
+    public abstract ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
 
-    public async ValueTask InstallOrPatchAssetsAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
-    {
-        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
-        {
-            token.ThrowIfCancellationRequested();
-            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
-                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
-                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
-            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => InstallOrPatchAssetAsync(context, patchAsset)).ConfigureAwait(false);
-        }).ConfigureAwait(false);
-    }
+    public abstract ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
 
-    public async ValueTask DeletePatchDeprecatedFilesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
+    public abstract ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild);
+
+    protected static async ValueTask DownloadPatchAsync(GamePackageServiceContext context, SophonPatchAsset asset)
     {
-        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
+        CancellationToken token = context.CancellationToken;
+        token.ThrowIfCancellationRequested();
+        Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
+        string patchPath = Path.Combine(context.Operation.EffectiveChunksDirectory, asset.PatchInfo.Id);
+
+        using (await context.ExclusiveProcessChunkAsync(asset.PatchInfo.Id, token).ConfigureAwait(false))
         {
-            token.ThrowIfCancellationRequested();
-            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
-            await Parallel.ForEachAsync(assetNames, context.ParallelOptions, (assetName, token) =>
+            if (context.DownloadedPatches.ContainsKey(asset.PatchInfo.Id))
             {
-                token.ThrowIfCancellationRequested();
-                string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, assetName);
-                if (File.Exists(assetPath))
+                return;
+            }
+
+            if (File.Exists(patchPath))
+            {
+                if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashFileAsync(patchPath, token).ConfigureAwait(false)))
                 {
-                    File.Delete(assetPath);
+                    context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
+                    context.Progress.Report(new GamePackageOperationReport.Download(asset.PatchInfo.PatchFileSize, 1, asset.PatchInfo.Id));
+                    return;
                 }
 
-                return ValueTask.CompletedTask;
-            }).ConfigureAwait(false);
-        }).ConfigureAwait(false);
+                File.Delete(patchPath);
+            }
+
+            using (FileStream fileStream = File.Create(patchPath))
+            {
+                fileStream.Position = 0;
+
+                using (Stream webStream = await context.HttpClient.GetStreamAsync(asset.PatchDownloadUrl, token).ConfigureAwait(false))
+                {
+                    using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0, asset.PatchInfo.Id)))
+                    {
+                        await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
+
+                        fileStream.Position = 0;
+                        if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false)))
+                        {
+                            context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
+                            context.Progress.Report(new GamePackageOperationReport.Download(0, 1, asset.PatchInfo.Id));
+                        }
+
+                        // We should delete patch file if the hash doesn't match. Retry until all assets rely on this patch file all failed.
+                        // Failed assets will be repaired later.
+                        File.Delete(patchPath);
+                    }
+                }
+            }
+        }
     }
 
-    public async ValueTask PredownloadPatchesAsync(GamePackageServiceContext context, SophonDecodedPatchBuild patchBuild)
-    {
-        await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
-        {
-            token.ThrowIfCancellationRequested();
-            IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
-                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is { })
-                .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
-            await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => DownloadPatchAsync(context, patchAsset)).ConfigureAwait(false);
-        }).ConfigureAwait(false);
-    }
-
-    public async ValueTask InstallOrPatchAssetAsync(GamePackageServiceContext context, SophonPatchAsset asset)
+    protected async ValueTask InstallOrPatchAssetAsync(GamePackageServiceContext context, SophonPatchAsset asset)
     {
         CancellationToken token = context.CancellationToken;
 
@@ -508,58 +520,6 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
             }
 
             context.Progress.Report(new GamePackageOperationReport.Install(0, 1, fileData.FileName));
-        }
-    }
-
-    protected static async ValueTask DownloadPatchAsync(GamePackageServiceContext context, SophonPatchAsset asset)
-    {
-        CancellationToken token = context.CancellationToken;
-        token.ThrowIfCancellationRequested();
-        Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
-        string patchPath = Path.Combine(context.Operation.EffectiveChunksDirectory, asset.PatchInfo.Id);
-
-        using (await context.ExclusiveProcessChunkAsync(asset.PatchInfo.Id, token).ConfigureAwait(false))
-        {
-            if (context.DownloadedPatches.ContainsKey(asset.PatchInfo.Id))
-            {
-                return;
-            }
-
-            if (File.Exists(patchPath))
-            {
-                if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashFileAsync(patchPath, token).ConfigureAwait(false)))
-                {
-                    context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
-                    context.Progress.Report(new GamePackageOperationReport.Download(asset.PatchInfo.PatchFileSize, 1, asset.PatchInfo.Id));
-                    return;
-                }
-
-                File.Delete(patchPath);
-            }
-
-            using (FileStream fileStream = File.Create(patchPath))
-            {
-                fileStream.Position = 0;
-
-                using (Stream webStream = await context.HttpClient.GetStreamAsync(asset.PatchDownloadUrl, token).ConfigureAwait(false))
-                {
-                    using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0, asset.PatchInfo.Id)))
-                    {
-                        await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
-
-                        fileStream.Position = 0;
-                        if (ChunkNameMatches(asset.PatchInfo.Id, await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false)))
-                        {
-                            context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
-                            context.Progress.Report(new GamePackageOperationReport.Download(0, 1, asset.PatchInfo.Id));
-                        }
-
-                        // We should delete patch file if the hash doesn't match. Retry until all assets rely on this patch file all failed.
-                        // Failed assets will be repaired later.
-                        File.Delete(patchPath);
-                    }
-                }
-            }
         }
     }
 
