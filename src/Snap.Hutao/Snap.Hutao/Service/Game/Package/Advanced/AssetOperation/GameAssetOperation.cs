@@ -428,6 +428,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         {
                             context.DownloadedPatches.TryAdd(asset.PatchInfo.Id, default);
                             context.Progress.Report(new GamePackageOperationReport.Download(0, 1, asset.PatchInfo.Id));
+                            return;
                         }
 
                         // We should delete patch file if the hash doesn't match. Retry until all assets rely on this patch file all failed.
@@ -451,7 +452,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         string patchFilePath = Path.Combine(context.Operation.EffectiveChunksDirectory, patchInfo.Id);
 
-        if (!File.Exists(patchFilePath))
+        if (!context.DownloadedPatches.ContainsKey(patchInfo.Id))
         {
             await DownloadPatchAsync(context, asset).ConfigureAwait(false);
             if (!File.Exists(patchFilePath))
