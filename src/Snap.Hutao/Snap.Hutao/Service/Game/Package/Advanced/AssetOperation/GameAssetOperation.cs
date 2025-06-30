@@ -389,7 +389,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         {
             token.ThrowIfCancellationRequested();
             IEnumerable<SophonPatchAsset> assets = manifest.Data.FileDatas
-                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is { })
+                .Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == manifest.OriginalTag) is not null)
                 .Select(fd => new SophonPatchAsset(manifest.UrlPrefix, manifest.UrlSuffix, fd, fd.PatchesEntries.Single(pe => pe.Key == manifest.OriginalTag).PatchInfo));
             await Parallel.ForEachAsync(assets, context.ParallelOptions, (patchAsset, token) => InstallOrPatchAssetAsync(context, patchAsset)).ConfigureAwait(false);
         }).ConfigureAwait(false);

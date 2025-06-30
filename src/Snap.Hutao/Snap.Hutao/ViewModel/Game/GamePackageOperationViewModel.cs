@@ -36,7 +36,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long bytesInstalledSinceLastUpdate;
     private long totalBytesInstalled;
     private long bytesInstalledLastRefreshTime;
-    private long contentLength;
+    private long downloadTotalBytes;
+    private long installTotalBytes;
 
     public partial AppOptions AppOptions { get; }
 
@@ -121,7 +122,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
                         logger.LogInformation("Download Info: [{Bytes}KB|{Duration}|{Speed}]", bytesDownloadedSinceLastUpdate / 1024D, elapsedTime, DownloadSpeed);
                         DownloadRemainingTime = bytesDownloadedPerSecond is 0
                             ? UnknownRemainingTime
-                            : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
+                            : $"{TimeSpan.FromSeconds((double)(downloadTotalBytes - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
 
                         bytesDownloadedSinceLastUpdate = 0;
                     }
@@ -141,7 +142,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
                         InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
                         InstallRemainingTime = bytesInstalledPerSecond is 0
                             ? UnknownRemainingTime
-                            : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
+                            : $"{TimeSpan.FromSeconds((double)(installTotalBytes - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
 
                         bytesInstalledSinceLastUpdate = 0;
                     }
@@ -182,7 +183,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         totalBytesInstalled = 0;
         bytesInstalledSinceLastUpdate = 0;
         bytesInstalledLastRefreshTime = Stopwatch.GetTimestamp();
-        contentLength = reset.ContentLength;
+        downloadTotalBytes = reset.DownloadTotalBytes;
+        installTotalBytes = reset.InstallTotalBytes;
         DownloadTotalChunks = reset.DownloadTotalChunks;
         DownloadFileName = default!;
         InstallTotalChunks = reset.InstallTotalChunks;

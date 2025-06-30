@@ -448,7 +448,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedManifest manifest = decodedBuild.Manifests.First();
                 SophonManifestProto proto = new();
                 proto.Assets.AddRange(manifest.Data.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-                return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
 
             SophonDecodedPatchBuild ExtractGameAssetBundlesPatched(SophonDecodedPatchBuild patchBuild)
@@ -456,7 +456,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 SophonDecodedPatchManifest manifest = patchBuild.Manifests.First();
                 PatchManifest proto = new();
                 proto.FileDatas.AddRange(manifest.Data.FileDatas.Where(fd => AssetBundlesBlockRegex.IsMatch(fd.FileName)));
-                return new(patchBuild.OriginalTag, patchBuild.Tag, patchBuild.DownloadTotalBytes, patchBuild.DownloadFileCount, patchBuild.UncompressedTotalBytes, patchBuild.InstallFileCount, [new(patchBuild.OriginalTag, patchBuild.Tag, manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
+                return new(patchBuild.OriginalTag, patchBuild.Tag, proto.FileDatas.Sum(fd => fd.PatchesEntries.Where(pe => pe.Key == patchBuild.OriginalTag).Sum(pe => pe.PatchInfo.PatchFileSize)), proto.FileDatas.Sum(fd => fd.PatchesEntries.Count(pe => pe.Key == patchBuild.OriginalTag)), proto.FileDatas.Where(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null).Sum(fd => fd.FileSize), proto.FileDatas.Count(fd => fd.PatchesEntries.SingleOrDefault(pe => pe.Key == patchBuild.OriginalTag) is not null), [new(patchBuild.OriginalTag, patchBuild.Tag, manifest.UrlPrefix, manifest.UrlSuffix, proto)]);
             }
         }
     }
