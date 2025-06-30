@@ -29,6 +29,7 @@ internal readonly unsafe struct StreamInput
     {
         Verify.Operation(stream.CanSeek, "Input stream must support seeking.");
         Handle = GCHandle.ToIntPtr(GCHandle.Alloc(stream));
+        Length = (ulong)stream.Length;
         Read = &StreamIO.StreamRead;
     }
 }

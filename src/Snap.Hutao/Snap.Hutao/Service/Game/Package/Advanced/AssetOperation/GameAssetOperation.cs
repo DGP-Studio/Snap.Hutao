@@ -520,7 +520,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 }
             }
 
-            context.Progress.Report(new GamePackageOperationReport.Install(0, 1, fileData.FileName));
+            context.Progress.Report(new GamePackageOperationReport.Install(fileData.FileSize, 1, fileData.FileName));
         }
     }
 

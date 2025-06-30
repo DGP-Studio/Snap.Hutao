@@ -8,7 +8,6 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using System.Collections.Frozen;
 using System.Diagnostics;
-using Windows.UI.Shell;
 
 namespace Snap.Hutao.ViewModel.Game;
 
