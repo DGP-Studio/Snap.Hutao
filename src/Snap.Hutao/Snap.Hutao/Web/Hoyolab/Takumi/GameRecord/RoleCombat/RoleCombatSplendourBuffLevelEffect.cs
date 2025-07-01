@@ -17,5 +17,5 @@ internal sealed class RoleCombatSplendourBuffLevelEffect
     public required string Description { get; init; }
 
     [JsonPropertyName("links")]
-    public required ImmutableDictionary<uint, RoleCombatSplendourBuffLink> Links { get; init; }
+    public ImmutableDictionary<uint, RoleCombatSplendourBuffLink>? Links { get; init; }
 }
