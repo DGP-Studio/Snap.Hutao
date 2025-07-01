@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 
 internal sealed class HardChallengeData
@@ -15,5 +17,5 @@ internal sealed class HardChallengeData
     public required HardChallengeEntry MultiPlayer { get; init; }
 
     [JsonPropertyName("blings")]
-    public required JsonElement Blings { get; init; }
+    public required ImmutableArray<HardChallengeBlingAvatar> Blings { get; init; }
 }
