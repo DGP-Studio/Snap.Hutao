@@ -14,7 +14,14 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
     public static ShowWebView2WindowAction? TryShow<TProvider>(XamlRoot? xamlRoot)
         where TProvider : IWebView2ContentProvider, new()
     {
-        return xamlRoot is null ? default : Show(new TProvider(), xamlRoot);
+        try
+        {
+            return xamlRoot is null ? default : Show(new TProvider(), xamlRoot);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public static ShowWebView2WindowAction Show<TProvider>(XamlRoot xamlRoot)

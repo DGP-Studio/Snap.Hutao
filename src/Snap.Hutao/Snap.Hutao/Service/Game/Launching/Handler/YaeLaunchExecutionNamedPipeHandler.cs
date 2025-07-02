@@ -4,6 +4,8 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -40,7 +42,22 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         context.Logger.LogInformation("Initializing Yae");
         string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeLib.dll");
         InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeLib.dll", dataFolderYaePath);
-        DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeGetWindowHook", context.Process.Id);
+
+        try
+        {
+            DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeGetWindowHook", context.Process.Id);
+        }
+        catch (Exception ex)
+        {
+            // Windows Defender Application Control
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_SYSTEM_INTEGRITY_POLICY_VIOLATION))
+            {
+                context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeNamedPipeError;
+                context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation;
+                context.Process.Kill();
+                return;
+            }
+        }
 
         try
         {
