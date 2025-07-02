@@ -973,6 +973,9 @@
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Embedded Yae를 사용하기 전에 Snap Hutao를 관리자 권한으로 실행해야 합니다.</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+  </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Embedded Yae를 사용하기 전에 관련 위험을 숙지하고 「게임 시작」 페이지에서 주입 기능을 켜야 합니다.</value>
   </data>
