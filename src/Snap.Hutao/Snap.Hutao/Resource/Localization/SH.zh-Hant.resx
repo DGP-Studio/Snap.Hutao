@@ -973,6 +973,9 @@
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要胡桃以系統管理員權限執行</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+  </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要您了解相關風險並在「啟動遊戲」頁面開啟注入功能</value>
   </data>
