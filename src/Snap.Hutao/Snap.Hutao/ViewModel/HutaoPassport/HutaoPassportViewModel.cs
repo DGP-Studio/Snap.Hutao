@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 
@@ -17,6 +18,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
 
     public partial HutaoUserOptions HutaoUserOptions { get; }
 
@@ -44,6 +46,12 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(verifyCode))
         {
+            return;
+        }
+
+        if (password.Length < 8)
+        {
+            infoBarService.Error(SH.ViewModelHutaoPassportPasswordTooShortHint);
             return;
         }
 
@@ -147,6 +155,12 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(verifyCode))
         {
+            return;
+        }
+
+        if (password.Length < 8)
+        {
+            infoBarService.Error(SH.ViewModelHutaoPassportPasswordTooShortHint);
             return;
         }
 
