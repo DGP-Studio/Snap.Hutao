@@ -973,6 +973,9 @@
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Trước khi sử dụng Embedded Yae, Snap Hutao cần được chạy với quyền quản trị viên</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+  </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Trước khi sử dụng Embedded Yae, bạn cần biết về các rủi ro liên quan và bật chức năng nhúng trong trang Khởi động Trò chơi</value>
   </data>
