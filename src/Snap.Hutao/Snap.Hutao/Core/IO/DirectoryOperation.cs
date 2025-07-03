@@ -97,28 +97,35 @@ internal static class DirectoryOperation
             return false;
         }
 
-        DirectoryInfo info = new(path);
-        DirectorySecurity accessControl = info.GetAccessControl();
-
-        // Once we get access rules, it's cached, so we can safely enumerate and remove rules at the same time.
-        foreach (FileSystemAccessRule rule in accessControl.GetAccessRules(true, true, typeof(SecurityIdentifier)))
+        try
         {
-            if (rule.IdentityReference == currentUser && rule.AccessControlType == AccessControlType.Deny)
+            DirectoryInfo info = new(path);
+            DirectorySecurity accessControl = info.GetAccessControl();
+
+            // Once we get access rules, it's cached, so we can safely enumerate and remove rules at the same time.
+            foreach (FileSystemAccessRule rule in accessControl.GetAccessRules(true, true, typeof(SecurityIdentifier)))
             {
-                accessControl.RemoveAccessRule(rule);
+                if (rule.IdentityReference == currentUser && rule.AccessControlType == AccessControlType.Deny)
+                {
+                    accessControl.RemoveAccessRule(rule);
+                }
             }
+
+            FileSystemAccessRule accessRule = new(
+                currentUser,
+                FileSystemRights.FullControl,
+                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                PropagationFlags.InheritOnly,
+                AccessControlType.Allow);
+            accessControl.RemoveAccessRuleAll(accessRule);
+            accessControl.AddAccessRule(accessRule);
+            info.SetAccessControl(accessControl);
+
+            return true;
         }
-
-        FileSystemAccessRule accessRule = new(
-            currentUser,
-            FileSystemRights.FullControl,
-            InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-            PropagationFlags.InheritOnly,
-            AccessControlType.Allow);
-        accessControl.RemoveAccessRuleAll(accessRule);
-        accessControl.AddAccessRule(accessRule);
-        info.SetAccessControl(accessControl);
-
-        return true;
+        catch
+        {
+            return false;
+        }
     }
 }
