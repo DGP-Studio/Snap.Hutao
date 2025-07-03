@@ -106,25 +106,25 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                 throw InternalImageCacheException.Throw($"Unable to create file at '{baseFile}'", ex);
                             }
 
-                            using (fileStream)
+                            try
                             {
-                                try
+                                using (fileStream)
                                 {
                                     await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
-                                    await fileStream.FlushAsync().ConfigureAwait(false);
                                 }
-                                catch (IOException ex)
-                                {
-                                    // Received an unexpected EOF or 0 bytes from the transport stream.
-                                    // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
-                                    // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
-                                    // HttpIOException: The response ended prematurely. (ResponseEnded)
-                                    // 磁盘空间不足。 : '?'.
-                                    throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
-                                }
-
-                                return;
                             }
+                            catch (IOException ex)
+                            {
+                                // Received an unexpected EOF or 0 bytes from the transport stream.
+                                // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
+                                // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
+                                // HttpIOException: The response ended prematurely. (ResponseEnded)
+                                // 磁盘空间不足。 : '?'.
+                                throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
+                            }
+
+                            return;
+
                         }
                     }
 

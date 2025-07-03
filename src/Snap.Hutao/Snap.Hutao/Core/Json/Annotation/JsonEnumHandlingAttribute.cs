@@ -7,20 +7,20 @@ using System.Text.Json.Serialization.Metadata;
 namespace Snap.Hutao.Core.Json.Annotation;
 
 [AttributeUsage(AttributeTargets.Property)]
-internal sealed class JsonEnumAttribute : Attribute
+internal sealed class JsonEnumHandlingAttribute : Attribute
 {
     private static readonly Type UnsafeEnumConverterType = typeof(UnsafeEnumConverter<>);
 
-    private readonly JsonEnumSerializeHandling readAs;
-    private readonly JsonEnumSerializeHandling writeAs;
+    private readonly JsonEnumHandling readAs;
+    private readonly JsonEnumHandling writeAs;
 
-    public JsonEnumAttribute(JsonEnumSerializeHandling readAndWriteAs)
+    public JsonEnumHandlingAttribute(JsonEnumHandling readAndWriteAs)
     {
         readAs = readAndWriteAs;
         writeAs = readAndWriteAs;
     }
 
-    public JsonEnumAttribute(JsonEnumSerializeHandling readAs, JsonEnumSerializeHandling writeAs)
+    public JsonEnumHandlingAttribute(JsonEnumHandling readAs, JsonEnumHandling writeAs)
     {
         this.readAs = readAs;
         this.writeAs = writeAs;

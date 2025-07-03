@@ -28,21 +28,23 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
         {
             IGachaLogService gachaLogService = scope.ServiceProvider.GetRequiredService<IGachaLogService>();
 
-            if (await metadataService.InitializeAsync().ConfigureAwait(false))
+            if (!await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                try
-                {
-                    GachaLogServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>().ConfigureAwait(false);
-                    ImmutableArray<GachaStatisticsSlim> array = await gachaLogService.GetStatisticsSlimImmutableArrayAsync(context).ConfigureAwait(false);
+                return;
+            }
 
-                    await taskContext.SwitchToMainThreadAsync();
-                    StatisticsList = array;
-                    IsInitialized = true;
-                }
-                catch (Exception ex)
-                {
-                    infoBarService.Error(ex);
-                }
+            try
+            {
+                GachaLogServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>().ConfigureAwait(false);
+                ImmutableArray<GachaStatisticsSlim> array = await gachaLogService.GetStatisticsSlimImmutableArrayAsync(context).ConfigureAwait(false);
+
+                await taskContext.SwitchToMainThreadAsync();
+                StatisticsList = array;
+                IsInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                infoBarService.Error(ex);
             }
         }
     }

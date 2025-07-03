@@ -8,15 +8,15 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 // ReSharper disable once InconsistentNaming
-internal sealed class Hk4eItem
+internal sealed class Hk4eItem : IJsonOnDeserialized
 {
     // ReSharper disable once InconsistentNaming
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
+    [JsonEnumHandling(JsonEnumHandling.NumberString)]
     public required GachaType UIGFGachaType { get; init; }
 
     [JsonPropertyName("gacha_type")]
-    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
+    [JsonEnumHandling(JsonEnumHandling.NumberString)]
     public required GachaType GachaType { get; init; }
 
     [JsonPropertyName("item_id")]
@@ -41,5 +41,17 @@ internal sealed class Hk4eItem
             Time = item.Time.UtcDateTime,
             Id = item.Id,
         };
+    }
+    public void OnDeserialized()
+    {
+        if (!Enum.IsDefined(UIGFGachaType))
+        {
+            throw new JsonException($"Unsupported UIGFGachaType: {UIGFGachaType}");
+        }
+
+        if (!Enum.IsDefined(GachaType))
+        {
+            throw new JsonException($"Unsupported GachaType: {GachaType}");
+        }
     }
 }

@@ -41,11 +41,13 @@ internal sealed partial class InfoBarService : IInfoBarService
 
         await taskContext.SwitchToMainThreadAsync();
 
-        if (XamlApplicationLifetime.Exiting)
+        try
         {
-            return;
+            Collection.Insert(0, builder.Options);
         }
-
-        Collection.Insert(0, builder.Options);
+        catch
+        {
+            // Ignore
+        }
     }
 }

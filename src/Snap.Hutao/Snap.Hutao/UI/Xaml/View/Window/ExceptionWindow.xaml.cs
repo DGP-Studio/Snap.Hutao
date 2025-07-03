@@ -35,7 +35,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
         UpdateDragRectangles();
         DraggableGrid.SizeChanged += (_, _) => UpdateDragRectangles();
 
-        SizeInt32 size = new(800, 600);
+        SizeInt32 size = new(800, 400);
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
         Bindings.Update();
     }
