@@ -102,13 +102,28 @@ internal static class DirectoryOperation
             DirectoryInfo info = new(path);
             DirectorySecurity accessControl = info.GetAccessControl();
 
+            bool hasAllowedAccess = false;
+
             // Once we get access rules, it's cached, so we can safely enumerate and remove rules at the same time.
             foreach (FileSystemAccessRule rule in accessControl.GetAccessRules(true, true, typeof(SecurityIdentifier)))
             {
-                if (rule.IdentityReference == currentUser && rule.AccessControlType == AccessControlType.Deny)
+                if (rule.IdentityReference == currentUser)
                 {
-                    accessControl.RemoveAccessRule(rule);
+                    switch (rule.AccessControlType)
+                    {
+                        case AccessControlType.Deny:
+                            accessControl.RemoveAccessRule(rule);
+                            break;
+                        case AccessControlType.Allow:
+                            hasAllowedAccess = true;
+                            break;
+                    }
                 }
+            }
+
+            if (hasAllowedAccess)
+            {
+                return true;
             }
 
             FileSystemAccessRule accessRule = new(
