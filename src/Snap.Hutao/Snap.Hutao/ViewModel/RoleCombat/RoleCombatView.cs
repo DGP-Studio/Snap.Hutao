@@ -114,7 +114,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         return avatarDamages.SelectAsArray(static (r, map) => new AvatarDamage(r.Value, map[r.AvatarId]), context.IdAvatarMap);
     }
 
-    private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarStatistics avatarDamage, RoleCombatMetadataContext context)
+    private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarStatistics? avatarDamage, RoleCombatMetadataContext context)
     {
         if (avatarDamage is not { AvatarId.Value: not 0U })
         {
