@@ -6,7 +6,7 @@ namespace Snap.Hutao.Core.Threading;
 public sealed class ExclusiveTokenProvider : IDisposable
 {
     private readonly Lock syncRoot = new();
-    private CancellationTokenSource cts = new();
+    private volatile CancellationTokenSource? cts = new();
 
     public CancellationToken CurrentToken
     {
@@ -14,7 +14,7 @@ public sealed class ExclusiveTokenProvider : IDisposable
         {
             lock (syncRoot)
             {
-                return cts.Token;
+                return cts?.Token ?? new(true);
             }
         }
     }
@@ -23,8 +23,12 @@ public sealed class ExclusiveTokenProvider : IDisposable
     {
         lock (syncRoot)
         {
-            cts.Cancel();
-            cts.Dispose();
+            if (cts is not null)
+            {
+                cts.Cancel();
+                cts.Dispose();
+            }
+
             cts = new();
             return cts.Token;
         }
@@ -34,7 +38,7 @@ public sealed class ExclusiveTokenProvider : IDisposable
     {
         lock (syncRoot)
         {
-            cts.Cancel();
+            cts?.Cancel();
         }
     }
 
@@ -42,8 +46,13 @@ public sealed class ExclusiveTokenProvider : IDisposable
     {
         lock (syncRoot)
         {
-            cts.Cancel();
-            cts.Dispose();
+            if (cts is not null)
+            {
+                cts.Cancel();
+                cts.Dispose();
+            }
+
+            cts = default!;
         }
     }
 }

@@ -591,6 +591,9 @@
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>登录成功</value>
   </data>
+  <data name="ServerPassportPasswordTooShort" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>注册成功</value>
   </data>
@@ -972,6 +975,9 @@
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
@@ -2015,6 +2021,9 @@
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
+  </data>
+  <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>请使用其他方法导入成就</value>

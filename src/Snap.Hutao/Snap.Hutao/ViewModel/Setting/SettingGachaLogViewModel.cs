@@ -35,18 +35,19 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Import UIGF file", "SettingGachaLogViewModel.Command"));
 
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
-            SH.ViewModelGachaUIGFImportPickerTitile,
-            SH.ViewModelGachaLogExportFileType,
-            "*.json");
+        FileSystemPickerOptions pickerOptions = new()
+        {
+            Title = SH.ViewModelGachaUIGFImportPickerTitile,
+            FilterName = SH.ViewModelGachaLogExportFileType,
+            FilterType = "*.json",
+        };
 
-        if (!isOk)
+        if (fileSystemPickerInteraction.PickFile(pickerOptions) is not (true, { HasValue: true } file))
         {
             return;
         }
 
-        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonNoThrowAsync<UIGF>(jsonOptions).ConfigureAwait(false);
-        if (!result.TryGetValue(out UIGF? uigf))
+        if (await file.DeserializeFromJsonNoThrowAsync<UIGF>(jsonOptions).ConfigureAwait(false) is not (true, { } uigf))
         {
             infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
             return;
@@ -65,8 +66,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         }
 
         UIGFImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<UIGFImportDialog>(serviceProvider, uigf).ConfigureAwait(false);
-        (bool isOk2, HashSet<uint> uids) = await importDialog.GetSelectedUidsAsync().ConfigureAwait(false);
-        if (!isOk2)
+        if (await importDialog.GetSelectedUidsAsync().ConfigureAwait(false) is not (true, { } uids))
         {
             return;
         }
@@ -106,22 +106,22 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export UIGF file", "SettingGachaLogViewModel.Command"));
 
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
-            SH.ViewModelGachaLogUIGFExportPickerTitle,
-            $"Snap Hutao UIGF.json",
-            SH.ViewModelGachaLogExportFileType,
-            "*.json");
+        FileSystemPickerOptions pickerOptions = new()
+        {
+            Title = SH.ViewModelGachaLogUIGFExportPickerTitle,
+            DefaultFileName = "Snap Hutao UIGF.json",
+            FilterName = SH.ViewModelGachaLogExportFileType,
+            FilterType = "*.json",
+        };
 
-        if (!isOk)
+        if (fileSystemPickerInteraction.SaveFile(pickerOptions) is not (true, { HasValue: true } file))
         {
             return;
         }
 
         ImmutableArray<uint> allUids = gachaLogRepository.GetGachaArchiveUidImmutableArray().SelectAsArray(uint.Parse);
         UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(serviceProvider, allUids).ConfigureAwait(false);
-
-        (bool isOk2, ImmutableArray<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);
-        if (!isOk2)
+        if (await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false) is not (true, { } uids))
         {
             return;
         }

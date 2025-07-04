@@ -83,39 +83,39 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(ref field, newValue, propertyName);
+        return !IsViewUnloaded && base.SetProperty(ref field, newValue, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(ref field, newValue, comparer, propertyName);
+        return !IsViewUnloaded && base.SetProperty(ref field, newValue, comparer, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, callback, propertyName);
+        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
+        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, model, callback, propertyName);
+        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, model, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !XamlApplicationLifetime.Exiting && !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
     }
 
     #endregion

@@ -47,13 +47,17 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         icon.right += 8;
         icon.bottom += 8;
 
-        this.SwitchTo();
-
         if (AppWindow is null || Content?.XamlRoot is null /*ERROR_XAMLROOT_REQUIRED*/)
         {
             return;
         }
 
+        if (flyout.IsDisposed())
+        {
+            return;
+        }
+
+        this.SwitchTo();
         MoveAndResize(icon);
 
         flyout.ShowAt(Content, new()

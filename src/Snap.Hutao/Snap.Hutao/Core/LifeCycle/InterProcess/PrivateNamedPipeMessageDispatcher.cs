@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Injection(InjectAs.Singleton)]
@@ -21,8 +23,14 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
 
     public void ExitApplication()
     {
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        App app = serviceProvider.GetRequiredService<App>();
-        taskContext.BeginInvokeOnMainThread(app.Exit);
+        try
+        {
+            // Cannot access a disposed object. Object name: 'IServiceProvider'.
+            serviceProvider.GetRequiredService<App>().Exit();
+        }
+        catch
+        {
+            Process.GetCurrentProcess().Kill();
+        }
     }
 }

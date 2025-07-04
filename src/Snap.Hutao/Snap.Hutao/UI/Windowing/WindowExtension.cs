@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.CompilerServices;
 using WinRT.Interop;
 
@@ -49,6 +50,17 @@ internal static class WindowExtension
         where TWindow : Window
     {
         WindowControllers.Remove(window);
+    }
+
+    public static bool TrySetTaskbarProgress<TWindow>(this TWindow window, TBPFLAG state, ulong value, ulong maximum)
+        where TWindow : Window
+    {
+        if (!WindowControllers.TryGetValue(window, out XamlWindowController? controller))
+        {
+            return false;
+        }
+
+        return controller.TrySetTaskbarProgress(state, value, maximum);
     }
 
     public static HWND GetWindowHandle(this Window? window)

@@ -9,6 +9,7 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.SystemServices;
+using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ConstValues;
@@ -20,6 +21,9 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     private readonly HutaoNativeWindowSubclass native;
     private readonly Window window;
     private readonly nint handle;
+
+    private readonly Lock syncRoot = new();
+    private bool taskBarInitialized;
 
     public unsafe XamlWindowSubclass(Window window)
     {
@@ -46,6 +50,20 @@ internal sealed partial class XamlWindowSubclass : IDisposable
         }
 
         GCHandle.FromIntPtr(handle).Free();
+    }
+
+    public void SetTaskbarProgress(TBPFLAG state, ulong value, ulong maximum)
+    {
+        lock (syncRoot)
+        {
+            if (!taskBarInitialized)
+            {
+                native.InitializeTaskbarProgress();
+                taskBarInitialized = true;
+            }
+
+            native.SetTaskbarProgress(state, value, maximum);
+        }
     }
 
     /// <returns>Whether to call DefSubclassProc</returns>

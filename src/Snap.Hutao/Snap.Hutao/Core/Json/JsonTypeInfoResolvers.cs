@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Json;
 
 internal static class JsonTypeInfoResolvers
 {
-    private static readonly Type JsonEnumAttributeType = typeof(JsonEnumAttribute);
+    private static readonly Type JsonEnumHandlingAttributeType = typeof(JsonEnumHandlingAttribute);
 
     public static void ResolveEnumType(JsonTypeInfo typeInfo)
     {
@@ -29,7 +29,7 @@ internal static class JsonTypeInfoResolvers
                 continue;
             }
 
-            if (provider.GetCustomAttributes(JsonEnumAttributeType, false) is [JsonEnumAttribute attr])
+            if (provider.GetCustomAttributes(JsonEnumHandlingAttributeType, false) is [JsonEnumHandlingAttribute attr])
             {
                 property.CustomConverter = attr.CreateConverter(property);
             }

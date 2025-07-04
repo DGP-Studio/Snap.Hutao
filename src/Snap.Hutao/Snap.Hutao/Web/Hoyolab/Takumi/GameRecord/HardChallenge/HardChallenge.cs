@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;

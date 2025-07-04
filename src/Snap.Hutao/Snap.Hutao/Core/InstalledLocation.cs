@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -24,6 +26,26 @@ internal static class InstalledLocation
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(url.ToUri());
             using (Stream outputStream = (await file.OpenReadAsync()).AsStreamForRead())
             {
+                if (File.Exists(path))
+                {
+                    try
+                    {
+                        FileInfo fileInfo = new(path);
+                        FileSecurity fileSecurity = fileInfo.GetAccessControl();
+                        SecurityIdentifier? user = WindowsIdentity.GetCurrent().User;
+
+                        if (user is not null)
+                        {
+                            fileSecurity.AddAccessRule(new(user, FileSystemRights.FullControl, InheritanceFlags.None, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                            fileInfo.SetAccessControl(fileSecurity);
+                        }
+                    }
+                    catch
+                    {
+                        // Ignore
+                    }
+                }
+
                 using (FileStream inputStream = File.Create(path))
                 {
                     await outputStream.CopyToAsync(inputStream).ConfigureAwait(false);

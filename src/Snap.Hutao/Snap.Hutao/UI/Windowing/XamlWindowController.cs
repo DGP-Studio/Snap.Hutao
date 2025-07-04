@@ -16,6 +16,7 @@ using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
+using Snap.Hutao.Win32.UI.Shell;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -97,6 +98,21 @@ internal sealed class XamlWindowController
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal IServiceProvider ServiceProvider { get; }
+
+    public bool TrySetTaskbarProgress(TBPFLAG state, ulong value, ulong maximum)
+    {
+        try
+        {
+            subclass.SetTaskbarProgress(state, value, maximum);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debugger.Break();
+            SentrySdk.CaptureException(ex);
+            return false;
+        }
+    }
 
     private static void EnablePlacementRestoration(Window window)
     {

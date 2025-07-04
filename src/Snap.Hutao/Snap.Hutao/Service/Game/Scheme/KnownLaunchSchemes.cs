@@ -26,6 +26,7 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelNoTapTapCompat = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.NoTapTap, false);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Epic);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelGoogle = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Google);
+    private static readonly LaunchScheme ServerGlobalChannelBilibiliSubChannelDefaultCompat = new LaunchSchemeOversea(ChannelType.Bili, SubChannelType.Default, false);
     private static readonly LaunchScheme ServerGlobalChannelBilibiliSubChannel14Compat = new LaunchSchemeOversea(ChannelType.Bili, (SubChannelType)14, false);
 
     public static ImmutableArray<LaunchScheme> Values { get; } =
@@ -48,6 +49,7 @@ internal static class KnownLaunchSchemes
         ServerGlobalChannelOfficialSubChannelNoTapTapCompat,
         ServerGlobalChannelOfficialSubChannelEpic,
         ServerGlobalChannelOfficialSubChannelGoogle,
+        ServerGlobalChannelBilibiliSubChannelDefaultCompat,
         ServerGlobalChannelBilibiliSubChannel14Compat,
     ];
 

@@ -14,6 +14,7 @@ using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
+using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -40,7 +41,7 @@ internal sealed partial class MetadataService : IMetadataService
     private readonly JsonSerializerOptions options;
 
     private FrozenSet<string>? fileNames;
-    private bool isInitialized;
+    private volatile bool isInitialized;
 
     public partial IMemoryCache MemoryCache { get; }
 
@@ -176,13 +177,14 @@ internal sealed partial class MetadataService : IMetadataService
 
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
     {
+#if DEBUG
         if (LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false))
         {
             return true;
         }
+#endif
 
         MetadataTemplate? template = await GetMetadataTemplateAsync().ConfigureAwait(false);
-
         if (await DownloadMetadataDescriptionFileAsync(template, token).ConfigureAwait(false) is not { } metadataFileHashes)
         {
             return false;
@@ -194,38 +196,6 @@ internal sealed partial class MetadataService : IMetadataService
             string failedFiles = string.Join(",\r\n", checkResult.FailedFiles);
             infoBarService.Error(SH.FormatServiceMetadataDownloadSourceFilesFailed(failedFiles));
             return false;
-        }
-
-        // Save metadataFile
-        FileStream metaFileStream;
-        try
-        {
-            metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName));
-        }
-        catch (IOException ex)
-        {
-            // The process cannot access the file '?' because it is being used by another process
-            infoBarService.Error(ex);
-            return false;
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            // Access to the path '?' is denied.
-            infoBarService.Error(ex);
-            return false;
-        }
-
-        using (metaFileStream)
-        {
-            try
-            {
-                await JsonSerializer.SerializeAsync(metaFileStream, metadataFileHashes, options, token).ConfigureAwait(false);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // Access to the path '?' is denied.
-                return false;
-            }
         }
 
         fileNames = checkResult.SucceedFiles.ToFrozenSet();
@@ -352,7 +322,7 @@ internal sealed partial class MetadataService : IMetadataService
     private sealed class MetadataDownloadContext
     {
         private readonly Lock syncRoot = new();
-        private readonly Dictionary<string, bool> results = [];
+        private readonly ConcurrentDictionary<string, bool> results = [];
 
         public MetadataDownloadContext(MetadataOptions options, MetadataTemplate? template)
         {
@@ -368,7 +338,7 @@ internal sealed partial class MetadataService : IMetadataService
         {
             lock (syncRoot)
             {
-                results.Add(fileName, result);
+                results.TryAdd(fileName, result);
             }
         }
 
@@ -385,7 +355,7 @@ internal sealed partial class MetadataService : IMetadataService
     {
         private readonly ImmutableDictionary<string, bool> results;
 
-        public MetadataCheckResult(Dictionary<string, bool> results)
+        public MetadataCheckResult(IEnumerable<KeyValuePair<string, bool>> results)
         {
             this.results = results.ToImmutableDictionary();
         }

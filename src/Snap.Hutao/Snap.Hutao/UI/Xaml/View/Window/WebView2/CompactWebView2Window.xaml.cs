@@ -140,6 +140,14 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         {
             webview2LoadLock.Release();
             cancel = false;
+
+            LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
+
+            InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+            InputLowLevelKeyboardSource.Uninitialize();
+
+            InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
+
             return;
         }
 
@@ -148,13 +156,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosed()
     {
-        LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
-
-        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        InputLowLevelKeyboardSource.Uninitialize();
-
-        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
-
         webview2LoadLock.Wait();
         webview2LoadLock.Dispose();
     }
@@ -192,14 +193,21 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
                 return;
             }
 
-            if (enter)
+            try
             {
-                this.RemoveExtendedStyleLayered();
+                if (enter)
+                {
+                    this.RemoveExtendedStyleLayered();
+                }
+                else
+                {
+                    this.AddExtendedStyleLayered();
+                    this.SetLayeredWindowTransparency(opacity);
+                }
             }
-            else
+            catch
             {
-                this.AddExtendedStyleLayered();
-                this.SetLayeredWindowTransparency(opacity);
+                // Ignore
             }
         }
     }

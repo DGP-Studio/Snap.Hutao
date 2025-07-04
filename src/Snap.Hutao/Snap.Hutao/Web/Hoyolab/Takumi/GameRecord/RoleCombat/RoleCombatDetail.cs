@@ -14,7 +14,7 @@ internal sealed class RoleCombatDetail
     public required RoleCombatStat? DetailStat { get; init; }
 
     [JsonPropertyName("lineup_link")]
-    public required Uri LineupLink { get; init; }
+    public Uri? LineupLink { get; init; }
 
     [JsonPropertyName("backup_avatars")]
     public required ImmutableArray<RoleCombatAvatar> BackupAvatars { get; init; }
