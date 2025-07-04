@@ -591,6 +591,9 @@
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Успешный вход</value>
   </data>
+  <data name="ServerPassportPasswordTooShort" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Регистрация успешна</value>
   </data>
@@ -972,6 +975,9 @@
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Перед использованием Embedded Yae, Snap Hutao должна быть запущена с правами администратора</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Перед использованием Embedded Yae вы должны знать о связанных с этим рисках и включить функцию внедрения на странице "Запуск игры"</value>
@@ -2013,6 +2019,9 @@
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Пожалуйста, введите правильный адрес электронной почты</value>
+  </data>
+  <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Используйте другие способы для импорта достижений</value>

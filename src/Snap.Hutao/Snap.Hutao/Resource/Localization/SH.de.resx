@@ -591,6 +591,9 @@
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Anmeldung erfolgreich</value>
   </data>
+  <data name="ServerPassportPasswordTooShort" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Registrierung erfolgreich</value>
   </data>
@@ -972,6 +975,9 @@
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Vor der Verwendung von Embedded Yae muss Snap Hutao mit Administratorrechten ausgeführt werden.</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Vor der Verwendung von Embedded Yae sollten Sie sich über die damit verbundenen Risiken informieren und die Injektionsfunktion auf der Seite „Spiel starten“ aktivieren.</value>
@@ -2015,6 +2021,9 @@ Verfügbarer Speicherplatz: {2}</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Bitte geben Sie eine gültige E-Mail-Adresse ein</value>
+  </data>
+  <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
+    <value>密码长度不能小于 8 位</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Bitte verwende andere Methoden, um Erfolge zu importieren</value>
