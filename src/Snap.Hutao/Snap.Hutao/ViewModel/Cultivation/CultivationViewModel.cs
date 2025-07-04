@@ -8,9 +8,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Primitive.Converter;
-using Snap.Hutao.Model.Intrinsic.Frozen;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata;
@@ -22,7 +19,6 @@ using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.Game;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
@@ -49,8 +45,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
     public IAdvancedDbCollectionView<CultivateProject>? Projects
     {
         get;
@@ -74,11 +68,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ResinStatistics? ResinStatistics { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
-
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
-
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
+    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
 
     public void AttachXamlElement(ItemsRepeater itemsRepeater)
     {
@@ -93,6 +83,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
 
         metadataContext = await metadataService.GetContextAsync<CultivationMetadataContext>(token).ConfigureAwait(false);
+        SearchData searchData = SearchData.CreateForCultivation();
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
@@ -109,13 +100,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        AvailableTokens = FrozenDictionary.ToFrozenDictionary(
-        [
-            .. IntrinsicFrozen.CultivateTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.CultivateType, nv.Name, (int)nv.Value, packageIconUri: CultivateTypeIconConverter.CultivateTypeToIconUri(nv.Value)))),
-            .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
-            .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
-            .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
-        ]);
+        SearchData = searchData;
 
         return true;
     }
@@ -208,7 +193,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             await taskContext.SwitchToMainThreadAsync();
             CultivateEntries = entriesView;
-            FilterTokens = [];
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
@@ -433,7 +417,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         int previousFilteredCount = CultivateEntries.Count;
 
-        CultivateEntries.Filter = FilterTokens is null or [] ? default! : CultivateEntryViewFilter.Compile(FilterTokens, metadataContext);
+        CultivateEntries.Filter = CultivateEntryViewFilter.Compile(SearchData, metadataContext);
         CultivateEntries.Refresh();
         if (previousFilteredCount is 0)
         {

@@ -14,6 +14,11 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal static class CultivateEntryViewFilter
 {
+    public static Predicate<CultivateEntryView>? Compile(SearchData? searchData, ICultivationMetadataContext metadataContext)
+    {
+        return searchData?.FilterTokens is null or [] ? default : Compile(searchData.FilterTokens, metadataContext);
+    }
+
     public static Predicate<CultivateEntryView> Compile(ObservableCollection<SearchToken> input, ICultivationMetadataContext metadataContext)
     {
         return avatar => DoFilter(input, avatar, metadataContext);
