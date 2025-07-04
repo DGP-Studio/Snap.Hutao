@@ -15,8 +15,8 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
 
     public HutaoNativeLoopbackSupport(ObjectReference<Vftbl> objRef)
     {
-        this.ObjRef = objRef;
-        objRef.TryAs<Vftbl2>(typeof(Vftbl2).GUID, out objRef2);
+        ObjRef = objRef;
+        objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
     }
 
     private ObjectReference<Vftbl> ObjRef { get; }
