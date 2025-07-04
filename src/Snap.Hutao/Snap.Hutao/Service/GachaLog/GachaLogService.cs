@@ -33,33 +33,15 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            try
-            {
-                archives ??= gachaLogRepository.GetGachaArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            return archives ??= gachaLogRepository.GetGachaArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
         }
-
-        return archives;
     }
 
     public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaLogServiceMetadataContext context, GachaArchive archive)
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            ImmutableArray<GachaItem> items;
-            try
-            {
-                items = gachaLogRepository.GetGachaItemImmutableArrayByArchiveId(archive.InnerId);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
-
+            ImmutableArray<GachaItem> items = gachaLogRepository.GetGachaItemImmutableArrayByArchiveId(archive.InnerId);
             return await gachaStatisticsFactory.CreateAsync(context, items).ConfigureAwait(false);
         }
     }

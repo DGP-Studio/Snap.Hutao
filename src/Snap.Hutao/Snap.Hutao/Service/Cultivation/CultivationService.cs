@@ -42,14 +42,7 @@ internal sealed partial class CultivationService : ICultivationService
     {
         using (await projectsLock.LockAsync().ConfigureAwait(false))
         {
-            try
-            {
-                return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
         }
     }
 

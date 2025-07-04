@@ -47,19 +47,11 @@ internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollec
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
 
-            try
+            if (currentItem is not null)
             {
-                dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
-
-                if (currentItem is not null)
-                {
-                    dbContext.Set<TEntity>().UpdateAndSave(currentItem);
-                }
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+                dbContext.Set<TEntity>().UpdateAndSave(currentItem);
             }
         }
     }
@@ -122,19 +114,11 @@ internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> :
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
 
-            try
+            if (currentItem is not null)
             {
-                dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
-
-                if (currentItem is not null)
-                {
-                    dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
-                }
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+                dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
             }
         }
     }

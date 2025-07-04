@@ -23,25 +23,21 @@ internal sealed partial class ExceptionHandlingSupport
     }
 
     [StackTraceHidden]
-    public static Exception KillProcessOnDbException(Exception exception)
+    public static void KillProcessOnDbException(Exception exception)
     {
         ExceptionDispatchInfo dispatch = ExceptionDispatchInfo.Capture(exception);
 
-        if (dispatch.SourceException is DbException dbException)
+        switch (dispatch.SourceException)
         {
-            throw KillProcessOnDbException(dbException);
+            case DbException dbException:
+                throw KillProcessOnDbException(dbException);
+            case DbUpdateException { InnerException: DbException dbException2 }:
+                throw KillProcessOnDbException(dbException2);
+            default:
+                // In case it's not a DbException, we should preserve the original stack trace
+                dispatch.Throw();
+                break;
         }
-
-        if (dispatch.SourceException is DbUpdateException { InnerException: DbException dbEx })
-        {
-            throw KillProcessOnDbException(dbEx);
-        }
-
-        // In case it's not a DbException, we should preserve the original stack trace
-        dispatch.Throw();
-
-        // Should never be reached
-        return dispatch.SourceException;
     }
 
     [StackTraceHidden]
@@ -64,6 +60,8 @@ internal sealed partial class ExceptionHandlingSupport
         Debugger.Break();
         XamlApplicationLifetime.Exiting = true;
 
+        KillProcessOnDbException(e.Exception);
+
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
         exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
 
@@ -85,13 +83,13 @@ internal sealed partial class ExceptionHandlingSupport
 
     private static void OnAppDomainFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (e.Exception is null)
         {
             return;
         }
 
         Exception exception = e.Exception;
-        string type = TypeNameHelper.GetTypeDisplayName(exception);
         if (exception is OperationCanceledException)
         {
             return;
@@ -102,7 +100,6 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
-        string a = exception.ToString();
         Debugger.Break();
     }
 

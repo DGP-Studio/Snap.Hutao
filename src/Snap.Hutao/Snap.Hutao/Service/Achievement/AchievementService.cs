@@ -35,14 +35,7 @@ internal sealed partial class AchievementService : IAchievementService
     {
         using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            try
-            {
-                return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
         }
     }
 

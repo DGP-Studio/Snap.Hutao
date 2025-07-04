@@ -82,16 +82,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             if (entries is null)
             {
-                ImmutableArray<DailyNoteEntry> entryList;
-                try
-                {
-                    entryList = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
-                }
-                catch (DbException ex)
-                {
-                    throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-                }
-
+                ImmutableArray<DailyNoteEntry> entryList = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
                 foreach (DailyNoteEntry entry in entryList)
                 {
                     entry.UserGameRole = await userService.GetUserGameRoleByUidAsync(entry.Uid).ConfigureAwait(false);
@@ -154,18 +145,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
-
-            ImmutableArray<DailyNoteEntry> dailyNoteEntries;
-            try
-            {
-                dailyNoteEntries = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
-            }
-            catch (Exception ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
-
-            foreach (DailyNoteEntry dbEntry in dailyNoteEntries)
+            foreach (DailyNoteEntry dbEntry in dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser())
             {
                 if (!(forceRefresh || (autoRefresh && dbEntry.RefreshTime < DateTimeOffset.Now - threshold)))
                 {

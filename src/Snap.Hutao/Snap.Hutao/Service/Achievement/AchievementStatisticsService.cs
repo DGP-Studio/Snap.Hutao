@@ -29,17 +29,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     private ImmutableArray<AchievementStatistics> SynchronizedGetAchievementStatistics(AchievementServiceMetadataContext context)
     {
         ImmutableArray<AchievementStatistics>.Builder results = ImmutableArray.CreateBuilder<AchievementStatistics>();
-        ReadOnlySpan<AchievementArchive> span;
-        try
-        {
-            span = achievementRepository.GetAchievementArchiveImmutableArray().AsSpan();
-        }
-        catch (DbException ex)
-        {
-            throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-        }
-
-        foreach (ref readonly AchievementArchive archive in span)
+        foreach (ref readonly AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray().AsSpan())
         {
             int finishedCount = achievementRepository.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;

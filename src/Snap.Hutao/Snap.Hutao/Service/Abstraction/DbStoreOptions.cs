@@ -58,15 +58,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            try
-            {
-                storage = GetValue(appDbContext, key) ?? defaultValueFactory();
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            storage = GetValue(appDbContext, key) ?? defaultValueFactory();
         }
 
         return storage;
@@ -126,16 +118,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value;
-            try
-            {
-                value = GetValue(appDbContext, key);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
-
+            string? value = GetValue(appDbContext, key);
             storage = value is null ? defaultValueFactory() : deserializer(value);
         }
 
@@ -153,16 +136,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value;
-            try
-            {
-                value = GetValue(appDbContext, key);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
-
+            string? value = GetValue(appDbContext, key);
             storage = value is null ? defaultValueFactory() : deserializer(value);
         }
 
@@ -179,16 +153,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value;
-            try
-            {
-                value = GetValue(appDbContext, key);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
-
+            string? value = GetValue(appDbContext, key);
             storage = value is null ? defaultValue : array.Single(item => serializer(item.Value) == value);
         }
 
@@ -225,16 +190,8 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            try
-            {
-                appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-                appDbContext.Settings.AddAndSave(new(key, serializer(value)));
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
+            appDbContext.Settings.AddAndSave(new(key, serializer(value)));
         }
 
         return true;
