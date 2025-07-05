@@ -42,14 +42,7 @@ internal sealed partial class CultivationService : ICultivationService
     {
         using (await projectsLock.LockAsync().ConfigureAwait(false))
         {
-            try
-            {
-                return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
-            }
-            catch (DbException ex)
-            {
-                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
-            }
+            return projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
         }
     }
 
@@ -271,7 +264,7 @@ internal sealed partial class CultivationService : ICultivationService
             try
             {
                 await taskContext.SwitchToMainThreadAsync();
-                projects.MoveCurrentTo(projects.Source.SelectedOrDefault());
+                projects.MoveCurrentTo(projects.Source.SelectedOrFirstOrDefault());
             }
             catch (InvalidOperationException)
             {

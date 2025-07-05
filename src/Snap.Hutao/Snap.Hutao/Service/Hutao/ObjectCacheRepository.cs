@@ -31,22 +31,15 @@ internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
         where T : class
     {
         await taskContext.SwitchToBackgroundAsync();
-        try
+        if (this.SingleOrDefault(e => e.Key == key) is { } entry)
         {
-            if (this.SingleOrDefault(e => e.Key == key) is { } entry)
+            if (!entry.IsExpired)
             {
-                if (!entry.IsExpired)
-                {
-                    ArgumentNullException.ThrowIfNull(entry.Value);
-                    return JsonSerializer.Deserialize<T>(entry.Value, jsonSerializerOptions);
-                }
-
-                this.Delete(entry);
+                ArgumentNullException.ThrowIfNull(entry.Value);
+                return JsonSerializer.Deserialize<T>(entry.Value, jsonSerializerOptions);
             }
-        }
-        catch (Exception ex)
-        {
-            throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+
+            this.Delete(entry);
         }
 
         return default;

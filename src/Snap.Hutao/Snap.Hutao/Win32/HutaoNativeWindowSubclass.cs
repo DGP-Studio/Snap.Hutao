@@ -56,7 +56,7 @@ internal sealed unsafe class HutaoNativeWindowSubclass
 #pragma warning restore CS0649
     }
 
-    [Guid(HutaoNativeMethods.IID_IHutaoNativeWindowSubclass)]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeWindowSubclass2)]
     internal readonly struct Vftbl2
     {
 #pragma warning disable CS0649

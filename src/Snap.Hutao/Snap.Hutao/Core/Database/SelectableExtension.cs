@@ -9,13 +9,6 @@ namespace Snap.Hutao.Core.Database;
 internal static class SelectableExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TSource? SelectedOrDefault<TSource>(this IEnumerable<TSource> source)
-        where TSource : ISelectable
-    {
-        return source.SingleOrDefault(IsSelected);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? SelectedOrFirstOrDefault<TSource>(this IEnumerable<TSource> source)
         where TSource : ISelectable
     {

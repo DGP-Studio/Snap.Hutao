@@ -8,13 +8,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 internal sealed class RoleCombatFightStatistics
 {
     [JsonPropertyName("max_defeat_avatar")]
-    public required RoleCombatAvatarStatistics MaxDefeatAvatar { get; init; }
+    public RoleCombatAvatarStatistics? MaxDefeatAvatar { get; init; }
 
     [JsonPropertyName("max_damage_avatar")]
-    public required RoleCombatAvatarStatistics MaxDamageAvatar { get; init; }
+    public RoleCombatAvatarStatistics? MaxDamageAvatar { get; init; }
 
     [JsonPropertyName("max_take_damage_avatar")]
-    public required RoleCombatAvatarStatistics MaxTakeDamageAvatar { get; init; }
+    public RoleCombatAvatarStatistics? MaxTakeDamageAvatar { get; init; }
 
     [JsonPropertyName("total_coin_consumed")]
     public required RoleCombatAvatarStatistics TotalCoinConsumed { get; init; }

@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Core.Threading;
 
 internal static class TaskExtension
@@ -17,6 +19,7 @@ internal static class TaskExtension
         }
         catch (Exception ex)
         {
+            ExceptionHandlingSupport.KillProcessOnDbException(ex);
             ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
             SentrySdk.CaptureException(ex);
         }
@@ -34,6 +37,7 @@ internal static class TaskExtension
         }
         catch (Exception ex)
         {
+            ExceptionHandlingSupport.KillProcessOnDbException(ex);
             ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
             SentrySdk.CaptureException(ex);
         }
@@ -44,6 +48,7 @@ internal static class TaskExtension
     {
         using (CancellationTokenSource taskFaultedCts = new())
         {
+            // ReSharper disable once AccessToDisposedClosure
             List<Task> taskList = [.. tasks.Select(task => WrapTask(task, taskFaultedCts.Token))];
 
             Task firstCompletedTask = await Task.WhenAny(taskList).ConfigureAwait(true);
@@ -70,18 +75,6 @@ internal static class TaskExtension
             {
                 throw;
             }
-        }
-    }
-
-    public static async Task SuppressThrowing<T>(this Task task)
-        where T : Exception
-    {
-        try
-        {
-            await task;
-        }
-        catch (T)
-        {
         }
     }
 }

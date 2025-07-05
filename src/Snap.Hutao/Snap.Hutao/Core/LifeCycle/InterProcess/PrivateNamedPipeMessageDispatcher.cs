@@ -23,10 +23,15 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
 
     public void ExitApplication()
     {
+        // Note: This method can be called from any thread,
+        // so we have to switch to the main thread to call
+        // the Exit method of the App instance.
         try
         {
             // Cannot access a disposed object. Object name: 'IServiceProvider'.
-            serviceProvider.GetRequiredService<App>().Exit();
+            ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+            App app = serviceProvider.GetRequiredService<App>();
+            taskContext.InvokeOnMainThread(app.Exit);
         }
         catch
         {

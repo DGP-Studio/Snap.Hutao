@@ -28,6 +28,11 @@ internal sealed partial class SearchData : ObservableObject
         return new(SearchTokens.GetForAvatarProperty());
     }
 
+    public static SearchData CreateForCultivation()
+    {
+        return new(SearchTokens.GetForAvatarProperty());
+    }
+
     public static SearchData CreateForWikiAvatar(ImmutableArray<Avatar> array)
     {
         return new(SearchTokens.GetForWikiAvatar(array));
