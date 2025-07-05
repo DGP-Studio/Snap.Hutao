@@ -17,7 +17,7 @@ internal sealed class RoleCombatFightStatistics
     public RoleCombatAvatarStatistics? MaxTakeDamageAvatar { get; init; }
 
     [JsonPropertyName("total_coin_consumed")]
-    public required RoleCombatAvatarStatistics TotalCoinConsumed { get; init; }
+    public RoleCombatAvatarStatistics? TotalCoinConsumed { get; init; }
 
     [JsonPropertyName("shortest_avatar_list")]
     public required ImmutableArray<RoleCombatAvatarStatistics> ShortestAvatarList { get; init; }
