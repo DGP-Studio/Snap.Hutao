@@ -190,8 +190,8 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <shuxc:ItemIcon
-                                Width="48"
-                                Height="48"
+                                Width="52"
+                                Height="52"
                                 Icon="{Binding Icon}"
                                 Quality="{Binding Quality}"/>
                             <StackPanel

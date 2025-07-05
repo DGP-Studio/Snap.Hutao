@@ -12,7 +12,7 @@ namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 internal sealed partial class SearchData : ObservableObject
 {
-    public SearchData(FrozenDictionary<string, SearchToken> availableTokens)
+    private SearchData(FrozenDictionary<string, SearchToken> availableTokens)
     {
         AvailableTokens = availableTokens;
     }
@@ -21,7 +21,8 @@ internal sealed partial class SearchData : ObservableObject
 
     public ObservableCollection<SearchToken> FilterTokens { get; } = [];
 
-    public string? FilterToken { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? FilterToken { get; set; }
 
     public static SearchData CreateForAvatarProperty()
     {
@@ -30,7 +31,7 @@ internal sealed partial class SearchData : ObservableObject
 
     public static SearchData CreateForCultivation()
     {
-        return new(SearchTokens.GetForAvatarProperty());
+        return new(SearchTokens.GetForCultivation());
     }
 
     public static SearchData CreateForWikiAvatar(ImmutableArray<Avatar> array)
