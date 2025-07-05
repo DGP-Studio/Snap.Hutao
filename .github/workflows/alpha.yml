@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET (self-hosted)
-        if: needs.select-runner.outputs.runner == 'self-hosted'
+        if: needs.select-runner.outputs.runner == 'sjc1'
         shell: pwsh
         run: |
           Write-Host "Running enviornment setup script…"
