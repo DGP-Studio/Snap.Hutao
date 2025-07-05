@@ -31,14 +31,14 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ButtonBackground}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlAltFillColorSecondaryBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#206A890A"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
                     </cwconv:BoolToObjectConverter>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ButtonBackground}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlAltFillColorSecondaryBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#20A5D610"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
@@ -156,9 +156,9 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <cwcont:UniformGrid
-                            ColumnSpacing="2"
+                            ColumnSpacing="4"
                             Columns="6"
-                            RowSpacing="2"/>
+                            RowSpacing="4"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -168,7 +168,7 @@
                             Padding="0"
                             VerticalAlignment="Stretch"
                             Background="{Binding Highlight, Converter={ThemeResource BoolToBrushSelector}}"
-                            Style="{ThemeResource SettingButtonStyle}">
+                            Style="{ThemeResource ShimmerButtonStyle}">
 
                             <shuxci:CachedImage
                                 Width="24"
@@ -202,7 +202,7 @@
                                         <Border
                                             Grid.Row="1"
                                             HorizontalAlignment="Stretch"
-                                            Style="{ThemeResource SecondaryBorderCardStyle}">
+                                            Style="{ThemeResource BorderShimmerStyle}">
                                             <ItemsControl ItemsPanel="{StaticResource UniformGridColumns4Spacing6Template}" ItemsSource="{Binding Items}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>

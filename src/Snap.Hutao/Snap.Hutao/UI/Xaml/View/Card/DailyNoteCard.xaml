@@ -45,18 +45,21 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock
+                <Grid
                     Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Uid}"/>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding RefreshTimeFormatted}"/>
+                    Grid.ColumnSpan="3"
+                    Padding="6"
+                    Style="{ThemeResource GridShimmerStyle}">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Uid}"/>
+                    <TextBlock
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding RefreshTimeFormatted}"/>
+                </Grid>
+
 
                 <shuxcc:CardBlock
                     Grid.Row="1"

@@ -6,24 +6,22 @@
     <Style BasedOn="{StaticResource DefaultHorizontalCardStyle}" TargetType="shuxcc:HorizontalCard"/>
 
     <Style x:Key="DefaultHorizontalCardStyle" TargetType="shuxcc:HorizontalCard">
-        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxcc:HorizontalCard">
-                    <Border Background="{TemplateBinding Background}" Style="{ThemeResource BorderCardStyle}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Border Child="{TemplateBinding Left}"/>
-                            <Border
-                                Grid.Column="1"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Child="{TemplateBinding Right}"/>
-                        </Grid>
-                    </Border>
+                    <Grid Background="{TemplateBinding Background}" Style="{ThemeResource GridShimmerStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Child="{TemplateBinding Left}"/>
+                        <Border
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Child="{TemplateBinding Right}"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

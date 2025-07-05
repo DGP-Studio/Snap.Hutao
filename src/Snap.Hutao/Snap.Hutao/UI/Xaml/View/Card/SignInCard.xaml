@@ -27,6 +27,7 @@
     mc:Ignorable="d">
 
     <Button.Resources>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
         <cwconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
             <cwconv:BoolToObjectConverter.TrueValue>
                 <x:Double>0.3</x:Double>
@@ -80,21 +81,27 @@
 
     <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Margin="12" RowSpacing="6">
+            <Grid Padding="12" RowSpacing="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{Binding TotalSignInDaysHint}"/>
-                <TextBlock
+                <Grid
                     Grid.Row="0"
-                    HorizontalAlignment="Right"
-                    Text="{Binding CurrentUid}"/>
+                    Margin="-12"
+                    Padding="12"
+                    Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+                    Canvas.ZIndex="1">
+                    <TextBlock Text="{Binding TotalSignInDaysHint}"/>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding CurrentUid}"/>
+                </Grid>
+
                 <ScrollViewer
                     x:Name="AwardScrollViewer"
                     Grid.Row="1"
-                    Padding="0,0,0,0">
+                    Padding="0,18"
+                    CanContentRenderOutsideBounds="True">
                     <ItemsControl ItemTemplate="{StaticResource AwardTemplate}" ItemsSource="{Binding Awards}">
                         <mxi:Interaction.Behaviors>
                             <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding ScrollToNextAwardCommand}"/>
@@ -102,28 +109,63 @@
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <cwcont:UniformGrid
-                                    ColumnSpacing="2"
+                                    ColumnSpacing="4"
                                     Columns="7"
-                                    RowSpacing="2"/>
+                                    RowSpacing="4"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </ScrollViewer>
-                <Grid Grid.Row="2" ColumnSpacing="4">
+
+                <Grid
+                    Grid.Row="2"
+                    Margin="-12"
+                    Padding="12"
+                    Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+                    ColumnSpacing="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <!--  待签到  -->
+                    <Grid
+                        Margin="8,0"
+                        HorizontalAlignment="Left"
+                        Visibility="{Binding IsTodaySigned, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                        <FontIcon
+                            FontSize="16"
+                            Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
+                            Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
+                        <FontIcon
+                            FontSize="16"
+                            Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+                            Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
+                    </Grid>
+                    <!--  已签到  -->
+                    <Grid
+                        Margin="8,0"
+                        HorizontalAlignment="Left"
+                        Visibility="{Binding IsTodaySigned, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <FontIcon
+                            FontSize="16"
+                            Foreground="{ThemeResource InfoBarSuccessSeverityIconBackground}"
+                            Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
+                        <FontIcon
+                            FontSize="16"
+                            Foreground="{ThemeResource InfoBarSuccessSeverityIconForeground}"
+                            Glyph="{ThemeResource InfoBarSuccessIconGlyph}"/>
+                    </Grid>
+
                     <Button
                         Grid.Column="0"
                         Command="{Binding ClaimSignInRewardCommand}"
                         Content="{shuxm:ResourceString Name=ViewCardSignInClaimSignInAction}"
-                        Style="{ThemeResource SettingButtonStyle}"/>
+                        Style="{ThemeResource ShimmerButtonStyle}"/>
                     <Button
                         Grid.Column="1"
                         Command="{Binding ClaimResignInRewardCommand}"
                         Content="{shuxm:ResourceString Name=ViewCardSignInClaimReSignInAction}"
-                        Style="{ThemeResource SettingButtonStyle}"/>
+                        Style="{ThemeResource ShimmerButtonStyle}"/>
                 </Grid>
             </Grid>
         </Grid>

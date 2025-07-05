@@ -35,7 +35,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
                 .ThenByDescending(static avatar => avatar.AvatarId.Value)
                 .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
         ];
-        Rounds = [.. roleCombatData.Detail.RoundsData.Select(r => RoundView.From(r, offset, context))];
+        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (r, state) => RoundView.From(r, state.offset, state.context), (offset, context));
         TotalBattleTimes = roleCombatData.Detail.FightStatistics.TotalUseTime;
 
         if (roleCombatData.Detail.FightStatistics.IsShowBattleStats)
