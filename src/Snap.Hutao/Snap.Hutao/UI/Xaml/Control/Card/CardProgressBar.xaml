@@ -6,11 +6,15 @@
     <Style BasedOn="{StaticResource DefaultCardProgressBarStyle}" TargetType="shuxcc:CardProgressBar"/>
 
     <Style x:Key="DefaultCardProgressBarStyle" TargetType="shuxcc:CardProgressBar">
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxcc:CardProgressBar">
-                    <Grid MinHeight="{TemplateBinding MinHeight}" Style="{ThemeResource GridCardStyle}">
+                    <Grid
+                        MinHeight="{TemplateBinding MinHeight}"
+                        Background="{TemplateBinding Background}"
+                        Style="{ThemeResource GridShimmerStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
@@ -25,7 +29,7 @@
                             CornerRadius="{ThemeResource ControlCornerRadius}"
                             Foreground="{TemplateBinding ProgressForeground}"
                             Maximum="{TemplateBinding Maximum}"
-                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
+                            Opacity="{ThemeResource LargeBackgroundProgressBarOpacity}"
                             Value="{TemplateBinding Value}"/>
                         <TextBlock
                             Grid.Column="0"
@@ -33,14 +37,14 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Foreground="{TemplateBinding TextForeground}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{TemplateBinding Header}"/>
                         <TextBlock
                             Grid.Column="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Foreground="{TemplateBinding TextForeground}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{TemplateBinding Description}"/>
                     </Grid>
                 </ControlTemplate>

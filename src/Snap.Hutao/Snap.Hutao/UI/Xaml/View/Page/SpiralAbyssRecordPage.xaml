@@ -141,50 +141,45 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
-                <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
-                        <ItemsControl
-                            Margin="0,8,0,0"
-                            ItemTemplate="{StaticResource AvatarTemplate}"
-                            ItemsPanel="{ThemeResource StackPanelSpacing6Template}"
-                            ItemsSource="{Binding Avatars}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
-                        <clw:TokenItem
-                            Margin="0,0,0,8"
-                            Padding="12,2"
-                            HorizontalAlignment="Left"
-                            Content="{Binding Gadget.Name}"
-                            CornerRadius="12"
-                            Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                            <ToolTipService.ToolTip>
-                                <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
-                            </ToolTipService.ToolTip>
-                        </clw:TokenItem>
-                        <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Spacing="8"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </StackPanel>
-                </Grid>
+            <StackPanel HorizontalAlignment="Stretch" Spacing="12">
+                <StackPanel Grid.Row="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
+                    <ItemsControl
+                        Margin="0,8,0,0"
+                        ItemTemplate="{StaticResource AvatarTemplate}"
+                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing6Template}"
+                        ItemsSource="{Binding Avatars}"/>
+                </StackPanel>
                 <TextBlock
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Time}"/>
+                    Text="{Binding Time}"
+                    Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}"/>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Left">
+                    <clw:TokenItem
+                        Margin="0,0,0,8"
+                        Padding="12,2"
+                        HorizontalAlignment="Left"
+                        Content="{Binding Gadget.Name}"
+                        CornerRadius="12"
+                        Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        <ToolTipService.ToolTip>
+                            <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
+                        </ToolTipService.ToolTip>
+                    </clw:TokenItem>
+                    <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssLevelTemplate" x:DataType="shvs:LevelView">
-            <Grid Margin="0,8,0,0">
+            <Grid RowSpacing="12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -193,7 +188,7 @@
                 </Grid.RowDefinitions>
                 <MenuFlyoutSeparator Grid.Row="0" Margin="4,0"/>
                 <!--  第X间 *X  -->
-                <Grid Grid.Row="1" Margin="8,8,8,0">
+                <Grid Grid.Row="1" Margin="12,0,12,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
@@ -217,7 +212,7 @@
                 <!--  间信息  -->
                 <ItemsControl
                     Grid.Row="2"
-                    Margin="8,8,8,0"
+                    Margin="12,0"
                     ItemTemplate="{StaticResource SpiralAbyssBattleTemplate}"
                     ItemsSource="{Binding Battles}">
                     <ItemsControl.ItemsPanel>
@@ -230,16 +225,10 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssFloorTemplate" x:DataType="shvs:FloorView">
-            <Border VerticalAlignment="Top" Style="{StaticResource BorderCardStyle}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+            <Grid VerticalAlignment="Top" Style="{StaticResource GridShimmerStyle}">
+                <StackPanel Spacing="12">
                     <!--  第X层 *X  -->
-                    <Grid Grid.Row="0" Margin="8,8,8,0">
+                    <Grid Padding="12,12,12,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
@@ -261,16 +250,19 @@
                                 TextAlignment="Center"/>
                         </StackPanel>
                     </Grid>
-                    <!--  地脉紊乱  -->
+                    <!--  单一 地脉紊乱  -->
                     <ItemsControl
                         Grid.Row="1"
-                        Margin="8,0,0,0"
+                        Margin="12,0"
                         ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
-                        ItemsSource="{Binding Disorders}"/>
+                        ItemsSource="{Binding Disorders}"
+                        Visibility="{Binding Disorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                    <!--  上下半 地脉紊乱  -->
                     <Grid
-                        Grid.Row="2"
-                        Margin="8,0"
-                        ColumnSpacing="16">
+                        Margin="12,0"
+                        ColumnSpacing="16"
+                        RowSpacing="4"
+                        Visibility="{Binding Disorders, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
@@ -307,11 +299,11 @@
                     <!--  间信息  -->
                     <ItemsControl
                         Grid.Row="3"
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,12"
                         ItemTemplate="{StaticResource SpiralAbyssLevelTemplate}"
                         ItemsSource="{Binding Levels}"/>
-                </Grid>
-            </Border>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
 
     </shuxc:ScopedPage.Resources>
@@ -354,13 +346,20 @@
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <ScrollViewer>
-                                    <StackPanel DataContext="{Binding SpiralAbyssEntries.CurrentItem}">
-                                        <Grid Margin="16,12,16,0">
+                                    <StackPanel
+                                        Padding="16"
+                                        DataContext="{Binding SpiralAbyssEntries.CurrentItem}"
+                                        Spacing="16">
+
+                                        <Grid Padding="12" Style="{ThemeResource GridShimmerStyle}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" Margin="1,0,0,0">
+                                            <StackPanel
+                                                Grid.Column="0"
+                                                Margin="1,0,0,0"
+                                                Spacing="12">
                                                 <!--  渊月祝福  -->
                                                 <TextBlock
                                                     Margin="0,0,16,0"
@@ -374,6 +373,8 @@
 
                                             <AppBarButton
                                                 Grid.Column="1"
+                                                Margin="-2,-6"
+                                                VerticalAlignment="Top"
                                                 Icon="{shuxm:FontIcon Glyph=&#xE8A1;}"
                                                 Label="{shuxm:ResourceString Name=ViewSpiralAbyssStatistics}"
                                                 Visibility="{Binding Engaged, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -384,7 +385,7 @@
                                                                 <Setter Property="MaxWidth" Value="1920"/>
                                                             </Style>
                                                         </Flyout.FlyoutPresenterStyle>
-                                                        <Grid ColumnSpacing="6">
+                                                        <Grid ColumnSpacing="{StaticResource SettingsCardSpacing}">
                                                             <Grid.Resources>
                                                                 <!--  ReSharper disable Xaml.RedundantResource  -->
                                                                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
@@ -509,19 +510,17 @@
 
                                         <!--  各层信息  -->
                                         <cwc:Segmented
-                                            Margin="16,16,16,0"
-                                            Background="{x:Null}"
+                                            HorizontalAlignment="Stretch"
                                             ItemsSource="{Binding Floors}"
                                             SelectedItem="{Binding Floors.CurrentItem, Mode=TwoWay}">
                                             <cwc:Segmented.ItemTemplate>
                                                 <DataTemplate x:DataType="shvs:FloorView">
-                                                    <TextBlock Text="{Binding Index}"/>
+                                                    <TextBlock Margin="0,1,0,0" Text="{Binding Index}"/>
                                                 </DataTemplate>
                                             </cwc:Segmented.ItemTemplate>
                                         </cwc:Segmented>
 
                                         <ContentControl
-                                            Margin="16,16,16,16"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Content="{Binding Floors.CurrentItem}"
