@@ -27,59 +27,65 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
-        <Grid Margin="12" ColumnSpacing="16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+        <Grid Margin="12" RowSpacing="6">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button
-                Grid.Column="2"
-                MinHeight="37.2"
-                Background="Transparent"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
-                Command="{Binding NavigateCommand}"
-                Content="{StaticResource FontIconContentSetting}"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                Style="{ThemeResource ButtonRevealStyle}"
-                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
-            <FontIcon
+
+            <Grid
                 Grid.Row="0"
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="{ThemeResource TitleTextBlockFontSize}"
-                Glyph="{StaticResource FontIconContentGame}"/>
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="0"
                 Grid.ColumnSpan="3"
+                Height="48"
+                Padding="12"
+                Style="{ThemeResource GridShimmerStyle}">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <FontIcon
+                        Width="24"
+                        Height="24"
+                        Margin="-4"
+                        FontSize="24"
+                        Glyph="{StaticResource FontIconContentGame}"/>
+
+                    <TextBlock Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
+                </StackPanel>
+
+                <Button
+                    MinHeight="36"
+                    Margin="-7"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Command="{Binding NavigateCommand}"
+                    Content="{StaticResource FontIconContentSetting}"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Style="{ThemeResource ShimmerButtonStyle}"
+                    ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
+            </Grid>
+
+            <StackPanel
+                Grid.Row="1"
                 VerticalAlignment="Bottom"
-                Spacing="8">
+                Spacing="6">
+
                 <TextBlock
                     Opacity="0.7"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, FallbackValue={x:Null}, Mode=OneWay}"/>
-                <shuxc:SizeRestrictedContentControl VerticalAlignment="Bottom">
-                    <ComboBox
-                        DisplayMemberPath="Name"
-                        ItemsSource="{Binding GameAccountsView}"
-                        PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
-                        SelectedItem="{Binding GameAccountsView.CurrentItem, FallbackValue={x:Null}, Mode=TwoWay}"
-                        Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                </shuxc:SizeRestrictedContentControl>
+                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, FallbackValue={x:Null}, Mode=OneWay}"
+                    Visibility="{Binding LaunchStatusOptions.LaunchStatus, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}"/>
+
+
+                <ComboBox
+                    Padding="12"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding GameAccountsView}"
+                    PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
+                    SelectedItem="{Binding GameAccountsView.CurrentItem, FallbackValue={x:Null}, Mode=TwoWay}"
+                    Style="{ThemeResource ShimmerComboBoxStyle}"
+                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
             </StackPanel>
         </Grid>
     </Grid>
