@@ -9,7 +9,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"

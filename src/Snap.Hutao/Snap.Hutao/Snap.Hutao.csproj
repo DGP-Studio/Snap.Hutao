@@ -102,6 +102,7 @@
     <None Remove="Resource\Icon\UI_Icon_Tower_Star1.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star2.png" />
     <None Remove="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_106.png" />
     <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
     <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
     <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
@@ -115,6 +116,7 @@
     <None Remove="Resource\ItemIcon\UI_QUALITY_PURPLE.png" />
     <None Remove="Resource\ItemIcon\UI_QUALITY_RED.png" />
     <None Remove="Resource\ItemIcon\UI_QUALITY_WHITE.png" />
+    <None Remove="Resource\Navigation\CheckIn.png" />
     <None Remove="Resource\Navigation\Passport.png" />
     <None Remove="Resource\Navigation\RoleCombat.png" />
     <None Remove="Resource\ThirdParty\Apple.png" />
@@ -258,6 +260,7 @@
     <Content Include="Resource\Icon\UI_Icon_RelicType5.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_106.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_211.png" />
@@ -272,6 +275,7 @@
     <Content Include="Resource\Navigation\Achievement.png" />
     <Content Include="Resource\Navigation\Announcement.png" />
     <Content Include="Resource\Navigation\AvatarProperty.png" />
+    <Content Include="Resource\Navigation\CheckIn.png" />
     <Content Include="Resource\Navigation\Cultivation.png" />
     <Content Include="Resource\Navigation\DailyNote.png" />
     <Content Include="Resource\Navigation\Database.png" />

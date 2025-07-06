@@ -13,7 +13,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvs="using:Snap.Hutao.ViewModel.Sign"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -93,8 +93,29 @@
                     Padding="12"
                     Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
                     Canvas.ZIndex="1">
-                    <TextBlock Text="{Binding TotalSignInDaysHint}"/>
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding CurrentUid}"/>
+                    <Grid
+                        Height="48"
+                        Padding="12"
+                        Style="{ThemeResource GridShimmerStyle}">
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="12">
+                            <Image
+                                Width="24"
+                                Height="24"
+                                Margin="-4"
+                                Source="ms-appx:///Resource/Navigation/CheckIn.png"/>
+
+                            <TextBlock Text="{Binding TotalSignInDaysHint}"/>
+                        </StackPanel>
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding CurrentUid}"/>
+                    </Grid>
+
                 </Grid>
 
                 <ScrollViewer
@@ -160,6 +181,7 @@
                         Grid.Column="0"
                         Command="{Binding ClaimSignInRewardCommand}"
                         Content="{shuxm:ResourceString Name=ViewCardSignInClaimSignInAction}"
+                        IsEnabled="{Binding IsTodaySigned, Converter={StaticResource BoolNegationConverter}}"
                         Style="{ThemeResource ShimmerButtonStyle}"/>
                     <Button
                         Grid.Column="1"

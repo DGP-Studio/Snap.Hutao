@@ -10,7 +10,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -34,8 +34,8 @@
                 ColumnSpacing="6"
                 RowSpacing="6">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -46,16 +46,27 @@
                 <Grid
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
+                    Height="48"
                     Padding="12"
                     VerticalAlignment="Top"
                     Style="{ThemeResource GridShimmerStyle}">
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <Image Margin="-4" Source="ms-appx:///Resource/Navigation/GachaLog.png"/>
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="-4"
+                            Source="ms-appx:///Resource/Navigation/GachaLog.png"/>
 
                         <TextBlock Text="{shuxm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
                     </StackPanel>
 
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding Uid}"/>
+                    <TextBlock
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="{Binding Uid}"/>
                 </Grid>
 
                 <Border
@@ -76,7 +87,6 @@
                             TextWrapping="NoWrap"/>
 
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastOrangePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                             Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -84,7 +94,6 @@
                             TextForeground="{ThemeResource OrangeColorBrush}"
                             Value="{Binding LastOrangePull, Mode=OneWay}"/>
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastPurplePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                             Maximum="{Binding GuaranteePurpleThreshold}"
@@ -108,7 +117,6 @@
                             TextWrapping="NoWrap"/>
 
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastOrangePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                             Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -116,7 +124,6 @@
                             TextForeground="{StaticResource OrangeColorBrush}"
                             Value="{Binding LastOrangePull}"/>
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastPurplePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                             Maximum="{Binding GuaranteePurpleThreshold}"
@@ -142,7 +149,6 @@
 
 
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastOrangePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                             Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -150,7 +156,6 @@
                             TextForeground="{StaticResource OrangeColorBrush}"
                             Value="{Binding LastOrangePull}"/>
                         <shuxcc:CardProgressBar
-                            MinHeight="32"
                             Description="{Binding LastPurplePull}"
                             Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                             Maximum="{Binding GuaranteePurpleThreshold}"

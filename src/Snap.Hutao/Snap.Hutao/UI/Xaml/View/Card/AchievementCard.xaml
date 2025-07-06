@@ -7,9 +7,10 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.Achievement"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -27,10 +28,10 @@
 
     <Button.Resources>
         <DataTemplate x:Key="AchievementTemplate" x:DataType="shva:AchievementView">
-            <StackPanel Margin="0,4,0,0">
+            <StackPanel Margin="0,0,0,0">
                 <TextBlock
                     Opacity="0.8"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Style="{StaticResource BaseTextBlockStyle}"
                     Text="{Binding Inner.Title}"
                     TextWrapping="NoWrap"/>
                 <TextBlock
@@ -42,31 +43,61 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AchievementArchiveTemplate" x:DataType="shva:AchievementStatistics">
-            <Grid Margin="12">
+            <Grid Margin="12" RowSpacing="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{shuxm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
-                <TextBlock
-                    Grid.Row="0"
-                    HorizontalAlignment="Right"
-                    Text="{Binding DisplayName}"/>
-                <Viewbox
-                    Grid.Row="1"
-                    HorizontalAlignment="Left"
-                    StretchDirection="DownOnly">
+
+                <Grid
+                    Height="48"
+                    Padding="12"
+                    Style="{ThemeResource GridShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="-4"
+                            Source="ms-appx:///Resource/Navigation/Achievement.png"/>
+
+                        <TextBlock Text="{shuxm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
+                    </StackPanel>
+
                     <TextBlock
-                        Margin="0,4,0,0"
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{Binding FinishDescription}"/>
-                </Viewbox>
-                <ItemsControl
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="{Binding DisplayName}"/>
+                </Grid>
+
+                <Border
+                    Grid.Row="1"
+                    Padding="12"
+                    Style="{ThemeResource BorderShimmerStyle}">
+                    <Viewbox HorizontalAlignment="Left" StretchDirection="DownOnly">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding FinishDescription}"/>
+                    </Viewbox>
+                </Border>
+
+                <Border
                     Grid.Row="2"
-                    ItemTemplate="{StaticResource AchievementTemplate}"
-                    ItemsSource="{Binding Achievements}"/>
+                    Padding="12"
+                    Style="{ThemeResource BorderShimmerStyle}"
+                    Visibility="{Binding Achievements, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+                    <ItemsControl ItemTemplate="{StaticResource AchievementTemplate}" ItemsSource="{Binding Achievements}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <shuxcp:EqualPanel Spacing="6"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Border>
             </Grid>
         </DataTemplate>
     </Button.Resources>

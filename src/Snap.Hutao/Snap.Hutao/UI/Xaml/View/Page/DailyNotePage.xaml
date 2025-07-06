@@ -182,7 +182,7 @@
                                 Margin="4"
                                 VerticalAlignment="Center"
                                 shux:FrameworkElementHelper.SquareLength="32"
-                                Source="{StaticResource UI_ItemIcon_210}"/>
+                                Source="{StaticResource UI_ItemIcon_106}"/>
                             <StackPanel
                                 Grid.Column="1"
                                 Margin="8,0,0,0"

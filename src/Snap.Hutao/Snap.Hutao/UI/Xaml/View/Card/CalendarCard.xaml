@@ -13,7 +13,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Calendar"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -73,6 +73,7 @@
 
         <cwcont:Segmented
             Grid.Row="0"
+            Height="48"
             HorizontalAlignment="Stretch"
             ItemsSource="{Binding WeekDays}"
             Style="{ThemeResource DefaultSegmentedStyle}">
@@ -103,13 +104,13 @@
             DataContext="{Binding WeekDays.CurrentItem, FallbackValue={x:Null}}"
             RowSpacing="6">
             <Grid.RowDefinitions>
-                <RowDefinition Height="34"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <shuxc:StandardView Grid.Row="0" ShowCondition="{Binding BirthDayAvatars.IsEmpty, Converter={StaticResource BoolNegationConverter}}">
                 <shuxc:StandardView.EmptyContent>
-                    <Border Style="{ThemeResource BorderCardStyle}">
+                    <Border Padding="12" Style="{ThemeResource BorderShimmerStyle}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -141,7 +142,8 @@
 
             <Border
                 Grid.Row="1"
-                Style="{ThemeResource BorderCardStyle}"
+                Padding="12"
+                Style="{ThemeResource BorderShimmerStyle}"
                 Visibility="{Binding Materials.IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"

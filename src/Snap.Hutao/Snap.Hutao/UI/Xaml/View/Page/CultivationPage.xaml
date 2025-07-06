@@ -532,7 +532,7 @@
                                                                     <BitmapIcon
                                                                         Width="20"
                                                                         ShowAsMonochrome="False"
-                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_106.png"/>
                                                                     <TextBlock Text="{Binding TotalResin, Mode=OneWay}"/>
                                                                 </StackPanel>
 

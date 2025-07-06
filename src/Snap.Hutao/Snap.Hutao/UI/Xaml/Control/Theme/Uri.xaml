@@ -26,6 +26,7 @@
     <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Mark/UI_MarkTower.png</x:String>
 
     <!--  ItemIcon  -->
+    <x:String x:Key="UI_ItemIcon_106">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_106.png</x:String>
     <x:String x:Key="UI_ItemIcon_204">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_204.png</x:String>
     <x:String x:Key="UI_ItemIcon_210">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_210.png</x:String>
     <x:String x:Key="UI_ItemIcon_220021">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_220021.png</x:String>
