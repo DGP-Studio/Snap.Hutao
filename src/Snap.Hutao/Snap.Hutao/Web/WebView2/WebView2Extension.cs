@@ -21,7 +21,7 @@ internal static class WebView2Extension
         {
             settings.AreBrowserAcceleratorKeysEnabled = false; // ICoreWebView2Settings3
         }
-        catch (COMException ex)
+        catch (Exception ex)
         {
             if (ex.HResult is HRESULT.E_NOINTERFACE)
             {
