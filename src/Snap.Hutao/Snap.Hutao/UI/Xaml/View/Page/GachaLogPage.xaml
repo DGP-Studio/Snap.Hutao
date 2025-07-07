@@ -11,6 +11,7 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -191,21 +192,23 @@
         </Flyout>
 
         <DataTemplate x:Key="HistoryWishItemTemplate" x:DataType="shvg:StatisticsItem">
-            <Border Width="40" Style="{StaticResource BorderCardStyle}">
-                <StackPanel>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon
-                        Width="38"
-                        Height="38"
+                        Width="40"
+                        Height="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
                     <TextBlock
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{Binding Count}"
                         TextTrimming="None"
                         TextWrapping="NoWrap"/>
-                </StackPanel>
-            </Border>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
 
         <DataTemplate x:Key="HistoryWishListTemplate" x:DataType="shvg:HistoryWish">
@@ -235,19 +238,19 @@
                     Text="{Binding FormattedTotalCount}"/>
                 <ItemsControl
                     Grid.Row="1"
-                    MaxWidth="124"
+                    MaxWidth="134"
                     Margin="0,6,0,0"
                     HorizontalAlignment="Left"
                     ItemTemplate="{StaticResource HistoryWishItemTemplate}"
-                    ItemsPanel="{StaticResource WrapPanelSpacing2Template}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding OrangeUpList}"/>
                 <ItemsControl
                     Grid.Row="1"
-                    MaxWidth="252"
+                    MaxWidth="272"
                     Margin="0,6,0,0"
                     HorizontalAlignment="Right"
                     ItemTemplate="{StaticResource HistoryWishItemTemplate}"
-                    ItemsPanel="{StaticResource WrapPanelSpacing2Template}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding PurpleUpList}"/>
                 <TextBlock
                     Grid.Row="2"
@@ -452,7 +455,7 @@
                         <SplitView
                             DisplayMode="Inline"
                             IsPaneOpen="True"
-                            OpenPaneLength="408"
+                            OpenPaneLength="439"
                             PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                             <SplitView.Pane>
                                 <ListView

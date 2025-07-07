@@ -26,13 +26,13 @@
                     <cwconv:BoolToObjectConverter
                         x:Key="BoolToBrushConverter"
                         FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                        TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                        TrueValue="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <cwconv:BoolToObjectConverter
                         x:Key="BoolToBrushConverter"
                         FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                        TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                        TrueValue="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -45,7 +45,7 @@
             <shuxdcs:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
             <DataTemplate x:Key="OrangeListTemplate" x:DataType="shvg:SummaryItem">
-                <Grid Margin="0" Style="{ThemeResource GridCardStyle}">
+                <Grid Margin="0" Style="{ThemeResource GridShimmerStyle}">
                     <ToolTipService.ToolTip>
                         <TextBlock Text="{Binding FormattedTime}"/>
                     </ToolTipService.ToolTip>
@@ -261,7 +261,7 @@
                                 <ColumnDefinition Width="4"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Style="{ThemeResource BorderCardStyle}">
+                            <Border Grid.Column="0" Style="{ThemeResource BorderShimmerStyle}">
                                 <Viewbox Margin="8,0" StretchDirection="DownOnly">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock
@@ -272,7 +272,7 @@
                                     </StackPanel>
                                 </Viewbox>
                             </Border>
-                            <Border Grid.Column="2" Style="{ThemeResource BorderCardStyle}">
+                            <Border Grid.Column="2" Style="{ThemeResource BorderShimmerStyle}">
                                 <Viewbox Margin="8,0" StretchDirection="DownOnly">
                                     <Grid>
                                         <StackPanel
@@ -300,7 +300,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <Border Grid.Row="0" Style="{ThemeResource BorderCardStyle}">
+                                <Border Grid.Row="0" Style="{ThemeResource BorderShimmerStyle}">
                                     <Viewbox Margin="8,0" StretchDirection="DownOnly">
                                         <TextBlock
                                             HorizontalAlignment="Center"
@@ -309,7 +309,7 @@
                                             Text="{Binding FormattedMaxOrangePull}"/>
                                     </Viewbox>
                                 </Border>
-                                <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
+                                <Border Grid.Row="1" Style="{ThemeResource BorderShimmerStyle}">
                                     <Viewbox Margin="8,0" StretchDirection="DownOnly">
                                         <TextBlock
                                             HorizontalAlignment="Center"
@@ -328,7 +328,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" Style="{ThemeResource GridCardStyle}">
+                            <Grid Grid.Column="0" Style="{ThemeResource GridShimmerStyle}">
                                 <StackPanel
                                     Margin="8,0"
                                     HorizontalAlignment="Center"
@@ -342,7 +342,7 @@
                                     </Viewbox>
                                 </StackPanel>
                             </Grid>
-                            <Grid Grid.Column="1" Style="{ThemeResource GridCardStyle}">
+                            <Grid Grid.Column="1" Style="{ThemeResource GridShimmerStyle}">
                                 <StackPanel
                                     Margin="8,0"
                                     HorizontalAlignment="Center"
@@ -356,7 +356,7 @@
                                     </Viewbox>
                                 </StackPanel>
                             </Grid>
-                            <Grid Grid.Column="2" Style="{ThemeResource GridCardStyle}">
+                            <Grid Grid.Column="2" Style="{ThemeResource GridShimmerStyle}">
                                 <StackPanel
                                     Margin="8,0"
                                     HorizontalAlignment="Center"
@@ -378,7 +378,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" Style="{ThemeResource BorderCardStyle}">
+                            <Border Grid.Row="0" Style="{ThemeResource BorderShimmerStyle}">
                                 <Viewbox StretchDirection="DownOnly">
                                     <TextBlock
                                         HorizontalAlignment="Center"
@@ -387,7 +387,7 @@
                                         Text="{Binding FormattedPredictedPullLeftToOrange}"/>
                                 </Viewbox>
                             </Border>
-                            <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
+                            <Border Grid.Row="1" Style="{ThemeResource BorderShimmerStyle}">
                                 <Viewbox StretchDirection="DownOnly">
                                     <TextBlock
                                         HorizontalAlignment="Center"

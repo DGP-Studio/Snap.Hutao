@@ -55,7 +55,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AchievementGoalGridTemplate" x:DataType="shva:AchievementGoalView">
-            <Border HorizontalAlignment="Stretch" Style="{StaticResource BorderCardStyle}">
+            <Border HorizontalAlignment="Stretch" Style="{StaticResource BorderShimmerStyle}">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -93,7 +93,7 @@
                 Margin="0,4,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                Style="{StaticResource BorderCardStyle}">
+                Style="{StaticResource BorderShimmerStyle}">
                 <Border.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
@@ -396,12 +396,13 @@
                                 <GridView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Margin" Value="0,0,6,6"/>
                                     </Style>
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <shuxcp:UniformPanel
-                                            Margin="16,16,12,4"
+                                            Margin="16,16,10,0"
                                             ColumnSpacing="0"
                                             MinItemWidth="200"/>
                                     </ItemsPanelTemplate>
