@@ -2131,6 +2131,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Каталог данных установлен успешно, перезапустите, чтобы применить изменения</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Выбранная папка не пуста, существующие файлы будут перезаписаны</value>
   </data>
