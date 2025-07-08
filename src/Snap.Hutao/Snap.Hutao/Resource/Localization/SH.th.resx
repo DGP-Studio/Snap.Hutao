@@ -2133,6 +2133,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>ตั้งค่าไดเรกทอรีข้อมูลสำเร็จ รีสตาร์ทเพื่อใช้การเปลี่ยนแปลง</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
   </data>
