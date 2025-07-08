@@ -2133,6 +2133,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置資料目錄成功，重新啟動以應用更改</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>選擇的資料夾不為空，將會覆蓋已存在的檔案</value>
   </data>
