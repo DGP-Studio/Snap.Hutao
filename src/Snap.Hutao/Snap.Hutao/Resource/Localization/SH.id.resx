@@ -2133,6 +2133,9 @@ Ruang Tersedia: {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Direktori data berhasil diatur. Restart untuk menerapkan perubahan.</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Folder yang dipilih tidak kosong, file yang sudah ada akan ditimpa</value>
   </data>
