@@ -11,7 +11,6 @@ using Snap.Hutao.ViewModel.Achievement;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Data.Common;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;

@@ -117,6 +117,7 @@ internal static class HutaoRuntime
         }
         catch
         {
+            // Ignore
 #if !RELEASE
             throw;
 #endif

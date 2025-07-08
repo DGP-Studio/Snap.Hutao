@@ -11,7 +11,6 @@ using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
-using System.Data.Common;
 
 namespace Snap.Hutao.Service.GachaLog;
 

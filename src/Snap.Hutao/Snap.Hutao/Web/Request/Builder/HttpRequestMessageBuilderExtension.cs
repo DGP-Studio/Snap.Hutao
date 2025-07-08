@@ -103,7 +103,7 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
-    internal static void Send(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger)
+    internal static void Send(this HttpRequestMessageBuilder builder, HttpClient httpClient)
     {
         try
         {

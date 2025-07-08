@@ -17,9 +17,9 @@ internal sealed partial class SentryIpAddressTraits
     {
         try
         {
-            string? ip = await httpClient.GetStringAsync(hutaoEndpointsFactory.Create().IpString()).ConfigureAwait(false);
+            string ip = await httpClient.GetStringAsync(hutaoEndpointsFactory.Create().IpString()).ConfigureAwait(false);
             ip = ip.Trim('"');
-            SentrySdk.ConfigureScope(scope => { scope.User.IpAddress = ip; });
+            SentrySdk.ConfigureScope(static (scope, ip) => { scope.User.IpAddress = ip; }, ip);
         }
         catch
         {

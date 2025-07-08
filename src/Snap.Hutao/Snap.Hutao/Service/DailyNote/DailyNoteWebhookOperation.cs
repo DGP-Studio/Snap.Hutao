@@ -15,7 +15,6 @@ namespace Snap.Hutao.Service.DailyNote;
 internal sealed partial class DailyNoteWebhookOperation
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<DailyNoteWebhookOperation> logger;
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly HttpClient httpClient;
 
@@ -32,6 +31,6 @@ internal sealed partial class DailyNoteWebhookOperation
             .SetHeader("x-uid", $"{playerUid}")
             .PostJson(dailyNote);
 
-        builder.Send(httpClient, logger);
+        builder.Send(httpClient);
     }
 }

@@ -14,6 +14,7 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -126,6 +127,16 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         }
 
         // TODO: prompt user that restart will be non-elevated
-        AppInstance.Restart(string.Empty);
+        try
+        {
+            AppInstance.Restart(string.Empty);
+        }
+        catch (COMException ex)
+        {
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_PACKAGE_UPDATING))
+            {
+                infoBarService.Error(SH.ViewModelSettingStorageRestartFailed);
+            }
+        }
     }
 }

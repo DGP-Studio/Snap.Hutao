@@ -104,12 +104,14 @@ internal sealed partial class GeetestService : IGeetestService
         }
 
         await taskContext.SwitchToMainThreadAsync();
+        token.ThrowIfCancellationRequested();
         if (currentXamlWindowReference.GetXamlRoot() is { } xamlRoot)
         {
             GeetestWebView2ContentProvider contentProvider = new(gt, challenge, isOversea);
             ShowWebView2WindowAction.Show(contentProvider, xamlRoot);
 
             await taskContext.SwitchToBackgroundAsync();
+            token.ThrowIfCancellationRequested();
             return await contentProvider.GetResultAsync().ConfigureAwait(false);
         }
 
