@@ -2133,6 +2133,9 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Datenverzeichnis erfolgreich festgelegt, bitte starte neu, um die Änderungen zu übernehmen</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Der ausgewählte Ordner ist nicht leer. Vorhandene Dateien werden überschrieben.</value>
   </data>
