@@ -2133,6 +2133,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Đặt thư mục dữ liệu thành công, khởi động lại để áp dụng thay đổi</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Thư mục đã chọn không trống, các tệp hiện có sẽ bị ghi đè</value>
   </data>
