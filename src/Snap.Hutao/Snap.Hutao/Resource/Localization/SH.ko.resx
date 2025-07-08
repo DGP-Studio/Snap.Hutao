@@ -2133,6 +2133,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>데이터 경로를 설정했습니다. 변경 사항을 적용하기 위해 재시작합니다</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>선택한 폴더가 비어 있지 않습니다. 기존 파일이 덮어쓰여집니다.</value>
   </data>
