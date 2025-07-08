@@ -2134,6 +2134,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>データディレクトリの設定が成功しました。再起動して変更を適用します</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>選択したフォルダーが空でない場合、既存のファイルが上書きされます</value>
   </data>
