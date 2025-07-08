@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -20,7 +22,15 @@ internal static class HttpRequestExceptionHandling
 
     public static bool TryHandle(StringBuilder messageBuilder, HttpRequestMessageBuilder builder, Exception ex)
     {
-        if (FormatException(messageBuilder, ex, builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetLeftPart(UriPartial.Path)))
+        Uri? uri = builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri;
+
+        // Hutao Generic API handling
+        if (TryHandleGenericApiRequest(messageBuilder, builder, ex, uri))
+        {
+            return true;
+        }
+
+        if (FormatException(messageBuilder, ex, uri?.GetLeftPart(UriPartial.Path)))
         {
             return true;
         }
@@ -30,7 +40,7 @@ internal static class HttpRequestExceptionHandling
         {
             QueryString = builder.RequestUri?.Query,
             Method = builder.Method.Method.ToUpperInvariant(),
-            Url = builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
+            Url = uri?.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
         };
 
         SentrySdk.CaptureException(ex, scope =>
@@ -42,6 +52,21 @@ internal static class HttpRequestExceptionHandling
                 scope.AddAttachment(attachment);
             }
         });
+
+        return false;
+    }
+
+    private static bool TryHandleGenericApiRequest(StringBuilder messageBuilder, HttpRequestMessageBuilder builder, Exception ex, Uri? uri)
+    {
+        IInfrastructureEndpoints endpoints = builder.ServiceProvider.GetRequiredService<IHutaoEndpointsFactory>().Create();
+        if (uri is not null && string.Equals(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped), endpoints.Root))
+        {
+            if (ex is HttpRequestException { StatusCode: (HttpStatusCode)418 or HttpStatusCode.UnavailableForLegalReasons })
+            {
+                messageBuilder.AppendLine(SH.ServiceMetadataVersionNotSupported);
+                return true;
+            }
+        }
 
         return false;
     }

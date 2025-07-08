@@ -20,7 +20,7 @@ internal sealed partial class RetryHttpHandler : DelegatingHandler
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        ExceptionDispatchInfo? exception = default;
+        ExceptionDispatchInfo? dispatch = default;
         int requestCount = 0;
         while (requestCount < 3)
         {
@@ -30,14 +30,14 @@ internal sealed partial class RetryHttpHandler : DelegatingHandler
             }
             catch (HttpRequestException ex)
             {
-                exception = ExceptionDispatchInfo.Capture(ex);
+                dispatch = ExceptionDispatchInfo.Capture(ex);
                 request.Resurrect();
             }
 
             requestCount++;
         }
 
-        exception?.Throw();
+        dispatch?.Throw();
         throw HutaoException.InvalidOperation("Unexpected Request retry state");
     }
 }

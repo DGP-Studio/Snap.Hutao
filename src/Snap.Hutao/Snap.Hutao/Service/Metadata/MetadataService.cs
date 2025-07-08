@@ -33,7 +33,6 @@ internal sealed partial class MetadataService : IMetadataService
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
     private readonly IHttpRequestMessageBuilderFactory requestBuilderFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -209,7 +208,7 @@ internal sealed partial class MetadataService : IMetadataService
             HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetTemplateEndpoint()).Get();
             Response<MetadataTemplate>? resp = await builder.SendAsync<Response<MetadataTemplate>>(httpClient, CancellationToken.None).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(Response.DefaultIfNull(resp), infoBarService, out MetadataTemplate? metadataTemplate))
+            if (!ResponseValidator.TryValidateWithoutUINotification(Response.DefaultIfNull(resp), out MetadataTemplate? metadataTemplate))
             {
                 return default;
             }
@@ -223,42 +222,18 @@ internal sealed partial class MetadataService : IMetadataService
         try
         {
             ImmutableDictionary<string, string>? metadataFileHashes;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
             {
-                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
-                {
-                    IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                    HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
-
-                    // Download meta check file
-                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
-                }
+                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
+                metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
             }
 
-            if (metadataFileHashes is null)
-            {
-                infoBarService.Error(SH.ServiceMetadataParseFailed);
-                return default;
-            }
-
+            ArgumentNullException.ThrowIfNull(metadataFileHashes);
             return metadataFileHashes;
         }
-        catch (JsonException ex)
+        catch (Exception ex)
         {
-            infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
-            return default;
-        }
-        catch (HttpRequestException ex)
-        {
-            if (ex.StatusCode is (HttpStatusCode)418)
-            {
-                infoBarService.Error(SH.ServiceMetadataVersionNotSupported);
-            }
-            else
-            {
-                infoBarService.Error(ex, SH.FormatServiceMetadataHttpRequestFailed(ex.StatusCode, ex.HttpRequestError));
-            }
-
+            infoBarService.Error(ex, SH.ServiceMetadataParseFailed);
             return default;
         }
     }

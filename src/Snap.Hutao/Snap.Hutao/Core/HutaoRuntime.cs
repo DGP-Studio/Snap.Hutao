@@ -117,8 +117,8 @@ internal static class HutaoRuntime
         }
         catch
         {
-            // Ignore
 #if !RELEASE
+            Debugger.Break();
             throw;
 #endif
         }
