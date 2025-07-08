@@ -2133,6 +2133,9 @@ Espace disponible : {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Le répertoire de données a été défini avec succès. Redémarrez pour appliquer les modifications.</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Le dossier sélectionné n'est pas vide, les fichiers existants seront écrasés</value>
   </data>
