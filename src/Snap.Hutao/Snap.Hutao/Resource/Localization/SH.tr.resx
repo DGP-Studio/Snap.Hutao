@@ -2133,6 +2133,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Veri dizini başarıyla ayarlandı, değişiklikleri uygulamak için yeniden başlatın</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Seçilen klasör boş değil, mevcut dosyaların üzerine yazılacak</value>
   </data>
