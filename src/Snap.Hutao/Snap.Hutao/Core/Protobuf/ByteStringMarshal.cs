@@ -8,6 +8,10 @@ namespace Snap.Hutao.Core.Protobuf;
 
 internal static class ByteStringMarshal
 {
+    /// <summary>
+    /// Creates a new ByteString from the given memory. The memory is <b>not</b>
+    /// copied, and must not be modified after this method is called.
+    /// </summary>
     public static ByteString Create(ReadOnlyMemory<byte> bytes)
     {
         return CreateByteString(bytes);

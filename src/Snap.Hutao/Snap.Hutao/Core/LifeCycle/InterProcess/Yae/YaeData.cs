@@ -27,13 +27,11 @@ internal sealed partial class YaeData : IDisposable
 
     public YaeDataKind Kind { get; }
 
-    public ReadOnlyMemory<byte> Memory { get => owner.Memory[..contentLength]; }
-
     public ByteString Bytes { get => ByteStringMarshal.Create(owner.Memory[..contentLength]); }
 
     public ref readonly YaePropertyTypeValue PropertyTypeValue
     {
-        get => ref MemoryMarshal.AsRef<YaePropertyTypeValue>((ReadOnlySpan<byte>)owner.Memory.Span[..contentLength]);
+        get => ref MemoryMarshal.AsRef<YaePropertyTypeValue>(owner.Memory.Span[..contentLength]);
     }
 
     public void Dispose()

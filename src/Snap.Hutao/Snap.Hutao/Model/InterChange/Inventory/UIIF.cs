@@ -22,4 +22,13 @@ internal sealed class UIIF
     {
         return SupportedVersion.Contains(Info.UIIFVersion ?? string.Empty);
     }
+
+    public UIIF WithList(ImmutableArray<UIIFItem> list)
+    {
+        return new()
+        {
+            Info = Info,
+            List = list,
+        };
+    }
 }
