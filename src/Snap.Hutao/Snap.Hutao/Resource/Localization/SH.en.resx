@@ -592,7 +592,7 @@
     <value>Login successfully</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Password is not allowed to be shorter than 8 characters</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Register successfully</value>
@@ -977,7 +977,7 @@
     <value>Snap Hutao should be run in administrator privilege before using Embedded Yae</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>Injection failed, possibly due to Windows Defender App &amp; Browser Control &gt; Smart App Control policy blocking the operation. Please try turning it off.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>You should know about the related risks and turn on the embedding function in Launch Game page before using Embedded Yae</value>
@@ -2023,7 +2023,7 @@ Space Available: {2}</value>
     <value>Please enter correct email address</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Password is not allowed to be shorter than 8 characters</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Please import achievements using other ways</value>
@@ -2134,7 +2134,7 @@ Space Available: {2}</value>
     <value>Set data directory successfully. Restart to apply changes.</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>Restart failed, please manually restart the application</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>The selected folder is not empty, existing files will be overwritten</value>
@@ -2842,7 +2842,7 @@ Space Available: {2}</value>
     <value>Use Touch Input</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>Kill the process</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Run the software on the selected monitor</value>
