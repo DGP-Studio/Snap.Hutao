@@ -345,6 +345,17 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
+    [Command("KillGameProcessCommand")]
+    private void KillGameProcess()
+    {
+        if (!HutaoRuntime.IsProcessElevated)
+        {
+            return;
+        }
+
+        gameService.KillGameProcess();
+    }
+
     [SuppressMessage("", "SH003")]
     private async Task SetSelectedSchemeAsync(LaunchScheme? value)
     {

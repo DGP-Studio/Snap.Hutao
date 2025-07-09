@@ -206,6 +206,11 @@
                         IsEnabled="{Binding CanResetGamePathEntry}"
                         Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
                     <AppBarButton
+                        Command="{Binding KillGameProcessCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE733;}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning}"
+                        Label="{shuxm:ResourceString Name=ViewPageLaunchGameKillGameProcessAction}"/>
+                    <AppBarButton
                         Command="{Binding LaunchCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
                         IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"

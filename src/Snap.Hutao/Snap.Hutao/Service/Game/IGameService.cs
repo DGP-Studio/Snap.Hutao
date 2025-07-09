@@ -18,6 +18,8 @@ internal interface IGameService
 
     bool IsGameRunning();
 
+    bool KillGameProcess();
+
     ValueTask ModifyGameAccountAsync(GameAccount gameAccount);
 
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
