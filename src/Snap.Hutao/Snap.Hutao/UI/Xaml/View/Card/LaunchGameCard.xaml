@@ -7,6 +7,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     Height="{ThemeResource HomeAdaptiveCardHeight}"
@@ -19,7 +20,7 @@
     Background="Transparent"
     BorderBrush="{x:Null}"
     BorderThickness="0"
-    Command="{Binding LaunchCommand}"
+    Command="{Binding NavigateCommand}"
     IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
@@ -30,6 +31,7 @@
         <Grid Margin="12" RowSpacing="6">
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -53,30 +55,34 @@
 
                     <TextBlock Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
                 </StackPanel>
-
-                <Button
-                    MinHeight="36"
-                    Margin="-7"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Command="{Binding NavigateCommand}"
-                    Content="{StaticResource FontIconContentSetting}"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    Style="{ThemeResource ShimmerButtonStyle}"
-                    ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             </Grid>
 
-            <StackPanel
-                Grid.Row="1"
-                VerticalAlignment="Bottom"
-                Spacing="6">
-
-                <TextBlock
-                    Opacity="0.7"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, FallbackValue={x:Null}, Mode=OneWay}"
-                    Visibility="{Binding LaunchStatusOptions.LaunchStatus, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}"/>
-
+            <StackPanel Grid.Row="1" Spacing="6">
+                <Grid
+                    Padding="12"
+                    Style="{ThemeResource GridShimmerStyle}"
+                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Height="32"
+                        Margin="2,0"
+                        HorizontalAlignment="Left"
+                        Background="#FFDAB79B"
+                        CornerRadius="{ThemeResource CornerRadiusAll16}"
+                        Source="{Binding CurrentUserGameRole.ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
+                    <StackPanel Grid.Column="1" Margin="12,0">
+                        <TextBlock Text="{Binding CurrentUserGameRole.Nickname}"/>
+                        <TextBlock
+                            Margin="0,2,0,0"
+                            Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding CurrentUserGameRole.Description}"/>
+                    </StackPanel>
+                </Grid>
 
                 <ComboBox
                     Padding="12"
@@ -87,6 +93,27 @@
                     Style="{ThemeResource ShimmerComboBoxStyle}"
                     Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
             </StackPanel>
+
+            <Button
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Command="{Binding LaunchCommand}"
+                Style="{ThemeResource SettingButtonStyle}">
+                <StackPanel Spacing="3">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding LaunchStatusOptions.LaunchStatus.Description, FallbackValue={x:Null}, Mode=OneWay}"
+                        Visibility="{Binding LaunchStatusOptions.LaunchStatus, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}"/>
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </Button>

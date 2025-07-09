@@ -182,12 +182,12 @@
                         Command="{Binding ClaimSignInRewardCommand}"
                         Content="{shuxm:ResourceString Name=ViewCardSignInClaimSignInAction}"
                         IsEnabled="{Binding IsTodaySigned, Converter={StaticResource BoolNegationConverter}}"
-                        Style="{ThemeResource ShimmerButtonStyle}"/>
+                        Style="{ThemeResource SettingButtonStyle}"/>
                     <Button
                         Grid.Column="1"
                         Command="{Binding ClaimResignInRewardCommand}"
                         Content="{shuxm:ResourceString Name=ViewCardSignInClaimReSignInAction}"
-                        Style="{ThemeResource ShimmerButtonStyle}"/>
+                        Style="{ThemeResource SettingButtonStyle}"/>
                 </Grid>
             </Grid>
         </Grid>
