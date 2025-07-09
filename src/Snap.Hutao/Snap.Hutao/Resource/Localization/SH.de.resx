@@ -2841,6 +2841,9 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Touch-Eingabe verwenden</value>
   </data>
+  <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
+    <value>结束进程</value>
+  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Auf dem ausgewählten Monitor ausführen</value>
   </data>
