@@ -2829,6 +2829,9 @@ Espacio disponible: {2}</value>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Interruptor de desactivación del banner del mapa</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
+    <value>强制移除地图界面左上角的任务提示</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Cerrar banner del mapa</value>
   </data>
