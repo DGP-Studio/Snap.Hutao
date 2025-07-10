@@ -145,7 +145,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void OnCurrentAchievementGoalChanged(object? sender, object? e)
     {
-        FilterAchievements(true);
+        SearchText = string.Empty;
+        UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
     }
 
     [Command("AddArchiveCommand")]
@@ -204,20 +205,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         catch (OperationCanceledException)
         {
         }
-    }
-
-    [Command("SaveAchievementCommand")]
-    private void SaveAchievement(AchievementView? achievement)
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Save single achievement", "AchievementViewModel.Command"));
-
-        if (achievement is null)
-        {
-            return;
-        }
-
-        scopeContext.AchievementService.SaveAchievement(achievement);
-        AchievementFinishPercent.Update(this);
     }
 
     [Command("ExportAsUIAFToFileCommand")]
@@ -314,7 +301,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         Achievements = collection;
         AchievementFinishPercent.Update(this);
-        FilterAchievements(true);
+        UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
         UpdateAchievementsSort();
     }
 
@@ -363,53 +350,78 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
+    private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
+    {
+        if (Achievements is null)
+        {
+            return;
+        }
+
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
+    }
+
     [Command("SearchAchievementCommand")]
-    private void SearchAchievements(string? search)
+    private void UpdateAchievementsFilterBySearch(string? search)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Search", "AchievementViewModel.Command", [("text", search ?? "<null>")]));
-        FilterAchievements();
-    }
-
-    [Command("FilterDailyQuestSwitchCommand")]
-    private void UpdateAchievementsFilterByDailyQuest()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Filter by IsDailyQuest", "AchievementViewModel.Command", [("value", $"{IsUncompletedItemsFirst}")]));
-        FilterAchievements();
-    }
-
-    private void FilterAchievements(bool skipGoalFiltering = false)
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Filter", "AchievementViewModel.Command"));
 
         if (Achievements is null || AchievementGoals is null)
         {
             return;
         }
 
-        string search = SearchText;
+        AchievementGoals.MoveCurrentTo(default);
+
         if (string.IsNullOrEmpty(search))
         {
-            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, AchievementGoals.CurrentItem);
-            AchievementGoals.Filter = skipGoalFiltering ? default : AchievementFilter.GoalCompile(Achievements);
-
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
-            Achievements.Filter = AchievementFilter.CompileForAchievementId(FilterDailyQuestItems, AchievementGoals.CurrentItem, achievementId);
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, achievementId);
             AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (VersionRegex.IsMatch(search))
         {
-            Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, AchievementGoals.CurrentItem, search);
+            Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, search);
             AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
-        Achievements.Filter = AchievementFilter.CompileForTitleOrDescription(FilterDailyQuestItems, AchievementGoals.CurrentItem, search);
+        Achievements.Filter = AchievementFilter.CompileForTitleOrDescription(FilterDailyQuestItems, search);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
+    }
+
+    [Command("SaveAchievementCommand")]
+    private void SaveAchievement(AchievementView? achievement)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Save single achievement", "AchievementViewModel.Command"));
+
+        if (achievement is null)
+        {
+            return;
+        }
+
+        scopeContext.AchievementService.SaveAchievement(achievement);
+        AchievementFinishPercent.Update(this);
+    }
+
+    [Command("FilterDailyQuestSwitchCommand")]
+    private void UpdateAchievementsFilterByDailyQuest()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Filter by IsDailyQuest", "AchievementViewModel.Command", [("value", $"{IsUncompletedItemsFirst}")]));
+
+        if (Achievements is null || AchievementGoals is null)
+        {
+            return;
+        }
+
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
         AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 }
