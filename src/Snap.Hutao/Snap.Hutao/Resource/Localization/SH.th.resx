@@ -2100,6 +2100,12 @@
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>ดำเนินการเสร็จสิ้น</value>
   </data>
+  <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
+    <value>当前已是最新版本</value>
+  </data>
+  <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
+    <value>检查更新发送错误</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>ล้างข้อมูลล้มเหลว สิทธิ์ในไดเรกทอรีไฟล์ไม่เพียงพอ โปรดลองใหม่ในโหมดผู้ดูแลระบบ</value>
   </data>
@@ -2147,6 +2153,9 @@
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>คัดลอกไฟล์ข้อมูล</value>
+  </data>
+  <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
+    <value>更新可用: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>ต้องใช้ {0} เหรียญ MiHoYo, มี {1} เหรียญ MiHoYo ที่ใช้งานได้</value>
@@ -3060,6 +3069,9 @@
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>โฟลเดอร์แคช</value>
   </data>
+  <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว ไม่สามารถเปลี่ยนพฤติกรรมของปุ่มปิด</value>
   </data>
@@ -3591,9 +3603,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>อัปเดตทันทีหรือไม่?</value>
   </data>
-  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} เวอร์ชันพร้อมใช้งานแล้ว</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>ดาวน์โหลดอัปเดตล้มเหลว</value>
   </data>
@@ -3614,6 +3623,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>กำลังเริ่มต้นข้อมูลเมตา</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>ดาวน์โหลดทันทีหรือไม่?</value>
