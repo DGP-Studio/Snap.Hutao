@@ -2829,6 +2829,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Công Tắc Nguội Ẩn Biểu Ngữ Bản Đồ</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
+    <value>强制移除地图界面左上角的任务提示</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Đóng biểu ngữ bản đồ</value>
   </data>
