@@ -491,27 +491,35 @@
                                                             x:Name="HideQuestBannerToggleSwitch"
                                                             Grid.Row="2"
                                                             Grid.Column="0"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
                                                             IsOn="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                        <Button
-                                                            Grid.Row="2"
-                                                            Grid.Column="0"
-                                                            Padding="2"
-                                                            HorizontalAlignment="Right"
-                                                            VerticalAlignment="Top">
+                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}">
                                                             <mxi:Interaction.Behaviors>
-                                                                <mxi:EventTriggerBehavior EventName="Click">
-                                                                    <mxi:EventTriggerBehavior.Actions>
-                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind HideQuestBannerTeachingTip}"/>
-                                                                    </mxi:EventTriggerBehavior.Actions>
-                                                                </mxi:EventTriggerBehavior>
+                                                                <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
                                                             </mxi:Interaction.Behaviors>
-                                                            <FontIcon
-                                                                FontSize="14"
-                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                                Glyph="&#xE946;"/>
-                                                        </Button>
+                                                            <ToggleSwitch.Header>
+                                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                                    <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"/>
+                                                                    <Button
+                                                                        Grid.Row="2"
+                                                                        Grid.Column="0"
+                                                                        Padding="1,1,0.5,0.5"
+                                                                        VerticalAlignment="Center">
+                                                                        <mxi:Interaction.Behaviors>
+                                                                            <mxi:EventTriggerBehavior EventName="Click">
+                                                                                <mxi:EventTriggerBehavior.Actions>
+                                                                                    <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind HideQuestBannerTeachingTip}"/>
+                                                                                </mxi:EventTriggerBehavior.Actions>
+                                                                            </mxi:EventTriggerBehavior>
+                                                                        </mxi:Interaction.Behaviors>
+                                                                        <FontIcon
+                                                                            FontSize="12"
+                                                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                            Glyph="&#xE946;"/>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                            </ToggleSwitch.Header>
+                                                        </ToggleSwitch>
+
                                                         <TeachingTip
                                                             x:Name="HideQuestBannerTeachingTip"
                                                             Title="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
@@ -547,27 +555,37 @@
                                                             x:Name="RedirectCombineEntryToggleSwitch"
                                                             Grid.Row="3"
                                                             Grid.Column="1"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
                                                             IsOn="{Binding LaunchOptions.RedirectCombineEntry, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"/>
-                                                        <Button
-                                                            Grid.Row="3"
-                                                            Grid.Column="1"
-                                                            Padding="2"
-                                                            HorizontalAlignment="Right"
-                                                            VerticalAlignment="Top">
+                                                            Style="{ThemeResource DefaultToggleSwitchStyle}"
+                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}">
                                                             <mxi:Interaction.Behaviors>
-                                                                <mxi:EventTriggerBehavior EventName="Click">
-                                                                    <mxi:EventTriggerBehavior.Actions>
-                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind RedirectCombineEntryTeachingTip}"/>
-                                                                    </mxi:EventTriggerBehavior.Actions>
-                                                                </mxi:EventTriggerBehavior>
+                                                                <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
                                                             </mxi:Interaction.Behaviors>
-                                                            <FontIcon
-                                                                FontSize="14"
-                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                                Glyph="&#xE946;"/>
-                                                        </Button>
+                                                            <ToggleSwitch.Header>
+                                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                                    <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"/>
+                                                                    <Button
+                                                                        Grid.Row="3"
+                                                                        Grid.Column="1"
+                                                                        Padding="1,1,0.5,0.5"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Center">
+                                                                        <mxi:Interaction.Behaviors>
+                                                                            <mxi:EventTriggerBehavior EventName="Click">
+                                                                                <mxi:EventTriggerBehavior.Actions>
+                                                                                    <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind RedirectCombineEntryTeachingTip}"/>
+                                                                                </mxi:EventTriggerBehavior.Actions>
+                                                                            </mxi:EventTriggerBehavior>
+                                                                        </mxi:Interaction.Behaviors>
+                                                                        <FontIcon
+                                                                            FontSize="12"
+                                                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                            Glyph="&#xE946;"/>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                            </ToggleSwitch.Header>
+                                                        </ToggleSwitch>
+
                                                         <TeachingTip
                                                             x:Name="RedirectCombineEntryTeachingTip"
                                                             Title="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
