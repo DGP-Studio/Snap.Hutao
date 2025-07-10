@@ -609,8 +609,11 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Error al registrarse, error del servidor, por favor, contacta con el desarrollador para solucionarlo</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>El usuario no existe, error al cancelar el registro</value>
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
+    <value>用户不存在，注销失败</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Usuario dado de baja correctamente</value>
