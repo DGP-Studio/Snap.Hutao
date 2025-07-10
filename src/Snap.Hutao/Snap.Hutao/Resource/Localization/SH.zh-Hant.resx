@@ -844,7 +844,7 @@
     <value>最小化到通知區域圖示</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>應用通知傳送失敗</value>
+    <value>應用程式通知傳送失敗</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>啟動遊戲</value>
@@ -965,7 +965,7 @@
     <value>獲取注入配置資訊失敗，尚未支援當前遊戲版本</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>遊戲處理程序執行中</value>
+    <value>遊戲程序執行中</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
     <value>請選擇遊戲路徑</value>
@@ -977,25 +977,25 @@
     <value>使用 Embedded Yae 前，需要胡桃以系統管理員權限執行</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失敗，可能是由於 Windows Defender 應用和瀏覽器控制 &gt; 智能應用控制策略阻止了操作，請嘗試關閉。</value>
+    <value>注入失敗，可能是由於 Windows Defender 應用程式和瀏覽器控制 &gt; 智慧應用程控原則阻止了操作，請嘗試關閉。</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要您了解相關風險並在「啟動遊戲」頁面開啟注入功能</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
-    <value>遊戲處理程序已退出</value>
+    <value>遊戲程序已退出</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
-    <value>正在初始化遊戲處理程序</value>
+    <value>正在初始化遊戲程序</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
-    <value>遊戲處理程序已啟動</value>
+    <value>遊戲程序已啟動</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
     <value>正在獲取注入設定資訊</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
-    <value>等待遊戲處理程序退出</value>
+    <value>等待遊戲程序退出</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>請選擇遊戲本體</value>
@@ -2101,10 +2101,10 @@
     <value>操作完成</value>
   </data>
   <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
-    <value>当前已是最新版本</value>
+    <value>目前已是最新版本</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新发送错误</value>
+    <value>檢查更新傳送錯誤</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>清除失敗，檔案目錄權限不足，請使用系統管理員模式重試</value>
@@ -2140,7 +2140,7 @@
     <value>設置資料目錄成功，重新啟動以應用更改</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>重新啟動失敗，請手動重新啟動應用程式</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>選擇的資料夾不為空，將會覆蓋已存在的檔案</value>
@@ -2242,7 +2242,7 @@
     <value>Embedded Yae 需要系統管理員權限以啟動並注入到遊戲</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃處理程序權限不足</value>
+    <value>胡桃程序權限不足</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>移除戰鬥傷害跳字</value>
@@ -2830,7 +2830,7 @@
     <value>地圖橫幅冷開關</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
-    <value>强制移除地图界面左上角的任务提示</value>
+    <value>強制移除地圖介面左上角的任務提示</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>關閉地圖橫幅</value>
@@ -2854,7 +2854,7 @@
     <value>使用觸控輸入</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>結束程序</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的顯示器上執行</value>
@@ -3322,7 +3322,7 @@
     <value>虛擬按鍵碼</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用才能恢復正常</value>
+    <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用程式才能恢復正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>使用系統美化工具取代系統標準工作列後啟用通知區域圖示可能會導致：無法與圖示互動/無法正常建立圖示/重新啟動工作管理員後崩潰/啟動程序後崩潰</value>
