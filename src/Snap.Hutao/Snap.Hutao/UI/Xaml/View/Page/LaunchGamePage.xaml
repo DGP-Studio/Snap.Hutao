@@ -180,8 +180,8 @@
                         Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationInstall}"
                         HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
                         IsClickEnabled="True"
-                        IsEnabled="{Binding RuntimeOptions.IsElevated}">
-                        <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        IsEnabled="{shuxm:IsProcessElevated}">
+                        <shuxc:Elevation Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                     </cwc:SettingsCard>
                 </StackPanel>
             </Border>
@@ -227,7 +227,7 @@
                                 <Grid
                                     Margin="16"
                                     ColumnSpacing="12"
-                                    Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    Visibility="{shuxm:VisibleWhenProcessElevated}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
@@ -532,7 +532,7 @@
                                 <Border
                                     Grid.RowSpan="2"
                                     Padding="32"
-                                    Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                    Visibility="{shuxm:CollapsedWhenProcessElevated}">
                                     <StackPanel HorizontalAlignment="Center">
                                         <shuxc:Elevation HorizontalAlignment="Center" IsHitTestVisible="False"/>
                                         <TextBlock
@@ -566,8 +566,8 @@
                                     <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding GameAccountsView.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
-                                            AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                                            CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                            AllowDrop="{shuxm:IsProcessNotElevated}"
+                                            CanReorderItems="{shuxm:IsProcessNotElevated}"
                                             IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
                                             ItemsSource="{Binding GameAccountsView}"
@@ -579,7 +579,7 @@
                                                     IsClosable="True"
                                                     IsOpen="True"
                                                     Severity="Warning"
-                                                    Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                    Visibility="{shuxm:VisibleWhenProcessElevated}"/>
                                             </ListView.Header>
                                         </ListView>
                                     </Border>

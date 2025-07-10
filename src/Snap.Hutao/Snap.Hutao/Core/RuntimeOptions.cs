@@ -19,8 +19,5 @@ internal sealed class RuntimeOptions
     public string WebView2Version { get => HutaoRuntime.WebView2Version.Version; }
 
     [Obsolete("This property only exist for binding purpose")]
-    public bool IsElevated { get => HutaoRuntime.IsProcessElevated; }
-
-    [Obsolete("This property only exist for binding purpose")]
     public bool IsToastAvailable { get => HutaoRuntime.IsAppNotificationEnabled; }
 }

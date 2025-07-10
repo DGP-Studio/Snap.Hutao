@@ -440,8 +440,8 @@
                                     Text="{shuxm:ResourceString Name=ViewUserUser}"/>
                                 <ListView
                                     Margin="4"
-                                    AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                                    CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    AllowDrop="{shuxm:IsProcessNotElevated}"
+                                    CanReorderItems="{shuxm:IsProcessNotElevated}"
                                     ItemTemplate="{StaticResource UserTemplate}"
                                     ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding Users.CurrentItem, Mode=TwoWay}"
@@ -454,7 +454,7 @@
                                             IsClosable="True"
                                             IsOpen="True"
                                             Severity="Warning"
-                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            Visibility="{shuxm:VisibleWhenProcessElevated}"/>
                                     </ListView.Header>
                                 </ListView>
                             </StackPanel>
