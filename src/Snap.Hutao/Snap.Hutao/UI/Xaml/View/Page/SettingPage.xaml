@@ -82,6 +82,13 @@
                                     Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."/>
                             </Grid>
 
+                            <cwc:SettingsCard
+                                Command="{Binding CheckUpdateCommand}"
+                                Description="{Binding UpdateInfo}"
+                                Header="{shuxm:ResourceString Name=ViewPageSettingCheckUpdateHeader}"
+                                HeaderIcon="{shuxm:FontIcon Glyph=&#xE895;}"
+                                IsClickEnabled="True"/>
+
                             <cwc:SettingsExpander
                                 Header="{shuxm:ResourceString Name=ViewPageSettingElevatedModeHeader}"
                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xE7EF;}"
@@ -161,6 +168,13 @@
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
+
+                                <cwc:SettingsCard
+                                    Command="{Binding CheckUpdateCommand}"
+                                    Description="{Binding UpdateInfo}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCheckUpdateHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE895;}"
+                                    IsClickEnabled="True"/>
 
                                 <cwc:SettingsExpander
                                     Header="{shuxm:ResourceString Name=ViewPageSettingElevatedModeHeader}"

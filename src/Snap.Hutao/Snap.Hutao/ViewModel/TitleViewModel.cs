@@ -1,12 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
@@ -24,7 +22,6 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
@@ -70,46 +67,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Check for update", "TitleViewModel.Command"));
 
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync().ConfigureAwait(false);
-
-        if (checkUpdateResult.Kind is CheckUpdateResultKind.UpdateAvailable)
-        {
-            if (currentXamlWindowReference.Window is null)
-            {
-                return;
-            }
-
-            try
-            {
-                ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
-                    .CreateForConfirmCancelAsync(
-                        SH.FormatViewTitileUpdatePackageAvailableTitle(checkUpdateResult.PackageInformation?.Version),
-                        SH.ViewTitileUpdatePackageAvailableContent,
-                        ContentDialogButton.Primary)
-                    .ConfigureAwait(false);
-
-                if (installUpdateUserConsentResult is not ContentDialogResult.Primary)
-                {
-                    return;
-                }
-
-#if IS_ALPHA_BUILD
-                if (checkUpdateResult.PackageInformation?.Mirrors.SingleOrDefault() is { MirrorType: Web.Hutao.HutaoPackageMirrorType.Browser } mirror)
-                {
-                    await Windows.System.Launcher.LaunchUriAsync(mirror.Url.ToUri());
-                }
-#else
-                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
-#endif
-            }
-            catch (Exception ex)
-            {
-                // Access to the path '?' is denied.
-                // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
-                // The process cannot access the file '?' because it is being used by another process.
-                // 0x80070005 Attempted to perform an unauthorized operation.
-                infoBarService.Error(ex);
-            }
-        }
+        await updateService.TriggerUpdateAsync(checkUpdateResult).ConfigureAwait(false);
     }
 
     private void NotifyIfDataFolderHasReparsePoint()

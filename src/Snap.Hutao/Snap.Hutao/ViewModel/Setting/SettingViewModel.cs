@@ -1,12 +1,14 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.Update;
 using Windows.Foundation;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -19,6 +21,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly IInfoBarService infoBarService;
+    private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
 
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
@@ -39,6 +42,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public partial SettingGachaLogViewModel GachaLog { get; }
 
     public partial SettingWebViewViewModel WebView { get; }
+
+    [ObservableProperty]
+    public partial string UpdateInfo { get; set; }
 
     public void AttachXamlElement(ScrollViewer scrollViewer, Border gachaLogBorder)
     {
@@ -75,6 +81,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCache);
         Storage.DataFolderView = new(taskContext, HutaoRuntime.DataFolder);
 
+        UpdateInfo = updateService.UpdateInfo;
+
         return ValueTask.FromResult(true);
     }
 
@@ -87,6 +95,25 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         Home.IsViewUnloaded = true;
         Game.IsViewUnloaded = true;
         GachaLog.IsViewUnloaded = true;
+    }
+
+    [Command("CheckUpdateCommand")]
+    private async Task CheckUpdateAsync()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Check update", "SettingViewModel.Command"));
+
+        await taskContext.SwitchToBackgroundAsync();
+
+        CheckUpdateResult result = await updateService.CheckUpdateAsync().ConfigureAwait(false);
+        await taskContext.InvokeOnMainThreadAsync(() => UpdateInfo = result.Kind switch
+        {
+            CheckUpdateResultKind.UpdateAvailable => SH.FormatViewModelSettingUpdateAvailable(result.PackageInformation?.Version.ToString()),
+            CheckUpdateResultKind.AlreadyUpdated => SH.ViewModelSettingAlreadyUpdated,
+            CheckUpdateResultKind.VersionApiInvalidResponse or CheckUpdateResultKind.VersionApiInvalidSha256 => SH.ViewModelSettingCheckUpdateFailed,
+            _ => default!,
+        }).ConfigureAwait(false);
+
+        await updateService.TriggerUpdateAsync(result).ConfigureAwait(false);
     }
 
     [Command("CreateDesktopShortcutCommand")]
