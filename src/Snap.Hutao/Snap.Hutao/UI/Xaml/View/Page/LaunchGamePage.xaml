@@ -12,6 +12,7 @@
     xmlns:shsgp="using:Snap.Hutao.Service.Game.PathAbstraction"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -487,11 +488,42 @@
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneDescription}"/>
 
                                                         <ToggleSwitch
+                                                            x:Name="HideQuestBannerToggleSwitch"
                                                             Grid.Row="2"
                                                             Grid.Column="0"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
                                                             IsOn="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                                        <Button
+                                                            Grid.Row="2"
+                                                            Grid.Column="0"
+                                                            Padding="2"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind HideQuestBannerTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="14"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                        <TeachingTip
+                                                            x:Name="HideQuestBannerTeachingTip"
+                                                            Title="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
+                                                            Grid.Row="2"
+                                                            Grid.Column="0"
+                                                            IsLightDismissEnabled="True"
+                                                            Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchDescription}"
+                                                            Target="{x:Bind HideQuestBannerToggleSwitch}">
+                                                            <TeachingTip.HeroContent>
+                                                                <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandHideQuestBanner.png"/>
+                                                            </TeachingTip.HeroContent>
+                                                        </TeachingTip>
                                                         <ToggleSwitch
                                                             Grid.Row="2"
                                                             Grid.Column="1"
@@ -512,11 +544,42 @@
                                                             IsOn="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
                                                         <ToggleSwitch
+                                                            x:Name="RedirectCombineEntryToggleSwitch"
                                                             Grid.Row="3"
                                                             Grid.Column="1"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
                                                             IsOn="{Binding LaunchOptions.RedirectCombineEntry, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"/>
+                                                        <Button
+                                                            Grid.Row="3"
+                                                            Grid.Column="1"
+                                                            Padding="2"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind RedirectCombineEntryTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="14"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                        <TeachingTip
+                                                            x:Name="RedirectCombineEntryTeachingTip"
+                                                            Title="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
+                                                            Grid.Row="3"
+                                                            Grid.Column="1"
+                                                            IsLightDismissEnabled="True"
+                                                            Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"
+                                                            Target="{x:Bind RedirectCombineEntryToggleSwitch}">
+                                                            <TeachingTip.HeroContent>
+                                                                <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandRedirectCombineEntry.gif"/>
+                                                            </TeachingTip.HeroContent>
+                                                        </TeachingTip>
                                                         <ToggleSwitch
                                                             Grid.Row="3"
                                                             Grid.Column="2"

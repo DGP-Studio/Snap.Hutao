@@ -119,6 +119,7 @@
     <None Remove="Resource\Navigation\CheckIn.png" />
     <None Remove="Resource\Navigation\Passport.png" />
     <None Remove="Resource\Navigation\RoleCombat.png" />
+    <None Remove="Resource\TeachingTip\LaunchGameIslandHideQuestBanner.png" />
     <None Remove="Resource\ThirdParty\Apple.png" />
     <None Remove="Resource\ThirdParty\Facebook.png" />
     <None Remove="Resource\ThirdParty\Google.png" />
@@ -288,6 +289,8 @@
     <Content Include="Resource\Navigation\WikiAvatar.png" />
     <Content Include="Resource\Navigation\WikiMonster.png" />
     <Content Include="Resource\Navigation\WikiWeapon.png" />
+    <Content Include="Resource\TeachingTip\LaunchGameIslandHideQuestBanner.png" />
+    <Content Include="Resource\TeachingTip\LaunchGameIslandRedirectCombineEntry.gif" />
     <Content Include="Resource\ThirdParty\Apple.png" />
     <Content Include="Resource\ThirdParty\Facebook.png" />
     <Content Include="Resource\ThirdParty\Google.png" />
