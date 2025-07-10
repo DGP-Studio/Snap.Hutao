@@ -609,8 +609,11 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>使用者不存在，刪除帳號失敗</value>
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
+    <value>用戶不存在，刪除帳號失敗</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>使用者刪除成功</value>
