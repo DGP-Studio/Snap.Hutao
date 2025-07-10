@@ -609,7 +609,10 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Ошибка регистрации, проблемы с сервером. Пожалуйста, свяжитесь с разработчиком для решения проблемы</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Пользователь не существует, отмена не удалась</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
