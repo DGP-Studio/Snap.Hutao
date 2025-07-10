@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>L'inscription a échoué, erreur du serveur, veuillez contacter le développeur dès que possible pour résoudre ce problème</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>L'utilisateur n'existe pas, la suppression du compte a échoué</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">

@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>ลงทะเบียนล้มเหลว, เซิร์ฟเวอร์ผิดพลาด, โปรดติดต่อผู้พัฒนาเพื่อแก้ไขโดยเร็ว</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>ผู้ใช้ไม่มีอยู่, ยกเลิกการลงทะเบียนล้มเหลว</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">

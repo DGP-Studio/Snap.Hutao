@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Đăng ký không thành công, lỗi máy chủ, vui lòng liên hệ nhà phát triển để khắc phục</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Người dùng không tồn tại, không thể xoá tài khoản</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">

@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Kayıt başarısız, sunucu hatası, lütfen sorunu çözmek için en kısa sürede geliştiriciyle iletişime geçin</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Kullanıcı mevcut değil, hesap silme başarısız</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">

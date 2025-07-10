@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>登録に失敗しました。サーバーエラーです。解決しない場合は開発者に連絡してください。</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>ユーザーが存在しないため、アカウントを削除できません。</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">

@@ -609,7 +609,7 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Register failed, server error, please contact developer to fix it</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>User does not exist, failed to delete account</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
