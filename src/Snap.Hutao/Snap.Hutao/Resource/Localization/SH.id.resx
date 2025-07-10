@@ -609,7 +609,10 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Pendaftaran gagal, ada kesalahan server, harap hubungi pengembang untuk memperbaikinya.</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Pengguna tidak ada, gagal menghapus akun.</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
