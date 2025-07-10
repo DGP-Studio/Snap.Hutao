@@ -70,8 +70,10 @@ internal sealed partial class InfoBarView : UserControl
                 }
 
                 // After adding, InfoBars.Count is not 0, so we skip the following code
-                Debug.Assert(InfoBars.Count > 0);
-                return;
+                if (InfoBars.Count > 0)
+                {
+                    return;
+                }
             }
 
             if (InfoBars.Count is 0)
