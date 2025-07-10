@@ -609,8 +609,11 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Registrazione non riuscita, errore del server. Si prega di contattare al più presto lo sviluppatore per risolvere il problema</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>L'utente non esiste, annullamento della registrazione non riuscito</value>
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
+    <value>用户不存在，注销失败</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Annullamento della registrazione dell'utente riuscito</value>
