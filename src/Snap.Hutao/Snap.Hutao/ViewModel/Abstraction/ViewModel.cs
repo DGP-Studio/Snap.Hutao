@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
@@ -36,7 +37,15 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 
     public void Uninitialize()
     {
-        IsInitialized = false;
+        try
+        {
+            IsInitialized = false;
+        }
+        catch (Exception ex) when (ex.HResult is HRESULT.E_UNEXPECTED)
+        {
+            // Ignore
+        }
+
         UninitializeOverride();
         IsViewUnloaded = true;
         DeferContentLoader = default;

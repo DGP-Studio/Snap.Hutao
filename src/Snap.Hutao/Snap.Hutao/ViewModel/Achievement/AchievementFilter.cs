@@ -8,46 +8,6 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal static class AchievementFilter
 {
-    public static Predicate<AchievementView>? Compile(bool filterDailyQuest)
-    {
-        return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest
-            : default;
-    }
-
-    public static Predicate<AchievementView>? Compile(bool filterDailyQuest, AchievementGoalView? goal)
-    {
-        if (goal is null)
-        {
-            return Compile(filterDailyQuest);
-        }
-
-        return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest && view.Inner.Goal == goal.Id
-            : view => view.Inner.Goal == goal.Id;
-    }
-
-    public static Predicate<AchievementView>? Compile(bool filterDailyQuest, AchievementId achievementId)
-    {
-        return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest && view.Inner.Id == achievementId
-            : view => view.Inner.Id == achievementId;
-    }
-
-    public static Predicate<AchievementView>? CompileForVersion(bool filterDailyQuest, string version)
-    {
-        return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest && string.Equals(view.Inner.Version, version, StringComparison.OrdinalIgnoreCase)
-            : view => string.Equals(view.Inner.Version, version, StringComparison.OrdinalIgnoreCase);
-    }
-
-    public static Predicate<AchievementView>? CompileForTitleOrDescription(bool filterDailyQuest, string search)
-    {
-        return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest && (view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase) || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase))
-            : view => view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase) || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-    }
-
     public static Predicate<AchievementGoalView>? GoalCompile(IAdvancedCollectionView<AchievementView> collection)
     {
         if (collection.Filter is null)
@@ -56,5 +16,57 @@ internal static class AchievementFilter
         }
 
         return goal => collection.View.Any(view => view.Inner.Goal == goal.Id);
+    }
+
+    public static Predicate<AchievementView>? Compile(bool filterDailyQuest)
+    {
+        return view => DailyQuestComponent(view, filterDailyQuest);
+    }
+
+    public static Predicate<AchievementView>? Compile(bool filterDailyQuest, AchievementGoalView? goal)
+    {
+        return view => DailyQuestComponent(view, filterDailyQuest) && GoalComponent(view, goal);
+    }
+
+    public static Predicate<AchievementView>? Compile(bool filterDailyQuest, AchievementId achievementId)
+    {
+        return view => DailyQuestComponent(view, filterDailyQuest) && AchievementIdComponent(view, achievementId);
+    }
+
+    public static Predicate<AchievementView>? CompileForVersion(bool filterDailyQuest, string version)
+    {
+        return view => DailyQuestComponent(view, filterDailyQuest) && VersionComponent(view, version);
+
+    }
+
+    public static Predicate<AchievementView>? CompileForTitleOrDescription(bool filterDailyQuest, string search)
+    {
+        return view => DailyQuestComponent(view, filterDailyQuest) && SearchComponent(view, search);
+    }
+
+    private static bool DailyQuestComponent(AchievementView view, bool filterDailyQuest)
+    {
+        return !filterDailyQuest || view.Inner.IsDailyQuest;
+    }
+
+    private static bool GoalComponent(AchievementView view, AchievementGoalView? goal)
+    {
+        return goal is null || view.Inner.Goal == goal.Id;
+    }
+
+    private static bool AchievementIdComponent(AchievementView view, AchievementId achievementId)
+    {
+        return view.Inner.Id == achievementId;
+    }
+
+    private static bool VersionComponent(AchievementView view, string version)
+    {
+        return string.Equals(view.Inner.Version, version, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool SearchComponent(AchievementView view, string search)
+    {
+        return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
     }
 }
