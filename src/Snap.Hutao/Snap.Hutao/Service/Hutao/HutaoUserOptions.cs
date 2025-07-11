@@ -378,7 +378,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         public AuthTokenExpiration(string token)
         {
             Token = token;
-            ExpireAt = DateTimeOffset.Now + TimeSpan.FromHours(2);
+            ExpireAt = DateTimeOffset.Now + TimeSpan.FromMinutes(14);
         }
     }
 }

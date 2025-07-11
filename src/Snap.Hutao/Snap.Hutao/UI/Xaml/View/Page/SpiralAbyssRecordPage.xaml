@@ -9,7 +9,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
@@ -148,7 +147,7 @@
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
             <StackPanel HorizontalAlignment="Stretch" Spacing="12">
-                <StackPanel Grid.Row="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                <StackPanel Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
                     <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
                     <ItemsControl
                         Margin="0,8,0,0"
@@ -161,7 +160,7 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{Binding Time}"
                     Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}"/>
-                <StackPanel Grid.Row="1" HorizontalAlignment="Left">
+                <StackPanel HorizontalAlignment="Left">
                     <clw:TokenItem
                         Margin="0,0,0,8"
                         Padding="12,2"
@@ -258,7 +257,6 @@
                     </Grid>
                     <!--  单一 地脉紊乱  -->
                     <ItemsControl
-                        Grid.Row="1"
                         Margin="12,0"
                         ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
                         ItemsSource="{Binding Disorders}"
@@ -304,7 +302,6 @@
                     </Grid>
                     <!--  间信息  -->
                     <ItemsControl
-                        Grid.Row="3"
                         Margin="0,0,0,12"
                         ItemTemplate="{StaticResource SpiralAbyssLevelTemplate}"
                         ItemsSource="{Binding Levels}"/>
