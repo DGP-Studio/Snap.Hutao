@@ -45,6 +45,11 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public void Receive(UserAndUidChangedMessage message)
     {
+        if (!LaunchOptions.UsingHoyolabAccount)
+        {
+            return;
+        }
+
         taskContext.InvokeOnMainThread(() =>
         {
             if (!IsInitialized)
@@ -60,7 +65,11 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     {
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
-        UserGameRole? userGameRole = await userService.GetCurrentUserGameRoleAsync().ConfigureAwait(false);
+        UserGameRole? userGameRole = default;
+        if (LaunchOptions.UsingHoyolabAccount)
+        {
+            userGameRole = await userService.GetCurrentUserGameRoleAsync().ConfigureAwait(false);
+        }
 
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
