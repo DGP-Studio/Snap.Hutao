@@ -3585,9 +3585,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>อัปเดตทันทีหรือไม่?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} เวอร์ชันพร้อมใช้งานแล้ว</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>ดาวน์โหลดอัปเดตล้มเหลว</value>
   </data>
@@ -3608,6 +3605,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>กำลังเริ่มต้นข้อมูลเมตา</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao {0} เวอร์ชันพร้อมใช้งานแล้ว</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>ดาวน์โหลดทันทีหรือไม่?</value>

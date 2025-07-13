@@ -3587,9 +3587,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>すぐに更新しますか？</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃バージョン {0} が利用可能です</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
   </data>
@@ -3610,6 +3607,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>メタデータを初期化中</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃バージョン {0} が利用可能です</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>今すぐダウンロードしますか？</value>

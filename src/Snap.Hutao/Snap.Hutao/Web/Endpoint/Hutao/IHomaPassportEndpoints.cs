@@ -7,36 +7,51 @@ internal interface IHomaPassportEndpoints : IHomaRootAccess
 {
     public string PassportVerify()
     {
-        return $"{Root}/Passport/Verify";
+        return $"{Root}/Passport/v2/Verify";
     }
 
     public string PassportRegister()
     {
-        return $"{Root}/Passport/Register";
+        return $"{Root}/Passport/v2/Register";
     }
 
     public string PassportCancel()
     {
-        return $"{Root}/Passport/Cancel";
+        return $"{Root}/Passport/v2/Cancel";
     }
 
     public string PassportResetUserName()
     {
-        return $"{Root}/Passport/ResetUsername";
+        return $"{Root}/Passport/v2/ResetUsername";
     }
 
     public string PassportResetPassword()
     {
-        return $"{Root}/Passport/ResetPassword";
+        return $"{Root}/Passport/v2/ResetPassword";
     }
 
     public string PassportLogin()
     {
-        return $"{Root}/Passport/Login";
+        return $"{Root}/Passport/v2/Login";
     }
 
     public string PassportUserInfo()
     {
-        return $"{Root}/Passport/UserInfo";
+        return $"{Root}/Passport/v2/UserInfo";
+    }
+
+    public string PassportRefreshToken()
+    {
+        return $"{Root}/Passport/v2/RefreshToken";
+    }
+
+    public string PassportRevokeToken()
+    {
+        return $"{Root}/Passport/v2/RevokeToken";
+    }
+
+    public string PassportRevokeAllTokens()
+    {
+        return $"{Root}/Passport/v2/RevokeAllTokens";
     }
 }

@@ -3585,9 +3585,6 @@ Espace disponible : {2}</value>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>Mettre à jour maintenant ?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} est maintenant disponible</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Échec du téléchargement de la mise à jour</value>
   </data>
@@ -3608,6 +3605,9 @@ Espace disponible : {2}</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>Initialisation des métadonnées</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao {0} est maintenant disponible</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Télécharger maintenant ?</value>

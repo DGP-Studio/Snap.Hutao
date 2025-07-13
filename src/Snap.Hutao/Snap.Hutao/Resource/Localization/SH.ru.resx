@@ -3583,9 +3583,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>Обновить сейчас?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} теперь доступен</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Не удалось загрузить обновление</value>
   </data>
@@ -3606,6 +3603,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>Инициализация метаданных</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao {0} теперь доступен</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Установить сейчас?</value>

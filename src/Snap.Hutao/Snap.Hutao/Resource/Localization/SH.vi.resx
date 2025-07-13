@@ -3585,9 +3585,6 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>Cập nhật ngay bây giờ?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao phiên bản {0} hiện đã có sẵn</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Tải xuống bản cập nhật thất bại</value>
   </data>
@@ -3608,6 +3605,9 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>Đang khởi tạo siêu dữ liệu</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao phiên bản {0} hiện đã có sẵn</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Tải xuống ngay bây giờ?</value>

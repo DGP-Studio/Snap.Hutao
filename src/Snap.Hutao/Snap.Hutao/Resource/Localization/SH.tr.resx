@@ -3585,9 +3585,6 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>Şimdi güncellensin mi?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} sürümü şimdi kullanılabilir</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Güncelleme İndirme Başarısız</value>
   </data>
@@ -3608,6 +3605,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>Meta veriler başlatılıyor</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao {0} sürümü şimdi kullanılabilir</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Şimdi indirilsin mi?</value>

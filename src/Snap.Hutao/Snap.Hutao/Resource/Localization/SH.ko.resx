@@ -3585,9 +3585,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>지금 업데이트하시겠습니까?</value>
   </data>
-  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>호두 {0} 버전이 이제 사용 가능합니다</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>업데이트 다운로드 실패</value>
   </data>
@@ -3608,6 +3605,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>메타데이터 초기화 중</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>호두 {0} 버전이 이제 사용 가능합니다</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>지금 다운로드하시겠습니까?</value>

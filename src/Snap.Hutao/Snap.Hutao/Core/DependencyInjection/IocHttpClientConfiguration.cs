@@ -6,6 +6,7 @@ using Snap.Hutao.Core.IO.Http;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Win32;
 using System.Net.Http;
 using System.Net.Mime;
 
@@ -51,7 +52,11 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
+        client.DefaultRequestHeaders.Add("x-hutao-device-name", Environment.MachineName);
         client.DefaultRequestHeaders.Add("x-hutao-device-id", HutaoRuntime.DeviceId);
+
+        HutaoPrivateWindowsVersion windowsVersion = HutaoNative.Instance.GetCurrentWindowsVersion();
+        client.DefaultRequestHeaders.Add("x-hutao-device-os", $"Windows {windowsVersion}");
     }
 
     [UsedImplicitly]
