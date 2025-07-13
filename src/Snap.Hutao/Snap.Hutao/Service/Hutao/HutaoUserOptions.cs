@@ -80,7 +80,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public async ValueTask<string?> GetAuthTokenAsync(CancellationToken token = default)
     {
-        // TODO: refer to https://git.snapgenshin.com/DGP-Studio/Feedback/issues/205
         using (await operationLock.LockAsync(nameof(GetAuthTokenAsync)).ConfigureAwait(false))
         {
             await loginEvent.WaitAsync().ConfigureAwait(false);
@@ -95,6 +94,21 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 // Re-initialize to refresh the token
                 await InitializeAsync(token).ConfigureAwait(false);
             }
+
+            if (!IsLoggedIn)
+            {
+                return default;
+            }
+
+            return authTokenExpiration.Token;
+        }
+    }
+
+    public async ValueTask<string?> DangerousGetAuthTokenAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(DangerousGetAuthTokenAsync)).ConfigureAwait(false))
+        {
+            await loginEvent.WaitAsync().ConfigureAwait(false);
 
             if (!IsLoggedIn)
             {
