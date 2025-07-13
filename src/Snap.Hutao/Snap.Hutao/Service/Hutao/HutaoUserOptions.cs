@@ -80,6 +80,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public async ValueTask<string?> GetAuthTokenAsync(CancellationToken token = default)
     {
+        // TODO: refer to https://git.snapgenshin.com/DGP-Studio/Feedback/issues/205
         using (await operationLock.LockAsync(nameof(GetAuthTokenAsync)).ConfigureAwait(false))
         {
             await loginEvent.WaitAsync().ConfigureAwait(false);
