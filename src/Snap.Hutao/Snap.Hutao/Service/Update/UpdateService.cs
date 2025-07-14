@@ -141,7 +141,7 @@ internal sealed partial class UpdateService : IUpdateService
             HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
 
             string commandLine = new CommandLineBuilder()
-                .Append("update", await hutaoUserOptions.GetAuthTokenAsync().ConfigureAwait(false))
+                .Append("update", await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false))
                 .ToString();
 
             // The updater will request UAC permissions itself

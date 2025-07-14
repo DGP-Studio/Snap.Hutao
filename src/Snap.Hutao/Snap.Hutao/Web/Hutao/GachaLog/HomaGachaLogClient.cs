@@ -18,16 +18,14 @@ internal sealed partial class HomaGachaLogClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<HutaoResponse<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<GachaEventStatistics>> GetGachaEventStatisticsAsync(string? accessToken, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogStatisticsCurrentEvents())
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<GachaEventStatistics>? resp = await builder
             .SendAsync<HutaoResponse<GachaEventStatistics>>(httpClient, token)
@@ -36,13 +34,12 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync(string? accessToken, GachaDistributionType distributionType, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogStatisticsDistribution(distributionType))
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<GachaDistribution>? resp = await builder
             .SendAsync<HutaoResponse<GachaDistribution>>(httpClient, token)
@@ -51,13 +48,12 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(string? accessToken, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogEntries())
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<ImmutableArray<GachaEntry>>? resp = await builder
             .SendAsync<HutaoResponse<ImmutableArray<GachaEntry>>>(httpClient, token)
@@ -66,13 +62,12 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<EndIds>> GetEndIdsAsync(string? accessToken, string uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogEndIds(uid))
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<EndIds>? resp = await builder
             .SendAsync<HutaoResponse<EndIds>>(httpClient, token)
@@ -81,15 +76,14 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<ImmutableArray<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<GachaItem>>> RetrieveGachaItemsAsync(string? accessToken, string uid, EndIds endIds, CancellationToken token = default)
     {
         UidAndEndIds uidAndEndIds = new(uid, endIds);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogRetrieve())
+            .SetAccessToken(accessToken)
             .PostJson(uidAndEndIds);
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<ImmutableArray<GachaItem>>? resp = await builder
             .SendAsync<HutaoResponse<ImmutableArray<GachaItem>>>(httpClient, token)
@@ -98,15 +92,14 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> UploadGachaItemsAsync(string uid, IReadOnlyList<GachaItem> gachaItems, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UploadGachaItemsAsync(string? accessToken, string uid, IReadOnlyList<GachaItem> gachaItems, CancellationToken token = default)
     {
         UidAndItems uidAndItems = new(uid, gachaItems);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogUpload())
+            .SetAccessToken(accessToken)
             .PostJson(uidAndItems);
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, token)
@@ -115,13 +108,12 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> DeleteGachaItemsAsync(string? accessToken, string uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogDelete(uid))
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, token)

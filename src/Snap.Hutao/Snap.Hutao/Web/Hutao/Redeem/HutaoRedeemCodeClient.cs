@@ -17,16 +17,14 @@ internal sealed partial class HutaoRedeemCodeClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<HutaoResponse<RedeemUseResult>> UseRedeemCodeAsync(RedeemUseRequest request, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<RedeemUseResult>> UseRedeemCodeAsync(string? accessToken, RedeemUseRequest request, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().RedeemCodeUse())
+            .SetAccessToken(accessToken)
             .PostJson(request);
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<RedeemUseResult>? resp = await builder
             .SendAsync<HutaoResponse<RedeemUseResult>>(httpClient, token)

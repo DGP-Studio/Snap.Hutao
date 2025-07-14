@@ -153,7 +153,7 @@ internal static class SettingKeys
     [Obsolete]
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 
-    [Obsolete("V2 Passport System")]
+    [Obsolete("不再保存通行证密码")]
     public const string PassportPassword = "PassportPassword";
     #endregion
 }

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog.Factory;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
@@ -19,15 +20,17 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudService
 {
     private readonly IGachaLogRepository gachaLogRepository;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
 
-    public ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            return homaGachaLogClient.GetGachaEntriesAsync(token);
+            return await homaGachaLogClient.GetGachaEntriesAsync(accessToken, token);
         }
     }
 
@@ -44,8 +47,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
 
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
                 HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-                return await homaGachaLogClient.UploadGachaItemsAsync(uid, items, token).ConfigureAwait(false);
+                return await homaGachaLogClient.UploadGachaItemsAsync(accessToken, uid, items, token).ConfigureAwait(false);
             }
         }
 
@@ -60,8 +64,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         ImmutableArray<Web.Hutao.GachaLog.GachaItem> array;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            Response<ImmutableArray<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
+            Response<ImmutableArray<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(accessToken, uid, endIds, token).ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, out array))
             {
@@ -84,8 +89,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            return await homaGachaLogClient.DeleteGachaItemsAsync(uid, token).ConfigureAwait(false);
+            return await homaGachaLogClient.DeleteGachaItemsAsync(accessToken, uid, token).ConfigureAwait(false);
         }
     }
 
@@ -94,8 +100,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         GachaEventStatistics? raw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
+            Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(accessToken, token).ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out raw))
             {
@@ -129,8 +136,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync(token).ConfigureAwait(false);
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            Response<EndIds> resp = await homaGachaLogClient.GetEndIdsAsync(uid, token).ConfigureAwait(false);
+            Response<EndIds> resp = await homaGachaLogClient.GetEndIdsAsync(accessToken, uid, token).ConfigureAwait(false);
             ResponseValidator.TryValidate(resp, scope.ServiceProvider, out EndIds? raw);
             return raw;
         }

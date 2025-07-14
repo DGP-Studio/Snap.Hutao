@@ -18,6 +18,7 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -44,6 +45,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
@@ -183,8 +185,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(accessToken, Announcement).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
@@ -210,8 +213,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(GachaLogCompensationDays).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(accessToken, GachaLogCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
@@ -235,8 +239,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(accessToken, GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
@@ -260,8 +265,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.CdnCompensationAsync(CdnCompensationDays).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.CdnCompensationAsync(accessToken, CdnCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
@@ -285,8 +291,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.CdnDesignationAsync(CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.CdnDesignationAsync(accessToken, CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
@@ -592,8 +599,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
+            HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(accessToken, request).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResult? generateResponse))
             {
                 string message = $"""

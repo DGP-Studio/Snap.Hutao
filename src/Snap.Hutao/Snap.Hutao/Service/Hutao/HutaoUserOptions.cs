@@ -68,19 +68,24 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public async ValueTask<string?> GetActualUserNameAsync()
     {
-        await infoEvent.WaitAsync().ConfigureAwait(false);
-        return IsLoggedIn ? UserName : default;
+        using (await operationLock.LockAsync(nameof(GetActualUserNameAsync)).ConfigureAwait(false))
+        {
+            await infoEvent.WaitAsync().ConfigureAwait(false);
+            return IsLoggedIn ? UserName : default;
+        }
     }
 
-    public async ValueTask<bool> GetIsHutaoCdnAllowedAsync()
+    // ThisCall:RefreshUserInfoAsync
+    public async ValueTask<ValueResult<bool, string?>> GetIsHutaoCloudAllowedAsync(CancellationToken token = default)
     {
-        await infoEvent.WaitAsync().ConfigureAwait(false);
-        return IsHutaoCdnAllowed;
+        await RefreshUserInfoAsync(token).ConfigureAwait(false);
+        return new(IsHutaoCloudAllowed, authTokenExpiration.AccessToken);
     }
 
-    public async ValueTask<string?> GetAuthTokenAsync(CancellationToken token = default)
+    // ThisCall:InitializeAsync
+    public async ValueTask<string?> GetAccessTokenAsync(CancellationToken token = default)
     {
-        using (await operationLock.LockAsync(nameof(GetAuthTokenAsync)).ConfigureAwait(false))
+        using (await operationLock.LockAsync(nameof(GetAccessTokenAsync)).ConfigureAwait(false))
         {
             await loginEvent.WaitAsync().ConfigureAwait(false);
 
@@ -100,29 +105,16 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 return default;
             }
 
-            return authTokenExpiration.Token;
+            return authTokenExpiration.AccessToken;
         }
     }
 
-    public async ValueTask<string?> DangerousGetAuthTokenAsync(CancellationToken token = default)
-    {
-        using (await operationLock.LockAsync(nameof(DangerousGetAuthTokenAsync)).ConfigureAwait(false))
-        {
-            await loginEvent.WaitAsync().ConfigureAwait(false);
-
-            if (!IsLoggedIn)
-            {
-                return default;
-            }
-
-            return authTokenExpiration.Token;
-        }
-    }
-
+    // ThisCall:RefreshTokenAsync
     public async ValueTask InitializeAsync(CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(InitializeAsync)).ConfigureAwait(false))
         {
+            // TODO: Step1: remove password storage
             string username = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
             string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
             string refreshToken = LocalSetting.Get(SettingKeys.PassportRefreshToken, string.Empty);
@@ -136,6 +128,8 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
             if (!string.IsNullOrEmpty(refreshToken))
             {
+                // TODO: Step2: Remove this: Aggressively set password to empty to avoid accidental reuse
+                LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
                 loginEvent.Reset();
                 infoEvent.Reset();
                 await RefreshTokenAsync(username, refreshToken, token).ConfigureAwait(false);
@@ -161,47 +155,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         return infoEvent.WaitAsync();
     }
 
-    public async ValueTask RefreshUserInfoAsync(CancellationToken token = default)
-    {
-        using (await operationLock.LockAsync(nameof(RefreshUserInfoAsync)).ConfigureAwait(false))
-        {
-            // Wait previous Info Event
-            await infoEvent.WaitAsync().ConfigureAwait(false);
-
-            if (!IsLoggedIn)
-            {
-                return;
-            }
-
-            infoEvent.Reset();
-
-            if (await GetAuthTokenAsync(token).ConfigureAwait(false) is not null)
-            {
-                await PrivateRefreshUserInfoAsync(token).ConfigureAwait(false);
-            }
-        }
-    }
-
-    public async ValueTask UseRedeemCodeAsync(string code, CancellationToken token = default)
-    {
-        using (await operationLock.LockAsync(nameof(UseRedeemCodeAsync)).ConfigureAwait(false))
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                HutaoRedeemCodeClient hutaoRedeemCodeClient = scope.ServiceProvider.GetRequiredService<HutaoRedeemCodeClient>();
-                HutaoResponse<RedeemUseResult> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(new(code), token).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
-                {
-                    return;
-                }
-
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await RefreshUserInfoAsync(token).ConfigureAwait(false);
-            }
-        }
-    }
-
+    // Remote:LoginAsync -> ThisCall:AcceptAuthTokenAsync
     public async ValueTask LoginAsync(string username, string password, bool resuming = false, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(LoginAsync)).ConfigureAwait(false))
@@ -230,6 +184,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    // Remote:RegisterAsync -> ThisCall:AcceptAuthTokenAsync
     public async ValueTask RegisterAsync(string username, string password, string verifyCode, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(RegisterAsync)).ConfigureAwait(false))
@@ -254,41 +209,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
-    public async ValueTask UnregisterAsync(string username, string password, string verifyCode, CancellationToken token = default)
-    {
-        using (await operationLock.LockAsync(nameof(UnregisterAsync)).ConfigureAwait(false))
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-                await hutaoPassportClient.RevokeAllTokensAsync(token).ConfigureAwait(false);
-                HutaoResponse response = await hutaoPassportClient.UnregisterAsync(username, password, verifyCode, token).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
-                {
-                    return;
-                }
-
-                await LogoutOrUnregisterAsync().ConfigureAwait(false);
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-            }
-        }
-    }
-
-    public async ValueTask LogoutAsync()
-    {
-        using (await operationLock.LockAsync(nameof(LogoutAsync)).ConfigureAwait(false))
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-                await hutaoPassportClient.RevokeTokenAsync(HutaoRuntime.DeviceId).ConfigureAwait(false);
-
-                await LogoutOrUnregisterAsync().ConfigureAwait(false);
-            }
-        }
-    }
-
+    // Remote:ResetUserNameAsync -> ThisCall:AcceptAuthTokenAsync
     public async ValueTask ResetUserNameAsync(string username, string newUserName, string verifyCode, string newVerifyCode, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(ResetUserNameAsync)).ConfigureAwait(false))
@@ -309,6 +230,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    // Remote:ResetPasswordAsync -> ThisCall:AcceptAuthTokenAsync
     public async ValueTask ResetPasswordAsync(string username, string password, string verifyCode, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(ResetPasswordAsync)).ConfigureAwait(false))
@@ -329,6 +251,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    // Remote:RefreshTokenAsync -> ThisCall:AcceptAuthTokenAsync
     public async ValueTask RefreshTokenAsync(string username, string refreshToken, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(RefreshTokenAsync)).ConfigureAwait(false))
@@ -348,6 +271,105 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    // ThisCall:GetAccessTokenAsync -> ThisCall:PrivateRefreshUserInfoAsync
+    public async ValueTask RefreshUserInfoAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(RefreshUserInfoAsync)).ConfigureAwait(false))
+        {
+            // Wait previous Info Event
+            await infoEvent.WaitAsync().ConfigureAwait(false);
+
+            if (!IsLoggedIn)
+            {
+                return;
+            }
+
+            infoEvent.Reset();
+
+            if (await GetAccessTokenAsync(token).ConfigureAwait(false) is { } accessToken)
+            {
+                await PrivateRefreshUserInfoAsync(accessToken, token).ConfigureAwait(false);
+            }
+        }
+    }
+
+    // ThisCall:GetAccessTokenAsync -> Remote:RevokeAllTokensAsync -> Remote:UnregisterAsync -> ThisCall:LogoutOrUnregisterAsync
+    public async ValueTask UnregisterAsync(string username, string password, string verifyCode, CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(UnregisterAsync)).ConfigureAwait(false))
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                string? accessToken = await GetAccessTokenAsync(token).ConfigureAwait(false);
+                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+                HutaoResponse revokeResponse = await hutaoPassportClient.RevokeAllTokensAsync(accessToken, token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(revokeResponse, scope.ServiceProvider))
+                {
+                    return;
+                }
+
+                HutaoResponse unregisterResponse = await hutaoPassportClient.UnregisterAsync(accessToken, username, password, verifyCode, token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(unregisterResponse, scope.ServiceProvider))
+                {
+                    return;
+                }
+
+                await LogoutOrUnregisterAsync().ConfigureAwait(false);
+                infoBarService.Information(unregisterResponse.GetLocalizationMessageOrMessage());
+            }
+        }
+    }
+
+    // ThisCall:GetAccessTokenAsync -> Remote:RevokeTokenAsync -> ThisCall:LogoutOrUnregisterAsync
+    public async ValueTask LogoutAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(LogoutAsync)).ConfigureAwait(false))
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                string? accessToken = await GetAccessTokenAsync(token).ConfigureAwait(false);
+                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+                HutaoResponse response = await hutaoPassportClient.RevokeTokenAsync(accessToken, HutaoRuntime.DeviceId, token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                {
+                    return;
+                }
+
+                await LogoutOrUnregisterAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
+    // ThisCall:GetAccessTokenAsync -> Remote:UseRedeemCodeAsync -> ThisCall:PrivateRefreshUserInfoAsync
+    public async ValueTask UseRedeemCodeAsync(string code, CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(UseRedeemCodeAsync)).ConfigureAwait(false))
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                // Allow unlogged-in users to redeem codes, which will prompt for login if necessary
+                string? accessToken = await GetAccessTokenAsync(token).ConfigureAwait(false);
+                HutaoRedeemCodeClient hutaoRedeemCodeClient = scope.ServiceProvider.GetRequiredService<HutaoRedeemCodeClient>();
+                HutaoResponse<RedeemUseResult> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(accessToken, new(code), token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                {
+                    return;
+                }
+
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    await PrivateRefreshUserInfoAsync(accessToken, token).ConfigureAwait(false);
+                }
+            }
+        }
+    }
+
+    // ThisCall:PrivateRefreshUserInfoAsync
     private async ValueTask AcceptAuthTokenAsync(string username, TokenSet tokenSet, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(AcceptAuthTokenAsync)).ConfigureAwait(false))
@@ -361,31 +383,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             IsLoggedIn = true;
             loginEvent.Set();
 
-            await PrivateRefreshUserInfoAsync(token).ConfigureAwait(false);
+            await PrivateRefreshUserInfoAsync(tokenSet.AccessToken, token).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask LogoutOrUnregisterAsync()
-    {
-        using (await operationLock.LockAsync(nameof(LogoutOrUnregisterAsync)).ConfigureAwait(false))
-        {
-            LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
-            LocalSetting.Set(SettingKeys.PassportRefreshToken, string.Empty);
-
-            await taskContext.SwitchToMainThreadAsync();
-            authTokenExpiration = default;
-            UserName = default;
-            IsLoggedIn = false;
-            IsDeveloper = false;
-            IsMaintainer = false;
-            IsHutaoCloudAllowed = false;
-            CloudExpireAt = default;
-            IsHutaoCdnAllowed = false;
-            CdnExpireAt = default;
-        }
-    }
-
-    private async ValueTask PrivateRefreshUserInfoAsync(CancellationToken token = default)
+    // Remote:GetUserInfoAsync
+    private async ValueTask PrivateRefreshUserInfoAsync(string accessToken, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(PrivateRefreshUserInfoAsync)).ConfigureAwait(false))
         {
@@ -393,7 +396,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             {
                 await taskContext.SwitchToBackgroundAsync();
                 HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-                Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
+                Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(accessToken, token).ConfigureAwait(false);
 
                 UserInfo? userInfo;
                 try
@@ -428,14 +431,35 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    // Clears the user data
+    private async ValueTask LogoutOrUnregisterAsync()
+    {
+        using (await operationLock.LockAsync(nameof(LogoutOrUnregisterAsync)).ConfigureAwait(false))
+        {
+            LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
+            LocalSetting.Set(SettingKeys.PassportRefreshToken, string.Empty);
+
+            await taskContext.SwitchToMainThreadAsync();
+            authTokenExpiration = default;
+            UserName = default;
+            IsLoggedIn = false;
+            IsDeveloper = false;
+            IsMaintainer = false;
+            IsHutaoCloudAllowed = false;
+            CloudExpireAt = default;
+            IsHutaoCdnAllowed = false;
+            CdnExpireAt = default;
+        }
+    }
+
     private readonly struct AuthTokenExpiration
     {
-        public readonly string Token;
+        public readonly string AccessToken;
         public readonly DateTimeOffset ExpireAt;
 
         public AuthTokenExpiration(TokenSet tokenSet)
         {
-            Token = tokenSet.AccessToken;
+            AccessToken = tokenSet.AccessToken;
             ExpireAt = DateTimeOffset.Now + TimeSpan.FromSeconds(tokenSet.ExpiresIn);
         }
     }
