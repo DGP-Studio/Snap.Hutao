@@ -1734,6 +1734,9 @@ Space Available: {2}</value>
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>Can't add archive with invalid name</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>复制成就 ID 成功</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF File</value>
   </data>
