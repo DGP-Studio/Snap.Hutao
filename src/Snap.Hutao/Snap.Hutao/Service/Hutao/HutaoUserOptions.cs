@@ -265,6 +265,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
                 if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out TokenSet? tokenSet))
                 {
+                    LocalSetting.Set(SettingKeys.PassportRefreshToken, string.Empty);
                     return;
                 }
 
