@@ -1734,6 +1734,9 @@
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>ไม่สามารถเพิ่มข้อมูลสำรองชื่อไม่ถูกต้อง</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>复制成就 ID 成功</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>ไฟล์ UIAF</value>
   </data>
