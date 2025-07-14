@@ -96,7 +96,12 @@
                 Style="{StaticResource BorderShimmerStyle}">
                 <Border.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                        <MenuFlyoutItem
+                            Command="{Binding Path=DataContext.CopyAchievementIdCommand, Source={StaticResource BindingProxy}}"
+                            CommandParameter="{Binding}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE8C8;}"
+                            Text="{Binding Inner.Id}"/>
                     </MenuFlyout>
                 </Border.ContextFlyout>
                 <Grid MinHeight="48" Padding="8">

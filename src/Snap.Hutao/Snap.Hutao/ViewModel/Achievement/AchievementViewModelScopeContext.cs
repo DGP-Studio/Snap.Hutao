@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Achievement;
@@ -27,6 +28,8 @@ internal sealed partial class AchievementViewModelScopeContext
     public partial LaunchGameViewModel LaunchGameViewModel { get; }
 
     public partial IAchievementService AchievementService { get; }
+
+    public partial IClipboardProvider ClipboardProvider { get; }
 
     public partial IServiceProvider ServiceProvider { get; }
 
