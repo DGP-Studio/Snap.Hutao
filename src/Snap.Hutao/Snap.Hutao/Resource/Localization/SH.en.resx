@@ -585,6 +585,9 @@
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>Uploaded {1} wish records to UID: {0}, {2} records saved</value>
   </data>
+  <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
+    <value>设备 ID 不能为空</value>
+  </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Please login or register Snap Hutao account first</value>
   </data>
@@ -594,11 +597,20 @@
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
     <value>Password is not allowed to be shorter than 8 characters</value>
   </data>
+  <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
+    <value>刷新令牌不能为空</value>
+  </data>
+  <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
+    <value>刷新令牌无效或已过期</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Register successfully</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>Password has been set successfully</value>
+  </data>
+  <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
+    <value>新密码不能与旧密码相同</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Current email address is not registered</value>
@@ -614,6 +626,12 @@
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>User does not exist, failed to delete account</value>
+  </data>
+  <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
+    <value>令牌撤销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
+    <value>令牌撤销成功</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Unregister successfully</value>
