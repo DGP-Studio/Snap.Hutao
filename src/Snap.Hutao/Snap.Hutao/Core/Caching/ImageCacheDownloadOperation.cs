@@ -41,68 +41,67 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
             .SetRequestUri(uri)
             .SetStaticResourceControlHeadersIfRequired()
             .Get();
-
-            using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
+        using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
+        {
+            HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            using (responseMessage)
             {
-                HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                using (responseMessage)
+                if (!responseMessage.IsSuccessStatusCode)
                 {
-                    if (!responseMessage.IsSuccessStatusCode)
+                    throw responseMessage.StatusCode switch
                     {
-                        throw responseMessage.StatusCode switch
-                        {
-                            HttpStatusCode.NotFound => InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'"),
-                            _ => InternalImageCacheException.Throw($"Unexpected HTTP status code {responseMessage.StatusCode}")
-                        };
+                        HttpStatusCode.NotFound => InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'"),
+                        _ => InternalImageCacheException.Throw($"Unexpected HTTP status code {responseMessage.StatusCode}"),
+                    };
+                }
+
+                if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
+                {
+                    return;
+                }
+
+                using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
+                    string? directoryName = Path.GetDirectoryName(baseFile);
+                    ArgumentException.ThrowIfNullOrEmpty(directoryName);
+                    try
+                    {
+                        Directory.CreateDirectory(directoryName);
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        throw InternalImageCacheException.Throw($"Unable to create folder at '{directoryName}'");
                     }
 
-                    if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
+                    FileStream fileStream;
+                    try
                     {
-                        return;
+                        fileStream = File.Create(baseFile);
+                    }
+                    catch (IOException ex)
+                    {
+                        // The process cannot access the file '?' because it is being used by another process.
+                        throw InternalImageCacheException.Throw($"Unable to create file at '{baseFile}'", ex);
                     }
 
-                    using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    try
                     {
-                        string? directoryName = Path.GetDirectoryName(baseFile);
-                        ArgumentException.ThrowIfNullOrEmpty(directoryName);
-                        try
+                        using (fileStream)
                         {
-                            Directory.CreateDirectory(directoryName);
+                            await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
                         }
-                        catch (DirectoryNotFoundException)
-                        {
-                            throw InternalImageCacheException.Throw($"Unable to create folder at '{directoryName}'");
-                        }
-
-                        FileStream fileStream;
-                        try
-                        {
-                            fileStream = File.Create(baseFile);
-                        }
-                        catch (IOException ex)
-                        {
-                            // The process cannot access the file '?' because it is being used by another process.
-                            throw InternalImageCacheException.Throw($"Unable to create file at '{baseFile}'", ex);
-                        }
-
-                        try
-                        {
-                            using (fileStream)
-                            {
-                                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
-                            }
-                        }
-                        catch (IOException ex)
-                        {
-                            // Received an unexpected EOF or 0 bytes from the transport stream.
-                            // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
-                            // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
-                            // HttpIOException: The response ended prematurely. (ResponseEnded)
-                            // 磁盘空间不足。 : '?'.
-                            throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
-                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        // Received an unexpected EOF or 0 bytes from the transport stream.
+                        // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
+                        // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
+                        // HttpIOException: The response ended prematurely. (ResponseEnded)
+                        // 磁盘空间不足。 : '?'.
+                        throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
                     }
                 }
             }
+        }
     }
 }

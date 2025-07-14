@@ -18,7 +18,6 @@ using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 
 namespace Snap.Hutao.Service.Metadata;

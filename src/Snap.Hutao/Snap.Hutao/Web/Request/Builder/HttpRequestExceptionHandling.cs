@@ -56,21 +56,6 @@ internal static class HttpRequestExceptionHandling
         return false;
     }
 
-    private static bool TryHandleGenericApiRequest(StringBuilder messageBuilder, HttpRequestMessageBuilder builder, Exception ex, Uri? uri)
-    {
-        IInfrastructureEndpoints endpoints = builder.ServiceProvider.GetRequiredService<IHutaoEndpointsFactory>().Create();
-        if (uri is not null && string.Equals(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped), endpoints.Root))
-        {
-            if (ex is HttpRequestException { StatusCode: (HttpStatusCode)418 or HttpStatusCode.UnavailableForLegalReasons })
-            {
-                messageBuilder.AppendLine(SH.ServiceMetadataVersionNotSupported);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public static bool FormatException(StringBuilder builder, Exception ex, string? url)
     {
         if (ex is HttpRequestException httpRequestException)
@@ -295,5 +280,20 @@ internal static class HttpRequestExceptionHandling
         }
 
         return NetworkError.NULL;
+    }
+
+    private static bool TryHandleGenericApiRequest(StringBuilder messageBuilder, HttpRequestMessageBuilder builder, Exception ex, Uri? uri)
+    {
+        IInfrastructureEndpoints endpoints = builder.ServiceProvider.GetRequiredService<IHutaoEndpointsFactory>().Create();
+        if (uri is not null && string.Equals(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped), endpoints.Root))
+        {
+            if (ex is HttpRequestException { StatusCode: (HttpStatusCode)418 or HttpStatusCode.UnavailableForLegalReasons })
+            {
+                messageBuilder.AppendLine(SH.ServiceMetadataVersionNotSupported);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

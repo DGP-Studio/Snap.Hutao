@@ -255,7 +255,10 @@ internal sealed partial class GamePackageService : IGamePackageService
             return default;
         }
 
-        // If we call this overload directly, we need to add version check here to ensure the patch contains local version.
+        if (patchBuild.Manifests.Any(m => !m.Stats.ContainsKey(version)))
+        {
+            return default;
+        }
 
         long downloadTotalBytes = 0L;
         long downloadFileCount = 0L;

@@ -36,7 +36,6 @@ internal static class AchievementFilter
     public static Predicate<AchievementView>? CompileForVersion(bool filterDailyQuest, string version)
     {
         return view => DailyQuestComponent(view, filterDailyQuest) && VersionComponent(view, version);
-
     }
 
     public static Predicate<AchievementView>? CompileForTitleOrDescription(bool filterDailyQuest, string search)

@@ -32,7 +32,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (!await InitializeUserAsync(user, token).ConfigureAwait(false))
         {
             user.UserInfo = new()
-            { 
+            {
                 Uid = SH.ModelBindingUserInitializationFailed,
                 Nickname = SH.ModelBindingUserInitializationFailed,
             };
