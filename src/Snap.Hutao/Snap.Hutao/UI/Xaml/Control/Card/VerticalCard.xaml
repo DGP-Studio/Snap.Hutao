@@ -20,14 +20,16 @@
                             </Grid.RowDefinitions>
                             <Border
                                 x:Name="ContentHost"
+                                HorizontalAlignment="{TemplateBinding HorizontalTopAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalTopAlignment}"
                                 cw:FrameworkElementExtensions.EnableActualSizeBinding="True"
                                 Child="{TemplateBinding Top}"/>
                             <Border
                                 Grid.Row="1"
                                 MaxWidth="{Binding (cw:FrameworkElementExtensions.ActualWidth), ElementName=ElementName, Mode=OneWay}"
                                 Padding="{TemplateBinding BottomPadding}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="{TemplateBinding HorizontalBottomAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalBottomAlignment}"
                                 Child="{TemplateBinding Bottom}"/>
                         </Grid>
                     </Border>

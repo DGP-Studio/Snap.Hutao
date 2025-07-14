@@ -7,6 +7,8 @@ namespace Snap.Hutao.UI.Xaml.Media.Animation;
 
 internal static class Constants
 {
+    public const string Zero = "0";
+
     public const string One = "1";
 
     public const string OnePointOne = "1.1";

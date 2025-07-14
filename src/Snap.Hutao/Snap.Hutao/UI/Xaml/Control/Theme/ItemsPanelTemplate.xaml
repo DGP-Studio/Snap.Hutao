@@ -42,6 +42,9 @@
     <ItemsPanelTemplate x:Key="StackPanelSpacing8Template">
         <StackPanel Spacing="8"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="StackPanelSpacing12Template">
+        <StackPanel Spacing="12"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="UniformGridColumns2Spacing2Template">
         <cwcont:UniformGrid
             ColumnSpacing="2"

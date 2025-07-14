@@ -3,12 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
@@ -17,6 +19,7 @@
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
     d:DataContext="{d:DesignInstance shva:AvatarPropertyViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -81,7 +84,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarGridViewTemplate" x:DataType="shva:AvatarView">
-                <Grid Style="{ThemeResource GridCardStyle}">
+                <Grid Style="{ThemeResource GridShimmerStyle}">
 
                     <Border
                         Grid.ColumnSpan="3"
@@ -294,8 +297,9 @@
 
             <DataTemplate x:Key="AvatarPropertyTemplate" x:DataType="shva:AvatarProperty">
                 <Grid
-                    Padding="16,8"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Margin="-1,0"
+                    Padding="16,12"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                     BorderThickness="0,1,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -334,7 +338,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarReliquarySubPropertyTemplate" x:DataType="shva:ReliquaryComposedSubProperty">
-                <Grid ColumnSpacing="6">
+                <Grid Padding="12,0" ColumnSpacing="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
@@ -371,13 +375,18 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarReliquaryTemplate" x:DataType="shva:ReliquaryView">
-                <Grid Style="{ThemeResource GridCardStyle}">
+                <Grid Style="{ThemeResource GridShimmerStyle}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Grid
+                        Grid.Row="0"
+                        Padding="12"
+                        ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
@@ -386,7 +395,6 @@
                             Grid.Column="0"
                             Width="48"
                             Height="48"
-                            Margin="8"
                             Icon="{Binding Icon}"
                             Quality="{Binding Quality}"/>
                         <Grid Grid.Column="1">
@@ -402,38 +410,33 @@
                     <Rectangle
                         Grid.Row="1"
                         Height="1"
-                        Fill="{ThemeResource ControlElevationBorderBrush}"/>
-                    <Grid
-                        Grid.Row="2"
-                        Margin="8"
-                        RowSpacing="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <!--  主属性  -->
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                FontWeight="Bold"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding MainProperty.Name}"/>
-                            <TextBlock
-                                Grid.Column="1"
-                                FontWeight="Bold"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding MainProperty.Value}"/>
-                        </Grid>
-                        <ItemsControl
-                            Grid.Row="1"
-                            ItemTemplate="{StaticResource AvatarReliquarySubPropertyTemplate}"
-                            ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
-                            ItemsSource="{Binding ComposedSubProperties}"/>
+                        Fill="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+                    <!--  主属性  -->
+                    <Grid Grid.Row="2" Padding="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            FontWeight="Bold"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding MainProperty.Name}"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            FontWeight="Bold"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding MainProperty.Value}"/>
                     </Grid>
+                    <Rectangle
+                        Grid.Row="3"
+                        Height="1"
+                        Fill="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+                    <ItemsControl
+                        Grid.Row="4"
+                        Margin="0,12"
+                        ItemTemplate="{StaticResource AvatarReliquarySubPropertyTemplate}"
+                        ItemsPanel="{ThemeResource StackPanelSpacing12Template}"
+                        ItemsSource="{Binding ComposedSubProperties}"/>
                 </Grid>
             </DataTemplate>
 
@@ -684,6 +687,7 @@
                                                                 Source="{Binding Summary.Avatars.CurrentItem.NameCard}"
                                                                 Stretch="UniformToFill"/>
                                                         </cwcont:ConstrainedBox>
+
                                                         <Border
                                                             Grid.Row="0"
                                                             Grid.RowSpan="2"
@@ -831,19 +835,22 @@
                                                 </Border>
 
                                                 <!--  角色属性  -->
-                                                <Expander
-                                                    Padding="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Stretch"
-                                                    Background="{x:Null}"
-                                                    Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyHeader}">
-                                                    <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="{ThemeResource ControlCornerRadiusBottom}">
-                                                        <ItemsControl
-                                                            Margin="0,-1,0,0"
-                                                            ItemTemplate="{StaticResource AvatarPropertyTemplate}"
-                                                            ItemsSource="{Binding Summary.Avatars.CurrentItem.Properties}"/>
-                                                    </Border>
-                                                </Expander>
+                                                <Border Style="{ThemeResource BorderShimmerStyle}">
+                                                    <Expander
+                                                        Padding="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Background="{x:Null}"
+                                                        BorderThickness="0"
+                                                        Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyHeader}">
+
+                                                        <Border Margin="0" BorderThickness="0">
+                                                            <ItemsControl ItemTemplate="{StaticResource AvatarPropertyTemplate}" ItemsSource="{Binding Summary.Avatars.CurrentItem.Properties}"/>
+                                                        </Border>
+                                                    </Expander>
+                                                </Border>
+
+
                                                 <Grid ColumnSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
@@ -852,42 +859,40 @@
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <shuxcc:VerticalCard Grid.Column="0">
+                                                    <shuxcc:VerticalCard Grid.Column="0" HorizontalBottomAlignment="Left">
                                                         <shuxcc:VerticalCard.Top>
                                                             <TextBlock
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=UIViewPageAvatarPropertyRecommendedSandProperties}"/>
                                                         </shuxcc:VerticalCard.Top>
                                                         <shuxcc:VerticalCard.Bottom>
-                                                            <Grid HorizontalAlignment="Stretch">
-                                                                <ItemsControl
-                                                                    Margin="8"
-                                                                    VerticalAlignment="Center"
-                                                                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
-                                                                    ItemsSource="{Binding Summary.Avatars.CurrentItem.RecommendedProperties.SandProperties}"/>
-                                                            </Grid>
+                                                            <ItemsControl
+                                                                Margin="12"
+                                                                VerticalAlignment="Center"
+                                                                ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                                                                ItemsSource="{Binding Summary.Avatars.CurrentItem.RecommendedProperties.SandProperties}"/>
                                                         </shuxcc:VerticalCard.Bottom>
                                                     </shuxcc:VerticalCard>
                                                     <Image
                                                         Grid.Column="0"
-                                                        MaxWidth="48"
-                                                        MaxHeight="48"
-                                                        Margin="0,0,4,4"
+                                                        Width="48"
+                                                        Height="48"
+                                                        Margin="0,0,0,0"
                                                         HorizontalAlignment="Right"
-                                                        VerticalAlignment="Bottom"
+                                                        VerticalAlignment="Center"
                                                         Source="ms-appx:///Resource/Icon/UI_Icon_RelicType3.png"/>
 
-                                                    <shuxcc:VerticalCard Grid.Column="1">
+                                                    <shuxcc:VerticalCard Grid.Column="1" HorizontalBottomAlignment="Left">
                                                         <shuxcc:VerticalCard.Top>
                                                             <TextBlock
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=UIViewPageAvatarPropertyRecommendedGobletProperties}"/>
                                                         </shuxcc:VerticalCard.Top>
                                                         <shuxcc:VerticalCard.Bottom>
                                                             <ItemsControl
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 VerticalAlignment="Center"
                                                                 ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                                                                 ItemsSource="{Binding Summary.Avatars.CurrentItem.RecommendedProperties.GobletProperties}"/>
@@ -895,23 +900,23 @@
                                                     </shuxcc:VerticalCard>
                                                     <Image
                                                         Grid.Column="1"
-                                                        MaxWidth="48"
-                                                        MaxHeight="48"
-                                                        Margin="0,0,4,4"
+                                                        Width="48"
+                                                        Height="48"
+                                                        Margin="0,0,0,0"
                                                         HorizontalAlignment="Right"
-                                                        VerticalAlignment="Bottom"
+                                                        VerticalAlignment="Center"
                                                         Source="ms-appx:///Resource/Icon/UI_Icon_RelicType4.png"/>
 
-                                                    <shuxcc:VerticalCard Grid.Column="2">
+                                                    <shuxcc:VerticalCard Grid.Column="2" HorizontalBottomAlignment="Left">
                                                         <shuxcc:VerticalCard.Top>
                                                             <TextBlock
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=UIViewPageAvatarPropertyRecommendedCircletProperties}"/>
                                                         </shuxcc:VerticalCard.Top>
                                                         <shuxcc:VerticalCard.Bottom>
                                                             <ItemsControl
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 VerticalAlignment="Center"
                                                                 ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                                                                 ItemsSource="{Binding Summary.Avatars.CurrentItem.RecommendedProperties.CircletProperties}"/>
@@ -919,23 +924,23 @@
                                                     </shuxcc:VerticalCard>
                                                     <Image
                                                         Grid.Column="2"
-                                                        MaxWidth="48"
-                                                        MaxHeight="48"
-                                                        Margin="0,0,4,4"
+                                                        Width="48"
+                                                        Height="48"
+                                                        Margin="0,0,0,0"
                                                         HorizontalAlignment="Right"
-                                                        VerticalAlignment="Bottom"
+                                                        VerticalAlignment="Center"
                                                         Source="ms-appx:///Resource/Icon/UI_Icon_RelicType5.png"/>
 
-                                                    <shuxcc:VerticalCard Grid.Column="3">
+                                                    <shuxcc:VerticalCard Grid.Column="3" HorizontalBottomAlignment="Left">
                                                         <shuxcc:VerticalCard.Top>
                                                             <TextBlock
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=UIViewPageAvatarPropertyRecommendedAppendProperties}"/>
                                                         </shuxcc:VerticalCard.Top>
                                                         <shuxcc:VerticalCard.Bottom>
                                                             <ItemsControl
-                                                                Margin="8"
+                                                                Margin="12"
                                                                 VerticalAlignment="Center"
                                                                 ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                                                                 ItemsSource="{Binding Summary.Avatars.CurrentItem.RecommendedProperties.SubProperties}"/>

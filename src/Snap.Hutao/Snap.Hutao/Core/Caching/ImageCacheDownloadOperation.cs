@@ -41,6 +41,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
             .SetRequestUri(uri)
             .SetStaticResourceControlHeadersIfRequired()
             .Get();
+
         using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
         {
             HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
