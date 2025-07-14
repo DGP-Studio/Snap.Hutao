@@ -585,6 +585,9 @@
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>Загружено Uid: {0} из {1} записи желаний, Сохранено {2} записей</value>
   </data>
+  <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
+    <value>设备 ID 不能为空</value>
+  </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Пожалуйста, сначала войдите или зарегистрируйтесь Snap Hutao аккаунт</value>
   </data>
@@ -594,11 +597,20 @@
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
     <value>密码长度不能小于 8 位</value>
   </data>
+  <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
+    <value>刷新令牌不能为空</value>
+  </data>
+  <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
+    <value>刷新令牌无效或已过期</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Регистрация успешна</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>Новый пароль установлен успешно</value>
+  </data>
+  <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
+    <value>新密码不能与旧密码相同</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Текущий адрес электронной почты еще не зарегистрирован</value>
@@ -614,6 +626,12 @@
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Пользователь не существует, отмена не удалась</value>
+  </data>
+  <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
+    <value>令牌撤销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
+    <value>令牌撤销成功</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Пользователь успешно отменен</value>
