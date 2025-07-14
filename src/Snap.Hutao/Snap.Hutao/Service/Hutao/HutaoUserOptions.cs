@@ -40,10 +40,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             if (SetProperty(ref field, value))
             {
-                SentrySdk.ConfigureScope(static (scope, userName) =>
-                {
-                    scope.User.Email = string.IsNullOrEmpty(userName) || !userName.IsEmail() ? default : userName;
-                }, value);
+                SentrySdk.ConfigureScope(
+                    static (scope, userName) =>
+                    {
+                        scope.User.Email = string.IsNullOrEmpty(userName) || !userName.IsEmail() ? default : userName;
+                    },
+                    value);
             }
         }
     } = SH.ViewServiceHutaoUserLoginOrRegisterHint;

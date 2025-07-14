@@ -5,7 +5,6 @@ using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;

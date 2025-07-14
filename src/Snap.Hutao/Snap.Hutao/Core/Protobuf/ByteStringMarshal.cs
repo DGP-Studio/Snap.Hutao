@@ -12,6 +12,8 @@ internal static class ByteStringMarshal
     /// Creates a new ByteString from the given memory. The memory is <b>not</b>
     /// copied, and must not be modified after this method is called.
     /// </summary>
+    /// <param name="bytes">source bytes</param>
+    /// <returns>A new ByteString instance</returns>
     public static ByteString Create(ReadOnlyMemory<byte> bytes)
     {
         return CreateByteString(bytes);
