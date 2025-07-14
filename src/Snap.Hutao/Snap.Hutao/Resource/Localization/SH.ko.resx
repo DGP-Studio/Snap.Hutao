@@ -1734,6 +1734,9 @@
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>잘못된 이름을 가진 아카이브를 추가할 수 없음</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>复制成就 ID 成功</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 파일</value>
   </data>
