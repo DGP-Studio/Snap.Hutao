@@ -837,13 +837,16 @@
                                                 <!--  角色属性  -->
                                                 <Border Style="{ThemeResource BorderShimmerStyle}">
                                                     <Expander
+                                                        Margin="0"
                                                         Padding="0"
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
                                                         Background="{x:Null}"
                                                         BorderThickness="0"
                                                         Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyHeader}">
-
+                                                        <Expander.Resources>
+                                                            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                        </Expander.Resources>
                                                         <Border Margin="0" BorderThickness="0">
                                                             <ItemsControl ItemTemplate="{StaticResource AvatarPropertyTemplate}" ItemsSource="{Binding Summary.Avatars.CurrentItem.Properties}"/>
                                                         </Border>
