@@ -56,6 +56,11 @@ internal sealed class ResinStatisticsItem
         get => canUseCondensedResin ? (int)Math.Ceiling(TotalResin / 40D) : null;
     }
 
+    public int? FragileResin
+    {
+        get => canUseCondensedResin ? (int)Math.Ceiling(TotalResin / 60D) : null;
+    }
+
     public string Days
     {
         get => SH.FormatViewModelCultivationResinStatisticsItemRemainDays((int)Math.Ceiling(TotalResin / (1440D / 8)));
