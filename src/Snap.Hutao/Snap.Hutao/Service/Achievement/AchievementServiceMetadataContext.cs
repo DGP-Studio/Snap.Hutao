@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 using System.Collections.Immutable;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 

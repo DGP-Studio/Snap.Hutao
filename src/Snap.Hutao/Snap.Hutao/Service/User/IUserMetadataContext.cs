@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
 
 namespace Snap.Hutao.Service.User;
 

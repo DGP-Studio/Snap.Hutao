@@ -267,6 +267,9 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
+  </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>角色</value>
   </data>

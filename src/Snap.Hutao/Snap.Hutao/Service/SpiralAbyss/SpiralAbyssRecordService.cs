@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -51,40 +52,39 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
+            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
+            IGameRecordClient gameRecordClient = gameRecordClientFactory.Create(userAndUid.IsOversea);
 
             // request the index first
-            await gameRecordClientFactory
-                .Create(userAndUid.IsOversea)
+            Response<PlayerInfo> infoResponse = await gameRecordClient
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            await PrivateRefreshSpiralAbyssAsync(context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
-            await PrivateRefreshSpiralAbyssAsync(context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(infoResponse, infoBarService))
+            {
+                return;
+            }
+
+            await PrivateRefreshSpiralAbyssAsync(infoBarService, gameRecordClient, context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await PrivateRefreshSpiralAbyssAsync(infoBarService, gameRecordClient, context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask PrivateRefreshSpiralAbyssAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
+    private async ValueTask PrivateRefreshSpiralAbyssAsync(IInfoBarService infoBarService, IGameRecordClient gameRecordClient, SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
     {
         if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
         {
             return;
         }
 
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss;
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, schedule)
+            .ConfigureAwait(false);
+
+        if (!ResponseValidator.TryValidate(response, infoBarService, out Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss))
         {
-            IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
-
-            Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
-                .Create(userAndUid.IsOversea)
-                .GetSpiralAbyssAsync(userAndUid, schedule)
-                .ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out webSpiralAbyss))
-            {
-                return;
-            }
+            return;
         }
 
         int index = spiralAbysses.FirstIndexOf(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
@@ -105,7 +105,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         }
         else
         {
-            SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
+            SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
             spiralAbyssRecordRepository.AddSpiralAbyssEntry(newEntry);
             targetEntry = newEntry;
         }

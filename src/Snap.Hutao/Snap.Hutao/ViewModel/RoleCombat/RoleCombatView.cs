@@ -8,14 +8,19 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 using System.Collections.Immutable;
-using RoleCombatSchedule = Snap.Hutao.Model.Metadata.RoleCombatSchedule;
+using MetadataRoleCombatSchedule = Snap.Hutao.Model.Metadata.RoleCombatSchedule;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
 internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, IAdvancedCollectionViewItem
 {
     private RoleCombatView(RoleCombatEntry entity, RoleCombatMetadataContext context)
-        : this(context.IdRoleCombatScheduleMap[entity.ScheduleId], context)
+        : this(entity, context.IdRoleCombatScheduleMap[entity.ScheduleId], context)
+    {
+    }
+
+    private RoleCombatView(RoleCombatEntry entity, MetadataRoleCombatSchedule roleCombatSchedule, RoleCombatMetadataContext context)
+        : this(roleCombatSchedule, context)
     {
         Entity = entity;
 
@@ -35,7 +40,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
                 .ThenByDescending(static avatar => avatar.AvatarId.Value)
                 .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
         ];
-        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (r, state) => RoundView.From(r, state.offset, state.context), (offset, context));
+        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (r, state) => RoundView.Create(r, state.offset, state.context), (offset, context));
         TotalBattleTimes = roleCombatData.Detail.FightStatistics.TotalUseTime;
 
         if (roleCombatData.Detail.FightStatistics.IsShowBattleStats)
@@ -49,7 +54,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         Engaged = true;
     }
 
-    private RoleCombatView(RoleCombatSchedule roleCombatSchedule, RoleCombatMetadataContext context)
+    private RoleCombatView(MetadataRoleCombatSchedule roleCombatSchedule, RoleCombatMetadataContext context)
     {
         ScheduleId = roleCombatSchedule.Id;
         FormattedTime = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
@@ -104,9 +109,9 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         return new(entity, context);
     }
 
-    public static RoleCombatView Create(RoleCombatEntry? entity, RoleCombatSchedule meta, RoleCombatMetadataContext context)
+    public static RoleCombatView Create(RoleCombatEntry? entity, MetadataRoleCombatSchedule meta, RoleCombatMetadataContext context)
     {
-        return entity is not null ? new(entity, context) : new(meta, context);
+        return entity is not null ? new(entity, meta, context) : new(meta, context);
     }
 
     private static ImmutableArray<AvatarDamage> ToAvatarDamages(ImmutableArray<RoleCombatAvatarStatistics> avatarDamages, RoleCombatMetadataContext context)

@@ -12,7 +12,12 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>, IAdvancedCollectionViewItem
 {
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
-        : this(context.IdTowerScheduleMap[entity.ScheduleId], context)
+        : this(entity, context.IdTowerScheduleMap[entity.ScheduleId], context)
+    {
+    }
+
+    private SpiralAbyssView(SpiralAbyssEntry entity, TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
+        : this(towerSchedule, context)
     {
         Entity = entity;
 
@@ -41,7 +46,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
     private SpiralAbyssView(TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
     {
         ScheduleId = towerSchedule.Id;
-        TimeFormatted = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
+        FormattedTime = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
@@ -54,7 +59,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public SpiralAbyssEntry? Entity { get; }
 
-    public string TimeFormatted { get; }
+    public string FormattedTime { get; }
 
     public string BlessingName { get; }
 
@@ -68,7 +73,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public string MaxFloor { get; } = default!;
 
-    public List<RankAvatar> Reveals { get; } = default!;
+    public ImmutableArray<RankAvatar> Reveals { get; } = default!;
 
     public RankAvatar? Defeat { get; }
 
@@ -89,12 +94,12 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public static SpiralAbyssView From(SpiralAbyssEntry? entity, TowerSchedule meta, SpiralAbyssMetadataContext context)
     {
-        return entity is not null ? new(entity, context) : new(meta, context);
+        return entity is not null ? new(entity, meta, context) : new(meta, context);
     }
 
-    private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
+    private static ImmutableArray<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
     {
-        return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).ToList();
+        return [.. ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId]))];
     }
 
     private static RankAvatar? ToRankAvatar(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)

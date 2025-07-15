@@ -39,7 +39,7 @@ internal sealed class RoundView
 
     internal DateTimeOffset FinishTime { get; }
 
-    public static RoundView From(RoleCombatRoundData data, in TimeSpan offset, RoleCombatMetadataContext context)
+    public static RoundView Create(RoleCombatRoundData data, in TimeSpan offset, RoleCombatMetadataContext context)
     {
         return new(data, offset, context);
     }

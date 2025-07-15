@@ -14,6 +14,7 @@ internal static class MetadataFileStrategies
     public static readonly MetadataFileStrategy Combine = new("Combine");
     public static readonly MetadataFileStrategy DisplayItem = new("DisplayItem");
     public static readonly MetadataFileStrategy GachaEvent = new("GachaEvent");
+    public static readonly MetadataFileStrategy HardChallengeSchedule = new("HardChallengeSchedule");
     public static readonly MetadataFileStrategy HyperLinkName = new("HyperLinkName");
     public static readonly MetadataFileStrategy Material = new("Material");
     public static readonly MetadataFileStrategy Monster = new("Monster");

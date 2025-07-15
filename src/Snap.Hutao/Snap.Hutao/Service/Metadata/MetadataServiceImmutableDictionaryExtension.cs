@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -46,18 +47,12 @@ internal static class MetadataServiceImmutableDictionaryExtension
 
     public static ValueTask<ImmutableDictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<AchievementId, Model.Metadata.Achievement.Achievement>(
-            MetadataFileStrategies.Achievement,
-            a => a.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<AchievementId, Model.Metadata.Achievement.Achievement>(MetadataFileStrategies.Achievement, token);
     }
 
     public static ValueTask<ImmutableDictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<AvatarId, Avatar>(
-            MetadataFileStrategies.Avatar,
-            a => a.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<AvatarId, Avatar>(MetadataFileStrategies.Avatar, token);
     }
 
     public static ValueTask<ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>>> GetIdToAvatarPromoteGroupMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -93,20 +88,19 @@ internal static class MetadataServiceImmutableDictionaryExtension
         return result;
     }
 
+    public static ValueTask<ImmutableDictionary<HardChallengeScheduleId, HardChallengeSchedule>> GetIdToHardChallengeScheduleMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<HardChallengeScheduleId, HardChallengeSchedule>(MetadataFileStrategies.HardChallengeSchedule, token);
+    }
+
     public static ValueTask<ImmutableDictionary<HyperLinkNameId, HyperLinkName>> GetIdToHyperLinkNameMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<HyperLinkNameId, HyperLinkName>(
-            MetadataFileStrategies.HyperLinkName,
-            h => h.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<HyperLinkNameId, HyperLinkName>(MetadataFileStrategies.HyperLinkName, token);
     }
 
     public static ValueTask<ImmutableDictionary<MaterialId, Material>> GetIdToMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<MaterialId, Material>(
-            MetadataFileStrategies.Material,
-            a => a.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<MaterialId, Material>(MetadataFileStrategies.Material, token);
     }
 
     public static ValueTask<ImmutableDictionary<ReliquaryId, Reliquary>> GetIdToReliquaryMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -136,42 +130,27 @@ internal static class MetadataServiceImmutableDictionaryExtension
 
     public static ValueTask<ImmutableDictionary<ReliquarySubAffixId, ReliquarySubAffix>> GetIdToReliquarySubAffixMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<ReliquarySubAffixId, ReliquarySubAffix>(
-            MetadataFileStrategies.ReliquarySubAffix,
-            a => a.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<ReliquarySubAffixId, ReliquarySubAffix>(MetadataFileStrategies.ReliquarySubAffix, token);
     }
 
     public static ValueTask<ImmutableDictionary<RoleCombatScheduleId, RoleCombatSchedule>> GetIdToRoleCombatScheduleMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<RoleCombatScheduleId, RoleCombatSchedule>(
-            MetadataFileStrategies.RoleCombatSchedule,
-            r => r.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<RoleCombatScheduleId, RoleCombatSchedule>(MetadataFileStrategies.RoleCombatSchedule, token);
     }
 
     public static ValueTask<ImmutableDictionary<TowerFloorId, TowerFloor>> GetIdToTowerFloorMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<TowerFloorId, TowerFloor>(
-            MetadataFileStrategies.TowerFloor,
-            t => t.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<TowerFloorId, TowerFloor>(MetadataFileStrategies.TowerFloor, token);
     }
 
     public static ValueTask<ImmutableDictionary<TowerScheduleId, TowerSchedule>> GetIdToTowerScheduleMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<TowerScheduleId, TowerSchedule>(
-            MetadataFileStrategies.TowerSchedule,
-            t => t.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<TowerScheduleId, TowerSchedule>(MetadataFileStrategies.TowerSchedule, token);
     }
 
     public static ValueTask<ImmutableDictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<WeaponId, Weapon>(
-            MetadataFileStrategies.Weapon,
-            w => w.Id,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync<WeaponId, Weapon>(MetadataFileStrategies.Weapon, token);
     }
 
     public static ValueTask<ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>>> GetIdToWeaponPromoteGroupMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -241,6 +220,13 @@ internal static class MetadataServiceImmutableDictionaryExtension
             MetadataFileStrategies.Combine,
             c => c.Result.Id,
             token);
+    }
+
+    private static ValueTask<ImmutableDictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue>(this IMetadataService metadataService, MetadataFileStrategy strategy, CancellationToken token)
+        where TKey : notnull
+        where TValue : class, IDefaultIdentity<TKey>
+    {
+        return FromCacheAsDictionaryAsync<TKey, TValue>(metadataService, strategy, v => v.Id, token);
     }
 
     private static async ValueTask<ImmutableDictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue>(this IMetadataService metadataService, MetadataFileStrategy strategy, Func<TValue, TKey> keySelector, CancellationToken token)

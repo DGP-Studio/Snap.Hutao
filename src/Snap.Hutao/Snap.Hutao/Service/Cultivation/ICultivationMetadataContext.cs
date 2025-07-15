@@ -4,6 +4,8 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 
 namespace Snap.Hutao.Service.Cultivation;
 
