@@ -586,7 +586,7 @@
     <value>UID: {0} の祈願履歴を {1} 件アップロードしました。保存済みは {2} 件です。</value>
   </data>
   <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
-    <value>设备 ID 不能为空</value>
+    <value>デバイス ID は空にできません</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>最初に胡桃アカウントにログインするか、アカウントを登録してください。</value>
@@ -598,10 +598,10 @@
     <value>パスワードの長さは 8 文字未満にはできません</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>リフレッシュトークンは空にできません</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>リフレッシュトークンが無効または期限切れです</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>登録が完了しました</value>
@@ -610,7 +610,7 @@
     <value>新しいパスワードを設定しました</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>新しいパスワードは古いパスワードと同じにはできません</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>このメールアドレスは登録されていません。</value>
@@ -628,10 +628,10 @@
     <value>ユーザーが存在しないため、削除できません</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>トークンの取り消しに失敗しました</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>トークンの取り消しに成功しました</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>アカウントを削除しました</value>
@@ -1754,7 +1754,7 @@
     <value>無効な文字を含むアーカイブは作成できません</value>
   </data>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
-    <value>复制成就 ID 成功</value>
+    <value>実績 ID をコピーしました</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
