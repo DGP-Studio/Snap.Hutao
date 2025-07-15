@@ -147,7 +147,7 @@
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
             <StackPanel HorizontalAlignment="Stretch" Spacing="12">
-                <StackPanel Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                <StackPanel Visibility="{Binding Avatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}">
                     <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
                     <ItemsControl
                         Margin="0,8,0,0"
@@ -159,7 +159,7 @@
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{Binding Time}"
-                    Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}"/>
+                    Visibility="{Binding Avatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}"/>
                 <StackPanel HorizontalAlignment="Left">
                     <clw:TokenItem
                         Margin="0,0,0,8"

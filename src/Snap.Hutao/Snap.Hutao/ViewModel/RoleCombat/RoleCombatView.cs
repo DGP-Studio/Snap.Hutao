@@ -24,10 +24,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
     {
         Entity = entity;
 
-        TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
-
         RoleCombatData roleCombatData = entity.RoleCombatData;
-
         Stat = roleCombatData.Stat;
         Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
         FormattedHeraldry = SH.FormatViewModelRoleCombatHeraldry(MaxRound);
@@ -40,7 +37,8 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
                 .ThenByDescending(static avatar => avatar.AvatarId.Value)
                 .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
         ];
-        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (r, state) => RoundView.Create(r, state.offset, state.context), (offset, context));
+        TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
+        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (data, state) => RoundView.Create(data, state.offset, state.context), (offset, context));
         TotalBattleTimes = roleCombatData.Detail.FightStatistics.TotalUseTime;
 
         if (roleCombatData.Detail.FightStatistics.IsShowBattleStats)
@@ -68,9 +66,23 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
+    public string FormattedTime { get; }
+
+    public bool Engaged { get; }
+
     public RoleCombatEntry? Entity { get; }
 
-    public string FormattedTime { get; }
+    public int TotalBattleTimes { get; }
+
+    public string Difficulty { get; } = default!;
+
+    public string FormattedHeraldry { get; } = default!;
+
+    public string MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default!; }
+
+    public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
+
+    public RoleCombatStat? Stat { get; }
 
     public ImmutableArray<ElementType> Elements { get; }
 
@@ -78,23 +90,9 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public ImmutableArray<AvatarView> InitialAvatars { get; }
 
-    public bool Engaged { get; }
-
-    public RoleCombatStat? Stat { get; }
-
-    public string Difficulty { get; } = default!;
-
-    public string FormattedHeraldry { get; } = default!;
-
     public ImmutableArray<AvatarView> BackupAvatars { get; } = [];
 
     public ImmutableArray<RoundView> Rounds { get; } = [];
-
-    public string MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default!; }
-
-    public int TotalBattleTimes { get; }
-
-    public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
     public ImmutableArray<AvatarDamage> Shortest { get; } = [];
 

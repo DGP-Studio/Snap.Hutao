@@ -13,14 +13,14 @@ internal sealed class BattleWave
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {
         Description = towerWave.Type.GetLocalizedDescriptionOrDefault() ?? SH.ModelMetadataTowerWaveTypeDefault;
-        Monsters = towerWave.Monsters.SelectAsArray(m => CreateMonsterViewOrDefault(m, context));
+        Monsters = towerWave.Monsters.SelectAsArray(static (m, context) => CreateMonsterViewOrDefault(m, context), context);
     }
 
     public string Description { get; }
 
     public ImmutableArray<MonsterView> Monsters { get; }
 
-    public static BattleWave From(TowerWave tower, SpiralAbyssMetadataContext context)
+    public static BattleWave Create(TowerWave tower, SpiralAbyssMetadataContext context)
     {
         return new(tower, context);
     }

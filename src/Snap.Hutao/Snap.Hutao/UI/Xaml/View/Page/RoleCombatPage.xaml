@@ -244,7 +244,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <!--  辉彩祝福  -->
-                    <StackPanel Grid.Column="0" Margin="8,0,0,0">
+                    <StackPanel Grid.Column="0" Margin="0,0,0,0">
                         <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatSplendourBuffsHeader}"/>
                         <shuxct:DescriptionTextBlock
                             Margin="0,0,0,5"

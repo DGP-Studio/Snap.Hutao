@@ -17,7 +17,7 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
         UpDisorders = floor.FirstDescriptions.EmptyIfDefault();
         DownDisorders = floor.SecondDescriptions.EmptyIfDefault();
 
-        Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
+        Levels = [.. context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context))];
     }
 
     public bool Engaged { get; private set; }
@@ -34,16 +34,16 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
 
     public ImmutableArray<string> DownDisorders { get; }
 
-    public List<LevelView> Levels { get; }
+    public ImmutableArray<LevelView> Levels { get; }
 
     internal uint IndexValue { get; }
 
-    public static FloorView From(TowerFloor floor, SpiralAbyssMetadataContext context)
+    public static FloorView Create(TowerFloor floor, SpiralAbyssMetadataContext context)
     {
         return new(floor, context);
     }
 
-    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, SpiralAbyssMetadataContext context)
+    public void Attach(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, TimeSpan offset, SpiralAbyssMetadataContext context)
     {
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;

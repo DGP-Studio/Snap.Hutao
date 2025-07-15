@@ -3,6 +3,8 @@
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed class HardChallengeViewModel : Abstraction.ViewModel
+[ConstructorGenerated]
+[Injection(InjectAs.Scoped)]
+internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel
 {
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
@@ -14,11 +15,11 @@ internal sealed class RoundView
         RoundId = SH.FormatViewModelRoleCombatRound(data.RoundId);
         IsGetMedal = data.IsGetMedal;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
-        Enemies = data.Enemies.Select(EnemyView.Create).ToList();
-        Avatars = data.Avatars.Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
-        ChoiceCards = data.ChoiceCards.Select(BuffView.Create).ToList();
+        Enemies = data.Enemies.SelectAsArray(EnemyView.Create);
+        Avatars = data.Avatars.SelectAsArray(static (avatar, context) => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]), context);
+        ChoiceCards = data.ChoiceCards.SelectAsArray(BuffView.Create);
         SplendourSummary = data.SplendourBuff.Summary.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase);
-        SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
+        SplendourBuffs = data.SplendourBuff.Buffs.SelectAsArray(SplendourBuffView.Create);
     }
 
     public string RoundId { get; }
@@ -27,19 +28,19 @@ internal sealed class RoundView
 
     public string FinishTimeString { get; }
 
-    public List<EnemyView> Enemies { get; }
+    public ImmutableArray<EnemyView> Enemies { get; }
 
-    public List<AvatarView> Avatars { get; }
+    public ImmutableArray<AvatarView> Avatars { get; }
 
-    public List<BuffView> ChoiceCards { get; }
+    public ImmutableArray<BuffView> ChoiceCards { get; }
 
     public string SplendourSummary { get; }
 
-    public List<SplendourBuffView> SplendourBuffs { get; }
+    public ImmutableArray<SplendourBuffView> SplendourBuffs { get; }
 
     internal DateTimeOffset FinishTime { get; }
 
-    public static RoundView Create(RoleCombatRoundData data, in TimeSpan offset, RoleCombatMetadataContext context)
+    public static RoundView Create(RoleCombatRoundData data, TimeSpan offset, RoleCombatMetadataContext context)
     {
         return new(data, offset, context);
     }

@@ -19,30 +19,7 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
         TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
 
-        HardChallengeData roleCombatData = entity.HardChallengeData;
-
-        Stat = roleCombatData.Stat;
-        Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
-        FormattedHeraldry = SH.FormatViewModelRoleCombatHeraldry(MaxRound);
-        BackupAvatars =
-        [
-            .. roleCombatData.Detail.BackupAvatars
-                .OrderByDescending(static avatar => avatar.AvatarType)
-                .ThenByDescending(static avatar => avatar.Rarity)
-                .ThenByDescending(static avatar => avatar.Element)
-                .ThenByDescending(static avatar => avatar.AvatarId.Value)
-                .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
-        ];
-        Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (r, state) => RoundView.Create(r, state.offset, state.context), (offset, context));
-        TotalBattleTimes = roleCombatData.Detail.FightStatistics.TotalUseTime;
-
-        if (roleCombatData.Detail.FightStatistics.IsShowBattleStats)
-        {
-            Shortest = ToAvatarDamages(roleCombatData.Detail.FightStatistics.ShortestAvatarList, context);
-            Defeat = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxDefeatAvatar, context);
-            Damage = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxDamageAvatar, context);
-            TakeDamage = ToAvatarDamage(roleCombatData.Detail.FightStatistics.MaxTakeDamageAvatar, context);
-        }
+        HardChallengeData hardChallengeData = entity.HardChallengeData;
 
         Engaged = true;
     }
@@ -50,6 +27,7 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
     private HardChallengeView(MetadataHardChallengeSchedule hardChallengeSchedule, HardChallengeMetadataContext context)
     {
         ScheduleId = hardChallengeSchedule.Id;
+        ScheduleName = hardChallengeSchedule.Name;
         FormattedTime = $"{hardChallengeSchedule.Begin:yyyy.MM.dd HH:mm} - {hardChallengeSchedule.End:yyyy.MM.dd HH:mm}";
     }
 
@@ -59,9 +37,13 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public string Schedule { get => SH.FormatModelEntityHardChallengeScheduleFormat(ScheduleId, ScheduleName); }
 
+    public string FormattedTime { get; }
+
+    public bool Engaged { get; }
+
     public HardChallengeEntry? Entity { get; }
 
-    public string FormattedTime { get; }
+
 
     public static HardChallengeView Create(HardChallengeEntry entity, HardChallengeMetadataContext context)
     {
