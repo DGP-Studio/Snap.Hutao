@@ -38,11 +38,6 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
         }
     }
 
-    private void OnCurrentHardChallengeEntryChanged(object? sender, object? e)
-    {
-        HardChallengeEntries?.CurrentItem?.DataEntries.MoveCurrentToFirst();
-    }
-
     public ImmutableArray<AvatarView> BlingAvatars { get; set => SetProperty(ref field, value); }
 
     public void Receive(UserAndUidChangedMessage message)
@@ -75,6 +70,11 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
         }
 
         return true;
+    }
+
+    private void OnCurrentHardChallengeEntryChanged(object? sender, object? e)
+    {
+        HardChallengeEntries?.CurrentItem?.DataEntries?.MoveCurrentToFirst();
     }
 
     [SuppressMessage("", "SH003")]
