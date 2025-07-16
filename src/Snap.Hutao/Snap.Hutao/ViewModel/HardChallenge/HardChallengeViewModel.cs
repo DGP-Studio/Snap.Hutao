@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.User;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
@@ -27,6 +28,8 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
     private HardChallengeMetadataContext? metadataContext;
 
     public IAdvancedCollectionView<HardChallengeView>? HardChallengeEntries { get; set => SetProperty(ref field, value); }
+
+    public ImmutableArray<AvatarView> BlingAvatars { get; set => SetProperty(ref field, value); }
 
     public void Receive(UserAndUidChangedMessage message)
     {
@@ -71,10 +74,15 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
         try
         {
             ObservableCollection<HardChallengeView> collection;
+            ImmutableArray<AvatarView> blingAvatars;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await hardChallengeService
                     .GetHardChallengeViewCollectionAsync(metadataContext, userAndUid)
+                    .ConfigureAwait(false);
+
+                blingAvatars = await hardChallengeService
+                    .GetBlingAvatarsAsync(metadataContext, userAndUid)
                     .ConfigureAwait(false);
             }
 
@@ -83,6 +91,8 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
             await taskContext.SwitchToMainThreadAsync();
             HardChallengeEntries = hardChallengeEntries;
             HardChallengeEntries.MoveCurrentTo(HardChallengeEntries.Source.FirstOrDefault(s => s.Engaged));
+
+            BlingAvatars = blingAvatars;
         }
         catch (OperationCanceledException)
         {

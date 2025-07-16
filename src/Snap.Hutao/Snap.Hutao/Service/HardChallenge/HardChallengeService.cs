@@ -11,6 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 using Snap.Hutao.Web.Response;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.HardChallenge;
@@ -45,6 +46,26 @@ internal sealed partial class HardChallengeService : IHardChallengeService
 
             hardChallengeCollectionCache.TryAdd(userAndUid.Uid, result);
             return result;
+        }
+    }
+
+    public async ValueTask<ImmutableArray<AvatarView>> GetBlingAvatarsAsync(HardChallengeMetadataContext context, UserAndUid userAndUid)
+    {
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
+            IGameRecordClient gameRecordClient = gameRecordClientFactory.Create(userAndUid.IsOversea);
+
+            Response<HardChallengePopularity> response = await gameRecordClient
+                .GetHardChallengePopularityAsync(userAndUid)
+                .ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out HardChallengePopularity? webHardChallengePopularity))
+            {
+                return [];
+            }
+
+            return webHardChallengePopularity.AvatarList.SelectAsArray(AvatarView.Create, context);
         }
     }
 

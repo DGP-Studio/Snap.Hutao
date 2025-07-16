@@ -27,6 +27,10 @@
                         Label="{shuxm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
                 </CommandBar>
             </Pivot.RightHeader>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssDetail}"/>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssHutaoStatistics}"/>
         </Pivot>
     </Grid>
 </shuxc:ScopedPage>

@@ -19,10 +19,15 @@ internal class AvatarView : INameIconSide<Uri>
         Quality = metaAvatar.Quality;
     }
 
-    private AvatarView(HardChallengeAvatar hardChallengeAvatar, Avatar metaAvatar)
+    private AvatarView(HardChallengeAvatar avatar, Avatar metaAvatar)
         : this(metaAvatar)
     {
-        ActivatedConstellationCount = hardChallengeAvatar.Rank;
+        ActivatedConstellationCount = avatar.Rank;
+    }
+
+    private AvatarView(HardChallengeSimpleAvatar avatar, Avatar metaAvatar)
+        : this(metaAvatar)
+    {
     }
 
     public string Name { get; }
@@ -40,13 +45,18 @@ internal class AvatarView : INameIconSide<Uri>
         return new(metaAvatar);
     }
 
-    public static AvatarView Create(HardChallengeAvatar hardChallengeAvatar, HardChallengeMetadataContext context)
+    public static AvatarView Create(HardChallengeAvatar avatar, HardChallengeMetadataContext context)
     {
-        return new(hardChallengeAvatar, context.GetAvatar(hardChallengeAvatar.AvatarId));
+        return new(avatar, context.GetAvatar(avatar.AvatarId));
     }
 
-    public static AvatarView Create(HardChallengeAvatar hardChallengeAvatar, Avatar metaAvatar)
+    public static AvatarView Create(HardChallengeSimpleAvatar avatar, HardChallengeMetadataContext context)
     {
-        return new(hardChallengeAvatar, metaAvatar);
+        return new(avatar, context.GetAvatar(avatar.AvatarId));
+    }
+
+    public static AvatarView Create(HardChallengeAvatar avatar, Avatar metaAvatar)
+    {
+        return new(avatar, metaAvatar);
     }
 }
