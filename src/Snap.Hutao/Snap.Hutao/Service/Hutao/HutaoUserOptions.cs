@@ -273,6 +273,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
                 await AcceptAuthTokenAsync(username, tokenSet, token).ConfigureAwait(false);
             }
         }
