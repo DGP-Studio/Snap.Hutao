@@ -4,8 +4,8 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.UI.Xaml.Data;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
+using System.Collections.Immutable;
 using MetadataHardChallengeSchedule = Snap.Hutao.Model.Metadata.HardChallengeSchedule;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
@@ -17,10 +17,12 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
     {
         Entity = entity;
 
-        TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
-
         HardChallengeData hardChallengeData = entity.HardChallengeData;
 
+        SinglePlayer = DataEntryView.Create(hardChallengeData.SinglePlayer, context);
+        MultiPlayer = DataEntryView.Create(hardChallengeData.MultiPlayer, context);
+
+        BlingAvatars = hardChallengeData.Blings.SelectAsArray(AvatarBling.Create, context);
         Engaged = true;
     }
 
@@ -43,7 +45,11 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public HardChallengeEntry? Entity { get; }
 
+    public DataEntryView? SinglePlayer { get; }
 
+    public DataEntryView? MultiPlayer { get; }
+
+    public ImmutableArray<AvatarBling> BlingAvatars { get; } = [];
 
     public static HardChallengeView Create(HardChallengeEntry entity, HardChallengeMetadataContext context)
     {

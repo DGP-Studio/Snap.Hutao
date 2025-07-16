@@ -27,7 +27,7 @@
     </mxi:Interaction.Behaviors>
 
     <shuxc:ScopedPage.Resources>
-        <shuxdcs:RoleCombatHeraldryIconConverter x:Key="RoleCombatHeraldryIconConverter"/>
+        <shuxdcs:RoleCombatDifficultyIconConverter x:Key="RoleCombatDifficultyIconConverter"/>
         <shuxdcs:ElementTypeIconConverter x:Key="ElementTypeIconConverter"/>
 
         <shvr:RoleCombatAvatarTypeTemplateSelector
@@ -383,7 +383,7 @@
                                                         <BitmapIcon
                                                             Width="20"
                                                             ShowAsMonochrome="False"
-                                                            UriSource="{Binding Stat.Heraldry, Converter={StaticResource RoleCombatHeraldryIconConverter}}"/>
+                                                            UriSource="{Binding Stat.Heraldry, Converter={StaticResource RoleCombatDifficultyIconConverter}}"/>
                                                     </StackPanel>
                                                     <Border>
                                                         <Border.Resources>

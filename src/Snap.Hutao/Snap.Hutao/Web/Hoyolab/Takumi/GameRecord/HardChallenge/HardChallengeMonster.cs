@@ -12,7 +12,7 @@ internal sealed class HardChallengeMonster
     public required string Name { get; init; }
 
     [JsonPropertyName("level")]
-    public required int Level { get; init; }
+    public required uint Level { get; init; }
 
     [JsonPropertyName("icon")]
     public required Uri Icon { get; init; }

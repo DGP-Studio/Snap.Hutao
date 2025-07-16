@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
-internal sealed partial class RoleCombatHeraldryIconConverter : ValueConverter<RoleCombatDifficultyLevel, Uri>
+internal sealed partial class RoleCombatDifficultyIconConverter : ValueConverter<RoleCombatDifficultyLevel, Uri>
 {
     public override Uri Convert(RoleCombatDifficultyLevel from)
     {

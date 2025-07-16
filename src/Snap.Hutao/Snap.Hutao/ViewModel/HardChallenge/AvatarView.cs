@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
@@ -37,6 +38,11 @@ internal class AvatarView : INameIconSide<Uri>
     public static AvatarView Create(Avatar metaAvatar)
     {
         return new(metaAvatar);
+    }
+
+    public static AvatarView Create(HardChallengeAvatar hardChallengeAvatar, HardChallengeMetadataContext context)
+    {
+        return new(hardChallengeAvatar, context.GetAvatar(hardChallengeAvatar.AvatarId));
     }
 
     public static AvatarView Create(HardChallengeAvatar hardChallengeAvatar, Avatar metaAvatar)

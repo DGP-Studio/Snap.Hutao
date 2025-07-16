@@ -34,7 +34,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : StatisticsCache,
 
     public ValueTask InitializeForSpiralAbyssViewAsync(HutaoSpiralAbyssStatisticsMetadataContext context)
     {
-        return InitializeForTypeAsync<SpiralAbyssRecordViewModel, HutaoSpiralAbyssStatisticsMetadataContext>(context, context =>
+        return InitializeForTypeAsync<SpiralAbyssViewModel, HutaoSpiralAbyssStatisticsMetadataContext>(context, context =>
         {
             ReadOnlySpan<Task> tasks =
             [

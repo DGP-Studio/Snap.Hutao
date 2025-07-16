@@ -25,9 +25,9 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
+internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
-    private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
+    private readonly ISpiralAbyssService spiralAbyssService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
@@ -102,7 +102,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             ObservableCollection<SpiralAbyssView> collection;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                collection = await spiralAbyssRecordService
+                collection = await spiralAbyssService
                     .GetSpiralAbyssViewCollectionAsync(metadataContext, userAndUid)
                     .ConfigureAwait(false);
             }
@@ -136,7 +136,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 {
                     using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
-                        await spiralAbyssRecordService
+                        await spiralAbyssService
                             .RefreshSpiralAbyssAsync(metadataContext, userAndUid)
                             .ConfigureAwait(false);
                     }

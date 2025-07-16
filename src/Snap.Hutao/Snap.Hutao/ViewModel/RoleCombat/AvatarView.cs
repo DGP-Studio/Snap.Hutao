@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
@@ -37,6 +38,11 @@ internal class AvatarView : INameIconSide<Uri>
     public static AvatarView Create(Avatar metaAvatar)
     {
         return new(metaAvatar);
+    }
+
+    public static AvatarView Create(RoleCombatAvatar roleCombatAvatar, RoleCombatMetadataContext context)
+    {
+        return new(roleCombatAvatar, context.GetAvatar(roleCombatAvatar.AvatarId));
     }
 
     public static AvatarView Create(RoleCombatAvatar roleCombatAvatar, Avatar metaAvatar)

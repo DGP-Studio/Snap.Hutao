@@ -29,7 +29,7 @@ internal sealed class BattleWave
     {
         MonsterDescribeId normalizedId = MonsterDescribe.Normalize(towerMonster.Id);
         return context.IdMonsterMap.TryGetValue(normalizedId, out Monster? metadataMonster)
-            ? MonsterView.From(towerMonster, metadataMonster)
+            ? MonsterView.Create(towerMonster, metadataMonster)
             : MonsterView.Default(normalizedId);
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-internal interface ISpiralAbyssRecordRepository : IRepository<SpiralAbyssEntry>
+internal interface ISpiralAbyssRepository : IRepository<SpiralAbyssEntry>
 {
     void AddSpiralAbyssEntry(SpiralAbyssEntry entry);
 

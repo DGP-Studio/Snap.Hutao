@@ -2049,6 +2049,9 @@
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>原图</value>
   </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
   </data>
@@ -3935,6 +3938,12 @@
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>最强一击</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>无效的服务器</value>

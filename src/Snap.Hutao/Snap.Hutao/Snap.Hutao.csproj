@@ -158,6 +158,14 @@
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_211.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_0.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_1.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_2.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_3.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_4.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_5.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_6.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_7.png" />
     <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
     <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
     <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />

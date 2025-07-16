@@ -16,7 +16,7 @@ internal sealed class RoundView
         IsGetMedal = data.IsGetMedal;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
         Enemies = data.Enemies.SelectAsArray(EnemyView.Create);
-        Avatars = data.Avatars.SelectAsArray(static (avatar, context) => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]), context);
+        Avatars = data.Avatars.SelectAsArray(AvatarView.Create, context);
         ChoiceCards = data.ChoiceCards.SelectAsArray(BuffView.Create);
         SplendourSummary = data.SplendourBuff.Summary.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase);
         SplendourBuffs = data.SplendourBuff.Buffs.SelectAsArray(SplendourBuffView.Create);

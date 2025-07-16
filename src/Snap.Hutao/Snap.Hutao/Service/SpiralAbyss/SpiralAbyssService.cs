@@ -16,10 +16,10 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.SpiralAbyss;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
-internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
+[Injection(InjectAs.Scoped, typeof(ISpiralAbyssService))]
+internal sealed partial class SpiralAbyssService : ISpiralAbyssService
 {
-    private readonly ISpiralAbyssRecordRepository spiralAbyssRecordRepository;
+    private readonly ISpiralAbyssRepository spiralAbyssRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;
 
@@ -36,7 +36,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            FrozenDictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
+            FrozenDictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
 
             ObservableCollection<SpiralAbyssView> result = context.IdTowerScheduleMap.Values
                 .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, context))
@@ -100,13 +100,13 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         if (view.Entity is not null)
         {
             view.Entity.SpiralAbyss = webSpiralAbyss;
-            spiralAbyssRecordRepository.UpdateSpiralAbyssEntry(view.Entity);
+            spiralAbyssRepository.UpdateSpiralAbyssEntry(view.Entity);
             targetEntry = view.Entity;
         }
         else
         {
             SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
-            spiralAbyssRecordRepository.AddSpiralAbyssEntry(newEntry);
+            spiralAbyssRepository.AddSpiralAbyssEntry(newEntry);
             targetEntry = newEntry;
         }
 

@@ -46,8 +46,8 @@ internal sealed class MonsterView : INameIcon<Uri>
         return new(id);
     }
 
-    public static MonsterView From(TowerMonster tower, Model.Metadata.Monster.Monster meta)
+    public static MonsterView Create(TowerMonster tower, Model.Metadata.Monster.Monster meta)
     {
-        return new MonsterView(tower, meta);
+        return new(tower, meta);
     }
 }

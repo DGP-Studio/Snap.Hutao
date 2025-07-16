@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
@@ -35,7 +36,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
                 .ThenByDescending(static avatar => avatar.Rarity)
                 .ThenByDescending(static avatar => avatar.Element)
                 .ThenByDescending(static avatar => avatar.AvatarId.Value)
-                .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
+                .Select(avatar => AvatarView.Create(avatar, context))
         ];
         TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
         Rounds = roleCombatData.Detail.RoundsData.SelectAsArray(static (data, state) => RoundView.Create(data, state.offset, state.context), (offset, context));
@@ -58,8 +59,8 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         FormattedTime = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
 
         Elements = roleCombatSchedule.Elements;
-        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectAsArray(static (id, map) => AvatarView.Create(map[id]), context.IdAvatarMap);
-        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectAsArray(static (id, map) => AvatarView.Create(map[id]), context.IdAvatarMap);
+        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectAsArray(static (id, context) => AvatarView.Create(context.GetAvatar(id)), context);
+        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectAsArray(static (id, context) => AvatarView.Create(context.GetAvatar(id)), context);
     }
 
     public uint ScheduleId { get; }
@@ -74,11 +75,11 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public int TotalBattleTimes { get; }
 
-    public string Difficulty { get; } = default!;
+    public string? Difficulty { get; }
 
-    public string FormattedHeraldry { get; } = default!;
+    public string? FormattedHeraldry { get; }
 
-    public string MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default!; }
+    public string? MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default; }
 
     public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
@@ -114,7 +115,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     private static ImmutableArray<AvatarDamage> ToAvatarDamages(ImmutableArray<RoleCombatAvatarStatistics> avatarDamages, RoleCombatMetadataContext context)
     {
-        return avatarDamages.SelectAsArray(static (r, map) => new AvatarDamage(r.Value, map[r.AvatarId]), context.IdAvatarMap);
+        return avatarDamages.SelectAsArray(static (r, context) => new AvatarDamage(r.Value, context.GetAvatar(r.AvatarId)), context);
     }
 
     private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarStatistics? avatarDamage, RoleCombatMetadataContext context)

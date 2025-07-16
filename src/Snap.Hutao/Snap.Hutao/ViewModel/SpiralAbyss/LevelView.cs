@@ -23,20 +23,21 @@ internal sealed class LevelView
 
     internal uint IndexValue { get; }
 
-    public static LevelView From(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
+    public static LevelView Create(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {
         return new(towerLevel, context);
     }
 
-    public void WithSpiralAbyssLevel(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssLevel level, SpiralAbyssMetadataContext context)
+    public void Attach(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssLevel level, TimeSpan offset, SpiralAbyssMetadataContext context)
     {
         Star = level.Star;
 
-        foreach (BattleView battleView in Battles)
+        foreach (ref readonly BattleView battleView in Battles.AsSpan())
         {
-            if (level.Battles.SingleOrDefault(b => b.Index == battleView.IndexValue) is { } battle)
+            uint battleIndex = battleView.IndexValue;
+            if (level.Battles.SingleOrDefault(b => b.Index == battleIndex) is { } battle)
             {
-                battleView.Attach(battle, context);
+                battleView.Attach(battle, offset, context);
             }
         }
     }

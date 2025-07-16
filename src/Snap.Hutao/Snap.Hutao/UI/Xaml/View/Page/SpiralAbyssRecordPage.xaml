@@ -18,7 +18,7 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcom="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvs="using:Snap.Hutao.ViewModel.SpiralAbyss"
-    d:DataContext="{d:DesignInstance shvs:SpiralAbyssRecordViewModel}"
+    d:DataContext="{d:DesignInstance shvs:SpiralAbyssViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 

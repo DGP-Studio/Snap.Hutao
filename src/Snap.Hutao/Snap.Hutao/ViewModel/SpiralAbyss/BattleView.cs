@@ -42,9 +42,9 @@ internal sealed class BattleView
         return new(level, index, context);
     }
 
-    public void Attach(SpiralAbyssBattle battle, SpiralAbyssMetadataContext context)
+    public void Attach(SpiralAbyssBattle battle, TimeSpan offset, SpiralAbyssMetadataContext context)
     {
-        Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
+        Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToOffset(offset):yyyy.MM.dd HH:mm:ss}";
         Avatars = battle.Avatars.SelectAsArray(static (a, context) => AvatarView.From(context.IdAvatarMap[a.Id]), context);
     }
 }
