@@ -9,14 +9,19 @@ namespace Snap.Hutao.ViewModel.HardChallenge;
 
 internal sealed class DataEntryView
 {
-    private DataEntryView(HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
+    private DataEntryView(bool singlePlayer, HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
     {
+        Name = singlePlayer
+            ? SH.ViewModelHardChalllengeDataEntrySinglePlayerName
+            : SH.ViewModelHardChalllengeDataEntryMultiPlayerName;
         DifficultyIcon = HardChallengeDifficultyIconConverter.Convert(dataEntry.Best.Icon);
         Difficulty = dataEntry.Best.Difficulty.GetLocalizedDescription();
         FormattedSeconds = SH.FormatViewModelHardChallengeSeconds(dataEntry.Best.Seconds);
 
         Challenges = dataEntry.Challenges.SelectAsArray(ChallengeView.Create, context);
     }
+
+    public string Name { get; }
 
     public Uri DifficultyIcon { get; }
 
@@ -26,7 +31,7 @@ internal sealed class DataEntryView
 
     public ImmutableArray<ChallengeView> Challenges { get; }
 
-    public static DataEntryView? Create(HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
+    public static DataEntryView? Create(bool singlePlayer, HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
     {
         if (!dataEntry.HasData)
         {

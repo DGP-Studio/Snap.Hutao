@@ -2052,6 +2052,12 @@
   <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
     <value>{0} 秒</value>
   </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
   </data>
