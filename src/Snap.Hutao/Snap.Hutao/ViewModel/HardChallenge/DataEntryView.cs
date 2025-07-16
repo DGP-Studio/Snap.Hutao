@@ -1,19 +1,22 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed class DataEntryView
+internal sealed partial class DataEntryView : IAdvancedCollectionViewItem
 {
     private DataEntryView(bool singlePlayer, HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
     {
         Name = singlePlayer
             ? SH.ViewModelHardChalllengeDataEntrySinglePlayerName
             : SH.ViewModelHardChalllengeDataEntryMultiPlayerName;
+        Debug.Assert(dataEntry.HasData);
         DifficultyIcon = HardChallengeDifficultyIconConverter.Convert(dataEntry.Best.Icon);
         Difficulty = dataEntry.Best.Difficulty.GetLocalizedDescription();
         FormattedSeconds = SH.FormatViewModelHardChallengeSeconds(dataEntry.Best.Seconds);
@@ -38,6 +41,6 @@ internal sealed class DataEntryView
             return default;
         }
 
-        return new(dataEntry, context);
+        return new(singlePlayer, dataEntry, context);
     }
 }

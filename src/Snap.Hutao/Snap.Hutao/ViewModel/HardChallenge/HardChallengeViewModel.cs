@@ -27,7 +27,21 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
 
     private HardChallengeMetadataContext? metadataContext;
 
-    public IAdvancedCollectionView<HardChallengeView>? HardChallengeEntries { get; set => SetProperty(ref field, value); }
+    public IAdvancedCollectionView<HardChallengeView>? HardChallengeEntries
+    {
+        get;
+        set
+        {
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentHardChallengeEntryChanged);
+            SetProperty(ref field, value);
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentHardChallengeEntryChanged);
+        }
+    }
+
+    private void OnCurrentHardChallengeEntryChanged(object? sender, object? e)
+    {
+        HardChallengeEntries?.CurrentItem?.DataEntries.MoveCurrentToFirst();
+    }
 
     public ImmutableArray<AvatarView> BlingAvatars { get; set => SetProperty(ref field, value); }
 

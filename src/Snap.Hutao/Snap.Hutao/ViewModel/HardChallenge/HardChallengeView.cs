@@ -19,7 +19,19 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
         HardChallengeData hardChallengeData = entity.HardChallengeData;
 
-        DataEntries = [DataEntryView.Create(true, hardChallengeData.SinglePlayer, context), DataEntryView.Create(false, hardChallengeData.MultiPlayer, context)];
+        ImmutableArray<DataEntryView>.Builder builder = ImmutableArray.CreateBuilder<DataEntryView>(2);
+
+        if (DataEntryView.Create(true, hardChallengeData.SinglePlayer, context) is { } singlePlayer)
+        {
+            builder.Add(singlePlayer);
+        }
+
+        if (DataEntryView.Create(false, hardChallengeData.MultiPlayer, context) is { } multiPlayer)
+        {
+            builder.Add(multiPlayer);
+        }
+
+        DataEntries = builder.ToImmutable().AsAdvancedCollectionView();
 
         BlingAvatars = hardChallengeData.Blings.SelectAsArray(AvatarBling.Create, context);
         Engaged = true;
@@ -44,7 +56,7 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public HardChallengeEntry? Entity { get; }
 
-    public ImmutableArray<DataEntryView> DataEntries { get; }
+    public IAdvancedCollectionView<DataEntryView>? DataEntries { get; }
 
     public DataEntryView? SinglePlayer { get; }
 

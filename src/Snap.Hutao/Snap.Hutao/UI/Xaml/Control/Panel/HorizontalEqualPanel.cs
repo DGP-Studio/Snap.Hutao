@@ -52,7 +52,7 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
             offset += actualItemWidth + Spacing;
         }
 
-        return new Size(offset - Spacing, effectiveSize.Height);
+        return new Size(Math.Max(0, offset - Spacing), effectiveSize.Height);
     }
 
     private void OnEffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
