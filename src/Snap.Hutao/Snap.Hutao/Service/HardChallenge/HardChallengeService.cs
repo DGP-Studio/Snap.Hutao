@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.HardChallenge;
 [Injection(InjectAs.Scoped, typeof(IHardChallengeService))]
 internal sealed partial class HardChallengeService : IHardChallengeService
 {
-    private readonly HardChallengeRepository hardChallengeRepository;
+    private readonly IHardChallengeRepository hardChallengeRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;
 

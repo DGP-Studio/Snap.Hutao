@@ -312,12 +312,7 @@
     </shuxc:ScopedPage.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Pivot Grid.RowSpan="2" Style="{ThemeResource CardPivotStyle}">
+        <Pivot Style="{ThemeResource CardPivotStyle}">
             <Pivot.RightHeader>
                 <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
                     <AppBarButton

@@ -5,8 +5,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Snap.Hutao.UI.Xaml.View.Page"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvh="using:Snap.Hutao.ViewModel.HardChallenge"
+    d:DataContext="{d:DesignInstance shvh:HardChallengeViewModel}"
     mc:Ignorable="d">
 
-    <Grid/>
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Grid>
+        <Pivot Style="{ThemeResource CardPivotStyle}">
+            <Pivot.RightHeader>
+                <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+                    <AppBarButton
+                        Command="{Binding RefreshCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                        Label="{shuxm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
+                </CommandBar>
+            </Pivot.RightHeader>
+        </Pivot>
+    </Grid>
 </shuxc:ScopedPage>
