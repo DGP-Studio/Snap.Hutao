@@ -116,6 +116,28 @@
                                         Height="64"
                                         Icon="{Binding Icon}"
                                         Quality="{Binding Quality}"/>
+
+                                    <Border
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Bottom"
+                                        Background="#80000000">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="4">
+                                            <Image
+                                                Width="16"
+                                                Height="16"
+                                                Margin="2,0,0,2"
+                                                VerticalAlignment="Center"
+                                                Source="ms-appx:///Resource/Icon/UI_Icon_Fetter.png"/>
+                                            <TextBlock
+                                                Margin="0,0,6,2"
+                                                VerticalAlignment="Center"
+                                                Foreground="#FFFFFFFF"
+                                                Text="{Binding FetterLevel}"/>
+                                        </StackPanel>
+                                    </Border>
                                     <Border
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
