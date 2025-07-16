@@ -609,7 +609,14 @@
                                         Command="{Binding CultivateCommand}"
                                         CommandParameter="{Binding Summary.Avatars.CurrentItem}"
                                         Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
-                                    <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding BatchCultivateCommand}"
+                                        CommandParameter="{shuxm:Boolean Value=False}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculatePart}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding BatchCultivateCommand}"
+                                        CommandParameter="{shuxm:Boolean Value=True}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
                                 </MenuFlyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>

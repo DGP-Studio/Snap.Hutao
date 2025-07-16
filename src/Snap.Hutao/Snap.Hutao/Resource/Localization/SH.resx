@@ -1326,6 +1326,9 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>为当前存档导入成就</value>
   </data>
+  <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
+    <value>选择要添加到当前培养计划的角色</value>
+  </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>稍后可以在设置中修改此行为</value>
   </data>
@@ -1778,6 +1781,9 @@
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>导出 UIAF JSON 文件到指定路径</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
+    <value>未选中任意角色</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>获取培养材料中，请稍候...</value>
@@ -2336,6 +2342,9 @@
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
     <value>当前角色与武器</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
+    <value>部分角色与武器</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>尚未获取任何角色信息</value>
