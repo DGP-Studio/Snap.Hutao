@@ -266,6 +266,10 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out TokenSet? tokenSet))
                 {
                     LocalSetting.Set(SettingKeys.PassportRefreshToken, string.Empty);
+                    await taskContext.SwitchToMainThreadAsync();
+                    UserName = SH.ViewServiceHutaoUserLoginFailHint;
+                    loginEvent.Set();
+                    infoEvent.Set();
                     return;
                 }
 
