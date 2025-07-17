@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal enum MiHoYoSyntaxTokenType
+internal enum MiHoYoSyntaxTokenKind
 {
     EndOfFile,
     Text,
@@ -13,4 +13,5 @@ internal enum MiHoYoSyntaxTokenType
     ColorClose,
     ItalicOpen,
     ItalicClose,
+    SpritePreset,
 }

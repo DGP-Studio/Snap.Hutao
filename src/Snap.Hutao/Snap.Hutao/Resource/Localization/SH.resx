@@ -2649,6 +2649,9 @@
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
   </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
+  </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>胡桃已经为你启动了 {0} 次游戏</value>
   </data>

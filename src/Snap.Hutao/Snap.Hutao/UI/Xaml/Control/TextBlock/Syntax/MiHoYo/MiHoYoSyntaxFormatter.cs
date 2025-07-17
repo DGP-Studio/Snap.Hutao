@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Text;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
@@ -30,26 +31,30 @@ internal static class MiHoYoSyntaxFormatter
         switch (node)
         {
             case MiHoYoSyntaxTextElement:
-                stringBuilder.AppendLine($"{indentString}Text: \"{content}\"");
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}Text: \"{content}\"");
                 break;
 
             case MiHoYoSyntaxItalicElement italic:
-                stringBuilder.AppendLine($"{indentString}Italic:");
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}Italic:");
                 Format(italic.Children, input, indent + 1, stringBuilder);
                 break;
 
             case MiHoYoSyntaxColorElement color:
-                stringBuilder.AppendLine($"{indentString}Color:");
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}Color: {color.GetColorSpan(input)}");
                 Format(color.Children, input, indent + 1, stringBuilder);
                 break;
 
             case MiHoYoSyntaxLinkElement link:
-                stringBuilder.AppendLine($"{indentString}Link:");
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}Link: {link.GetIdSpan(input)}");
                 Format(link.Children, input, indent + 1, stringBuilder);
                 break;
 
+            case MiHoYoSyntaxSpritePresetElement spritePreset:
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}SpritePreset: {spritePreset.GetIdSpan(input)}");
+                break;
+
             default:
-                stringBuilder.AppendLine($"{indentString}Unknown element: {node.GetType().Name}");
+                stringBuilder.AppendLine(CultureInfo.CurrentCulture, $"{indentString}Unknown element: {node.GetType().Name}");
                 break;
         }
     }

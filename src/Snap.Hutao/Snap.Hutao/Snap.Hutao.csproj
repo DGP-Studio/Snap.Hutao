@@ -143,6 +143,13 @@
     <Content Include="Resource\Icon\UI_BtnIcon_Homeworld.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_PlayerGirl.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Electric.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Fire.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Grass.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Ice.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Rock.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Water.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Wind.png" />
     <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
     <Content Include="Resource\Icon\UI_IconKira.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />

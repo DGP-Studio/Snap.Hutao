@@ -17,7 +17,7 @@ internal sealed partial class DataEntryView : IAdvancedCollectionViewItem
             ? SH.ViewModelHardChalllengeDataEntrySinglePlayerName
             : SH.ViewModelHardChalllengeDataEntryMultiPlayerName;
         Debug.Assert(dataEntry.HasData);
-        DifficultyIcon = HardChallengeDifficultyIconConverter.Convert(dataEntry.Best.Icon);
+        DifficultyIcon = HardChallengeDifficultyIconConverter.Convert(dataEntry.Best.Icon.Split(',').Last());
         Difficulty = dataEntry.Best.Difficulty.GetLocalizedDescription();
         FormattedSeconds = SH.FormatViewModelHardChallengeSeconds(dataEntry.Best.Seconds);
 
