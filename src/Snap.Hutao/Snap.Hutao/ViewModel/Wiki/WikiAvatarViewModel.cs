@@ -11,6 +11,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Cultivation.Offline;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -21,6 +22,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -141,12 +143,23 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         CalculateBatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
+            if (DateTimeOffset.Now < avatar.BeginTime)
             {
-                return;
+                batchConsumption = OfflineCalculator.CalculateAvatarConsumption(deltaOptions.Delta, avatar);
+                if (batchConsumption is null)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+                Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
+                {
+                    return;
+                }
             }
         }
 
