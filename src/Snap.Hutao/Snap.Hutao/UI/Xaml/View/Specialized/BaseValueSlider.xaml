@@ -14,12 +14,23 @@
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+        <SolidColorBrush x:Key="SettingsCardBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+        <SolidColorBrush x:Key="ToggleButtonBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
         <!--  ReSharper restore Xaml.RedundantResource  -->
 
         <DataTemplate x:Key="BaseValueTemplate">
             <cwc:SettingsCard
                 MinHeight="40"
                 Padding="16,0,42,0"
+                BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                 Header="{Binding Name}">
                 <TextBlock Text="{Binding Value}"/>
             </cwc:SettingsCard>
@@ -28,6 +39,7 @@
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
         <cwc:SettingsExpander
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
             Header="{shuxm:ResourceString Name=ViewControlBaseValueSliderLevel}"
             IsExpanded="True"
             ItemTemplate="{StaticResource BaseValueTemplate}"

@@ -323,7 +323,7 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
 
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border Padding="16" Style="{ThemeResource BorderShimmerStyle}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock
                                                             Margin="0,0,0,0"
@@ -344,7 +344,7 @@
 
                                                 <Border
                                                     Padding="16"
-                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Style="{ThemeResource BorderShimmerStyle}"
                                                     Visibility="{Binding Weapons.CurrentItem.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Weapons.CurrentItem.Affix.Name}"/>
@@ -359,7 +359,7 @@
 
                                                 <Border
                                                     Padding="16"
-                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Style="{ThemeResource BorderShimmerStyle}"
                                                     Visibility="{Binding Weapons.CurrentItem.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
