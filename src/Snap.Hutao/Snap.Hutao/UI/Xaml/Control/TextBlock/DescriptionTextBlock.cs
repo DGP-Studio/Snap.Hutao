@@ -24,13 +24,13 @@ namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
-    private static readonly BitmapImage BitmapSourceIce = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png"));
-    private static readonly BitmapImage BitmapSourceWater = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Water.png"));
-    private static readonly BitmapImage BitmapSourceFire = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Fire.png"));
-    private static readonly BitmapImage BitmapSourceElectric = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Electric.png"));
-    private static readonly BitmapImage BitmapSourceWind = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Wind.png"));
-    private static readonly BitmapImage BitmapSourceRock = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Rock.png"));
-    private static readonly BitmapImage BitmapSourceGrass = new(new Uri("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Grass.png"));
+    private static readonly BitmapImage BitmapSourceIce = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png".ToUri());
+    private static readonly BitmapImage BitmapSourceWater = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Water.png".ToUri());
+    private static readonly BitmapImage BitmapSourceFire = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Fire.png".ToUri());
+    private static readonly BitmapImage BitmapSourceElectric = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Electric.png".ToUri());
+    private static readonly BitmapImage BitmapSourceWind = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Wind.png".ToUri());
+    private static readonly BitmapImage BitmapSourceRock = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Rock.png".ToUri());
+    private static readonly BitmapImage BitmapSourceGrass = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Grass.png".ToUri());
 
     public DescriptionTextBlock()
     {
