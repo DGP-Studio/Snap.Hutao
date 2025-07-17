@@ -267,6 +267,9 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>Đã làm mới vào {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
+  </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Tài khoản</value>
   </data>
@@ -1722,6 +1725,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Chất lượng tài nguyên hình ảnh</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
   </data>
@@ -2042,6 +2048,15 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>Bản gốc</value>
+  </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Vui lòng nhập đúng email</value>
@@ -2633,6 +2648,9 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Vũ khí</value>
+  </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao đã khởi chạy game cho bạn {0} lần</value>
@@ -3537,6 +3555,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Trước đột phá</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>周期</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Thơ Kịch Ảo Ảnh Chân Cảnh</value>
   </data>
@@ -3926,6 +3947,12 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>Sao chép liên kết tải xuống thành công</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>最强一击</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Máy chủ không hợp lệ</value>
