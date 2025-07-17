@@ -219,6 +219,12 @@
                                                                             <RowDefinition Height="*"/>
                                                                         </Grid.RowDefinitions>
 
+                                                                        <Border
+                                                                            Grid.Row="0"
+                                                                            Grid.RowSpan="2"
+                                                                            Margin="-16"
+                                                                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"/>
+
                                                                         <Grid Grid.Row="0" ColumnSpacing="16">
                                                                             <Grid.ColumnDefinitions>
                                                                                 <ColumnDefinition Width="auto"/>
@@ -226,8 +232,8 @@
                                                                             </Grid.ColumnDefinitions>
                                                                             <shuxci:CachedImage
                                                                                 Grid.Column="0"
-                                                                                Width="48"
-                                                                                Height="48"
+                                                                                Width="64"
+                                                                                Height="64"
                                                                                 Margin="0,0,0,0"
                                                                                 Source="{Binding Monster.Icon}">
                                                                                 <ToolTipService.ToolTip>
@@ -268,12 +274,6 @@
                                                                                 </DataTemplate>
                                                                             </ItemsControl.ItemTemplate>
                                                                         </ItemsControl>
-
-                                                                        <Border
-                                                                            Grid.Row="2"
-                                                                            Margin="-16,0"
-                                                                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                                                                            BorderThickness="0,1,0,0"/>
 
                                                                         <Grid
                                                                             Grid.Row="3"
