@@ -267,6 +267,9 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>{0:MM.dd HH:mm:ss} tarihinde yenilendi</value>
   </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
+  </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Karakter</value>
   </data>
@@ -1722,6 +1725,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Görüntü Kaynak Kalitesi</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Pasaportu</value>
   </data>
@@ -2042,6 +2048,15 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>Orijinal Kalite</value>
+  </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Lütfen doğru e-posta adresini girin</value>
@@ -2633,6 +2648,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Silah</value>
+  </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao senin için oyunu {0} kez başlattı</value>
@@ -3537,6 +3555,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Yükseliş Öncesi</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>周期</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Hayali Tiyatro</value>
   </data>
@@ -3926,6 +3947,12 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>İndirme bağlantısı başarıyla kopyalandı</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>最强一击</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Geçersiz sunucu</value>
