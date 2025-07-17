@@ -6,6 +6,8 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 using System.Collections.Immutable;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;

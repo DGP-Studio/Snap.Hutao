@@ -275,6 +275,8 @@
                                             SelectedItem="{Binding SelectedBackgroundImageType, Mode=TwoWay}"/>
                                     </shuxc:SizeRestrictedContentControl>
                                     <cwc:SettingsExpander.Items>
+                                        <!--  SettingsExpander uses ItemsRepeater, where first item will behave abnormally in binding  -->
+                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                         <cwc:SettingsCard
                                             Description="{Binding BackgroundImageOptions.Wallpaper.Author}"
                                             Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageCopyrightHeader}"
@@ -286,7 +288,6 @@
                                                 </mxi:EventTriggerBehavior>
                                             </mxi:Interaction.Behaviors>
                                         </cwc:SettingsCard>
-                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <InfoBar

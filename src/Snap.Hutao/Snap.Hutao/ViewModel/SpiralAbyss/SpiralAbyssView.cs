@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.Web.Hoyolab;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
@@ -12,7 +13,12 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>, IAdvancedCollectionViewItem
 {
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
-        : this(context.IdTowerScheduleMap[entity.ScheduleId], context)
+        : this(entity, context.IdTowerScheduleMap[entity.ScheduleId], context)
+    {
+    }
+
+    private SpiralAbyssView(SpiralAbyssEntry entity, TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
+        : this(towerSchedule, context)
     {
         Entity = entity;
 
@@ -28,12 +34,13 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
         EnergySkill = ToRankAvatar(spiralAbyss.EnergySkillRank, context);
         Engaged = true;
 
+        TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
         foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor webFloor in spiralAbyss.Floors)
         {
             // Ignoring floor 1 - 8 here
             if (Floors.Source.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
             {
-                floor.WithSpiralAbyssFloor(webFloor, context);
+                floor.Attach(webFloor, offset, context);
             }
         }
     }
@@ -41,26 +48,26 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
     private SpiralAbyssView(TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
     {
         ScheduleId = towerSchedule.Id;
-        TimeFormatted = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
+        FormattedTime = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
-        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().AsAdvancedCollectionView();
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.Create(context.IdTowerFloorMap[id], context)).Reverse().AsAdvancedCollectionView();
     }
 
     public uint ScheduleId { get; }
 
     public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
-    public SpiralAbyssEntry? Entity { get; }
+    public string FormattedTime { get; }
 
-    public string TimeFormatted { get; }
+    public bool Engaged { get; }
+
+    public SpiralAbyssEntry? Entity { get; }
 
     public string BlessingName { get; }
 
     public ImmutableArray<string> Blessings { get; }
-
-    public bool Engaged { get; }
 
     public int TotalBattleTimes { get; }
 
@@ -68,7 +75,9 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public string MaxFloor { get; } = default!;
 
-    public List<RankAvatar> Reveals { get; } = default!;
+    public ImmutableArray<RankAvatar> Reveals { get; } = [];
+
+    public IAdvancedCollectionView<FloorView> Floors { get; }
 
     public RankAvatar? Defeat { get; }
 
@@ -80,8 +89,6 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public RankAvatar? EnergySkill { get; }
 
-    public IAdvancedCollectionView<FloorView> Floors { get; }
-
     public static SpiralAbyssView From(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
     {
         return new(entity, context);
@@ -89,15 +96,15 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public static SpiralAbyssView From(SpiralAbyssEntry? entity, TowerSchedule meta, SpiralAbyssMetadataContext context)
     {
-        return entity is not null ? new(entity, context) : new(meta, context);
+        return entity is not null ? new(entity, meta, context) : new(meta, context);
     }
 
-    private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
+    private static ImmutableArray<RankAvatar> ToRankAvatars(ImmutableArray<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
     {
-        return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).ToList();
+        return [.. ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId]))];
     }
 
-    private static RankAvatar? ToRankAvatar(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
+    private static RankAvatar? ToRankAvatar(ImmutableArray<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
     {
         return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
     }

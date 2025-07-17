@@ -6,14 +6,14 @@ namespace Snap.Hutao.Web.Hutao.Wallpaper;
 internal sealed class Wallpaper
 {
     [JsonPropertyName("url")]
-    public Uri Url { get; set; } = default!;
+    public required Uri Url { get; init; }
 
     [JsonPropertyName("source_url")]
-    public string SourceUrl { get; set; } = default!;
+    public required Uri SourceUrl { get; init; }
 
     [JsonPropertyName("author")]
-    public string Author { get; set; } = default!;
+    public required string Author { get; init; }
 
     [JsonPropertyName("uploader")]
-    public string Uploader { get; set; } = default!;
+    public required string Uploader { get; init; }
 }

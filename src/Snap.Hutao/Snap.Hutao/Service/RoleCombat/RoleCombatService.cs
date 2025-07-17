@@ -39,7 +39,7 @@ internal sealed partial class RoleCombatService : IRoleCombatService
             FrozenDictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
 
             ObservableCollection<RoleCombatView> result = context.IdRoleCombatScheduleMap.Values
-                .Select(sch => RoleCombatView.Create(entryMap.GetValueOrDefault(sch.Id), sch, context))
+                .Select(schedule => RoleCombatView.Create(entryMap.GetValueOrDefault(schedule.Id), schedule, context))
                 .OrderByDescending(e => e.ScheduleId)
                 .ToObservableCollection();
 
@@ -54,15 +54,19 @@ internal sealed partial class RoleCombatService : IRoleCombatService
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
+            IGameRecordClient gameRecordClient = gameRecordClientFactory.Create(userAndUid.IsOversea);
 
             // Request the index first
-            await gameRecordClientFactory
-                .Create(userAndUid.IsOversea)
+            Response<PlayerInfo> infoResponse = await gameRecordClient
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            Response<Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat> response = await gameRecordClientFactory
-                .Create(userAndUid.IsOversea)
+            if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider))
+            {
+                return;
+            }
+
+            Response<Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat> response = await gameRecordClient
                 .GetRoleCombatAsync(userAndUid)
                 .ConfigureAwait(false);
 
@@ -110,7 +114,7 @@ internal sealed partial class RoleCombatService : IRoleCombatService
         }
         else
         {
-            RoleCombatEntry newEntry = RoleCombatEntry.From(userAndUid.Uid.Value, roleCombatData);
+            RoleCombatEntry newEntry = RoleCombatEntry.Create(userAndUid.Uid.Value, roleCombatData);
             roleCombatRepository.AddRoleCombatEntry(newEntry);
             targetEntry = newEntry;
         }

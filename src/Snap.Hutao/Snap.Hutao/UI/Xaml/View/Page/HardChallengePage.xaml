@@ -1,0 +1,351 @@
+<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.HardChallengePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Snap.Hutao.UI.Xaml.View.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvh="using:Snap.Hutao.ViewModel.HardChallenge"
+    d:DataContext="{d:DesignInstance shvh:HardChallengeViewModel}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <cwconv:BoolToObjectConverter
+            x:Key="BoolToOpacityConverter"
+            FalseValue="0.4"
+            TrueValue="1"/>
+
+        <DataTemplate x:Key="HardChallengeListTemplate" x:DataType="shvh:HardChallengeView">
+            <StackPanel Margin="0,6,0,8">
+                <TextBlock Text="{Binding Schedule}"/>
+                <MenuFlyoutSeparator Margin="3,2"/>
+                <TextBlock
+                    Opacity="0.6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding FormattedTime}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AvatarViewTemplate" x:DataType="shvh:AvatarView">
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shuxc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Text="{Binding Name}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AvatarViewInTeamTemplate" x:DataType="shvh:AvatarView">
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <Grid>
+                        <shuxc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                        <Border
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="#80000000"
+                            CornerRadius="{ThemeResource ControlCornerRadiusTopRightAndBottomLeft}">
+                            <TextBlock
+                                Margin="6,2"
+                                Foreground="#FFFFFFFF"
+                                Text="{Binding ActivatedConstellationCount}"/>
+                        </Border>
+                    </Grid>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock
+                        MaxWidth="76"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BlingAvatarViewTemplate" x:DataType="shvh:AvatarBling">
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <Grid>
+                        <shuxc:ItemIcon
+                            Width="48"
+                            Height="48"
+                            Icon="{Binding Icon}"
+                            Opacity="{Binding IsPlus, Converter={StaticResource BoolToOpacityConverter}}"
+                            Quality="{Binding Quality}"/>
+                        <Image
+                            Width="12"
+                            Height="12"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Source="ms-appx:///Resource/Icon/UI_IconKira.png"
+                            Visibility="{Binding IsPlus}"/>
+                    </Grid>
+
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock
+                        MaxWidth="44"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Pivot Style="{ThemeResource CardPivotStyle}">
+            <Pivot.RightHeader>
+                <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+                    <AppBarButton
+                        Command="{Binding RefreshCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                        Label="{shuxm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
+                </CommandBar>
+            </Pivot.RightHeader>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssDetail}">
+                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <SplitView
+                            DisplayMode="Inline"
+                            IsPaneOpen="True"
+                            OpenPaneLength="248"
+                            PaneBackground="Transparent">
+                            <SplitView.Pane>
+                                <ListView
+                                    Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    ItemTemplate="{StaticResource HardChallengeListTemplate}"
+                                    ItemsSource="{Binding HardChallengeEntries}"
+                                    SelectedItem="{Binding HardChallengeEntries.CurrentItem, Mode=TwoWay}"/>
+                            </SplitView.Pane>
+                            <SplitView.Content>
+                                <ScrollViewer>
+                                    <StackPanel
+                                        Padding="16"
+                                        DataContext="{Binding HardChallengeEntries.CurrentItem}"
+                                        Spacing="16"
+                                        Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+                                        <ItemsControl
+                                            ItemTemplate="{StaticResource BlingAvatarViewTemplate}"
+                                            ItemsPanel="{ThemeResource WrapPanelSpacing4Template}"
+                                            ItemsSource="{Binding BlingAvatars}"
+                                            Visibility="{Binding BlingAvatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+
+                                        <cwcont:Segmented
+                                            HorizontalAlignment="Stretch"
+                                            ItemsSource="{Binding DataEntries}"
+                                            SelectedItem="{Binding DataEntries.CurrentItem, Mode=TwoWay}">
+                                            <cwcont:Segmented.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </cwcont:Segmented.ItemTemplate>
+                                        </cwcont:Segmented>
+
+                                        <ContentControl
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Content="{Binding DataEntries.CurrentItem}">
+                                            <ContentControl.ContentTemplate>
+                                                <DataTemplate>
+                                                    <Grid RowSpacing="16">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid
+                                                            Padding="8"
+                                                            ColumnSpacing="8"
+                                                            Style="{ThemeResource GridShimmerStyle}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image
+                                                                Grid.Column="0"
+                                                                Width="36"
+                                                                Height="36"
+                                                                Source="{Binding DifficultyIcon}"/>
+                                                            <StackPanel Grid.Column="1" Spacing="3">
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Difficulty}"/>
+                                                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding FormattedSeconds}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+
+                                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Challenges}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <shuxcp:UniformPanel
+                                                                        ColumnSpacing="16"
+                                                                        MinItemWidth="240"
+                                                                        RowSpacing="16"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid
+                                                                        Padding="16"
+                                                                        RowSpacing="16"
+                                                                        Style="{ThemeResource GridShimmerStyle}">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="*"/>
+                                                                        </Grid.RowDefinitions>
+
+                                                                        <Border
+                                                                            Grid.Row="0"
+                                                                            Grid.RowSpan="2"
+                                                                            Margin="-16"
+                                                                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"/>
+
+                                                                        <Grid Grid.Row="0" ColumnSpacing="16">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                                <ColumnDefinition/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <shuxci:CachedImage
+                                                                                Grid.Column="0"
+                                                                                Width="64"
+                                                                                Height="64"
+                                                                                Margin="0,0,0,0"
+                                                                                Source="{Binding Monster.Icon}">
+                                                                                <ToolTipService.ToolTip>
+                                                                                    <ItemsControl ItemsPanel="{ThemeResource StackPanelSpacing6Template}" ItemsSource="{Binding Monster.Descriptions}">
+                                                                                        <ItemsControl.ItemTemplate>
+                                                                                            <DataTemplate>
+                                                                                                <shuxct:DescriptionTextBlock Description="{Binding}"/>
+                                                                                            </DataTemplate>
+                                                                                        </ItemsControl.ItemTemplate>
+                                                                                    </ItemsControl>
+                                                                                </ToolTipService.ToolTip>
+                                                                            </shuxci:CachedImage>
+                                                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                                <TextBlock
+                                                                                    Text="{Binding Monster.Name}"
+                                                                                    TextTrimming="CharacterEllipsis"
+                                                                                    TextWrapping="NoWrap"/>
+                                                                                <TextBlock
+                                                                                    Text="{Binding Monster.Level}"
+                                                                                    TextTrimming="CharacterEllipsis"
+                                                                                    TextWrapping="NoWrap"/>
+                                                                            </StackPanel>
+                                                                        </Grid>
+
+                                                                        <ItemsControl
+                                                                            Grid.Row="1"
+                                                                            HorizontalAlignment="Left"
+                                                                            ItemsPanel="{ThemeResource WrapPanelSpacing4Template}"
+                                                                            ItemsSource="{Binding Monster.Tags}">
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate>
+                                                                                    <Border
+                                                                                        Padding="6,4"
+                                                                                        CornerRadius="12"
+                                                                                        Style="{ThemeResource BorderShimmerStyle}">
+                                                                                        <shuxct:DescriptionTextBlock Margin="0,-1,0,0" Description="{Binding Description}"/>
+                                                                                    </Border>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+
+                                                                        <Grid
+                                                                            Grid.Row="3"
+                                                                            Padding="8"
+                                                                            Style="{ThemeResource GridShimmerStyle}">
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageHardChallengeTime}"/>
+                                                                            <TextBlock HorizontalTextAlignment="Right" Text="{Binding FormattedSeconds}"/>
+                                                                        </Grid>
+
+                                                                        <Viewbox Grid.Row="4">
+                                                                            <ItemsControl
+                                                                                HorizontalAlignment="Left"
+                                                                                ItemTemplate="{StaticResource AvatarViewInTeamTemplate}"
+                                                                                ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}"
+                                                                                ItemsSource="{Binding Avatars}"/>
+                                                                        </Viewbox>
+
+                                                                        <ItemsControl
+                                                                            Grid.Row="5"
+                                                                            ItemsPanel="{StaticResource StackPanelSpacing8Template}"
+                                                                            ItemsSource="{Binding BestAvatars}">
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate>
+                                                                                    <Grid Padding="8" Style="{ThemeResource GridShimmerStyle}">
+                                                                                        <StackPanel Orientation="Horizontal">
+                                                                                            <shuxci:CachedImage
+                                                                                                Width="36"
+                                                                                                Height="36"
+                                                                                                Margin="-8,-8,0,0"
+                                                                                                Source="{Binding SideIcon}"/>
+                                                                                            <TextBlock VerticalAlignment="Center" Text="{Binding Type}"/>
+                                                                                        </StackPanel>
+
+                                                                                        <TextBlock
+                                                                                            HorizontalAlignment="Right"
+                                                                                            VerticalAlignment="Center"
+                                                                                            Text="{Binding Value}"/>
+                                                                                    </Grid>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ContentControl.ContentTemplate>
+                                        </ContentControl>
+                                    </StackPanel>
+
+                                </ScrollViewer>
+                            </SplitView.Content>
+                        </SplitView>
+                    </Border>
+                </Border>
+            </PivotItem>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssHutaoStatistics}">
+                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                        <GridView
+                            Padding="16,16,4,4"
+                            ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                            ItemTemplate="{StaticResource AvatarViewTemplate}"
+                            ItemsSource="{Binding BlingAvatars}"
+                            SelectionMode="None"/>
+                    </Grid>
+                </Border>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</shuxc:ScopedPage>

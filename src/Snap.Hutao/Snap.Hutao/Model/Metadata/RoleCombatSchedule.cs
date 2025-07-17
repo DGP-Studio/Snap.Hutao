@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata;
 
-internal sealed class RoleCombatSchedule
+internal sealed class RoleCombatSchedule : IDefaultIdentity<RoleCombatScheduleId>
 {
     public required RoleCombatScheduleId Id { get; init; }
 

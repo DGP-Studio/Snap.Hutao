@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;

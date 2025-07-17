@@ -1,52 +1,54 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 internal sealed class SpiralAbyss
 {
     [JsonPropertyName("schedule_id")]
-    public uint ScheduleId { get; set; }
+    public required uint ScheduleId { get; init; }
 
     [JsonPropertyName("start_time")]
-    public long StartTime { get; set; }
+    public required long StartTime { get; init; }
 
     [JsonPropertyName("end_time")]
-    public long EndTime { get; set; }
+    public required long EndTime { get; init; }
 
     [JsonPropertyName("total_battle_times")]
-    public int TotalBattleTimes { get; set; }
+    public required int TotalBattleTimes { get; init; }
 
     [JsonPropertyName("total_win_times")]
-    public int TotalWinTimes { get; set; }
+    public required int TotalWinTimes { get; init; }
 
     [JsonPropertyName("max_floor")]
-    public string MaxFloor { get; set; } = default!;
+    public required string MaxFloor { get; init; } = default!;
 
     [JsonPropertyName("reveal_rank")]
-    public List<SpiralAbyssRank> RevealRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> RevealRank { get; init; }
 
     [JsonPropertyName("defeat_rank")]
-    public List<SpiralAbyssRank> DefeatRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> DefeatRank { get; init; }
 
     [JsonPropertyName("damage_rank")]
-    public List<SpiralAbyssRank> DamageRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> DamageRank { get; init; }
 
     [JsonPropertyName("take_damage_rank")]
-    public List<SpiralAbyssRank> TakeDamageRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> TakeDamageRank { get; init; }
 
     [JsonPropertyName("normal_skill_rank")]
-    public List<SpiralAbyssRank> NormalSkillRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> NormalSkillRank { get; init; }
 
     [JsonPropertyName("energy_skill_rank")]
-    public List<SpiralAbyssRank> EnergySkillRank { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssRank> EnergySkillRank { get; init; }
 
     [JsonPropertyName("floors")]
-    public List<SpiralAbyssFloor> Floors { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssFloor> Floors { get; init; }
 
     [JsonPropertyName("total_star")]
-    public int TotalStar { get; set; }
+    public required int TotalStar { get; init; }
 
     [JsonPropertyName("is_unlock")]
-    public bool IsUnlock { get; set; }
+    public required bool IsUnlock { get; init; }
 }

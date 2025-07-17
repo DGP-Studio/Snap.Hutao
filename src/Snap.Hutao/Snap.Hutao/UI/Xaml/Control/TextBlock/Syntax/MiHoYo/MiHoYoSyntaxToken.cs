@@ -5,12 +5,12 @@ namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
 internal readonly ref struct MiHoYoSyntaxToken
 {
-    public readonly MiHoYoSyntaxTokenType Type;
+    public readonly MiHoYoSyntaxTokenKind Kind;
     public readonly TextPosition Position;
 
-    public MiHoYoSyntaxToken(MiHoYoSyntaxTokenType type, TextPosition position)
+    public MiHoYoSyntaxToken(MiHoYoSyntaxTokenKind kind, TextPosition position)
     {
-        Type = type;
+        Kind = kind;
         Position = position;
     }
 }

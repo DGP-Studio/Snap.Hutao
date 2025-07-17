@@ -11,5 +11,5 @@ internal class HardChallengeBlingAvatar : HardChallengeSimpleAvatar
     [JsonPropertyName("is_plus")]
     public required bool IsPlus { get; init; }
 
-    public required Uri SideIcon { get; init; }
+    public Uri? SideIcon { get; init; }
 }

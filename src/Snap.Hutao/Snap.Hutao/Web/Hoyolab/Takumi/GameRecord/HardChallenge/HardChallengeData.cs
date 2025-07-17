@@ -11,10 +11,10 @@ internal sealed class HardChallengeData
     public required HardChallengeSchedule Schedule { get; init; }
 
     [JsonPropertyName("single")]
-    public required HardChallengeEntry SinglePlayer { get; init; }
+    public required HardChallengeDataEntry SinglePlayer { get; init; }
 
     [JsonPropertyName("mp")]
-    public required HardChallengeEntry MultiPlayer { get; init; }
+    public required HardChallengeDataEntry MultiPlayer { get; init; }
 
     [JsonPropertyName("blings")]
     public required ImmutableArray<HardChallengeBlingAvatar> Blings { get; init; }

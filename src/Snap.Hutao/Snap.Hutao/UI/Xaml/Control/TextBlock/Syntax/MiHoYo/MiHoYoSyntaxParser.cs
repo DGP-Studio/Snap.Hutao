@@ -21,7 +21,7 @@ internal ref struct MiHoYoSyntaxParser
         current = lexer.Next();
 
         ImmutableArray<MiHoYoSyntaxElement>.Builder builder = ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
-        while (current.Type is not MiHoYoSyntaxTokenType.EndOfFile)
+        while (current.Kind is not MiHoYoSyntaxTokenKind.EndOfFile)
         {
             builder.Add(ParseElement());
         }
@@ -36,13 +36,14 @@ internal ref struct MiHoYoSyntaxParser
 
     private MiHoYoSyntaxElement ParseElement()
     {
-        return current.Type switch
+        return current.Kind switch
         {
-            MiHoYoSyntaxTokenType.Text => ParseText(),
-            MiHoYoSyntaxTokenType.ItalicOpen => ParseItalic(),
-            MiHoYoSyntaxTokenType.ColorOpen => ParseColor(),
-            MiHoYoSyntaxTokenType.LinkOpen => ParseLink(),
-            _ => throw HutaoException.Throw($"Unexpected token: {current.Type}"),
+            MiHoYoSyntaxTokenKind.Text => ParseText(),
+            MiHoYoSyntaxTokenKind.ItalicOpen => ParseItalic(),
+            MiHoYoSyntaxTokenKind.ColorOpen => ParseColor(),
+            MiHoYoSyntaxTokenKind.LinkOpen => ParseLink(),
+            MiHoYoSyntaxTokenKind.SpritePreset => ParseSpritePreset(),
+            _ => throw HutaoException.Throw($"Unexpected token: {current.Kind}"),
         };
     }
 
@@ -59,12 +60,12 @@ internal ref struct MiHoYoSyntaxParser
         NextToken();
 
         ImmutableArray<MiHoYoSyntaxElement>.Builder children = ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
-        while (current.Type is not (MiHoYoSyntaxTokenType.ItalicClose or MiHoYoSyntaxTokenType.EndOfFile))
+        while (current.Kind is not (MiHoYoSyntaxTokenKind.ItalicClose or MiHoYoSyntaxTokenKind.EndOfFile))
         {
             children.Add(ParseElement());
         }
 
-        if (current.Type is not MiHoYoSyntaxTokenType.ItalicClose)
+        if (current.Kind is not MiHoYoSyntaxTokenKind.ItalicClose)
         {
             throw HutaoException.Throw("Expected </i>");
         }
@@ -81,12 +82,12 @@ internal ref struct MiHoYoSyntaxParser
         NextToken();
 
         ImmutableArray<MiHoYoSyntaxElement>.Builder children = ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
-        while (current.Type is not (MiHoYoSyntaxTokenType.ColorClose or MiHoYoSyntaxTokenType.EndOfFile))
+        while (current.Kind is not (MiHoYoSyntaxTokenKind.ColorClose or MiHoYoSyntaxTokenKind.EndOfFile))
         {
             children.Add(ParseElement());
         }
 
-        if (current.Type is not MiHoYoSyntaxTokenType.ColorClose)
+        if (current.Kind is not MiHoYoSyntaxTokenKind.ColorClose)
         {
             throw HutaoException.Throw("Expected </color>");
         }
@@ -103,12 +104,12 @@ internal ref struct MiHoYoSyntaxParser
         NextToken();
 
         ImmutableArray<MiHoYoSyntaxElement>.Builder children = ImmutableArray.CreateBuilder<MiHoYoSyntaxElement>();
-        while (current.Type is not (MiHoYoSyntaxTokenType.LinkClose or MiHoYoSyntaxTokenType.EndOfFile))
+        while (current.Kind is not (MiHoYoSyntaxTokenKind.LinkClose or MiHoYoSyntaxTokenKind.EndOfFile))
         {
             children.Add(ParseElement());
         }
 
-        if (current.Type is not MiHoYoSyntaxTokenType.LinkClose)
+        if (current.Kind is not MiHoYoSyntaxTokenKind.LinkClose)
         {
             throw HutaoException.Throw("Expected {/LINK}");
         }
@@ -116,5 +117,12 @@ internal ref struct MiHoYoSyntaxParser
         int closeEnd = current.Position.End;
         NextToken();
         return new MiHoYoSyntaxLinkElement(new(start, closeEnd), new(start + 6, end - 1), children.ToImmutable());
+    }
+
+    private MiHoYoSyntaxElement ParseSpritePreset()
+    {
+        MiHoYoSyntaxSpritePresetElement element = new(current.Position, new(current.Position.Start + 15, current.Position.End - 1), default);
+        NextToken();
+        return element;
     }
 }
