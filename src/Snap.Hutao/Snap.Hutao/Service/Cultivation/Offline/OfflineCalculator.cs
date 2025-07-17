@@ -160,7 +160,7 @@ internal static class OfflineCalculator
             int ascensionLevel = AscensionLevels[i];
             uint requiredPromoteLevel = (uint)(i + 1);
 
-            if (targetLevel > ascensionLevel && currentLevel <= ascensionLevel)
+            if (targetLevel >= ascensionLevel && currentLevel <= ascensionLevel)
             {
                 if (currentLevel == ascensionLevel && currentPromoteLevel >= requiredPromoteLevel)
                 {

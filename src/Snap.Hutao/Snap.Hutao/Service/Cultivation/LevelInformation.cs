@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -10,6 +11,8 @@ internal sealed class LevelInformation
     public uint AvatarLevelFrom { get; private set; }
 
     public uint AvatarLevelTo { get; private set; }
+
+    public bool AvatarIsPromoting { get; private set; }
 
     public uint SkillALevelFrom { get; private set; }
 
@@ -35,6 +38,7 @@ internal sealed class LevelInformation
         {
             levelInformation.AvatarLevelFrom = delta.AvatarLevelCurrent;
             levelInformation.AvatarLevelTo = delta.AvatarLevelTarget;
+            levelInformation.AvatarIsPromoting = !BaseValueInfoConverter.GetPromoted(delta.AvatarLevelCurrent, delta.AvatarPromoteLevel);
         }
 
         if (!delta.SkillList.IsDefaultOrEmpty && delta.SkillList is [{ } skillA, { } skillE, { } skillQ, ..])

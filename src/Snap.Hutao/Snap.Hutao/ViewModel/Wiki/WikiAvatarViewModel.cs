@@ -20,11 +20,8 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
-using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -140,27 +137,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             }
         }
 
-        CalculateBatchConsumption? batchConsumption;
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        CalculateBatchConsumption? batchConsumption = OfflineCalculator.CalculateAvatarConsumption(deltaOptions.Delta, avatar);
+        if (batchConsumption is null)
         {
-            if (DateTimeOffset.Now < avatar.BeginTime)
-            {
-                batchConsumption = OfflineCalculator.CalculateAvatarConsumption(deltaOptions.Delta, avatar);
-                if (batchConsumption is null)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
-                {
-                    return;
-                }
-            }
+            return;
         }
 
         LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);

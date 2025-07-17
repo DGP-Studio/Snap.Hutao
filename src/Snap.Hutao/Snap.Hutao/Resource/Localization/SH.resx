@@ -1872,6 +1872,9 @@
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>重新添加物品以查看养成描述</value>
   </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
+  </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>添加成功</value>
   </data>

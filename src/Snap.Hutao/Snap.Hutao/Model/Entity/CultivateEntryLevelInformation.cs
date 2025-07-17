@@ -25,6 +25,8 @@ internal sealed class CultivateEntryLevelInformation
 
     public uint AvatarLevelTo { get; set; }
 
+    public bool AvatarIsPromoting { get; set; }
+
     public uint SkillALevelFrom { get; set; }
 
     public uint SkillALevelTo { get; set; }
@@ -50,6 +52,7 @@ internal sealed class CultivateEntryLevelInformation
                 EntryId = entryId,
                 AvatarLevelFrom = source.AvatarLevelFrom,
                 AvatarLevelTo = source.AvatarLevelTo,
+                AvatarIsPromoting = source.AvatarIsPromoting,
                 SkillALevelFrom = source.SkillALevelFrom,
                 SkillALevelTo = source.SkillALevelTo,
                 SkillELevelFrom = source.SkillELevelFrom,
