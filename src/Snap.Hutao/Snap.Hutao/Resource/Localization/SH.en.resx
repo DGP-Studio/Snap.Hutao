@@ -267,6 +267,9 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>Refreshed at {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
+  </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Role</value>
   </data>
@@ -1722,6 +1725,9 @@ Space Available: {2}</value>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Image Assets Quality</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
   </data>
@@ -2042,6 +2048,15 @@ Space Available: {2}</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>Original Quality</value>
+  </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} Seconds</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
@@ -2633,6 +2648,9 @@ Space Available: {2}</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Weapon</value>
+  </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao has launched the game for you {0} times</value>
@@ -3537,6 +3555,9 @@ Space Available: {2}</value>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Before Ascension</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>周期</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Imaginarium Theater</value>
   </data>
@@ -3926,6 +3947,12 @@ Space Available: {2}</value>
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>Copy Link Successful</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>Most Damage Dealt</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Invalid server</value>
