@@ -84,6 +84,13 @@ internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionView
                         {
                             stringBuilder.Append("Lv.").Append(info.WeaponLevelFrom).Append(" → Lv.").Append(info.WeaponLevelTo);
                         }
+                        else
+                        {
+                            if (info.WeaponIsPromoting)
+                            {
+                                stringBuilder.Append("Lv.").Append(info.WeaponLevelFrom).Append(" (").Append(SH.ViewModelCultivationEntryViewPromoteOnlyHint).Append(')');
+                            }
+                        }
 
                         return stringBuilder.ToString();
                     }

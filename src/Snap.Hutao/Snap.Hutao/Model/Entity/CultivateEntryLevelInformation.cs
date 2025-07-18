@@ -43,6 +43,8 @@ internal sealed class CultivateEntryLevelInformation
 
     public uint WeaponLevelTo { get; set; }
 
+    public bool WeaponIsPromoting { get; set; }
+
     public static CultivateEntryLevelInformation From(Guid entryId, CultivateType type, LevelInformation source)
     {
         return type switch
@@ -65,6 +67,7 @@ internal sealed class CultivateEntryLevelInformation
                 EntryId = entryId,
                 WeaponLevelFrom = source.WeaponLevelFrom,
                 WeaponLevelTo = source.WeaponLevelTo,
+                WeaponIsPromoting = source.WeaponIsPromoting,
             },
             _ => throw HutaoException.NotSupported($"不支持的养成类型{type}"),
         };
