@@ -15,6 +15,7 @@ using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Cultivation.Offline;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -185,6 +186,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "AvatarPropertyViewModel.Command"));
 
+        ArgumentNullException.ThrowIfNull(metadataContext);
+
         if (avatar is null)
         {
             return;
@@ -213,16 +216,24 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         CalculatorBatchConsumption? batchConsumption;
-        using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
+        if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
         {
-            CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            Response<CalculatorBatchConsumption> response = await calculatorClient
-                .BatchComputeAsync(userAndUid, deltaOptions.Delta)
-                .ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+            batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltaOptions.Delta, metadataContext);
+            ArgumentNullException.ThrowIfNull(batchConsumption);
+        }
+        else
+        {
+            using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
             {
-                return;
+                CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+                Response<CalculatorBatchConsumption> response = await calculatorClient
+                    .BatchComputeAsync(userAndUid, deltaOptions.Delta)
+                    .ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                {
+                    return;
+                }
             }
         }
 
@@ -236,6 +247,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private async Task BatchCultivateAsync(bool full)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI($"Batch cultivate, full: {full}", "AvatarPropertyViewModel.Command"));
+
+        ArgumentNullException.ThrowIfNull(metadataContext);
 
         if (Summary is not { Avatars: { } avatars })
         {
@@ -309,14 +322,22 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ImmutableArray<CalculatorAvatarPromotionDelta> deltas = deltasBuilder.ToImmutable();
 
             CalculatorBatchConsumption? batchConsumption;
-            using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
+            if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
             {
-                CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltas, metadataContext);
+                ArgumentNullException.ThrowIfNull(batchConsumption);
+            }
+            else
+            {
+                using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
                 {
-                    return;
+                    CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+                    Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
+
+                    if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                    {
+                        return;
+                    }
                 }
             }
 

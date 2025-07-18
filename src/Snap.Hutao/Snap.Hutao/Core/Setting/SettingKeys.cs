@@ -101,6 +101,7 @@ internal static class SettingKeys
     public const string AlphaBuildUseFjPatchEndpoint = "AlphaBuildUseFJPatchEndpoint";
     public const string TreatPredownloadAsMain = "TreatPredownloadAsMain";
     public const string EnableBetaGameInstall = "EnableBetaGameInstall";
+    public const string EnableOfflineCultivationCalculator = "EnableOfflineCultivationCalculator";
     #endregion
 
     #region Obsolete

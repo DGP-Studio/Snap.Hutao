@@ -129,9 +129,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             }
         }
 
-        CalculateBatchConsumption? batchConsumption = OfflineCalculator.CalculateWeaponConsumption(deltaOptions.Delta, weapon);
-        if (batchConsumption is null)
+        CalculateBatchConsumption batchConsumption = OfflineCalculator.CalculateWikiWeaponConsumption(deltaOptions.Delta, weapon);
+        if (batchConsumption.OverallConsume.IsEmpty)
         {
+            infoBarService.Warning(SH.ViewModelCultivationEntryAddNoConsumptionWarning);
             return;
         }
 

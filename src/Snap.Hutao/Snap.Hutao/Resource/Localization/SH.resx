@@ -1863,6 +1863,9 @@
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>已存在该物品的养成项目</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
   </data>

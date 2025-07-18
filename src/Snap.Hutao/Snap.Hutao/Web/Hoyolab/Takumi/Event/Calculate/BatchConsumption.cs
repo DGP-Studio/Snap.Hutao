@@ -19,7 +19,15 @@ internal sealed class BatchConsumption
     [JsonPropertyName("has_user_info")]
     public bool HasUserInfo { get; set; }
 
-    public static BatchConsumption CreateForOffline(ImmutableArray<Item> items)
+    public static BatchConsumption CreateForBatch(ImmutableArray<Consumption> items)
+    {
+        return new()
+        {
+            Items = items,
+        };
+    }
+
+    public static BatchConsumption CreateForWiki(ImmutableArray<Item> items)
     {
         return new()
         {

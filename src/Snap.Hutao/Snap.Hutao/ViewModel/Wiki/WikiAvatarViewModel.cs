@@ -137,9 +137,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             }
         }
 
-        CalculateBatchConsumption? batchConsumption = OfflineCalculator.CalculateAvatarConsumption(deltaOptions.Delta, avatar);
-        if (batchConsumption is null)
+        CalculateBatchConsumption batchConsumption = OfflineCalculator.CalculateWikiAvatarConsumption(deltaOptions.Delta, avatar);
+        if (batchConsumption.OverallConsume.IsEmpty)
         {
+            infoBarService.Warning(SH.ViewModelCultivationEntryAddNoConsumptionWarning);
             return;
         }
 

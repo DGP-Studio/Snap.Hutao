@@ -4,8 +4,11 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Service.AvatarInfo.Factory;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Immutable;
+using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 
@@ -33,7 +36,50 @@ internal static class OfflineCalculator
     private static readonly int[] TalentMoraCosts = [0, 12500, 17500, 25000, 30000, 37500, 120000, 260000, 450000, 700000];
     private static readonly uint[] WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
 
-    public static BatchConsumption? CalculateAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
+    public static BatchConsumption CalculateWikiAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
+    {
+        return BatchConsumption.CreateForWiki(CalculateAvatarConsumption(delta, avatar));
+    }
+
+    public static BatchConsumption CalculateWikiWeaponConsumption(AvatarPromotionDelta delta, MetadataWeapon weapon)
+    {
+        return BatchConsumption.CreateForWiki(CalculateWeaponConsumption(delta, weapon));
+    }
+
+    public static BatchConsumption CalculateBatchConsumption(AvatarPromotionDelta delta, SummaryFactoryMetadataContext context)
+    {
+        return CalculateBatchConsumption([delta], context);
+    }
+
+    public static BatchConsumption CalculateBatchConsumption(ImmutableArray<AvatarPromotionDelta> deltas, SummaryFactoryMetadataContext context)
+    {
+        ImmutableArray<CalculateConsumption>.Builder consumptions = ImmutableArray.CreateBuilder<CalculateConsumption>(deltas.Length);
+        foreach (AvatarPromotionDelta delta in deltas)
+        {
+            ArgumentNullException.ThrowIfNull(delta.Weapon);
+
+            MetadataAvatar? avatar = context.GetAvatar(delta.AvatarId);
+            MetadataWeapon? weapon = context.GetWeapon(delta.Weapon.Id);
+
+            if (avatar is null || weapon is null)
+            {
+                continue;
+            }
+
+            CalculateConsumption consumption = new()
+            {
+                AvatarConsume = CalculateAvatarConsumption(delta, avatar),
+                AvatarSkillConsume = [],
+                WeaponConsume = CalculateWeaponConsumption(delta, weapon),
+            };
+
+            consumptions.Add(consumption);
+        }
+
+        return BatchConsumption.CreateForBatch(consumptions.ToImmutable());
+    }
+
+    private static ImmutableArray<Item> CalculateAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
     {
         Dictionary<uint, uint> itemCounts = [];
         int totalMora = 0;
@@ -89,14 +135,14 @@ internal static class OfflineCalculator
             AddOrUpdateItem(itemCounts, MoraItemId, (uint)totalMora);
         }
 
-        return CreateBatchConsumption(itemCounts);
+        return ConvertToItems(itemCounts);
     }
 
-    public static BatchConsumption? CalculateWeaponConsumption(AvatarPromotionDelta delta, MetadataWeapon weapon)
+    private static ImmutableArray<Item> CalculateWeaponConsumption(AvatarPromotionDelta delta, MetadataWeapon weapon)
     {
         if (delta.Weapon is null)
         {
-            return default;
+            return [];
         }
 
         Dictionary<uint, uint> itemCounts = [];
@@ -133,7 +179,7 @@ internal static class OfflineCalculator
             AddOrUpdateItem(itemCounts, MoraItemId, (uint)totalMora);
         }
 
-        return CreateBatchConsumption(itemCounts);
+        return ConvertToItems(itemCounts);
     }
 
     #region Avatar
@@ -556,11 +602,11 @@ internal static class OfflineCalculator
         }
     }
 
-    private static BatchConsumption? CreateBatchConsumption(Dictionary<uint, uint> itemCounts)
+    private static ImmutableArray<Item> ConvertToItems(Dictionary<uint, uint> itemCounts)
     {
         if (itemCounts.Count is 0)
         {
-            return default;
+            return [];
         }
 
         Item[] items = new Item[itemCounts.Count];
@@ -575,6 +621,6 @@ internal static class OfflineCalculator
             };
         }
 
-        return BatchConsumption.CreateForOffline(ImmutableArray.Create(items));
+        return ImmutableArray.Create(items);
     }
 }
