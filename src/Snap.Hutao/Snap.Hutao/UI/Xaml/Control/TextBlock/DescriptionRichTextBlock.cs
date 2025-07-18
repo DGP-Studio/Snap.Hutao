@@ -1,6 +1,5 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,14 +15,14 @@ using System.Globalization;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
-using TextBlockType = Microsoft.UI.Xaml.Controls.TextBlock;
+using TextBlockType = Microsoft.UI.Xaml.Controls.RichTextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
 [DependencyProperty("LinkContext", typeof(LinkMetadataContext), default(LinkMetadataContext))]
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
-internal sealed partial class DescriptionTextBlock : ContentControl
+internal sealed partial class DescriptionRichTextBlock : ContentControl
 {
     private static readonly BitmapImage BitmapSourceIce = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png".ToUri());
     private static readonly BitmapImage BitmapSourceWater = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Water.png".ToUri());
@@ -33,33 +32,40 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static readonly BitmapImage BitmapSourceRock = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Rock.png".ToUri());
     private static readonly BitmapImage BitmapSourceGrass = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Grass.png".ToUri());
 
-    public DescriptionTextBlock()
+    public DescriptionRichTextBlock()
     {
-        Content = new TextBlockType
+        TextBlockType textBlock = new()
         {
             TextWrapping = TextWrapping.Wrap,
             Style = TextStyle,
         };
+        textBlock.Blocks.Add(new Paragraph());
+        Content = textBlock;
 
         ActualThemeChanged += OnActualThemeChanged;
     }
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        DescriptionTextBlock descriptionTextBlock = (DescriptionTextBlock)d;
+        DescriptionRichTextBlock descriptionTextBlock = (DescriptionRichTextBlock)d;
         TextBlockType textBlock = (TextBlockType)descriptionTextBlock.Content;
         descriptionTextBlock.UpdateDescription(textBlock, (string)e.NewValue);
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((TextBlockType)((DescriptionTextBlock)d).Content).Style = (Style)e.NewValue;
+        ((TextBlockType)((DescriptionRichTextBlock)d).Content).Style = (Style)e.NewValue;
     }
 
     private void UpdateDescription(TextBlockType textBlock, string text)
     {
-        DetachHyperLinkClickEvent(textBlock.Inlines);
-        textBlock.Inlines.Clear();
+        if (textBlock.Blocks is not [Paragraph paragraph])
+        {
+            return;
+        }
+
+        DetachHyperLinkClickEvent(paragraph.Inlines);
+        paragraph.Inlines.Clear();
 
         string content = SpecialNameHandling.Handle(text);
         MiHoYoSyntaxLexer lexer = new(content);
@@ -67,7 +73,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         ImmutableArray<MiHoYoSyntaxElement> elements = parser.Parse();
         foreach (ref readonly MiHoYoSyntaxElement element in elements.AsSpan())
         {
-            AppendNode(textBlock, textBlock.Inlines, element, content);
+            AppendNode(textBlock, paragraph.Inlines, element, content);
         }
     }
 
