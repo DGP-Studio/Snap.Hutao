@@ -352,7 +352,7 @@ internal static class OfflineCalculator
 
         foreach (int ascensionLevel in AscensionLevels)
         {
-            if (targetLevel > ascensionLevel && currentLevel <= ascensionLevel)
+            if (targetLevel >= ascensionLevel && currentLevel <= ascensionLevel)
             {
                 requiredAscensions.Add(ascensionLevel);
             }
