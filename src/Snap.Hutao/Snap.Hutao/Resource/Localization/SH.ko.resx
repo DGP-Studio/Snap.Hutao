@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -266,6 +266,9 @@
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>{0:MM.dd HH:mm:ss}에 새로 고침됨</value>
+  </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>캐릭터</value>
@@ -585,6 +588,9 @@
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
+  <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
+    <value>设备 ID 不能为空</value>
+  </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>먼저 Snap Hutao 계정에 로그인하거나 등록하십시오.</value>
   </data>
@@ -594,11 +600,20 @@
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
     <value>密码长度不能小于 8 位</value>
   </data>
+  <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
+    <value>刷新令牌不能为空</value>
+  </data>
+  <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
+    <value>刷新令牌无效或已过期</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>등록 성공</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>새 비밀번호 설정 성공</value>
+  </data>
+  <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
+    <value>新密码不能与旧密码相同</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>현재 이메일은 아직 등록되지 않았습니다</value>
@@ -609,8 +624,17 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>등록 실패, 서버 오류, 개발자에게 문의하여 해결하세요</value>
   </data>
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
-    <value>사용자가 존재하지 않아, 계정 삭제에 실패했습니다</value>
+    <value>用户不存在，注销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
+    <value>令牌撤销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
+    <value>令牌撤销成功</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>사용자 삭제 성공</value>
@@ -1302,6 +1326,9 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>현재 아카이브 업적 가져오기</value>
   </data>
+  <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
+    <value>选择要添加到当前培养计划的角色</value>
+  </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>나중에 설정에서 이 동작을 변경할 수 있습니다</value>
   </data>
@@ -1701,6 +1728,9 @@
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>이미지 리소스 품질</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Passport</value>
   </data>
@@ -1731,6 +1761,9 @@
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>잘못된 이름을 가진 아카이브를 추가할 수 없음</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>复制成就 ID 成功</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 파일</value>
   </data>
@@ -1748,6 +1781,9 @@
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>선택한 경로로 UIAF Json 파일 내보내기</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
+    <value>未选中任意角色</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>육성 재료를 가져오는 중입니다. 잠시만 기다려 주세요...</value>
@@ -2019,6 +2055,15 @@
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>원래 화질</value>
   </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0}초</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>올바른 이메일을 입력하세요</value>
   </data>
@@ -2100,6 +2145,12 @@
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>작업 완료</value>
   </data>
+  <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
+    <value>当前已是最新版本</value>
+  </data>
+  <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
+    <value>检查更新发送错误</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>권한이 부족해 지우지 못했습니다. 관리자 모드로 실행해주세요</value>
   </data>
@@ -2133,6 +2184,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>데이터 경로를 설정했습니다. 변경 사항을 적용하기 위해 재시작합니다</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>선택한 폴더가 비어 있지 않습니다. 기존 파일이 덮어쓰여집니다.</value>
   </data>
@@ -2144,6 +2198,9 @@
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>데이터 파일 복사</value>
+  </data>
+  <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
+    <value>更新可用: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>{0} 미유 코인이 필요하며, {1} 미유 코인을 사용할 수 있습니다</value>
@@ -2285,6 +2342,9 @@
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
     <value>현재 캐릭터 및 무기</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
+    <value>部分角色与武器</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>캐릭터 정보를 가져오지 못했습니다</value>
@@ -2598,6 +2658,9 @@
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>무기</value>
   </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
+  </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao가 {0}번 게임을 실행했습니다.</value>
   </data>
@@ -2817,6 +2880,9 @@
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>맵 배너 콜드 스위치</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
+    <value>强制移除地图界面左上角的任务提示</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>지도 배너 닫기</value>
   </data>
@@ -2837,6 +2903,9 @@
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>터치 입력 사용</value>
+  </data>
+  <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
+    <value>结束进程</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>지정한 모니터에서 실행</value>
@@ -3053,6 +3122,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>캐시 폴더</value>
+  </data>
+  <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
+    <value>업데이트 확인</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>알림 영역 아이콘 생성에 실패하여 닫기 버튼 동작을 조정할 수 없습니다</value>
@@ -3492,6 +3564,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>돌파 전</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>周期</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>환상 진경 극시</value>
   </data>
@@ -3607,7 +3682,7 @@
     <value>메타데이터 초기화 중</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>호두 {0} 버전이 이제 사용 가능합니다</value>
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>지금 다운로드하시겠습니까?</value>
@@ -3881,6 +3956,12 @@
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>다운로드 링크 복사 성공</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>최고의 일격</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>유효하지 않은 서버</value>
