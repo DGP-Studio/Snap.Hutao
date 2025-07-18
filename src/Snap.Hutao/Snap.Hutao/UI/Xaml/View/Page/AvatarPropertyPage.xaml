@@ -609,7 +609,14 @@
                                         Command="{Binding CultivateCommand}"
                                         CommandParameter="{Binding Summary.Avatars.CurrentItem}"
                                         Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
-                                    <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding BatchCultivateCommand}"
+                                        CommandParameter="{shuxm:Boolean Value=False}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculatePart}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding BatchCultivateCommand}"
+                                        CommandParameter="{shuxm:Boolean Value=True}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
                                 </MenuFlyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>
@@ -692,6 +699,7 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
+
                                                         <cwcont:ConstrainedBox
                                                             Grid.RowSpan="2"
                                                             Grid.ColumnSpan="2"
@@ -715,6 +723,7 @@
                                                             Background="#33000000"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}"
                                                             IsHitTestVisible="False"/>
+
                                                         <StackPanel
                                                             Grid.Row="0"
                                                             Grid.Column="0"
@@ -872,7 +881,6 @@
                                                     </Expander>
                                                 </Border>
 
-
                                                 <Grid ColumnSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
@@ -969,6 +977,7 @@
                                                         </shuxcc:VerticalCard.Bottom>
                                                     </shuxcc:VerticalCard>
                                                 </Grid>
+
                                                 <!--  圣遗物  -->
                                                 <ItemsControl ItemTemplate="{StaticResource AvatarReliquaryTemplate}" ItemsSource="{Binding Summary.Avatars.CurrentItem.Reliquaries}">
                                                     <ItemsControl.ItemsPanel>

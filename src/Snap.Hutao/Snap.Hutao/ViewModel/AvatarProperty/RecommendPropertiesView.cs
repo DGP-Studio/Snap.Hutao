@@ -7,11 +7,11 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal sealed class RecommendPropertiesView
 {
-    public required ImmutableArray<string> SandProperties { get; init; }
+    public ImmutableArray<string> SandProperties { get; set; }
 
-    public required ImmutableArray<string> GobletProperties { get; init; }
+    public ImmutableArray<string> GobletProperties { get; set; }
 
-    public required ImmutableArray<string> CircletProperties { get; init; }
+    public ImmutableArray<string> CircletProperties { get; set; }
 
-    public required ImmutableArray<string> SubProperties { get; init; }
+    public ImmutableArray<string> SubProperties { get; set; }
 }

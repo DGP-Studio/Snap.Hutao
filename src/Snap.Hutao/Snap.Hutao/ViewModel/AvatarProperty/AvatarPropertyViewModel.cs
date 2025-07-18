@@ -233,9 +233,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     }
 
     [Command("BatchCultivateCommand")]
-    private async Task BatchCultivateAsync()
+    private async Task BatchCultivateAsync(bool full)
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Batch cultivate", "AvatarPropertyViewModel.Command"));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI($"Batch cultivate, full: {full}", "AvatarPropertyViewModel.Command"));
 
         if (Summary is not { Avatars: { } avatars })
         {
@@ -246,6 +246,34 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         {
             scopeContext.InfoBarService.Warning(SH.MustSelectUserAndUid);
             return;
+        }
+
+        ImmutableArray<AvatarView> targetAvatars;
+
+        if (!full)
+        {
+            AvatarPropertyMultiAvatarCultivateSelectDialog selectDialog = await scopeContext.ContentDialogFactory
+                .CreateInstanceAsync<AvatarPropertyMultiAvatarCultivateSelectDialog>(scopeContext.ServiceProvider)
+                .ConfigureAwait(false);
+
+            await scopeContext.TaskContext.SwitchToMainThreadAsync();
+            selectDialog.Avatars = avatars;
+            if (!await selectDialog.SelectAvatarsAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
+            if (!selectDialog.SelectedAvatars.Any())
+            {
+                scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar);
+                return;
+            }
+
+            targetAvatars = selectDialog.SelectedAvatars;
+        }
+        else
+        {
+            targetAvatars = [.. avatars.Source];
         }
 
         CultivatePromotionDeltaBatchDialog dialog = await scopeContext.ContentDialogFactory
@@ -267,7 +295,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         using (await scopeContext.ContentDialogFactory.BlockAsync(progressDialog).ConfigureAwait(false))
         {
             ImmutableArray<CalculatorAvatarPromotionDelta>.Builder deltasBuilder = ImmutableArray.CreateBuilder<CalculatorAvatarPromotionDelta>();
-            foreach (AvatarView avatar in avatars)
+            foreach (AvatarView avatar in targetAvatars)
             {
                 if (!baseline.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
                 {
