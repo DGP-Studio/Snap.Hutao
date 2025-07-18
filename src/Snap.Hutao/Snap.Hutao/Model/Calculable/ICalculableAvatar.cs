@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal interface ICalculableAvatar : ICalculableMinMaxLevel
+internal interface ICalculableAvatar : ICalculablePromoteLevel
 {
     AvatarId AvatarId { get; }
 

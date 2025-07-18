@@ -30,6 +30,8 @@ internal sealed class LevelInformation
 
     public uint WeaponLevelTo { get; private set; }
 
+    public bool WeaponIsPromoting { get; private set; }
+
     public static LevelInformation From(AvatarPromotionDelta delta)
     {
         LevelInformation levelInformation = new();
@@ -55,6 +57,7 @@ internal sealed class LevelInformation
         {
             levelInformation.WeaponLevelFrom = weapon.LevelCurrent;
             levelInformation.WeaponLevelTo = weapon.LevelTarget;
+            levelInformation.WeaponIsPromoting = !BaseValueInfoConverter.GetPromoted(weapon.LevelCurrent, weapon.WeaponPromoteLevel);
         }
 
         return levelInformation;

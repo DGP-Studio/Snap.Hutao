@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal interface ICalculableWeapon : ICalculableMinMaxLevel
+internal interface ICalculableWeapon : ICalculablePromoteLevel
 {
     WeaponId WeaponId { get; }
 }

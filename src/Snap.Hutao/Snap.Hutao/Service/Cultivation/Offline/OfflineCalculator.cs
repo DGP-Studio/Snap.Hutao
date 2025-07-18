@@ -117,7 +117,8 @@ internal static class OfflineCalculator
             (int ascensionMora, Dictionary<uint, uint> ascensionItems) = CalculateWeaponAscension(
                 weapon,
                 delta.Weapon.LevelCurrent,
-                delta.Weapon.LevelTarget);
+                delta.Weapon.LevelTarget,
+                delta.Weapon.WeaponPromoteLevel);
 
             totalMora += ascensionMora;
             foreach ((uint id, uint count) in ascensionItems)
@@ -324,11 +325,6 @@ internal static class OfflineCalculator
 
     private static (int Mora, uint ExpBooks) CalculateWeaponExperience(int starRarity, uint currentLevel, uint targetLevel)
     {
-        if (starRarity is < 3 or > 5)
-        {
-            throw HutaoException.NotSupported($"Weapon star rarity {starRarity} is not supported");
-        }
-
         int requiredExp = WeaponLevelExperience.CalculateTotalExperience(starRarity, (int)currentLevel, (int)targetLevel);
         uint expBooks = (uint)Math.Round((double)requiredExp / PurpleWeaponExp, MidpointRounding.ToPositiveInfinity);
         int mora = (int)(expBooks * PurpleWeaponExpMoraPer);
@@ -339,21 +335,35 @@ internal static class OfflineCalculator
     private static (int Mora, Dictionary<uint, uint> Items) CalculateWeaponAscension(
         MetadataWeapon weapon,
         uint currentLevel,
-        uint targetLevel)
+        uint targetLevel,
+        uint currentPromoteLevel)
     {
         int starRarity = (int)weapon.RankLevel;
-        if (starRarity < 3 || starRarity > 5)
-        {
-            throw HutaoException.NotSupported($"Weapon star rarity {starRarity} is not supported");
-        }
 
         List<int> requiredAscensions = [];
 
-        foreach (int ascensionLevel in AscensionLevels)
+        for (int i = 0; i < AscensionLevels.Length; i++)
         {
+            int ascensionLevel = AscensionLevels[i];
+            if (ascensionLevel >= 70 && starRarity < 3)
+            {
+                break;
+            }
+
+            uint requiredPromoteLevel = (uint)(i + 1);
+
             if (targetLevel >= ascensionLevel && currentLevel <= ascensionLevel)
             {
-                requiredAscensions.Add(ascensionLevel);
+                if (currentLevel == ascensionLevel && currentPromoteLevel >= requiredPromoteLevel)
+                {
+                    continue;
+                }
+
+                if (currentLevel < ascensionLevel ||
+                    (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
+                {
+                    requiredAscensions.Add(ascensionLevel);
+                }
             }
         }
 

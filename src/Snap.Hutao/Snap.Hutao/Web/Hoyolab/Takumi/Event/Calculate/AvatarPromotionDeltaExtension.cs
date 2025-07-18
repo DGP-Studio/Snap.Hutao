@@ -55,6 +55,7 @@ internal static class AvatarPromotionDeltaExtension
             Id = weaponView.Id,
             LevelCurrent = Math.Min(weaponView.LevelNumber, deltaWeapon.LevelTarget),
             LevelTarget = Math.Min(weaponView.MaxLevel, deltaWeapon.LevelTarget),
+            WeaponPromoteLevel = weaponView.PromoteLevel,
         };
 
         return true;
