@@ -248,6 +248,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
+        ImmutableArray<AvatarView> targetAvatars;
+
         if (!full)
         {
             AvatarPropertyMultiAvatarCultivateSelectDialog selectDialog = await scopeContext.ContentDialogFactory
@@ -261,11 +263,17 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 return;
             }
 
-            if (!avatars.Any(a => ((AvatarView)a).IsSelected))
+            if (!selectDialog.SelectedAvatars.Any())
             {
                 scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar);
                 return;
             }
+
+            targetAvatars = selectDialog.SelectedAvatars;
+        }
+        else
+        {
+            targetAvatars = [.. avatars.Source];
         }
 
         CultivatePromotionDeltaBatchDialog dialog = await scopeContext.ContentDialogFactory
@@ -287,13 +295,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         using (await scopeContext.ContentDialogFactory.BlockAsync(progressDialog).ConfigureAwait(false))
         {
             ImmutableArray<CalculatorAvatarPromotionDelta>.Builder deltasBuilder = ImmutableArray.CreateBuilder<CalculatorAvatarPromotionDelta>();
-            foreach (AvatarView avatar in avatars)
+            foreach (AvatarView avatar in targetAvatars)
             {
-                if (!full && !avatar.IsSelected)
-                {
-                    continue;
-                }
-
                 if (!baseline.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
                 {
                     ++result.SkippedCount;

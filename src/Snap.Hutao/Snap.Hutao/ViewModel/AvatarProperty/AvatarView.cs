@@ -48,8 +48,6 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public ImmutableArray<bool> PromoteArray { get; set; }
 
-    public bool IsSelected { get; set; }
-
     internal AvatarId Id { get; set; }
 
     internal uint LevelNumber { get; set; }

@@ -47,14 +47,8 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <CheckBox
-                        Grid.Column="0"
-                        MinWidth="32"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
-                    <shuxcc:VerticalCard Grid.Column="1">
+                    <shuxcc:VerticalCard Grid.Column="0">
                         <shuxcc:VerticalCard.Top>
                             <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
                                 <shuxc:ItemIcon
@@ -100,7 +94,7 @@
                             <TextBlock Text="{Binding Level}"/>
                         </shuxcc:VerticalCard.Bottom>
                     </shuxcc:VerticalCard>
-                    <shuxcc:VerticalCard Grid.Column="2">
+                    <shuxcc:VerticalCard Grid.Column="1">
                         <shuxcc:VerticalCard.Top>
                             <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
                                 <shuxc:ItemIcon
@@ -125,7 +119,7 @@
                         </shuxcc:VerticalCard.Bottom>
                     </shuxcc:VerticalCard>
                     <ItemsControl
-                        Grid.Column="3"
+                        Grid.Column="2"
                         VerticalAlignment="Stretch"
                         ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
                         ItemsPanel="{StaticResource HorizontalStackPanelSpacing6Template}"
@@ -137,5 +131,6 @@
     <ListView
         ItemTemplate="{StaticResource AvatarGridViewTemplate}"
         ItemsSource="{x:Bind Avatars}"
-        SelectionMode="None"/>
+        SelectionChanged="OnSelectionChanged"
+        SelectionMode="Multiple"/>
 </ContentDialog>
