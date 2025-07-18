@@ -160,6 +160,16 @@
                     VerticalAlignment="Center"
                     Text="{Binding Name}"
                     TextTrimming="CharacterEllipsis"/>
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Visibility="{Binding IsPromotionAvailable}">
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        Content="{shuxm:ResourceString Name=ViewDialogCultivatePromotionDeltaPromoted}"
+                        IsChecked="{Binding IsPromoted, Mode=TwoWay}"/>
+                </StackPanel>
                 <NumberBox
                     Grid.Column="3"
                     MinWidth="{StaticResource NumberBoxMinWidth}"

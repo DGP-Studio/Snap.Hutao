@@ -56,10 +56,27 @@ internal sealed partial class CalculableWeapon : ObservableObject, ICalculableWe
 
     public QualityType Quality { get; }
 
+    [ObservableProperty]
+    public partial bool IsPromoted { get; set; }
+
+    public PromoteLevel PromoteLevel { get => BaseValueInfoConverter.GetPromoteLevel(LevelCurrent, LevelMax, IsPromoted); }
+
+    public bool IsPromotionAvailable
+    {
+        get => LevelCurrent is 20U or 40U or 50U or 60U or 70U or 80U;
+    }
+
     public uint LevelCurrent
     {
         get => persistsCurrentLevel ? LocalSetting.Get(SettingKeyCurrentFromQualityType(Quality), LevelMin) : field;
-        set => _ = persistsCurrentLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v)) : SetProperty(ref field, value);
+        set
+        {
+            if (persistsCurrentLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v)) : SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(IsPromotionAvailable));
+                IsPromoted = false;
+            }
+        }
     }
 
     public uint LevelTarget

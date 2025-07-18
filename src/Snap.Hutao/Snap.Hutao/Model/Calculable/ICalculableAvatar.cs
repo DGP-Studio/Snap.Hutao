@@ -11,10 +11,4 @@ internal interface ICalculableAvatar : ICalculableMinMaxLevel
     AvatarId AvatarId { get; }
 
     ImmutableArray<ICalculableSkill> Skills { get; }
-
-    PromoteLevel PromoteLevel { get; }
-
-    bool IsPromoted { get; }
-
-    bool IsPromotionAvailable { get; }
 }
