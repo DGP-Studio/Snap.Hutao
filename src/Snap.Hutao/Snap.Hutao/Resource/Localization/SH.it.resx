@@ -2334,6 +2334,12 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
     <value>Annunci di gioco</value>
   </data>
+  <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
+    <value>兑换码复制成功</value>
+  </data>
+  <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
+    <value>前瞻直播兑换码</value>
+  </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Visualizza dettagli</value>
   </data>
