@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.AvatarInfo.Factory;
@@ -27,14 +26,118 @@ internal static class OfflineCalculator
     private const uint WeaponExpBookId = 104013U;
     private const uint CrownOfInsightId = 104319U;
 
-    private static readonly int[] AscensionLevels = [20, 40, 50, 60, 70, 80];
+    private static readonly ImmutableArray<int> AscensionLevels = [20, 40, 50, 60, 70, 80];
 
-    private static readonly int[] AvatarAscensionMoraCosts = [20000, 40000, 60000, 80000, 100000, 120000];
-    private static readonly uint[] AvatarBossMaterialCounts = [0, 2, 4, 8, 12, 20];
-    private static readonly uint[] AvatarSpecialtyCounts = [3, 10, 20, 30, 45, 60];
+    private static readonly ImmutableArray<int> AvatarAscensionMoraCosts = [20000, 40000, 60000, 80000, 100000, 120000];
+    private static readonly ImmutableArray<uint> AvatarBossMaterialCounts = [0, 2, 4, 8, 12, 20];
+    private static readonly ImmutableArray<uint> AvatarSpecialtyCounts = [3, 10, 20, 30, 45, 60];
 
-    private static readonly int[] TalentMoraCosts = [0, 12500, 17500, 25000, 30000, 37500, 120000, 260000, 450000, 700000];
-    private static readonly uint[] WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
+    private static readonly ImmutableArray<int> TalentMoraCosts = [0, 12500, 17500, 25000, 30000, 37500, 120000, 260000, 450000, 700000];
+    private static readonly ImmutableArray<uint> WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
+
+    // 元素宝石基础ID映射
+    private static readonly ImmutableDictionary<ElementType, uint> ElementGemBaseIds = new Dictionary<ElementType, uint>
+    {
+        [ElementType.Fire] = 104111U,
+        [ElementType.Water] = 104121U,
+        [ElementType.Grass] = 104131U,
+        [ElementType.Electric] = 104141U,
+        [ElementType.Wind] = 104151U,
+        [ElementType.Ice] = 104161U,
+        [ElementType.Rock] = 104171U,
+    }.ToImmutableDictionary();
+
+    // 角色宝石消耗查找表 [突破次数-1] -> (品质偏移, 数量)
+    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> AvatarGemConsumption =
+    [
+        (0, 1u), // 突破1次
+        (1u, 3u), // 突破2次
+        (1u, 6u), // 突破3次
+        (2u, 3u), // 突破4次
+        (2u, 6u), // 突破5次
+        (3u, 6u), // 突破6次
+    ];
+
+    // 角色怪物材料消耗查找表 [突破次数-1] -> (品质偏移, 数量)
+    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> AvatarMonsterMaterialConsumption =
+    [
+        (2u, 3u), // 突破1次
+        (2u, 15u), // 突破2次
+        (1u, 12u), // 突破3次
+        (1u, 18u), // 突破4次
+        (0u, 12u), // 突破5次
+        (0u, 24u), // 突破6次
+    ];
+
+    // 天赋书消耗查找表 [等级-1] -> (品质偏移, 数量)
+    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> TalentBookConsumption =
+    [
+        (0, 0u), // 等级0 (不使用)
+        (2u, 3u), // 等级1
+        (1u, 2u), // 等级2
+        (1u, 4u), // 等级3
+        (1u, 6u), // 等级4
+        (1u, 9u), // 等级5
+        (0u, 4u), // 等级6
+        (0u, 6u), // 等级7
+        (0u, 12u), // 等级8
+        (0u, 16u), // 等级9
+    ];
+
+    // 天赋怪物材料消耗查找表 [等级-1] -> (品质偏移, 数量)
+    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> TalentMonsterMaterialConsumption =
+    [
+        (0, 0u), // 等级0 (不使用)
+        (2u, 6u), // 等级1
+        (1u, 3u), // 等级2
+        (1u, 4u), // 等级3
+        (1u, 6u), // 等级4
+        (1u, 9u), // 等级5
+        (0u, 4u), // 等级6
+        (0u, 6u), // 等级7
+        (0u, 9u), // 等级8
+        (0u, 12u), // 等级9
+    ];
+
+    // 武器突破摩拉消耗查找表
+    private static readonly ImmutableDictionary<QualityType, ImmutableArray<int>> WeaponAscensionMoraCosts = new Dictionary<QualityType, ImmutableArray<int>>
+    {
+        [QualityType.QUALITY_WHITE] = [0, 5000, 5000, 10000, 0, 0],
+        [QualityType.QUALITY_GREEN] = [5000, 5000, 10000, 15000, 0, 0],
+        [QualityType.QUALITY_BLUE] = [5000, 10000, 15000, 20000, 25000, 30000],
+        [QualityType.QUALITY_PURPLE] = [5000, 15000, 20000, 30000, 35000, 45000],
+        [QualityType.QUALITY_ORANGE] = [10000, 20000, 30000, 45000, 55000, 65000],
+    }.ToImmutableDictionary();
+
+    // 武器材料消耗的查找表
+    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMaterialConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
+    {
+        [QualityType.QUALITY_WHITE] = [(2u, 1u), (1u, 1u), (1u, 2u), (0u, 1u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_GREEN] = [(2u, 1u), (1u, 1u), (1u, 3u), (0u, 1u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_BLUE] = [(3u, 2u), (2u, 2u), (2u, 4u), (1u, 2u), (1u, 4u), (0u, 3u)],
+        [QualityType.QUALITY_PURPLE] = [(3u, 3u), (2u, 3u), (2u, 6u), (1u, 3u), (1u, 6u), (0u, 4u)],
+        [QualityType.QUALITY_ORANGE] = [(3u, 5u), (2u, 5u), (2u, 9u), (1u, 5u), (1u, 9u), (0u, 6u)],
+    }.ToImmutableDictionary();
+
+    // 武器怪物材料A消耗查找表
+    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMonsterMaterialAConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
+    {
+        [QualityType.QUALITY_WHITE] = [(1u, 1u), (1u, 4u), (0u, 2u), (0u, 4u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_GREEN] = [(1u, 1u), (1u, 5u), (0u, 3u), (0u, 5u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_BLUE] = [(2u, 2u), (2u, 8u), (1u, 4u), (1u, 8u), (0u, 6u), (0u, 12u)],
+        [QualityType.QUALITY_PURPLE] = [(2u, 3u), (2u, 12u), (1u, 6u), (1u, 12u), (0u, 9u), (0u, 18u)],
+        [QualityType.QUALITY_ORANGE] = [(2u, 5u), (2u, 18u), (1u, 9u), (1u, 18u), (0u, 14u), (0u, 27u)],
+    }.ToImmutableDictionary();
+
+    // 武器怪物材料B消耗查找表
+    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMonsterMaterialBConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
+    {
+        [QualityType.QUALITY_WHITE] = [(1u, 1u), (1u, 2u), (0u, 2u), (0u, 3u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_GREEN] = [(1u, 1u), (1u, 4u), (0u, 3u), (0u, 4u), (0u, 0u), (0u, 0u)],
+        [QualityType.QUALITY_BLUE] = [(2u, 1u), (2u, 5u), (1u, 4u), (1u, 6u), (0u, 4u), (0u, 8u)],
+        [QualityType.QUALITY_PURPLE] = [(2u, 2u), (2u, 8u), (1u, 6u), (1u, 9u), (0u, 6u), (0u, 12u)],
+        [QualityType.QUALITY_ORANGE] = [(2u, 3u), (2u, 12u), (1u, 9u), (1u, 14u), (0u, 9u), (0u, 18u)],
+    }.ToImmutableDictionary();
 
     public static BatchConsumption CalculateWikiAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
     {
@@ -58,10 +161,7 @@ internal static class OfflineCalculator
         {
             ArgumentNullException.ThrowIfNull(delta.Weapon);
 
-            MetadataAvatar? avatar = context.GetAvatar(delta.AvatarId);
-            MetadataWeapon? weapon = context.GetWeapon(delta.Weapon.Id);
-
-            if (avatar is null || weapon is null)
+            if (context.GetAvatar(delta.AvatarId) is not { } avatar || context.GetWeapon(delta.Weapon.Id) is not { } weapon)
             {
                 continue;
             }
@@ -78,6 +178,8 @@ internal static class OfflineCalculator
 
         return BatchConsumption.CreateForBatch(consumptions.ToImmutable());
     }
+
+    #region Consumption
 
     private static ImmutableArray<Item> CalculateAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
     {
@@ -151,8 +253,7 @@ internal static class OfflineCalculator
         // 计算武器经验
         if (delta.Weapon.LevelCurrent < delta.Weapon.LevelTarget)
         {
-            int starRarity = (int)weapon.RankLevel;
-            (int expMora, uint expBooks) = CalculateWeaponExperience(starRarity, delta.Weapon.LevelCurrent, delta.Weapon.LevelTarget);
+            (int expMora, uint expBooks) = CalculateWeaponExperience(weapon.RankLevel, delta.Weapon.LevelCurrent, delta.Weapon.LevelTarget);
             totalMora += expMora;
             AddOrUpdateItem(itemCounts, WeaponExpBookId, expBooks);
         }
@@ -181,6 +282,8 @@ internal static class OfflineCalculator
 
         return ConvertToItems(itemCounts);
     }
+
+    #endregion
 
     #region Avatar
 
@@ -213,52 +316,31 @@ internal static class OfflineCalculator
                     continue;
                 }
 
-                if (currentLevel < ascensionLevel ||
-                    (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
+                if (currentLevel < ascensionLevel || (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
                 {
                     requiredAscensions.Add(ascensionLevel);
                 }
             }
         }
 
-        if (requiredAscensions.Count == 0)
+        if (requiredAscensions.Count is 0)
         {
-            return (0, new Dictionary<uint, uint>());
+            return (0, []);
         }
 
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (int ascensionLevel in requiredAscensions)
+        foreach (int requiredAscension in requiredAscensions)
         {
-            int ascensionIndex = Array.IndexOf(AscensionLevels, ascensionLevel);
-            uint ascensionIndexU = (uint)(ascensionIndex + 1);
+            int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 
             // 添加元素宝石
-            uint gemBaseId = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore) switch
-            {
-                ElementType.Fire => 104111U,
-                ElementType.Water => 104121U,
-                ElementType.Grass => 104131U,
-                ElementType.Electric => 104141U,
-                ElementType.Wind => 104151U,
-                ElementType.Ice => 104161U,
-                ElementType.Rock => 104171U,
-                _ => throw HutaoException.NotSupported(),
-            };
+            uint gemBaseId = ElementGemBaseIds[ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore)];
 
             // 根据突破等级选择宝石品质和数量
-            (uint gemId, uint gemCount) = ascensionIndexU switch
-            {
-                1 => (gemBaseId, 1u),
-                2 => (gemBaseId + 1u, 3u),
-                3 => (gemBaseId + 1u, 6u),
-                4 => (gemBaseId + 2u, 3u),
-                5 => (gemBaseId + 2u, 6u),
-                6 => (gemBaseId + 3u, 6u),
-                _ => throw HutaoException.Argument("Invalid ascension level", nameof(ascensionIndexU)),
-            };
-            AddOrUpdateItem(items, gemId, gemCount);
+            (uint gemId, uint gemCount) = AvatarGemConsumption[ascensionIndex];
+            AddOrUpdateItem(items, gemBaseId + gemId, gemCount);
 
             // 添加摩拉消耗
             totalMora += AvatarAscensionMoraCosts[ascensionIndex];
@@ -276,17 +358,8 @@ internal static class OfflineCalculator
 
             // 添加怪物材料
             uint highestMaterialId = avatar.CultivationItems[3];
-            (uint materialId, uint materialCount) = ascensionIndexU switch
-            {
-                1 => (highestMaterialId - 2U, 3u),
-                2 => (highestMaterialId - 2U, 15u),
-                3 => (highestMaterialId - 1U, 12u),
-                4 => (highestMaterialId - 1U, 18u),
-                5 => (highestMaterialId, 12u),
-                6 => (highestMaterialId, 24u),
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, materialId, materialCount);
+            (uint materialId, uint materialCount) = AvatarMonsterMaterialConsumption[ascensionIndex];
+            AddOrUpdateItem(items, highestMaterialId - materialId, materialCount);
         }
 
         return (totalMora, items);
@@ -299,7 +372,7 @@ internal static class OfflineCalculator
     {
         if (currentLevel >= targetLevel || currentLevel >= 10 || targetLevel > 10)
         {
-            return (0, new Dictionary<uint, uint>());
+            return (0, []);
         }
 
         int totalMora = 0;
@@ -317,36 +390,12 @@ internal static class OfflineCalculator
             totalMora += TalentMoraCosts[upgradeIndex];
 
             // 添加天赋书
-            (uint talentBookMaterialId, uint talentBookCount) = upgradeIndex switch
-            {
-                1 => (talentBookId - 2U, 3u),
-                2 => (talentBookId - 1U, 2u),
-                3 => (talentBookId - 1U, 4u),
-                4 => (talentBookId - 1U, 6u),
-                5 => (talentBookId - 1U, 9u),
-                6 => (talentBookId, 4u),
-                7 => (talentBookId, 6u),
-                8 => (talentBookId, 12u),
-                9 => (talentBookId, 16u),
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, talentBookMaterialId, talentBookCount);
+            (uint bookQualityOffset, uint bookCount) = TalentBookConsumption[upgradeIndex];
+            AddOrUpdateItem(items, talentBookId - bookQualityOffset, bookCount);
 
             // 添加怪物材料
-            (uint monsterMaterialItemId, uint monsterMaterialCount) = upgradeIndex switch
-            {
-                1 => (monsterMaterialId - 2U, 6u),
-                2 => (monsterMaterialId - 1U, 3u),
-                3 => (monsterMaterialId - 1U, 4u),
-                4 => (monsterMaterialId - 1U, 6u),
-                5 => (monsterMaterialId - 1U, 9u),
-                6 => (monsterMaterialId, 4u),
-                7 => (monsterMaterialId, 6u),
-                8 => (monsterMaterialId, 9u),
-                9 => (monsterMaterialId, 12u),
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, monsterMaterialItemId, monsterMaterialCount);
+            (uint monsterQualityOffset, uint monsterCount) = TalentMonsterMaterialConsumption[upgradeIndex];
+            AddOrUpdateItem(items, monsterMaterialId - monsterQualityOffset, monsterCount);
 
             // 添加周常BOSS材料
             if (upgradeIndex >= 6)
@@ -356,7 +405,7 @@ internal static class OfflineCalculator
             }
 
             // 添加智识之冠
-            if (upgradeIndex == 9)
+            if (upgradeIndex is 9)
             {
                 AddOrUpdateItem(items, CrownOfInsightId, 1u);
             }
@@ -369,29 +418,25 @@ internal static class OfflineCalculator
 
     #region Weapon
 
-    private static (int Mora, uint ExpBooks) CalculateWeaponExperience(int starRarity, uint currentLevel, uint targetLevel)
+    private static (int Mora, uint ExpBooks) CalculateWeaponExperience(QualityType quality, uint currentLevel, uint targetLevel)
     {
-        int requiredExp = WeaponLevelExperience.CalculateTotalExperience(starRarity, (int)currentLevel, (int)targetLevel);
+        int requiredExp = WeaponLevelExperience.CalculateTotalExperience(quality, (int)currentLevel, (int)targetLevel);
         uint expBooks = (uint)Math.Round((double)requiredExp / PurpleWeaponExp, MidpointRounding.ToPositiveInfinity);
         int mora = (int)(expBooks * PurpleWeaponExpMoraPer);
 
         return (mora, expBooks);
     }
 
-    private static (int Mora, Dictionary<uint, uint> Items) CalculateWeaponAscension(
-        MetadataWeapon weapon,
-        uint currentLevel,
-        uint targetLevel,
-        uint currentPromoteLevel)
+    private static (int Mora, Dictionary<uint, uint> Items) CalculateWeaponAscension(MetadataWeapon weapon, uint currentLevel, uint targetLevel, uint currentPromoteLevel)
     {
-        int starRarity = (int)weapon.RankLevel;
+        QualityType quality = weapon.RankLevel;
 
         List<int> requiredAscensions = [];
 
         for (int i = 0; i < AscensionLevels.Length; i++)
         {
             int ascensionLevel = AscensionLevels[i];
-            if (ascensionLevel >= 70 && starRarity < 3)
+            if (ascensionLevel >= 70 && quality < QualityType.QUALITY_BLUE)
             {
                 break;
             }
@@ -405,179 +450,42 @@ internal static class OfflineCalculator
                     continue;
                 }
 
-                if (currentLevel < ascensionLevel ||
-                    (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
+                if (currentLevel < ascensionLevel || (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
                 {
                     requiredAscensions.Add(ascensionLevel);
                 }
             }
         }
 
-        if (requiredAscensions.Count == 0)
+        if (requiredAscensions.Count is 0)
         {
-            return (0, new Dictionary<uint, uint>());
+            return (0, []);
         }
 
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (int ascensionLevel in requiredAscensions)
+        foreach (int requiredAscension in requiredAscensions)
         {
-            uint ascensionIndex = (uint)(Array.IndexOf(AscensionLevels, ascensionLevel) + 1);
+            int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 
             // 添加摩拉消耗
-            totalMora += (starRarity, ascensionIndex) switch
-            {
-                (5, 1) => 10000,
-                (5, 2) => 20000,
-                (5, 3) => 30000,
-                (5, 4) => 45000,
-                (5, 5) => 55000,
-                (5, 6) => 65000,
-
-                (4, 1) => 5000,
-                (4, 2) => 15000,
-                (4, 3) => 20000,
-                (4, 4) => 30000,
-                (4, 5) => 35000,
-                (4, 6) => 45000,
-
-                (3, 1) => 5000,
-                (3, 2) => 10000,
-                (3, 3) => 15000,
-                (3, 4) => 20000,
-                (3, 5) => 25000,
-                (3, 6) => 30000,
-
-                (2, 1) => 5000,
-                (2, 2) => 5000,
-                (2, 3) => 10000,
-                (2, 4) => 15000,
-
-                (1, 1) => 0,
-                (1, 2) => 5000,
-                (1, 3) => 5000,
-                (1, 4) => 10000,
-
-                _ => throw HutaoException.NotSupported(),
-            };
+            totalMora += WeaponAscensionMoraCosts[quality][ascensionIndex];
 
             // 添加武器突破材料
             uint weaponMaterialId = weapon.CultivationItems[0];
-            (uint weaponMaterialItemId, uint weaponMaterialCount) = (starRarity, ascensionIndex) switch
-            {
-                (5, 1) => (weaponMaterialId - 3U, 5u),
-                (5, 2) => (weaponMaterialId - 2U, 5u),
-                (5, 3) => (weaponMaterialId - 2U, 9u),
-                (5, 4) => (weaponMaterialId - 1U, 5u),
-                (5, 5) => (weaponMaterialId - 1U, 9u),
-                (5, 6) => (weaponMaterialId, 6u),
-
-                (4, 1) => (weaponMaterialId - 3U, 3u),
-                (4, 2) => (weaponMaterialId - 2U, 3u),
-                (4, 3) => (weaponMaterialId - 2U, 6u),
-                (4, 4) => (weaponMaterialId - 1U, 3u),
-                (4, 5) => (weaponMaterialId - 1U, 6u),
-                (4, 6) => (weaponMaterialId, 4u),
-
-                (3, 1) => (weaponMaterialId - 3U, 2u),
-                (3, 2) => (weaponMaterialId - 2U, 2u),
-                (3, 3) => (weaponMaterialId - 2U, 4u),
-                (3, 4) => (weaponMaterialId - 1U, 2u),
-                (3, 5) => (weaponMaterialId - 1U, 4u),
-                (3, 6) => (weaponMaterialId, 3u),
-
-                // 绿蓝紫 绿蓝 白绿
-                (2, 1) => (weaponMaterialId - 2U, 1u),
-                (2, 2) => (weaponMaterialId - 1U, 1u),
-                (2, 3) => (weaponMaterialId - 1U, 3u),
-                (2, 4) => (weaponMaterialId, 1u),
-
-                (1, 1) => (weaponMaterialId - 2U, 1u),
-                (1, 2) => (weaponMaterialId - 1U, 1u),
-                (1, 3) => (weaponMaterialId - 1U, 2u),
-                (1, 4) => (weaponMaterialId, 1u),
-
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, weaponMaterialItemId, weaponMaterialCount);
+            (uint materialQualityOffset, uint materialCount) = WeaponMaterialConsumption[quality][ascensionIndex];
+            AddOrUpdateItem(items, weaponMaterialId - materialQualityOffset, materialCount);
 
             // 添加A怪物材料
             uint monsterMaterialA = weapon.CultivationItems[1];
-            (uint monsterAItemId, uint monsterACount) = (starRarity, ascensionIndex) switch
-            {
-                (5, 1) => (monsterMaterialA - 2U, 5u),
-                (5, 2) => (monsterMaterialA - 2U, 18u),
-                (5, 3) => (monsterMaterialA - 1U, 9u),
-                (5, 4) => (monsterMaterialA - 1U, 18u),
-                (5, 5) => (monsterMaterialA, 14u),
-                (5, 6) => (monsterMaterialA, 27u),
-
-                (4, 1) => (monsterMaterialA - 2U, 3u),
-                (4, 2) => (monsterMaterialA - 2U, 12u),
-                (4, 3) => (monsterMaterialA - 1U, 6u),
-                (4, 4) => (monsterMaterialA - 1U, 12u),
-                (4, 5) => (monsterMaterialA, 9u),
-                (4, 6) => (monsterMaterialA, 18u),
-
-                (3, 1) => (monsterMaterialA - 2U, 2u),
-                (3, 2) => (monsterMaterialA - 2U, 8u),
-                (3, 3) => (monsterMaterialA - 1U, 4u),
-                (3, 4) => (monsterMaterialA - 1U, 8u),
-                (3, 5) => (monsterMaterialA, 6u),
-                (3, 6) => (monsterMaterialA, 12u),
-
-                (2, 1) => (monsterMaterialA - 1U, 1u),
-                (2, 2) => (monsterMaterialA - 1U, 5u),
-                (2, 3) => (monsterMaterialA, 3u),
-                (2, 4) => (monsterMaterialA, 5u),
-
-                (1, 1) => (monsterMaterialA - 1U, 1u),
-                (1, 2) => (monsterMaterialA - 1U, 4u),
-                (1, 3) => (monsterMaterialA, 2u),
-                (1, 4) => (monsterMaterialA, 4u),
-
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, monsterAItemId, monsterACount);
+            (uint monsterAQualityOffset, uint monsterACount) = WeaponMonsterMaterialAConsumption[quality][ascensionIndex];
+            AddOrUpdateItem(items, monsterMaterialA - monsterAQualityOffset, monsterACount);
 
             // 添加B怪物材料
             uint monsterMaterialB = weapon.CultivationItems[2];
-            (uint monsterBItemId, uint monsterBCount) = (starRarity, ascensionIndex) switch
-            {
-                (5, 1) => (monsterMaterialB - 2U, 3u),
-                (5, 2) => (monsterMaterialB - 2U, 12u),
-                (5, 3) => (monsterMaterialB - 1U, 9u),
-                (5, 4) => (monsterMaterialB - 1U, 14u),
-                (5, 5) => (monsterMaterialB, 9u), (5, 6) => (monsterMaterialB, 18u),
-
-                (4, 1) => (monsterMaterialB - 2U, 2u),
-                (4, 2) => (monsterMaterialB - 2U, 8u),
-                (4, 3) => (monsterMaterialB - 1U, 6u),
-                (4, 4) => (monsterMaterialB - 1U, 9u),
-                (4, 5) => (monsterMaterialB, 6u),
-                (4, 6) => (monsterMaterialB, 12u),
-
-                (3, 1) => (monsterMaterialB - 2U, 1u),
-                (3, 2) => (monsterMaterialB - 2U, 5u),
-                (3, 3) => (monsterMaterialB - 1U, 4u),
-                (3, 4) => (monsterMaterialB - 1U, 6u),
-                (3, 5) => (monsterMaterialB, 4u),
-                (3, 6) => (monsterMaterialB, 8u),
-
-                (2, 1) => (monsterMaterialB - 1U, 1u),
-                (2, 2) => (monsterMaterialB - 1U, 4u),
-                (2, 3) => (monsterMaterialB, 3u),
-                (2, 4) => (monsterMaterialB, 4u),
-
-                (1, 1) => (monsterMaterialB - 1U, 1u),
-                (1, 2) => (monsterMaterialB - 1U, 2u),
-                (1, 3) => (monsterMaterialB, 2u),
-                (1, 4) => (monsterMaterialB, 3u),
-
-                _ => throw HutaoException.NotSupported(),
-            };
-            AddOrUpdateItem(items, monsterBItemId, monsterBCount);
+            (uint monsterBQualityOffset, uint monsterBCount) = WeaponMonsterMaterialBConsumption[quality][ascensionIndex];
+            AddOrUpdateItem(items, monsterMaterialB - monsterBQualityOffset, monsterBCount);
         }
 
         return (totalMora, items);
@@ -609,18 +517,16 @@ internal static class OfflineCalculator
             return [];
         }
 
-        Item[] items = new Item[itemCounts.Count];
-        int index = 0;
-
+        ImmutableArray<Item>.Builder builder = ImmutableArray.CreateBuilder<Item>(itemCounts.Count);
         foreach ((uint id, uint count) in itemCounts)
         {
-            items[index++] = new Item
+            builder.Add(new()
             {
                 Id = id,
                 Num = count,
-            };
+            });
         }
 
-        return ImmutableArray.Create(items);
+        return builder.ToImmutable();
     }
 }

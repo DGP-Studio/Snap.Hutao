@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.Cultivation.Offline;
@@ -438,29 +439,29 @@ internal static class WeaponLevelExperience
         KeyValuePair.Create(70, 0),
     ]);
 
-    public static int GetExperienceToNextLevel(int starRarity, int level)
+    public static int GetExperienceToNextLevel(QualityType quality, int level)
     {
-        if (level >= GetMaxLevel(starRarity))
+        if (level >= GetMaxLevel(quality))
         {
             return 0;
         }
 
-        FrozenDictionary<int, int> levelData = starRarity switch
+        FrozenDictionary<int, int> levelData = quality switch
         {
-            5 => FiveStarLevelExperienceData,
-            4 => FourStarLevelExperienceData,
-            3 => ThreeStarLevelExperienceData,
-            2 => TwoStarLevelExperienceData,
-            1 => OneStarLevelExperienceData,
+            QualityType.QUALITY_ORANGE => FiveStarLevelExperienceData,
+            QualityType.QUALITY_PURPLE => FourStarLevelExperienceData,
+            QualityType.QUALITY_BLUE => ThreeStarLevelExperienceData,
+            QualityType.QUALITY_GREEN => TwoStarLevelExperienceData,
+            QualityType.QUALITY_WHITE => OneStarLevelExperienceData,
             _ => throw HutaoException.NotSupported(),
         };
 
         return levelData.TryGetValue(level, out int experience) ? experience : 0;
     }
 
-    public static int CalculateTotalExperience(int starRarity, int currentLevel, int targetLevel)
+    public static int CalculateTotalExperience(QualityType quality, int currentLevel, int targetLevel)
     {
-        int maxLevel = GetMaxLevel(starRarity);
+        int maxLevel = GetMaxLevel(quality);
         if (currentLevel >= targetLevel || currentLevel >= maxLevel)
         {
             return 0;
@@ -469,19 +470,19 @@ internal static class WeaponLevelExperience
         int totalExperience = 0;
         for (int level = currentLevel; level < targetLevel && level < maxLevel; level++)
         {
-            totalExperience += GetExperienceToNextLevel(starRarity, level);
+            totalExperience += GetExperienceToNextLevel(quality, level);
         }
 
         return totalExperience;
     }
 
-    public static int GetMaxLevel(int starRarity)
+    private static int GetMaxLevel(QualityType quality)
     {
-        return starRarity switch
+        return quality switch
         {
-            1 or 2 => 70,
-            3 or 4 or 5 => 90,
-            _ => 0,
+            QualityType.QUALITY_WHITE or QualityType.QUALITY_GREEN => 70,
+            QualityType.QUALITY_BLUE or QualityType.QUALITY_PURPLE or QualityType.QUALITY_ORANGE => 90,
+            _ => throw HutaoException.NotSupported(),
         };
     }
 }
