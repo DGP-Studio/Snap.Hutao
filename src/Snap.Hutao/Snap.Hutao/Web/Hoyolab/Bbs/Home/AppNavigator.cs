@@ -6,17 +6,17 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 internal sealed class AppNavigator
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public required int Id { get; init; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
     [JsonPropertyName("app_path")]
-    public string AppPath { get; set; } = default!;
+    public required Uri AppPath { get; init; }
 
     [JsonPropertyName("reddot_online_time")]
-    public long ReddotOnlineTime { get; set; }
+    public required long ReddotOnlineTime { get; init; }
 }

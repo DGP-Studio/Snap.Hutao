@@ -6,14 +6,25 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
 internal sealed class CodeWrapper
 {
     [JsonPropertyName("title")]
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
     [JsonPropertyName("code")]
-    public string Code { get; set; } = default!;
+    public required string Code { get; init; }
 
     [JsonPropertyName("img")]
-    public string Image { get; set; } = default!;
+    public required string Image { get; init; }
 
     [JsonPropertyName("to_get_time")]
-    public long ToGetTime { get; set; } = default!;
+    public required long ToGetTime { get; init; }
+
+    public CodeWrapper WithTitle(string title)
+    {
+        return new()
+        {
+            Title = title,
+            Code = Code,
+            Image = Image,
+            ToGetTime = ToGetTime,
+        };
+    }
 }

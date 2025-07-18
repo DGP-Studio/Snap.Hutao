@@ -1,16 +1,18 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 
 internal sealed class Official
 {
     [JsonPropertyName("position")]
-    public int Position { get; set; }
+    public required int Position { get; init; }
 
     [JsonPropertyName("forum_id")]
-    public int ForumId { get; set; }
+    public required int ForumId { get; init; }
 
     [JsonPropertyName("data")]
-    public List<OfficialData> Data { get; set; } = default!;
+    public required ImmutableArray<OfficialData> Data { get; init; }
 }

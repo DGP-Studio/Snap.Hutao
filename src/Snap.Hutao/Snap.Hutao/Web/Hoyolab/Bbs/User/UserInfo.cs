@@ -5,26 +5,8 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-internal sealed class UserInfo
+internal sealed class UserInfo : UserCommon
 {
-    [JsonPropertyName("uid")]
-    public required string Uid { get; init; }
-
-    [JsonPropertyName("nickname")]
-    public string? Nickname { get; init; }
-
-    [JsonPropertyName("introduce")]
-    public string? Introduce { get; init; }
-
-    [JsonPropertyName("avatar")]
-    public string? Avatar { get; init; }
-
-    [JsonPropertyName("gender")]
-    public UserGender Gender { get; init; }
-
-    [JsonPropertyName("certification")]
-    public Certification? Certification { get; init; }
-
     [JsonPropertyName("level_exps")]
     public ImmutableArray<LevelExperience> LevelExps { get; init; }
 
@@ -33,18 +15,6 @@ internal sealed class UserInfo
 
     [JsonPropertyName("community_info")]
     public CommunityInfo? CommunityInfo { get; init; }
-
-    [JsonPropertyName("avatar_url")]
-    public Uri? AvatarUrl { get; init; }
-
-    [JsonPropertyName("certifications")]
-    public ImmutableArray<DetailedCertification> Certifications { get; init; }
-
-    [JsonPropertyName("level_exp")]
-    public LevelExperience? LevelExp { get; init; }
-
-    [JsonPropertyName("pendant")]
-    public Uri? Pendant { get; init; }
 
     [JsonPropertyName("is_logoff")]
     public bool IsLogOff { get; init; }
