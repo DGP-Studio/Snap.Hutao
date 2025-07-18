@@ -699,6 +699,7 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
+
                                                         <cwcont:ConstrainedBox
                                                             Grid.RowSpan="2"
                                                             Grid.ColumnSpan="2"
@@ -722,6 +723,7 @@
                                                             Background="#33000000"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}"
                                                             IsHitTestVisible="False"/>
+
                                                         <StackPanel
                                                             Grid.Row="0"
                                                             Grid.Column="0"
@@ -879,7 +881,6 @@
                                                     </Expander>
                                                 </Border>
 
-
                                                 <Grid ColumnSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
@@ -976,6 +977,7 @@
                                                         </shuxcc:VerticalCard.Bottom>
                                                     </shuxcc:VerticalCard>
                                                 </Grid>
+
                                                 <!--  圣遗物  -->
                                                 <ItemsControl ItemTemplate="{StaticResource AvatarReliquaryTemplate}" ItemsSource="{Binding Summary.Avatars.CurrentItem.Reliquaries}">
                                                     <ItemsControl.ItemsPanel>
