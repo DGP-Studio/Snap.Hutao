@@ -58,7 +58,7 @@
                         MinWidth="{StaticResource NumberBoxMinWidth}"
                         VerticalAlignment="Center"
                         Maximum="{Binding LevelMax}"
-                        Minimum="{Binding LevelMin}"
+                        Minimum="{Binding LevelCurrent, Mode=OneWay}"
                         SpinButtonPlacementMode="Inline"
                         Value="{Binding LevelTarget, Mode=TwoWay}"/>
                 </Grid>
@@ -126,7 +126,7 @@
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"
-                    Minimum="{Binding LevelMin}"
+                    Minimum="{Binding LevelCurrent, Mode=OneWay}"
                     SpinButtonPlacementMode="Inline"
                     Value="{Binding LevelTarget, Mode=TwoWay}"/>
             </Grid>
@@ -178,7 +178,7 @@
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"
-                    Minimum="{Binding LevelMin}"
+                    Minimum="{Binding LevelCurrent, Mode=OneWay}"
                     SpinButtonPlacementMode="Inline"
                     Value="{Binding LevelTarget, Mode=TwoWay}"/>
             </Grid>
