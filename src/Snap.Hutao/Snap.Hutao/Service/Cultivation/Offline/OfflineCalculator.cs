@@ -24,7 +24,6 @@ internal static class OfflineCalculator
     private const uint WeaponExpBookId = 104013U;
     private const uint CrownOfInsightId = 104319U;
 
-    // 静态数据，避免重复创建
     private static readonly int[] AscensionLevels = [20, 40, 50, 60, 70, 80];
 
     private static readonly int[] AvatarAscensionMoraCosts = [20000, 40000, 60000, 80000, 100000, 120000];
@@ -373,9 +372,37 @@ internal static class OfflineCalculator
             // 添加摩拉消耗
             totalMora += (starRarity, ascensionIndex) switch
             {
-                (5, 1) => 10000, (5, 2) => 20000, (5, 3) => 30000, (5, 4) => 45000, (5, 5) => 55000, (5, 6) => 65000,
-                (4, 1) => 5000, (4, 2) => 15000, (4, 3) => 20000, (4, 4) => 30000, (4, 5) => 35000, (4, 6) => 45000,
-                (3, 1) => 5000, (3, 2) => 10000, (3, 3) => 15000, (3, 4) => 20000, (3, 5) => 25000, (3, 6) => 30000,
+                (5, 1) => 10000,
+                (5, 2) => 20000,
+                (5, 3) => 30000,
+                (5, 4) => 45000,
+                (5, 5) => 55000,
+                (5, 6) => 65000,
+
+                (4, 1) => 5000,
+                (4, 2) => 15000,
+                (4, 3) => 20000,
+                (4, 4) => 30000,
+                (4, 5) => 35000,
+                (4, 6) => 45000,
+
+                (3, 1) => 5000,
+                (3, 2) => 10000,
+                (3, 3) => 15000,
+                (3, 4) => 20000,
+                (3, 5) => 25000,
+                (3, 6) => 30000,
+
+                (2, 1) => 5000,
+                (2, 2) => 5000,
+                (2, 3) => 10000,
+                (2, 4) => 15000,
+
+                (1, 1) => 0,
+                (1, 2) => 5000,
+                (1, 3) => 5000,
+                (1, 4) => 10000,
+
                 _ => throw HutaoException.NotSupported(),
             };
 
@@ -383,14 +410,38 @@ internal static class OfflineCalculator
             uint weaponMaterialId = weapon.CultivationItems[0];
             (uint weaponMaterialItemId, uint weaponMaterialCount) = (starRarity, ascensionIndex) switch
             {
-                (5, 1) => (weaponMaterialId - 3U, 5u), (5, 2) => (weaponMaterialId - 2U, 5u), (5, 3) => (weaponMaterialId - 2U, 9u),
-                (5, 4) => (weaponMaterialId - 1U, 5u), (5, 5) => (weaponMaterialId - 1U, 9u), (5, 6) => (weaponMaterialId, 6u),
+                (5, 1) => (weaponMaterialId - 3U, 5u),
+                (5, 2) => (weaponMaterialId - 2U, 5u),
+                (5, 3) => (weaponMaterialId - 2U, 9u),
+                (5, 4) => (weaponMaterialId - 1U, 5u),
+                (5, 5) => (weaponMaterialId - 1U, 9u),
+                (5, 6) => (weaponMaterialId, 6u),
 
-                (4, 1) => (weaponMaterialId - 3U, 3u), (4, 2) => (weaponMaterialId - 2U, 3u), (4, 3) => (weaponMaterialId - 2U, 6u),
-                (4, 4) => (weaponMaterialId - 1U, 3u), (4, 5) => (weaponMaterialId - 1U, 6u), (4, 6) => (weaponMaterialId, 4u),
+                (4, 1) => (weaponMaterialId - 3U, 3u),
+                (4, 2) => (weaponMaterialId - 2U, 3u),
+                (4, 3) => (weaponMaterialId - 2U, 6u),
+                (4, 4) => (weaponMaterialId - 1U, 3u),
+                (4, 5) => (weaponMaterialId - 1U, 6u),
+                (4, 6) => (weaponMaterialId, 4u),
 
-                (3, 1) => (weaponMaterialId - 3U, 2u), (3, 2) => (weaponMaterialId - 2U, 2u), (3, 3) => (weaponMaterialId - 2U, 4u),
-                (3, 4) => (weaponMaterialId - 1U, 2u), (3, 5) => (weaponMaterialId - 1U, 4u), (3, 6) => (weaponMaterialId, 3u),
+                (3, 1) => (weaponMaterialId - 3U, 2u),
+                (3, 2) => (weaponMaterialId - 2U, 2u),
+                (3, 3) => (weaponMaterialId - 2U, 4u),
+                (3, 4) => (weaponMaterialId - 1U, 2u),
+                (3, 5) => (weaponMaterialId - 1U, 4u),
+                (3, 6) => (weaponMaterialId, 3u),
+
+                // 绿蓝紫 绿蓝 白绿
+                (2, 1) => (weaponMaterialId - 2U, 1u),
+                (2, 2) => (weaponMaterialId - 1U, 1u),
+                (2, 3) => (weaponMaterialId - 1U, 3u),
+                (2, 4) => (weaponMaterialId, 1u),
+
+                (1, 1) => (weaponMaterialId - 2U, 1u),
+                (1, 2) => (weaponMaterialId - 1U, 1u),
+                (1, 3) => (weaponMaterialId - 1U, 2u),
+                (1, 4) => (weaponMaterialId, 1u),
+
                 _ => throw HutaoException.NotSupported(),
             };
             AddOrUpdateItem(items, weaponMaterialItemId, weaponMaterialCount);
@@ -399,14 +450,37 @@ internal static class OfflineCalculator
             uint monsterMaterialA = weapon.CultivationItems[1];
             (uint monsterAItemId, uint monsterACount) = (starRarity, ascensionIndex) switch
             {
-                (5, 1) => (monsterMaterialA - 2U, 5u), (5, 2) => (monsterMaterialA - 2U, 18u), (5, 3) => (monsterMaterialA - 1U, 9u),
-                (5, 4) => (monsterMaterialA - 1U, 18u), (5, 5) => (monsterMaterialA, 14u), (5, 6) => (monsterMaterialA, 27u),
+                (5, 1) => (monsterMaterialA - 2U, 5u),
+                (5, 2) => (monsterMaterialA - 2U, 18u),
+                (5, 3) => (monsterMaterialA - 1U, 9u),
+                (5, 4) => (monsterMaterialA - 1U, 18u),
+                (5, 5) => (monsterMaterialA, 14u),
+                (5, 6) => (monsterMaterialA, 27u),
 
-                (4, 1) => (monsterMaterialA - 2U, 3u), (4, 2) => (monsterMaterialA - 2U, 12u), (4, 3) => (monsterMaterialA - 1U, 6u),
-                (4, 4) => (monsterMaterialA - 1U, 12u), (4, 5) => (monsterMaterialA, 9u), (4, 6) => (monsterMaterialA, 18u),
+                (4, 1) => (monsterMaterialA - 2U, 3u),
+                (4, 2) => (monsterMaterialA - 2U, 12u),
+                (4, 3) => (monsterMaterialA - 1U, 6u),
+                (4, 4) => (monsterMaterialA - 1U, 12u),
+                (4, 5) => (monsterMaterialA, 9u),
+                (4, 6) => (monsterMaterialA, 18u),
 
-                (3, 1) => (monsterMaterialA - 2U, 2u), (3, 2) => (monsterMaterialA - 2U, 8u), (3, 3) => (monsterMaterialA - 1U, 4u),
-                (3, 4) => (monsterMaterialA - 1U, 8u), (3, 5) => (monsterMaterialA, 6u), (3, 6) => (monsterMaterialA, 12u),
+                (3, 1) => (monsterMaterialA - 2U, 2u),
+                (3, 2) => (monsterMaterialA - 2U, 8u),
+                (3, 3) => (monsterMaterialA - 1U, 4u),
+                (3, 4) => (monsterMaterialA - 1U, 8u),
+                (3, 5) => (monsterMaterialA, 6u),
+                (3, 6) => (monsterMaterialA, 12u),
+
+                (2, 1) => (monsterMaterialA - 1U, 1u),
+                (2, 2) => (monsterMaterialA - 1U, 5u),
+                (2, 3) => (monsterMaterialA, 3u),
+                (2, 4) => (monsterMaterialA, 5u),
+
+                (1, 1) => (monsterMaterialA - 1U, 1u),
+                (1, 2) => (monsterMaterialA - 1U, 4u),
+                (1, 3) => (monsterMaterialA, 2u),
+                (1, 4) => (monsterMaterialA, 4u),
+
                 _ => throw HutaoException.NotSupported(),
             };
             AddOrUpdateItem(items, monsterAItemId, monsterACount);
@@ -415,14 +489,36 @@ internal static class OfflineCalculator
             uint monsterMaterialB = weapon.CultivationItems[2];
             (uint monsterBItemId, uint monsterBCount) = (starRarity, ascensionIndex) switch
             {
-                (5, 1) => (monsterMaterialB - 2U, 3u), (5, 2) => (monsterMaterialB - 2U, 12u), (5, 3) => (monsterMaterialB - 1U, 9u),
-                (5, 4) => (monsterMaterialB - 1U, 14u), (5, 5) => (monsterMaterialB, 9u), (5, 6) => (monsterMaterialB, 18u),
+                (5, 1) => (monsterMaterialB - 2U, 3u),
+                (5, 2) => (monsterMaterialB - 2U, 12u),
+                (5, 3) => (monsterMaterialB - 1U, 9u),
+                (5, 4) => (monsterMaterialB - 1U, 14u),
+                (5, 5) => (monsterMaterialB, 9u), (5, 6) => (monsterMaterialB, 18u),
 
-                (4, 1) => (monsterMaterialB - 2U, 2u), (4, 2) => (monsterMaterialB - 2U, 8u), (4, 3) => (monsterMaterialB - 1U, 6u),
-                (4, 4) => (monsterMaterialB - 1U, 9u), (4, 5) => (monsterMaterialB, 6u), (4, 6) => (monsterMaterialB, 12u),
+                (4, 1) => (monsterMaterialB - 2U, 2u),
+                (4, 2) => (monsterMaterialB - 2U, 8u),
+                (4, 3) => (monsterMaterialB - 1U, 6u),
+                (4, 4) => (monsterMaterialB - 1U, 9u),
+                (4, 5) => (monsterMaterialB, 6u),
+                (4, 6) => (monsterMaterialB, 12u),
 
-                (3, 1) => (monsterMaterialB - 2U, 1u), (3, 2) => (monsterMaterialB - 2U, 5u), (3, 3) => (monsterMaterialB - 1U, 4u),
-                (3, 4) => (monsterMaterialB - 1U, 6u), (3, 5) => (monsterMaterialB, 4u), (3, 6) => (monsterMaterialB, 8u),
+                (3, 1) => (monsterMaterialB - 2U, 1u),
+                (3, 2) => (monsterMaterialB - 2U, 5u),
+                (3, 3) => (monsterMaterialB - 1U, 4u),
+                (3, 4) => (monsterMaterialB - 1U, 6u),
+                (3, 5) => (monsterMaterialB, 4u),
+                (3, 6) => (monsterMaterialB, 8u),
+
+                (2, 1) => (monsterMaterialB - 1U, 1u),
+                (2, 2) => (monsterMaterialB - 1U, 4u),
+                (2, 3) => (monsterMaterialB, 3u),
+                (2, 4) => (monsterMaterialB, 4u),
+
+                (1, 1) => (monsterMaterialB - 1U, 1u),
+                (1, 2) => (monsterMaterialB - 1U, 2u),
+                (1, 3) => (monsterMaterialB, 2u),
+                (1, 4) => (monsterMaterialB, 3u),
+
                 _ => throw HutaoException.NotSupported(),
             };
             AddOrUpdateItem(items, monsterBItemId, monsterBCount);
