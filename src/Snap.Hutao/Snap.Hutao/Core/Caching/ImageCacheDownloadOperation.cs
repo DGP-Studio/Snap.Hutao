@@ -25,7 +25,14 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     {
         using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
         {
-            await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
+            try
+            {
+                await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
+            }
+            catch (HttpRequestException)
+            {
+                // Ignore
+            }
         }
 
         if (!File.Exists(baseFile))

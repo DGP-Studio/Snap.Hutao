@@ -7,8 +7,10 @@ using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Win32;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -52,11 +54,9 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
-        client.DefaultRequestHeaders.Add("x-hutao-device-name", Environment.MachineName);
         client.DefaultRequestHeaders.Add("x-hutao-device-id", HutaoRuntime.DeviceId);
-
-        HutaoPrivateWindowsVersion windowsVersion = HutaoNative.Instance.GetCurrentWindowsVersion();
-        client.DefaultRequestHeaders.Add("x-hutao-device-os", $"Windows {windowsVersion}");
+        client.DefaultRequestHeaders.Add("x-hutao-device-os", $"Windows {HutaoNative.Instance.GetCurrentWindowsVersion()}");
+        client.DefaultRequestHeaders.Add("x-hutao-device-name", EncodeNonAsciiChars(Environment.MachineName));
     }
 
     [UsedImplicitly]
@@ -127,5 +127,23 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf6vlr1reo");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
+    }
+
+    private static string EncodeNonAsciiChars(string value)
+    {
+        StringBuilder sb = new();
+        foreach (char c in value)
+        {
+            if (c > 127)
+            {
+                sb.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                sb.Append(c);
+            }
+        }
+
+        return sb.ToString();
     }
 }

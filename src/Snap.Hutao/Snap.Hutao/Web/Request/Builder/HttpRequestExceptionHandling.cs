@@ -127,6 +127,8 @@ internal static class HttpRequestExceptionHandling
                                 return NetworkError.ERR_CONNECTION_NO_BUFFER_SPACE_AVAILABLE;
                             case SocketError.NoData:
                                 return NetworkError.ERR_CONNECTION_NO_DATA;
+                            case SocketError.NotSocket:
+                                return NetworkError.ERR_CONNECTION_NOT_SOCKET;
                             case SocketError.TimedOut:
                                 return NetworkError.ERR_CONNECTION_TIMED_OUT;
                         }
