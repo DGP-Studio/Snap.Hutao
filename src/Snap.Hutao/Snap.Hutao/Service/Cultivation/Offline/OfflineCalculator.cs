@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -36,108 +37,108 @@ internal static class OfflineCalculator
     private static readonly ImmutableArray<uint> WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
 
     // 元素宝石基础ID映射
-    private static readonly ImmutableDictionary<ElementType, uint> ElementGemBaseIds = new Dictionary<ElementType, uint>
-    {
-        [ElementType.Fire] = 104111U,
-        [ElementType.Water] = 104121U,
-        [ElementType.Grass] = 104131U,
-        [ElementType.Electric] = 104141U,
-        [ElementType.Wind] = 104151U,
-        [ElementType.Ice] = 104161U,
-        [ElementType.Rock] = 104171U,
-    }.ToImmutableDictionary();
+    private static readonly FrozenDictionary<ElementType, uint> ElementGemBaseIds = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(ElementType.Fire, 104111U),
+        KeyValuePair.Create(ElementType.Water, 104121U),
+        KeyValuePair.Create(ElementType.Grass, 104131U),
+        KeyValuePair.Create(ElementType.Electric, 104141U),
+        KeyValuePair.Create(ElementType.Wind, 104151U),
+        KeyValuePair.Create(ElementType.Ice, 104161U),
+        KeyValuePair.Create(ElementType.Rock, 104171U),
+    ]);
 
     // 角色宝石消耗查找表 [突破次数-1] -> (品质偏移, 数量)
-    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> AvatarGemConsumption =
+    private static readonly ImmutableArray<QualityOffsetCount> AvatarGemConsumption =
     [
-        (0, 1u), // 突破1次
-        (1u, 3u), // 突破2次
-        (1u, 6u), // 突破3次
-        (2u, 3u), // 突破4次
-        (2u, 6u), // 突破5次
-        (3u, 6u), // 突破6次
+        new(0, 1u), // 突破1次
+        new(1u, 3u), // 突破2次
+        new(1u, 6u), // 突破3次
+        new(2u, 3u), // 突破4次
+        new(2u, 6u), // 突破5次
+        new(3u, 6u), // 突破6次
     ];
 
     // 角色怪物材料消耗查找表 [突破次数-1] -> (品质偏移, 数量)
-    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> AvatarMonsterMaterialConsumption =
+    private static readonly ImmutableArray<QualityOffsetCount> AvatarMonsterMaterialConsumption =
     [
-        (2u, 3u), // 突破1次
-        (2u, 15u), // 突破2次
-        (1u, 12u), // 突破3次
-        (1u, 18u), // 突破4次
-        (0u, 12u), // 突破5次
-        (0u, 24u), // 突破6次
+        new(2u, 3u), // 突破1次
+        new(2u, 15u), // 突破2次
+        new(1u, 12u), // 突破3次
+        new(1u, 18u), // 突破4次
+        new(0u, 12u), // 突破5次
+        new(0u, 24u), // 突破6次
     ];
 
     // 天赋书消耗查找表 [等级-1] -> (品质偏移, 数量)
-    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> TalentBookConsumption =
+    private static readonly ImmutableArray<QualityOffsetCount> TalentBookConsumption =
     [
-        (0, 0u), // 等级0 (不使用)
-        (2u, 3u), // 等级1
-        (1u, 2u), // 等级2
-        (1u, 4u), // 等级3
-        (1u, 6u), // 等级4
-        (1u, 9u), // 等级5
-        (0u, 4u), // 等级6
-        (0u, 6u), // 等级7
-        (0u, 12u), // 等级8
-        (0u, 16u), // 等级9
+        new(0, 0u), // 等级0 (不使用)
+        new(2u, 3u), // 等级1
+        new(1u, 2u), // 等级2
+        new(1u, 4u), // 等级3
+        new(1u, 6u), // 等级4
+        new(1u, 9u), // 等级5
+        new(0u, 4u), // 等级6
+        new(0u, 6u), // 等级7
+        new(0u, 12u), // 等级8
+        new(0u, 16u), // 等级9
     ];
 
     // 天赋怪物材料消耗查找表 [等级-1] -> (品质偏移, 数量)
-    private static readonly ImmutableArray<(uint QualityOffset, uint Count)> TalentMonsterMaterialConsumption =
+    private static readonly ImmutableArray<QualityOffsetCount> TalentMonsterMaterialConsumption =
     [
-        (0, 0u), // 等级0 (不使用)
-        (2u, 6u), // 等级1
-        (1u, 3u), // 等级2
-        (1u, 4u), // 等级3
-        (1u, 6u), // 等级4
-        (1u, 9u), // 等级5
-        (0u, 4u), // 等级6
-        (0u, 6u), // 等级7
-        (0u, 9u), // 等级8
-        (0u, 12u), // 等级9
+        new(0, 0u), // 等级0 (不使用)
+        new(2u, 6u), // 等级1
+        new(1u, 3u), // 等级2
+        new(1u, 4u), // 等级3
+        new(1u, 6u), // 等级4
+        new(1u, 9u), // 等级5
+        new(0u, 4u), // 等级6
+        new(0u, 6u), // 等级7
+        new(0u, 9u), // 等级8
+        new(0u, 12u), // 等级9
     ];
 
     // 武器突破摩拉消耗查找表
-    private static readonly ImmutableDictionary<QualityType, ImmutableArray<int>> WeaponAscensionMoraCosts = new Dictionary<QualityType, ImmutableArray<int>>
-    {
-        [QualityType.QUALITY_WHITE] = [0, 5000, 5000, 10000, 0, 0],
-        [QualityType.QUALITY_GREEN] = [5000, 5000, 10000, 15000, 0, 0],
-        [QualityType.QUALITY_BLUE] = [5000, 10000, 15000, 20000, 25000, 30000],
-        [QualityType.QUALITY_PURPLE] = [5000, 15000, 20000, 30000, 35000, 45000],
-        [QualityType.QUALITY_ORANGE] = [10000, 20000, 30000, 45000, 55000, 65000],
-    }.ToImmutableDictionary();
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<int>> WeaponAscensionMoraCosts = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create(0, 5000, 5000, 10000, 0, 0)),
+        KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create(5000, 5000, 10000, 15000, 0, 0)),
+        KeyValuePair.Create(QualityType.QUALITY_BLUE, ImmutableArray.Create(5000, 10000, 15000, 20000, 25000, 30000)),
+        KeyValuePair.Create(QualityType.QUALITY_PURPLE, ImmutableArray.Create(5000, 15000, 20000, 30000, 35000, 45000)),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create(10000, 20000, 30000, 45000, 55000, 65000)),
+    ]);
 
     // 武器材料消耗的查找表
-    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMaterialConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
-    {
-        [QualityType.QUALITY_WHITE] = [(2u, 1u), (1u, 1u), (1u, 2u), (0u, 1u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_GREEN] = [(2u, 1u), (1u, 1u), (1u, 3u), (0u, 1u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_BLUE] = [(3u, 2u), (2u, 2u), (2u, 4u), (1u, 2u), (1u, 4u), (0u, 3u)],
-        [QualityType.QUALITY_PURPLE] = [(3u, 3u), (2u, 3u), (2u, 6u), (1u, 3u), (1u, 6u), (0u, 4u)],
-        [QualityType.QUALITY_ORANGE] = [(3u, 5u), (2u, 5u), (2u, 9u), (1u, 5u), (1u, 9u), (0u, 6u)],
-    }.ToImmutableDictionary();
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMaterialConsumption = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(1u, 1u), new(1u, 2u), new(0u, 1u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(1u, 1u), new(1u, 3u), new(0u, 1u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_BLUE, ImmutableArray.Create<QualityOffsetCount>(new(3u, 2u), new(2u, 2u), new(2u, 4u), new(1u, 2u), new(1u, 4u), new(0u, 3u))),
+        KeyValuePair.Create(QualityType.QUALITY_PURPLE, ImmutableArray.Create<QualityOffsetCount>(new(3u, 3u), new(2u, 3u), new(2u, 6u), new(1u, 3u), new(1u, 6u), new(0u, 4u))),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create<QualityOffsetCount>(new(3u, 5u), new(2u, 5u), new(2u, 9u), new(1u, 5u), new(1u, 9u), new(0u, 6u))),
+    ]);
 
     // 武器怪物材料A消耗查找表
-    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMonsterMaterialAConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
-    {
-        [QualityType.QUALITY_WHITE] = [(1u, 1u), (1u, 4u), (0u, 2u), (0u, 4u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_GREEN] = [(1u, 1u), (1u, 5u), (0u, 3u), (0u, 5u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_BLUE] = [(2u, 2u), (2u, 8u), (1u, 4u), (1u, 8u), (0u, 6u), (0u, 12u)],
-        [QualityType.QUALITY_PURPLE] = [(2u, 3u), (2u, 12u), (1u, 6u), (1u, 12u), (0u, 9u), (0u, 18u)],
-        [QualityType.QUALITY_ORANGE] = [(2u, 5u), (2u, 18u), (1u, 9u), (1u, 18u), (0u, 14u), (0u, 27u)],
-    }.ToImmutableDictionary();
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialAConsumption = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 4u), new(0u, 2u), new(0u, 4u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 5u), new(0u, 3u), new(0u, 5u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_BLUE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 2u), new(2u, 8u), new(1u, 4u), new(1u, 8u), new(0u, 6u), new(0u, 12u))),
+        KeyValuePair.Create(QualityType.QUALITY_PURPLE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 3u), new(2u, 12u), new(1u, 6u), new(1u, 12u), new(0u, 9u), new(0u, 18u))),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 5u), new(2u, 18u), new(1u, 9u), new(1u, 18u), new(0u, 14u), new(0u, 27u))),
+    ]);
 
     // 武器怪物材料B消耗查找表
-    private static readonly ImmutableDictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>> WeaponMonsterMaterialBConsumption = new Dictionary<QualityType, ImmutableArray<(uint QualityOffset, uint Count)>>
-    {
-        [QualityType.QUALITY_WHITE] = [(1u, 1u), (1u, 2u), (0u, 2u), (0u, 3u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_GREEN] = [(1u, 1u), (1u, 4u), (0u, 3u), (0u, 4u), (0u, 0u), (0u, 0u)],
-        [QualityType.QUALITY_BLUE] = [(2u, 1u), (2u, 5u), (1u, 4u), (1u, 6u), (0u, 4u), (0u, 8u)],
-        [QualityType.QUALITY_PURPLE] = [(2u, 2u), (2u, 8u), (1u, 6u), (1u, 9u), (0u, 6u), (0u, 12u)],
-        [QualityType.QUALITY_ORANGE] = [(2u, 3u), (2u, 12u), (1u, 9u), (1u, 14u), (0u, 9u), (0u, 18u)],
-    }.ToImmutableDictionary();
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialBConsumption = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 2u), new(0u, 2u), new(0u, 3u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 4u), new(0u, 3u), new(0u, 4u), new(0u, 0u), new(0u, 0u))),
+        KeyValuePair.Create(QualityType.QUALITY_BLUE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(2u, 5u), new(1u, 4u), new(1u, 6u), new(0u, 4u), new(0u, 8u))),
+        KeyValuePair.Create(QualityType.QUALITY_PURPLE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 2u), new(2u, 8u), new(1u, 6u), new(1u, 9u), new(0u, 6u), new(0u, 12u))),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 3u), new(2u, 12u), new(1u, 9u), new(1u, 14u), new(0u, 9u), new(0u, 18u))),
+    ]);
 
     public static BatchConsumption CalculateWikiAvatarConsumption(AvatarPromotionDelta delta, MetadataAvatar avatar)
     {
