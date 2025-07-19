@@ -17,8 +17,11 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <Color x:Key="BlueColor">#FF5180CB</Color>
+    <Color x:Key="BlueDark2Color">#FF324F7E</Color>
     <Color x:Key="PurpleColor">#FFA156E0</Color>
+    <Color x:Key="PurpleDark2Color">#FF6A3893</Color>
     <Color x:Key="OrangeColor">#FFBC6932</Color>
+    <Color x:Key="OrangeDark2Color">#FF6F3E1D</Color>
 
     <Color x:Key="GuaranteePullColor">#FF0063FF</Color>
     <Color x:Key="UpPullColor">#FFFFA400</Color>
@@ -26,8 +29,11 @@
     <SolidColorBrush x:Key="SolidBackgroundFillColorTransparentBrush" Color="{ThemeResource SolidBackgroundFillColorTransparent}"/>
 
     <SolidColorBrush x:Key="BlueColorBrush" Color="{ThemeResource BlueColor}"/>
+    <SolidColorBrush x:Key="BlueDark2ColorBrush" Color="{ThemeResource BlueDark2Color}"/>
     <SolidColorBrush x:Key="PurpleColorBrush" Color="{ThemeResource PurpleColor}"/>
+    <SolidColorBrush x:Key="PurpleDark2ColorBrush" Color="{ThemeResource PurpleDark2Color}"/>
     <SolidColorBrush x:Key="OrangeColorBrush" Color="{ThemeResource OrangeColor}"/>
+    <SolidColorBrush x:Key="OrangeDark2ColorBrush" Color="{ThemeResource OrangeDark2Color}"/>
 
     <SolidColorBrush x:Key="GuaranteePullColorBrush" Color="{ThemeResource GuaranteePullColor}"/>
     <SolidColorBrush x:Key="UpPullColorBrush" Color="{ThemeResource UpPullColor}"/>

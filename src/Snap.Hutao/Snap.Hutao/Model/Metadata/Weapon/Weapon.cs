@@ -14,7 +14,8 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
-internal sealed partial class Weapon : INameQualityAccess,
+internal sealed partial class Weapon : IDefaultIdentity<WeaponId>,
+    INameQualityAccess,
     IStatisticsItemConvertible,
     ISummaryItemConvertible,
     IItemConvertible,

@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -344,6 +344,28 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("InnerId");
 
                     b.ToTable("game_accounts");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.HardChallengeEntry", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HardChallengeData")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("ScheduleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("hard_challenges");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.InventoryItem", b =>

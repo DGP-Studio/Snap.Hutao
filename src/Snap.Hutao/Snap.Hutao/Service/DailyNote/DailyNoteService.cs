@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.User;
@@ -13,7 +12,6 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.Service.DailyNote;

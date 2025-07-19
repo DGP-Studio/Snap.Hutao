@@ -13,7 +13,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Calendar"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -31,14 +31,14 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ButtonBackground}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlAltFillColorSecondaryBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#206A890A"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
                     </cwconv:BoolToObjectConverter>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ButtonBackground}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlAltFillColorSecondaryBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#20A5D610"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
@@ -73,6 +73,7 @@
 
         <cwcont:Segmented
             Grid.Row="0"
+            Height="48"
             HorizontalAlignment="Stretch"
             ItemsSource="{Binding WeekDays}"
             Style="{ThemeResource DefaultSegmentedStyle}">
@@ -103,13 +104,13 @@
             DataContext="{Binding WeekDays.CurrentItem, FallbackValue={x:Null}}"
             RowSpacing="6">
             <Grid.RowDefinitions>
-                <RowDefinition Height="34"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <shuxc:StandardView Grid.Row="0" ShowCondition="{Binding BirthDayAvatars.IsEmpty, Converter={StaticResource BoolNegationConverter}}">
                 <shuxc:StandardView.EmptyContent>
-                    <Border Style="{ThemeResource BorderCardStyle}">
+                    <Border Padding="12" Style="{ThemeResource BorderShimmerStyle}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -141,7 +142,8 @@
 
             <Border
                 Grid.Row="1"
-                Style="{ThemeResource BorderCardStyle}"
+                Padding="12"
+                Style="{ThemeResource BorderShimmerStyle}"
                 Visibility="{Binding Materials.IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
@@ -156,9 +158,9 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <cwcont:UniformGrid
-                            ColumnSpacing="2"
+                            ColumnSpacing="4"
                             Columns="6"
-                            RowSpacing="2"/>
+                            RowSpacing="4"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -168,7 +170,7 @@
                             Padding="0"
                             VerticalAlignment="Stretch"
                             Background="{Binding Highlight, Converter={ThemeResource BoolToBrushSelector}}"
-                            Style="{ThemeResource SettingButtonStyle}">
+                            Style="{ThemeResource ShimmerButtonStyle}">
 
                             <shuxci:CachedImage
                                 Width="24"
@@ -202,7 +204,7 @@
                                         <Border
                                             Grid.Row="1"
                                             HorizontalAlignment="Stretch"
-                                            Style="{ThemeResource SecondaryBorderCardStyle}">
+                                            Style="{ThemeResource BorderShimmerStyle}">
                                             <ItemsControl ItemsPanel="{StaticResource UniformGridColumns4Spacing6Template}" ItemsSource="{Binding Items}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>

@@ -192,7 +192,7 @@ internal static class DiscordController
         {
             ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
             string message = Encoding.UTF8.GetString(utf8);
-            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[{logLevel}]:{message}");
+            Debug.WriteLine($"[Discord.GameSDK]:[{logLevel}]:{message}");
         }
     }
 
@@ -234,7 +234,7 @@ internal static class DiscordController
                                 else
                                 {
                                     notRunningCounter = 0;
-                                    System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{result:D} {result}");
+                                    Debug.WriteLine($"[Discord.GameSDK ERROR]:{result:D} {result}");
                                 }
                             }
                         }
@@ -242,7 +242,7 @@ internal static class DiscordController
                         {
                             // Known error codes:
                             // 0x80004005 E_FAIL
-                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:0x{ex.HResult:X}");
+                            Debug.WriteLine($"[Discord.GameSDK ERROR]:0x{ex.HResult:X}");
                         }
                     }
                 }

@@ -54,112 +54,6 @@
     <AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
   </ItemGroup>
 
-  <!-- Included Files -->
-  <ItemGroup>
-    <None Remove="Assets\LargeTile.scale-100.png" />
-    <None Remove="Assets\LargeTile.scale-200.png" />
-    <None Remove="Assets\LargeTile.scale-400.png" />
-    <None Remove="Assets\SmallTile.scale-100.png" />
-    <None Remove="Assets\SmallTile.scale-200.png" />
-    <None Remove="Assets\SmallTile.scale-400.png" />
-    <None Remove="Assets\SplashScreen.scale-100.png" />
-    <None Remove="Assets\SplashScreen.scale-200.png" />
-    <None Remove="Assets\SplashScreen.scale-400.png" />
-    <None Remove="Assets\Square150x150Logo.scale-100.png" />
-    <None Remove="Assets\Square150x150Logo.scale-200.png" />
-    <None Remove="Assets\Square150x150Logo.scale-400.png" />
-    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
-    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
-    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
-    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <None Remove="Assets\Square44x44Logo.scale-100.png" />
-    <None Remove="Assets\Square44x44Logo.scale-200.png" />
-    <None Remove="Assets\Square44x44Logo.scale-400.png" />
-    <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
-    <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
-    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
-    <None Remove="Assets\StoreLogo.scale-100.png" />
-    <None Remove="Assets\StoreLogo.scale-200.png" />
-    <None Remove="Assets\StoreLogo.scale-400.png" />
-    <None Remove="Assets\Wide310x150Logo.scale-100.png" />
-    <None Remove="Assets\Wide310x150Logo.scale-200.png" />
-    <None Remove="Assets\Wide310x150Logo.scale-400.png" />
-    <None Remove="BannedSymbols.txt" />
-    <None Remove="CodeMetricsConfig.txt" />
-    <None Remove="Resource\GuideLocalization\crowdin-symbol-cDark-64.png" />
-    <None Remove="Resource\GuideLocalization\crowdin-symbol-cWhite-64.png" />
-    <None Remove="Resource\GuideLocalization\DGP-v3-white-64.png" />
-    <None Remove="Resource\GuideLocalization\Gemini-64.png" />
-    <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
-    <None Remove="Resource\Icon\UI_BtnIcon_Homeworld.png" />
-    <None Remove="Resource\Icon\UI_BtnIcon_PlayerGirl.png" />
-    <None Remove="Resource\Icon\UI_IconSmall_EP.png" />
-    <None Remove="Resource\Icon\UI_Icon_RelicType3.png" />
-    <None Remove="Resource\Icon\UI_Icon_RelicType4.png" />
-    <None Remove="Resource\Icon\UI_Icon_RelicType5.png" />
-    <None Remove="Resource\Icon\UI_Icon_Tower_Star1.png" />
-    <None Remove="Resource\Icon\UI_Icon_Tower_Star2.png" />
-    <None Remove="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
-    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
-    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
-    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
-    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_3.png" />
-    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_4.png" />
-    <None Remove="Resource\ItemIcon\UI_ImgSign_ItemIcon.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_BLUE.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_GREEN.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_NONE.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_ORANGE.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_PURPLE.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_RED.png" />
-    <None Remove="Resource\ItemIcon\UI_QUALITY_WHITE.png" />
-    <None Remove="Resource\Navigation\Passport.png" />
-    <None Remove="Resource\Navigation\RoleCombat.png" />
-    <None Remove="Resource\ThirdParty\Apple.png" />
-    <None Remove="Resource\ThirdParty\Facebook.png" />
-    <None Remove="Resource\ThirdParty\Google.png" />
-    <None Remove="Resource\ThirdParty\bilibili128.png" />
-    <None Remove="Resource\ThirdParty\hoyolab128.png" />
-    <None Remove="Resource\ThirdParty\miyoushe128.png" />
-    <None Remove="Resource\ThirdParty\Twitter.png" />
-    <None Remove="IdentityStructs.json" />
-    <None Remove="Resource\BlurBackground.png" />
-    <None Remove="Resource\Font\CascadiaMono.ttf" />
-    <None Remove="Resource\Font\MiSans-Regular.ttf" />
-    <None Remove="Resource\GuideStaticResourceQualityComparison.png" />
-    <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
-    <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
-    <None Remove="Resource\Icon\UI_IconKira.png" />
-    <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
-    <None Remove="Resource\Icon\UI_Icon_Locked.png" />
-    <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
-    <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
-    <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
-    <None Remove="Resource\Icon\UI_ItemIcon_211.png" />
-    <None Remove="Resource\Navigation\Achievement.png" />
-    <None Remove="Resource\Navigation\Announcement.png" />
-    <None Remove="Resource\Navigation\AvatarProperty.png" />
-    <None Remove="Resource\Navigation\Cultivation.png" />
-    <None Remove="Resource\Navigation\DailyNote.png" />
-    <None Remove="Resource\Navigation\Database.png" />
-    <None Remove="Resource\Navigation\Documentation.png" />
-    <None Remove="Resource\Navigation\Feedback.png" />
-    <None Remove="Resource\Navigation\GachaLog.png" />
-    <None Remove="Resource\Navigation\LaunchGame.png" />
-    <None Remove="Resource\Navigation\SpiralAbyss.png" />
-    <None Remove="Resource\Navigation\WikiAvatar.png" />
-    <None Remove="Resource\Navigation\WikiMonster.png" />
-    <None Remove="Resource\Navigation\WikiWeapon.png" />
-    <None Remove="Resource\WelcomeView_Background.png" />
-    <None Remove="stylecop.json" />
-    <None Remove="UI\Xaml\Control\Panel\DataTable\DataColumn.xaml" />
-    <None Remove="UI\Xaml\View\OverlayView.xaml" />
-    <None Remove="UI\Xaml\View\Page\HutaoPassportPage.xaml" />
-    <None Remove="UI\Xaml\View\Window\LaunchExecutionOverlayWindow.xaml" />
-  </ItemGroup>
-
   <!-- Analyzer Files -->
   <ItemGroup>
     <AdditionalFiles Include="ApiEndpoints.csv" />
@@ -249,6 +143,13 @@
     <Content Include="Resource\Icon\UI_BtnIcon_Homeworld.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_PlayerGirl.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Electric.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Fire.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Grass.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Ice.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Rock.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Water.png" />
+    <Content Include="Resource\Icon\UI_Gcg_Buff_Common_Element_Wind.png" />
     <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
     <Content Include="Resource\Icon\UI_IconKira.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
@@ -257,10 +158,26 @@
     <Content Include="Resource\Icon\UI_Icon_RelicType4.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType5.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star1.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star2.png" />
     <Content Include="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_106.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_211.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_0.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_1.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_2.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_3.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_4.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_5.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_6.png" />
+    <Content Include="Resource\Icon\UI_LeyLineChallenge_Medal_7.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_3.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_4.png" />
     <Content Include="Resource\ItemIcon\UI_ImgSign_ItemIcon.png" />
     <Content Include="Resource\ItemIcon\UI_QUALITY_BLUE.png" />
     <Content Include="Resource\ItemIcon\UI_QUALITY_GREEN.png" />
@@ -272,18 +189,23 @@
     <Content Include="Resource\Navigation\Achievement.png" />
     <Content Include="Resource\Navigation\Announcement.png" />
     <Content Include="Resource\Navigation\AvatarProperty.png" />
+    <Content Include="Resource\Navigation\CheckIn.png" />
     <Content Include="Resource\Navigation\Cultivation.png" />
     <Content Include="Resource\Navigation\DailyNote.png" />
     <Content Include="Resource\Navigation\Database.png" />
     <Content Include="Resource\Navigation\Documentation.png" />
     <Content Include="Resource\Navigation\Feedback.png" />
     <Content Include="Resource\Navigation\GachaLog.png" />
+    <Content Include="Resource\Navigation\HardChallenge.png" />
     <Content Include="Resource\Navigation\LaunchGame.png" />
     <Content Include="Resource\Navigation\Passport.png" />
+    <Content Include="Resource\Navigation\RoleCombat.png" />
     <Content Include="Resource\Navigation\SpiralAbyss.png" />
     <Content Include="Resource\Navigation\WikiAvatar.png" />
     <Content Include="Resource\Navigation\WikiMonster.png" />
     <Content Include="Resource\Navigation\WikiWeapon.png" />
+    <Content Include="Resource\TeachingTip\LaunchGameIslandHideQuestBanner.png" />
+    <Content Include="Resource\TeachingTip\LaunchGameIslandRedirectCombineEntry.gif" />
     <Content Include="Resource\ThirdParty\Apple.png" />
     <Content Include="Resource\ThirdParty\Facebook.png" />
     <Content Include="Resource\ThirdParty\Google.png" />
@@ -292,14 +214,6 @@
     <Content Include="Resource\ThirdParty\miyoushe128.png" />
     <Content Include="Resource\ThirdParty\Twitter.png" />
     <Content Include="Resource\WelcomeView_Background.png" />
-    <Content Include="Resource\Icon\UI_Icon_Tower_Star1.png" />
-    <Content Include="Resource\Icon\UI_Icon_Tower_Star2.png" />
-    <Content Include="Resource\Navigation\RoleCombat.png" />
-    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
-    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
-    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
-    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_3.png" />
-    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_4.png" />
   </ItemGroup>
 
   <!-- Packages -->
@@ -327,16 +241,16 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.14.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.14.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.7" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
@@ -360,11 +274,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.Native" Version="0.1.12">
+    <PackageReference Include="Snap.Hutao.Native" Version="0.1.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.2.8">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.2.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -377,11 +291,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
-    <PackageReference Include="System.Formats.Asn1" Version="9.0.6" />
-    <PackageReference Include="System.IO.Hashing" Version="9.0.6" />
-    <PackageReference Include="System.Threading.AccessControl" Version="9.0.6" />
-    <PackageReference Include="System.Threading.RateLimiting" Version="9.0.6" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.7" />
+    <PackageReference Include="System.IO.Hashing" Version="9.0.7" />
+    <PackageReference Include="System.Threading.AccessControl" Version="9.0.7" />
+    <PackageReference Include="System.Threading.RateLimiting" Version="9.0.7" />
     <PackageReference Include="Yae.Lib" Version="5.3.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -42,6 +42,7 @@ internal sealed class Hk4eItem : IJsonOnDeserialized
             Id = item.Id,
         };
     }
+
     public void OnDeserialized()
     {
         if (!Enum.IsDefined(UIGFGachaType))

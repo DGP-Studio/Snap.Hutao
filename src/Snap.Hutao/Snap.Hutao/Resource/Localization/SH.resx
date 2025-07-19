@@ -267,6 +267,9 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
+  </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>角色</value>
   </data>
@@ -585,6 +588,9 @@
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
+  <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
+    <value>设备 ID 不能为空</value>
+  </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>请先登录或注册胡桃账号</value>
   </data>
@@ -594,11 +600,20 @@
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
     <value>密码长度不能小于 8 位</value>
   </data>
+  <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
+    <value>刷新令牌不能为空</value>
+  </data>
+  <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
+    <value>刷新令牌无效或已过期</value>
+  </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>注册成功</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>新密码设置成功</value>
+  </data>
+  <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
+    <value>新密码不能与旧密码相同</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>当前邮箱尚未注册</value>
@@ -609,8 +624,17 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>注册失败，服务器异常，请尽快联系开发者解决</value>
   </data>
-  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>密码错误，注销失败</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>用户不存在，注销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
+    <value>令牌撤销失败</value>
+  </data>
+  <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
+    <value>令牌撤销成功</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>用户注销成功</value>
@@ -1302,6 +1326,9 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>为当前存档导入成就</value>
   </data>
+  <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
+    <value>选择要添加到当前培养计划的角色</value>
+  </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>稍后可以在设置中修改此行为</value>
   </data>
@@ -1701,6 +1728,9 @@
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>图片资源质量</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行证</value>
   </data>
@@ -1731,6 +1761,9 @@
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>不能添加名称无效的存档</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>复制成就 ID 成功</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 文件</value>
   </data>
@@ -1748,6 +1781,9 @@
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>导出 UIAF JSON 文件到指定路径</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
+    <value>未选中任意角色</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>获取培养材料中，请稍候...</value>
@@ -2019,6 +2055,15 @@
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>原图</value>
   </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>联机挑战</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>单人挑战</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
   </data>
@@ -2100,6 +2145,12 @@
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
   </data>
+  <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
+    <value>当前已是最新版本</value>
+  </data>
+  <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
+    <value>检查更新发送错误</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>清除失败，文件目录权限不足，请使用管理员模式重试</value>
   </data>
@@ -2133,6 +2184,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>重启失败，请手动重启应用</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
   </data>
@@ -2144,6 +2198,9 @@
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>复制数据文件</value>
+  </data>
+  <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
+    <value>更新可用: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>需消耗 {0} 米游币，{1} 米游币可用</value>
@@ -2277,6 +2334,12 @@
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
     <value>游戏公告</value>
   </data>
+  <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
+    <value>兑换码复制成功</value>
+  </data>
+  <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
+    <value>前瞻直播兑换码</value>
+  </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>查看详情</value>
   </data>
@@ -2285,6 +2348,9 @@
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
     <value>当前角色与武器</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
+    <value>部分角色与武器</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>尚未获取任何角色信息</value>
@@ -2598,6 +2664,9 @@
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
   </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>战斗用时</value>
+  </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>胡桃已经为你启动了 {0} 次游戏</value>
   </data>
@@ -2817,6 +2886,9 @@
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>地图横幅冷开关</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
+    <value>强制移除地图界面左上角的任务提示</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>关闭地图横幅</value>
   </data>
@@ -2837,6 +2909,9 @@
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>使用触摸输入</value>
+  </data>
+  <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
+    <value>结束进程</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的显示器上运行</value>
@@ -3053,6 +3128,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>缓存 文件夹</value>
+  </data>
+  <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
+    <value>检查更新</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
@@ -3492,6 +3570,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>周期</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境剧诗</value>
   </data>
@@ -3585,9 +3666,6 @@
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
     <value>是否立即更新？</value>
   </data>
-  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下载更新失败</value>
   </data>
@@ -3608,6 +3686,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>正在初始化元数据</value>
+  </data>
+  <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>是否立即下载？</value>
@@ -3881,6 +3962,12 @@
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>最强一击</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>无效的服务器</value>

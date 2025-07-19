@@ -1,0 +1,148 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service.HardChallenge;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.ViewModel.User;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+
+namespace Snap.Hutao.ViewModel.HardChallenge;
+
+[ConstructorGenerated]
+[Injection(InjectAs.Scoped)]
+internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
+{
+    private readonly IHardChallengeService hardChallengeService;
+    private readonly IMetadataService metadataService;
+    private readonly IInfoBarService infoBarService;
+    private readonly ITaskContext taskContext;
+    private readonly IUserService userService;
+
+    private HardChallengeMetadataContext? metadataContext;
+
+    public IAdvancedCollectionView<HardChallengeView>? HardChallengeEntries
+    {
+        get;
+        set
+        {
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentHardChallengeEntryChanged);
+            SetProperty(ref field, value);
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentHardChallengeEntryChanged);
+        }
+    }
+
+    public ImmutableArray<AvatarView> BlingAvatars { get; set => SetProperty(ref field, value); }
+
+    public void Receive(UserAndUidChangedMessage message)
+    {
+        if (message.UserAndUid is { } userAndUid)
+        {
+            UpdateHardChallengeCollectionAsync(userAndUid).SafeForget();
+        }
+        else
+        {
+            HardChallengeEntries?.MoveCurrentTo(default);
+        }
+    }
+
+    protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
+    {
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        {
+            metadataContext = await metadataService.GetContextAsync<HardChallengeMetadataContext>(token).ConfigureAwait(false);
+            await UpdateHardChallengeCollectionAsync(userAndUid).ConfigureAwait(false);
+        }
+        else
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+        }
+
+        return true;
+    }
+
+    private void OnCurrentHardChallengeEntryChanged(object? sender, object? e)
+    {
+        HardChallengeEntries?.CurrentItem?.DataEntries?.MoveCurrentToFirst();
+    }
+
+    [SuppressMessage("", "SH003")]
+    private async Task UpdateHardChallengeCollectionAsync(UserAndUid userAndUid)
+    {
+        if (metadataContext is null)
+        {
+            return;
+        }
+
+        try
+        {
+            ObservableCollection<HardChallengeView> collection;
+            ImmutableArray<AvatarView> blingAvatars;
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                collection = await hardChallengeService
+                    .GetHardChallengeViewCollectionAsync(metadataContext, userAndUid)
+                    .ConfigureAwait(false);
+
+                blingAvatars = await hardChallengeService
+                    .GetBlingAvatarsAsync(metadataContext, userAndUid)
+                    .ConfigureAwait(false);
+            }
+
+            IAdvancedCollectionView<HardChallengeView> hardChallengeEntries = collection.AsAdvancedCollectionView();
+
+            await taskContext.SwitchToMainThreadAsync();
+            HardChallengeEntries = hardChallengeEntries;
+            HardChallengeEntries.MoveCurrentTo(HardChallengeEntries.Source.FirstOrDefault(s => s.Engaged));
+
+            BlingAvatars = blingAvatars;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    [Command("RefreshCommand")]
+    private async Task RefreshAsync()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh hard challenge record", "HardChallengeViewModel.Command"));
+
+        if (metadataContext is null)
+        {
+            return;
+        }
+
+        if (HardChallengeEntries is not null)
+        {
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+            {
+                try
+                {
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+                    {
+                        await hardChallengeService
+                            .RefreshHardChallengeAsync(metadataContext, userAndUid)
+                            .ConfigureAwait(false);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                }
+
+                await taskContext.SwitchToMainThreadAsync();
+                HardChallengeEntries.MoveCurrentTo(HardChallengeEntries.Source.FirstOrDefault(s => s.Engaged));
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 using Snap.Hutao.UI.Xaml.Control.Theme;
@@ -15,7 +16,7 @@ using System.Globalization;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
-using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
+using TextBlockType = Microsoft.UI.Xaml.Controls.TextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
@@ -24,9 +25,17 @@ namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
+    private static readonly BitmapImage BitmapSourceIce = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png".ToUri());
+    private static readonly BitmapImage BitmapSourceWater = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Water.png".ToUri());
+    private static readonly BitmapImage BitmapSourceFire = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Fire.png".ToUri());
+    private static readonly BitmapImage BitmapSourceElectric = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Electric.png".ToUri());
+    private static readonly BitmapImage BitmapSourceWind = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Wind.png".ToUri());
+    private static readonly BitmapImage BitmapSourceRock = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Rock.png".ToUri());
+    private static readonly BitmapImage BitmapSourceGrass = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Grass.png".ToUri());
+
     public DescriptionTextBlock()
     {
-        Content = new MUXCTextBlock
+        Content = new TextBlockType
         {
             TextWrapping = TextWrapping.Wrap,
             Style = TextStyle,
@@ -38,16 +47,16 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         DescriptionTextBlock descriptionTextBlock = (DescriptionTextBlock)d;
-        MUXCTextBlock textBlock = (MUXCTextBlock)descriptionTextBlock.Content;
+        TextBlockType textBlock = (TextBlockType)descriptionTextBlock.Content;
         descriptionTextBlock.UpdateDescription(textBlock, (string)e.NewValue);
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((MUXCTextBlock)((DescriptionTextBlock)d).Content).Style = (Style)e.NewValue;
+        ((TextBlockType)((DescriptionTextBlock)d).Content).Style = (Style)e.NewValue;
     }
 
-    private void UpdateDescription(MUXCTextBlock textBlock, string text)
+    private void UpdateDescription(TextBlockType textBlock, string text)
     {
         DetachHyperLinkClickEvent(textBlock.Inlines);
         textBlock.Inlines.Clear();
@@ -79,34 +88,35 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         }
     }
 
-    private void AppendNode(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxElement syntaxElement, ReadOnlySpan<char> content)
+    private void AppendNode(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxElement syntaxElement, ReadOnlySpan<char> source)
     {
         _ = syntaxElement switch
         {
-            MiHoYoSyntaxTextElement textElement => AppendPlainText(textBlock, inlines, textElement, content),
-            MiHoYoSyntaxColorElement colorElement => AppendColorText(textBlock, inlines, colorElement, content),
-            MiHoYoSyntaxItalicElement italicElement => AppendItalicText(textBlock, inlines, italicElement, content),
-            MiHoYoSyntaxLinkElement linkElement => AppendLinkText(textBlock, inlines, linkElement, content),
+            MiHoYoSyntaxTextElement textElement => AppendPlainText(textBlock, inlines, textElement, source),
+            MiHoYoSyntaxColorElement colorElement => AppendColorText(textBlock, inlines, colorElement, source),
+            MiHoYoSyntaxItalicElement italicElement => AppendItalicText(textBlock, inlines, italicElement, source),
+            MiHoYoSyntaxLinkElement linkElement => AppendLinkText(textBlock, inlines, linkElement, source),
+            MiHoYoSyntaxSpritePresetElement spritePresetElement => AppendSpritePreset(textBlock, inlines, spritePresetElement, source),
             _ => default,
         };
     }
 
     [SuppressMessage("", "CA1822")]
-    private Void AppendPlainText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxTextElement syntaxTextElement, ReadOnlySpan<char> content)
+    private Void AppendPlainText(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxTextElement syntaxTextElement, ReadOnlySpan<char> source)
     {
         // PlainText doesn't have children
-        inlines.Add(new Run { Text = syntaxTextElement.GetSpan(content).ToString() });
+        inlines.Add(new Run { Text = syntaxTextElement.GetSpan(source).ToString() });
         return default;
     }
 
-    private Void AppendColorText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxColorElement syntaxColorText, ReadOnlySpan<char> content)
+    private Void AppendColorText(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxColorElement syntaxColorText, ReadOnlySpan<char> source)
     {
         if (syntaxColorText.Children.Length <= 0)
         {
             return default;
         }
 
-        Rgba32 color = new(syntaxColorText.GetColorSpan(content).ToString());
+        Rgba32 color = new(syntaxColorText.GetColorSpan(source).ToString());
         Color targetColor;
         if (ThemeHelper.IsDarkMode(textBlock.ActualTheme))
         {
@@ -127,7 +137,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
 
         foreach (MiHoYoSyntaxElement child in syntaxColorText.Children)
         {
-            AppendNode(textBlock, span.Inlines, child, content);
+            AppendNode(textBlock, span.Inlines, child, source);
         }
 
         inlines.Add(span);
@@ -135,7 +145,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         return default;
     }
 
-    private Void AppendItalicText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxItalicElement syntaxItalicText, ReadOnlySpan<char> content)
+    private Void AppendItalicText(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxItalicElement syntaxItalicText, ReadOnlySpan<char> source)
     {
         if (syntaxItalicText.Children.Length <= 0)
         {
@@ -149,7 +159,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
 
         foreach (MiHoYoSyntaxElement child in syntaxItalicText.Children)
         {
-            AppendNode(textBlock, span.Inlines, child, content);
+            AppendNode(textBlock, span.Inlines, child, source);
         }
 
         inlines.Add(span);
@@ -157,7 +167,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         return default;
     }
 
-    private Void AppendLinkText(MUXCTextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxLinkElement syntaxLinkText, ReadOnlySpan<char> content)
+    private Void AppendLinkText(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxLinkElement syntaxLinkText, ReadOnlySpan<char> source)
     {
         if (syntaxLinkText.Children.Length <= 0)
         {
@@ -165,15 +175,49 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         }
 
         Hyperlink span = new();
-        DescriptionHyperLinkHelper.SetLinkData(span, Tuple.Create(syntaxLinkText.GetLinkKind(content), uint.Parse(syntaxLinkText.GetIdSpan(content)[1..], CultureInfo.InvariantCulture)));
+        DescriptionHyperLinkHelper.SetLinkData(span, Tuple.Create(syntaxLinkText.GetLinkKind(source), uint.Parse(syntaxLinkText.GetIdSpan(source)[1..], CultureInfo.InvariantCulture)));
         span.Click += OnLinkClicked;
 
         foreach (MiHoYoSyntaxElement child in syntaxLinkText.Children)
         {
-            AppendNode(textBlock, span.Inlines, child, content);
+            AppendNode(textBlock, span.Inlines, child, source);
         }
 
         inlines.Add(span);
+        return default;
+    }
+
+    private Void AppendSpritePreset(TextBlockType textBlock, InlineCollection inlines, MiHoYoSyntaxSpritePresetElement syntaxSpritePreset, ReadOnlySpan<char> source)
+    {
+        BitmapImage? imageSource = uint.Parse(syntaxSpritePreset.GetIdSpan(source), CultureInfo.InvariantCulture) switch
+        {
+            11001U => BitmapSourceIce,
+            11002U => BitmapSourceWater,
+            11003U => BitmapSourceFire,
+            11004U => BitmapSourceElectric,
+            11005U => BitmapSourceWind,
+            11006U => BitmapSourceRock,
+            11007U => BitmapSourceGrass,
+            _ => default,
+        };
+
+        double size = textBlock.FontSize; // 1.2 is a magic number to make the icon size look good
+
+        Microsoft.UI.Xaml.Controls.Image image = new()
+        {
+            RenderTransform = new CompositeTransform() { TranslateY = 2 },
+            Width = size,
+            Height = size,
+            Source = imageSource,
+        };
+
+        InlineUIContainer container = new()
+        {
+            Child = image,
+        };
+
+        inlines.Add(container);
+
         return default;
     }
 
@@ -225,6 +269,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((MUXCTextBlock)Content, Description);
+        UpdateDescription((TextBlockType)Content, Description);
     }
 }

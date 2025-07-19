@@ -10,13 +10,8 @@ internal sealed partial class AspectRatioComboBoxTemplateSelector : DataTemplate
 {
     public DataTemplate ListTemplate { get; set; } = default!;
 
-    protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+    protected override DataTemplate? SelectTemplateCore(object item, DependencyObject container)
     {
-        if (container is ContentPresenter)
-        {
-            return default!;
-        }
-
-        return ListTemplate;
+        return container is ContentPresenter ? default : ListTemplate;
     }
 }

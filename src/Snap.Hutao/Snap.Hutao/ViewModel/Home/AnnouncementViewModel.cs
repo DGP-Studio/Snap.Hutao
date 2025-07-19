@@ -1,14 +1,25 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Common;
+using Snap.Hutao.Core.DataTransfer;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.Card;
 using Snap.Hutao.UI.Xaml.View.Card;
+using Snap.Hutao.Web.Hoyolab.Bbs.Home;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
+using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.ViewModel.Home;
 
@@ -29,23 +40,29 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
     public string GreetingText { get; set => SetProperty(ref field, value); } = SH.ViewPageHomeGreetingTextDefault;
 
+    public ImmutableArray<CodeWrapper> RedeemCodes { get; set => SetProperty(ref field, value); } = [];
+
     public List<CardReference>? Cards { get; set => SetProperty(ref field, value); }
+
+    [GeneratedRegex("act_id=(.*?)&")]
+    private static partial Regex ActIdExtractor { get; }
 
     protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         InitializeDashboard();
-        InitializeInGameAnnouncementAsync().SafeForget();
-        InitializeHutaoAnnouncementAsync().SafeForget();
+        InitializeInGameAnnouncementAsync(token).SafeForget();
+        InitializeHutaoAnnouncementAsync(token).SafeForget();
+        InitializeMiyoliveCodeAsync(token).SafeForget();
         UpdateGreetingText();
         return ValueTask.FromResult(true);
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task InitializeInGameAnnouncementAsync()
+    private async Task InitializeInGameAnnouncementAsync(CancellationToken token)
     {
         try
         {
-            AnnouncementWrapper? announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
+            AnnouncementWrapper? announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, token).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
             DeferContentLoader?.Load("GameAnnouncementPivot");
@@ -56,11 +73,11 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task InitializeHutaoAnnouncementAsync()
+    private async Task InitializeHutaoAnnouncementAsync(CancellationToken token)
     {
         try
         {
-            ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync(CancellationToken).ConfigureAwait(false);
+            ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync(token).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             HutaoAnnouncements = hutaoAnnouncements;
             DeferContentLoader?.Load("HutaoAnnouncementControl");
@@ -68,6 +85,85 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         catch (OperationCanceledException)
         {
         }
+    }
+
+    [SuppressMessage("", "SH003")]
+    private async Task InitializeMiyoliveCodeAsync(CancellationToken token)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
+            {
+                return;
+            }
+
+            IHomeClient homeClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IHomeClient>>()
+                .CreateFor(userAndUid);
+
+            Response<NewHomeNewInfo>? newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidateWithoutUINotification(newHomeInfoResponse, out NewHomeNewInfo? newHomeInfo))
+            {
+                return;
+            }
+
+            if (newHomeInfo is null)
+            {
+                return;
+            }
+
+            Uri url;
+            if (newHomeInfo.Lives is [{ Data.LiveUrl: { } url1 }, ..])
+            {
+                url = url1;
+            }
+            else if (newHomeInfo.Navigator.SingleOrDefault(nav => nav.Name.Equals("直播兑换码", StringComparison.OrdinalIgnoreCase)) is { AppPath: { } url2 })
+            {
+                url = url2;
+            }
+            else
+            {
+                return;
+            }
+
+            if (ActIdExtractor.Match(url.OriginalString) is not { Success: true, Groups: [_, { Value: { } actId }, ..] })
+            {
+                return;
+            }
+
+            IMiyoliveClient miyoliveClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IMiyoliveClient>>()
+                .CreateFor(userAndUid);
+
+            Response<CodeListWrapper> codeListResponse = await miyoliveClient.RefreshCodeAsync(actId, token).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidateWithoutUINotification(codeListResponse, out CodeListWrapper? wrapper))
+            {
+                return;
+            }
+
+            ImmutableArray<CodeWrapper> wrappers = wrapper.CodeList.SelectAsArray(static wrapper => wrapper.WithTitle(wrapper.Title.DecodeHtml()));
+
+            await taskContext.SwitchToMainThreadAsync();
+            RedeemCodes = wrappers;
+        }
+    }
+
+    [Command("CopyCodeCommand")]
+    private async Task CopyCodeToClipboardAsync(string? code)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy redeem code to ClipBoard", "AnnouncementPage.Command"));
+
+        if (string.IsNullOrEmpty(code))
+        {
+            return;
+        }
+
+        IServiceProvider serviceProvider = Ioc.Default;
+        await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(code).ConfigureAwait(false);
+        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed);
     }
 
     private void UpdateGreetingText()

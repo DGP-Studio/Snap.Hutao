@@ -8,14 +8,14 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 internal sealed class SpiralAbyssAvatar
 {
     [JsonPropertyName("id")]
-    public AvatarId Id { get; set; }
+    public required AvatarId Id { get; init; }
 
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public required int Level { get; init; }
 
     [JsonPropertyName("rarity")]
-    public int Rarity { get; set; }
+    public required int Rarity { get; init; }
 }

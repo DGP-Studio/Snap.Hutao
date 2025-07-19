@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -23,10 +24,14 @@
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
+
     <shuxc:ScopedPage.Resources>
+        <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+
         <DataTemplate x:Key="AnnouncementTemplate" x:DataType="shwhhca:Announcement">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource AcrylicBorderCardStyle}">
@@ -195,12 +200,63 @@
         <ScrollViewer Padding="0" Style="{StaticResource DefaultScrollViewerStyle}">
             <StackPanel Padding="16" Spacing="16">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                        <TextBlock
-                            Margin="16,8"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{Binding GreetingText}"/>
-                    </Border>
+                    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                        <CommandBar DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <TextBlock
+                                    Margin="12,12,0,0"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="{Binding GreetingText}"/>
+                            </CommandBar.Content>
+                            <AppBarButton
+                                Icon="{shuxm:FontIcon Glyph=&#xE728;}"
+                                Label="{shuxm:ResourceString Name=ViewPageAnnouncementRedeemCodeLabel}"
+                                Visibility="{Binding RedeemCodes, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+                                <AppBarButton.Flyout>
+                                    <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding12Style}" Placement="BottomEdgeAlignedRight">
+                                        <ItemsControl ItemsPanel="{ThemeResource StackPanelSpacing8Template}" ItemsSource="{Binding RedeemCodes}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid
+                                                        Padding="8"
+                                                        ColumnSpacing="12"
+                                                        Style="{ThemeResource GridShimmerStyle}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Grid.Column="0">
+                                                            <TextBlock
+                                                                IsTextSelectionEnabled="True"
+                                                                Style="{ThemeResource BaseTextBlockStyle}"
+                                                                Text="{Binding Code}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="NoWrap"/>
+                                                            <TextBlock
+                                                                Opacity="0.7"
+                                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                Text="{Binding Title}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="NoWrap"/>
+                                                        </StackPanel>
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            VerticalAlignment="Stretch"
+                                                            Background="Transparent"
+                                                            Command="{Binding DataContext.CopyCodeCommand, Source={StaticResource ViewModelBindingProxy}}"
+                                                            CommandParameter="{Binding Code}"
+                                                            Content="{StaticResource FontIconContentCopy}"
+                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                            Style="{StaticResource ButtonRevealStyle}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                        </CommandBar>
+                    </Grid>
                 </Border>
 
                 <ItemsControl

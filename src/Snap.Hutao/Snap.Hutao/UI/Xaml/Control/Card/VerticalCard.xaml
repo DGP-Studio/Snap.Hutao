@@ -7,12 +7,12 @@
     <Style BasedOn="{StaticResource DefaultVerticalCardStyle}" TargetType="shuxcc:VerticalCard"/>
 
     <Style x:Key="DefaultVerticalCardStyle" TargetType="shuxcc:VerticalCard">
-        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
         <Setter Property="BottomPadding" Value="0,2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxcc:VerticalCard">
-                    <Border Background="{TemplateBinding Background}" Style="{StaticResource BorderCardStyle}">
+                    <Border Background="{TemplateBinding Background}" Style="{StaticResource BorderShimmerStyle}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -20,14 +20,16 @@
                             </Grid.RowDefinitions>
                             <Border
                                 x:Name="ContentHost"
+                                HorizontalAlignment="{TemplateBinding HorizontalTopAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalTopAlignment}"
                                 cw:FrameworkElementExtensions.EnableActualSizeBinding="True"
                                 Child="{TemplateBinding Top}"/>
                             <Border
                                 Grid.Row="1"
                                 MaxWidth="{Binding (cw:FrameworkElementExtensions.ActualWidth), ElementName=ElementName, Mode=OneWay}"
                                 Padding="{TemplateBinding BottomPadding}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="{TemplateBinding HorizontalBottomAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalBottomAlignment}"
                                 Child="{TemplateBinding Bottom}"/>
                         </Grid>
                     </Border>

@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -19,5 +20,5 @@ internal sealed class HutaoSpiralAbyssStatisticsMetadataContext : IMetadataConte
 
     public ImmutableDictionary<WeaponId, Weapon> IdWeaponMap { get; set; } = default!;
 
-    public ImmutableDictionary<ExtendedEquipAffixId, ReliquarySet> IdReliquarySetMap { get; set; } = default!;
+    public ImmutableDictionary<ExtendedEquipAffixId, ReliquarySet> ExtendedIdReliquarySetMap { get; set; } = default!;
 }

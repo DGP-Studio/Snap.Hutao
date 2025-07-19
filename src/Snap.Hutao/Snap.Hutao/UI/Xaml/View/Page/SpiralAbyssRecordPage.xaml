@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cw="using:CommunityToolkit.WinUI"
-    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
@@ -18,7 +18,7 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcom="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvs="using:Snap.Hutao.ViewModel.SpiralAbyss"
-    d:DataContext="{d:DesignInstance shvs:SpiralAbyssRecordViewModel}"
+    d:DataContext="{d:DesignInstance shvs:SpiralAbyssViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -27,6 +27,11 @@
     </mxi:Interaction.Behaviors>
 
     <shuxc:ScopedPage.Resources>
+
+        <cwconv:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToOpacityConverter"
+            EmptyValue="{shuxm:Double Value=0}"
+            NotEmptyValue="{shuxm:Double Value=1}"/>
 
         <DataTemplate x:Key="SpiralAbyssListTemplate" x:DataType="shvs:SpiralAbyssView">
             <StackPanel Margin="0,6,0,8">
@@ -45,7 +50,7 @@
                 <TextBlock
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding TimeFormatted}"/>
+                    Text="{Binding FormattedTime}"/>
             </StackPanel>
         </DataTemplate>
 
@@ -125,7 +130,7 @@
                     ItemsSource="{Binding Monsters}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <cwc:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                            <cwcont:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -141,50 +146,45 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
-                <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
-                        <ItemsControl
-                            Margin="0,8,0,0"
-                            ItemTemplate="{StaticResource AvatarTemplate}"
-                            ItemsPanel="{ThemeResource StackPanelSpacing6Template}"
-                            ItemsSource="{Binding Avatars}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
-                        <clw:TokenItem
-                            Margin="0,0,0,8"
-                            Padding="12,2"
-                            HorizontalAlignment="Left"
-                            Content="{Binding Gadget.Name}"
-                            CornerRadius="12"
-                            Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                            <ToolTipService.ToolTip>
-                                <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
-                            </ToolTipService.ToolTip>
-                        </clw:TokenItem>
-                        <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Spacing="8"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </StackPanel>
-                </Grid>
+            <StackPanel HorizontalAlignment="Stretch" Spacing="12">
+                <StackPanel Visibility="{Binding Avatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
+                    <ItemsControl
+                        Margin="0,8,0,0"
+                        ItemTemplate="{StaticResource AvatarTemplate}"
+                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing6Template}"
+                        ItemsSource="{Binding Avatars}"/>
+                </StackPanel>
                 <TextBlock
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Time}"/>
+                    Text="{Binding Time}"
+                    Visibility="{Binding Avatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}, Mode=OneWay}"/>
+                <StackPanel HorizontalAlignment="Left">
+                    <clw:TokenItem
+                        Margin="0,0,0,8"
+                        Padding="12,2"
+                        HorizontalAlignment="Left"
+                        Content="{Binding Gadget.Name}"
+                        CornerRadius="12"
+                        Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        <ToolTipService.ToolTip>
+                            <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
+                        </ToolTipService.ToolTip>
+                    </clw:TokenItem>
+                    <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssLevelTemplate" x:DataType="shvs:LevelView">
-            <Grid Margin="0,8,0,0">
+            <Grid RowSpacing="12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -193,7 +193,7 @@
                 </Grid.RowDefinitions>
                 <MenuFlyoutSeparator Grid.Row="0" Margin="4,0"/>
                 <!--  第X间 *X  -->
-                <Grid Grid.Row="1" Margin="8,8,8,0">
+                <Grid Grid.Row="1" Margin="12,0,12,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
@@ -217,7 +217,7 @@
                 <!--  间信息  -->
                 <ItemsControl
                     Grid.Row="2"
-                    Margin="8,8,8,0"
+                    Margin="12,0"
                     ItemTemplate="{StaticResource SpiralAbyssBattleTemplate}"
                     ItemsSource="{Binding Battles}">
                     <ItemsControl.ItemsPanel>
@@ -230,16 +230,10 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssFloorTemplate" x:DataType="shvs:FloorView">
-            <Border VerticalAlignment="Top" Style="{StaticResource BorderCardStyle}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+            <Grid VerticalAlignment="Top" Style="{StaticResource GridShimmerStyle}">
+                <StackPanel Spacing="12">
                     <!--  第X层 *X  -->
-                    <Grid Grid.Row="0" Margin="8,8,8,0">
+                    <Grid Padding="12,12,12,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
@@ -261,16 +255,18 @@
                                 TextAlignment="Center"/>
                         </StackPanel>
                     </Grid>
-                    <!--  地脉紊乱  -->
+                    <!--  单一 地脉紊乱  -->
                     <ItemsControl
-                        Grid.Row="1"
-                        Margin="8,0,0,0"
+                        Margin="12,0"
                         ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
-                        ItemsSource="{Binding Disorders}"/>
+                        ItemsSource="{Binding Disorders}"
+                        Visibility="{Binding Disorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                    <!--  上下半 地脉紊乱  -->
                     <Grid
-                        Grid.Row="2"
-                        Margin="8,0"
-                        ColumnSpacing="16">
+                        Margin="12,0"
+                        ColumnSpacing="16"
+                        RowSpacing="4"
+                        Visibility="{Binding Disorders, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
@@ -306,23 +302,17 @@
                     </Grid>
                     <!--  间信息  -->
                     <ItemsControl
-                        Grid.Row="3"
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,12"
                         ItemTemplate="{StaticResource SpiralAbyssLevelTemplate}"
                         ItemsSource="{Binding Levels}"/>
-                </Grid>
-            </Border>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
 
     </shuxc:ScopedPage.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Pivot Grid.RowSpan="2" Style="{ThemeResource CardPivotStyle}">
+        <Pivot Style="{ThemeResource CardPivotStyle}">
             <Pivot.RightHeader>
                 <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
                     <AppBarButton
@@ -354,13 +344,20 @@
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <ScrollViewer>
-                                    <StackPanel DataContext="{Binding SpiralAbyssEntries.CurrentItem}">
-                                        <Grid Margin="16,12,16,0">
+                                    <StackPanel
+                                        Padding="16"
+                                        DataContext="{Binding SpiralAbyssEntries.CurrentItem}"
+                                        Spacing="16">
+
+                                        <Grid Padding="12" Style="{ThemeResource GridShimmerStyle}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" Margin="1,0,0,0">
+                                            <StackPanel
+                                                Grid.Column="0"
+                                                Margin="1,0,0,0"
+                                                Spacing="12">
                                                 <!--  渊月祝福  -->
                                                 <TextBlock
                                                     Margin="0,0,16,0"
@@ -374,6 +371,8 @@
 
                                             <AppBarButton
                                                 Grid.Column="1"
+                                                Margin="-2,-6"
+                                                VerticalAlignment="Top"
                                                 Icon="{shuxm:FontIcon Glyph=&#xE8A1;}"
                                                 Label="{shuxm:ResourceString Name=ViewSpiralAbyssStatistics}"
                                                 Visibility="{Binding Engaged, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -384,7 +383,7 @@
                                                                 <Setter Property="MaxWidth" Value="1920"/>
                                                             </Style>
                                                         </Flyout.FlyoutPresenterStyle>
-                                                        <Grid ColumnSpacing="6">
+                                                        <Grid ColumnSpacing="{StaticResource SettingsCardSpacing}">
                                                             <Grid.Resources>
                                                                 <!--  ReSharper disable Xaml.RedundantResource  -->
                                                                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
@@ -398,7 +397,7 @@
                                                             </Grid.ColumnDefinitions>
 
                                                             <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDefeat}">
+                                                                <cwcont:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDefeat}">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock
                                                                             Margin="0,0,16,0"
@@ -410,9 +409,9 @@
                                                                             Margin="-8,-24,-8,-8"
                                                                             Source="{Binding Defeat.SideIcon}"/>
                                                                     </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                                </cwcont:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDamage}">
+                                                                <cwcont:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDamage}">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock
                                                                             Margin="0,0,16,0"
@@ -424,9 +423,9 @@
                                                                             Margin="-8,-24,-8,-8"
                                                                             Source="{Binding Damage.SideIcon}"/>
                                                                     </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                                </cwcont:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
+                                                                <cwcont:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock
                                                                             Margin="0,0,16,0"
@@ -438,9 +437,9 @@
                                                                             Margin="-8,-24,-8,-8"
                                                                             Source="{Binding TakeDamage.SideIcon}"/>
                                                                     </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                                </cwcont:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssNormalSkill}">
+                                                                <cwcont:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssNormalSkill}">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock
                                                                             Margin="0,0,16,0"
@@ -452,9 +451,9 @@
                                                                             Margin="-8,-24,-8,-8"
                                                                             Source="{Binding NormalSkill.SideIcon}"/>
                                                                     </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                                </cwcont:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssEnergySkill}">
+                                                                <cwcont:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssEnergySkill}">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock
                                                                             Margin="0,0,16,0"
@@ -466,12 +465,12 @@
                                                                             Margin="-8,-24,-8,-8"
                                                                             Source="{Binding EnergySkill.SideIcon}"/>
                                                                     </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                                </cwcont:SettingsCard>
                                                             </StackPanel>
                                                             <StackPanel Grid.Column="1" Spacing="{StaticResource SettingsCardSpacing}">
-                                                                <cwc:SettingsCard Content="{Binding MaxFloor}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssMaxFloor}"/>
-                                                                <cwc:SettingsCard Content="{Binding TotalBattleTimes}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssBattleTimes}"/>
-                                                                <cwc:SettingsCard Content="{Binding TotalStar}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssTotalStar}"/>
+                                                                <cwcont:SettingsCard Content="{Binding MaxFloor}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssMaxFloor}"/>
+                                                                <cwcont:SettingsCard Content="{Binding TotalBattleTimes}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssBattleTimes}"/>
+                                                                <cwcont:SettingsCard Content="{Binding TotalStar}" Header="{shuxm:ResourceString Name=ViewSpiralAbyssTotalStar}"/>
 
                                                                 <TextBlock
                                                                     Margin="1,6,0,5"
@@ -480,7 +479,7 @@
                                                                 <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Reveals}">
                                                                     <ItemsControl.ItemsPanel>
                                                                         <ItemsPanelTemplate>
-                                                                            <cwc:UniformGrid ColumnSpacing="3" Columns="4"/>
+                                                                            <cwcont:UniformGrid ColumnSpacing="3" Columns="4"/>
                                                                         </ItemsPanelTemplate>
                                                                     </ItemsControl.ItemsPanel>
                                                                     <ItemsControl.ItemTemplate>
@@ -508,20 +507,18 @@
                                         </Grid>
 
                                         <!--  各层信息  -->
-                                        <cwc:Segmented
-                                            Margin="16,16,16,0"
-                                            Background="{x:Null}"
+                                        <cwcont:Segmented
+                                            HorizontalAlignment="Stretch"
                                             ItemsSource="{Binding Floors}"
                                             SelectedItem="{Binding Floors.CurrentItem, Mode=TwoWay}">
-                                            <cwc:Segmented.ItemTemplate>
+                                            <cwcont:Segmented.ItemTemplate>
                                                 <DataTemplate x:DataType="shvs:FloorView">
-                                                    <TextBlock Text="{Binding Index}"/>
+                                                    <TextBlock Margin="0,1,0,0" Text="{Binding Index}"/>
                                                 </DataTemplate>
-                                            </cwc:Segmented.ItemTemplate>
-                                        </cwc:Segmented>
+                                            </cwcont:Segmented.ItemTemplate>
+                                        </cwcont:Segmented>
 
                                         <ContentControl
-                                            Margin="16,16,16,16"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Content="{Binding Floors.CurrentItem}"
@@ -547,9 +544,8 @@
                             <shuxc:ItemIcon
                                 Width="40"
                                 Height="40"
-                                shux:UIElementHelper.OpacityObject="{Binding Icon}"
                                 Icon="{Binding Icon}"
-                                Opacity="0"
+                                Opacity="{Binding Icon, Converter={StaticResource EmptyObjectToOpacityConverter}}"
                                 Quality="{Binding Quality}"/>
                         </DataTemplate>
 
@@ -644,11 +640,11 @@
                                                     <!--  ReSharper restore Xaml.RedundantResource  -->
                                                 </StackPanel.Resources>
                                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewDataCollect}"/>
-                                                <cwc:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/>
-                                                <cwc:SettingsCard Content="{Binding Overview.RecordTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/>
+                                                <cwcont:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/>
+                                                <cwcont:SettingsCard Content="{Binding Overview.RecordTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/>
                                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyss}"/>
-                                                <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssTotal}"/>
-                                                <cwc:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssPassed}">
+                                                <cwcont:SettingsCard Content="{Binding Overview.SpiralAbyssTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssTotal}"/>
+                                                <cwcont:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssPassed}">
                                                     <StackPanel>
                                                         <TextBlock Text="{Binding Overview.SpiralAbyssPassedPercent}"/>
                                                         <TextBlock
@@ -657,8 +653,8 @@
                                                             Style="{StaticResource CaptionTextBlockStyle}"
                                                             Text="{Binding Overview.SpiralAbyssPassed}"/>
                                                     </StackPanel>
-                                                </cwc:SettingsCard>
-                                                <cwc:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar}">
+                                                </cwcont:SettingsCard>
+                                                <cwcont:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar}">
                                                     <StackPanel>
                                                         <TextBlock Text="{Binding Overview.SpiralAbyssFullStarPercent}"/>
                                                         <TextBlock
@@ -667,9 +663,9 @@
                                                             Style="{StaticResource CaptionTextBlockStyle}"
                                                             Text="{Binding Overview.SpiralAbyssFullStar}"/>
                                                     </StackPanel>
-                                                </cwc:SettingsCard>
-                                                <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssStarAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage}"/>
-                                                <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage}"/>
+                                                </cwcont:SettingsCard>
+                                                <cwcont:SettingsCard Content="{Binding Overview.SpiralAbyssStarAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage}"/>
+                                                <cwcont:SettingsCard Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage}"/>
                                             </StackPanel>
                                         </Flyout>
                                     </AppBarButton.Flyout>
@@ -688,7 +684,7 @@
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <cwc:Segmented
+                                        <cwcont:Segmented
                                             DisplayMemberPath="Floor"
                                             ItemsSource="{Binding AvatarUsageRanks}"
                                             SelectedItem="{Binding SelectedAvatarUsageRank, Mode=TwoWay}"/>
@@ -722,7 +718,7 @@
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <cwc:Segmented
+                                        <cwcont:Segmented
                                             DisplayMemberPath="Floor"
                                             ItemsSource="{Binding AvatarAppearanceRanks}"
                                             SelectedItem="{Binding SelectedAvatarAppearanceRank, Mode=TwoWay}"/>
@@ -751,7 +747,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <cwc:Segmented
+                                    <cwcont:Segmented
                                         Grid.Row="0"
                                         Margin="16,16,0,16"
                                         DisplayMemberPath="Floor"
@@ -767,15 +763,15 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <cwc:HeaderedContentControl Grid.Column="0">
-                                            <cwc:HeaderedContentControl.Header>
+                                        <cwcont:HeaderedContentControl Grid.Column="0">
+                                            <cwcont:HeaderedContentControl.Header>
                                                 <Border Margin="0,0,16,0" Style="{ThemeResource BorderCardStyle}">
                                                     <TextBlock
                                                         Margin="0,8"
                                                         HorizontalAlignment="Center"
                                                         Text="{shuxm:ResourceString Name=ViewPageSpiralAbyssTeamAppearanceUpHeader}"/>
                                                 </Border>
-                                            </cwc:HeaderedContentControl.Header>
+                                            </cwcont:HeaderedContentControl.Header>
                                             <ListView
                                                 Padding="0,0,0,16"
                                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
@@ -792,17 +788,17 @@
                                                     </ItemsPanelTemplate>
                                                 </ListView.ItemsPanel>
                                             </ListView>
-                                        </cwc:HeaderedContentControl>
+                                        </cwcont:HeaderedContentControl>
 
-                                        <cwc:HeaderedContentControl Grid.Column="1">
-                                            <cwc:HeaderedContentControl.Header>
+                                        <cwcont:HeaderedContentControl Grid.Column="1">
+                                            <cwcont:HeaderedContentControl.Header>
                                                 <Border Margin="0,0,16,0" Style="{ThemeResource BorderCardStyle}">
                                                     <TextBlock
                                                         Margin="0,8"
                                                         HorizontalAlignment="Center"
                                                         Text="{shuxm:ResourceString Name=ViewPageSpiralAbyssTeamAppearanceDownHeader}"/>
                                                 </Border>
-                                            </cwc:HeaderedContentControl.Header>
+                                            </cwcont:HeaderedContentControl.Header>
                                             <ListView
                                                 Padding="0,0,0,16"
                                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
@@ -819,7 +815,7 @@
                                                     </ItemsPanelTemplate>
                                                 </ListView.ItemsPanel>
                                             </ListView>
-                                        </cwc:HeaderedContentControl>
+                                        </cwcont:HeaderedContentControl>
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -938,7 +934,7 @@
                                                             <ItemsControl Grid.Column="1" ItemsSource="{Binding Rates}">
                                                                 <ItemsControl.ItemsPanel>
                                                                     <ItemsPanelTemplate>
-                                                                        <cwc:UniformGrid Columns="7"/>
+                                                                        <cwcont:UniformGrid Columns="7"/>
                                                                     </ItemsPanelTemplate>
                                                                 </ItemsControl.ItemsPanel>
                                                                 <ItemsControl.ItemTemplate>

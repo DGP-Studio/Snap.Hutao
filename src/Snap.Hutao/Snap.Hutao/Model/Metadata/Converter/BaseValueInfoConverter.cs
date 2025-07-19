@@ -64,7 +64,7 @@ internal static class BaseValueInfoConverter
 
     public static ImmutableArray<NameValue<string>> ToNameValues(ImmutableArray<PropertyCurveValue> propValues, Level level, PromoteLevel promoteLevel, BaseValueInfoMetadataContext metadataContext)
     {
-        return propValues.SelectAsArray(propValue => ToNameValue(propValue, level, promoteLevel, metadataContext));
+        return propValues.SelectAsArray(static (propValue, state) => ToNameValue(propValue, state.level, state.promoteLevel, state.metadataContext), (level, promoteLevel, metadataContext));
     }
 
     public static ImmutableArray<NameValue<string>> ToNameValues(ImmutableArray<PropertyCurveValue> propValues, Level level, Level maxLevel, bool promoted, BaseValueInfoMetadataContext metadataContext)

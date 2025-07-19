@@ -70,14 +70,13 @@ internal readonly struct TypedWishSummaryBuilderContext
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
-            await hutaoUserOptions.RefreshUserInfoAsync(token).ConfigureAwait(false);
-            if (!hutaoUserOptions.IsHutaoCloudAllowed)
+            if (await hutaoUserOptions.GetIsHutaoCloudAllowedAsync(token).ConfigureAwait(false) is not (true, { } accessToken))
             {
                 return default;
             }
 
             HomaGachaLogClient client = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            return await client.GetGachaDistributionAsync(DistributionType, token).ConfigureAwait(false);
+            return await client.GetGachaDistributionAsync(accessToken, DistributionType, token).ConfigureAwait(false);
         }
     }
 }

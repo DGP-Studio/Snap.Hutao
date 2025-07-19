@@ -21,15 +21,15 @@ internal sealed class BattleView
         };
         MonsterWaves = battleIndex switch
         {
-            1U => towerLevel.FirstWaves.SelectAsArray(w => BattleWave.From(w, context)),
-            2U => towerLevel.SecondWaves.SelectAsArray(w => BattleWave.From(w, context)),
+            1U => towerLevel.FirstWaves.SelectAsArray(static (w, context) => BattleWave.Create(w, context), context),
+            2U => towerLevel.SecondWaves.SelectAsArray(static (w, context) => BattleWave.Create(w, context), context),
             _ => default!,
         };
     }
 
     public string? Time { get; private set; }
 
-    public List<AvatarView>? Avatars { get; private set; }
+    public ImmutableArray<AvatarView> Avatars { get; private set; } = [];
 
     public NameDescription? Gadget { get; }
 
@@ -37,14 +37,14 @@ internal sealed class BattleView
 
     internal uint IndexValue { get; }
 
-    public static BattleView From(TowerLevel level, uint index, SpiralAbyssMetadataContext context)
+    public static BattleView Create(TowerLevel level, uint index, SpiralAbyssMetadataContext context)
     {
         return new(level, index, context);
     }
 
-    public void WithSpiralAbyssBattle(SpiralAbyssBattle battle, SpiralAbyssMetadataContext context)
+    public void Attach(SpiralAbyssBattle battle, TimeSpan offset, SpiralAbyssMetadataContext context)
     {
-        Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
-        Avatars = battle.Avatars.SelectList(a => AvatarView.From(context.IdAvatarMap[a.Id]));
+        Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToOffset(offset):yyyy.MM.dd HH:mm:ss}";
+        Avatars = battle.Avatars.SelectAsArray(static (a, context) => AvatarView.From(context.IdAvatarMap[a.Id]), context);
     }
 }

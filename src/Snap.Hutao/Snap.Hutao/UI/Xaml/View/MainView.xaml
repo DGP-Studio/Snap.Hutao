@@ -100,6 +100,13 @@
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
 
                 <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:CultivationPage"
+                    Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
+
+                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewPeriodHeader}"/>
+
+                <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:SpiralAbyssRecordPage"
                     Content="{shuxm:ResourceString Name=ViewSpiralAbyssHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
@@ -110,9 +117,9 @@
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/RoleCombat.png}"/>
 
                 <NavigationViewItem
-                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:CultivationPage"
-                    Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
-                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:HardChallengePage"
+                    Content="{shuxm:ResourceString Name=ViewHardChallengeHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/HardChallenge.png}"/>
 
                 <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewDataHeader}"/>
 

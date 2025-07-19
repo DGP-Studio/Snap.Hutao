@@ -5,12 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Collections.Immutable;
-using System.Data.Common;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 

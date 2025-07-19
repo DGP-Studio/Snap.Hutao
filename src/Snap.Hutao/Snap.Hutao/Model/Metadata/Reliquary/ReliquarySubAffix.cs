@@ -6,7 +6,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
-internal sealed class ReliquarySubAffix
+internal sealed class ReliquarySubAffix : IDefaultIdentity<ReliquarySubAffixId>
 {
     public required ReliquarySubAffixId Id { get; init; }
 

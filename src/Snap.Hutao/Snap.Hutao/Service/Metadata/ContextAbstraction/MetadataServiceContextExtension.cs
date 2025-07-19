@@ -6,6 +6,8 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
@@ -80,7 +82,7 @@ internal static class MetadataServiceContextExtension
         {
             if (context is IMetadataDictionaryExtendedEquipAffixIdReliquarySetSource dictionaryExtendedEquipAffixIdReliquarySetSource)
             {
-                dictionaryExtendedEquipAffixIdReliquarySetSource.IdReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync(token).ConfigureAwait(false);
+                dictionaryExtendedEquipAffixIdReliquarySetSource.ExtendedIdReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdAchievementSource dictionaryIdAchievementSource)
@@ -116,6 +118,11 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdDisplayItemAndMaterialSource dictionaryIdDisplayItemAndMaterialSource)
             {
                 dictionaryIdDisplayItemAndMaterialSource.IdDisplayItemAndMaterialMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdHardChallengeScheduleSource dictionaryIdHardChallengeScheduleSource)
+            {
+                dictionaryIdHardChallengeScheduleSource.IdHardChallengeScheduleMap = await metadataService.GetIdToHardChallengeScheduleMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdHyperLinkNameSource dictionaryIdHyperLinkNameSource)

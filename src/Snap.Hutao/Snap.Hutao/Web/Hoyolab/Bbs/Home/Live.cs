@@ -6,11 +6,14 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 internal sealed class Live
 {
     [JsonPropertyName("position")]
-    public int Position { get; set; }
-
-    [JsonPropertyName("forum_id")]
-    public int ForumId { get; set; }
+    public required int Position { get; init; }
 
     [JsonPropertyName("data")]
-    public List<JsonElement> Data { get; set; } = default!;
+    public required LiveData Data { get; init; }
+
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
+
+    [JsonPropertyName("expose_ticket")]
+    public required string ExposeTicket { get; init; }
 }

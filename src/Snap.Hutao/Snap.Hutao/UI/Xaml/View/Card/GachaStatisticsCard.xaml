@@ -10,7 +10,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -29,10 +29,13 @@
 
     <Button.Resources>
         <DataTemplate x:Key="GachaStatisticsTemplate" x:DataType="shvg:GachaStatisticsSlim">
-            <Grid Margin="12" ColumnSpacing="6">
+            <Grid
+                Padding="12"
+                ColumnSpacing="6"
+                RowSpacing="6">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -40,104 +43,131 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <Grid
                     Grid.Row="0"
-                    Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Text="{shuxm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
+                    Height="48"
+                    Padding="12"
+                    VerticalAlignment="Top"
+                    Style="{ThemeResource GridShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="-4"
+                            Source="ms-appx:///Resource/Navigation/GachaLog.png"/>
 
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    HorizontalAlignment="Right"
-                    Text="{Binding Uid}"/>
-
-                <StackPanel
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    DataContext="{Binding AvatarWish}"
-                    Spacing="6">
+                        <TextBlock Text="{shuxm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
+                    </StackPanel>
 
                     <TextBlock
-                        Margin="0,0,0,6"
-                        HorizontalAlignment="Center"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding Name}"
-                        TextWrapping="NoWrap"/>
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="{Binding Uid}"/>
+                </Grid>
 
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastOrangePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                        Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeColorBrush}"
-                        TextForeground="{StaticResource OrangeColorBrush}"
-                        Value="{Binding LastOrangePull, Mode=OneWay}"/>
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastPurplePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                        Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleColorBrush}"
-                        TextForeground="{StaticResource PurpleColorBrush}"
-                        Value="{Binding LastPurplePull}"/>
-                </StackPanel>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Padding="6"
+                    Style="{ThemeResource BorderShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Bottom"
+                        DataContext="{Binding AvatarWish}"
+                        Spacing="6">
 
-                <StackPanel
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding Name}"
+                            TextWrapping="NoWrap"/>
+
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastOrangePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                            Maximum="{Binding GuaranteeOrangeThreshold}"
+                            ProgressForeground="{ThemeResource OrangeColorBrush}"
+                            TextForeground="{ThemeResource OrangeColorBrush}"
+                            Value="{Binding LastOrangePull, Mode=OneWay}"/>
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastPurplePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                            Maximum="{Binding GuaranteePurpleThreshold}"
+                            ProgressForeground="{StaticResource PurpleColorBrush}"
+                            TextForeground="{StaticResource PurpleColorBrush}"
+                            Value="{Binding LastPurplePull}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border
                     Grid.Row="1"
                     Grid.Column="1"
-                    DataContext="{Binding WeaponWish}"
-                    Spacing="6">
+                    Padding="6"
+                    Style="{ThemeResource BorderShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Bottom"
+                        DataContext="{Binding WeaponWish}"
+                        Spacing="6">
 
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        HorizontalAlignment="Center"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding Name}"
-                        TextWrapping="NoWrap"/>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding Name}"
+                            TextWrapping="NoWrap"/>
 
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastOrangePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                        Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeColorBrush}"
-                        TextForeground="{StaticResource OrangeColorBrush}"
-                        Value="{Binding LastOrangePull}"/>
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastPurplePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                        Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleColorBrush}"
-                        TextForeground="{StaticResource PurpleColorBrush}"
-                        Value="{Binding LastPurplePull}"/>
-                </StackPanel>
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastOrangePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                            Maximum="{Binding GuaranteeOrangeThreshold}"
+                            ProgressForeground="{StaticResource OrangeColorBrush}"
+                            TextForeground="{StaticResource OrangeColorBrush}"
+                            Value="{Binding LastOrangePull}"/>
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastPurplePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                            Maximum="{Binding GuaranteePurpleThreshold}"
+                            ProgressForeground="{StaticResource PurpleColorBrush}"
+                            TextForeground="{StaticResource PurpleColorBrush}"
+                            Value="{Binding LastPurplePull}"/>
+                    </StackPanel>
+                </Border>
 
-                <StackPanel
+                <Border
                     Grid.Row="1"
                     Grid.Column="2"
-                    DataContext="{Binding StandardWish}"
-                    Spacing="6">
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        HorizontalAlignment="Center"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding Name}"
-                        TextWrapping="NoWrap"/>
+                    Padding="6"
+                    Style="{ThemeResource BorderShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Bottom"
+                        DataContext="{Binding StandardWish}"
+                        Spacing="6">
 
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastOrangePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                        Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeColorBrush}"
-                        TextForeground="{StaticResource OrangeColorBrush}"
-                        Value="{Binding LastOrangePull}"/>
-                    <shuxcc:CardProgressBar
-                        Description="{Binding LastPurplePull}"
-                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                        Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleColorBrush}"
-                        TextForeground="{StaticResource PurpleColorBrush}"
-                        Value="{Binding LastPurplePull}"/>
-                </StackPanel>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding Name}"
+                            TextWrapping="NoWrap"/>
+
+
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastOrangePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                            Maximum="{Binding GuaranteeOrangeThreshold}"
+                            ProgressForeground="{StaticResource OrangeColorBrush}"
+                            TextForeground="{StaticResource OrangeColorBrush}"
+                            Value="{Binding LastOrangePull}"/>
+                        <shuxcc:CardProgressBar
+                            Description="{Binding LastPurplePull}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                            Maximum="{Binding GuaranteePurpleThreshold}"
+                            ProgressForeground="{StaticResource PurpleColorBrush}"
+                            TextForeground="{StaticResource PurpleColorBrush}"
+                            Value="{Binding LastPurplePull}"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </DataTemplate>
     </Button.Resources>

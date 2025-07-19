@@ -34,7 +34,7 @@ internal static class SettingKeys
 
     #region Passport
     public const string PassportUserName = "PassportUserName";
-    public const string PassportPassword = "PassportPassword";
+    public const string PassportRefreshToken = "PassportRefreshToken";
     #endregion
 
     #region AvatarProperty
@@ -152,5 +152,8 @@ internal static class SettingKeys
 
     [Obsolete]
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
+
+    [Obsolete("不再保存通行证密码")]
+    public const string PassportPassword = "PassportPassword";
     #endregion
 }

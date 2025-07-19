@@ -1,19 +1,21 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 internal sealed class SpiralAbyssBattle
 {
     [JsonPropertyName("index")]
-    public int Index { get; set; }
+    public required int Index { get; init; }
 
     [JsonPropertyName("timestamp")]
-    public long Timestamp { get; set; } = default!;
+    public required long Timestamp { get; init; }
 
     [JsonPropertyName("avatars")]
-    public List<SpiralAbyssAvatar> Avatars { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssAvatar> Avatars { get; init; }
 
     [JsonPropertyName("settle_date_time")]
-    public DateTime SettleDateTime { get; set; } = default!;
+    public DateTime? SettleDateTime { get; init; }
 }

@@ -38,7 +38,7 @@ internal static class BridgeShare
                     await context.TaskContext.SwitchToMainThreadAsync();
 
                     // https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-captureScreenshot
-                    const string JsonParameters = """{ "format": "png", "captureBeyondViewport": true }""";
+                    const string JsonParameters = /*lang=json*/"""{ "format": "png", "captureBeyondViewport": true }""";
                     string resultJson = await context.CoreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", JsonParameters);
 
                     CaptureScreenshotResult? result = JsonSerializer.Deserialize<CaptureScreenshotResult>(resultJson, context.JsonSerializerOptions);

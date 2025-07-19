@@ -274,7 +274,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="FetterStoryTemplate" x:DataType="shmma:Fetter">
-            <cwc:SettingsCard Padding="16,8,8,8">
+            <cwc:SettingsCard Padding="16,8,8,8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}">
                 <cwc:SettingsCard.Header>
                     <shuxct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
                 </cwc:SettingsCard.Header>
@@ -395,7 +395,7 @@
                                                 HorizontalAlignment="Left"
                                                 Spacing="16">
                                                 <!--  简介  -->
-                                                <Grid Style="{ThemeResource GridCardStyle}">
+                                                <Grid Style="{ThemeResource GridShimmerStyle}">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition/>
                                                         <RowDefinition/>
@@ -637,37 +637,25 @@
                                                 </shuxcp:EqualPanel>
 
                                                 <!--  属性  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
-                                                    <Border.Resources>
-                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
-                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
-                                                    </Border.Resources>
-                                                    <shuxvs:BaseValueSlider
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Stretch"
-                                                        BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
-                                                </Border>
+                                                <shuxvs:BaseValueSlider
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
 
                                                 <!--  天赋  -->
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border Padding="16" Style="{ThemeResource BorderShimmerStyle}">
                                                     <shuxvs:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Avatars.CurrentItem.SkillDepot.CompositeSkills}"/>
                                                 </Border>
 
                                                 <!--  命座  -->
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border Padding="16" Style="{ThemeResource BorderShimmerStyle}">
                                                     <shuxvs:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Avatars.CurrentItem.SkillDepot.Talents}"/>
                                                 </Border>
 
                                                 <!--  搭配  -->
                                                 <Border
                                                     Padding="16"
-                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Style="{ThemeResource BorderShimmerStyle}"
                                                     Visibility="{Binding Avatars.CurrentItem.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <Grid ColumnSpacing="8" RowSpacing="8">
                                                         <Grid.ColumnDefinitions>
@@ -716,14 +704,14 @@
                                                 </Border>
 
                                                 <!--  立绘  -->
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border Padding="16" Style="{ThemeResource BorderShimmerStyle}">
                                                     <Grid RowSpacing="16">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition/>
                                                             <RowDefinition Height="auto"/>
                                                         </Grid.RowDefinitions>
 
-                                                        <Border Grid.Row="0" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                                        <Border Grid.Row="0" Style="{ThemeResource BorderShimmerStyle}">
                                                             <cwc:ConstrainedBox AspectRatio="2048:1024">
                                                                 <Grid>
                                                                     <shuxci:CachedImage Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarImgConverter}}" Visibility="{Binding Avatars.CurrentItem.CostumesView.CurrentItem.IsDefault}"/>
@@ -738,6 +726,9 @@
                                                             Padding="7,7,0,7"
                                                             HorizontalAlignment="Stretch"
                                                             VerticalContentAlignment="Center"
+                                                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                            BorderThickness="1"
                                                             ItemTemplate="{StaticResource CostumeTemplate}"
                                                             ItemsSource="{Binding Avatars.CurrentItem.CostumesView}"
                                                             SelectedItem="{Binding Avatars.CurrentItem.CostumesView.CurrentItem, Mode=TwoWay}"/>
@@ -752,16 +743,19 @@
                                                 </Border>
 
                                                 <!--  名片  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                <Border>
                                                     <Border.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
                                                         <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
+                                                        Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
                                                         Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarNameCardHeader}"
                                                         IsExpanded="True">
                                                         <Grid DataContext="{Binding Avatars.CurrentItem.NameCard}" RowSpacing="16">
@@ -847,16 +841,19 @@
                                                 </Border>
 
                                                 <!--  料理  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                <Border>
                                                     <Border.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
                                                         <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
+                                                        Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
                                                         Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}"
                                                         IsExpanded="True">
                                                         <Grid DataContext="{Binding Avatars.CurrentItem.CookBonusView}">
@@ -927,15 +924,18 @@
                                                 </Border>
 
                                                 <!--  资料  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                <Border>
                                                     <Border.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="SettingsCardBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ToggleButtonBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
                                                         <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -947,15 +947,18 @@
                                                 </Border>
 
                                                 <!--  故事  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                <Border>
                                                     <Border.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="SettingsCardBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ToggleButtonBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
                                                         <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">

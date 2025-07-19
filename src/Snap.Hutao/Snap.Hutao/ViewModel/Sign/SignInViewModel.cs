@@ -44,6 +44,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     [ObservableProperty]
     public partial string? CurrentUid { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsTodaySigned { get; set; }
+
     public void Receive(UserAndUidChangedMessage message)
     {
         if (updating)
@@ -160,6 +163,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
             IAdvancedCollectionView<AwardView> advancedViews = views.AsAdvancedCollectionView();
             await taskContext.SwitchToMainThreadAsync();
+            IsTodaySigned = info.IsSign;
             Awards = advancedViews;
             CurrentUid = userAndUid.Uid.ToString();
 

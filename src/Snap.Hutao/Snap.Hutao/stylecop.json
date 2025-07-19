@@ -4,6 +4,9 @@
     "documentationRules": {
       "companyName": "DGP Studio",
       "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nLicensed under the {licenseName} license.",
+      "documentExposedElements": false,
+      "documentInternalElements": false,
+      "documentInterfaces": false,
       "xmlHeader": false,
       "variables": {
         "licenseName": "MIT"

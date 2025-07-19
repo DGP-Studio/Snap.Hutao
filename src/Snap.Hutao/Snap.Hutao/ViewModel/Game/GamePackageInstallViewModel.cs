@@ -34,6 +34,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
+        // TODO: get actual launch scheme?
         LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(scheme => scheme.IsNotCompatOnly);
 
         using (IServiceScope scope = serviceProvider.CreateScope())

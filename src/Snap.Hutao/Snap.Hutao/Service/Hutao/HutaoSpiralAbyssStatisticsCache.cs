@@ -34,7 +34,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : StatisticsCache,
 
     public ValueTask InitializeForSpiralAbyssViewAsync(HutaoSpiralAbyssStatisticsMetadataContext context)
     {
-        return InitializeForTypeAsync<SpiralAbyssRecordViewModel, HutaoSpiralAbyssStatisticsMetadataContext>(context, context =>
+        return InitializeForTypeAsync<SpiralAbyssViewModel, HutaoSpiralAbyssStatisticsMetadataContext>(context, context =>
         {
             ReadOnlySpan<Task> tasks =
             [
@@ -75,7 +75,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : StatisticsCache,
             AvatarId = raw.AvatarId,
             Avatars = [.. CurrentLeftJoinLast(raw.Avatars, rawLast?.Avatars, data => data.Item, (avatar, avatarLast) => new AvatarView(context.GetAvatar(avatar.Item), avatar.Rate, avatarLast?.Rate))],
             Weapons = [.. CurrentLeftJoinLast(raw.Weapons, rawLast?.Weapons, data => data.Item, (weapon, weaponLast) => new WeaponView(context.GetWeapon(weapon.Item), weapon.Rate, weaponLast?.Rate))],
-            ReliquarySets = [.. CurrentLeftJoinLast(raw.Reliquaries, rawLast?.Reliquaries, data => data.Item, (relic, relicLast) => new ReliquarySetView(context.IdReliquarySetMap, relic, relicLast))],
+            ReliquarySets = [.. CurrentLeftJoinLast(raw.Reliquaries, rawLast?.Reliquaries, data => data.Item, (relic, relicLast) => new ReliquarySetView(context.ExtendedIdReliquarySetMap, relic, relicLast))],
         }).ToImmutableDictionary(a => a.AvatarId);
     }
 

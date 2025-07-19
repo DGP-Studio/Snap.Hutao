@@ -22,7 +22,7 @@ internal sealed partial class AppDbContext : DbContext
             if (serviceProviderIsService.IsService(typeof(ILogger<AppDbContext>)))
             {
                 logger = this.GetService<ILogger<AppDbContext>>();
-                logger.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[32mcreated\e[37m", nameof(AppDbContext), ContextId);
+                logger.LogInformation("AppDbContext::{ContextId} created", ContextId);
             }
         }
         catch
@@ -69,6 +69,8 @@ internal sealed partial class AppDbContext : DbContext
 
     public DbSet<AvatarStrategy> AvatarStrategies { get; set; } = default!;
 
+    public DbSet<HardChallengeEntry> HardChallenges { get; set; } = default!;
+
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
         DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
@@ -81,7 +83,7 @@ internal sealed partial class AppDbContext : DbContext
     public override void Dispose()
     {
         base.Dispose();
-        logger?.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[31mdisposed\e[37m", nameof(AppDbContext), ContextId);
+        logger?.LogInformation("AppDbContext::{ContextId} disposed", ContextId);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -91,6 +93,7 @@ internal sealed partial class AppDbContext : DbContext
             .ApplyConfiguration(new DailyNoteEntryConfiguration())
             .ApplyConfiguration(new SpiralAbyssEntryConfiguration())
             .ApplyConfiguration(new RoleCombatEntryConfiguration())
+            .ApplyConfiguration(new HardChallengeEntryConfiguration())
             .ApplyConfiguration(new UserConfiguration());
     }
 }

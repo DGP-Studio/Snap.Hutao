@@ -37,9 +37,28 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecut
         return false;
     }
 
+    public static bool TryKillGameProcess()
+    {
+        if (!IsGameRunning(out Process? process))
+        {
+            return false;
+        }
+
+        try
+        {
+            process.Kill();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            SentrySdk.CaptureException(ex);
+            return false;
+        }
+    }
+
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (IsGameRunning(out Process? process))
+        if (IsGameRunning())
         {
             context.Result.Kind = LaunchExecutionResultKind.GameProcessRunning;
             context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGameIsRunning;

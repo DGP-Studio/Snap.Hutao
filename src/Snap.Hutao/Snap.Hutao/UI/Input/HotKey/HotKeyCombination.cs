@@ -24,14 +24,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     private HutaoNativeHotKeyAction? native;
 
-    // IMPORTANT: DO NOT CONVERT TO AUTO PROPERTIES
-    private bool modifierHasControl;
-    private bool modifierHasShift;
-    private bool modifierHasAlt;
-    private NameValue<VIRTUAL_KEY> keyNameValue;
-    private HOT_KEY_MODIFIERS modifiers;
-    private VIRTUAL_KEY key;
-
     public HotKeyCombination(IServiceProvider serviceProvider, HutaoNativeHotKeyActionKind kind, string settingKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -46,43 +38,48 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
             // HOT_KEY_MODIFIERS.MOD_WIN is reserved for use by the OS.
             // This line should keep exists, we allow user to set it long time ago.
-            modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
-            modifierHasControl = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL);
-            modifierHasShift = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT);
-            modifierHasAlt = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT);
+            FieldRefOfModifiers(this) = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
+            FieldRefOfModifierHasControl(this) = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL);
+            FieldRefOfModifierHasShift(this) = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT);
+            FieldRefOfModifierHasAlt(this) = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT);
 
-            keyNameValue = VirtualKeys.HotKeyValues.SingleOrDefault(nk => nk.Value == actual.Key) ?? VirtualKeys.HotKeyValues.Last();
-            key = keyNameValue.Value;
+            FieldRefOfKeyNameValue(this) = VirtualKeys.HotKeyValues.SingleOrDefault(nk => nk.Value == actual.Key) ?? VirtualKeys.HotKeyValues.Last();
+            FieldRefOfKey(this) = KeyNameValue!.Value;
         }
 
         handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
     }
 
-    public bool ModifierHasControl { get => modifierHasControl; set => _ = SetProperty(ref modifierHasControl, value) && UpdateModifiers(); }
+    [FieldAccess]
+    public bool ModifierHasControl { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    public bool ModifierHasShift { get => modifierHasShift; set => _ = SetProperty(ref modifierHasShift, value) && UpdateModifiers(); }
+    [FieldAccess]
+    public bool ModifierHasShift { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    public bool ModifierHasAlt { get => modifierHasAlt; set => _ = SetProperty(ref modifierHasAlt, value) && UpdateModifiers(); }
+    [FieldAccess]
+    public bool ModifierHasAlt { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
     [AllowNull]
+    [FieldAccess]
     public NameValue<VIRTUAL_KEY> KeyNameValue
     {
-        get => keyNameValue;
+        get;
         set
         {
-            if (value is not null && SetProperty(ref keyNameValue, value))
+            if (value is not null && SetProperty(ref field, value))
             {
                 Key = value.Value;
             }
         }
     }
 
+    [FieldAccess]
     public HOT_KEY_MODIFIERS Modifiers
     {
-        get => modifiers;
+        get;
         private set
         {
-            if (SetProperty(ref modifiers, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
                 SaveAndUpdate();
@@ -90,12 +87,13 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
     }
 
+    [FieldAccess]
     public VIRTUAL_KEY Key
     {
-        get => key;
+        get;
         private set
         {
-            if (SetProperty(ref key, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
                 SaveAndUpdate();
@@ -207,7 +205,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
         try
         {
-            native?.Update(modifiers, (uint)key);
+            native?.Update(Modifiers, (uint)Key);
         }
         catch (COMException ex)
         {

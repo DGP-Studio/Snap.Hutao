@@ -23,7 +23,12 @@ namespace Snap.Hutao.Core;
 /// </remarks>
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
+[SuppressMessage("", "SA1611")]
+[SuppressMessage("", "SA1614")]
+[SuppressMessage("", "SA1615")]
+[SuppressMessage("", "SA1618")]
+internal unsafe ref struct SpanReader<T>
+    where T : unmanaged, IEquatable<T>
 {
     private ReadOnlySpan<T> unread;
 
@@ -54,9 +59,9 @@ internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
     /// <summary>
     /// Try to read everything up to the given <paramref name="delimiter"/>.
     /// </summary>
-    /// <param name="span">The read data, if any.</param>
     /// <param name="delimiter">The delimiter to look for.</param>
     /// <param name="advancePastDelimiter"><see langword="true"/> to move past the <paramref name="delimiter"/> if found.</param>
+    /// <param name="span">The read data, if any.</param>
     /// <returns><see langword="true"/> if the <paramref name="delimiter"/> was found.</returns>
     public bool TryReadTo(T delimiter, bool advancePastDelimiter, out ReadOnlySpan<T> span)
     {
@@ -140,7 +145,8 @@ internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
     /// The compiler will often optimize away the struct copy if you only read from the value.
     /// </para>
     /// </remarks>
-    public bool TryRead<TValue>(out TValue value) where TValue : unmanaged
+    public bool TryRead<TValue>(out TValue value)
+        where TValue : unmanaged
     {
         if (sizeof(TValue) < sizeof(T) || sizeof(TValue) % sizeof(T) != 0)
         {
@@ -174,7 +180,8 @@ internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
     /// caveats apply about safety.
     /// </para>
     /// </remarks>
-    public bool TryRead<TValue>(int count, out ReadOnlySpan<TValue> value) where TValue : unmanaged
+    public bool TryRead<TValue>(int count, out ReadOnlySpan<TValue> value)
+        where TValue : unmanaged
     {
         if (sizeof(TValue) < sizeof(T) || sizeof(TValue) % sizeof(T) != 0)
         {
@@ -274,17 +281,6 @@ internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
     }
 
     /// <summary>
-    /// Advance the reader without bounds checking.
-    /// </summary>
-    /// <param name="count"></param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void UnsafeAdvance(int count)
-    {
-        Debug.Assert((uint)count <= (uint)unread.Length);
-        UncheckedSlice(ref unread, count, unread.Length - count);
-    }
-
-    /// <summary>
     /// Slicing without bounds checking.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -302,5 +298,16 @@ internal unsafe ref struct SpanReader<T> where T : unmanaged, IEquatable<T>
     {
         Debug.Assert((uint)start <= (uint)span.Length && (uint)length <= (uint)(span.Length - start));
         span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.Add(ref MemoryMarshal.GetReference(span), (nint)(uint)start), length);
+    }
+
+    /// <summary>
+    /// Advance the reader without bounds checking.
+    /// </summary>
+    /// <param name="count"></param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void UnsafeAdvance(int count)
+    {
+        Debug.Assert((uint)count <= (uint)unread.Length);
+        UncheckedSlice(ref unread, count, unread.Length - count);
     }
 }

@@ -6,6 +6,8 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableArray;
+using Snap.Hutao.Service.Metadata.ContextAbstraction.ImmutableDictionary;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;

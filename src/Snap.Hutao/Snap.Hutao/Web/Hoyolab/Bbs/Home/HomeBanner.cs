@@ -6,8 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 internal sealed class HomeBanner
 {
     [JsonPropertyName("cover")]
-    public string Cover { get; set; } = default!;
+    public required Uri Cover { get; init; }
 
     [JsonPropertyName("app_path")]
-    public string AppPath { get; set; } = default!;
+    public required Uri AppPath { get; init; }
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
@@ -31,7 +30,6 @@ internal sealed partial class HutaoPassportClient
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
     public async ValueTask<HutaoResponse> RequestVerifyAsync(string email, VerifyCodeRequestType requestType, CancellationToken token = default)
@@ -65,8 +63,6 @@ internal sealed partial class HutaoPassportClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportVerify())
             .PostJson(data);
 
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
-
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
@@ -74,7 +70,7 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<TokenSet>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -87,14 +83,14 @@ internal sealed partial class HutaoPassportClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportRegister())
             .PostJson(data);
 
-        HutaoResponse<string>? resp = await builder
-            .SendAsync<HutaoResponse<string>>(httpClient, token)
+        HutaoResponse<TokenSet>? resp = await builder
+            .SendAsync<HutaoResponse<TokenSet>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UnregisterAsync(string? accessToken, string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -105,9 +101,8 @@ internal sealed partial class HutaoPassportClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportCancel())
+            .SetAccessToken(accessToken)
             .PostJson(data);
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, token)
@@ -116,7 +111,7 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<string>> ResetUserNameAsync(string email, string newUserName, string verifyCode, string newVerifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<TokenSet>> ResetUserNameAsync(string email, string newUserName, string verifyCode, string newVerifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -130,14 +125,14 @@ internal sealed partial class HutaoPassportClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportResetUserName())
             .PostJson(data);
 
-        HutaoResponse<string>? resp = await builder
-            .SendAsync<HutaoResponse<string>>(httpClient, token)
+        HutaoResponse<TokenSet>? resp = await builder
+            .SendAsync<HutaoResponse<TokenSet>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<TokenSet>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -150,14 +145,14 @@ internal sealed partial class HutaoPassportClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportResetPassword())
             .PostJson(data);
 
-        HutaoResponse<string>? resp = await builder
-            .SendAsync<HutaoResponse<string>>(httpClient, token)
+        HutaoResponse<TokenSet>? resp = await builder
+            .SendAsync<HutaoResponse<TokenSet>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<string>> LoginAsync(string email, string password, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<TokenSet>> LoginAsync(string email, string password, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -169,23 +164,73 @@ internal sealed partial class HutaoPassportClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportLogin())
             .PostJson(data);
 
-        HutaoResponse<string>? resp = await builder
-            .SendAsync<HutaoResponse<string>>(httpClient, token)
+        HutaoResponse<TokenSet>? resp = await builder
+            .SendAsync<HutaoResponse<TokenSet>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<UserInfo>> GetUserInfoAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<UserInfo>> GetUserInfoAsync(string? accessToken, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportUserInfo())
+            .SetAccessToken(accessToken)
             .Get();
-
-        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<UserInfo>? resp = await builder
             .SendAsync<HutaoResponse<UserInfo>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse<TokenSet>> RefreshTokenAsync(string refreshToken, CancellationToken token = default)
+    {
+        Dictionary<string, string> data = new()
+        {
+            ["RefreshToken"] = Encrypt(refreshToken),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportRefreshToken())
+            .PostJson(data);
+
+        HutaoResponse<TokenSet>? resp = await builder
+            .SendAsync<HutaoResponse<TokenSet>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> RevokeTokenAsync(string? accessToken, string deviceId, CancellationToken token = default)
+    {
+        Dictionary<string, string> data = new()
+        {
+            ["DeviceId"] = Encrypt(deviceId),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportRevokeToken())
+            .SetAccessToken(accessToken)
+            .PostJson(data);
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> RevokeAllTokensAsync(string? accessToken, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportRevokeAllTokens())
+            .SetAccessToken(accessToken)
+            .Post();
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

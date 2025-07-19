@@ -18,6 +18,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -423,5 +424,26 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
         AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
+    }
+
+    [Command("CopyAchievementIdCommand")]
+    private async Task CopyAchievementIdAsync(AchievementView? achievement)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy achievement id", "AchievementViewModel.Command"));
+
+        if (achievement is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await scopeContext.ClipboardProvider.SetTextAsync(achievement.Inner.Id.ToString()).ConfigureAwait(false);
+            scopeContext.InfoBarService.Success(SH.ViewModelAchievementCopyAchievementIdSuccess);
+        }
+        catch (COMException ex)
+        {
+            scopeContext.InfoBarService.Error(ex);
+        }
     }
 }

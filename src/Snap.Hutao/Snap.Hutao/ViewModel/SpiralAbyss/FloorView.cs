@@ -17,7 +17,7 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
         UpDisorders = floor.FirstDescriptions.EmptyIfDefault();
         DownDisorders = floor.SecondDescriptions.EmptyIfDefault();
 
-        Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
+        Levels = [.. context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.Create(l, context))];
     }
 
     public bool Engaged { get; private set; }
@@ -34,26 +34,27 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
 
     public ImmutableArray<string> DownDisorders { get; }
 
-    public List<LevelView> Levels { get; }
+    public ImmutableArray<LevelView> Levels { get; }
 
     internal uint IndexValue { get; }
 
-    public static FloorView From(TowerFloor floor, SpiralAbyssMetadataContext context)
+    public static FloorView Create(TowerFloor floor, SpiralAbyssMetadataContext context)
     {
         return new(floor, context);
     }
 
-    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, SpiralAbyssMetadataContext context)
+    public void Attach(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, TimeSpan offset, SpiralAbyssMetadataContext context)
     {
-        SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
+        SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToOffset(offset):yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;
         Engaged = true;
 
-        foreach (LevelView levelView in Levels)
+        foreach (ref readonly LevelView levelView in Levels.AsSpan())
         {
-            if (floor.Levels.SingleOrDefault(l => l.Index == levelView.IndexValue) is { } level)
+            uint levelIndex = levelView.IndexValue;
+            if (floor.Levels.SingleOrDefault(l => l.Index == levelIndex) is { } level)
             {
-                levelView.WithSpiralAbyssLevel(level, context);
+                levelView.Attach(level, offset, context);
             }
         }
     }

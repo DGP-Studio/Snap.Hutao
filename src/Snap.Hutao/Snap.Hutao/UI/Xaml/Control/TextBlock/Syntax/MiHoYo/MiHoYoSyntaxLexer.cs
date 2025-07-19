@@ -17,7 +17,7 @@ internal ref struct MiHoYoSyntaxLexer
     {
         if (position >= Input.Length)
         {
-            return new(MiHoYoSyntaxTokenType.EndOfFile, new(position, position));
+            return new(MiHoYoSyntaxTokenKind.EndOfFile, new(position, position));
         }
 
         int start = position;
@@ -26,36 +26,44 @@ internal ref struct MiHoYoSyntaxLexer
         {
             if (ReadUntil('}', out int idEnd))
             {
-                return new(MiHoYoSyntaxTokenType.LinkOpen, new(start, idEnd + 1));
+                return new(MiHoYoSyntaxTokenKind.LinkOpen, new(start, idEnd + 1));
             }
         }
 
         if (Match("{/LINK}"))
         {
-            return new(MiHoYoSyntaxTokenType.LinkClose, new(start, position));
+            return new(MiHoYoSyntaxTokenKind.LinkClose, new(start, position));
+        }
+
+        if (Match("{SPRITE_PRESET#"))
+        {
+            if (ReadUntil('}', out int idEnd))
+            {
+                return new(MiHoYoSyntaxTokenKind.SpritePreset, new(start, idEnd + 1));
+            }
         }
 
         if (Match("<color="))
         {
             if (ReadUntil('>', out int end))
             {
-                return new(MiHoYoSyntaxTokenType.ColorOpen, new(start, end + 1));
+                return new(MiHoYoSyntaxTokenKind.ColorOpen, new(start, end + 1));
             }
         }
 
         if (Match("</color>"))
         {
-            return new(MiHoYoSyntaxTokenType.ColorClose, new(start, position));
+            return new(MiHoYoSyntaxTokenKind.ColorClose, new(start, position));
         }
 
         if (Match("<i>"))
         {
-            return new(MiHoYoSyntaxTokenType.ItalicOpen, new(start, position));
+            return new(MiHoYoSyntaxTokenKind.ItalicOpen, new(start, position));
         }
 
         if (Match("</i>"))
         {
-            return new(MiHoYoSyntaxTokenType.ItalicClose, new(start, position));
+            return new(MiHoYoSyntaxTokenKind.ItalicClose, new(start, position));
         }
 
         while (position < Input.Length && !IsSpecialStart(Input[position]))
@@ -63,7 +71,7 @@ internal ref struct MiHoYoSyntaxLexer
             position++;
         }
 
-        return new(MiHoYoSyntaxTokenType.Text, new(start, position));
+        return new(MiHoYoSyntaxTokenKind.Text, new(start, position));
     }
 
     private static bool IsSpecialStart(char c)

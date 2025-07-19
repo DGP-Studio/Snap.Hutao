@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
-internal sealed class TowerSchedule
+internal sealed class TowerSchedule : IDefaultIdentity<TowerScheduleId>
 {
     public required TowerScheduleId Id { get; init; }
 

@@ -48,7 +48,11 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MonsterBaseValueTemplate" x:DataType="shm:NameStringValue">
-            <cwc:SettingsCard MinHeight="40" Padding="0,0,16,0">
+            <cwc:SettingsCard
+                MinHeight="40"
+                Padding="0,0,16,0"
+                Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}">
                 <cwc:SettingsCard.Resources>
                     <!--  ReSharper disable Xaml.RedundantResource  -->
                     <x:Double x:Key="SettingsCardLeftIndention">16</x:Double>
@@ -175,7 +179,7 @@
                                                     IsPromoteVisible="False"/>
                                                 <ItemsControl
                                                     ItemTemplate="{StaticResource MonsterBaseValueTemplate}"
-                                                    ItemsPanel="{StaticResource UniformGridColumns2Spacing2Template}"
+                                                    ItemsPanel="{StaticResource UniformGridColumns2Spacing4Template}"
                                                     ItemsSource="{Binding Monsters.CurrentItem.BaseValue.SubHurts}">
                                                     <ItemsControl.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
@@ -185,7 +189,7 @@
                                                         <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </ItemsControl.Resources>
                                                 </ItemsControl>
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border Padding="16" Style="{ThemeResource BorderShimmerStyle}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock
                                                             Style="{StaticResource BaseTextBlockStyle}"

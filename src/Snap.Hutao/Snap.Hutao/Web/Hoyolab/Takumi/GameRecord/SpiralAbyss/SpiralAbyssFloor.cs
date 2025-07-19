@@ -1,35 +1,37 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 internal sealed class SpiralAbyssFloor
 {
     [JsonPropertyName("index")]
-    public uint Index { get; set; }
+    public required uint Index { get; init; }
 
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
     [JsonPropertyName("is_unlock")]
-    public bool IsUnlock { get; set; } = default!;
+    public required bool IsUnlock { get; init; }
 
     [JsonPropertyName("settle_time")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-    public long SettleTime { get; set; } = default!;
+    public required long SettleTime { get; init; }
 
     [JsonPropertyName("star")]
-    public int Star { get; set; }
+    public required int Star { get; init; }
 
     [JsonPropertyName("max_star")]
-    public int MaxStar { get; set; }
+    public required int MaxStar { get; init; }
 
     [JsonPropertyName("levels")]
-    public List<SpiralAbyssLevel> Levels { get; set; } = default!;
+    public required ImmutableArray<SpiralAbyssLevel> Levels { get; init; }
 
     [JsonPropertyName("settle_date_time")]
-    public DateTime? SettleDateTime { get; set; }
+    public DateTime? SettleDateTime { get; init; }
 
     [JsonPropertyName("ley_line_disorder")]
-    public List<string> LeyLineDisorder { get; set; } = default!;
+    public ImmutableArray<string>? LeyLineDisorder { get; init; }
 }

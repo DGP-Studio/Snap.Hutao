@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.View;
@@ -70,8 +69,10 @@ internal sealed partial class InfoBarView : UserControl
                 }
 
                 // After adding, InfoBars.Count is not 0, so we skip the following code
-                Debug.Assert(InfoBars.Count > 0);
-                return;
+                if (InfoBars.Count > 0)
+                {
+                    return;
+                }
             }
 
             if (InfoBars.Count is 0)

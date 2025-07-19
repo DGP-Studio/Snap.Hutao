@@ -22,32 +22,30 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache memoryCache;
 
-    public async ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag)
+    public ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag)
     {
-        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.GameIslandFeature.{tag}", async entry =>
-        {
-            entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
-            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}"))
-                .Get();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
-            {
-                return (await builder.SendAsync<IslandFeature>(httpClient, CancellationToken.None).ConfigureAwait(false)).Body;
-            }
-        }).ConfigureAwait(false);
+        return GetTaggedFeatureAsync<IslandFeature>("UnlockerIsland_Compact2", tag, TimeSpan.FromMinutes(5));
     }
 
-    public async ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag)
+    public ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag)
     {
-        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.AchievementFieldIdFeature.{tag}", async entry =>
+        return GetTaggedFeatureAsync<AchievementFieldId>("AchievementFieldId", tag, TimeSpan.FromHours(6));
+    }
+
+    public async ValueTask<TFeature?> GetTaggedFeatureAsync<TFeature>(string featureName, string tag, TimeSpan expiration)
+        where TFeature : class
+    {
+        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.{typeof(TFeature).Name}.{tag}", async entry =>
         {
-            entry.SetSlidingExpiration(TimeSpan.FromHours(6));
-            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"AchievementFieldId_{tag}"))
+            entry.SetSlidingExpiration(expiration);
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory
+                .Create()
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"{featureName}_{tag}"))
                 .Get();
+
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
-                return (await builder.SendAsync<AchievementFieldId>(httpClient, CancellationToken.None).ConfigureAwait(false)).Body;
+                return (await builder.SendAsync<TFeature>(httpClient, CancellationToken.None).ConfigureAwait(false)).Body;
             }
         }).ConfigureAwait(false);
     }

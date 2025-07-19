@@ -39,56 +39,51 @@ internal sealed partial class YaeService : IYaeService
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             await taskContext.SwitchToBackgroundAsync();
-            YaeDataArrayReceiver receiver = new();
-            string? version = default;
-            try
+            using (YaeDataArrayReceiver receiver = new())
             {
-                UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-                using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
+                AchievementFieldId? fieldId = default;
+                try
                 {
-                    if (context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
+                    UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+                    using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
                     {
-                        _ = gameFileSystem.TryGetGameVersion(out version);
-                    }
-
-                    LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
-
-                    if (result.Kind is not LaunchExecutionResultKind.Ok)
-                    {
-                        infoBarService.Warning(result.ErrorMessage);
-                        return default;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                infoBarService.Error(ex);
-                return default;
-            }
-
-            UIAF? uiaf = default;
-
-            // System.NullReferenceException
-            foreach (YaeData data in receiver.Array)
-            {
-                using (data)
-                {
-                    if (data.Kind is YaeDataKind.Achievement)
-                    {
-                        Debug.Assert(uiaf is null);
-                        AchievementFieldId? fieldId = default;
-                        if (!string.IsNullOrEmpty(version))
+                        if (context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) &&
+                            gameFileSystem.TryGetGameVersion(out string? version) &&
+                            !string.IsNullOrEmpty(version))
                         {
                             fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version).ConfigureAwait(false);
                         }
 
-                        uiaf = AchievementParser.Parse(data.Bytes, fieldId);
+                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
+
+                        if (result.Kind is not LaunchExecutionResultKind.Ok)
+                        {
+                            infoBarService.Warning(result.ErrorMessage);
+                            return default;
+                        }
                     }
                 }
-            }
+                catch (Exception ex)
+                {
+                    infoBarService.Error(ex);
+                    return default;
+                }
 
-            GC.KeepAlive(receiver);
-            return uiaf;
+                UIAF? uiaf = default;
+                foreach (YaeData data in receiver.Array)
+                {
+                    using (data)
+                    {
+                        if (data.Kind is YaeDataKind.Achievement)
+                        {
+                            Debug.Assert(uiaf is null);
+                            uiaf = AchievementParser.Parse(data.Bytes, fieldId);
+                        }
+                    }
+                }
+
+                return uiaf;
+            }
         }
     }
 
@@ -101,43 +96,47 @@ internal sealed partial class YaeService : IYaeService
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             await taskContext.SwitchToBackgroundAsync();
-            YaeDataArrayReceiver receiver = new();
-
-            try
-            {
-                UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-                using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
-                {
-                    LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
-
-                    if (result.Kind is not LaunchExecutionResultKind.Ok)
-                    {
-                        infoBarService.Warning(result.ErrorMessage);
-                        return default;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                infoBarService.Error(ex);
-                return default;
-            }
-
             UIIF? uiif = default;
             Dictionary<InterestedPropType, double> propMap = [];
-            foreach (YaeData data in receiver.Array)
+            using (YaeDataArrayReceiver receiver = new())
             {
-                using (data)
+                try
                 {
-                    if (data.Kind is YaeDataKind.PlayerStore)
+                    UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+                    using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
                     {
-                        Debug.Assert(uiif is null);
-                        uiif = PlayerStoreParser.Parse(data.Bytes);
+                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
+
+                        if (result.Kind is not LaunchExecutionResultKind.Ok)
+                        {
+                            infoBarService.Warning(result.ErrorMessage);
+                            return default;
+                        }
                     }
-                    else if (data.Kind is YaeDataKind.VirtualItem)
+                }
+                catch (Exception ex)
+                {
+                    infoBarService.Error(ex);
+                    return default;
+                }
+
+                foreach (YaeData data in receiver.Array)
+                {
+                    using (data)
                     {
-                        ref readonly YaePropertyTypeValue typeValue = ref data.PropertyTypeValue;
-                        propMap.Add(typeValue.Type, typeValue.Value);
+                        switch (data.Kind)
+                        {
+                            case YaeDataKind.PlayerStore:
+                                Debug.Assert(uiif is null);
+                                uiif = PlayerStoreParser.Parse(data.Bytes);
+                                break;
+                            case YaeDataKind.VirtualItem:
+                                {
+                                    ref readonly YaePropertyTypeValue typeValue = ref data.PropertyTypeValue;
+                                    propMap.Add(typeValue.Type, typeValue.Value);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -147,14 +146,11 @@ internal sealed partial class YaeService : IYaeService
                 return default;
             }
 
+            // Unfortunately, we store data in uint rather than double, so we have to truncate the value.
             double count = propMap.GetValueOrDefault(InterestedPropType.PlayerSCoin) - propMap.GetValueOrDefault(InterestedPropType.PlayerWaitSubSCoin);
             UIIFItem mora = UIIFItem.From(202U, (uint)Math.Clamp(count, uint.MinValue, uint.MaxValue));
 
-            return new()
-            {
-                Info = uiif.Info,
-                List = [mora, .. uiif.List],
-            };
+            return uiif.WithList([mora, .. uiif.List]);
         }
     }
 }

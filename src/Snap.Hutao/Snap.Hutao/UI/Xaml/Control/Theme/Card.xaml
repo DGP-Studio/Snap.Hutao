@@ -24,6 +24,13 @@
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
     </Style>
 
+    <Style x:Key="BorderShimmerStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+    </Style>
+
     <Style x:Key="SecondaryBorderCardStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -54,6 +61,13 @@
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
     </Style>
 
+    <Style x:Key="GridShimmerStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+    </Style>
+
     <Style x:Key="SecondaryGridCardStyle" TargetType="Grid">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -75,5 +89,25 @@
         TargetType="Grid">
         <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style
+        x:Key="ShimmerButtonStyle"
+        BasedOn="{StaticResource DefaultButtonStyle}"
+        TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style
+        x:Key="ShimmerComboBoxStyle"
+        BasedOn="{StaticResource DefaultComboBoxStyle}"
+        TargetType="ComboBox">
+        <Setter Property="Background" Value="{ThemeResource ControlAltFillColorSecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefaultBrush}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

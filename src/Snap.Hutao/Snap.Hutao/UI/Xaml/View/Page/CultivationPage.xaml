@@ -518,6 +518,7 @@
                                                             <shuxcpd:DataColumn CanResize="False"/>
                                                             <shuxcpd:DataColumn CanResize="False"/>
                                                             <shuxcpd:DataColumn CanResize="False"/>
+                                                            <shuxcpd:DataColumn CanResize="False"/>
                                                         </shuxcpd:DataTable>
                                                     </cwcont:HeaderedItemsControl.Header>
                                                     <cwcont:HeaderedItemsControl.ItemTemplate>
@@ -532,7 +533,7 @@
                                                                     <BitmapIcon
                                                                         Width="20"
                                                                         ShowAsMonochrome="False"
-                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_106.png"/>
                                                                     <TextBlock Text="{Binding TotalResin, Mode=OneWay}"/>
                                                                 </StackPanel>
 
@@ -546,6 +547,18 @@
                                                                         UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_211.png"
                                                                         Visibility="{Binding CondensedResin, Converter={StaticResource EmptyObjectToBoolConverter}}"/>
                                                                     <TextBlock Text="{Binding CondensedResin, Mode=OneWay}"/>
+                                                                </StackPanel>
+
+                                                                <StackPanel
+                                                                    VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="2">
+                                                                    <BitmapIcon
+                                                                        Width="20"
+                                                                        ShowAsMonochrome="False"
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"
+                                                                        Visibility="{Binding FragileResin, Converter={StaticResource EmptyObjectToBoolConverter}}"/>
+                                                                    <TextBlock Text="{Binding FragileResin, Mode=OneWay}"/>
                                                                 </StackPanel>
 
                                                                 <TextBlock VerticalAlignment="Center" Text="{Binding Days, Mode=OneWay}"/>

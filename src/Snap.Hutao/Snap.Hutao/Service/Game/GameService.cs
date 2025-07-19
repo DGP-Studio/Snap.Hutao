@@ -24,6 +24,11 @@ internal sealed partial class GameService : IGameService
         return gameAccountService.GetGameAccountCollectionAsync();
     }
 
+    public bool KillGameProcess()
+    {
+        return LaunchExecutionEnsureGameNotRunningHandler.TryKillGameProcess();
+    }
+
     public ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
         return gamePathService.SilentGetGamePathAsync();

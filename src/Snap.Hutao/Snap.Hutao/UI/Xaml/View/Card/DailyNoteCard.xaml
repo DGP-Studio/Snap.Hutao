@@ -11,7 +11,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
-    Height="180"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -45,25 +45,38 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock
+                <Grid
                     Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Uid}"/>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding RefreshTimeFormatted}"/>
+                    Grid.ColumnSpan="3"
+                    Height="48"
+                    Padding="12"
+                    Style="{ThemeResource GridShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="-4"
+                            Source="ms-appx:///Resource/Navigation/DailyNote.png"/>
+
+                        <TextBlock Text="{Binding Uid}"/>
+                    </StackPanel>
+
+                    <TextBlock
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="{Binding RefreshTimeFormatted}"/>
+                </Grid>
+
 
                 <shuxcc:CardBlock
                     Grid.Row="1"
                     Grid.Column="0"
                     DotVisibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                     IconSquareLength="64"
-                    ImageSource="{StaticResource UI_ItemIcon_210}"
+                    ImageSource="{StaticResource UI_ItemIcon_106}"
                     Text="{Binding DailyNote.FormattedResin, FallbackValue={x:Null}}"/>
 
                 <Grid

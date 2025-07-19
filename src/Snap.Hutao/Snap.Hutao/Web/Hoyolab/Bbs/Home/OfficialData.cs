@@ -6,23 +6,26 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 internal sealed class OfficialData
 {
     [JsonPropertyName("post_id")]
-    public string PostId { get; set; } = default!;
+    public required string PostId { get; init; }
 
     [JsonPropertyName("title")]
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
     [JsonPropertyName("date")]
-    public long Date { get; set; }
+    public required long Date { get; init; }
 
     [JsonPropertyName("label")]
-    public string Label { get; set; } = default!;
+    public required string Label { get; init; }
 
     [JsonPropertyName("is_top")]
-    public bool IsTop { get; set; }
+    public required bool IsTop { get; init; }
 
     [JsonPropertyName("view_type")]
-    public int ViewType { get; set; } = default!;
+    public required int ViewType { get; init; }
 
     [JsonPropertyName("image_url")]
-    public string ImageUrl { get; set; } = default!;
+    public required string ImageUrl { get; init; }
+
+    [JsonPropertyName("image")]
+    public required OfficialDataImage Image { get; init; }
 }

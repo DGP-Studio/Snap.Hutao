@@ -6,7 +6,7 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
-[DependencyProperty("Spacing", typeof(double), 0D, nameof(OnSpacingChanged))]
+[DependencyProperty("Spacing", typeof(double), 0D, nameof(OnSpacingChanged), RawDefaultValue = "0D")]
 internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 {
     private readonly long horizontalAlignmentChangedToken;

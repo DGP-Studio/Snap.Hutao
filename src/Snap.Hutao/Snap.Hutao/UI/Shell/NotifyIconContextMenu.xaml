@@ -205,13 +205,13 @@
             <MenuFlyoutItem
                 Command="{Binding OpenCompactWebView2WindowCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xF7ED;}"
-                IsEnabled="{Binding RuntimeOptions.IsElevated}"
+                IsEnabled="{shuxm:IsProcessElevated}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewWindowCompactWebViewTitle}"/>
             <MenuFlyoutItem
                 Command="{Binding RestartAsElevatedCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xE7EF;}"
-                IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                IsEnabled="{shuxm:IsProcessNotElevated}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"/>
             <MenuFlyoutItem
