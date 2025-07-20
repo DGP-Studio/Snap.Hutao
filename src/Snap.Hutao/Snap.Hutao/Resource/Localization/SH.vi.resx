@@ -163,7 +163,7 @@
     <value>Danh sách</value>
   </data>
   <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
-    <value>通知区域图标创建失败</value>
+    <value>Không thể tạo biểu tượng khu vực thông báo</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Bộ đếm semaphore đã được giải phóng, thao tác bị hủy</value>
@@ -214,7 +214,7 @@
     <value>Kẻ lang thang</value>
   </data>
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
-    <value>服务器时区</value>
+    <value>Múi giờ máy chủ</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Tinh luyện {0}</value>
@@ -268,7 +268,7 @@
     <value>Đã làm mới vào {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Kỳ {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Tài khoản</value>
@@ -589,7 +589,7 @@
     <value>Đã tải lên {1} bản ghi cầu nguyện của UID: {0}, đã được lưu trữ {2}</value>
   </data>
   <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
-    <value>设备 ID 不能为空</value>
+    <value>ID thiết bị không thể để trống</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Vui lòng đăng nhập hoặc đăng ký tài khoản Snap Hutao trước tiên</value>
@@ -598,13 +598,13 @@
     <value>Đăng nhập thành công</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Độ dài mật khẩu không thể nhỏ hơn 8 ký tự</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>Token làm mới không thể để trống</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>Token làm mới không hợp lệ hoặc đã hết hạn</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Đăng ký thành công</value>
@@ -613,7 +613,7 @@
     <value>Đã đặt mật khẩu mới thành công</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>Mật khẩu mới không được giống mật khẩu cũ</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Địa chỉ email hiện tại chưa được đăng ký</value>
@@ -625,16 +625,16 @@
     <value>Đăng ký không thành công, lỗi máy chủ, vui lòng liên hệ nhà phát triển để khắc phục</value>
   </data>
   <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
-    <value>密码错误，注销失败</value>
+    <value>Mật khẩu sai, đăng xuất thất bại</value>
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Người dùng không tồn tại, không thể xoá tài khoản</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>Thu hồi token thất bại</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>Thu hồi token thành công</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Huỷ đăng ký thành công</value>
@@ -1001,7 +1001,7 @@
     <value>Trước khi sử dụng Embedded Yae, Snap Hutao cần được chạy với quyền quản trị viên</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>Tiêm thất bại, có thể do Windows Defender ứng dụng và kiểm soát trình duyệt &gt; chính sách kiểm soát ứng dụng thông minh đã chặn thao tác, vui lòng thử tắt.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Trước khi sử dụng Embedded Yae, bạn cần biết về các rủi ro liên quan và bật chức năng nhúng trong trang Khởi động Trò chơi</value>
@@ -1327,7 +1327,7 @@ Dung lượng còn trống: {2}</value>
     <value>Nhập dữ liệu thành tích cho lưu trữ hiện tại</value>
   </data>
   <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
-    <value>选择要添加到当前培养计划的角色</value>
+    <value>Chọn nhân vật để thêm vào kế hoạch phát triển hiện tại</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>Bạn có thể thay đổi hành vi này sau trong cài đặt</value>
@@ -1729,7 +1729,7 @@ Dung lượng còn trống: {2}</value>
     <value>Chất lượng tài nguyên hình ảnh</value>
   </data>
   <data name="ViewHardChallengeHeader" xml:space="preserve">
-    <value>幽境危战</value>
+    <value>Ảo Cảnh Hiểm Ác</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
@@ -1762,7 +1762,7 @@ Dung lượng còn trống: {2}</value>
     <value>Không thể thêm lưu trữ có tên không hợp lệ</value>
   </data>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
-    <value>复制成就 ID 成功</value>
+    <value>Sao chép ID thành tích thành công</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>Tệp UIAF</value>
@@ -1783,7 +1783,7 @@ Dung lượng còn trống: {2}</value>
     <value>Xuất tập tin UIAF Json đến đường dẫn đã chọn</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
-    <value>未选中任意角色</value>
+    <value>Không chọn bất kỳ nhân vật nào</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Đang lấy nguyên liệu bồi dưỡng, vui lòng chờ...</value>
@@ -2056,19 +2056,19 @@ Dung lượng còn trống: {2}</value>
     <value>Bản gốc</value>
   </data>
   <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} giây</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
-    <value>联机挑战</value>
+    <value>Thử thách nhiều người chơi</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
-    <value>单人挑战</value>
+    <value>Thử thách một người chơi</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Vui lòng nhập đúng email</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Độ dài mật khẩu không thể nhỏ hơn 8 ký tự</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Vui lòng sử dụng phương pháp khác để nhập thành tựu</value>
@@ -2146,10 +2146,10 @@ Dung lượng còn trống: {2}</value>
     <value>Thao tác hoàn thành</value>
   </data>
   <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
-    <value>当前已是最新版本</value>
+    <value>Hiện đã là phiên bản mới nhất</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>Lỗi khi kiểm tra cập nhật</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Xóa không thành công, không đủ quyền truy cập thư mục, vui lòng thử lại bằng quyền quản trị viên</value>
@@ -2185,7 +2185,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đặt thư mục dữ liệu thành công, khởi động lại để áp dụng thay đổi</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>Khởi động lại thất bại, vui lòng khởi động lại ứng dụng thủ công</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Thư mục đã chọn không trống, các tệp hiện có sẽ bị ghi đè</value>
@@ -2200,7 +2200,7 @@ Dung lượng còn trống: {2}</value>
     <value>Sao chép tệp dữ liệu</value>
   </data>
   <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
-    <value>更新可用: {0}</value>
+    <value>Cập nhật có sẵn: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>Cần tiêu tốn {0} miếng dán, {1} miếng dán có sẵn</value>
@@ -2335,10 +2335,10 @@ Dung lượng còn trống: {2}</value>
     <value>Thông báo trò chơi</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
-    <value>兑换码复制成功</value>
+    <value>Sao chép mã đổi thành công</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
-    <value>前瞻直播兑换码</value>
+    <value>Mã đổi chương trình phát sóng trực tiếp</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Xem chi tiết</value>
@@ -2350,7 +2350,7 @@ Dung lượng còn trống: {2}</value>
     <value>Nhân vật và vũ khí hiện tại</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
-    <value>部分角色与武器</value>
+    <value>Một số nhân vật và vũ khí</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>Chưa có thông tin nhân vật nào được tải</value>
@@ -2665,7 +2665,7 @@ Dung lượng còn trống: {2}</value>
     <value>Vũ khí</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
-    <value>战斗用时</value>
+    <value>Thời gian chiến đấu</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao đã khởi chạy game cho bạn {0} lần</value>
@@ -2887,7 +2887,7 @@ Dung lượng còn trống: {2}</value>
     <value>Công Tắc Nguội Ẩn Biểu Ngữ Bản Đồ</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
-    <value>强制移除地图界面左上角的任务提示</value>
+    <value>Buộc loại bỏ gợi ý nhiệm vụ ở góc trên bên trái giao diện bản đồ</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Đóng biểu ngữ bản đồ</value>
@@ -2911,7 +2911,7 @@ Dung lượng còn trống: {2}</value>
     <value>Sử dụng đầu vào cảm ứng</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>Kết thúc quá trình</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Chạy trên màn hình được chỉ định</value>
@@ -3130,7 +3130,7 @@ Dung lượng còn trống: {2}</value>
     <value>Thư mục bộ nhớ đệm</value>
   </data>
   <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
-    <value>检查更新</value>
+    <value>Kiểm tra cập nhật</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>Không thể tạo biểu tượng khu vực thông báo, không thể thay đổi hành vi nút đóng</value>
@@ -3571,7 +3571,7 @@ Dung lượng còn trống: {2}</value>
     <value>Trước đột phá</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
-    <value>周期</value>
+    <value>Kỳ</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Thơ Kịch Ảo Ảnh Chân Cảnh</value>
@@ -3688,7 +3688,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đang khởi tạo siêu dữ liệu</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>Phiên bản Hồ Đào {0} hiện có sẵn</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Tải xuống ngay bây giờ?</value>
@@ -3964,10 +3964,10 @@ Dung lượng còn trống: {2}</value>
     <value>Sao chép liên kết tải xuống thành công</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
-    <value>最高总伤害</value>
+    <value>Tổng sát thương cao nhất</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
-    <value>最强一击</value>
+    <value>Đòn đánh mạnh nhất</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Máy chủ không hợp lệ</value>
