@@ -163,7 +163,7 @@
     <value>Elenco</value>
   </data>
   <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
-    <value>通知区域图标创建失败</value>
+    <value>Creazione dell'icona dell'area di notifica non riuscita</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore eliminato, operazione annullata</value>
@@ -214,7 +214,7 @@
     <value>Girovago</value>
   </data>
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
-    <value>服务器时区</value>
+    <value>Fuso orario del server</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Raffina {0}</value>
@@ -268,7 +268,7 @@
     <value>Aggiornato alle {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Programma {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Personaggio</value>
@@ -589,7 +589,7 @@
     <value>Caricati {1} record dei desideri per l'UID: {0}, salvati {2} record</value>
   </data>
   <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
-    <value>设备 ID 不能为空</value>
+    <value>L'ID del dispositivo non può essere vuoto</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Accedi o registra prima un account di Snap Hutao</value>
@@ -598,13 +598,13 @@
     <value>Accesso riuscito</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>La lunghezza della password non può essere inferiore a 8 caratteri</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>Il token di aggiornamento non può essere vuoto</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>Token di aggiornamento non valido o scaduto</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Registrazione riuscita</value>
@@ -613,7 +613,7 @@
     <value>Nuova password impostata correttamente</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>La nuova password non può essere uguale alla vecchia password</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>L'indirizzo email attuale non è ancora stato registrato</value>
@@ -625,16 +625,16 @@
     <value>Registrazione non riuscita, errore del server. Si prega di contattare al più presto lo sviluppatore per risolvere il problema</value>
   </data>
   <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
-    <value>密码错误，注销失败</value>
+    <value>Password errata, cancellazione fallita</value>
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>Utente non trovato, cancellazione fallita</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>Revoca del token non riuscita</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>Revoca del token riuscita</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Annullamento della registrazione dell'utente riuscito</value>
@@ -1001,7 +1001,7 @@
     <value>Prima di utilizzare Embedded Yae, è necessario eseguire Snap Hutao con privilegi di amministratore</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>Iniezione fallita, potrebbe essere dovuta al fatto che Windows Defender App e Browser Control &gt; la politica di controllo delle app intelligenti ha bloccato l'operazione, prova a disattivarla.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Prima di utilizzare Embedded Yae, è necessario essere consapevoli dei rischi correlati e attivare la funzione di iniezione nella pagina "Avvia Gioco"</value>
@@ -1327,7 +1327,7 @@ Spazio disponibile: {2}</value>
     <value>Importa i dati degli achievement per l'archivio corrente</value>
   </data>
   <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
-    <value>选择要添加到当前培养计划的角色</value>
+    <value>Seleziona il personaggio da aggiungere al piano di sviluppo corrente</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>Puoi modificare questo comportamento in seguito nelle impostazioni</value>
@@ -1729,7 +1729,7 @@ Spazio disponibile: {2}</value>
     <value>Qualità delle risorse grafiche</value>
   </data>
   <data name="ViewHardChallengeHeader" xml:space="preserve">
-    <value>幽境危战</value>
+    <value>Battaglia nel regno oscuro</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
@@ -1762,7 +1762,7 @@ Spazio disponibile: {2}</value>
     <value>Impossibile aggiungere un archivio con nome non valido</value>
   </data>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
-    <value>复制成就 ID 成功</value>
+    <value>ID dell'obiettivo copiato con successo</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>File UIAF</value>
@@ -1783,7 +1783,7 @@ Spazio disponibile: {2}</value>
     <value>Esporta il file JSON UIAF nel percorso selezionato</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
-    <value>未选中任意角色</value>
+    <value>Nessun personaggio selezionato</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Recupero materiali di ascensione in corso, attendere...</value>
@@ -2056,19 +2056,19 @@ Spazio disponibile: {2}</value>
     <value>Qualità originale</value>
   </data>
   <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} secondi</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
-    <value>联机挑战</value>
+    <value>Sfida multigiocatore</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
-    <value>单人挑战</value>
+    <value>Sfida singolo giocatore</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Inserisci un indirizzo email valido</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>La lunghezza della password non può essere inferiore a 8 caratteri</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Si prega di utilizzare altri metodi per importare gli achievement</value>
@@ -2146,10 +2146,10 @@ Spazio disponibile: {2}</value>
     <value>Operazione completata</value>
   </data>
   <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
-    <value>当前已是最新版本</value>
+    <value>Già alla versione più recente</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>Errore durante il controllo degli aggiornamenti</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Pulizia fallita, autorizzazioni insufficienti nella directory. Riprova in modalità amministratore</value>
@@ -2185,7 +2185,7 @@ Spazio disponibile: {2}</value>
     <value>Directory dei dati impostata, riavvia per applicare le modifiche</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>Riavvio fallito, riavviare manualmente l'applicazione</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>La cartella selezionata non è vuota, i file esistenti verranno sovrascritti</value>
@@ -2200,7 +2200,7 @@ Spazio disponibile: {2}</value>
     <value>Copia i file di dati</value>
   </data>
   <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
-    <value>更新可用: {0}</value>
+    <value>Aggiornamento disponibile: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>Richiede {0} monete, {1} monete disponibili</value>
@@ -2335,10 +2335,10 @@ Spazio disponibile: {2}</value>
     <value>Annunci di gioco</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
-    <value>兑换码复制成功</value>
+    <value>Codice di riscatto copiato con successo</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
-    <value>前瞻直播兑换码</value>
+    <value>Codice di riscatto del programma speciale</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Visualizza dettagli</value>
@@ -2350,7 +2350,7 @@ Spazio disponibile: {2}</value>
     <value>Personaggio e arma attuali</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
-    <value>部分角色与武器</value>
+    <value>Alcuni personaggi e armi</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>Nessuna informazione personaggio recuperata</value>
@@ -2665,7 +2665,7 @@ Spazio disponibile: {2}</value>
     <value>Arma</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
-    <value>战斗用时</value>
+    <value>Tempo di combattimento</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao ha avviato il gioco {0} volta</value>
@@ -2887,7 +2887,7 @@ Spazio disponibile: {2}</value>
     <value>Interruttore Freddo Banner Mappa</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
-    <value>强制移除地图界面左上角的任务提示</value>
+    <value>Rimuovi forzatamente il promemoria della missione nell'angolo in alto a sinistra della mappa</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Chiudi il banner della mappa</value>
@@ -2911,7 +2911,7 @@ Spazio disponibile: {2}</value>
     <value>Usa input touch</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>Termina processo</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Esegui il software sul monitor selezionato</value>
@@ -3130,7 +3130,7 @@ Spazio disponibile: {2}</value>
     <value>Cartella cache</value>
   </data>
   <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
-    <value>检查更新</value>
+    <value>Controlla aggiornamenti</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>Creazione dell'icona nell'area di notifica non riuscita, impossibile modificare il comportamento del pulsante di chiusura</value>
@@ -3571,7 +3571,7 @@ Spazio disponibile: {2}</value>
     <value>Prima dell'ascensione</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
-    <value>周期</value>
+    <value>Programma</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Teatro dell'Imaginarium</value>
@@ -3688,7 +3688,7 @@ Spazio disponibile: {2}</value>
     <value>Inizializzazione dei metadati in corso</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>La versione {0} di Hutao è ora disponibile</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Scaricare ora?</value>
@@ -3964,10 +3964,10 @@ Spazio disponibile: {2}</value>
     <value>Link di download copiato correttamente</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
-    <value>最高总伤害</value>
+    <value>Danno totale massimo</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
-    <value>最强一击</value>
+    <value>Colpo più forte</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Server non valido</value>
