@@ -19,7 +19,7 @@ internal static class TaskExtension
         }
         catch (Exception ex)
         {
-            ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            ExceptionHandlingSupport.KillProcessOnDbExceptionNoThrow(ex);
             ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
             SentrySdk.CaptureException(ex);
         }
@@ -37,7 +37,7 @@ internal static class TaskExtension
         }
         catch (Exception ex)
         {
-            ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            ExceptionHandlingSupport.KillProcessOnDbExceptionNoThrow(ex);
             ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
             SentrySdk.CaptureException(ex);
         }
