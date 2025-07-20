@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MiyoliveClientOversea : IMiyoliveClient
 {
+    // TODO: Implement IMiyoliveClient.RefreshCodeAsync
     public ValueTask<Response<CodeListWrapper>> RefreshCodeAsync(string actId, CancellationToken token = default)
     {
         return ValueTask.FromException<Response<CodeListWrapper>>(HutaoException.NotSupported());

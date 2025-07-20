@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class HomeClientOversea : IHomeClient
 {
+    // TODO: Implement IHomeClient.GetNewHomeInfoAsync
     public ValueTask<Response<NewHomeNewInfo>> GetNewHomeInfoAsync(int gid, CancellationToken token = default)
     {
         return ValueTask.FromException<Response<NewHomeNewInfo>>(HutaoException.NotSupported());

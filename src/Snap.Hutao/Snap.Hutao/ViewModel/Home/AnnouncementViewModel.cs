@@ -102,7 +102,18 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 .GetRequiredService<IOverseaSupportFactory<IHomeClient>>()
                 .CreateFor(userAndUid);
 
-            Response<NewHomeNewInfo>? newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
+            Response<NewHomeNewInfo>? newHomeInfoResponse = null;
+
+            // Log the NotSupportedException only. Do not exit.
+            try
+            {
+                newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
+            }
+            catch (NotSupportedException)
+            {
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("GetNewHomeInfoAsync is unsupported", "AnnouncementViewModel.Command"));
+                return;
+            }
 
             if (!ResponseValidator.TryValidateWithoutUINotification(newHomeInfoResponse, out NewHomeNewInfo? newHomeInfo))
             {
@@ -137,7 +148,18 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 .GetRequiredService<IOverseaSupportFactory<IMiyoliveClient>>()
                 .CreateFor(userAndUid);
 
-            Response<CodeListWrapper> codeListResponse = await miyoliveClient.RefreshCodeAsync(actId, token).ConfigureAwait(false);
+            Response<CodeListWrapper>? codeListResponse = null;
+
+            // Log the NotSupportedException only. Do not exit.
+            try
+            {
+                codeListResponse = await miyoliveClient.RefreshCodeAsync(actId, token).ConfigureAwait(false);
+            }
+            catch (NotSupportedException)
+            {
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("RefreshCodeAsync is unsupported", "AnnouncementViewModel.Command"));
+                return;
+            }
 
             if (!ResponseValidator.TryValidateWithoutUINotification(codeListResponse, out CodeListWrapper? wrapper))
             {
