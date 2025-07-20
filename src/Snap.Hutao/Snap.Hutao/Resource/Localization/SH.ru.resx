@@ -163,7 +163,7 @@
     <value>Список</value>
   </data>
   <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
-    <value>通知区域图标创建失败</value>
+    <value>Не удалось создать значок в области уведомлений</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore удален, операция отменена</value>
@@ -214,7 +214,7 @@
     <value>Путник</value>
   </data>
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
-    <value>服务器时区</value>
+    <value>Часовой пояс сервера</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Уточнить {0}</value>
@@ -268,7 +268,7 @@
     <value>Обновление в {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Расписание {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Персонаж</value>
@@ -589,7 +589,7 @@
     <value>Загружено Uid: {0} из {1} записи желаний, Сохранено {2} записей</value>
   </data>
   <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
-    <value>设备 ID 不能为空</value>
+    <value>ID устройства не может быть пустым</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Пожалуйста, сначала войдите или зарегистрируйтесь Snap Hutao аккаунт</value>
@@ -598,13 +598,13 @@
     <value>Успешный вход</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Длина пароля не может быть меньше 8 символов</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>Токен обновления не может быть пустым</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>Токен обновления недействителен или истек</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Регистрация успешна</value>
@@ -613,7 +613,7 @@
     <value>Новый пароль установлен успешно</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>Новый пароль не может совпадать со старым</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Текущий адрес электронной почты еще не зарегистрирован</value>
@@ -625,16 +625,16 @@
     <value>Ошибка регистрации, проблемы с сервером. Пожалуйста, свяжитесь с разработчиком для решения проблемы</value>
   </data>
   <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
-    <value>密码错误，注销失败</value>
+    <value>Неверный пароль, выход не выполнен</value>
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
     <value>Пользователь не существует, отмена не удалась</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>Не удалось отозвать токен</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>Токен успешно отозван</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Пользователь успешно отменен</value>
@@ -1001,7 +1001,7 @@
     <value>Перед использованием Embedded Yae, Snap Hutao должна быть запущена с правами администратора</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>Внедрение не удалось, возможно, из-за политики Windows Defender "Приложения и браузер" &gt; "Управление интеллектуальными приложениями", которая блокирует операцию. Попробуйте отключить ее.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Перед использованием Embedded Yae вы должны знать о связанных с этим рисках и включить функцию внедрения на странице "Запуск игры"</value>
@@ -1325,7 +1325,7 @@
     <value>Импорт данных о достижениях в текущий архив</value>
   </data>
   <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
-    <value>选择要添加到当前培养计划的角色</value>
+    <value>Выберите персонажа для добавления в текущий план развития</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>Это можно изменить позже в настройках</value>
@@ -1727,7 +1727,7 @@
     <value>Качество ресурсов изображений</value>
   </data>
   <data name="ViewHardChallengeHeader" xml:space="preserve">
-    <value>幽境危战</value>
+    <value>Мрачный натиск</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Паспорт</value>
@@ -1760,7 +1760,7 @@
     <value>Невозможно добавить архив с недопустимым именем</value>
   </data>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
-    <value>复制成就 ID 成功</value>
+    <value>ID достижения успешно скопирован</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>Файл UIAF</value>
@@ -1781,7 +1781,7 @@
     <value>Экспорт UIAF Json файл в указанный путь</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
-    <value>未选中任意角色</value>
+    <value>Ни один персонаж не выбран</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Получение материалов для повышения, пожалуйста, подождите...</value>
@@ -2057,16 +2057,16 @@
     <value>{0} Секунд</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
-    <value>联机挑战</value>
+    <value>Совместное испытание</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
-    <value>单人挑战</value>
+    <value>Одиночное испытание</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Пожалуйста, введите правильный адрес электронной почты</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>Длина пароля не может быть меньше 8 символов</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Используйте другие способы для импорта достижений</value>
@@ -2144,10 +2144,10 @@
     <value>Действие завершено</value>
   </data>
   <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
-    <value>当前已是最新版本</value>
+    <value>Уже установлена последняя версия</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>Произошла ошибка при проверке обновлений</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Ошибка очистки, недостаточно прав для доступа к папке, попробуйте запустить программу в режиме администратора</value>
@@ -2183,7 +2183,7 @@
     <value>Каталог данных установлен успешно, перезапустите, чтобы применить изменения</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>Не удалось перезапустить, пожалуйста, перезапустите приложение вручную</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Выбранная папка не пуста, существующие файлы будут перезаписаны</value>
@@ -2198,7 +2198,7 @@
     <value>Копирование файлов данных</value>
   </data>
   <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
-    <value>更新可用: {0}</value>
+    <value>Доступно обновление: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>Требуется {0} монет, доступно {1} монет</value>
@@ -2333,10 +2333,10 @@
     <value>Игровое Объявление</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
-    <value>兑换码复制成功</value>
+    <value>Код успешно скопирован</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
-    <value>前瞻直播兑换码</value>
+    <value>Код для трансляции</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Показать детали</value>
@@ -2348,7 +2348,7 @@
     <value>Текущий персонаж и оружие</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
-    <value>部分角色与武器</value>
+    <value>Некоторые персонажи и оружие</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>Нет данных о персонаже</value>
@@ -2663,7 +2663,7 @@
     <value>Оружие</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
-    <value>战斗用时</value>
+    <value>Время боя</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao запустил игру {0} раз</value>
@@ -2885,7 +2885,7 @@
     <value>Холодный переключатель скрытия баннера карты</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
-    <value>强制移除地图界面左上角的任务提示</value>
+    <value>Принудительно удалить подсказку задания в верхнем левом углу карты</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Закрыть баннер карты</value>
@@ -2909,7 +2909,7 @@
     <value>Использовать сенсорный ввод</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>Завершить процесс</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Запустить на указанном мониторе</value>
@@ -3128,7 +3128,7 @@
     <value>Папка кэша</value>
   </data>
   <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
-    <value>检查更新</value>
+    <value>Проверить обновления</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>Не удалось создать значок в области уведомлений, невозможно изменить поведение кнопки закрытия.</value>
@@ -3569,7 +3569,7 @@
     <value>До возвышения</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
-    <value>周期</value>
+    <value>Расписание</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Имаджинариум</value>
@@ -3686,7 +3686,7 @@
     <value>Инициализация метаданных</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>Версия Snap Hutao {0} теперь доступна</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Установить сейчас?</value>
@@ -3962,7 +3962,7 @@
     <value>Ссылка успешно скопирована</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
-    <value>最高总伤害</value>
+    <value>Максимальный общий урон</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
     <value>Максимальный урон</value>
