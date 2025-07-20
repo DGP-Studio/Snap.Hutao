@@ -3,6 +3,7 @@ AccountCreateActionTicket(),https://passport-api.mihoyo.com/account/ma-cn-verifi
 AccountCreateAuthTicketByGameBiz(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createAuthTicketByGameBiz,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/createAuthTicketBySToken
 AccountCreateLoginCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-verifier/verifier/createLoginCaptcha,
 AccountCreateQrLogin(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/createQRLogin,
+AccountGetActionTicketInfo(),,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByPassword,
 AccountGetCookieTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getCookieAccountInfoBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getCookieAccountInfoBySToken
 AccountGetLTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getLTokenBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getLTokenBySToken
 AccountGetSTokenByGameToken(),https://passport-api.mihoyo.com/account/ma-cn-session/app/getTokenByGameToken,
@@ -11,6 +12,7 @@ AccountLoginByMobileCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-pass
 AccountLoginByPassword(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByPassword,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByPassword
 AccountLoginByThirdParty(),,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByThirdParty
 AccountQueryQrLoginStatus(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/queryQRLoginStatus,
+AccountVerifyActionTicketPartly(),,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/verifyActionTicketPartly,
 AccountVerifyLtoken(),https://passport-api-v4.mihoyo.com/account/ma-cn-session/web/verifyLtoken,
 ActHoyolabReferer(),,https://act.hoyolab.com/
 "AnnContent(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://sg-hk4e-api.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"

@@ -23,4 +23,6 @@ internal interface IPassportClient
     ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(IPassportMobileCaptchaProvider provider, CancellationToken token = default);
 
     ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, string? aigis, CancellationToken token = default);
+
+    // TODO: Add new verify apis as needed
 }

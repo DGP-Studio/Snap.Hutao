@@ -62,11 +62,22 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
-            (string? rawSession, Response<LoginResult> response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
+            (string? rawSession, string? rawRisk, Response<LoginResult> response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
 
+            // TODO: Maybe we can extract below verification logic to a service
             if (await geetestService.TryVerifyAigisSessionAsync(this, rawSession, isOversea).ConfigureAwait(false))
             {
-                (_, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
+                (_, rawRisk, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
+            }
+
+            if (rawRisk is not null)
+            {
+                Risk? risk = JsonSerializer.Deserialize<Risk>(rawRisk);
+                ArgumentNullException.ThrowIfNull(risk);
+                RiskVerify? riskVerify = JsonSerializer.Deserialize<RiskVerify>(risk.VerifyStr);
+                ArgumentNullException.ThrowIfNull(riskVerify);
+                // TODO: Add a dialog to input risk verification
+                // Check the whole verification process in private group file
             }
 
             bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
