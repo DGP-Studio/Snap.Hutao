@@ -12,8 +12,8 @@ src/Snap.Hutao/Snap.Hutao/obj/
 src/Snap.Hutao/Snap.Hutao/Resource/Localization/SH.Designer.cs
 src/Snap.Hutao/Snap.Hutao/Snap.Hutao_TemporaryKey.pfx
 
-src/Snap.Hutao/Snap.Hutao.Win32/bin/
-src/Snap.Hutao/Snap.Hutao.Win32/obj/
+src/Snap.Hutao/Snap.Hutao.Benchmark/bin/
+src/Snap.Hutao/Snap.Hutao.Benchmark/obj/
 
 src/Snap.Hutao/Snap.Hutao.Test/bin/
 src/Snap.Hutao/Snap.Hutao.Test/obj/
