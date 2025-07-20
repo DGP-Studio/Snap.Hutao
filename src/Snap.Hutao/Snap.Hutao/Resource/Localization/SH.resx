@@ -2149,7 +2149,7 @@
     <value>当前已是最新版本</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新发送错误</value>
+    <value>检查更新时发生错误</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>清除失败，文件目录权限不足，请使用管理员模式重试</value>
