@@ -78,6 +78,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
                 ArgumentNullException.ThrowIfNull(riskVerify);
                 // TODO: Add a dialog to input risk verification
                 // Check the whole verification process in private group file
+                // DO NOT forget to set the verify header, check last request
             }
 
             bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
