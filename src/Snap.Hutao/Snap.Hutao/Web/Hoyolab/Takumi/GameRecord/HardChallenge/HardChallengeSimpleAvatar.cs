@@ -15,8 +15,7 @@ internal class HardChallengeSimpleAvatar
     public required string Name { get; init; }
 
     [JsonPropertyName("element")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required ElementName Element { get; init; }
+    public required string Element { get; init; }
 
     [JsonPropertyName("image")]
     public required string Image { get; init; }
