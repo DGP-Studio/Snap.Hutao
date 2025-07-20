@@ -163,7 +163,7 @@
     <value>รายการ</value>
   </data>
   <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
-    <value>通知区域图标创建失败</value>
+    <value>การสร้างไอคอนพื้นที่แจ้งเตือนล้มเหลว</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore ถูกปล่อยแล้ว การดำเนินการถูกยกเลิก</value>
@@ -214,7 +214,7 @@
     <value>ผู้พเนจร</value>
   </data>
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
-    <value>服务器时区</value>
+    <value>เขตเวลาเซิร์ฟเวอร์</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>ขัดเกลา {0}</value>
@@ -268,7 +268,7 @@
     <value>รีเฟรชเมื่อ {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>ตารางที่ {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>ตัวละคร</value>
@@ -589,7 +589,7 @@
     <value>อัปโหลดบันทึกการอธิษฐาน {1} รายการไปยัง UID: {0} บันทึก {2} รายการ</value>
   </data>
   <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
-    <value>设备 ID 不能为空</value>
+    <value>รหัสอุปกรณ์ไม่สามารถเว้นว่างได้</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>โปรดเข้าสู่ระบบหรือลงทะเบียนบัญชี Snap Hutao ก่อน</value>
@@ -598,13 +598,13 @@
     <value>เข้าสู่ระบบสำเร็จ</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>ความยาวรหัสผ่านต้องไม่น้อยกว่า 8 ตัวอักษร</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>โทเค็นรีเฟรชไม่สามารถเว้นว่างได้</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>โทเค็นรีเฟรชไม่ถูกต้องหรือหมดอายุ</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>ลงทะเบียนสำเร็จ</value>
@@ -613,7 +613,7 @@
     <value>ตั้งรหัสผ่านใหม่สำเร็จ</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>รหัสผ่านใหม่ไม่สามารถเหมือนกับรหัสผ่านเก่าได้</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>อีเมลปัจจุบันยังไม่ได้ลงทะเบียน</value>
@@ -625,16 +625,16 @@
     <value>ลงทะเบียนล้มเหลว, เซิร์ฟเวอร์ผิดพลาด, โปรดติดต่อผู้พัฒนาเพื่อแก้ไขโดยเร็ว</value>
   </data>
   <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
-    <value>密码错误，注销失败</value>
+    <value>รหัสผ่านผิดพลาด การยกเลิกการลงทะเบียนล้มเหลว</value>
   </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>ไม่พบผู้ใช้ การยกเลิกการลงทะเบียนล้มเหลว</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>การเพิกถอนโทเค็นล้มเหลว</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>การเพิกถอนโทเค็นสำเร็จ</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>ยกเลิกการลงทะเบียนผู้ใช้สำเร็จ</value>
@@ -1001,7 +1001,7 @@
     <value>Snap Hutao ควรรันด้วยสิทธิ์ผู้ดูแลระบบก่อนที่จะใช้ Embedded Yae</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>การฉีดล้มเหลว อาจเป็นเพราะ Windows Defender แอปและการควบคุมเบราว์เซอร์ &gt; นโยบายการควบคุมแอปอัจฉริยะบล็อกการดำเนินการ โปรดลองปิด</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>คุณควรทราบถึงความเสี่ยงที่เกี่ยวข้องและเปิดฟังก์ชันการฝังในหน้าเปิดเกมก่อนที่จะใช้ Embedded Yae</value>
@@ -1327,7 +1327,7 @@
     <value>นำเข้าข้อมูลความสำเร็จสำหรับที่เก็บถาวรปัจจุบัน</value>
   </data>
   <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
-    <value>选择要添加到当前培养计划的角色</value>
+    <value>เลือกตัวละครที่จะเพิ่มไปยังแผนการพัฒนาปัจจุบัน</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>คุณสามารถเปลี่ยนพฤติกรรมนี้ได้ในภายหลังในการตั้งค่า</value>
@@ -1729,7 +1729,7 @@
     <value>คุณภาพทรัพยากรภาพ</value>
   </data>
   <data name="ViewHardChallengeHeader" xml:space="preserve">
-    <value>幽境危战</value>
+    <value>ศึกเดือดแดนเร้นลับ</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
@@ -1762,7 +1762,7 @@
     <value>ไม่สามารถเพิ่มข้อมูลสำรองชื่อไม่ถูกต้อง</value>
   </data>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
-    <value>复制成就 ID 成功</value>
+    <value>คัดลอก ID ความสำเร็จสำเร็จ</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>ไฟล์ UIAF</value>
@@ -1783,7 +1783,7 @@
     <value>ส่งออกไฟล์ UIAF JSON ไปยังเส้นทางที่เลือก</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
-    <value>未选中任意角色</value>
+    <value>ไม่มีการเลือกตัวละครใดๆ</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>กำลังดึงวัสดุฝึกฝน โปรดรอ...</value>
@@ -2056,19 +2056,19 @@
     <value>คุณภาพต้นฉบับ</value>
   </data>
   <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} วินาที</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
-    <value>联机挑战</value>
+    <value>ความท้าทายแบบผู้เล่นหลายคน</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
-    <value>单人挑战</value>
+    <value>ความท้าทายแบบผู้เล่นคนเดียว</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>โปรดป้อนอีเมลที่ถูกต้อง</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>ความยาวรหัสผ่านต้องไม่น้อยกว่า 8 ตัวอักษร</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>โปรดนำเข้าความสำเร็จโดยใช้วิธีอื่น</value>
@@ -2146,10 +2146,10 @@
     <value>ดำเนินการเสร็จสิ้น</value>
   </data>
   <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
-    <value>当前已是最新版本</value>
+    <value>ปัจจุบันเป็นเวอร์ชันล่าสุดแล้ว</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>เกิดข้อผิดพลาดขณะตรวจสอบการอัพเดต</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>ล้างข้อมูลล้มเหลว สิทธิ์ในไดเรกทอรีไฟล์ไม่เพียงพอ โปรดลองใหม่ในโหมดผู้ดูแลระบบ</value>
@@ -2185,7 +2185,7 @@
     <value>ตั้งค่าไดเรกทอรีข้อมูลสำเร็จ รีสตาร์ทเพื่อใช้การเปลี่ยนแปลง</value>
   </data>
   <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
-    <value>重启失败，请手动重启应用</value>
+    <value>การรีสตาร์ทล้มเหลว โปรดรีสตาร์ทแอปพลิเคชันด้วยตนเอง</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
@@ -2200,7 +2200,7 @@
     <value>คัดลอกไฟล์ข้อมูล</value>
   </data>
   <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
-    <value>更新可用: {0}</value>
+    <value>อัพเดตที่มี: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>ต้องใช้ {0} เหรียญ MiHoYo, มี {1} เหรียญ MiHoYo ที่ใช้งานได้</value>
@@ -2335,10 +2335,10 @@
     <value>ประกาศเกม</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
-    <value>兑换码复制成功</value>
+    <value>คัดลอกรหัสแลกเปลี่ยนสำเร็จ</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
-    <value>前瞻直播兑换码</value>
+    <value>รหัสแลกเปลี่ยนการถ่ายทอดสดล่วงหน้า</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>ดูรายละเอียด</value>
@@ -2350,7 +2350,7 @@
     <value>ตัวละครและอาวุธปัจจุบัน</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
-    <value>部分角色与武器</value>
+    <value>ตัวละครและอาวุธบางส่วน</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>ยังไม่ได้ดึงข้อมูลตัวละคร</value>
@@ -2665,7 +2665,7 @@
     <value>อาวุธ</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
-    <value>战斗用时</value>
+    <value>เวลาในการต่อสู้</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao ได้เปิดเกมให้คุณ {0} ครั้ง</value>
@@ -2887,7 +2887,7 @@
     <value>สวิตช์ปิดแบนเนอร์แผนที่</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
-    <value>强制移除地图界面左上角的任务提示</value>
+    <value>บังคับลบคำแนะนำภารกิจที่มุมซ้ายบนของอินเทอร์เฟซแผนที่</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>ปิดแบนเนอร์แผนที่</value>
@@ -2911,7 +2911,7 @@
     <value>ใช้การป้อนข้อมูลแบบสัมผัส</value>
   </data>
   <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
-    <value>结束进程</value>
+    <value>สิ้นสุดกระบวนการ</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>เรียกใช้บนจอแสดงผลที่ระบุ</value>
@@ -3130,7 +3130,7 @@
     <value>โฟลเดอร์แคช</value>
   </data>
   <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
-    <value>检查更新</value>
+    <value>ตรวจสอบการอัพเดต</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว ไม่สามารถเปลี่ยนพฤติกรรมของปุ่มปิด</value>
@@ -3571,7 +3571,7 @@
     <value>ก่อนการเลื่อนขั้น</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
-    <value>周期</value>
+    <value>ตาราง</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>โรงละครมายา</value>
@@ -3688,7 +3688,7 @@
     <value>กำลังเริ่มต้นข้อมูลเมตา</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>เวอร์ชัน {0} ของฮูโตะพร้อมใช้งานแล้ว</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>ดาวน์โหลดทันทีหรือไม่?</value>
@@ -3964,10 +3964,10 @@
     <value>คัดลอกลิงก์ดาวน์โหลดสำเร็จ</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
-    <value>最高总伤害</value>
+    <value>ความเสียหายรวมสูงสุด</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
-    <value>最强一击</value>
+    <value>การโจมตีที่แข็งแกร่งที่สุด</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>เซิร์ฟเวอร์ไม่ถูกต้อง</value>
