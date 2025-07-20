@@ -157,7 +157,6 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             return;
         }
 
-        IServiceProvider serviceProvider = Ioc.Default;
         await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(code).ConfigureAwait(false);
         serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed);
     }

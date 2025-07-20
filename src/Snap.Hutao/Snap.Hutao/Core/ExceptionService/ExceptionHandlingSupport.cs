@@ -22,6 +22,12 @@ internal sealed partial class ExceptionHandlingSupport
         serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
     }
 
+    /// <summary>
+    /// Kill the current process if the exception is or has a DbException.
+    /// As this method does not throw, it should only be used in catch blocks
+    /// </summary>
+    /// <param name="exception">Incoming exception</param>
+    /// <returns>Unwrapped DbException or original exception</returns>
     [StackTraceHidden]
     public static Exception KillProcessOnDbExceptionNoThrow(Exception exception)
     {
@@ -34,7 +40,7 @@ internal sealed partial class ExceptionHandlingSupport
     }
 
     [StackTraceHidden]
-    public static DbException KillProcessOnDbException(DbException exception)
+    private static DbException KillProcessOnDbException(DbException exception)
     {
         HutaoNative.Instance.ShowErrorMessage("Warning | 警告", exception.Message);
         Process.GetCurrentProcess().Kill();
