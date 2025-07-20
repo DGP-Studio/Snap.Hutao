@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -163,7 +163,7 @@
     <value>Elenco</value>
   </data>
   <data name="CoreLifeCycleAppActivationNotifyIconCreateFailed" xml:space="preserve">
-    <value>通知区域图标创建失败</value>
+    <value>Creazione dell'icona dell'area di notifica non riuscita</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore eliminato, operazione annullata</value>
@@ -214,7 +214,7 @@
     <value>Girovago</value>
   </data>
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
-    <value>服务器时区</value>
+    <value>Fuso orario del server</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Raffina {0}</value>
@@ -266,6 +266,9 @@
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>Aggiornato alle {0:MM.dd HH:mm:ss}</value>
+  </data>
+  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+    <value>Programma {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Personaggio</value>
@@ -585,6 +588,9 @@
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>Caricati {1} record dei desideri per l'UID: {0}, salvati {2} record</value>
   </data>
+  <data name="ServerPassportDeviceIdEmpty" xml:space="preserve">
+    <value>L'ID del dispositivo non può essere vuoto</value>
+  </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Accedi o registra prima un account di Snap Hutao</value>
   </data>
@@ -592,13 +598,22 @@
     <value>Accesso riuscito</value>
   </data>
   <data name="ServerPassportPasswordTooShort" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>La lunghezza della password non può essere inferiore a 8 caratteri</value>
+  </data>
+  <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
+    <value>Il token di aggiornamento non può essere vuoto</value>
+  </data>
+  <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
+    <value>Token di aggiornamento non valido o scaduto</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>Registrazione riuscita</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>Nuova password impostata correttamente</value>
+  </data>
+  <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
+    <value>La nuova password non può essere uguale alla vecchia password</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>L'indirizzo email attuale non è ancora stato registrato</value>
@@ -609,8 +624,17 @@
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>Registrazione non riuscita, errore del server. Si prega di contattare al più presto lo sviluppatore per risolvere il problema</value>
   </data>
+  <data name="ServerPassportServiceUnregisterPasswordIncorrect" xml:space="preserve">
+    <value>Password errata, cancellazione fallita</value>
+  </data>
   <data name="ServerPassportServiceUnregisterUserNotFound" xml:space="preserve">
-    <value>L'utente non esiste, annullamento della registrazione non riuscito</value>
+    <value>Utente non trovato, cancellazione fallita</value>
+  </data>
+  <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
+    <value>Revoca del token non riuscita</value>
+  </data>
+  <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
+    <value>Revoca del token riuscita</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Annullamento della registrazione dell'utente riuscito</value>
@@ -977,7 +1001,7 @@
     <value>Prima di utilizzare Embedded Yae, è necessario eseguire Snap Hutao con privilegi di amministratore</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+    <value>Iniezione fallita, potrebbe essere dovuta al fatto che Windows Defender App e Browser Control &gt; la politica di controllo delle app intelligenti ha bloccato l'operazione, prova a disattivarla.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>Prima di utilizzare Embedded Yae, è necessario essere consapevoli dei rischi correlati e attivare la funzione di iniezione nella pagina "Avvia Gioco"</value>
@@ -1301,6 +1325,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Importa i dati degli achievement per l'archivio corrente</value>
+  </data>
+  <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
+    <value>Seleziona il personaggio da aggiungere al piano di sviluppo corrente</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>Puoi modificare questo comportamento in seguito nelle impostazioni</value>
@@ -1701,6 +1728,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Qualità delle risorse grafiche</value>
   </data>
+  <data name="ViewHardChallengeHeader" xml:space="preserve">
+    <value>Battaglia nel regno oscuro</value>
+  </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
   </data>
@@ -1731,6 +1761,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
     <value>Impossibile aggiungere un archivio con nome non valido</value>
   </data>
+  <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
+    <value>ID dell'obiettivo copiato con successo</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>File UIAF</value>
   </data>
@@ -1748,6 +1781,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>Esporta il file JSON UIAF nel percorso selezionato</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
+    <value>Nessun personaggio selezionato</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Recupero materiali di ascensione in corso, attendere...</value>
@@ -2019,11 +2055,20 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>Qualità originale</value>
   </data>
+  <data name="ViewModelHardChallengeSeconds" xml:space="preserve">
+    <value>{0} secondi</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
+    <value>Sfida multigiocatore</value>
+  </data>
+  <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
+    <value>Sfida singolo giocatore</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Inserisci un indirizzo email valido</value>
   </data>
   <data name="ViewModelHutaoPassportPasswordTooShortHint" xml:space="preserve">
-    <value>密码长度不能小于 8 位</value>
+    <value>La lunghezza della password non può essere inferiore a 8 caratteri</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Si prega di utilizzare altri metodi per importare gli achievement</value>
@@ -2100,6 +2145,12 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operazione completata</value>
   </data>
+  <data name="ViewModelSettingAlreadyUpdated" xml:space="preserve">
+    <value>Già alla versione più recente</value>
+  </data>
+  <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
+    <value>Errore durante il controllo degli aggiornamenti</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Pulizia fallita, autorizzazioni insufficienti nella directory. Riprova in modalità amministratore</value>
   </data>
@@ -2133,6 +2184,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Directory dei dati impostata, riavvia per applicare le modifiche</value>
   </data>
+  <data name="ViewModelSettingStorageRestartFailed" xml:space="preserve">
+    <value>Riavvio fallito, riavviare manualmente l'applicazione</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>La cartella selezionata non è vuota, i file esistenti verranno sovrascritti</value>
   </data>
@@ -2144,6 +2198,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>Copia i file di dati</value>
+  </data>
+  <data name="ViewModelSettingUpdateAvailable" xml:space="preserve">
+    <value>Aggiornamento disponibile: {0}</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
     <value>Richiede {0} monete, {1} monete disponibili</value>
@@ -2277,6 +2334,12 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
     <value>Annunci di gioco</value>
   </data>
+  <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
+    <value>Codice di riscatto copiato con successo</value>
+  </data>
+  <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
+    <value>Codice di riscatto del programma speciale</value>
+  </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Visualizza dettagli</value>
   </data>
@@ -2285,6 +2348,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
     <value>Personaggio e arma attuali</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
+    <value>Alcuni personaggi e armi</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>Nessuna informazione personaggio recuperata</value>
@@ -2598,6 +2664,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Arma</value>
   </data>
+  <data name="ViewPageHardChallengeTime" xml:space="preserve">
+    <value>Tempo di combattimento</value>
+  </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>Snap Hutao ha avviato il gioco {0} volta</value>
   </data>
@@ -2817,6 +2886,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Interruttore Freddo Banner Mappa</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchDescription" xml:space="preserve">
+    <value>Rimuovi forzatamente il promemoria della missione nell'angolo in alto a sinistra della mappa</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>Chiudi il banner della mappa</value>
   </data>
@@ -2837,6 +2909,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Usa input touch</value>
+  </data>
+  <data name="ViewPageLaunchGameKillGameProcessAction" xml:space="preserve">
+    <value>Termina processo</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Esegui il software sul monitor selezionato</value>
@@ -3053,6 +3128,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Cartella cache</value>
+  </data>
+  <data name="ViewPageSettingCheckUpdateHeader" xml:space="preserve">
+    <value>Controlla aggiornamenti</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
     <value>Creazione dell'icona nell'area di notifica non riuscita, impossibile modificare il comportamento del pulsante di chiusura</value>
@@ -3492,6 +3570,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Prima dell'ascensione</value>
   </data>
+  <data name="ViewPeriodHeader" xml:space="preserve">
+    <value>Programma</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Teatro dell'Imaginarium</value>
   </data>
@@ -3607,7 +3688,7 @@ Spazio disponibile: {2}</value>
     <value>Inizializzazione dei metadati in corso</value>
   </data>
   <data name="ViewTitleUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>Snap Hutao {0} è ora disponibile</value>
+    <value>La versione {0} di Hutao è ora disponibile</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Scaricare ora?</value>
@@ -3881,6 +3962,12 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>Link di download copiato correttamente</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
+    <value>Danno totale massimo</value>
+  </data>
+  <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
+    <value>Colpo più forte</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
     <value>Server non valido</value>
