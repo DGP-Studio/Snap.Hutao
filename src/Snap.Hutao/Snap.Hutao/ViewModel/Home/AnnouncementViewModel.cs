@@ -111,7 +111,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             }
             catch (NotSupportedException)
             {
-                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("GetNewHomeInfoAsync is unsupported", "AnnouncementViewModel.Command"));
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("GetNewHomeInfoAsync is unsupported", "AnnouncementViewModel.InitializeMiyoliveCodeAsync"));
                 return;
             }
 
@@ -157,7 +157,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             }
             catch (NotSupportedException)
             {
-                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("RefreshCodeAsync is unsupported", "AnnouncementViewModel.Command"));
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("RefreshCodeAsync is unsupported", "AnnouncementViewModel.InitializeMiyoliveCodeAsync"));
                 return;
             }
 
