@@ -23,21 +23,14 @@ internal sealed partial class ExceptionHandlingSupport
     }
 
     [StackTraceHidden]
-    public static void KillProcessOnDbException(Exception exception)
+    public static Exception KillProcessOnDbExceptionNoThrow(Exception exception)
     {
-        ExceptionDispatchInfo dispatch = ExceptionDispatchInfo.Capture(exception);
-
-        switch (dispatch.SourceException)
+        return exception switch
         {
-            case DbException dbException:
-                throw KillProcessOnDbException(dbException);
-            case DbUpdateException { InnerException: DbException dbException2 }:
-                throw KillProcessOnDbException(dbException2);
-            default:
-                // In case it's not a DbException, we should preserve the original stack trace
-                dispatch.Throw();
-                break;
-        }
+            DbException dbException => KillProcessOnDbException(dbException),
+            DbUpdateException { InnerException: DbException dbException2 } => KillProcessOnDbException(dbException2),
+            _ => exception,
+        };
     }
 
     [StackTraceHidden]
@@ -60,7 +53,7 @@ internal sealed partial class ExceptionHandlingSupport
         Debugger.Break();
         XamlApplicationLifetime.Exiting = true;
 
-        KillProcessOnDbException(e.Exception);
+        KillProcessOnDbExceptionNoThrow(e.Exception);
 
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
         exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);

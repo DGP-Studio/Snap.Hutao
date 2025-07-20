@@ -93,8 +93,9 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { IsOversea: false } userAndUid)
             {
+                // The oversea user can direct use their code on the official website.
                 return;
             }
 
@@ -105,11 +106,6 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             Response<NewHomeNewInfo>? newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidateWithoutUINotification(newHomeInfoResponse, out NewHomeNewInfo? newHomeInfo))
-            {
-                return;
-            }
-
-            if (newHomeInfo is null)
             {
                 return;
             }
