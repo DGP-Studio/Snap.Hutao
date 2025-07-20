@@ -2150,7 +2150,7 @@
     <value>現在のバージョンは最新です</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>更新の確認でエラーが発生しました</value>
+    <value>检查更新时发生错误</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>消去に失敗しました。ディレクトリのアクセス許可が無いので、管理者モードで再試行してください</value>
