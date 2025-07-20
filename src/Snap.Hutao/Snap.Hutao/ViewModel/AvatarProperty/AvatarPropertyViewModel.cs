@@ -186,8 +186,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "AvatarPropertyViewModel.Command"));
 
-        ArgumentNullException.ThrowIfNull(metadataContext);
-
         if (avatar is null)
         {
             return;
@@ -218,6 +216,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         CalculatorBatchConsumption? batchConsumption;
         if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
         {
+            ArgumentNullException.ThrowIfNull(metadataContext);
             batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltaOptions.Delta, metadataContext);
             ArgumentNullException.ThrowIfNull(batchConsumption);
         }
@@ -247,8 +246,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private async Task BatchCultivateAsync(bool full)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI($"Batch cultivate, full: {full}", "AvatarPropertyViewModel.Command"));
-
-        ArgumentNullException.ThrowIfNull(metadataContext);
 
         if (Summary is not { Avatars: { } avatars })
         {
@@ -324,6 +321,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             CalculatorBatchConsumption? batchConsumption;
             if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
             {
+                ArgumentNullException.ThrowIfNull(metadataContext);
                 batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltas, metadataContext);
                 ArgumentNullException.ThrowIfNull(batchConsumption);
             }

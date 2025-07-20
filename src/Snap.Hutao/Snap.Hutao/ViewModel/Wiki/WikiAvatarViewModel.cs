@@ -16,7 +16,6 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
@@ -36,7 +35,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly IUserService userService;
 
     private WikiAvatarMetadataContext? metadataContext;
 
@@ -115,12 +113,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         if (avatar is null)
         {
-            return;
-        }
-
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
         }
 

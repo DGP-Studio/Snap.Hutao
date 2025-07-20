@@ -3,6 +3,8 @@ using BenchmarkDotNet.Running;
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Reflection;
 
 namespace Snap.Hutao.Benchmark;
 
@@ -21,32 +23,56 @@ public class Program
 
     [Benchmark]
     [ArgumentsSource(nameof(Parameters))]
-    public int AvatarLevelExperienceRos(int currentLevel, int targetLevel)
+    public ImmutableArray<int> AvatarLevelExperienceRos(int currentLevel, int targetLevel)
     {
-        return AvatarLevelExperienceUsingReadOnlySpan.CalculateTotalExperience(currentLevel, targetLevel);
+        ImmutableArray<int>.Builder results = ImmutableArray.CreateBuilder<int>();
+        for (int i = currentLevel; i < targetLevel; i++)
+        {
+            results.Add(AvatarLevelExperienceUsingReadOnlySpan.CalculateTotalExperience(currentLevel, targetLevel));
+        }
+
+        return results.ToImmutable();
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(Parameters))]
-    public int AvatarLevelExperienceFDic(int currentLevel, int targetLevel)
+    public ImmutableArray<int> AvatarLevelExperienceFDic(int currentLevel, int targetLevel)
     {
-        return AvatarLevelExperienceUsingFrozenDictionary.CalculateTotalExperience(currentLevel, targetLevel);
+        ImmutableArray<int>.Builder results = ImmutableArray.CreateBuilder<int>();
+        for (int i = currentLevel; i < targetLevel; i++)
+        {
+            results.Add(AvatarLevelExperienceUsingFrozenDictionary.CalculateTotalExperience(currentLevel, targetLevel));
+        }
+
+        return results.ToImmutable();
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(Parameters))]
-    public int WeaponLevelExperienceRos(int currentLevel, int targetLevel)
+    public ImmutableArray<int> WeaponLevelExperienceRos(int currentLevel, int targetLevel)
     {
         QualityType quality = QualityType.QUALITY_ORANGE;
-        return WeaponLevelExperienceUsingReadOnlySpan.CalculateTotalExperience(quality, currentLevel, targetLevel);
+        ImmutableArray<int>.Builder results = ImmutableArray.CreateBuilder<int>();
+        for (int i = currentLevel; i < targetLevel; i++)
+        {
+            results.Add(WeaponLevelExperienceUsingReadOnlySpan.CalculateTotalExperience(quality, currentLevel, targetLevel));
+        }
+
+        return results.ToImmutable();
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(Parameters))]
-    public int WeaponLevelExperienceFDic(int currentLevel, int targetLevel)
+    public ImmutableArray<int> WeaponLevelExperienceFDic(int currentLevel, int targetLevel)
     {
         QualityType quality = QualityType.QUALITY_ORANGE;
-        return WeaponLevelExperienceUsingFrozenDictionary.CalculateTotalExperience(quality, currentLevel, targetLevel);
+        ImmutableArray<int>.Builder results = ImmutableArray.CreateBuilder<int>();
+        for (int i = currentLevel; i < targetLevel; i++)
+        {
+            results.Add(WeaponLevelExperienceUsingFrozenDictionary.CalculateTotalExperience(quality, currentLevel, targetLevel));
+        }
+
+        return results.ToImmutable();
     }
 }
 
