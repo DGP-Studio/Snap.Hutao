@@ -1863,6 +1863,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Đã có mục tăng cấp cho vật phẩm này</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Đã thêm thành công vào kế hoạch bồi dưỡng hiện tại</value>
   </data>
@@ -1871,6 +1874,9 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Thêm lại vật phẩm để xem mô tả bồi dưỡng</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Thêm thành công</value>
