@@ -1863,6 +1863,9 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Es gibt bereits einen Anbau-Eintrag für diesen Gegenstand</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Erfolgreich zum aktuellen Aufwertungsplan hinzugefügt</value>
   </data>
@@ -1871,6 +1874,9 @@ Verfügbarer Speicherplatz: {2}</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Gegenstand erneut hinzufügen, um die Aufwertungsbeschreibung anzuzeigen</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Erfolgreich hinzugefügt</value>
