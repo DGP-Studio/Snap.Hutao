@@ -1863,6 +1863,9 @@ Espacio disponible: {2}</value>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Ya existe un proyecto de desarrollo para este objeto</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Añadido correctamente al plan de mejora actual</value>
   </data>
@@ -1871,6 +1874,9 @@ Espacio disponible: {2}</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Vuelve a añadir un objeto para ver la descripción de mejora</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Añadido correctamente</value>
