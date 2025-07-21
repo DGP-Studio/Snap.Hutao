@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snap.Hutao.Model.Entity.Database;
 
@@ -10,9 +11,11 @@ using Snap.Hutao.Model.Entity.Database;
 namespace Snap.Hutao.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250718111131_AddCultivationEntryLevelInformationWeaponIsPromoting")]
+    partial class AddCultivationEntryLevelInformationWeaponIsPromoting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
@@ -350,28 +353,6 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("InnerId");
 
                     b.ToTable("game_accounts");
-                });
-
-            modelBuilder.Entity("Snap.Hutao.Model.Entity.HardChallengeEntry", b =>
-                {
-                    b.Property<Guid>("InnerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HardChallengeData")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("ScheduleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Uid")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("InnerId");
-
-                    b.ToTable("hard_challenges");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.InventoryItem", b =>

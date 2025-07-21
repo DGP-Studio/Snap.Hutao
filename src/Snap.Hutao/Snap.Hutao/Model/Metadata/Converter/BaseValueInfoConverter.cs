@@ -13,8 +13,8 @@ internal static class BaseValueInfoConverter
     {
         return (level.Value, promoteLevel.Value) switch
         {
-            (20U, 1U) or (40U, 2U) or (50U, 3U) or (60U, 4U) or (70U, 5U) or (80U, 6U) => true,
-            _ => false,
+            (20U, 0U) or (40U, 1U) or (50U, 2U) or (60U, 3U) or (70U, 4U) or (80U, 5U) => false,
+            _ => true,
         };
     }
 

@@ -13,4 +13,7 @@ internal class PromotionDelta
 
     [JsonPropertyName("level_target")]
     public uint LevelTarget { get; set; }
+
+    [JsonIgnore]
+    public uint WeaponPromoteLevel { get; set; }
 }

@@ -119,6 +119,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
+    public bool EnableOfflineCultivationCalculator
+    {
+        get => LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false);
+        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.EnableOfflineCultivationCalculator, value);
+    }
+
     public bool TreatPredownloadAsMain
     {
         get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);

@@ -138,6 +138,10 @@
                     </StackPanel>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Try Offline Cultivation Calculator">
+                    <ToggleSwitch IsOn="{Binding EnableOfflineCultivationCalculator, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Hutao Cloud"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"
