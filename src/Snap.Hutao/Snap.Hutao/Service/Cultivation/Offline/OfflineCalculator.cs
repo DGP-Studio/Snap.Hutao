@@ -3,11 +3,13 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
@@ -22,36 +24,34 @@ internal static class OfflineCalculator
     private const int PurpleExpBookMoraPer = 4000;
     private const int PurpleWeaponExpMoraPer = 1000;
 
-    private const uint MoraItemId = 202U;
-    private const uint AvatarExpBookId = 104003U;
-    private const uint WeaponExpBookId = 104013U;
-    private const uint CrownOfInsightId = 104319U;
-
+    // 突破等级
     private static readonly ImmutableArray<int> AscensionLevels = [20, 40, 50, 60, 70, 80];
 
+    // 角色等级突破相关
     private static readonly ImmutableArray<int> AvatarAscensionMoraCosts = [20000, 40000, 60000, 80000, 100000, 120000];
     private static readonly ImmutableArray<uint> AvatarBossMaterialCounts = [0, 2, 4, 8, 12, 20];
     private static readonly ImmutableArray<uint> AvatarSpecialtyCounts = [3, 10, 20, 30, 45, 60];
 
+    // 角色天赋升级相关
     private static readonly ImmutableArray<int> TalentMoraCosts = [0, 12500, 17500, 25000, 30000, 37500, 120000, 260000, 450000, 700000];
     private static readonly ImmutableArray<uint> WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
 
-    // 元素宝石基础ID映射
+    // 角色突破素材（元素石）基础 ID 映射
     private static readonly FrozenDictionary<ElementType, uint> ElementGemBaseIds = FrozenDictionary.ToFrozenDictionary(
     [
-        KeyValuePair.Create(ElementType.Fire, 104111U),
-        KeyValuePair.Create(ElementType.Water, 104121U),
-        KeyValuePair.Create(ElementType.Grass, 104131U),
-        KeyValuePair.Create(ElementType.Electric, 104141U),
-        KeyValuePair.Create(ElementType.Wind, 104151U),
-        KeyValuePair.Create(ElementType.Ice, 104161U),
-        KeyValuePair.Create(ElementType.Rock, 104171U),
+        KeyValuePair.Create(ElementType.Fire, Material.AgnidusAgateSliver),
+        KeyValuePair.Create(ElementType.Water, Material.VarunadaLazuriteSliver),
+        KeyValuePair.Create(ElementType.Grass, Material.NagadusEmeraldSliver),
+        KeyValuePair.Create(ElementType.Electric, Material.VajradaAmethystSliver),
+        KeyValuePair.Create(ElementType.Wind, Material.VayudaTurquoiseSliver),
+        KeyValuePair.Create(ElementType.Ice, Material.ShivadaJadeSliver),
+        KeyValuePair.Create(ElementType.Rock, Material.PrithivaTopazSliver),
     ]);
 
-    // 角色宝石消耗查找表 [突破次数-1] -> (品质偏移, 数量)
+    // 角色突破素材（元素石） 消耗查找表 [突破次数-1] -> (品质偏移, 数量)
     private static readonly ImmutableArray<QualityOffsetCount> AvatarGemConsumption =
     [
-        new(0, 1u), // 突破1次
+        new(0u, 1u), // 突破1次
         new(1u, 3u), // 突破2次
         new(1u, 6u), // 突破3次
         new(2u, 3u), // 突破4次
@@ -59,7 +59,7 @@ internal static class OfflineCalculator
         new(3u, 6u), // 突破6次
     ];
 
-    // 角色怪物材料消耗查找表 [突破次数-1] -> (品质偏移, 数量)
+    // 角色突破怪物材料 消耗查找表 [突破次数-1] -> (品质偏移, 数量)
     private static readonly ImmutableArray<QualityOffsetCount> AvatarMonsterMaterialConsumption =
     [
         new(2u, 3u), // 突破1次
@@ -70,7 +70,7 @@ internal static class OfflineCalculator
         new(0u, 24u), // 突破6次
     ];
 
-    // 天赋书消耗查找表 [等级-1] -> (品质偏移, 数量)
+    // 角色天赋素材 消耗查找表 [等级-1] -> (品质偏移, 数量)
     private static readonly ImmutableArray<QualityOffsetCount> TalentBookConsumption =
     [
         new(0, 0u), // 等级0 (不使用)
@@ -85,7 +85,7 @@ internal static class OfflineCalculator
         new(0u, 16u), // 等级9
     ];
 
-    // 天赋怪物材料消耗查找表 [等级-1] -> (品质偏移, 数量)
+    // 角色天赋怪物材料 消耗查找表 [等级-1] -> (品质偏移, 数量)
     private static readonly ImmutableArray<QualityOffsetCount> TalentMonsterMaterialConsumption =
     [
         new(0, 0u), // 等级0 (不使用)
@@ -110,7 +110,7 @@ internal static class OfflineCalculator
         KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create(10000, 20000, 30000, 45000, 55000, 65000)),
     ]);
 
-    // 武器材料消耗的查找表
+    // 武器突破素材消耗的查找表
     private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMaterialConsumption = FrozenDictionary.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(1u, 1u), new(1u, 2u), new(0u, 1u), new(0u, 0u), new(0u, 0u))),
@@ -120,7 +120,7 @@ internal static class OfflineCalculator
         KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create<QualityOffsetCount>(new(3u, 5u), new(2u, 5u), new(2u, 9u), new(1u, 5u), new(1u, 9u), new(0u, 6u))),
     ]);
 
-    // 武器怪物材料A消耗查找表
+    // 武器精英怪物材料消耗查找表
     private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialAConsumption = FrozenDictionary.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 4u), new(0u, 2u), new(0u, 4u), new(0u, 0u), new(0u, 0u))),
@@ -130,7 +130,7 @@ internal static class OfflineCalculator
         KeyValuePair.Create(QualityType.QUALITY_ORANGE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 5u), new(2u, 18u), new(1u, 9u), new(1u, 18u), new(0u, 14u), new(0u, 27u))),
     ]);
 
-    // 武器怪物材料B消耗查找表
+    // 武器普通怪物材料消耗查找表
     private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialBConsumption = FrozenDictionary.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 2u), new(0u, 2u), new(0u, 3u), new(0u, 0u), new(0u, 0u))),
@@ -158,7 +158,7 @@ internal static class OfflineCalculator
     public static BatchConsumption CalculateBatchConsumption(ImmutableArray<AvatarPromotionDelta> deltas, SummaryFactoryMetadataContext context)
     {
         ImmutableArray<CalculateConsumption>.Builder consumptions = ImmutableArray.CreateBuilder<CalculateConsumption>(deltas.Length);
-        foreach (AvatarPromotionDelta delta in deltas)
+        foreach (ref readonly AvatarPromotionDelta delta in deltas.AsSpan())
         {
             ArgumentNullException.ThrowIfNull(delta.Weapon);
 
@@ -192,7 +192,7 @@ internal static class OfflineCalculator
         {
             (int expMora, uint expBooks) = CalculateAvatarExperience(delta.AvatarLevelCurrent, delta.AvatarLevelTarget);
             totalMora += expMora;
-            AddOrUpdateItem(itemCounts, AvatarExpBookId, expBooks);
+            AddOrUpdateItem(itemCounts, Material.HeroesWit, expBooks);
         }
 
         // 计算角色突破
@@ -214,7 +214,7 @@ internal static class OfflineCalculator
         // 计算天赋升级
         if (delta.SkillList.Length > 0)
         {
-            foreach (PromotionDelta skill in delta.SkillList)
+            foreach (ref readonly PromotionDelta skill in delta.SkillList.AsSpan())
             {
                 if (skill.LevelCurrent < skill.LevelTarget)
                 {
@@ -235,7 +235,7 @@ internal static class OfflineCalculator
         // 添加摩拉
         if (totalMora > 0)
         {
-            AddOrUpdateItem(itemCounts, MoraItemId, (uint)totalMora);
+            AddOrUpdateItem(itemCounts, Material.Mora, (uint)totalMora);
         }
 
         return ConvertToItems(itemCounts);
@@ -256,7 +256,7 @@ internal static class OfflineCalculator
         {
             (int expMora, uint expBooks) = CalculateWeaponExperience(weapon.RankLevel, delta.Weapon.LevelCurrent, delta.Weapon.LevelTarget);
             totalMora += expMora;
-            AddOrUpdateItem(itemCounts, WeaponExpBookId, expBooks);
+            AddOrUpdateItem(itemCounts, Material.MysticEnhancementOre, expBooks);
         }
 
         // 计算武器突破
@@ -278,7 +278,7 @@ internal static class OfflineCalculator
         // 添加摩拉
         if (totalMora > 0)
         {
-            AddOrUpdateItem(itemCounts, MoraItemId, (uint)totalMora);
+            AddOrUpdateItem(itemCounts, Material.Mora, (uint)totalMora);
         }
 
         return ConvertToItems(itemCounts);
@@ -310,18 +310,19 @@ internal static class OfflineCalculator
             int ascensionLevel = AscensionLevels[i];
             uint requiredPromoteLevel = (uint)(i + 1);
 
-            if (targetLevel >= ascensionLevel && currentLevel <= ascensionLevel)
+            // This make sure (currentLevel <= ascensionLevel <= targetLevel)
+            if (currentLevel > ascensionLevel || ascensionLevel > targetLevel)
             {
-                if (currentLevel == ascensionLevel && currentPromoteLevel >= requiredPromoteLevel)
-                {
-                    continue;
-                }
-
-                if (currentLevel < ascensionLevel || (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel))
-                {
-                    requiredAscensions.Add(ascensionLevel);
-                }
+                continue;
             }
+
+            // This make sure (currentLevel == ascensionLevel && currentPromoteLevel < requiredPromoteLevel) || currentLevel < ascensionLevel
+            if (currentLevel == ascensionLevel && currentPromoteLevel >= requiredPromoteLevel)
+            {
+                continue;
+            }
+
+            requiredAscensions.Add(ascensionLevel);
         }
 
         if (requiredAscensions.Count is 0)
@@ -332,7 +333,7 @@ internal static class OfflineCalculator
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (int requiredAscension in requiredAscensions)
+        foreach (ref readonly int requiredAscension in CollectionsMarshal.AsSpan(requiredAscensions))
         {
             int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 
@@ -340,8 +341,8 @@ internal static class OfflineCalculator
             uint gemBaseId = ElementGemBaseIds[ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore)];
 
             // 根据突破等级选择宝石品质和数量
-            (uint gemId, uint gemCount) = AvatarGemConsumption[ascensionIndex];
-            AddOrUpdateItem(items, gemBaseId + gemId, gemCount);
+            (uint gemOffset, uint gemCount) = AvatarGemConsumption[ascensionIndex];
+            AddOrUpdateItem(items, gemBaseId + gemOffset, gemCount);
 
             // 添加摩拉消耗
             totalMora += AvatarAscensionMoraCosts[ascensionIndex];
@@ -408,7 +409,7 @@ internal static class OfflineCalculator
             // 添加智识之冠
             if (upgradeIndex is 9)
             {
-                AddOrUpdateItem(items, CrownOfInsightId, 1u);
+                AddOrUpdateItem(items, Material.CrownOfInsight, 1u);
             }
         }
 
@@ -466,7 +467,7 @@ internal static class OfflineCalculator
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (int requiredAscension in requiredAscensions)
+        foreach (ref readonly int requiredAscension in CollectionsMarshal.AsSpan(requiredAscensions))
         {
             int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 
@@ -501,14 +502,7 @@ internal static class OfflineCalculator
             return;
         }
 
-        if (items.TryGetValue(id, out uint existingCount))
-        {
-            items[id] = existingCount + count;
-        }
-        else
-        {
-            items[id] = count;
-        }
+        CollectionsMarshal.GetValueRefOrAddDefault(items, id, out _) += count;
     }
 
     private static ImmutableArray<Item> ConvertToItems(Dictionary<uint, uint> itemCounts)

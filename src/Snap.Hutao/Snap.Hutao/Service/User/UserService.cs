@@ -39,7 +39,7 @@ internal sealed partial class UserService : IUserService
         return userCollectionService.GetUsersAsync();
     }
 
-    public async ValueTask<ValueResult<UserOptionResultKind, string>> ProcessInputCookieAsync(InputCookie inputCookie)
+    public async ValueTask<ValueResult<UserOptionResultKind, string?>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceUserProcessInputCookieDialogTitle)

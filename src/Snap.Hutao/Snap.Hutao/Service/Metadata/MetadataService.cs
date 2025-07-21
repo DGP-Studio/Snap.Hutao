@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -176,7 +175,7 @@ internal sealed partial class MetadataService : IMetadataService
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
     {
 #if DEBUG
-        if (LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false))
+        if (Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.SuppressMetadataInitialization, false))
         {
             return true;
         }

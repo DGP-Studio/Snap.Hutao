@@ -33,7 +33,7 @@ internal sealed class StatisticsCultivateItem
 
     public string FormattedCount { get => $"{Current}/{Count}"; }
 
-    public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
+    public bool IsToday { get => Inner.IsItemOfToday(offset, true); }
 
     internal bool ExcludedFromPresentation { get; set; }
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.IO;
-using System.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.Factory.IO;
@@ -29,7 +28,7 @@ internal sealed class MemoryStreamFactory : IMemoryStreamFactory
         {
             _ = s;
             _ = e;
-            Debugger.Break();
+            global::System.Diagnostics.Debugger.Break();
         };
 #endif
     }

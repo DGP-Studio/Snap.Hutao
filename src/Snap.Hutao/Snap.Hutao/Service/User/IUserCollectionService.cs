@@ -13,5 +13,5 @@ internal interface IUserCollectionService
 
     ValueTask RemoveUserAsync(BindingUser user);
 
-    ValueTask<ValueResult<UserOptionResultKind, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie);
+    ValueTask<ValueResult<UserOptionResultKind, string?>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie);
 }

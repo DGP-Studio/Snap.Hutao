@@ -75,7 +75,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         messenger.Send(new UserRemovedMessage(user));
     }
 
-    public async ValueTask<ValueResult<UserOptionResultKind, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
+    public async ValueTask<ValueResult<UserOptionResultKind, string?>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
     {
         await taskContext.SwitchToBackgroundAsync();
         BindingUser? newUser = await userInitializationService.CreateUserFromInputCookieOrDefaultAsync(inputCookie).ConfigureAwait(false);

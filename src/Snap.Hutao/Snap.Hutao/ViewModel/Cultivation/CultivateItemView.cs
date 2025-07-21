@@ -28,7 +28,7 @@ internal sealed partial class CultivateItemView : ObservableObject, IEntityAcces
         set => SetProperty(Entity.IsFinished, value, Entity, (entity, isFinished) => entity.IsFinished = isFinished);
     }
 
-    public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
+    public bool IsToday { get => Inner.IsItemOfToday(offset, true); }
 
     public DaysOfWeek DaysOfWeek { get => Inner.GetDaysOfWeek(); }
 
