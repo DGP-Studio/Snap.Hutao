@@ -1864,6 +1864,9 @@
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>そのアイテムの育成項目が既に存在しています</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
   </data>
@@ -1872,6 +1875,9 @@
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>アイテムを再度追加して育成の説明を表示できます</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>正常に追加されました。</value>
