@@ -21,6 +21,6 @@ internal readonly struct MeasureExecutionToken : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose()
     {
-        logger.LogDebug("\e[1m\e[33m{Caller} \e[37mtoke \e[32m{Time} \e[37mms", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
+        logger.LogDebug("{Caller} took {Time} ms", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 }
