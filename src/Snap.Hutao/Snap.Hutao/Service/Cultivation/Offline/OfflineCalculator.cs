@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -288,6 +289,7 @@ internal static class OfflineCalculator
 
     #region Avatar
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static (int Mora, uint ExpBooks) CalculateAvatarExperience(uint currentLevel, uint targetLevel)
     {
         int requiredExp = AvatarLevelExperience.CalculateTotalExperience((int)currentLevel, (int)targetLevel);
@@ -420,6 +422,7 @@ internal static class OfflineCalculator
 
     #region Weapon
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static (int Mora, uint ExpBooks) CalculateWeaponExperience(QualityType quality, uint currentLevel, uint targetLevel)
     {
         int requiredExp = WeaponLevelExperience.CalculateTotalExperience(quality, (int)currentLevel, (int)targetLevel);
@@ -495,6 +498,7 @@ internal static class OfflineCalculator
 
     #endregion
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static void AddOrUpdateItem(Dictionary<uint, uint> items, uint id, uint count)
     {
         if (count is 0)
