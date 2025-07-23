@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Win32;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Net;
@@ -42,11 +43,22 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             return false;
         }
 
+        if (!context.Options.UsingHoyolabAccount || context.UserAndUid is not { } userAndUid)
+        {
+            throw HutaoException.NotSupported(SH.ServiceGameIslandFeatureRequiresHoyolabAccount);
+        }
+
         try
         {
             IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-            IslandFeature? feature = await featureService.GetGameIslandFeatureAsync(gameVersion).ConfigureAwait(false);
+            string identifier = HutaoNative.Instance.ExchangeGameUidForIdentifier1820(userAndUid.Uid.Value);
+            IslandFeature? feature = await featureService.GetIslandFeatureAsync(gameVersion, identifier).ConfigureAwait(false);
             ArgumentNullException.ThrowIfNull(feature);
+            if (feature.Message is { } message)
+            {
+                context.Result.ErrorMessage = message;
+            }
+
             offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
         }
         catch (HttpRequestException ex)

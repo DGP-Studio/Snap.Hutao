@@ -43,4 +43,6 @@ internal struct IslandFunctionOffsets
     public uint MickeyWonderCombineEntryMethod;
     [JsonInclude]
     public uint MickeyWonderCombineEntryMethodPartner;
+    [JsonInclude]
+    public uint OnLogout;
 }

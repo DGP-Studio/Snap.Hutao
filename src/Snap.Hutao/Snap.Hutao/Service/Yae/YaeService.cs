@@ -51,7 +51,7 @@ internal sealed partial class YaeService : IYaeService
                             gameFileSystem.TryGetGameVersion(out string? version) &&
                             !string.IsNullOrEmpty(version))
                         {
-                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version).ConfigureAwait(false);
+                            fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
                         }
 
                         LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);

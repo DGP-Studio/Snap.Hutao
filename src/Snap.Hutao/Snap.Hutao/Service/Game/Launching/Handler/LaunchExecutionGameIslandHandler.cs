@@ -31,7 +31,15 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
                 }
                 else
                 {
-                    HutaoException.Throw("Failed to download island feature configuration.");
+                    if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
+                        context.Process.Kill();
+                    }
+                    else
+                    {
+                        HutaoException.Throw("Failed to download island feature configuration.");
+                    }
                 }
             }
             catch (Exception ex)

@@ -8,4 +8,6 @@ internal sealed class IslandFeature
     public required IslandFunctionOffsets Oversea { get; set; }
 
     public required IslandFunctionOffsets Chinese { get; set; }
+
+    public string? Message { get; set; }
 }
