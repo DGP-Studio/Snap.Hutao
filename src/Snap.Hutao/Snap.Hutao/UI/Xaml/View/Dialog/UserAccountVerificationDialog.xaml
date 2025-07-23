@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    Title="请输入邮箱验证码"
+    Title="{shuxm:ResourceString Name=ViewDialogUserAccountVerificationTitle}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind IsLoginEnabled, Mode=OneWay}"
@@ -24,7 +24,7 @@
                 CornerRadius="0,4,4,0"
                 KeyDown="OnTextKeyDown"
                 KeyUp="OnTextKeyUp"
-                PlaceholderText="验证码"
+                PlaceholderText="{shuxm:ResourceString Name=ViewDialogUserAccountVerificationCaptchaPlaceholder}"
                 Text="{x:Bind Captcha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button
                 Grid.Column="1"

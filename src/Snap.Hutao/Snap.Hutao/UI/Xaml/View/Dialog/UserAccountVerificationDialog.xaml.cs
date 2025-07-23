@@ -63,7 +63,7 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
             }
 
             taskContext.InvokeOnMainThread(() => Email = actionTicketInfo.UserInfo.Email);
-            infoBarService.Information("验证码已发送");
+            infoBarService.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent);
 
             ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
             if (result is not ContentDialogResult.Primary)
@@ -108,7 +108,7 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
 
             if (ResponseValidator.TryValidate(response, serviceProvider))
             {
-                infoBarService.Information("验证码已发送");
+                infoBarService.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent);
                 await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
             }
         }
