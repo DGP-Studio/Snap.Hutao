@@ -169,7 +169,7 @@
     <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>未檢測到 WebView2 執行階段</value>
+    <value>未偵測到 WebView2 執行階段</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 鍵盤快速鍵 [{1}] 註冊失敗</value>
@@ -601,10 +601,10 @@
     <value>密碼長度不能小於8位</value>
   </data>
   <data name="ServerPassportRefreshTokenEmpty" xml:space="preserve">
-    <value>刷新令牌不能为空</value>
+    <value>重新整理權杖不能為空</value>
   </data>
   <data name="ServerPassportRefreshTokenInvalid" xml:space="preserve">
-    <value>刷新令牌无效或已过期</value>
+    <value>重新整理權杖無效或已經過期</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>註冊成功</value>
@@ -613,7 +613,7 @@
     <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportResetPasswordTheSamePassword" xml:space="preserve">
-    <value>新密码不能与旧密码相同</value>
+    <value>新密碼不能與舊密碼相同</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>目前電子郵件地址尚未註冊</value>
@@ -631,10 +631,10 @@
     <value>使用者不存在，刪除失敗</value>
   </data>
   <data name="ServerPassportTokenRevokeFailed" xml:space="preserve">
-    <value>令牌撤销失败</value>
+    <value>權杖撤銷失敗</value>
   </data>
   <data name="ServerPassportTokenRevokeSuccess" xml:space="preserve">
-    <value>令牌撤销成功</value>
+    <value>權杖撤銷成功</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>使用者刪除成功</value>
@@ -1037,10 +1037,10 @@
     <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>檢測到硬碟錯誤，請執行 chkdsk 修復</value>
+    <value>偵測到硬碟錯誤，請執行 chkdsk 修復</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>檢測到硬碟丟失，請檢查硬體連接情況</value>
+    <value>偵測到硬碟丟失，請檢查硬體連接情況</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>資源包體大小: {0}
@@ -1327,7 +1327,7 @@
     <value>為目前存檔匯入成就</value>
   </data>
   <data name="ViewDialogAvatarPropertyMultiAvatarCultivateSelectTitle" xml:space="preserve">
-    <value>选择要添加到当前培养计划的角色</value>
+    <value>選擇要添加到目前培養計劃的角色</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
     <value>稍後可以在設定中修改此行為</value>
@@ -1414,7 +1414,7 @@
     <value>解除限制後需使用其他工具恢復限制</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>檢測到系統代理已設定，但未解除 Loopback 限制，胡桃將無法正常聯網。</value>
+    <value>偵測到系統代理已設定，但未解除 Loopback 限制，胡桃將無法正常連上網路。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>是否解除 Loopback 限制</value>
@@ -1605,6 +1605,15 @@
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>帳號密碼登入</value>
   </data>
+  <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
+    <value>验证码已发送</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
+    <value>请输入邮箱验证码</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
   </data>
@@ -1687,7 +1696,7 @@
     <value>下載並自行安裝圖示字體</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未檢測到 WebView2 執行階段資訊，可以前往</value>
+    <value>若未偵測到 WebView2 執行階段資訊，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
     <value>下載並自行安裝執行階段</value>
@@ -1783,7 +1792,7 @@
     <value>匯出 UIAF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar" xml:space="preserve">
-    <value>未选中任意角色</value>
+    <value>未選擇任何角色</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>獲取培養材料中，請稍後...</value>
@@ -1863,6 +1872,9 @@
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>已存在該物品的養成項目</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
   </data>
@@ -1871,6 +1883,9 @@
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>重新添加物品以檢視養成描述</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>僅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>新增成功</value>
@@ -2059,10 +2074,10 @@
     <value>{0} 秒</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntryMultiPlayerName" xml:space="preserve">
-    <value>联机挑战</value>
+    <value>多人挑戰</value>
   </data>
   <data name="ViewModelHardChalllengeDataEntrySinglePlayerName" xml:space="preserve">
-    <value>单人挑战</value>
+    <value>單人挑戰</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>請輸入正確的電子郵件地址</value>
@@ -2149,7 +2164,7 @@
     <value>目前已是最新版本</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>檢查更新時發生錯誤</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>清除失敗，檔案目錄權限不足，請使用系統管理員模式重試</value>
@@ -2335,10 +2350,10 @@
     <value>遊戲公告</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeCopySucceed" xml:space="preserve">
-    <value>兑换码复制成功</value>
+    <value>兌換碼複製成功</value>
   </data>
   <data name="ViewPageAnnouncementRedeemCodeLabel" xml:space="preserve">
-    <value>前瞻直播兑换码</value>
+    <value>前瞻直播兌換碼</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>檢視詳情</value>
@@ -2350,7 +2365,7 @@
     <value>目前角色與武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculatePart" xml:space="preserve">
-    <value>部分角色与武器</value>
+    <value>部分角色與武器</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>尚未獲取任何角色資訊</value>
@@ -2665,7 +2680,7 @@
     <value>武器</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
-    <value>战斗用时</value>
+    <value>戰鬥時間</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
     <value>胡桃已經為你啟動了 {0} 次遊戲</value>
@@ -2980,13 +2995,13 @@
     <value>選擇遊戲路徑</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在遊戲内切換帳號，網絡環境發生變化後需要重新手動檢測</value>
+    <value>在遊戲内切換帳號，網絡環境發生變化後需要重新手動偵測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
-    <value>檢測</value>
+    <value>偵測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>檢測帳號</value>
+    <value>偵測帳號</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
     <value>刪除</value>
@@ -3571,7 +3586,7 @@
     <value>突破前</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
-    <value>周期</value>
+    <value>週期</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境劇詩</value>
@@ -3964,7 +3979,7 @@
     <value>下載連結複製成功</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeAllAttack" xml:space="preserve">
-    <value>最高总伤害</value>
+    <value>最高總傷害</value>
   </data>
   <data name="WebHardChallengeBestAvatarTypeOneAttack" xml:space="preserve">
     <value>最强一擊</value>
@@ -4016,5 +4031,8 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
+  </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>為了防止注入功能被濫用，需要使用米遊社/HoYoLAB 帳號登入並選擇一個帳號與角色</value>
   </data>
 </root>
