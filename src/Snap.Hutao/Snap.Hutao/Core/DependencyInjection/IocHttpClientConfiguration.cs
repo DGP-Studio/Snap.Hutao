@@ -127,6 +127,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf6vlr1reo");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
+        client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId53);
     }
 
     private static string EncodeNonAsciiChars(string value)

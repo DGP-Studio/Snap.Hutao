@@ -156,7 +156,14 @@ internal sealed partial class UserViewModel : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(true);
-            response = await hoyoPlayPassportClient.LoginByThirdPartyAsync(token).ConfigureAwait(false);
+            IUserVerificationService userVerificationService = scope.ServiceProvider.GetRequiredService<IUserVerificationService>();
+
+            (string? rawRisk, response) = await hoyoPlayPassportClient.LoginByThirdPartyAsync(token).ConfigureAwait(false);
+
+            if (await userVerificationService.TryVerifyAsync(token, rawRisk, true).ConfigureAwait(false))
+            {
+                (_, response) = await hoyoPlayPassportClient.LoginByThirdPartyAsync(token).ConfigureAwait(false);
+            }
         }
 
         if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))

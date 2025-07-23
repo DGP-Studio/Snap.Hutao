@@ -8,6 +8,7 @@ using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
@@ -86,5 +87,75 @@ internal sealed partial class PassportClientOversea : IPassportClient
     public ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, string? aigis, CancellationToken token = default)
     {
         return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+    }
+
+    public async ValueTask<Response<ActionTicketInfo>> GetActionTicketInfoAsync(string ticket, CancellationToken token = default)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(ticket);
+
+        ActionTicketInfoRequestOversea data = new()
+        {
+            ActionTicket = ticket,
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.AccountGetActionTicketInfo())
+            .PostJson(data);
+
+        Response<ActionTicketInfo>? resp = await builder
+            .SendAsync<Response<ActionTicketInfo>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response.Response> VerifyActionTicketPartlyAsync(string ticket, string captcha, CancellationToken token = default)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(ticket);
+        ArgumentException.ThrowIfNullOrEmpty(captcha);
+
+        ActionTicketInfoRequestOversea data = new()
+        {
+            ActionTicket = ticket,
+            EmailCaptcha = captcha,
+            VerifyMethod = 2,
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.AccountVerifyActionTicketPartly())
+            .PostJson(data);
+
+        Response.Response? resp = await builder
+            .SendAsync<Response.Response>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<(string? Aigis, Response.Response Response)> CreateEmailCaptchaByActionTicketAsync(string ticket, string? aigis, CancellationToken token = default)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(ticket);
+
+        ActionTicketInfoRequestOversea data = new()
+        {
+            ActionTicket = ticket,
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.AccountCreateEmailCaptchaByActionTicket())
+            .PostJson(data);
+
+        if (!string.IsNullOrEmpty(aigis))
+        {
+            builder.SetXrpcAigis(aigis);
+        }
+
+        (HttpResponseHeaders? headers, Response.Response? resp) = await builder
+            .SendAsync<Response.Response>(httpClient, token)
+            .ConfigureAwait(false);
+
+        IEnumerable<string>? values = default;
+        headers?.TryGetValues("X-Rpc-Aigis", out values);
+        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
     }
 }

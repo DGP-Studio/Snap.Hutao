@@ -57,15 +57,15 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
         return ValueTask.FromException<Response<QrLoginResult>>(new NotSupportedException());
     }
 
-    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
+    public ValueTask<(string? Aigis, string? Risk, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
         ArgumentNullException.ThrowIfNull(provider.Account);
         ArgumentNullException.ThrowIfNull(provider.Password);
 
-        return LoginByPasswordAsync(provider.Account, provider.Password, provider.Aigis, token);
+        return LoginByPasswordAsync(provider.Account, provider.Password, provider.Aigis, provider.Verify, token);
     }
 
-    public async ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, CancellationToken token = default)
+    public async ValueTask<(string? Aigis, string? Risk, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, string? verify, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -82,26 +82,39 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
             builder.SetXrpcAigis(aigis);
         }
 
+        if (!string.IsNullOrEmpty(verify))
+        {
+            builder.SetXrpcVerify(verify);
+        }
+
         (HttpResponseHeaders? headers, Response<LoginResult>? resp) = await builder
             .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         IEnumerable<string>? values = default;
         headers?.TryGetValues("X-Rpc-Aigis", out values);
-        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
+        if (values is not null)
+        {
+            return (values.SingleOrDefault(), default, Response.Response.DefaultIfNull(resp));
+        }
+
+        headers?.TryGetValues("X-Rpc-Verify", out values);
+        return (default, values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
     }
 
-    public async ValueTask<Response<LoginResult>> LoginByThirdPartyAsync(ThirdPartyToken thirdPartyToken, CancellationToken token = default)
+    public async ValueTask<(string? Risk, Response<LoginResult> Response)> LoginByThirdPartyAsync(ThirdPartyToken thirdPartyToken, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.AccountLoginByThirdParty())
             .PostJson(thirdPartyToken);
 
-        Response<LoginResult>? resp = await builder
+        (HttpResponseHeaders? headers, Response<LoginResult>? resp) = await builder
             .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        IEnumerable<string>? values = default;
+        headers?.TryGetValues("X-Rpc-Verify", out values);
+        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
     }
 
     private static string Encrypt(string source)

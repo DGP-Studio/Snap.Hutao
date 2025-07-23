@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-internal interface IPassportPasswordProvider : IAigisProvider
+internal interface IPassportPasswordProvider : IAigisProvider, IVerifyProvider
 {
     string? Account { get; }
 
