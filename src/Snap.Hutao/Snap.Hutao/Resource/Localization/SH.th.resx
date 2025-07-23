@@ -1605,6 +1605,15 @@
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>เข้าสู่ระบบด้วยบัญชีและรหัสผ่าน</value>
   </data>
+  <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
+    <value>验证码已发送</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
+    <value>请输入邮箱验证码</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>ไปยังทันที</value>
   </data>
@@ -1863,6 +1872,9 @@
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>มีโครงการบ่มเพาะของรายการนี้อยู่แล้ว</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>เพิ่มไปยังแผนการพัฒนาปัจจุบันสำเร็จแล้ว</value>
   </data>
@@ -1871,6 +1883,9 @@
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>เพิ่มไอเทมอีกครั้งเพื่อดูคำอธิบายการพัฒนา</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>เพิ่มสำเร็จ</value>
@@ -4016,5 +4031,8 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>หมายเลขจอภาพ</value>
+  </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
   </data>
 </root>
