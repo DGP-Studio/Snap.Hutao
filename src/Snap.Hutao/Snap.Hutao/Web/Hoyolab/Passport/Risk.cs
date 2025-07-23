@@ -9,5 +9,5 @@ internal sealed class Risk
     public required string RiskTicket { get; set; }
 
     [JsonPropertyName("verify_str")]
-    public required string VerifyStr { get; set; }
+    public string? VerifyStr { get; set; }
 }

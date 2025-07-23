@@ -171,6 +171,21 @@ internal sealed partial class PassportClient : IPassportClient
         return Response.Response.DefaultIfNull(resp);
     }
 
+    public ValueTask<Response<ActionTicketInfo>> GetActionTicketInfoAsync(string ticket, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<ActionTicketInfo>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response.Response> VerifyActionTicketPartlyAsync(string ticket, string captcha, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response.Response>(new NotSupportedException());
+    }
+
+    public ValueTask<(string? Aigis, Response.Response Response)> CreateEmailCaptchaByActionTicketAsync(string ticket, string? aigis, CancellationToken token = default)
+    {
+        return ValueTask.FromException<(string? Aigis, Response.Response Response)>(new NotSupportedException());
+    }
+
     private static string Encrypt(string source)
     {
         using (RSA rsa = RSA.Create())

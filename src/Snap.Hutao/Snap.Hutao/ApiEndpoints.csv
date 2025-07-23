@@ -1,9 +1,10 @@
 Name,CN,OS
 AccountCreateActionTicket(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createActionTicketByToken,
-AccountCreateAuthTicketByGameBiz(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createAuthTicketByGameBiz,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/createAuthTicketBySToken
+AccountCreateAuthTicketByGameBiz(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createAuthTicketByGameBiz,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/createAuthTicketBySToken,
+AccountCreateEmailCaptchaByActionTicket(),,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/createEmailCaptchaByActionTicket,
 AccountCreateLoginCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-verifier/verifier/createLoginCaptcha,
 AccountCreateQrLogin(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/createQRLogin,
-AccountGetActionTicketInfo(),,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByPassword,
+AccountGetActionTicketInfo(),,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/getActionTicketInfo,
 AccountGetCookieTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getCookieAccountInfoBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getCookieAccountInfoBySToken
 AccountGetLTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getLTokenBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getLTokenBySToken
 AccountGetSTokenByGameToken(),https://passport-api.mihoyo.com/account/ma-cn-session/app/getTokenByGameToken,

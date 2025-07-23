@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider, INotifyPropertyChanged
 {
+    private readonly IUserVerificationService userVerificationService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
@@ -41,6 +43,8 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     public string? Aigis { get; set; }
 
+    public string? Verify { get; set; }
+
     public async ValueTask<ValueResult<bool, LoginResult?>> LoginAsync(bool isOversea)
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
@@ -64,21 +68,14 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
             IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
             (string? rawSession, string? rawRisk, Response<LoginResult> response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
 
-            // TODO: Maybe we can extract below verification logic to a service
             if (await geetestService.TryVerifyAigisSessionAsync(this, rawSession, isOversea).ConfigureAwait(false))
             {
                 (_, rawRisk, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
             }
 
-            if (rawRisk is not null)
+            if (await userVerificationService.TryVerifyAsync(this, rawRisk, isOversea).ConfigureAwait(false))
             {
-                Risk? risk = JsonSerializer.Deserialize<Risk>(rawRisk);
-                ArgumentNullException.ThrowIfNull(risk);
-                RiskVerify? riskVerify = JsonSerializer.Deserialize<RiskVerify>(risk.VerifyStr);
-                ArgumentNullException.ThrowIfNull(riskVerify);
-                // TODO: Add a dialog to input risk verification
-                // Check the whole verification process in private group file
-                // DO NOT forget to set the verify header, check last request
+                (_, _, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
             }
 
             bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);

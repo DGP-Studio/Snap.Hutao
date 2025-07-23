@@ -1,0 +1,47 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.Web.Hoyolab.Passport;
+
+namespace Snap.Hutao.Service.User;
+
+[ConstructorGenerated]
+[Injection(InjectAs.Transient, typeof(IUserVerificationService))]
+internal sealed partial class UserVerificationService : IUserVerificationService
+{
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IServiceProvider serviceProvider;
+
+    public async ValueTask<bool> TryVerifyAsync(IVerifyProvider provider, string? rawRisk, bool isOversea, CancellationToken token = default)
+    {
+        if (string.IsNullOrEmpty(rawRisk))
+        {
+            return false;
+        }
+
+        Risk? risk = JsonSerializer.Deserialize<Risk>(rawRisk);
+        ArgumentNullException.ThrowIfNull(risk);
+        ArgumentNullException.ThrowIfNull(risk.VerifyStr);
+
+        RiskVerify? riskVerify = JsonSerializer.Deserialize<RiskVerify>(risk.VerifyStr);
+        ArgumentNullException.ThrowIfNull(riskVerify);
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            UserAccountVerificationDialog verificationDialog = await contentDialogFactory
+                .CreateInstanceAsync<UserAccountVerificationDialog>(scope.ServiceProvider)
+                .ConfigureAwait(false);
+
+            if (await verificationDialog.TryValidateAsync(riskVerify.Ticket, isOversea).ConfigureAwait(false))
+            {
+                risk.VerifyStr = default;
+                provider.Verify = JsonSerializer.Serialize(risk);
+                return true;
+            }
+
+            return false;
+        }
+    }
+}

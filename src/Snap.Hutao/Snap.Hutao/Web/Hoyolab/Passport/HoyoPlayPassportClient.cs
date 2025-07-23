@@ -83,16 +83,16 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
 
     public ValueTask<(string? Aigis, string? Risk, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
-        return ValueTask.FromException<(string? Aigis, Response<LoginResult> Response)>(new NotSupportedException());
+        return ValueTask.FromException<(string? Aigis, string? Risk, Response<LoginResult> Response)>(new NotSupportedException());
     }
 
-    public ValueTask<(string? Aigis, string? Risk, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, CancellationToken token = default)
+    public ValueTask<(string? Aigis, string? Risk, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, string? verify, CancellationToken token = default)
     {
-        return ValueTask.FromException<(string? Aigis, Response<LoginResult> Response)>(new NotSupportedException());
+        return ValueTask.FromException<(string? Aigis, string? Risk, Response<LoginResult> Response)>(new NotSupportedException());
     }
 
-    public ValueTask<Response<LoginResult>> LoginByThirdPartyAsync(ThirdPartyToken thirdPartyToken, CancellationToken token = default)
+    public ValueTask<(string? Risk, Response<LoginResult> Response)> LoginByThirdPartyAsync(ThirdPartyToken thirdPartyToken, CancellationToken token = default)
     {
-        return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+        return ValueTask.FromException<(string? Risk, Response<LoginResult> Response)>(new NotSupportedException());
     }
 }
