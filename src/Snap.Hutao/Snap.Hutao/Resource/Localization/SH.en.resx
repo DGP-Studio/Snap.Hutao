@@ -4023,4 +4023,7 @@ Space Available: {2}</value>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitor ID</value>
   </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+  </data>
 </root>
