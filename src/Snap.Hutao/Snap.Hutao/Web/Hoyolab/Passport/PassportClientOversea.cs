@@ -154,8 +154,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
             .SendAsync<Response.Response>(httpClient, token)
             .ConfigureAwait(false);
 
-        IEnumerable<string>? values = default;
-        headers?.TryGetValues("X-Rpc-Aigis", out values);
-        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
+        string? rpcAigis = headers?.GetValuesOrDefault("X-Rpc-Aigis")?.SingleOrDefault();
+        return (rpcAigis, Response.Response.DefaultIfNull(resp));
     }
 }

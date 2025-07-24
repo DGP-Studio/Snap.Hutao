@@ -25,15 +25,15 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
 
     public async ValueTask<Response<AuthTicketWrapper>> CreateAuthTicketAsync(User user, CancellationToken token = default)
     {
-        string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
-        ArgumentException.ThrowIfNullOrEmpty(stoken);
+        string? sToken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
+        ArgumentException.ThrowIfNullOrEmpty(sToken);
         ArgumentException.ThrowIfNullOrEmpty(user.Mid);
 
         AuthTicketRequestOversea data = new()
         {
             BizName = "hk4e_global",
             Mid = user.Mid,
-            SToken = stoken,
+            SToken = sToken,
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -91,15 +91,9 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
             .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
-        IEnumerable<string>? values = default;
-        headers?.TryGetValues("X-Rpc-Aigis", out values);
-        if (values is not null)
-        {
-            return (values.SingleOrDefault(), default, Response.Response.DefaultIfNull(resp));
-        }
-
-        headers?.TryGetValues("X-Rpc-Verify", out values);
-        return (default, values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
+        string? rpcAigis = headers?.GetValuesOrDefault("X-Rpc-Aigis")?.SingleOrDefault();
+        string? rpcVerify = headers?.GetValuesOrDefault("X-Rpc-Verify")?.SingleOrDefault();
+        return (rpcAigis, rpcVerify, Response.Response.DefaultIfNull(resp));
     }
 
     public async ValueTask<(string? Risk, Response<LoginResult> Response)> LoginByThirdPartyAsync(ThirdPartyToken thirdPartyToken, CancellationToken token = default)
@@ -112,9 +106,8 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
             .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
-        IEnumerable<string>? values = default;
-        headers?.TryGetValues("X-Rpc-Verify", out values);
-        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
+        string? rpcVerify = headers?.GetValuesOrDefault("X-Rpc-Verify")?.SingleOrDefault();
+        return (rpcVerify, Response.Response.DefaultIfNull(resp));
     }
 
     private static string Encrypt(string source)

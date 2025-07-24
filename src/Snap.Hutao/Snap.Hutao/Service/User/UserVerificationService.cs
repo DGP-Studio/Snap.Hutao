@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.User;
 internal sealed partial class UserVerificationService : IUserVerificationService
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<bool> TryVerifyAsync(IVerifyProvider provider, string? rawRisk, bool isOversea, CancellationToken token = default)
@@ -21,11 +22,10 @@ internal sealed partial class UserVerificationService : IUserVerificationService
             return false;
         }
 
-        Risk? risk = JsonSerializer.Deserialize<Risk>(rawRisk);
-        ArgumentNullException.ThrowIfNull(risk);
-        ArgumentNullException.ThrowIfNull(risk.VerifyStr);
+        Risk? risk = JsonSerializer.Deserialize<Risk>(rawRisk, jsonOptions);
+        ArgumentNullException.ThrowIfNull(risk?.VerifyString);
 
-        RiskVerify? riskVerify = JsonSerializer.Deserialize<RiskVerify>(risk.VerifyStr);
+        RiskVerify? riskVerify = JsonSerializer.Deserialize<RiskVerify>(risk.VerifyString, jsonOptions);
         ArgumentNullException.ThrowIfNull(riskVerify);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -36,8 +36,8 @@ internal sealed partial class UserVerificationService : IUserVerificationService
 
             if (await verificationDialog.TryValidateAsync(riskVerify.Ticket, isOversea).ConfigureAwait(false))
             {
-                risk.VerifyStr = default;
-                provider.Verify = JsonSerializer.Serialize(risk);
+                risk.VerifyString = default;
+                provider.Verify = JsonSerializer.Serialize(risk, jsonOptions);
                 return true;
             }
 

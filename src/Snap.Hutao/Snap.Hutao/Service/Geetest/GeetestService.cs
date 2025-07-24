@@ -19,6 +19,7 @@ internal sealed partial class GeetestService : IGeetestService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly CustomGeetestClient customGeetestClient;
+    private readonly JsonSerializerOptions jsonOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly CardClient cardClient;
@@ -38,7 +39,7 @@ internal sealed partial class GeetestService : IGeetestService
             return default;
         }
 
-        GeetestWebResponse? webResponse = JsonSerializer.Deserialize<GeetestWebResponse>(result);
+        GeetestWebResponse? webResponse = JsonSerializer.Deserialize<GeetestWebResponse>(result, jsonOptions);
         ArgumentNullException.ThrowIfNull(webResponse);
 
         return new()
@@ -78,10 +79,10 @@ internal sealed partial class GeetestService : IGeetestService
             return false;
         }
 
-        AigisSession? session = JsonSerializer.Deserialize<AigisSession>(rawSession);
+        AigisSession? session = JsonSerializer.Deserialize<AigisSession>(rawSession, jsonOptions);
         ArgumentNullException.ThrowIfNull(session);
 
-        GeetestVerification? verification = JsonSerializer.Deserialize<GeetestVerification>(session.Data);
+        GeetestVerification? verification = JsonSerializer.Deserialize<GeetestVerification>(session.Data, jsonOptions);
         ArgumentNullException.ThrowIfNull(verification);
 
         if (await TryVerifyGtChallengeAsync(verification.Gt, verification.Challenge, isOversea, token).ConfigureAwait(false) is not { } data)

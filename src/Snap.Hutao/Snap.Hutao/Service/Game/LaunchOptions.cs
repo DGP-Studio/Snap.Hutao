@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
+using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -109,8 +110,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     {
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableArray to imply that the whole list needs to be replaced
-        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []);
-        set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v));
+        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw, JsonOptions.Default), []);
+        set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v, JsonOptions.Default));
     }
 
     public AsyncReaderWriterLock GamePathLock { get; } = new();
@@ -326,8 +327,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public ImmutableArray<AspectRatio> AspectRatios
     {
-        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
-        set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v));
+        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw, JsonOptions.Default), []);
+        set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v, JsonOptions.Default));
     }
 
     public AspectRatio? SelectedAspectRatio

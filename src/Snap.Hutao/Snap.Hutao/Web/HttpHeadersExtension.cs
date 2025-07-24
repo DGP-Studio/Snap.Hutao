@@ -3,7 +3,7 @@
 
 using System.Net.Http.Headers;
 
-namespace Snap.Hutao.Web.Request.Builder;
+namespace Snap.Hutao.Web;
 
 internal static class HttpHeadersExtension
 {
@@ -27,6 +27,12 @@ internal static class HttpHeadersExtension
             // -> We can use this one to add a header with an empty value.
             headers.Add(name, string.Empty);
         }
+    }
+
+    public static IEnumerable<string>? GetValuesOrDefault(this HttpHeaders headers, string name)
+    {
+        _ = headers.TryGetValues(name, out IEnumerable<string>? values);
+        return values;
     }
 
     public static void Remove(this HttpHeaders headers, IEnumerable<string?>? names)

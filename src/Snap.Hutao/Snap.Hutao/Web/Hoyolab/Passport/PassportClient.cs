@@ -129,9 +129,8 @@ internal sealed partial class PassportClient : IPassportClient
             .SendAsync<Response<MobileCaptcha>>(httpClient, token)
             .ConfigureAwait(false);
 
-        IEnumerable<string>? values = default;
-        headers?.TryGetValues("X-Rpc-Aigis", out values);
-        return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
+        string? rpcAigis = headers?.GetValuesOrDefault("X-Rpc-Aigis")?.SingleOrDefault();
+        return (rpcAigis, Response.Response.DefaultIfNull(resp));
     }
 
     public ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(IPassportMobileCaptchaProvider provider, CancellationToken token = default)
