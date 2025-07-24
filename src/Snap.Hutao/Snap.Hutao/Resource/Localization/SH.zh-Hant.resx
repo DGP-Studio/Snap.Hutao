@@ -4035,4 +4035,7 @@
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
     <value>為了防止注入功能被濫用，需要使用米遊社/HoYoLAB 帳號登入並選擇一個帳號與角色</value>
   </data>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>结束进程失败</value>
+  </data>
 </root>
