@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
@@ -17,7 +16,6 @@ internal sealed partial class HutaoInfrastructureClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
     public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)

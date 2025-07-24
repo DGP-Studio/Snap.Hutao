@@ -23,6 +23,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
+    private uint previousUid;
 
     public GameIslandInterop(LaunchExecutionContext context, bool resume)
     {
@@ -43,16 +44,10 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             return false;
         }
 
-        if (!context.Options.UsingHoyolabAccount || context.UserAndUid is not { } userAndUid)
-        {
-            throw HutaoException.NotSupported(SH.ServiceGameIslandFeatureRequiresHoyolabAccount);
-        }
-
         try
         {
             IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-            string identifier = HutaoNative.Instance.ExchangeGameUidForIdentifier1820(userAndUid.Uid.Value);
-            IslandFeature? feature = await featureService.GetIslandFeatureAsync(gameVersion, identifier).ConfigureAwait(false);
+            IslandFeature? feature = await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false);
             ArgumentNullException.ThrowIfNull(feature);
             if (feature.Message is { } message)
             {
@@ -122,6 +117,10 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                         }
 
                         IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.Options);
+                        if (Interlocked.Exchange(ref previousUid, view.Uid) != view.Uid)
+                        {
+                            await HandleUidChangedAsync(view.Uid, token).ConfigureAwait(false);
+                        }
 
                         if (view.State is IslandState.None or IslandState.Stopped)
                         {
@@ -167,5 +166,10 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
+    }
+
+    private async ValueTask HandleUidChangedAsync(uint uid, CancellationToken token)
+    {
+        string identifier = HutaoNative.Instance.ExchangeGameUidForIdentifier1820($"{uid}");
     }
 }
