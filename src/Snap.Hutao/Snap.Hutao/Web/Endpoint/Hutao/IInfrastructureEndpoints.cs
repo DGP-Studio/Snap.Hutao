@@ -10,7 +10,8 @@ internal interface IInfrastructureEndpoints :
     IInfrastructureMetadataEndpoints,
     IInfrastructurePatchEndpoints,
     IInfrastructureWallpaperEndpoints,
-    IInfrastructureRootAccess
+    IInfrastructureRootAccess,
+    IInfrastructureManagementEndpoints
 {
     public string Ip()
     {

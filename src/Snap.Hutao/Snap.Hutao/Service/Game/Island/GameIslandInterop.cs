@@ -5,6 +5,10 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32;
 using System.IO;
 using System.IO.MemoryMappedFiles;
@@ -170,6 +174,16 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     private async ValueTask HandleUidChangedAsync(uint uid, CancellationToken token)
     {
-        string identifier = HutaoNative.Instance.ExchangeGameUidForIdentifier1820($"{uid}");
+        context.ServiceProvider.GetRequiredService<IInfoBarService>().Information($"Uid changed: {uid}");
+
+        HutaoResponse response = await context.ServiceProvider
+            .GetRequiredService<HutaoInfrastructureClient>()
+            .AmIBannedAsync($"{uid}", token)
+            .ConfigureAwait(false);
+
+        if (!ResponseValidator.TryValidate(response, context.ServiceProvider))
+        {
+            context.Process.Kill();
+        }
     }
 }

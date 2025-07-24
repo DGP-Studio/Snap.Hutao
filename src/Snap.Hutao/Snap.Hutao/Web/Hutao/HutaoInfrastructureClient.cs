@@ -6,6 +6,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using Snap.Hutao.Win32;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao;
@@ -55,6 +56,17 @@ internal sealed partial class HutaoInfrastructureClient
             .Get();
 
         HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, token).ConfigureAwait(false);
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> AmIBannedAsync(string uid, CancellationToken token)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().AmIBanned())
+            .SetHeader("x-hutao-island-identifier", HutaoNative.Instance.ExchangeGameUidForIdentifier1820(uid))
+            .Get();
+
+        HutaoResponse? resp = await builder.SendAsync<HutaoResponse>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }
