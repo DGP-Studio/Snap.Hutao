@@ -6,7 +6,7 @@ namespace Snap.Hutao;
 internal static class GlobalSwitch
 {
 #if DEBUG
-    public const bool PreventCopyIslandDll = true;
+    public const bool PreventCopyIslandDll = false;
 #else
     public const bool PreventCopyIslandDll = false;
 #endif
