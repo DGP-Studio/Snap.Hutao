@@ -1607,13 +1607,13 @@
     <value>アカウントやパスワードでログインする</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>認証コード</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>認証コードを送信しました</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>メールの認証コードを入力してください</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>すぐに移動</value>
@@ -4035,9 +4035,9 @@
     <value>モニターID</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>注入機能の悪用を防ぐため、米游社/HoYoLAB アカウントでログインし、アカウント及びキャラクターを選択する必要があります</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>プロセスの終了に失敗しました</value>
   </data>
 </root>
