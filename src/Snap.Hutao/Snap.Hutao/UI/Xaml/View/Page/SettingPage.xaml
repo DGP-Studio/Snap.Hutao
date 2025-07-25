@@ -223,7 +223,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding CultureOptions.Cultures}"
-                                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
@@ -234,7 +238,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding CultureOptions.DayOfWeeks}"
-                                            SelectedItem="{Binding SelectedFirstDayOfWeek, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedFirstDayOfWeek, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
@@ -245,7 +253,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.BackdropTypes}"
-                                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
@@ -258,7 +270,7 @@
                                             ItemsSource="{Binding AppOptions.LazyElementThemes.Value}"
                                             SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}">
                                             <mxi:Interaction.Behaviors>
-                                                <shuxb:ComboBoxSystemBackdropWorkaroundBehavior/>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
                                             </mxi:Interaction.Behaviors>
                                         </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
@@ -272,7 +284,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.BackgroundImageTypes}"
-                                            SelectedItem="{Binding SelectedBackgroundImageType, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedBackgroundImageType, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                     <cwc:SettingsExpander.Items>
                                         <!--  SettingsExpander uses ItemsRepeater, where first item will behave abnormally in binding  -->
@@ -305,7 +321,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.LastWindowCloseBehaviors}"
-                                            SelectedItem="{Binding SelectedLastWindowCloseBehavior, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedLastWindowCloseBehavior, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>
@@ -454,7 +474,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                         <ToggleSwitch
                                             MinWidth="120"
@@ -514,7 +538,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                         <ToggleSwitch
                                             MinWidth="120"
@@ -544,7 +572,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoPlayPauseKey, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoPlayPauseKey, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
                                 </cwc:SettingsCard>
@@ -579,7 +611,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoFastForwardKey, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoFastForwardKey, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
                                 </cwc:SettingsCard>
@@ -596,7 +632,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoRewindKey, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoRewindKey, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
                                 </cwc:SettingsCard>
@@ -613,7 +653,11 @@
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                            </ComboBox>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
                                 </cwc:SettingsCard>
@@ -689,7 +733,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.LazyCalendarServerTimeZoneOffsets.Value}"
-                                            SelectedItem="{Binding SelectedCalendarServerTimeZoneOffset, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedCalendarServerTimeZoneOffset, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
@@ -700,7 +748,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.LazyRegions.Value}"
-                                            SelectedItem="{Binding SelectedRegion, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedRegion, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>
@@ -799,7 +851,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.BridgeShareSaveTypes}"
-                                            SelectedItem="{Binding SelectedShareSaveType, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedShareSaveType, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>

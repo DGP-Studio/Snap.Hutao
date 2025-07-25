@@ -303,7 +303,11 @@
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Archives, Mode=OneWay}"
                                     SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
-                                    Style="{ThemeResource CommandBarComboBoxStyle}"/>
+                                    Style="{ThemeResource CommandBarComboBoxStyle}">
+                                    <mxi:Interaction.Behaviors>
+                                        <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                    </mxi:Interaction.Behaviors>
+                                </ComboBox>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
                         <AppBarButton

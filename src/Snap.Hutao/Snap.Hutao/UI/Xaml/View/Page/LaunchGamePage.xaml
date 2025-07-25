@@ -362,7 +362,11 @@
                                                                 VerticalAlignment="Center"
                                                                 DisplayMemberPath="Name"
                                                                 ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                                SelectedItem="{Binding LowLevelKeyOptions.OverlayHideKey, Mode=TwoWay}"/>
+                                                                SelectedItem="{Binding LowLevelKeyOptions.OverlayHideKey, Mode=TwoWay}">
+                                                                <mxi:Interaction.Behaviors>
+                                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                                </mxi:Interaction.Behaviors>
+                                                            </ComboBox>
                                                         </shuxc:SizeRestrictedContentControl>
                                                     </StackPanel>
                                                 </cwc:SettingsCard>
@@ -703,7 +707,11 @@
                                                             DisplayMemberPath="Name"
                                                             IsEnabled="{Binding LaunchOptions.IsPlatformTypeEnabled}"
                                                             ItemsSource="{Binding LaunchOptions.PlatformTypes}"
-                                                            SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"/>
+                                                            SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                            </mxi:Interaction.Behaviors>
+                                                        </ComboBox>
                                                     </shuxc:SizeRestrictedContentControl>
                                                     <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsPlatformTypeEnabled, Mode=TwoWay}"/>
                                                 </StackPanel>
@@ -716,7 +724,11 @@
                                                         ItemsSource="{Binding LaunchOptions.AspectRatios}"
                                                         PlaceholderText="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
                                                         SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"
-                                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
+                                                        Style="{ThemeResource DefaultComboBoxStyle}">
+                                                        <mxi:Interaction.Behaviors>
+                                                            <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                        </mxi:Interaction.Behaviors>
+                                                    </ComboBox>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">
@@ -753,7 +765,11 @@
                                                             DisplayMemberPath="Name"
                                                             IsEnabled="{Binding LaunchOptions.IsMonitorEnabled}"
                                                             ItemsSource="{Binding LaunchOptions.Monitors}"
-                                                            SelectedItem="{Binding LaunchOptions.Monitor, Mode=TwoWay}"/>
+                                                            SelectedItem="{Binding LaunchOptions.Monitor, Mode=TwoWay}">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                            </mxi:Interaction.Behaviors>
+                                                        </ComboBox>
                                                     </shuxc:SizeRestrictedContentControl>
                                                     <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsMonitorEnabled, Mode=TwoWay}"/>
                                                 </StackPanel>

@@ -363,7 +363,11 @@
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding Projects}"
                                 SelectedItem="{Binding Projects.CurrentItem, Mode=TwoWay}"
-                                Style="{ThemeResource CommandBarComboBoxStyle}"/>
+                                Style="{ThemeResource CommandBarComboBoxStyle}">
+                                <mxi:Interaction.Behaviors>
+                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                </mxi:Interaction.Behaviors>
+                            </ComboBox>
                         </shuxc:SizeRestrictedContentControl>
                     </AppBarElementContainer>
                     <AppBarButton
@@ -506,7 +510,11 @@
                                                             <ComboBox
                                                                 DisplayMemberPath="WorldLevel"
                                                                 ItemsSource="{Binding DropDistributions}"
-                                                                SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
+                                                                SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}">
+                                                                <mxi:Interaction.Behaviors>
+                                                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                                                </mxi:Interaction.Behaviors>
+                                                            </ComboBox>
                                                         </shuxc:SizeRestrictedContentControl>
                                                     </Grid>
                                                 </Border>

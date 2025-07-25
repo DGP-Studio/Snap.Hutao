@@ -18,7 +18,7 @@ using WinRT;
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [SuppressMessage("", "CA1001")]
-internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<ComboBox>
+internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<ComboBox>
 {
     private Popup? popup;
     private ContentExternalBackdropLink? backdropLink;
@@ -74,13 +74,11 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
         }
 
         Vector2 size = border.ActualSize;
+        CornerRadius cornerRadius = border.CornerRadius;
         Compositor compositor = ElementCompositionPreview.GetElementVisual(border).Compositor;
-        Vector2 cornerRadius = new(8, 8);
 
-        if (!connected)
+        if (!Interlocked.Exchange(ref connected, true))
         {
-            connected = true;
-
             UIElement child = border.Child;
             Grid rootGrid = new();
             border.Child = rootGrid;
@@ -94,7 +92,7 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
             // Modify PlacementVisual
             Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
-            placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+            placementVisual.Clip = compositor.CreateRectangleClip(size, cornerRadius);
             placementVisual.BorderMode = CompositionBorderMode.Soft;
 
             ElementCompositionPreview.SetElementChildVisual(visualGrid, placementVisual);
@@ -116,15 +114,17 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
             // Update PlacementVisual
             Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
-            placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+            placementVisual.Clip = compositor.CreateRectangleClip(size, cornerRadius);
         }
     }
 
     private void OnPopupActualThemeChanged(FrameworkElement sender, object args)
     {
-        if (systemBackdropConfiguration is not null)
+        if (systemBackdropConfiguration is null)
         {
-            systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
+            return;
         }
+
+        systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
     }
 }
