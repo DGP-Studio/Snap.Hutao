@@ -1605,6 +1605,15 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>Hesap ve Şifre ile Giriş</value>
   </data>
+  <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
+    <value>验证码已发送</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
+    <value>请输入邮箱验证码</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Hemen Git</value>
   </data>
@@ -1863,6 +1872,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Bu öğe için zaten bir yetiştirme projesi var</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Mevcut geliştirme planına başarıyla eklendi</value>
   </data>
@@ -1871,6 +1883,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Geliştirme açıklamasını görmek için öğeyi tekrar ekleyin</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Başarıyla eklendi</value>
@@ -4016,5 +4031,11 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitör Kimliği</value>
+  </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>结束进程失败</value>
   </data>
 </root>
