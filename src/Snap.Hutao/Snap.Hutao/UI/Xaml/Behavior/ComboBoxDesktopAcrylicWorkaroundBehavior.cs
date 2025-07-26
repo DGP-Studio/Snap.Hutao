@@ -40,6 +40,9 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
         if (!comboBox.IsEditable)
         {
             comboBox.IsDropDownOpen = true;
+
+            // In a virtualized panel, the dropdown may not close
+            comboBox.IsDropDownOpen = false;
         }
 
         return true;
@@ -74,17 +77,18 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
         }
 
         Vector2 size = border.ActualSize;
+        size = new(size.X - 2, size.Y - 2);
         CornerRadius cornerRadius = border.CornerRadius;
         Compositor compositor = ElementCompositionPreview.GetElementVisual(border).Compositor;
 
         if (!Interlocked.Exchange(ref connected, true))
         {
-            UIElement child = border.Child;
-            Grid rootGrid = new();
-            border.Child = rootGrid;
+            UIElement originalChild = border.Child;
+            Grid newRootGrid = new();
+            border.Child = newRootGrid;
             Grid visualGrid = new();
-            rootGrid.Children.Add(visualGrid);
-            rootGrid.Children.Add(child);
+            newRootGrid.Children.Add(visualGrid);
+            newRootGrid.Children.Add(originalChild);
 
             backdropLink = ContentExternalBackdropLink.Create(compositor);
             backdropLink.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
