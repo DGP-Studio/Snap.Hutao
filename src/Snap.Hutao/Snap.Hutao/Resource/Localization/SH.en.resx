@@ -1606,13 +1606,13 @@ Space Available: {2}</value>
     <value>Login to your account</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>Code</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>Verification code sent successfully</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>Please enter the email verification code</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Take me there</value>
