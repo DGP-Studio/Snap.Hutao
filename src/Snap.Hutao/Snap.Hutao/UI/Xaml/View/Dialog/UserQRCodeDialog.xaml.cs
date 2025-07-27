@@ -111,7 +111,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private async ValueTask<QrLoginResult?> WaitQueryQRCodeConfirmAsync(string ticket, CancellationToken token)
     {
-        using (PeriodicTimer timer = new(new(0, 0, 3)))
+        using (PeriodicTimer timer = new(TimeSpan.FromSeconds(3)))
         {
             while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
             {

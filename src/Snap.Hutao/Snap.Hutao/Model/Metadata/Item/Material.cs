@@ -91,7 +91,7 @@ internal sealed class Material : DisplayItem
 
     public bool IsItemOfToday(in TimeSpan offset, bool treatSundayAsTrue = false)
     {
-        return (DateTimeOffset.Now.ToOffset(offset) - new TimeSpan(4, 0, 0)).DayOfWeek switch
+        return (DateTimeOffset.Now.ToOffset(offset) - TimeSpan.FromHours(4)).DayOfWeek switch
         {
             DayOfWeek.Monday or DayOfWeek.Thursday => MaterialIds.MondayThursdayItems.Contains(Id),
             DayOfWeek.Tuesday or DayOfWeek.Friday => MaterialIds.TuesdayFridayItems.Contains(Id),

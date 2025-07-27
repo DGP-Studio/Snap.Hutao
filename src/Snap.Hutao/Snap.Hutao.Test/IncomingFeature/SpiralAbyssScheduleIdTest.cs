@@ -5,7 +5,7 @@ namespace Snap.Hutao.Test.IncomingFeature;
 [TestClass]
 public class SpiralAbyssScheduleIdTest
 {
-    private static readonly TimeSpan Utc8 = new(8, 0, 0);
+    private static readonly TimeSpan Utc8 = TimeSpan.FromHours(8);
     private static readonly DateTimeOffset AcrobaticsBattleIntroducedTime = new(2024, 7, 1, 4, 0, 0, Utc8);
 
     [TestMethod]
