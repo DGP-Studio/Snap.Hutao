@@ -154,7 +154,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(patchBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
         {
             token.ThrowIfCancellationRequested();
-            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
+            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.SingleOrDefault(fd => fd.Key == manifest.OriginalTag)?.DeleteFiles.Infos.Select(i => i.Name) ?? [];
             await Parallel.ForEachAsync(assetNames, context.ParallelOptions, (assetName, token) =>
             {
                 token.ThrowIfCancellationRequested();
