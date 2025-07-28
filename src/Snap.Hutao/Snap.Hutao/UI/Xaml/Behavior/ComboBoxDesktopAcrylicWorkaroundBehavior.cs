@@ -56,8 +56,8 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
             popup.ActualThemeChanged -= OnPopupActualThemeChanged;
         }
 
-        DisposableMarshal.DisposeAndClear(ref backdropLink);
         DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
+        DisposableMarshal.DisposeAndClear(ref backdropLink);
 
         return base.Uninitialize();
     }
