@@ -24,6 +24,7 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
     private ContentExternalBackdropLink? backdropLink;
     private DesktopAcrylicController? desktopAcrylicController;
     private SystemBackdropConfiguration? systemBackdropConfiguration;
+    private Grid? visualGrid;
     private bool connected;
 
     protected override bool Initialize()
@@ -56,6 +57,9 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
             popup.ActualThemeChanged -= OnPopupActualThemeChanged;
         }
 
+        ElementCompositionPreview.SetElementChildVisual(visualGrid, null);
+        visualGrid = null;
+
         DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
         DisposableMarshal.DisposeAndClear(ref backdropLink);
 
@@ -86,7 +90,7 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
             UIElement originalChild = border.Child;
             Grid newRootGrid = new();
             border.Child = newRootGrid;
-            Grid visualGrid = new();
+            visualGrid = new();
             newRootGrid.Children.Add(visualGrid);
             newRootGrid.Children.Add(originalChild);
 
