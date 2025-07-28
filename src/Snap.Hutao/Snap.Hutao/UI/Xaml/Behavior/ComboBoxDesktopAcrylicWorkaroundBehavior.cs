@@ -31,6 +31,11 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
 
     protected override bool Initialize()
     {
+        if (initialized)
+        {
+            return true;
+        }
+
         lock (syncRoot)
         {
             if (initialized)
@@ -38,7 +43,6 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
                 return true;
             }
 
-            initialized = true;
             ComboBox comboBox = AssociatedObject;
             if (comboBox.FindDescendant("Popup") is not Popup popup)
             {
@@ -53,20 +57,24 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
                 comboBox.IsDropDownOpen = true;
             }
 
+            initialized = true;
             return true;
         }
     }
 
     protected override bool Uninitialize()
     {
+        if (!initialized)
+        {
+            return true;
+        }
+
         lock (syncRoot)
         {
             if (!initialized)
             {
                 return true;
             }
-
-            initialized = false;
 
             if (popup is not null && connected)
             {
@@ -84,6 +92,7 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
                 DisposableMarshal.DisposeAndClear(ref backdropLink);
             }
 
+            initialized = false;
             return base.Uninitialize();
         }
     }
