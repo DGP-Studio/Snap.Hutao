@@ -20,50 +20,72 @@ namespace Snap.Hutao.UI.Xaml.Behavior;
 [SuppressMessage("", "CA1001")]
 internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<ComboBox>
 {
+    private readonly Lock syncRoot = new();
     private Popup? popup;
     private ContentExternalBackdropLink? backdropLink;
     private DesktopAcrylicController? desktopAcrylicController;
     private SystemBackdropConfiguration? systemBackdropConfiguration;
     private Grid? visualGrid;
     private bool connected;
+    private bool initialized;
 
     protected override bool Initialize()
     {
-        ComboBox comboBox = AssociatedObject;
-        if (comboBox.FindDescendant("Popup") is not Popup popup)
+        lock (syncRoot)
         {
-            return false;
+            if (initialized)
+            {
+                return true;
+            }
+
+            initialized = true;
+            ComboBox comboBox = AssociatedObject;
+            if (comboBox.FindDescendant("Popup") is not Popup popup)
+            {
+                return false;
+            }
+
+            popup.Opened += OnPopupOpened;
+            popup.ActualThemeChanged += OnPopupActualThemeChanged;
+
+            if (!comboBox.IsEditable)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+
+            return true;
         }
-
-        popup.Opened += OnPopupOpened;
-        popup.ActualThemeChanged += OnPopupActualThemeChanged;
-
-        if (!comboBox.IsEditable)
-        {
-            comboBox.IsDropDownOpen = true;
-
-            // In a virtualized panel, the dropdown may not close
-            comboBox.IsDropDownOpen = false;
-        }
-
-        return true;
     }
 
     protected override bool Uninitialize()
     {
-        if (popup is not null)
+        lock (syncRoot)
         {
-            popup.Opened -= OnPopupOpened;
-            popup.ActualThemeChanged -= OnPopupActualThemeChanged;
+            if (!initialized)
+            {
+                return true;
+            }
+
+            initialized = false;
+
+            if (popup is not null && connected)
+            {
+                connected = false;
+                popup.Opened -= OnPopupOpened;
+                popup.ActualThemeChanged -= OnPopupActualThemeChanged;
+
+                if (visualGrid is not null)
+                {
+                    ElementCompositionPreview.SetElementChildVisual(visualGrid, null);
+                    visualGrid = null;
+                }
+
+                DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
+                DisposableMarshal.DisposeAndClear(ref backdropLink);
+            }
+
+            return base.Uninitialize();
         }
-
-        ElementCompositionPreview.SetElementChildVisual(visualGrid, null);
-        visualGrid = null;
-
-        DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
-        DisposableMarshal.DisposeAndClear(ref backdropLink);
-
-        return base.Uninitialize();
     }
 
     private void OnPopupOpened(object? sender, object e)
