@@ -229,7 +229,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             {
                 try
                 {
-                    BranchWrapper localBranch = branch.Main.GetTaggedCopy(LocalVersion.ToString());
+                    BranchWrapper? localBranch = operationKind is GamePackageOperationKind.Verify && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                        ? branch.PreDownload?.GetTaggedCopy(LocalVersion.ToString()) ?? branch.Main.GetTaggedCopy(LocalVersion.ToString())
+                        : branch.Main.GetTaggedCopy(LocalVersion.ToString());
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
                     BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
