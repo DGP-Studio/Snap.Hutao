@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Win32;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -36,6 +37,10 @@ internal static partial class IocHttpClientConfiguration
 
         services
             .AddHttpClient(GamePackageService.HttpClientName)
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.DefaultRequestVersion = HttpVersion.Version20;
+            })
             .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
             {
                 SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;

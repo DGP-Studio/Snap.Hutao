@@ -52,7 +52,7 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
             popup.Opened += OnPopupOpened;
             popup.ActualThemeChanged += OnPopupActualThemeChanged;
 
-            if (!comboBox.IsEditable)
+            if (!comboBox.IsEditable && comboBox.IsEnabled)
             {
                 comboBox.IsDropDownOpen = true;
             }
