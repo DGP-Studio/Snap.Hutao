@@ -77,6 +77,7 @@ internal static class LocaleNames
         return localeName switch
         {
             ID => "id-id",
+            JP => "ja-jp",
             RU => "ru-ru",
             CHS => "zh-cn",
             _ => "en-us",

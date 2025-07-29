@@ -1,8 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
-
 namespace Snap.Hutao.Win32.Foundation;
 
 // ReSharper disable InconsistentNaming
