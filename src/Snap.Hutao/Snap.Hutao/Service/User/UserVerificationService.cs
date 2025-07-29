@@ -37,7 +37,7 @@ internal sealed partial class UserVerificationService : IUserVerificationService
             if (await verificationDialog.TryValidateAsync(riskVerify.Ticket, isOversea).ConfigureAwait(false))
             {
                 risk.VerifyString = default;
-                provider.Verify = JsonSerializer.Serialize(risk, jsonOptions);
+                provider.Verify = JsonSerializer.Serialize(risk); // DO NOT pass json options, newline-less string is required
                 return true;
             }
 

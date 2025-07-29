@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
+using System.Buffers;
 using System.Runtime.InteropServices;
 using WinRT;
 using WinRT.Interop;
@@ -108,13 +109,33 @@ internal sealed unsafe class HutaoNative
 
     public string ExchangeGameUidForIdentifier1820(ReadOnlySpan<char> gameUid)
     {
+        if (gameUid.IsEmpty)
+        {
+            return string.Empty;
+        }
+
         HutaoException.NotSupportedIf(ObjRefPrivate2 is null, "IHutaoPrivate2 is not supported");
 
         fixed (char* pGameUid = gameUid)
         {
-            byte* identifier = stackalloc byte[gameUid.Length];
-            Marshal.ThrowExceptionForHR(ObjRefPrivate2.Vftbl.ExchangeGameUidForIdentifier1820(ObjRefPrivate2.ThisPtr, pGameUid, identifier));
-            return Convert.ToBase64String(new Span<byte>(identifier, gameUid.Length * 2));
+            byte[] data = ArrayPool<byte>.Shared.Rent(gameUid.Length * 2);
+            try
+            {
+                fixed (byte* identifier = data)
+                {
+                    Marshal.ThrowExceptionForHR(ObjRefPrivate2.Vftbl.ExchangeGameUidForIdentifier1820(ObjRefPrivate2.ThisPtr, pGameUid, identifier));
+                    return Convert.ToBase64String(data.AsSpan(0, gameUid.Length * 2));
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Data["GameUid"] = gameUid.ToString();
+                throw;
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(data);
+            }
         }
     }
 
