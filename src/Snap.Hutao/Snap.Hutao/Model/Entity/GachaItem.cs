@@ -56,7 +56,7 @@ internal sealed class GachaItem
         };
     }
 
-    public static GachaItem From(Guid archiveId, Hk4eItem item, int timezone)
+    public static GachaItem From(Guid archiveId, Hk4eItem item, int timezoneOffset)
     {
         return new()
         {
@@ -64,7 +64,7 @@ internal sealed class GachaItem
             GachaType = item.GachaType,
             QueryType = item.UIGFGachaType,
             ItemId = item.ItemId,
-            Time = new(item.Time, new(timezone, 0, 0)),
+            Time = new(item.Time, TimeSpan.FromHours(timezoneOffset)),
             Id = item.Id,
         };
     }

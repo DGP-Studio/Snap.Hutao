@@ -1,8 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Diagnostics;
-
 namespace Snap.Hutao.Win32.Foundation;
 
 // ReSharper disable InconsistentNaming
@@ -35,7 +33,7 @@ internal readonly partial struct HRESULT
 }
 
 #if DEBUG
-[DebuggerDisplay("{DebuggerDisplay}")]
+[global::System.Diagnostics.DebuggerDisplay("{DebuggerDisplay}")]
 internal readonly partial struct HRESULT
 {
     private string DebuggerDisplay { get => ToString(); }

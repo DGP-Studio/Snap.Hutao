@@ -41,7 +41,7 @@ internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionView
 
             switch (entry.Type)
             {
-                case Model.Entity.Primitive.CultivateType.AvatarAndSkill:
+                case CultivateType.AvatarAndSkill:
                     {
                         StringBuilder stringBuilder = new();
 
@@ -49,6 +49,13 @@ internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionView
                         {
                             stringBuilder.Append("Lv.").Append(info.AvatarLevelFrom).Append(" → Lv.").Append(info.AvatarLevelTo).Append(' ');
                             stringBuilder.AppendLine();
+                        }
+                        else
+                        {
+                            if (info.AvatarIsPromoting)
+                            {
+                                stringBuilder.Append("Lv.").Append(info.AvatarLevelFrom).Append(" (").Append(SH.ViewModelCultivationEntryViewPromoteOnlyHint).Append(')');
+                            }
                         }
 
                         if (info.SkillALevelFrom != info.SkillALevelTo)
@@ -69,13 +76,20 @@ internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionView
                         return stringBuilder.ToStringTrimEndNewLine();
                     }
 
-                case Model.Entity.Primitive.CultivateType.Weapon:
+                case CultivateType.Weapon:
                     {
                         StringBuilder stringBuilder = new();
 
                         if (info.WeaponLevelFrom != info.WeaponLevelTo)
                         {
                             stringBuilder.Append("Lv.").Append(info.WeaponLevelFrom).Append(" → Lv.").Append(info.WeaponLevelTo);
+                        }
+                        else
+                        {
+                            if (info.WeaponIsPromoting)
+                            {
+                                stringBuilder.Append("Lv.").Append(info.WeaponLevelFrom).Append(" (").Append(SH.ViewModelCultivationEntryViewPromoteOnlyHint).Append(')');
+                            }
                         }
 
                         return stringBuilder.ToString();

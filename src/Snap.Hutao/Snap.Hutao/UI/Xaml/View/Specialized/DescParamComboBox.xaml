@@ -5,7 +5,9 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shmm="using:Snap.Hutao.Model.Metadata"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Visibility="{x:Bind SelectedItem.Parameters.Length, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}"
@@ -51,7 +53,11 @@
                     DisplayMemberPath="Level"
                     ItemsSource="{x:Bind Source, Mode=OneWay}"
                     SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
+                    Style="{StaticResource SettingsContentComboBoxStyle}">
+                    <mxi:Interaction.Behaviors>
+                        <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                    </mxi:Interaction.Behaviors>
+                </ComboBox>
             </shuxc:SizeRestrictedContentControl>
         </cwc:SettingsExpander>
     </ScrollViewer>

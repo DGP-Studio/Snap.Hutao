@@ -1606,6 +1606,15 @@
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>アカウントやパスワードでログインする</value>
   </data>
+  <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
+    <value>認証コード</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
+    <value>認証コードを送信しました</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
+    <value>メールの認証コードを入力してください</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>すぐに移動</value>
   </data>
@@ -1864,6 +1873,9 @@
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>そのアイテムの育成項目が既に存在しています</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>素材は消費されていません</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
   </data>
@@ -1872,6 +1884,9 @@
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>アイテムを再度追加して育成の説明を表示できます</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>突破のみ</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>正常に追加されました。</value>
@@ -2150,7 +2165,7 @@
     <value>現在のバージョンは最新です</value>
   </data>
   <data name="ViewModelSettingCheckUpdateFailed" xml:space="preserve">
-    <value>检查更新时发生错误</value>
+    <value>更新の確認中にエラーが発生しました</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>消去に失敗しました。ディレクトリのアクセス許可が無いので、管理者モードで再試行してください</value>
@@ -4018,5 +4033,11 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>
+  </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>注入機能の悪用を防ぐため、米游社/HoYoLAB アカウントでログインし、アカウント及びキャラクターを選択する必要があります</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>プロセスの終了に失敗しました</value>
   </data>
 </root>

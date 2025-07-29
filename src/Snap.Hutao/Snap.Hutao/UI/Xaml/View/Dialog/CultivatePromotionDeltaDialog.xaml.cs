@@ -51,6 +51,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
                 Id = Weapon.WeaponId,
                 LevelCurrent = Math.Clamp(Weapon.LevelCurrent, Weapon.LevelMin, Weapon.LevelMax),
                 LevelTarget = Math.Clamp(Weapon.LevelTarget, Weapon.LevelMin, Weapon.LevelMax),
+                WeaponPromoteLevel = Weapon?.PromoteLevel ?? 0,
             },
         };
 

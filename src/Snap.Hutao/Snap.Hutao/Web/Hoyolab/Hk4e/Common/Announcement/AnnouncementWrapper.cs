@@ -28,7 +28,7 @@ internal sealed class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
 
     public void OnDeserialized()
     {
-        TimeSpan offset = new(TimeZone, 0, 0);
+        TimeSpan offset = TimeSpan.FromHours(TimeZone);
 
         foreach (AnnouncementListWrapper wrapper in List)
         {

@@ -129,6 +129,9 @@ namespace Snap.Hutao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("AvatarIsPromoting")
+                        .HasColumnType("INTEGER");
+
                     b.Property<uint>("AvatarLevelFrom")
                         .HasColumnType("INTEGER");
 
@@ -154,6 +157,9 @@ namespace Snap.Hutao.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("SkillQLevelTo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("WeaponIsPromoting")
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("WeaponLevelFrom")

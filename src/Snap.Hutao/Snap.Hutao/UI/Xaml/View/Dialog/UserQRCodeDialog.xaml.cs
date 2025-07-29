@@ -43,7 +43,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public async ValueTask<ValueResult<bool, QrLoginResult>> GetQrLoginResultAsync()
+    public async ValueTask<ValueResult<bool, QrLoginResult?>> GetQrLoginResultAsync()
     {
         try
         {
@@ -62,7 +62,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         userManualCancellationTokenSource.Cancel();
     }
 
-    private async ValueTask<ValueResult<bool, QrLoginResult>> PrivateGetQRLoginResultAsync()
+    private async ValueTask<ValueResult<bool, QrLoginResult?>> PrivateGetQRLoginResultAsync()
     {
         await contentDialogFactory.EnqueueAndShowAsync(this).QueueTask.ConfigureAwait(false);
 
@@ -89,7 +89,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
             }
         }
 
-        return new(false, default!);
+        return new(false, default);
     }
 
     private async ValueTask<string> FetchQRCodeAndSetImageAsync(CancellationToken token)
@@ -111,7 +111,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private async ValueTask<QrLoginResult?> WaitQueryQRCodeConfirmAsync(string ticket, CancellationToken token)
     {
-        using (PeriodicTimer timer = new(new(0, 0, 3)))
+        using (PeriodicTimer timer = new(TimeSpan.FromSeconds(3)))
         {
             while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
             {

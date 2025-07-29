@@ -163,7 +163,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         foreach (SophonDecodedPatchManifest manifest in patchBuild.Manifests)
         {
-            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.Single(fd => fd.Key == manifest.OriginalTag).DeleteFiles.Infos.Select(i => i.Name);
+            IEnumerable<string> assetNames = manifest.Data.DeleteFilesEntries.SingleOrDefault(fd => fd.Key == manifest.OriginalTag)?.DeleteFiles.Infos.Select(i => i.Name) ?? [];
             foreach (string assetName in assetNames)
             {
                 string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, assetName);

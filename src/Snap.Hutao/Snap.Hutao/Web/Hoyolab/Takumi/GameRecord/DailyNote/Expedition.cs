@@ -57,7 +57,7 @@ internal sealed class Expedition
                 return SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint;
             }
 
-            TimeSpan ts = new(0, 0, RemainedTime);
+            TimeSpan ts = TimeSpan.FromSeconds(RemainedTime);
             return SH.FormatWebDailyNoteExpeditionRemainTime(ts.Hours, ts.Minutes);
         }
     }

@@ -15,6 +15,7 @@ using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Cultivation.Offline;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -213,16 +214,25 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         CalculatorBatchConsumption? batchConsumption;
-        using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
+        if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
         {
-            CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            Response<CalculatorBatchConsumption> response = await calculatorClient
-                .BatchComputeAsync(userAndUid, deltaOptions.Delta)
-                .ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+            ArgumentNullException.ThrowIfNull(metadataContext);
+            batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltaOptions.Delta, metadataContext);
+            ArgumentNullException.ThrowIfNull(batchConsumption);
+        }
+        else
+        {
+            using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
             {
-                return;
+                CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+                Response<CalculatorBatchConsumption> response = await calculatorClient
+                    .BatchComputeAsync(userAndUid, deltaOptions.Delta)
+                    .ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                {
+                    return;
+                }
             }
         }
 
@@ -309,14 +319,23 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ImmutableArray<CalculatorAvatarPromotionDelta> deltas = deltasBuilder.ToImmutable();
 
             CalculatorBatchConsumption? batchConsumption;
-            using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
+            if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
             {
-                CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                ArgumentNullException.ThrowIfNull(metadataContext);
+                batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltas, metadataContext);
+                ArgumentNullException.ThrowIfNull(batchConsumption);
+            }
+            else
+            {
+                using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
                 {
-                    return;
+                    CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+                    Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
+
+                    if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -357,7 +376,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
             ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
             ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-            ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            ConsumptionSaveResultKind.Added => isBatch ? default : scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
             _ => default,
         };
 
@@ -383,7 +402,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
             ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
             ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-            ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            ConsumptionSaveResultKind.Added => isBatch ? default : scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
             _ => default,
         };
 

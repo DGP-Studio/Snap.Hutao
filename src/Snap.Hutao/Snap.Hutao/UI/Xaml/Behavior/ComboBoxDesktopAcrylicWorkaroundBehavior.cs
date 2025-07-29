@@ -18,45 +18,83 @@ using WinRT;
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [SuppressMessage("", "CA1001")]
-internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<ComboBox>
+internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<ComboBox>
 {
+    private readonly Lock syncRoot = new();
     private Popup? popup;
     private ContentExternalBackdropLink? backdropLink;
     private DesktopAcrylicController? desktopAcrylicController;
     private SystemBackdropConfiguration? systemBackdropConfiguration;
+    private Grid? visualGrid;
     private bool connected;
+    private bool initialized;
 
     protected override bool Initialize()
     {
-        ComboBox comboBox = AssociatedObject;
-        if (comboBox.FindDescendant("Popup") is not Popup popup)
+        if (initialized)
         {
-            return false;
+            return true;
         }
 
-        popup.Opened += OnPopupOpened;
-        popup.ActualThemeChanged += OnPopupActualThemeChanged;
-
-        if (!comboBox.IsEditable)
+        lock (syncRoot)
         {
-            comboBox.IsDropDownOpen = true;
-        }
+            if (initialized)
+            {
+                return true;
+            }
 
-        return true;
+            ComboBox comboBox = AssociatedObject;
+            if (comboBox.FindDescendant("Popup") is not Popup popup)
+            {
+                return false;
+            }
+
+            popup.Opened += OnPopupOpened;
+            popup.ActualThemeChanged += OnPopupActualThemeChanged;
+
+            if (!comboBox.IsEditable && comboBox.IsEnabled)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+
+            initialized = true;
+            return true;
+        }
     }
 
     protected override bool Uninitialize()
     {
-        if (popup is not null)
+        if (!initialized)
         {
-            popup.Opened -= OnPopupOpened;
-            popup.ActualThemeChanged -= OnPopupActualThemeChanged;
+            return true;
         }
 
-        DisposableMarshal.DisposeAndClear(ref backdropLink);
-        DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
+        lock (syncRoot)
+        {
+            if (!initialized)
+            {
+                return true;
+            }
 
-        return base.Uninitialize();
+            if (popup is not null && connected)
+            {
+                connected = false;
+                popup.Opened -= OnPopupOpened;
+                popup.ActualThemeChanged -= OnPopupActualThemeChanged;
+
+                if (visualGrid is not null)
+                {
+                    ElementCompositionPreview.SetElementChildVisual(visualGrid, null);
+                    visualGrid = null;
+                }
+
+                DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
+                DisposableMarshal.DisposeAndClear(ref backdropLink);
+            }
+
+            initialized = false;
+            return base.Uninitialize();
+        }
     }
 
     private void OnPopupOpened(object? sender, object e)
@@ -74,19 +112,18 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
         }
 
         Vector2 size = border.ActualSize;
+        size = new(size.X - 2, size.Y - 2);
+        CornerRadius cornerRadius = border.CornerRadius;
         Compositor compositor = ElementCompositionPreview.GetElementVisual(border).Compositor;
-        Vector2 cornerRadius = new(8, 8);
 
-        if (!connected)
+        if (!Interlocked.Exchange(ref connected, true))
         {
-            connected = true;
-
-            UIElement child = border.Child;
-            Grid rootGrid = new();
-            border.Child = rootGrid;
-            Grid visualGrid = new();
-            rootGrid.Children.Add(visualGrid);
-            rootGrid.Children.Add(child);
+            UIElement originalChild = border.Child;
+            Grid newRootGrid = new();
+            border.Child = newRootGrid;
+            visualGrid = new();
+            newRootGrid.Children.Add(visualGrid);
+            newRootGrid.Children.Add(originalChild);
 
             backdropLink = ContentExternalBackdropLink.Create(compositor);
             backdropLink.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
@@ -94,7 +131,7 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
             // Modify PlacementVisual
             Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
-            placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+            placementVisual.Clip = compositor.CreateRectangleClip(size, cornerRadius);
             placementVisual.BorderMode = CompositionBorderMode.Soft;
 
             ElementCompositionPreview.SetElementChildVisual(visualGrid, placementVisual);
@@ -116,15 +153,17 @@ internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<Co
             // Update PlacementVisual
             Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
-            placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+            placementVisual.Clip = compositor.CreateRectangleClip(size, cornerRadius);
         }
     }
 
     private void OnPopupActualThemeChanged(FrameworkElement sender, object args)
     {
-        if (systemBackdropConfiguration is not null)
+        if (systemBackdropConfiguration is null)
         {
-            systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
+            return;
         }
+
+        systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
     }
 }

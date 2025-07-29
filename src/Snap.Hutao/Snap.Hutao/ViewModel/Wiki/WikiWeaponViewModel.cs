@@ -10,18 +10,16 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Cultivation.Offline;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
-using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -29,14 +27,13 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly ICultivationService cultivationService;
-    private readonly ITaskContext taskContext;
-    private readonly IMetadataService metadataService;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly ICultivationService cultivationService;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly IUserService userService;
+    private readonly ITaskContext taskContext;
 
     private WikiWeaponMetadataContext? metadataContext;
 
@@ -111,12 +108,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
-            return;
-        }
-
         CultivatePromotionDeltaOptions deltaOptions;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
@@ -130,16 +121,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             }
         }
 
-        CalculateBatchConsumption? batchConsumption;
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        CalculateBatchConsumption batchConsumption = OfflineCalculator.CalculateWikiWeaponConsumption(deltaOptions.Delta, weapon);
+        if (batchConsumption.OverallConsume.IsEmpty)
         {
-            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
-            {
-                return;
-            }
+            infoBarService.Warning(SH.ViewModelCultivationEntryAddNoConsumptionWarning);
+            return;
         }
 
         LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);

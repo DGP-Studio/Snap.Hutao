@@ -82,8 +82,8 @@ internal static class DependencyInjection
         XamlApplicationLifetime.CultureInfoInitialized = true;
 
         ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
-        logger.LogDebug("System Culture: \e[1m\e[36m{System}\e[37m", cultureOptions.SystemCulture);
-        logger.LogDebug("Current Culture: \e[1m\e[36m{Current}\e[37m", cultureInfo);
+        logger.LogDebug("System Culture: {System}", cultureOptions.SystemCulture);
+        logger.LogDebug("Current Culture: {Current}", cultureInfo);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

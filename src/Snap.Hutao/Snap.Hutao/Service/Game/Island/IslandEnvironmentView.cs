@@ -9,4 +9,5 @@ internal readonly struct IslandEnvironmentView
 {
     public readonly IslandState State;
     public readonly WIN32_ERROR LastError;
+    public readonly uint Uid;
 }

@@ -45,14 +45,13 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
         {
             context.Logger.LogWarning("Bilibili server does not support auth ticket login");
 
-            // TODO: Consider return false here and notify user
+            // Bilibili must return true, island containment requires UsingHoyolabAccount to be true
             return true;
         }
 
         if (context.UserAndUid is not { } userAndUid)
         {
-            context.Logger.LogWarning("No user and uid selected, keep game account in game");
-            return true;
+            return false;
         }
 
         if (userAndUid.IsOversea ^ context.TargetScheme.IsOversea)

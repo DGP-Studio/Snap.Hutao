@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.Feature;
 
 internal interface IFeatureService
 {
-    ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag);
+    ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag);
 
-    ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag);
+    ValueTask<AchievementFieldId?> GetAchievementFieldIdAsync(string tag);
 }

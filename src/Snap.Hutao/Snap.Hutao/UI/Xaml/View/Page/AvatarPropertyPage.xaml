@@ -96,9 +96,12 @@
                             Stretch="UniformToFill"/>
                     </Border>
 
+                    <Border Margin="-6" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"/>
+
                     <Grid
                         Padding="6"
                         HorizontalAlignment="Left"
+                        BackgroundSizing="OuterBorderEdge"
                         ColumnSpacing="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -570,7 +573,11 @@
                                         DisplayMemberPath="Name"
                                         ItemsSource="{Binding SortDescriptionKinds}"
                                         SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
-                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
+                                        Style="{ThemeResource DefaultComboBoxStyle}">
+                                        <mxi:Interaction.Behaviors>
+                                            <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
+                                        </mxi:Interaction.Behaviors>
+                                    </ComboBox>
                                 </shuxc:SizeRestrictedContentControl>
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
@@ -720,7 +727,7 @@
                                                             Grid.RowSpan="2"
                                                             Grid.Column="0"
                                                             Grid.ColumnSpan="2"
-                                                            Background="#33000000"
+                                                            Background="#80000000"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}"
                                                             IsHitTestVisible="False"/>
 
@@ -863,19 +870,24 @@
                                                 </Border>
 
                                                 <!--  角色属性  -->
-                                                <Border Style="{ThemeResource BorderShimmerStyle}">
+                                                <Border>
+                                                    <Border.Resources>
+                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                    </Border.Resources>
                                                     <Expander
                                                         Margin="0"
                                                         Padding="0"
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Background="{x:Null}"
-                                                        BorderThickness="0"
                                                         Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyHeader}">
-                                                        <Expander.Resources>
-                                                            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
-                                                        </Expander.Resources>
-                                                        <Border Margin="0" BorderThickness="0">
+                                                        <Border
+                                                            Margin="0,-1,0,0"
+                                                            Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                                                            BorderThickness="0">
                                                             <ItemsControl ItemTemplate="{StaticResource AvatarPropertyTemplate}" ItemsSource="{Binding Summary.Avatars.CurrentItem.Properties}"/>
                                                         </Border>
                                                     </Expander>

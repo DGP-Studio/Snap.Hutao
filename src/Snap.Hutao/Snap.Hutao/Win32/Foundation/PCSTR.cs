@@ -1,10 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Snap.Hutao.Win32.Foundation;
 
 // ReSharper disable InconsistentNaming
@@ -26,12 +22,12 @@ internal readonly partial struct PCSTR
 }
 
 #if DEBUG
-[DebuggerDisplay("{DebuggerDisplay,nq}")]
+[global::System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 internal readonly partial struct PCSTR
 {
     public unsafe string DebuggerDisplay
     {
-        get => Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(Value));
+        get => global::System.Text.Encoding.UTF8.GetString(global::System.Runtime.InteropServices.MemoryMarshal.CreateReadOnlySpanFromNullTerminated(Value));
     }
 }
 #endif

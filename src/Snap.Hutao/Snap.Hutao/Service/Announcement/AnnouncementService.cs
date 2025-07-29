@@ -117,7 +117,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         PreprocessAnnouncements(contentMap, wrapper.List);
         try
         {
-            await AdjustAnnouncementTimeAsync(wrapper.List, new(wrapper.TimeZone, 0, 0)).ConfigureAwait(false);
+            await AdjustAnnouncementTimeAsync(wrapper.List, TimeSpan.FromHours(wrapper.TimeZone)).ConfigureAwait(false);
         }
         catch
         {

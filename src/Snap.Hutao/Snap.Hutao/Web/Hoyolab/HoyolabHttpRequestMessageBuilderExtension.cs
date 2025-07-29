@@ -65,4 +65,9 @@ internal static class HoyolabHttpRequestMessageBuilderExtension
             .SetHeader("x-rpc-validate", validate)
             .SetHeader("x-rpc-seccode", $"{validate}|jordan");
     }
+
+    internal static HttpRequestMessageBuilder SetXrpcVerify(this HttpRequestMessageBuilder builder, string verify)
+    {
+        return builder.SetHeader("x-rpc-verify", verify);
+    }
 }

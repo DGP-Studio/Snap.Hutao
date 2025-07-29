@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -51,7 +52,7 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecut
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            HutaoNative.Instance.ShowErrorMessage(SH.ServiceGameLaunchExecutionGameRunningKillFailed, ex.Message);
             return false;
         }
     }

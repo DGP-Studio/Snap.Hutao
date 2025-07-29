@@ -18,4 +18,12 @@ internal sealed class SelectedItemInViewBehavior : BehaviorBase<ListViewBase>
 
         return true;
     }
+
+    protected override void OnAssociatedObjectLoaded()
+    {
+        if (AssociatedObject.SelectedItem is { } item)
+        {
+            AssociatedObject.SmoothScrollIntoViewWithItemAsync(item, ScrollItemPlacement.Center).SafeForget();
+        }
+    }
 }

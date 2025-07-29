@@ -4,7 +4,6 @@
 namespace Snap.Hutao.Service.Game.Island;
 
 // IMPORTANT: DO NOT REORDER FIELDS
-// ISLAND VERSION: 1.3.3
 internal struct IslandFunctionOffsets
 {
     [JsonInclude]
@@ -13,6 +12,12 @@ internal struct IslandFunctionOffsets
     public uint MickeyWonderMethodPartner;
     [JsonInclude]
     public uint MickeyWonderMethodPartner2;
+    [JsonInclude]
+    public uint OnBundleDownloadCheckFinishNext;
+    [JsonInclude]
+    public uint GetComponentByName;
+    [JsonInclude]
+    public uint GetText;
     [JsonInclude]
     public uint SetFieldOfView;
     [JsonInclude]

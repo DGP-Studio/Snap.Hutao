@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Win32;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -36,11 +37,15 @@ internal static partial class IocHttpClientConfiguration
 
         services
             .AddHttpClient(GamePackageService.HttpClientName)
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.DefaultRequestVersion = HttpVersion.Version20;
+            })
             .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
             {
                 SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
-                typedHandler.MaxConnectionsPerServer = 12;
+                typedHandler.MaxConnectionsPerServer = 8;
             });
 
         return services;
@@ -127,6 +132,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf6vlr1reo");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
+        client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId53);
     }
 
     private static string EncodeNonAsciiChars(string value)

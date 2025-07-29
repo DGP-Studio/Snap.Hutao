@@ -11,6 +11,8 @@ internal sealed class HutaoEndpointsForAlphaFJ : IHutaoEndpoints
 
     string IInfrastructureRootAccess.Root { get => "https://alpha.snapgenshin.cn/fj"; }
 
+    string IInfrastructureRawRootAccess.RawRoot { get => "https://alpha.snapgenshin.cn"; }
+
     public string PatchSnapHutao()
     {
         return $"{((IInfrastructureRootAccess)this).Root}/patch/alpha";

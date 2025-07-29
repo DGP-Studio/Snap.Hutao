@@ -430,7 +430,7 @@ internal class MiHoYoJSBridge
     {
         string message = args.TryGetWebMessageAsString();
         logger.LogInformation("[{Id}][OnRawMessage]\n{message}", bridgeId, message);
-        JsParam? param = JsonSerializer.Deserialize<JsParam>(message);
+        JsParam? param = JsonSerializer.Deserialize<JsParam>(message, serviceProvider.GetRequiredService<JsonSerializerOptions>());
 
         ArgumentNullException.ThrowIfNull(param);
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);

@@ -35,6 +35,7 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNativeHotKeyAction = "8C776674-9910-4721-A764-97BDB791F719";
     public const string IID_IHutaoNative6 = "B68CABFA-C55A-49FA-8C51-21615C594E2B";
     public const string IID_IHutaoPrivate = "1A6980D9-EB36-4E3E-86E7-3665C57C6E8D";
+    public const string IID_IHutaoPrivate2 = "4E5D37CF-5F38-4FF2-9059-DF39CA696365";
 
     // ReSharper restore InconsistentNaming
     public const string DllName = "Snap.Hutao.Native.dll";

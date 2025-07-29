@@ -12,6 +12,7 @@ namespace Snap.Hutao.Win32;
 internal sealed unsafe class HutaoNative
 {
     private readonly ObjectReference<VftblPrivate>? objRefPrivate;
+    private readonly ObjectReference<VftblPrivate2>? objRefPrivate2;
     private readonly ObjectReference<Vftbl2>? objRef2;
     private readonly ObjectReference<Vftbl3>? objRef3;
     private readonly ObjectReference<Vftbl4>? objRef4;
@@ -22,6 +23,7 @@ internal sealed unsafe class HutaoNative
     {
         ObjRef = objRef;
         objRef.TryAs(typeof(VftblPrivate).GUID, out objRefPrivate);
+        objRef.TryAs(typeof(VftblPrivate2).GUID, out objRefPrivate2);
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
         objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
@@ -42,6 +44,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl> ObjRef { get; }
 
     private ObjectReference<VftblPrivate>? ObjRefPrivate { get => objRefPrivate; }
+
+    private ObjectReference<VftblPrivate2>? ObjRefPrivate2 { get => objRefPrivate2; }
 
     private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
 
@@ -99,6 +103,18 @@ internal sealed unsafe class HutaoNative
             {
                 Marshal.ThrowExceptionForHR(ObjRefPrivate.Vftbl.ShowErrorMessage(ObjRefPrivate.ThisPtr, pTitle, pMessage));
             }
+        }
+    }
+
+    public string ExchangeGameUidForIdentifier1820(ReadOnlySpan<char> gameUid)
+    {
+        HutaoException.NotSupportedIf(ObjRefPrivate2 is null, "IHutaoPrivate2 is not supported");
+
+        fixed (char* pGameUid = gameUid)
+        {
+            byte* identifier = stackalloc byte[gameUid.Length];
+            Marshal.ThrowExceptionForHR(ObjRefPrivate2.Vftbl.ExchangeGameUidForIdentifier1820(ObjRefPrivate2.ThisPtr, pGameUid, identifier));
+            return Convert.ToBase64String(new Span<byte>(identifier, gameUid.Length * 2));
         }
     }
 
@@ -195,73 +211,68 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativeHotKeyAction.Vftbl>.Attach(ref pv, typeof(HutaoNativeHotKeyAction.Vftbl).GUID));
     }
 
+#pragma warning disable CS0649
     [Guid(HutaoNativeMethods.IID_IHutaoNative)]
     internal readonly struct Vftbl
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeLoopbackSupport.Vftbl**, HRESULT> MakeLoopbackSupport;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HutaoNativeRegistryNotification.Vftbl**, HRESULT> MakeRegistryNotification;
         internal readonly delegate* unmanaged[Stdcall]<nint, HWND, HutaoNativeWindowSubclassCallback, nint, HutaoNativeWindowSubclass.Vftbl**, HRESULT> MakeWindowSubclass;
         internal readonly delegate* unmanaged[Stdcall]<nint, HWND, HutaoNativeWindowNonRude.Vftbl**, HRESULT> MakeWindowNonRude;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNative2)]
     private readonly struct Vftbl2
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeDeviceCapabilities.Vftbl**, HRESULT> MakeLoopbackSupport;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativePhysicalDrive.Vftbl**, HRESULT> MakePhysicalDrive;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeLogicalDrive.Vftbl**, HRESULT> MakeLogicalDrive;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNative3)]
     private readonly struct Vftbl3
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeInputLowLevelKeyboardSource.Vftbl**, HRESULT> MakeInputLowLevelKeyboardSource;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNative4)]
     private readonly struct Vftbl4
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeFileSystem.Vftbl**, HRESULT> MakeFileSystem;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNative5)]
     private readonly struct Vftbl5
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, Guid*, HutaoNativeNotifyIcon.Vftbl**, HRESULT> MakeNotifyIcon;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNative6)]
     private readonly struct Vftbl6
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeHotKeyActionKind, HutaoNativeHotKeyActionCallback, nint, HutaoNativeHotKeyAction.Vftbl**, HRESULT> MakeHotKeyAction;
-#pragma warning restore CS0649
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoPrivate)]
     private readonly struct VftblPrivate
     {
-#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, BOOL*, HRESULT> IsCurrentWindowsVersionSupported;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoPrivateWindowsVersion*, HRESULT> GetWindowsVersion;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, PCWSTR, HRESULT> ShowErrorMessage;
-#pragma warning restore CS0649
     }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoPrivate2)]
+    private readonly struct VftblPrivate2
+    {
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, byte*, HRESULT> ExchangeGameUidForIdentifier1820;
+    }
+#pragma warning restore CS0649
 }

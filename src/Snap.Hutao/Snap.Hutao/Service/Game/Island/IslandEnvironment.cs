@@ -9,6 +9,7 @@ internal struct IslandEnvironment
 {
     public IslandState State;
     public WIN32_ERROR LastError;
+    public uint Uid;
 
     public IslandFunctionOffsets FunctionOffsets;
 

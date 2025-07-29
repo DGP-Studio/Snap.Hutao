@@ -24,6 +24,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
+    private readonly JsonSerializerOptions jsonOptions;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
@@ -119,7 +120,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                     return false;
                 }
 
-                if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.GetPredownloadStatusPath())) is { } predownloadStatus)
+                if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.GetPredownloadStatusPath()), jsonOptions) is { } predownloadStatus)
                 {
                     int fileCount = Directory.GetFiles(gameFileSystem.GetChunksDirectory()).Length - 1;
                     return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;
@@ -228,7 +229,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             {
                 try
                 {
-                    BranchWrapper localBranch = branch.Main.GetTaggedCopy(LocalVersion.ToString());
+                    BranchWrapper? localBranch = operationKind is GamePackageOperationKind.Verify && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                        ? branch.PreDownload?.GetTaggedCopy(LocalVersion.ToString()) ?? branch.Main.GetTaggedCopy(LocalVersion.ToString())
+                        : branch.Main.GetTaggedCopy(LocalVersion.ToString());
                     localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
                     BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)

@@ -22,17 +22,17 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache memoryCache;
 
-    public ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag)
+    public ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag)
     {
-        return GetTaggedFeatureAsync<IslandFeature>("UnlockerIsland_Compact2", tag, TimeSpan.FromMinutes(5));
+        return GetTaggedFeatureAsync<IslandFeature>(tag, TimeSpan.FromMinutes(5));
     }
 
-    public ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag)
+    public ValueTask<AchievementFieldId?> GetAchievementFieldIdAsync(string tag)
     {
-        return GetTaggedFeatureAsync<AchievementFieldId>("AchievementFieldId", tag, TimeSpan.FromHours(6));
+        return GetTaggedFeatureAsync<AchievementFieldId>(tag, TimeSpan.FromHours(6));
     }
 
-    public async ValueTask<TFeature?> GetTaggedFeatureAsync<TFeature>(string featureName, string tag, TimeSpan expiration)
+    private async ValueTask<TFeature?> GetTaggedFeatureAsync<TFeature>(string tag, TimeSpan expiration)
         where TFeature : class
     {
         return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.{typeof(TFeature).Name}.{tag}", async entry =>
@@ -40,7 +40,7 @@ internal sealed partial class FeatureService : IFeatureService
             entry.SetSlidingExpiration(expiration);
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory
                 .Create()
-                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"{featureName}_{tag}"))
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"{typeof(TFeature).Name}_{tag}"))
                 .Get();
 
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
