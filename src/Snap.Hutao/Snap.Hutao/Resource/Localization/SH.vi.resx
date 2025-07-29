@@ -1605,6 +1605,15 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>Đăng nhập bằng tài khoản và mật khẩu</value>
   </data>
+  <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
+    <value>验证码已发送</value>
+  </data>
+  <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
+    <value>请输入邮箱验证码</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Đi đến đó</value>
   </data>
@@ -1863,6 +1872,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Đã có mục tăng cấp cho vật phẩm này</value>
   </data>
+  <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
+    <value>未消耗任何材料</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Đã thêm thành công vào kế hoạch bồi dưỡng hiện tại</value>
   </data>
@@ -1871,6 +1883,9 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Thêm lại vật phẩm để xem mô tả bồi dưỡng</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
+    <value>仅突破</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Thêm thành công</value>
@@ -4016,5 +4031,11 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID Màn Hình</value>
+  </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>结束进程失败</value>
   </data>
 </root>
