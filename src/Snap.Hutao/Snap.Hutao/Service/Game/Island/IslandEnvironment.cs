@@ -7,6 +7,7 @@ namespace Snap.Hutao.Service.Game.Island;
 
 internal struct IslandEnvironment
 {
+    public uint Size;
     public IslandState State;
     public WIN32_ERROR LastError;
     public uint Uid;

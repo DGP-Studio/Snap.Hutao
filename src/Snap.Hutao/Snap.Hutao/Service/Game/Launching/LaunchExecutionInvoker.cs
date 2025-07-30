@@ -17,6 +17,8 @@ internal abstract class LaunchExecutionInvoker
 
     protected Queue<ILaunchExecutionDelegateHandler> Handlers { get; } = [];
 
+    protected Queue<ILaunchExecutionDelegateHandler> ExecutionHandlers { get; } = [];
+
     public static bool IsAnyLaunchExecutionInvoking()
     {
         return !Invokers.IsEmpty;
@@ -30,7 +32,11 @@ internal abstract class LaunchExecutionInvoker
         {
             Invokers.TryAdd(this, default);
             context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
-            await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
+            if (await RecursiveInvokeBeforeExecutionAsync(context, 0).ConfigureAwait(false))
+            {
+                await RecursiveInvokeExecutionAsync(context, 0).ConfigureAwait(false);
+            }
+
             return context.Result;
         }
         finally
@@ -51,13 +57,28 @@ internal abstract class LaunchExecutionInvoker
         }
     }
 
-    private async ValueTask RecursiveInvokeHandlerAsync(LaunchExecutionContext context, int index)
+    private async ValueTask<bool> RecursiveInvokeBeforeExecutionAsync(LaunchExecutionContext context, int index)
     {
+        bool result = true;
         if (Handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
+        {
+            ExecutionHandlers.Enqueue(handler);
+            string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
+            context.Logger.LogInformation("Handler {Index} [{Handler}] begin before-execution", index, typeName);
+            result = await handler.BeforeExecutionAsync(context, () => RecursiveInvokeBeforeExecutionAsync(context, index + 1)).ConfigureAwait(false);
+            context.Logger.LogInformation("Handler {Index} [{Handler}] end before-execution", index, typeName);
+        }
+
+        return result;
+    }
+
+    private async ValueTask RecursiveInvokeExecutionAsync(LaunchExecutionContext context, int index)
+    {
+        if (ExecutionHandlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
             string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
             context.Logger.LogInformation("Handler {Index} [{Handler}] begin execution", index, typeName);
-            await handler.OnExecutionAsync(context, () => RecursiveInvokeHandlerAsync(context, index + 1)).ConfigureAwait(false);
+            await handler.ExecutionAsync(context, () => RecursiveInvokeExecutionAsync(context, index + 1)).ConfigureAwait(false);
             context.Logger.LogInformation("Handler {Index} [{Handler}] end execution", index, typeName);
         }
     }

@@ -102,6 +102,7 @@ internal static class SettingKeys
     public const string TreatPredownloadAsMain = "TreatPredownloadAsMain";
     public const string EnableBetaGameInstall = "EnableBetaGameInstall";
     public const string EnableOfflineCultivationCalculator = "EnableOfflineCultivationCalculator";
+    public const string PreventCopyIslandDll = "PreventCopyIslandDll";
     #endregion
 
     #region Obsolete

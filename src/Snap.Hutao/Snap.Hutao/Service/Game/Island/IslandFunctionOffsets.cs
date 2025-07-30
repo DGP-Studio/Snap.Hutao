@@ -7,6 +7,8 @@ namespace Snap.Hutao.Service.Game.Island;
 internal struct IslandFunctionOffsets
 {
     [JsonInclude]
+    public uint GameManagerAwake;
+    [JsonInclude]
     public uint MickeyWonderMethod;
     [JsonInclude]
     public uint MickeyWonderMethodPartner;

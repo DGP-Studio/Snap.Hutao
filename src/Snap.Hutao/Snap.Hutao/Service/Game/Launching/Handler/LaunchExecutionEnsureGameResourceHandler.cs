@@ -23,7 +23,12 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutionDelegateHandler
 {
-    public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    {
+        return next();
+    }
+
+    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
         if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystemView))
         {

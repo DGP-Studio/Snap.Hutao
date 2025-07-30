@@ -8,7 +8,12 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHandler
 {
-    public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    {
+        return next();
+    }
+
+    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
         if (HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay)
         {
