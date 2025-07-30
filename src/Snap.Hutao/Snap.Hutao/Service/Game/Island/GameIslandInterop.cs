@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Web.Hutao;
@@ -68,7 +69,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             throw;
         }
 
-        if (!resume && !GlobalSwitch.PreventCopyIslandDll)
+        if (!resume && /* CopyDll */ !LocalSetting.Get(SettingKeys.PreventCopyIslandDll, false))
         {
             InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
         }

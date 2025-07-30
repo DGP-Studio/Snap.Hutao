@@ -9,15 +9,15 @@ internal sealed class LaunchExecutionStatusProgressHandler : ILaunchExecutionDel
 {
     public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
     {
+        IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
+        LaunchStatusOptions statusOptions = context.ServiceProvider.GetRequiredService<LaunchStatusOptions>();
+        context.Progress = progressFactory.CreateForMainThread<LaunchStatus?, LaunchStatusOptions>(static (status, statusOptions) => statusOptions.LaunchStatus = status, statusOptions);
+
         return next();
     }
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
-        LaunchStatusOptions statusOptions = context.ServiceProvider.GetRequiredService<LaunchStatusOptions>();
-        context.Progress = progressFactory.CreateForMainThread<LaunchStatus, LaunchStatusOptions>(static (status, statusOptions) => statusOptions.LaunchStatus = status, statusOptions);
-
         await next().ConfigureAwait(false);
 
         // Clear status

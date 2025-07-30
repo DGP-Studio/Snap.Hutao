@@ -44,6 +44,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             return false;
         }
 
+        context.Progress.Report(default);
         return await next().ConfigureAwait(false);
     }
 

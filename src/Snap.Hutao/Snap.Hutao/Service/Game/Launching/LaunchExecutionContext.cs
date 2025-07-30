@@ -57,7 +57,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
     /// <summary>
     /// Requires <see cref="Handler.LaunchExecutionStatusProgressHandler"/> to execute before getting the value.
     /// </summary>
-    public IProgress<LaunchStatus> Progress { get; set; } = default!;
+    public IProgress<LaunchStatus?> Progress { get; set; } = default!;
 
     /// <summary>
     /// Requires <see cref="Handler.LaunchExecutionGameProcessInitializationHandler"/> to execute before getting the value.
