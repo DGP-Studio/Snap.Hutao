@@ -7,11 +7,16 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionStatusProgressHandler : ILaunchExecutionDelegateHandler
 {
-    public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    {
+        return next();
+    }
+
+    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
         IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
         LaunchStatusOptions statusOptions = context.ServiceProvider.GetRequiredService<LaunchStatusOptions>();
-        context.Progress = progressFactory.CreateForMainThread<LaunchStatus>(status => statusOptions.LaunchStatus = status);
+        context.Progress = progressFactory.CreateForMainThread<LaunchStatus, LaunchStatusOptions>(static (status, statusOptions) => statusOptions.LaunchStatus = status, statusOptions);
 
         await next().ConfigureAwait(false);
 

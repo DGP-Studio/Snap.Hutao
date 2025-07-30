@@ -10,37 +10,51 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegateHandler
 {
     private readonly bool resume;
+    private GameIslandInterop? interop;
 
     public LaunchExecutionGameIslandHandler(bool resume)
     {
         this.resume = resume;
     }
 
-    public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public async ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
+        interop = new(context, resume);
+        try
         {
             context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
-
-            try
+            if (!await interop.PrepareAsync().ConfigureAwait(false))
             {
-                GameIslandInterop interop = new(context, resume);
-                if (await interop.PrepareAsync().ConfigureAwait(false))
+                if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
                 {
-                    await TaskExtension.WhenAllOrAnyException(interop.WaitForExitAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
+                    context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
-                    {
-                        context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                        context.Process.Kill();
-                    }
-                    else
-                    {
-                        HutaoException.Throw("Failed to download island feature configuration.");
-                    }
+                    HutaoException.Throw("Failed to download island feature configuration.");
                 }
+
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
+            context.Result.ErrorMessage = ex.Message;
+            return false;
+        }
+
+        return await next().ConfigureAwait(false);
+    }
+
+    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    {
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
+        {
+            try
+            {
+                ArgumentNullException.ThrowIfNull(interop);
+                await TaskExtension.WhenAllOrAnyException(interop.WaitForExitAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

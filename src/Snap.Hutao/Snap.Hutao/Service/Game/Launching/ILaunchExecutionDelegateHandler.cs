@@ -5,7 +5,11 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal delegate ValueTask LaunchExecutionDelegate();
 
+internal delegate ValueTask<bool> BeforeExecutionDelegate();
+
 internal interface ILaunchExecutionDelegateHandler
 {
-    ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next);
+    ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next);
+
+    ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next);
 }
