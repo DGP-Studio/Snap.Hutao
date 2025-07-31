@@ -75,8 +75,10 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
+        CapturedException capturedException = new(id, exception);
+
 #pragma warning disable SH007
-        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show((SentryId)state!), id);
+        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show((CapturedException)state!), capturedException);
 #pragma warning restore SH007
     }
 

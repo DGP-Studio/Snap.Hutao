@@ -29,6 +29,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
@@ -41,12 +42,19 @@
             <TextBox
                 Grid.Row="1"
                 AcceptsReturn="True"
+                Header="{shuxm:ResourceString Name=ViewExceptionWindowStacktraceHeader}"
+                IsReadOnly="True"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                Text="{x:Bind Exception}"/>
+            <TextBox
+                Grid.Row="2"
+                AcceptsReturn="True"
                 Description="{shuxm:ResourceString Name=ViewExceptionWindowCommentDescription}"
                 Header="{shuxm:ResourceString Name=ViewExceptionWindowCommentHeader}"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 Text="{x:Bind Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel
-                Grid.Row="2"
+                Grid.Row="3"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
                 <Button Command="{x:Bind CloseCommand}" Content="关闭"/>
