@@ -35,4 +35,10 @@ internal enum AssociationType
 
     [LocalizationKey(nameof(SH.ModelIntrinsicAssociationTypeSnezhnaya))]
     ASSOC_TYPE_SNEZHNAYA,
+
+    [LocalizationKey(nameof(SH.ModelIntrinsicAssociationTypeOmniScourge))]
+    ASSOC_TYPE_OMNI_SCOURGE,
+
+    [LocalizationKey(nameof(SH.ModelIntrinsicAssociationTypeNodkrai))]
+    ASSOC_TYPE_NODKRAI,
 }

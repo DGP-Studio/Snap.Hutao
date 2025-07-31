@@ -61,7 +61,18 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
 
     private static void WaitPreviousProcessExit(ElevationStatusResponse response)
     {
-        if (Process.GetProcessById(response.ProcessId) is { HasExited: false } process)
+        Process process;
+        try
+        {
+            process = Process.GetProcessById(response.ProcessId);
+        }
+        catch (ArgumentException)
+        {
+            // Process with an Id of ? is not running.
+            return;
+        }
+
+        if (process is { HasExited: false })
         {
             try
             {

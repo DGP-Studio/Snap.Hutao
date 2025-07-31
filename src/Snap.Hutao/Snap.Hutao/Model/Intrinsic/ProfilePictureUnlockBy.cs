@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-internal enum ProfilePictureUnlockType
+internal enum ProfilePictureUnlockBy
 {
     None,
     Item,

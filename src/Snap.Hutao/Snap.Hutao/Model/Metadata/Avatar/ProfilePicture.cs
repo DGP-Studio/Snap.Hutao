@@ -14,16 +14,16 @@ internal sealed class ProfilePicture
 
     public required string Name { get; init; }
 
-    public required ProfilePictureUnlockType UnlockType { get; init; }
+    public required ProfilePictureUnlockBy UnlockType { get; init; }
 
     /// <summary>
-    /// <see cref="ProfilePictureUnlockType.Item"/> -> <see cref="MaterialId"/>
+    /// <see cref="ProfilePictureUnlockBy.Item"/> -> <see cref="MaterialId"/>
     /// <br/>
-    /// <see cref="ProfilePictureUnlockType.Avatar"/> -> <see cref="AvatarId"/>
+    /// <see cref="ProfilePictureUnlockBy.Avatar"/> -> <see cref="AvatarId"/>
     /// <br/>
-    /// <see cref="ProfilePictureUnlockType.Costume"/> -> <see cref="CostumeId"/>
+    /// <see cref="ProfilePictureUnlockBy.Costume"/> -> <see cref="CostumeId"/>
     /// <br/>
-    /// <see cref="ProfilePictureUnlockType.ParentQuest"/> -> <see cref="QuestId"/>
+    /// <see cref="ProfilePictureUnlockBy.ParentQuest"/> -> <see cref="QuestId"/>
     /// </summary>
     public uint UnlockParameter { get; init; }
 }

@@ -23,4 +23,6 @@ internal enum SpecialFurnitureType
     ChangeBgmFurniture,
     ServerGadget,
     Fishtank,
+    LavaFish,
+    LavaFishpond,
 }

@@ -102,7 +102,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
         if (cache.AvatarId is not 0U)
         {
             userGameRole.ProfilePictureIcon = context.ProfilePictures
-                .Single(p => p.UnlockType is ProfilePictureUnlockType.Avatar && p.UnlockParameter == cache.AvatarId)
+                .Single(p => p.UnlockType is ProfilePictureUnlockBy.Avatar && p.UnlockParameter == cache.AvatarId)
                 .Icon;
 
             return true;
@@ -111,7 +111,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
         if (cache.CostumeId is not 0U)
         {
             userGameRole.ProfilePictureIcon = context.ProfilePictures
-                .Single(p => p.UnlockType is ProfilePictureUnlockType.Costume && p.UnlockParameter == cache.CostumeId)
+                .Single(p => p.UnlockType is ProfilePictureUnlockBy.Costume && p.UnlockParameter == cache.CostumeId)
                 .Icon;
 
             return true;
