@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Launching.Handler;
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -58,7 +59,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
-            while (true)
+            while (LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
             {
                 try
                 {
