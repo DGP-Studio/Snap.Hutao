@@ -75,6 +75,9 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
+        // TODO: Maybe we should close current xaml window because the message pump is still alive.
+        // And user can still interact with the UI without any problems.
+
         CapturedException capturedException = new(id, exception);
 
 #pragma warning disable SH007
