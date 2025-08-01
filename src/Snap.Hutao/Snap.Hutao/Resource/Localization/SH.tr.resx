@@ -4046,4 +4046,7 @@ Kullanılabilir Alan: {2}</value>
     <value>挪德卡莱</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
+    <value>调用堆栈</value>
+  </data>
 </root>
