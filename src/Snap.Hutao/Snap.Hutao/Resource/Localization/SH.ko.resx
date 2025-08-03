@@ -4049,4 +4049,7 @@
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
     <value>调用堆栈</value>
   </data>
+  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
+    <value>神之眼</value>
+  </data>
 </root>
