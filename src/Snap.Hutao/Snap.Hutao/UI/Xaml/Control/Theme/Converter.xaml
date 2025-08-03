@@ -17,6 +17,7 @@
     <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
     <shmmc:AvatarNameCardPicAlphaConverter x:Key="AvatarNameCardPicAlphaConverter"/>
     <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
+    <shmmc:AvatarTraceEffectIconConverter x:Key="AvatarTraceEffectIconConverter"/>
     <shmmc:CostumeConverter x:Key="CostumeConverter"/>
     <shmmc:DescriptionsParametersDescriptor x:Key="DescParamDescriptor"/>
     <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>

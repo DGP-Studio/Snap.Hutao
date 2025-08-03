@@ -62,6 +62,8 @@ internal partial class Avatar : IDefaultIdentity<AvatarId>,
 
     public required AvatarNameCard NameCard { get; init; }
 
+    public TraceEffect? TraceEffect { get; init; }
+
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }
 

@@ -25,6 +25,36 @@ internal sealed class FetterInfo
 
     public required string VisionBefore { get; init; }
 
+    public string? VisionAfter { get; init; }
+
+    public string Vision
+    {
+        get => string.IsNullOrEmpty(VisionAfter) ? VisionBefore : VisionAfter;
+    }
+
+    public string? VisionOverrideLocked { get; init; }
+
+    public string? VisionOverrideUnlocked { get; init; }
+
+    public string VisionOverride
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(VisionOverrideUnlocked))
+            {
+                return VisionOverrideUnlocked;
+            }
+
+            if (!string.IsNullOrEmpty(VisionOverrideLocked))
+            {
+                return VisionOverrideLocked;
+            }
+
+            // TODO: Handle Gnosis
+            return SH.ViewPageWiKiAvatarVisionTitle;
+        }
+    }
+
     public required string ConstellationBefore { get; init; }
 
     public string? ConstellationAfter { get; init; }

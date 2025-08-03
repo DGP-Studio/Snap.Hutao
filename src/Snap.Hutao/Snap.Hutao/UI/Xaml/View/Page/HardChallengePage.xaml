@@ -153,7 +153,8 @@
                                         <cwcont:Segmented
                                             HorizontalAlignment="Stretch"
                                             ItemsSource="{Binding DataEntries}"
-                                            SelectedItem="{Binding DataEntries.CurrentItem, Mode=TwoWay}">
+                                            SelectedItem="{Binding DataEntries.CurrentItem, Mode=TwoWay}"
+                                            Visibility="{Binding DataEntries, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
                                             <cwcont:Segmented.ItemTemplate>
                                                 <DataTemplate x:DataType="shvh:DataEntryView">
                                                     <TextBlock Text="{Binding Name}"/>
