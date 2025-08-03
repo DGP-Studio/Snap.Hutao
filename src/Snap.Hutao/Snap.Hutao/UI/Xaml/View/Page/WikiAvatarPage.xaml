@@ -730,6 +730,7 @@
                                                         </Border>
 
                                                         <FlipView
+                                                            x:Name="CostumeFlipView"
                                                             Grid.Row="1"
                                                             Height="108"
                                                             Padding="7,7,0,7"
@@ -747,7 +748,7 @@
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Bottom"
                                                             NumberOfPages="{Binding Avatars.CurrentItem.CostumesView.Count, FallbackValue={x:Null}}"
-                                                            SelectedPageIndex="{Binding Avatars.CurrentItem.CostumesView.CurrentPosition, Mode=TwoWay}"/>
+                                                            SelectedPageIndex="{x:Bind CostumeFlipView.SelectedIndex, Mode=TwoWay}"/>
                                                     </Grid>
                                                 </Border>
 
