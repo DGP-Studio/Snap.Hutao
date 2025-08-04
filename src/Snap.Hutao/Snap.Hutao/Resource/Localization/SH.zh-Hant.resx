@@ -1606,13 +1606,13 @@
     <value>帳號密碼登入</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>驗證碼</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>驗證碼已傳送</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>請輸入信箱驗證碼</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -2995,7 +2995,7 @@
     <value>選擇遊戲路徑</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在遊戲内切換帳號，網絡環境發生變化後需要重新手動偵測</value>
+    <value>在遊戲内切換帳號，網路環境發生變化後需要重新手動偵測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>偵測</value>
@@ -4036,18 +4036,18 @@
     <value>為了防止注入功能被濫用，需要使用米遊社/HoYoLAB 帳號登入並選擇一個帳號與角色</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>結束程序失敗</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
+    <value>寰宇劫滅</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>挪德卡萊</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>呼叫堆疊</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
     <value>神之眼</value>
