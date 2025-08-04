@@ -146,7 +146,7 @@ internal sealed partial class YaeService : IYaeService
                                 Debug.Assert(uiif is null);
                                 uiif = PlayerStoreParser.Parse(data.Bytes);
                                 break;
-                            case YaeCommandKind.ResponseVirtualItem:
+                            case YaeCommandKind.ResponsePlayerProp:
                                 {
                                     ref readonly YaePropertyTypeValue typeValue = ref data.PropertyTypeValue;
                                     propMap.Add(typeValue.Type, typeValue.Value);

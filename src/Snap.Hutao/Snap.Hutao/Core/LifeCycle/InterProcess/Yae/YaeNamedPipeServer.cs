@@ -74,8 +74,9 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                         return GetDataArray(serverStream);
                     }
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
+                    _ = ex;
                     try
                     {
                         serverStream.Disconnect();
@@ -127,7 +128,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                     return new(kind, owner, contentLength);
                 }
 
-            case YaeCommandKind.ResponseVirtualItem:
+            case YaeCommandKind.ResponsePlayerProp:
                 {
                     int contentLength = sizeof(YaePropertyTypeValue);
                     IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
@@ -147,7 +148,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         // This method is never cancellable.
         // Yae will prompt error message if the server is closed.
         ImmutableArray<YaeData>.Builder builder = ImmutableArray.CreateBuilder<YaeData>();
-        while (!gameProcess.HasExited && serverStream.IsConnected)
+        while (gameProcess.IsRunning() && serverStream.IsConnected)
         {
             try
             {

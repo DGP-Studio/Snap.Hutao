@@ -53,7 +53,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
 
         try
         {
-            DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeWndHook", context.Process.Id);
+            DllInjectionUtilities.InjectUsingWindowsHook2(dataFolderYaePath, "YaeWndHook", context.Process.Id);
         }
         catch (Exception ex)
         {
