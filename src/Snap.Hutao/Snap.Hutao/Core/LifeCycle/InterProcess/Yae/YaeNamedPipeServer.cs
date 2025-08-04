@@ -19,14 +19,14 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
     private readonly ILogger<YaeNamedPipeServer> logger;
     private readonly NamedPipeServerStream serverStream;
     private readonly Process gameProcess;
-    private readonly NativeConfiguration config;
+    private readonly TargetNativeConfiguration config;
 
     private readonly CancellationTokenSource disposeCts = new();
     private readonly AsyncLock disposeLock = new();
 
     private volatile bool disposed;
 
-    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess, NativeConfiguration config)
+    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess, TargetNativeConfiguration config)
     {
         Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
 
@@ -95,7 +95,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe YaeData? HandleCommand(PipeStream stream, NativeConfiguration config)
+    private static unsafe YaeData? HandleCommand(PipeStream stream, TargetNativeConfiguration config)
     {
         using BinaryReader reader = new(stream, Encoding.UTF8, true);
         using BinaryWriter writer = new(stream, Encoding.UTF8, true);
@@ -113,6 +113,9 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
             case YaeCommandKind.RequestRva:
                 {
+                    writer.Write(config.DoCmd);
+                    writer.Write(config.ToUInt16);
+                    writer.Write(config.UpdateNormalProperty);
                     return default;
                 }
 

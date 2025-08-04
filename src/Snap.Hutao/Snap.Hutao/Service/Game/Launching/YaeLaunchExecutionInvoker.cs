@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class YaeLaunchExecutionInvoker : LaunchExecutionInvoker
 {
-    public YaeLaunchExecutionInvoker(NativeConfiguration config, YaeDataArrayReceiver receiver)
+    public YaeLaunchExecutionInvoker(TargetNativeConfiguration config, YaeDataArrayReceiver receiver)
     {
         Handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());
         Handlers.Enqueue(new LaunchExecutionEnsureSchemeHandler());

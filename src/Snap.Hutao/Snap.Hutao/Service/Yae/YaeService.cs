@@ -57,7 +57,8 @@ internal sealed partial class YaeService : IYaeService
                         AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
                         ArgumentNullException.ThrowIfNull(fieldId);
 
-                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(fieldId.NativeConfig, receiver).InvokeAsync(context).ConfigureAwait(false);
+                        TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.TargetScheme.IsOversea);
+                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
 
                         if (result.Kind is not LaunchExecutionResultKind.Ok)
                         {
@@ -108,7 +109,19 @@ internal sealed partial class YaeService : IYaeService
                     UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
                     using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
                     {
-                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
+                        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) ||
+                            !gameFileSystem.TryGetGameVersion(out string? version) ||
+                            string.IsNullOrEmpty(version))
+                        {
+                            infoBarService.Error(SH.ServiceYaeGetGameVersionFailed);
+                            return default;
+                        }
+
+                        AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
+                        ArgumentNullException.ThrowIfNull(fieldId);
+
+                        TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.TargetScheme.IsOversea);
+                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
 
                         if (result.Kind is not LaunchExecutionResultKind.Ok)
                         {

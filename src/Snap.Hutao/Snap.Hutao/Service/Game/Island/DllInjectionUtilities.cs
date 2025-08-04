@@ -20,9 +20,23 @@ internal static class DllInjectionUtilities
         }
     }
 
+    public static unsafe void InjectUsingWindowsHook2(ReadOnlySpan<char> dllPath, ReadOnlySpan<char> functionName, int processId)
+    {
+        fixed (char* pDllPath = dllPath)
+        {
+            fixed (char* pFunctionName = functionName)
+            {
+                Marshal.ThrowExceptionForHR(DllInjectionUtilitiesInjectUsingWindowsHook2(pDllPath, pFunctionName, processId));
+            }
+        }
+    }
+
     // Security note: This method uses LOAD_WITH_ALTERED_SEARCH_PATH to load the DLL.
     // Which can cause arbitrary DLL in the same directory with the same name that required by the DLL to be loaded.
     // We should pre-check the directory to ensure that it only contains the expected DLL.
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT DllInjectionUtilitiesInjectUsingWindowsHook(PCWSTR dllPath, PCWSTR functionName, int processId);
+
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT DllInjectionUtilitiesInjectUsingWindowsHook2(PCWSTR dllPath, PCWSTR functionName, int processId);
 }

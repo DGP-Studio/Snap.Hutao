@@ -13,10 +13,10 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDelegateHandler
 {
-    private readonly NativeConfiguration config;
+    private readonly TargetNativeConfiguration config;
     private readonly YaeDataArrayReceiver receiver;
 
-    public YaeLaunchExecutionNamedPipeHandler(NativeConfiguration config, YaeDataArrayReceiver receiver)
+    public YaeLaunchExecutionNamedPipeHandler(TargetNativeConfiguration config, YaeDataArrayReceiver receiver)
     {
         this.config = config;
         this.receiver = receiver;
@@ -48,12 +48,12 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         }
 
         context.Logger.LogInformation("Initializing Yae");
-        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeLib.dll");
-        InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeLib.dll", dataFolderYaePath);
+        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeAchievementLib.dll");
+        InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeAchievementLib.dll", dataFolderYaePath);
 
         try
         {
-            DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeGetWindowHook", context.Process.Id);
+            DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeWndHook", context.Process.Id);
         }
         catch (Exception ex)
         {
