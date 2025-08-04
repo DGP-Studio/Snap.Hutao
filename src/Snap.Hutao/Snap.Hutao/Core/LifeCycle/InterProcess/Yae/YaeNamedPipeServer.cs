@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Yae.Achievement;
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -18,19 +19,22 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
     private readonly ILogger<YaeNamedPipeServer> logger;
     private readonly NamedPipeServerStream serverStream;
     private readonly Process gameProcess;
+    private readonly NativeConfiguration config;
 
     private readonly CancellationTokenSource disposeCts = new();
     private readonly AsyncLock disposeLock = new();
 
     private volatile bool disposed;
 
-    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess)
+    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess, NativeConfiguration config)
     {
+        Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
+
         logger = serviceProvider.GetRequiredService<ILogger<YaeNamedPipeServer>>();
         this.gameProcess = gameProcess;
+        this.config = config;
 
         // Yae is always running elevated, so we don't need to use ACL method.
-        Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
         serverStream = new(PipeName);
     }
 
@@ -91,33 +95,45 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe bool TryReadPacket(PipeStream stream, [NotNullWhen(true)] out YaeData? data)
+    private static unsafe YaeData? HandleCommand(PipeStream stream, NativeConfiguration config)
     {
-        using (BinaryReader reader = new(stream, Encoding.UTF8, true))
+        using BinaryReader reader = new(stream, Encoding.UTF8, true);
+        using BinaryWriter writer = new(stream, Encoding.UTF8, true);
+
+        YaeCommandKind kind = reader.Read<YaeCommandKind>();
+
+        switch (kind)
         {
-            data = default;
-            YaeDataKind kind = reader.Read<YaeDataKind>();
+            case YaeCommandKind.RequestCmdId:
+                {
+                    writer.Write(config.AchievementCmdId);
+                    writer.Write(config.StoreCmdId);
+                    return default;
+                }
 
-            int contentLength;
-            switch (kind)
-            {
-                case YaeDataKind.Achievement or YaeDataKind.PlayerStore:
-                    contentLength = reader.ReadInt32();
-                    break;
-                case YaeDataKind.VirtualItem:
-                    contentLength = sizeof(YaePropertyTypeValue);
-                    break;
-                case YaeDataKind.End:
-                    contentLength = 0; // We can rent zero-length memory.
-                    break;
-                default:
-                    return false;
-            }
+            case YaeCommandKind.RequestRva:
+                {
+                    return default;
+                }
 
-            IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
-            reader.ReadExactly(owner.Memory.Span);
-            data = new(kind, owner, contentLength);
-            return true;
+            case YaeCommandKind.ResponseAchievement or YaeCommandKind.ResponsePlayerStore:
+                {
+                    int contentLength = reader.ReadInt32();
+                    IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
+                    reader.ReadExactly(owner.Memory.Span);
+                    return new(kind, owner, contentLength);
+                }
+
+            case YaeCommandKind.ResponseVirtualItem:
+                {
+                    int contentLength = sizeof(YaePropertyTypeValue);
+                    IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
+                    reader.ReadExactly(owner.Memory.Span);
+                    return new(kind, owner, contentLength);
+                }
+
+            default:
+                return default;
         }
     }
 
@@ -132,7 +148,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         {
             try
             {
-                if (TryReadPacket(serverStream, out YaeData? data))
+                if (HandleCommand(serverStream, config) is { } data)
                 {
                     builder.Add(data);
                 }

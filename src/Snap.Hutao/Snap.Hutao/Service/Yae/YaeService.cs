@@ -41,26 +41,44 @@ internal sealed partial class YaeService : IYaeService
             await taskContext.SwitchToBackgroundAsync();
             using (YaeDataArrayReceiver receiver = new())
             {
-                AchievementFieldId? fieldId = default;
                 try
                 {
                     UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
                     using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
                     {
-                        if (context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) &&
-                            gameFileSystem.TryGetGameVersion(out string? version) &&
-                            !string.IsNullOrEmpty(version))
+                        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) ||
+                            !gameFileSystem.TryGetGameVersion(out string? version) ||
+                            string.IsNullOrEmpty(version))
                         {
-                            fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
+                            infoBarService.Error(SH.ServiceYaeGetGameVersionFailed);
+                            return default;
                         }
 
-                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(receiver).InvokeAsync(context).ConfigureAwait(false);
+                        AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
+                        ArgumentNullException.ThrowIfNull(fieldId);
+
+                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(fieldId.NativeConfig, receiver).InvokeAsync(context).ConfigureAwait(false);
 
                         if (result.Kind is not LaunchExecutionResultKind.Ok)
                         {
                             infoBarService.Warning(result.ErrorMessage);
                             return default;
                         }
+
+                        UIAF? uiaf = default;
+                        foreach (YaeData data in receiver.Array)
+                        {
+                            using (data)
+                            {
+                                if (data.Kind is YaeCommandKind.ResponseAchievement)
+                                {
+                                    Debug.Assert(uiaf is null);
+                                    uiaf = AchievementParser.Parse(data.Bytes, fieldId);
+                                }
+                            }
+                        }
+
+                        return uiaf;
                     }
                 }
                 catch (Exception ex)
@@ -68,21 +86,6 @@ internal sealed partial class YaeService : IYaeService
                     infoBarService.Error(ex);
                     return default;
                 }
-
-                UIAF? uiaf = default;
-                foreach (YaeData data in receiver.Array)
-                {
-                    using (data)
-                    {
-                        if (data.Kind is YaeDataKind.Achievement)
-                        {
-                            Debug.Assert(uiaf is null);
-                            uiaf = AchievementParser.Parse(data.Bytes, fieldId);
-                        }
-                    }
-                }
-
-                return uiaf;
             }
         }
     }
@@ -126,11 +129,11 @@ internal sealed partial class YaeService : IYaeService
                     {
                         switch (data.Kind)
                         {
-                            case YaeDataKind.PlayerStore:
+                            case YaeCommandKind.ResponsePlayerStore:
                                 Debug.Assert(uiif is null);
                                 uiif = PlayerStoreParser.Parse(data.Bytes);
                                 break;
-                            case YaeDataKind.VirtualItem:
+                            case YaeCommandKind.ResponseVirtualItem:
                                 {
                                     ref readonly YaePropertyTypeValue typeValue = ref data.PropertyTypeValue;
                                     propMap.Add(typeValue.Type, typeValue.Value);

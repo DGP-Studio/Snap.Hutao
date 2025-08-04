@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
@@ -12,10 +13,12 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDelegateHandler
 {
+    private readonly NativeConfiguration config;
     private readonly YaeDataArrayReceiver receiver;
 
-    public YaeLaunchExecutionNamedPipeHandler(YaeDataArrayReceiver receiver)
+    public YaeLaunchExecutionNamedPipeHandler(NativeConfiguration config, YaeDataArrayReceiver receiver)
     {
+        this.config = config;
         this.receiver = receiver;
     }
 
@@ -67,7 +70,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         try
         {
 #pragma warning disable CA2007
-            await using (YaeNamedPipeServer server = new(context.ServiceProvider, context.Process))
+            await using (YaeNamedPipeServer server = new(context.ServiceProvider, context.Process, config))
 #pragma warning restore CA2007
             {
                 receiver.Array = await server.GetDataArrayAsync().ConfigureAwait(false);

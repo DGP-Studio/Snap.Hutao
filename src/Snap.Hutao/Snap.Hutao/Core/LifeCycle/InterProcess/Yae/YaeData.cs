@@ -13,7 +13,7 @@ internal sealed partial class YaeData : IDisposable
     private readonly IMemoryOwner<byte> owner;
     private readonly int contentLength;
 
-    public YaeData(YaeDataKind kind, IMemoryOwner<byte> owner, int contentLength)
+    public YaeData(YaeCommandKind kind, IMemoryOwner<byte> owner, int contentLength)
     {
         Kind = kind;
         this.owner = owner;
@@ -25,7 +25,7 @@ internal sealed partial class YaeData : IDisposable
         Dispose();
     }
 
-    public YaeDataKind Kind { get; }
+    public YaeCommandKind Kind { get; }
 
     public ByteString Bytes { get => ByteStringMarshal.Create(owner.Memory[..contentLength]); }
 

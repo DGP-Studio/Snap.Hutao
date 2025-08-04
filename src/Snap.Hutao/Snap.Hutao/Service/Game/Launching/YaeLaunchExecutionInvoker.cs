@@ -3,12 +3,13 @@
 
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Yae.Achievement;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class YaeLaunchExecutionInvoker : LaunchExecutionInvoker
 {
-    public YaeLaunchExecutionInvoker(YaeDataArrayReceiver receiver)
+    public YaeLaunchExecutionInvoker(NativeConfiguration config, YaeDataArrayReceiver receiver)
     {
         Handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());
         Handlers.Enqueue(new LaunchExecutionEnsureSchemeHandler());
@@ -18,7 +19,7 @@ internal sealed class YaeLaunchExecutionInvoker : LaunchExecutionInvoker
         Handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
         Handlers.Enqueue(new YaeLaunchExecutionGameProcessInitializationHandler());
         Handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
-        Handlers.Enqueue(new YaeLaunchExecutionNamedPipeHandler(receiver));
+        Handlers.Enqueue(new YaeLaunchExecutionNamedPipeHandler(config, receiver));
         Handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
 }
