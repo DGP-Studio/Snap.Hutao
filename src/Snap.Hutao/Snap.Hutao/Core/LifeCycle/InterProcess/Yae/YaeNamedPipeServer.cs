@@ -74,18 +74,6 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                         return GetDataArray(serverStream);
                     }
                 }
-                catch (IOException ex)
-                {
-                    _ = ex;
-                    try
-                    {
-                        serverStream.Disconnect();
-                    }
-                    catch
-                    {
-                        // Ignore
-                    }
-                }
                 catch (OperationCanceledException)
                 {
                     break;
@@ -96,11 +84,8 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe YaeData? HandleCommand(PipeStream stream, TargetNativeConfiguration config)
+    private static unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
     {
-        using BinaryReader reader = new(stream, Encoding.UTF8, true);
-        using BinaryWriter writer = new(stream, Encoding.UTF8, true);
-
         YaeCommandKind kind = reader.Read<YaeCommandKind>();
 
         switch (kind)
@@ -120,6 +105,12 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                     return default;
                 }
 
+            case YaeCommandKind.RequestResumeThread:
+                {
+                    // DO NOTHING
+                    return default;
+                }
+
             case YaeCommandKind.ResponseAchievement or YaeCommandKind.ResponsePlayerStore:
                 {
                     int contentLength = reader.ReadInt32();
@@ -136,6 +127,13 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                     return new(kind, owner, contentLength);
                 }
 
+            case YaeCommandKind.SessionEnd:
+                {
+                    writer.Write(true);
+                    writer.Flush();
+                    return default;
+                }
+
             default:
                 return default;
         }
@@ -147,12 +145,17 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         // This method is never cancellable.
         // Yae will prompt error message if the server is closed.
+        using BinaryReader reader = new(serverStream, Encoding.UTF8);
+        using BinaryWriter writer = new(serverStream, Encoding.UTF8);
+
         ImmutableArray<YaeData>.Builder builder = ImmutableArray.CreateBuilder<YaeData>();
         while (gameProcess.IsRunning() && serverStream.IsConnected)
         {
             try
             {
-                if (HandleCommand(serverStream, config) is { } data)
+                // If command is SessionEnd, pipe client will close connection after HandleCommand.
+                // Actually, yae exit after read the final bool value.
+                if (HandleCommand(reader, writer, config) is { } data)
                 {
                     builder.Add(data);
                 }
@@ -160,6 +163,10 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             catch (EndOfStreamException)
             {
                 // Client closed.
+            }
+            catch (IOException)
+            {
+                // Pipe is broken.
             }
         }
 
