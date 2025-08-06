@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
@@ -12,10 +13,12 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDelegateHandler
 {
+    private readonly TargetNativeConfiguration config;
     private readonly YaeDataArrayReceiver receiver;
 
-    public YaeLaunchExecutionNamedPipeHandler(YaeDataArrayReceiver receiver)
+    public YaeLaunchExecutionNamedPipeHandler(TargetNativeConfiguration config, YaeDataArrayReceiver receiver)
     {
+        this.config = config;
         this.receiver = receiver;
     }
 
@@ -45,12 +48,12 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         }
 
         context.Logger.LogInformation("Initializing Yae");
-        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeLib.dll");
-        InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeLib.dll", dataFolderYaePath);
+        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeAchievementLib.dll");
+        InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeAchievementLib.dll", dataFolderYaePath);
 
         try
         {
-            DllInjectionUtilities.InjectUsingWindowsHook(dataFolderYaePath, "YaeGetWindowHook", context.Process.Id);
+            DllInjectionUtilities.InjectUsingWindowsHook2(dataFolderYaePath, "YaeWndHook", context.Process.Id);
         }
         catch (Exception ex)
         {
@@ -67,7 +70,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         try
         {
 #pragma warning disable CA2007
-            await using (YaeNamedPipeServer server = new(context.ServiceProvider, context.Process))
+            await using (YaeNamedPipeServer server = new(context.ServiceProvider, context.Process, config))
 #pragma warning restore CA2007
             {
                 receiver.Array = await server.GetDataArrayAsync().ConfigureAwait(false);
