@@ -4052,4 +4052,7 @@ Ruang Tersedia: {2}</value>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
     <value>神之眼</value>
   </data>
+  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
+    <value>获取游戏版本失败</value>
+  </data>
 </root>
