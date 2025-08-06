@@ -50,17 +50,17 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         handle = GCHandle.ToIntPtr(GCHandle.Alloc(this));
     }
 
-    [FieldAccess]
+    [FieldAccessor]
     public bool ModifierHasControl { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    [FieldAccess]
+    [FieldAccessor]
     public bool ModifierHasShift { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    [FieldAccess]
+    [FieldAccessor]
     public bool ModifierHasAlt { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
     [AllowNull]
-    [FieldAccess]
+    [FieldAccessor]
     public NameValue<VIRTUAL_KEY> KeyNameValue
     {
         get;
@@ -73,7 +73,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
     }
 
-    [FieldAccess]
+    [FieldAccessor]
     public HOT_KEY_MODIFIERS Modifiers
     {
         get;
@@ -87,7 +87,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
     }
 
-    [FieldAccess]
+    [FieldAccessor]
     public VIRTUAL_KEY Key
     {
         get;
