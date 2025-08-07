@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Protobuf.Collection;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.IO;
@@ -64,7 +65,7 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
             switch (asset.Kind)
             {
                 case SophonAssetOperationKind.AddOrRepair:
-                    foreach (ref readonly AssetChunk chunk in CollectionsMarshal.AsSpan(asset.NewAsset.AssetChunks.ToList()))
+                    foreach (AssetChunk chunk in asset.NewAsset.AssetChunks)
                     {
                         uniqueChunkNames.Add(chunk.ChunkName);
                     }

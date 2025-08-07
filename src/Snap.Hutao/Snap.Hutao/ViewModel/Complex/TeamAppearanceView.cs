@@ -13,13 +13,13 @@ internal sealed class TeamAppearanceView
     public TeamAppearanceView(TeamAppearance teamRank, ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         Floor = SH.FormatModelBindingHutaoComplexRankFloor(teamRank.Floor);
-        Up = teamRank.Up.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
-        Down = teamRank.Down.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
+        Up = teamRank.Up.SelectAsArray(static (teamRate, index, idAvatarMap) => new Team(teamRate, idAvatarMap, index + 1), idAvatarMap);
+        Down = teamRank.Down.SelectAsArray(static (teamRate, index, idAvatarMap) => new Team(teamRate, idAvatarMap, index + 1), idAvatarMap);
     }
 
     public string Floor { get; }
 
-    public List<Team> Up { get; }
+    public ImmutableArray<Team> Up { get; }
 
-    public List<Team> Down { get; }
+    public ImmutableArray<Team> Down { get; }
 }

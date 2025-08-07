@@ -335,7 +335,7 @@ internal static class OfflineCalculator
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (ref readonly int requiredAscension in CollectionsMarshal.AsSpan(requiredAscensions))
+        foreach (int requiredAscension in requiredAscensions)
         {
             int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 
@@ -470,7 +470,7 @@ internal static class OfflineCalculator
         int totalMora = 0;
         Dictionary<uint, uint> items = [];
 
-        foreach (ref readonly int requiredAscension in CollectionsMarshal.AsSpan(requiredAscensions))
+        foreach (int requiredAscension in requiredAscensions)
         {
             int ascensionIndex = AscensionLevels.IndexOf(requiredAscension);
 

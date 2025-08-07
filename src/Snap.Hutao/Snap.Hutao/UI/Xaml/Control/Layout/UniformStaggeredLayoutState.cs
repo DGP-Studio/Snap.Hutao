@@ -150,12 +150,11 @@ internal sealed class UniformStaggeredLayoutState
 
         foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
-            for (int i = 0; i < layoutSpan.Length; i++)
+            for (int i = 0; i < layout.Count; i++)
             {
-                if (layoutSpan[i].Index >= index)
+                if (layout[i].Index >= index)
                 {
-                    numToRemove = layoutSpan.Length - i;
+                    numToRemove = layout.Count - i;
                     layout.RemoveRange(i, numToRemove);
                     break;
                 }
@@ -172,7 +171,7 @@ internal sealed class UniformStaggeredLayoutState
                 break;
             }
 
-            ref readonly UniformStaggeredItem item = ref CollectionsMarshal.AsSpan(items)[i];
+            UniformStaggeredItem item = items[i];
             item.Height = 0;
             item.Top = 0;
 
@@ -182,12 +181,12 @@ internal sealed class UniformStaggeredLayoutState
 
         foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
-            for (int i = 0; i < layoutSpan.Length; i++)
+            //Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
+            for (int i = 0; i < layout.Count; i++)
             {
-                if (startIndex <= layoutSpan[i].Index && layoutSpan[i].Index <= endIndex)
+                if (startIndex <= layout[i].Index && layout[i].Index <= endIndex)
                 {
-                    int numToRemove = layoutSpan.Length - i;
+                    int numToRemove = layout.Count - i;
                     layout.RemoveRange(i, numToRemove);
                     break;
                 }

@@ -57,10 +57,9 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
     private static List<TEntity> AdjustIndex(List<TEntity> list)
     {
         // Input list can have non-contiguous indices, so we need to normalize them
-        Span<TEntity> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < span.Length; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            span[i].Index = i;
+            list[i].Index = i;
         }
 
         return list;
@@ -105,10 +104,9 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
 
     private static List<TEntityAccess> AdjustIndex(List<TEntityAccess> list)
     {
-        Span<TEntityAccess> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < span.Length; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            span[i].Entity.Index = i;
+            list[i].Entity.Index = i;
         }
 
         return list;

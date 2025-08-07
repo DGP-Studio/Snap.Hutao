@@ -24,7 +24,7 @@ internal sealed class ReliquarySetView : RateAndDelta
         {
             StringBuilder nameBuilder = new();
             List<Uri> icons = new(2);
-            foreach (ref readonly ReliquarySet set in CollectionsMarshal.AsSpan(sets))
+            foreach (ReliquarySet set in sets)
             {
                 Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId];
                 nameBuilder.Append(set.Count).Append('×').Append(metaSet.Name).Append('+');
