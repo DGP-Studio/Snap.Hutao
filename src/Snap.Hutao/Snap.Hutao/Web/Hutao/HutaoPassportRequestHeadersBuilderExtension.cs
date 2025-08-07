@@ -14,4 +14,15 @@ internal static class HutaoPassportRequestHeadersBuilderExtension
         builder.Headers.Authorization = string.IsNullOrEmpty(accessToken) ? default : new("Bearer", accessToken);
         return builder;
     }
+
+    public static TBuilder SetHomaToken<TBuilder>(this TBuilder builder, string? homaToken)
+        where TBuilder : IHttpHeadersBuilder<HttpRequestHeaders>
+    {
+        if (!string.IsNullOrEmpty(homaToken))
+        {
+            builder.Headers.Add("x-homa-token", homaToken);
+        }
+
+        return builder;
+    }
 }

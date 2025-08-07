@@ -3,10 +3,12 @@
 
 using JetBrains.Annotations;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
@@ -38,6 +40,49 @@ public sealed class ScriptContext
             IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
                 .SetMethod(method)
+                .SetRequestUri(url);
+
+            foreach (string header in headers)
+            {
+                int indexOfColon = header.IndexOf(':', StringComparison.Ordinal);
+                if (indexOfColon > 0)
+                {
+                    builder.AddHeader(header.AsSpan()[..indexOfColon].Trim().ToString(), header.AsSpan()[(indexOfColon + 1)..].Trim().ToString());
+                }
+                else
+                {
+                    builder.AddHeader(header);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(body))
+            {
+                builder.SetStringContent(body);
+            }
+
+            using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
+            {
+                return await SendAsync(builder, httpClient, default).ConfigureAwait(false);
+            }
+        }
+    }
+
+    public async ValueTask<string> RequestWithCurrentHomaUserAsync(string method, string url, string[] headers, string? body = default)
+    {
+        using (IServiceScope scope = ServiceProvider.CreateScope())
+        {
+            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
+            string? accessToken = await hutaoUserOptions.GetAccessTokenAsync().ConfigureAwait(false);
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return "Passport not logged in";
+            }
+
+            IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetMethod(method)
+                .SetAccessToken(accessToken)
+                .SetHomaToken(accessToken)
                 .SetRequestUri(url);
 
             foreach (string header in headers)
