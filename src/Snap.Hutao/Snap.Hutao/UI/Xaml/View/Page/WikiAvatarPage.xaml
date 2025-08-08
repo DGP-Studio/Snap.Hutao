@@ -21,7 +21,7 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Complex"
-    xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
+    xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki" xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -33,6 +33,8 @@
             x:Key="VisibilityToColumnSpanConverter"
             CollapsedValue="{shuxm:Int32 Value=2}"
             VisibleValue="{shuxm:Int32 Value=1}"/>
+
+        <shuxdcs:RangedInt32Converter x:Key="RangedInt32Converter"/>
 
         <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
@@ -748,7 +750,7 @@
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Bottom"
                                                             NumberOfPages="{Binding Avatars.CurrentItem.CostumesView.Count, FallbackValue={x:Null}}"
-                                                            SelectedPageIndex="{x:Bind CostumeFlipView.SelectedIndex, Mode=TwoWay}"/>
+                                                            SelectedPageIndex="{x:Bind CostumeFlipView.SelectedIndex, Mode=TwoWay, Converter={StaticResource RangedInt32Converter}}"/>
                                                     </Grid>
                                                 </Border>
 

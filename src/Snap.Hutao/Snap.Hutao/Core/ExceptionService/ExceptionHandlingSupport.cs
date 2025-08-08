@@ -94,7 +94,7 @@ internal sealed partial class ExceptionHandlingSupport
         }
 
         Exception exception = e.Exception;
-        if (exception is OperationCanceledException)
+        if (exception is OperationCanceledException or IInternalException)
         {
             return;
         }
