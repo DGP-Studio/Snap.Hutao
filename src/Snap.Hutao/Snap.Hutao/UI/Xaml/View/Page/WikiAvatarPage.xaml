@@ -18,10 +18,11 @@
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Complex"
-    xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki" xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
+    xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
