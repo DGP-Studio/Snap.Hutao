@@ -4036,4 +4036,21 @@
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
     <value>结束进程失败</value>
   </data>
+  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
+    <value>寰宇劫灭</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
+    <value>挪德卡莱</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
+    <value>调用堆栈</value>
+  </data>
+  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
+    <value>神之眼</value>
+  </data>
+  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
+    <value>获取游戏版本失败</value>
+  </data>
 </root>
