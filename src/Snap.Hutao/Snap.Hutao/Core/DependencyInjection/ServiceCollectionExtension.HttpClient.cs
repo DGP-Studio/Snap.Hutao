@@ -16,7 +16,7 @@ using System.Text;
 namespace Snap.Hutao.Core.DependencyInjection;
 
 // ReSharper disable UnusedMember.Local
-internal static partial class IocHttpClientConfiguration
+internal static partial class ServiceCollectionExtension
 {
     public static IServiceCollection AddConfiguredHttpClients(this IServiceCollection services)
     {

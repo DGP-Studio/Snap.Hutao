@@ -44,7 +44,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public partial SettingWebViewViewModel WebView { get; }
 
     [ObservableProperty]
-    public partial string UpdateInfo { get; set; }
+    public partial string? UpdateInfo { get; set; }
 
     public void AttachXamlElement(ScrollViewer scrollViewer, Border gachaLogBorder)
     {
