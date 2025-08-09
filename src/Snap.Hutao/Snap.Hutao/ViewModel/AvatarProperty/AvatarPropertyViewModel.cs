@@ -191,12 +191,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            scopeContext.InfoBarService.Warning(SH.MustSelectUserAndUid);
-            return;
-        }
-
         if (avatar.Weapon is null)
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
@@ -213,28 +207,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        CalculatorBatchConsumption? batchConsumption;
-        if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
-        {
-            ArgumentNullException.ThrowIfNull(metadataContext);
-            batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltaOptions.Delta, metadataContext);
-            ArgumentNullException.ThrowIfNull(batchConsumption);
-        }
-        else
-        {
-            using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
-            {
-                CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                Response<CalculatorBatchConsumption> response = await calculatorClient
-                    .BatchComputeAsync(userAndUid, deltaOptions.Delta)
-                    .ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
-                {
-                    return;
-                }
-            }
-        }
+        ArgumentNullException.ThrowIfNull(metadataContext);
+        CalculatorBatchConsumption batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltaOptions.Delta, metadataContext);
 
         if (!await SaveCultivationAsync(batchConsumption.Items.Single(), deltaOptions).ConfigureAwait(false))
         {
@@ -249,12 +223,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (Summary is not { Avatars: { } avatars })
         {
-            return;
-        }
-
-        if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            scopeContext.InfoBarService.Warning(SH.MustSelectUserAndUid);
             return;
         }
 
@@ -318,26 +286,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
             ImmutableArray<CalculatorAvatarPromotionDelta> deltas = deltasBuilder.ToImmutable();
 
-            CalculatorBatchConsumption? batchConsumption;
-            if (LocalSetting.Get(SettingKeys.EnableOfflineCultivationCalculator, false))
-            {
-                ArgumentNullException.ThrowIfNull(metadataContext);
-                batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltas, metadataContext);
-                ArgumentNullException.ThrowIfNull(batchConsumption);
-            }
-            else
-            {
-                using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
-                {
-                    CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                    Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
-
-                    if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
-                    {
-                        return;
-                    }
-                }
-            }
+            ArgumentNullException.ThrowIfNull(metadataContext);
+            CalculatorBatchConsumption batchConsumption = OfflineCalculator.CalculateBatchConsumption(deltas, metadataContext);
 
             foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in batchConsumption.Items.Zip(deltas))
             {

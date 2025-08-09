@@ -101,7 +101,6 @@ internal static class SettingKeys
     public const string AlphaBuildUseFjPatchEndpoint = "AlphaBuildUseFJPatchEndpoint";
     public const string TreatPredownloadAsMain = "TreatPredownloadAsMain";
     public const string EnableBetaGameInstall = "EnableBetaGameInstall";
-    public const string EnableOfflineCultivationCalculator = "EnableOfflineCultivationCalculator";
     public const string PreventCopyIslandDll = "PreventCopyIslandDll";
     #endregion
 
@@ -157,5 +156,8 @@ internal static class SettingKeys
 
     [Obsolete("不再保存通行证密码")]
     public const string PassportPassword = "PassportPassword";
+
+    [Obsolete]
+    public const string EnableOfflineCultivationCalculator = "EnableOfflineCultivationCalculator";
     #endregion
 }
