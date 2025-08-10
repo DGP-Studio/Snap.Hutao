@@ -24,7 +24,7 @@ internal sealed partial class UpdateService : IUpdateService
     // Avoid injecting services directly
     private readonly IServiceProvider serviceProvider;
 
-    public string UpdateInfo { get; set; }
+    public string? UpdateInfo { get; set; }
 
     public async ValueTask<CheckUpdateResult> CheckUpdateAsync(CancellationToken token = default)
     {
@@ -72,7 +72,7 @@ internal sealed partial class UpdateService : IUpdateService
                     CheckUpdateResultKind.UpdateAvailable => SH.FormatViewModelSettingUpdateAvailable(checkUpdateResult.PackageInformation?.Version.ToString()),
                     CheckUpdateResultKind.AlreadyUpdated => SH.ViewModelSettingAlreadyUpdated,
                     CheckUpdateResultKind.VersionApiInvalidResponse or CheckUpdateResultKind.VersionApiInvalidSha256 => SH.ViewModelSettingCheckUpdateFailed,
-                    _ => default!,
+                    _ => default,
                 };
             }
         }

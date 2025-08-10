@@ -188,7 +188,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         // Cycle through each column and arrange the items that are within the realization bounds
         for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
         {
-            foreach (ref readonly UniformStaggeredItem item in CollectionsMarshal.AsSpan(state.GetColumnLayout(columnIndex)))
+            foreach (UniformStaggeredItem item in state.GetColumnLayout(columnIndex))
             {
                 double bottom = item.Top + item.Height;
                 if (bottom < context.RealizationRect.Top)

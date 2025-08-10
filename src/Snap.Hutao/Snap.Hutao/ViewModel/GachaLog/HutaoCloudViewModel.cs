@@ -32,7 +32,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     public partial HutaoUserOptions Options { get; }
 
-    internal ICommand RetrieveCommand { get; set; }
+    internal ICommand? RetrieveCommand { get; set; }
 
     internal async ValueTask<ValueResult<bool, Guid>> RetrieveAsync(string uid)
     {

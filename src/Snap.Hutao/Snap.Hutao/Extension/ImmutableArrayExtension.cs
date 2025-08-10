@@ -75,6 +75,27 @@ internal static class ImmutableArrayExtension
         return ImmutableCollectionsMarshal.AsImmutableArray(results);
     }
 
+    [Pure]
+    public static ImmutableArray<TResult> SelectAsArray<TSource, TState, TResult>(this ImmutableArray<TSource> array, [RequireStaticDelegate] Func<TSource, int, TState, TResult> selector, TState state)
+    {
+        int length = array.Length;
+        if (length == 0)
+        {
+            return [];
+        }
+
+        ReadOnlySpan<TSource> sourceSpan = array.AsSpan();
+        TResult[] results = GC.AllocateUninitializedArray<TResult>(length);
+
+        Span<TResult> resultSpan = results.AsSpan();
+        for (int index = 0; index < sourceSpan.Length; index++)
+        {
+            resultSpan[index] = selector(sourceSpan[index], index, state);
+        }
+
+        return ImmutableCollectionsMarshal.AsImmutableArray(results);
+    }
+
     public static void SortInPlace<TElement>(this ImmutableArray<TElement> array, IComparer<TElement> comparer)
     {
         if (array.IsEmpty)

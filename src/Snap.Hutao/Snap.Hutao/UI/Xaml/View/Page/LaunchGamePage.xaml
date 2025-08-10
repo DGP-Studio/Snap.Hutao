@@ -153,10 +153,15 @@
                         MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                         Source="{StaticResource UI_EmotionIcon445}"/>
                     <TextBlock
-                        Margin="0,5,0,21"
+                        Margin="0,5,0,0"
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
+                    <TextBlock
+                        Margin="0,5,0,21"
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource SystemErrorTextColor}"
+                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePathHint}"/>
                     <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"

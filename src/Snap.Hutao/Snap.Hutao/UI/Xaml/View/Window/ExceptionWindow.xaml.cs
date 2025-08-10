@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
@@ -18,11 +19,17 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 {
     private readonly SentryId id;
 
-    public ExceptionWindow(SentryId id)
+    public ExceptionWindow(CapturedException capturedException)
+        : this(capturedException.Id, capturedException.Exception)
+    {
+    }
+
+    public ExceptionWindow(SentryId id, Exception ex)
     {
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
         this.id = id;
+        Exception = ex.ToString();
 
         AppWindow.Title = "Snap Hutao Exception Report";
 
@@ -44,11 +51,18 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 
     public string TraceId { get => $"trace.id: {id}"; }
 
+    public string Exception { get; }
+
     public string? Comment { get; set => SetProperty(ref field, value); }
 
-    public static void Show(SentryId id)
+    public static void Show(CapturedException capturedException)
     {
-        ExceptionWindow window = new(id);
+        Show(capturedException.Id, capturedException.Exception);
+    }
+
+    public static void Show(SentryId id, Exception ex)
+    {
+        ExceptionWindow window = new(id, ex);
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
     }

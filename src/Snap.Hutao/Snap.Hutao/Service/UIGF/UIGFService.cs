@@ -11,13 +11,20 @@ internal sealed partial class UIGFService : IUIGFService
 
     public ValueTask ExportAsync(UIGFExportOptions exportOptions, CancellationToken token = default)
     {
-        IUIGFExportService exportService = serviceProvider.GetRequiredKeyedService<IUIGFExportService>(UIGFVersion.UIGF40);
+        IUIGFExportService exportService = serviceProvider.GetRequiredKeyedService<IUIGFExportService>(UIGFVersion.UIGF41);
         return exportService.ExportAsync(exportOptions, token);
     }
 
     public ValueTask ImportAsync(UIGFImportOptions importOptions, CancellationToken token = default)
     {
-        IUIGFImportService importService = serviceProvider.GetRequiredKeyedService<IUIGFImportService>(UIGFVersion.UIGF40);
+        UIGFVersion version = importOptions.UIGF.Info.Version switch
+        {
+            "v4.0" => UIGFVersion.UIGF40,
+            "v4.1" => UIGFVersion.UIGF41,
+            _ => UIGFVersion.None,
+        };
+
+        IUIGFImportService importService = serviceProvider.GetRequiredKeyedService<IUIGFImportService>(version);
         return importService.ImportAsync(importOptions, token);
     }
 }

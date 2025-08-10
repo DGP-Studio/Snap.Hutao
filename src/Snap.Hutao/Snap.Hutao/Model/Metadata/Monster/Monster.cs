@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
 
@@ -32,12 +33,12 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 
     public List<string>? Affixes { get; init; }
 
-    public List<MaterialId>? Drops { get; init; }
+    public ImmutableArray<MaterialId> Drops { get; init; }
 
     public MonsterBaseValue? BaseValue { get; init; }
 
     public TypeValueCollection<FightProperty, GrowCurveType>? GrowCurves { get; init; }
 
     [JsonIgnore]
-    public List<DisplayItem>? DropsView { get; set; }
+    public ImmutableArray<DisplayItem>? DropsView { get; set; }
 }

@@ -16,7 +16,7 @@ internal sealed class HutaoCloudEntryOperationViewModel
     /// <param name="entry">记录</param>
     /// <param name="retrieve">获取记录</param>
     /// <param name="delete">删除记录</param>
-    public HutaoCloudEntryOperationViewModel(GachaEntry entry, ICommand retrieve, ICommand delete)
+    public HutaoCloudEntryOperationViewModel(GachaEntry entry, ICommand? retrieve, ICommand delete)
     {
         Uid = entry.Uid;
         ItemCount = entry.ItemCount;
@@ -31,7 +31,7 @@ internal sealed class HutaoCloudEntryOperationViewModel
     /// <summary>
     /// 获取云端数据
     /// </summary>
-    public ICommand RetrieveCommand { get; }
+    public ICommand? RetrieveCommand { get; }
 
     /// <summary>
     /// 删除云端数据

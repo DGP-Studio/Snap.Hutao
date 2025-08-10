@@ -34,5 +34,8 @@ internal enum ElementType
     Mushroom = 11, // 弹弹菇
     Overdose = 12, // 激元素
     Wood = 13, // 木元素
-    Count = 14, // 个数
+    LiquidPhlogiston = 14, // 液态燃素
+    SolidPhlogiston = 15, // ?
+    SolidifyPhlogiston = 16, // ?
+    Count, // 个数
 }

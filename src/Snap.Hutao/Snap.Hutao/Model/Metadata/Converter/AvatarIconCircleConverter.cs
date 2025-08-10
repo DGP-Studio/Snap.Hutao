@@ -10,7 +10,9 @@ internal sealed partial class AvatarIconCircleConverter : ValueConverter<string,
 {
     public static Uri IconNameToUri(string name)
     {
-        return StaticResourcesEndpoints.StaticRaw("AvatarIconCircle", $"{name}.png").ToUri();
+        return string.IsNullOrEmpty(name)
+            ? StaticResourcesEndpoints.UIIconNone
+            : StaticResourcesEndpoints.StaticRaw("AvatarIconCircle", $"{name}.png").ToUri();
     }
 
     public override Uri Convert(string from)

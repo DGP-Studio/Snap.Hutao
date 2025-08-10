@@ -10,21 +10,21 @@ namespace Snap.Hutao.Extension;
 internal static class ListExtension
 {
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static double Average(this List<int> source)
     {
-        Span<int> span = CollectionsMarshal.AsSpan(source);
-        if (span.IsEmpty)
+        if (source.Count <= 0)
         {
             return 0;
         }
 
         long sum = 0;
-        foreach (ref readonly int item in span)
+        foreach (int item in source)
         {
             sum += item;
         }
 
-        return (double)sum / span.Length;
+        return (double)sum / source.Count;
     }
 
     [Pure]
@@ -56,35 +56,6 @@ internal static class ListExtension
     public static void RemoveLast<T>(this IList<T> collection)
     {
         collection.RemoveAt(collection.Count - 1);
-    }
-
-    [Pure]
-    public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, TResult> selector)
-    {
-        Span<TSource> span = CollectionsMarshal.AsSpan(list);
-        List<TResult> results = new(span.Length);
-
-        foreach (ref readonly TSource item in span)
-        {
-            results.Add(selector(item));
-        }
-
-        return results;
-    }
-
-    [Pure]
-    public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, int, TResult> selector)
-    {
-        Span<TSource> span = CollectionsMarshal.AsSpan(list);
-        List<TResult> results = new(span.Length);
-
-        int index = -1;
-        foreach (ref readonly TSource item in span)
-        {
-            results.Add(selector(item, ++index));
-        }
-
-        return results;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

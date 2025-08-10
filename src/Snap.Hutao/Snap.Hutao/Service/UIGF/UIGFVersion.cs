@@ -7,4 +7,5 @@ internal enum UIGFVersion
 {
     None,
     UIGF40,
+    UIGF41,
 }

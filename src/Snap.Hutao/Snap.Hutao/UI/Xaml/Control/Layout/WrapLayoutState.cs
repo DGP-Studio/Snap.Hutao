@@ -68,7 +68,7 @@ internal sealed class WrapLayoutState
 
     public void ClearPositions()
     {
-        foreach (ref readonly WrapItem item in CollectionsMarshal.AsSpan(items))
+        foreach (WrapItem item in items)
         {
             item.Position = WrapItem.EmptyPosition;
         }
@@ -84,10 +84,10 @@ internal sealed class WrapLayoutState
         Point? lastPosition = default;
         double maxHeight = 0;
 
-        Span<WrapItem> itemSpan = CollectionsMarshal.AsSpan(items);
+        //Span<WrapItem> itemSpan = CollectionsMarshal.AsSpan(items);
         for (int i = items.Count - 1; i >= 0; --i)
         {
-            ref readonly WrapItem item = ref itemSpan[i];
+            WrapItem item = items[i];
 
             if (item.Position == WrapItem.EmptyPosition || item.Size == Size.Empty)
             {

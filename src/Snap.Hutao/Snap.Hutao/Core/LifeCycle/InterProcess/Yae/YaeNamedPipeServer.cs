@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Yae.Achievement;
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -17,19 +19,22 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
     private readonly ILogger<YaeNamedPipeServer> logger;
     private readonly NamedPipeServerStream serverStream;
     private readonly Process gameProcess;
+    private readonly TargetNativeConfiguration config;
 
     private readonly CancellationTokenSource disposeCts = new();
     private readonly AsyncLock disposeLock = new();
 
     private volatile bool disposed;
 
-    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess)
+    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess, TargetNativeConfiguration config)
     {
+        Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
+
         logger = serviceProvider.GetRequiredService<ILogger<YaeNamedPipeServer>>();
         this.gameProcess = gameProcess;
+        this.config = config;
 
         // Yae is always running elevated, so we don't need to use ACL method.
-        Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
         serverStream = new(PipeName);
     }
 
@@ -58,7 +63,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
-            while (true)
+            while (LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
             {
                 try
                 {
@@ -67,17 +72,6 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                         await serverStream.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
                         logger.LogInformation("Client connected.");
                         return GetDataArray(serverStream);
-                    }
-                }
-                catch (IOException)
-                {
-                    try
-                    {
-                        serverStream.Disconnect();
-                    }
-                    catch
-                    {
-                        // Ignore
                     }
                 }
                 catch (OperationCanceledException)
@@ -90,33 +84,58 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe bool TryReadPacket(PipeStream stream, [NotNullWhen(true)] out YaeData? data)
+    private static unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
     {
-        using (BinaryReader reader = new(stream, Encoding.UTF8, true))
+        YaeCommandKind kind = reader.Read<YaeCommandKind>();
+
+        switch (kind)
         {
-            data = default;
-            YaeDataKind kind = reader.Read<YaeDataKind>();
+            case YaeCommandKind.RequestCmdId:
+                {
+                    writer.Write(config.AchievementCmdId);
+                    writer.Write(config.StoreCmdId);
+                    return default;
+                }
 
-            int contentLength;
-            switch (kind)
-            {
-                case YaeDataKind.Achievement or YaeDataKind.PlayerStore:
-                    contentLength = reader.ReadInt32();
-                    break;
-                case YaeDataKind.VirtualItem:
-                    contentLength = sizeof(YaePropertyTypeValue);
-                    break;
-                case YaeDataKind.End:
-                    contentLength = 0; // We can rent zero-length memory.
-                    break;
-                default:
-                    return false;
-            }
+            case YaeCommandKind.RequestRva:
+                {
+                    writer.Write(config.DoCmd);
+                    writer.Write(config.ToUInt16);
+                    writer.Write(config.UpdateNormalProperty);
+                    return default;
+                }
 
-            IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
-            reader.ReadExactly(owner.Memory.Span);
-            data = new(kind, owner, contentLength);
-            return true;
+            case YaeCommandKind.RequestResumeThread:
+                {
+                    // DO NOTHING
+                    return default;
+                }
+
+            case YaeCommandKind.ResponseAchievement or YaeCommandKind.ResponsePlayerStore:
+                {
+                    int contentLength = reader.ReadInt32();
+                    IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
+                    reader.ReadExactly(owner.Memory.Span);
+                    return new(kind, owner, contentLength);
+                }
+
+            case YaeCommandKind.ResponsePlayerProp:
+                {
+                    int contentLength = sizeof(YaePropertyTypeValue);
+                    IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
+                    reader.ReadExactly(owner.Memory.Span);
+                    return new(kind, owner, contentLength);
+                }
+
+            case YaeCommandKind.SessionEnd:
+                {
+                    writer.Write(true);
+                    writer.Flush();
+                    return default;
+                }
+
+            default:
+                return default;
         }
     }
 
@@ -126,12 +145,17 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         // This method is never cancellable.
         // Yae will prompt error message if the server is closed.
+        using BinaryReader reader = new(serverStream, Encoding.UTF8);
+        using BinaryWriter writer = new(serverStream, Encoding.UTF8);
+
         ImmutableArray<YaeData>.Builder builder = ImmutableArray.CreateBuilder<YaeData>();
-        while (!gameProcess.HasExited && serverStream.IsConnected)
+        while (gameProcess.IsRunning() && serverStream.IsConnected)
         {
             try
             {
-                if (TryReadPacket(serverStream, out YaeData? data))
+                // If command is SessionEnd, pipe client will close connection after HandleCommand.
+                // Actually, yae exit after read the final bool value.
+                if (HandleCommand(reader, writer, config) is { } data)
                 {
                     builder.Add(data);
                 }
@@ -139,6 +163,10 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             catch (EndOfStreamException)
             {
                 // Client closed.
+            }
+            catch (IOException)
+            {
+                // Pipe is broken.
             }
         }
 

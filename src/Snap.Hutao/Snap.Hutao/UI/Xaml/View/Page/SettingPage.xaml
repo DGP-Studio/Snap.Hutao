@@ -428,7 +428,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE92E;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <Button
                                             MinWidth="32"
                                             MinHeight="32"
@@ -492,7 +492,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE92E;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <Button
                                             MinWidth="32"
                                             MinHeight="32"
@@ -565,7 +565,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE768;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
@@ -589,7 +589,7 @@
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
                                         Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <NumberBox
                                             MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                             VerticalAlignment="Center"
@@ -604,7 +604,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEB9D;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
@@ -625,7 +625,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEB9E;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
@@ -646,7 +646,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xED1A;}"
                                     IsEnabled="{shuxm:IsProcessElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
@@ -670,7 +670,7 @@
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
                                         Spacing="8">
-                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:VisibleWhenProcessElevated}"/>
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{shuxm:CollapsedWhenProcessElevated}"/>
                                         <NumberBox
                                             MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                             VerticalAlignment="Center"

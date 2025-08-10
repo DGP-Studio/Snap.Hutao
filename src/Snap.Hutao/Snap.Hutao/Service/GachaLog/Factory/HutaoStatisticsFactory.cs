@@ -56,7 +56,7 @@ internal sealed class HutaoStatisticsFactory
         List<StatisticsItem> purpleItems = [];
         List<StatisticsItem> blueItems = [];
 
-        foreach (ref readonly ItemCount item in CollectionsMarshal.AsSpan(items))
+        foreach (ItemCount item in items)
         {
             IStatisticsItemConvertible source = item.Item.StringLength() switch
             {

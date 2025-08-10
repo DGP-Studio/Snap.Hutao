@@ -18,6 +18,7 @@
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Complex"
@@ -33,6 +34,8 @@
             x:Key="VisibilityToColumnSpanConverter"
             CollapsedValue="{shuxm:Int32 Value=2}"
             VisibleValue="{shuxm:Int32 Value=1}"/>
+
+        <shuxdcs:RangedInt32Converter x:Key="RangedInt32Converter"/>
 
         <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
@@ -463,6 +466,14 @@
                                                             ColumnSpacing="6"
                                                             Columns="4">
                                                             <StackPanel>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
+                                                                <TextBlock
+                                                                    Margin="0,6,0,0"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.BirthFormatted}"
+                                                                    TextWrapping="NoWrap"/>
+                                                            </StackPanel>
+                                                            <StackPanel>
                                                                 <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
@@ -471,21 +482,22 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Avatars.CurrentItem.FetterInfo.VisionOverride}"/>
+                                                                <TextBlock
+                                                                    Margin="0,6,0,0"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.Vision}"
+                                                                    TextWrapping="NoWrap"/>
+                                                            </StackPanel>
+                                                            <StackPanel>
                                                                 <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.ConstellationBefore}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.Constellation}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
-                                                            <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
-                                                                <TextBlock
-                                                                    Margin="0,6,0,0"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.BirthFormatted}"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
+
                                                         </cwc:UniformGrid>
 
                                                         <cwc:UniformGrid
@@ -721,6 +733,7 @@
                                                         </Border>
 
                                                         <FlipView
+                                                            x:Name="CostumeFlipView"
                                                             Grid.Row="1"
                                                             Height="108"
                                                             Padding="7,7,0,7"
@@ -738,7 +751,7 @@
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Bottom"
                                                             NumberOfPages="{Binding Avatars.CurrentItem.CostumesView.Count, FallbackValue={x:Null}}"
-                                                            SelectedPageIndex="{Binding Avatars.CurrentItem.CostumesView.CurrentPosition, Mode=TwoWay}"/>
+                                                            SelectedPageIndex="{x:Bind CostumeFlipView.SelectedIndex, Mode=TwoWay, Converter={StaticResource RangedInt32Converter}}"/>
                                                     </Grid>
                                                 </Border>
 
@@ -840,8 +853,44 @@
                                                     </Expander>
                                                 </Border>
 
+                                                <!--  游迹  -->
+                                                <Border Visibility="{Binding Avatars.CurrentItem.TraceEffect, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
+                                                        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="{ThemeResource ControlAltFillColorSecondary}"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
+                                                    </Border.Resources>
+                                                    <Expander
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarTraceEffectHeader}"
+                                                        IsExpanded="True">
+                                                        <Grid DataContext="{Binding Avatars.CurrentItem.TraceEffect}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <shuxc:ItemIcon
+                                                                Grid.Column="0"
+                                                                Icon="{Binding Icon, Converter={StaticResource AvatarTraceEffectIconConverter}}"
+                                                                Quality="QUALITY_NONE"/>
+                                                            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                                                <TextBlock
+                                                                    Margin="0,16,0,0"
+                                                                    Text="{Binding Description}"
+                                                                    TextWrapping="Wrap"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Expander>
+                                                </Border>
+
                                                 <!--  料理  -->
-                                                <Border>
+                                                <Border Visibility="{Binding Avatars.CurrentItem.CookBonusView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <Border.Resources>
                                                         <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}"/>

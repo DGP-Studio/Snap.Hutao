@@ -58,7 +58,7 @@ internal sealed partial class StatisticsCultivateItemCollection : ICollection<St
     public ObservableCollection<StatisticsCultivateItem> ToObservableCollection()
     {
         List<StatisticsCultivateItem> results = [];
-        foreach (ref readonly StatisticsCultivateItem item in CollectionsMarshal.AsSpan(items))
+        foreach (StatisticsCultivateItem item in items)
         {
             if (item.ExcludedFromPresentation)
             {

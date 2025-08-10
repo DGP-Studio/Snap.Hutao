@@ -22,7 +22,7 @@ internal static class GachaStatisticsExtension
         bool isPreviousUp = true;
 
         // Mark the IsGuarantee
-        foreach (ref readonly SummaryItem item in CollectionsMarshal.AsSpan(summaryItems))
+        foreach (SummaryItem item in summaryItems)
         {
             if (item.IsUp && !isPreviousUp)
             {

@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Update;
 
 internal interface IUpdateService
 {
-    string UpdateInfo { get; }
+    string? UpdateInfo { get; }
 
     ValueTask<CheckUpdateResult> CheckUpdateAsync(CancellationToken token = default);
 
