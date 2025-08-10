@@ -4040,4 +4040,21 @@
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
     <value>プロセスの終了に失敗しました</value>
   </data>
+  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
+    <value>宇宙の劫災</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
+    <value>ナド・クライ</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
+    <value>コールスタック</value>
+  </data>
+  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
+    <value>神の目</value>
+  </data>
+  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
+    <value>ゲームバージョンの取得に失敗しました</value>
+  </data>
 </root>
