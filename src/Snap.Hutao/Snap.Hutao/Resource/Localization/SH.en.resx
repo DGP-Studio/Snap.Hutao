@@ -4043,7 +4043,7 @@ Space Available: {2}</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>Nodkrai</value>
+    <value>挪德卡莱</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
@@ -4056,6 +4056,12 @@ Space Available: {2}</value>
     <value>获取游戏版本失败</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>Close</value>
+    <value>关闭</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>在下方列表中选中以切换到该路径</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>游迹</value>
   </data>
 </root>
