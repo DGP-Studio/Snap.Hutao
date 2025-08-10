@@ -57,7 +57,7 @@
                 Grid.Row="3"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <Button Command="{x:Bind CloseCommand}" Content="关闭"/>
+                <Button Command="{x:Bind CloseCommand}" Content="{shuxm:ResourceString Name=ViewWindowExceptionClose}"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -4043,7 +4043,7 @@ Space Available: {2}</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>Nodkrai</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
@@ -4054,5 +4054,8 @@ Space Available: {2}</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
     <value>获取游戏版本失败</value>
+  </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>Close</value>
   </data>
 </root>

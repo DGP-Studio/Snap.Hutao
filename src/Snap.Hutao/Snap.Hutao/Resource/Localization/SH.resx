@@ -4055,4 +4055,7 @@
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
     <value>获取游戏版本失败</value>
   </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
 </root>
