@@ -11,4 +11,9 @@ internal sealed partial class RangedInt32Converter : DependencyValueConverter<in
     {
         return Math.Clamp(from, Minimum, Maximum);
     }
+
+    public override int ConvertBack(int to)
+    {
+        return Math.Clamp(to, Minimum, Maximum);
+    }
 }

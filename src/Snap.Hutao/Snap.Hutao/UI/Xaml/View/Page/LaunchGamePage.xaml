@@ -161,7 +161,7 @@
                         Margin="0,5,0,21"
                         HorizontalAlignment="Center"
                         Foreground="{ThemeResource SystemErrorTextColor}"
-                        Text="在下方列表中选中以切换到该路径"/>
+                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePathHint}"/>
                     <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"

@@ -867,7 +867,7 @@
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
                                                         Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
-                                                        Header="游迹"
+                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarTraceEffectHeader}"
                                                         IsExpanded="True">
                                                         <Grid DataContext="{Binding Avatars.CurrentItem.TraceEffect}">
                                                             <Grid.ColumnDefinitions>
