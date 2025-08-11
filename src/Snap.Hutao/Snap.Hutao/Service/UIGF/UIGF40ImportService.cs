@@ -11,5 +11,5 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.UIGF;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Transient, typeof(IUIGFImportService), Key = UIGFVersion.UIGF40)]
+[Service(ServiceLifetime.Transient, typeof(IUIGFImportService), Key = UIGFVersion.UIGF40)]
 internal sealed partial class UIGF40ImportService : AbstractUIGF40ImportService;

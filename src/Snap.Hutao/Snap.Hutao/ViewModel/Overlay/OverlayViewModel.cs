@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Overlay;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class OverlayViewModel : Abstraction.ViewModel
 {
     public partial HotKeyOptions HotKeyOptions { get; }

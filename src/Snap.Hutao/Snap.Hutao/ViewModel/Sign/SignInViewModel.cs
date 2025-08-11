@@ -19,7 +19,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Sign;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);

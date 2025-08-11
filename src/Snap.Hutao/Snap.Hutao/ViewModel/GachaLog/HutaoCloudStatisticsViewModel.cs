@@ -6,7 +6,7 @@ using Snap.Hutao.Service.GachaLog;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 {

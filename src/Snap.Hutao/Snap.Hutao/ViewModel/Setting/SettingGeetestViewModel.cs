@@ -10,7 +10,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;

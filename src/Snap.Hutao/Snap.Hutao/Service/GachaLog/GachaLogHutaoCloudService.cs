@@ -16,7 +16,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaLogHutaoCloudService))]
+[Service(ServiceLifetime.Scoped, typeof(IGachaLogHutaoCloudService))]
 internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudService
 {
     private readonly IGachaLogRepository gachaLogRepository;

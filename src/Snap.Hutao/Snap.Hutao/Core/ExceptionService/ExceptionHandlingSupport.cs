@@ -12,7 +12,7 @@ using System.Runtime.ExceptionServices;
 namespace Snap.Hutao.Core.ExceptionService;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class ExceptionHandlingSupport
 {
     private readonly ILogger<ExceptionHandlingSupport> logger;

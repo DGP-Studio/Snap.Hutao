@@ -11,11 +11,12 @@ using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
     private bool? isEmptyHistoryWishVisible;
@@ -64,7 +65,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref elementTheme, SettingEntry.ElementTheme, value, EnumToStringOrEmpty);
     }
 
-    public ImmutableArray<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
 
     public BackgroundImageType BackgroundImageType
     {
@@ -97,7 +98,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
     }
 
-    public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
 
     public BridgeShareSaveType BridgeShareSaveType
     {
@@ -117,7 +118,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
     }
 
-    public ImmutableArray<NameValue<LastWindowCloseBehavior>> LastWindowCloseBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<LastWindowCloseBehavior>(LastWindowCloseBehaviorExtension.GetLocalizedDescription);
+    public ImmutableArray<NameValue<LastWindowCloseBehavior>> LastWindowCloseBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<LastWindowCloseBehavior>(static @enum => @enum.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
 
     public LastWindowCloseBehavior LastWindowCloseBehavior
     {

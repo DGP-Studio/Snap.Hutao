@@ -13,7 +13,7 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.Service.SignIn;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ISignInService))]
+[Service(ServiceLifetime.Singleton, typeof(ISignInService))]
 internal sealed partial class SignInService : ISignInService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;

@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class LaunchOptions : DbStoreOptions,
     IRestrictedGamePathAccess,
     IRecipient<LaunchExecutionProcessStatusChangedMessage>

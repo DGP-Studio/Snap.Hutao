@@ -24,7 +24,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.DailyNote;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;

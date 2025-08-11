@@ -12,40 +12,40 @@ internal static class FightPropertyFormat
 {
     public static NameValue<string> ToNameValue(FightProperty property, float value)
     {
-        return new(property.GetLocalizedDescription(), FormatValue(property, value));
+        return new(property.GetLocalizedDescription(SH.ResourceManager), FormatValue(property, value));
     }
 
     public static NameValue<string> ToNameValue(ReliquaryProperty baseProperty)
     {
-        return new(baseProperty.PropertyType.GetLocalizedDescription(), baseProperty.Value);
+        return new(baseProperty.PropertyType.GetLocalizedDescription(SH.ResourceManager), baseProperty.Value);
     }
 
     public static NameStringValue ToNameStringValue(FightProperty property, float value)
     {
-        return new(property.GetLocalizedDescription(), FormatValue(property, value));
+        return new(property.GetLocalizedDescription(SH.ResourceManager), FormatValue(property, value));
     }
 
     public static NameDescription ToNameDescription(FightProperty property, float value)
     {
-        return new(property.GetLocalizedDescription(), FormatValue(property, value));
+        return new(property.GetLocalizedDescription(SH.ResourceManager), FormatValue(property, value));
     }
 
     public static ParameterDescription ToParameterDescription(FightProperty property, float value)
     {
-        return new(FormatValue(property, value), property.GetLocalizedDescription());
+        return new(FormatValue(property, value), property.GetLocalizedDescription(SH.ResourceManager));
     }
 
     public static AvatarProperty ToAvatarProperty(BaseProperty baseProperty)
     {
         FightProperty property = baseProperty.PropertyType;
-        string name = property.GetLocalizedDescription();
+        string name = property.GetLocalizedDescription(SH.ResourceManager);
 
         return new(baseProperty.PropertyType, name, baseProperty.Base, baseProperty.Add);
     }
 
     public static AvatarProperty ToAvatarProperty(FightProperty property, float value)
     {
-        string name = property.GetLocalizedDescription();
+        string name = property.GetLocalizedDescription(SH.ResourceManager);
         FormatMethod method = property.GetFormatMethod();
 
         return new(property, name, FormatValue(method, value));
@@ -53,7 +53,7 @@ internal static class FightPropertyFormat
 
     public static AvatarProperty ToAvatarProperty(FightProperty property, Dictionary<FightProperty, float> fightPropMap)
     {
-        string name = property.GetLocalizedDescription();
+        string name = property.GetLocalizedDescription(SH.ResourceManager);
         FormatMethod method = property.GetFormatMethod();
 
         float value = fightPropMap.GetValueOrDefault(property);
@@ -63,7 +63,7 @@ internal static class FightPropertyFormat
 
     public static AvatarProperty ToAvatarProperty(FightProperty property, float baseValue, float addValue)
     {
-        string name = property.GetLocalizedDescription();
+        string name = property.GetLocalizedDescription(SH.ResourceManager);
         FormatMethod method = property.GetFormatMethod();
 
         string value = FormatValue(method, baseValue + addValue);

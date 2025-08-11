@@ -27,7 +27,7 @@ using System.IO;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient,
     IRecipient<LaunchExecutionGameFileSystemExclusiveAccessChangedMessage>
 {

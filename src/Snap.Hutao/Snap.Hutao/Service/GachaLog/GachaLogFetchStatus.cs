@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Globalization;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -25,7 +26,7 @@ internal sealed class GachaLogFetchStatus
         {
             return AuthKeyTimeout
                 ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
-                : SH.FormatViewDialogGachaLogRefreshProgressDescription(ConfigType.GetLocalizedDescription());
+                : SH.FormatViewDialogGachaLogRefreshProgressDescription(ConfigType.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Windows.AppNotifications;
 
 namespace Snap.Hutao.Service.Notification;
 
-[Injection(InjectAs.Singleton, typeof(IAppNotificationLifeTime))]
+[Service(ServiceLifetime.Singleton, typeof(IAppNotificationLifeTime))]
 internal sealed partial class AppNotificationLifeTime : IAppNotificationLifeTime
 {
     public void Dispose()

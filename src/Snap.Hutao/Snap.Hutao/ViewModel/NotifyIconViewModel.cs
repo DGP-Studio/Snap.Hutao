@@ -23,7 +23,7 @@ using Windows.Storage.Streams;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
     [FromKeyed(typeof(CompactWebView2Window))]

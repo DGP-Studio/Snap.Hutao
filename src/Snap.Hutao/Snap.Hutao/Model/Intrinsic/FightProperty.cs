@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-[Localization]
+[ExtendedEnum]
 internal enum FightProperty
 {
     FIGHT_PROP_NONE = 0,

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
-[Injection(InjectAs.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.ExtractBlocks)]
+[Service(ServiceLifetime.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.ExtractBlocks)]
 internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)

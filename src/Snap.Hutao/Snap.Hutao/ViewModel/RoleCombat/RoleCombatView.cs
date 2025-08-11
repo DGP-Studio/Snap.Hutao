@@ -9,6 +9,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 using System.Collections.Immutable;
+using System.Globalization;
 using MetadataRoleCombatSchedule = Snap.Hutao.Model.Metadata.RoleCombatSchedule;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
@@ -27,7 +28,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
         RoleCombatData roleCombatData = entity.RoleCombatData;
         Stat = roleCombatData.Stat;
-        Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
+        Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture);
         FormattedHeraldry = SH.FormatViewModelRoleCombatHeraldry(MaxRound);
         BackupAvatars =
         [

@@ -5,5 +5,5 @@ using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
-[Injection(InjectAs.Singleton, typeof(IApiEndpoints), Key = ApiEndpointsKind.Chinese)]
+[Service(ServiceLifetime.Singleton, typeof(IApiEndpoints), Key = ApiEndpointsKind.Chinese)]
 internal sealed class ApiEndpointsForChinese : ApiEndpointsImplementationForChinese;

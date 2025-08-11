@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel.Guide;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;

@@ -8,7 +8,7 @@ using System.Collections.Frozen;
 namespace Snap.Hutao.Service.RoleCombat;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IRoleCombatRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IRoleCombatRepository))]
 internal sealed partial class RoleCombatRepository : IRoleCombatRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

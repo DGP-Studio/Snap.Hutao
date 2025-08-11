@@ -16,7 +16,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 namespace Snap.Hutao.Service.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IAchievementService))]
+[Service(ServiceLifetime.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
     private readonly AsyncLock archivesLock = new();

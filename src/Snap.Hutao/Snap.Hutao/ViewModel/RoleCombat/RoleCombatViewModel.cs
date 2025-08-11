@@ -19,7 +19,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IRoleCombatService roleCombatService;

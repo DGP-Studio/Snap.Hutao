@@ -16,7 +16,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>,
     IViewModelSupportLaunchExecution,

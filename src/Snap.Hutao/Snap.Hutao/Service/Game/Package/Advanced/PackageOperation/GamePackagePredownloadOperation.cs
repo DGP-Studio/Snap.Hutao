@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.Predownload)]
+[Service(ServiceLifetime.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.Predownload)]
 internal sealed partial class GamePackagePredownloadOperation : GamePackageOperation
 {
     private readonly JsonSerializerOptions jsonOptions;

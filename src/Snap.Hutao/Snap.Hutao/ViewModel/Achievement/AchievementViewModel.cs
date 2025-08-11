@@ -26,7 +26,7 @@ using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.Achievemen
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient, IDisposable
 {
     public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);

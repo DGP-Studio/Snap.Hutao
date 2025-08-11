@@ -23,7 +23,7 @@ using Windows.Graphics;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,

@@ -15,7 +15,7 @@ using Snap.Hutao.UI.Xaml.View.Page;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 [ConstructorGenerated]
 internal sealed partial class LaunchGameShared
 {

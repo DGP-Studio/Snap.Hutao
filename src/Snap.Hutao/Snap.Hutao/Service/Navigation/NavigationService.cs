@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.View.Page;
 namespace Snap.Hutao.Service.Navigation;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(INavigationService))]
+[Service(ServiceLifetime.Singleton, typeof(INavigationService))]
 internal sealed partial class NavigationService : INavigationService
 {
     private readonly ITaskContext taskContext;

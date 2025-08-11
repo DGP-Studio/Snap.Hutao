@@ -12,7 +12,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
     private const string ZeroBytesPerSecondSpeed = "0 bytes/s";

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using System.Globalization;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
@@ -10,6 +11,6 @@ internal sealed partial class ElementTypeIconConverter : ValueConverter<ElementT
 {
     public override Uri Convert(ElementType from)
     {
-        return ElementNameIconConverter.ElementNameToUri(from.GetLocalizedDescription());
+        return ElementNameIconConverter.ElementNameToUri(from.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
     }
 }

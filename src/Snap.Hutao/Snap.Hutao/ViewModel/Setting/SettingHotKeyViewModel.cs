@@ -9,7 +9,7 @@ using Snap.Hutao.UI.Input.LowLevel;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingHotKeyViewModel : Abstraction.ViewModel
 {
     public static int WebView2VideoFastForwardOrRewindSeconds

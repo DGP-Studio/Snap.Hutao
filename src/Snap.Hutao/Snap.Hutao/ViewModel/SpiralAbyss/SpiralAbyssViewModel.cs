@@ -24,7 +24,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly ISpiralAbyssService spiralAbyssService;
