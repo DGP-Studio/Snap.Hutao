@@ -21,6 +21,7 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerChineseChannel14SubChannel02Compat = new LaunchSchemeBilibili(SubChannelType.NoTapTap, false);
     private static readonly LaunchScheme ServerChineseChannel14SubChannel06Compat = new LaunchSchemeBilibili(SubChannelType.Google, false);
     private static readonly LaunchScheme ServerChineseChannel14SubChannel14Compat = new LaunchSchemeBilibili((SubChannelType)14, false);
+    private static readonly LaunchScheme ServerChineseChannel14SubChannel16Compat = new LaunchSchemeBilibili((SubChannelType)16, false);
 
     private static readonly LaunchScheme ServerOverseaChannel00SubChannel00Compat = new LaunchSchemeOversea(ChannelType.Default, SubChannelType.Default, false);
     private static readonly LaunchScheme ServerOverseaChannel01SubChannel00 = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Default);
@@ -46,6 +47,7 @@ internal static class KnownLaunchSchemes
         ServerChineseChannel14SubChannel02Compat,
         ServerChineseChannel14SubChannel06Compat,
         ServerChineseChannel14SubChannel14Compat,
+        ServerChineseChannel14SubChannel16Compat,
 
         ServerOverseaChannel00SubChannel00Compat,
         ServerOverseaChannel01SubChannel00,
