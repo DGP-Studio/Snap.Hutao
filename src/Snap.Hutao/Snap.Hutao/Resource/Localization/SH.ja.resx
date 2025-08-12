@@ -4058,12 +4058,12 @@
     <value>ゲームバージョンの取得に失敗しました</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>閉じる</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
+    <value>下のリストで項目を選択して、そのパスに切り替えます</value>
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
+    <value>軌跡</value>
   </data>
 </root>
