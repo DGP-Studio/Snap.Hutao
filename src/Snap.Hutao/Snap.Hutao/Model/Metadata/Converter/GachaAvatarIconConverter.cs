@@ -16,9 +16,7 @@ internal sealed partial class GachaAvatarIconConverter : ValueConverter<string, 
             return default!;
         }
 
-        string icon = default!;
-        Interpolated.Parse(name, $"UI_AvatarIcon_{icon}");
-        return StaticResourcesEndpoints.StaticRaw("GachaAvatarIcon", $"UI_Gacha_AvatarIcon_{icon}.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("GachaAvatarIcon", $"UI_Gacha_AvatarIcon_{CommonNameExtractor.ExtractUIAvatarIconName(name)}.png").ToUri();
     }
 
     public override Uri Convert(string from)
