@@ -4043,25 +4043,27 @@ Space Available: {2}</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>Nod-Krai</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>Call Stack</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
+    <value>Vision</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>Failed to get game version</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>Close</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
+    <value>Select in the list below to switch to this path</value>
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
+    <value>Envisaged Echoes</value>
+    <comment>ViewPageWiKiAvatarTraceEffectHeader
+绘想游迹： https://wiki.hoyolab.com/pc/genshin/entry/6333?lang=zh-cn</comment>
   </data>
 </root>
