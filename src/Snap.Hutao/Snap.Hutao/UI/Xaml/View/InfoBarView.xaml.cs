@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-[DependencyProperty("InfoBars", typeof(ObservableCollection<InfoBarOptions>))]
+[DependencyProperty<ObservableCollection<InfoBarOptions>>("InfoBars")]
 internal sealed partial class InfoBarView : UserControl
 {
     public InfoBarView()

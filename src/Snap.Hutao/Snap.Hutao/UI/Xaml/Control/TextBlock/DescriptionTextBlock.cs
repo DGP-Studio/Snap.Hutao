@@ -20,9 +20,9 @@ using TextBlockType = Microsoft.UI.Xaml.Controls.TextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
-[DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
-[DependencyProperty("LinkContext", typeof(LinkMetadataContext), default(LinkMetadataContext))]
-[DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
+[DependencyProperty<string>("Description", PropertyChangedCallbackName = nameof(OnDescriptionChanged))]
+[DependencyProperty<LinkMetadataContext>("LinkContext")]
+[DependencyProperty<Style>("TextStyle", PropertyChangedCallbackName = nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
     private static readonly BitmapImage BitmapSourceIce = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png".ToUri());

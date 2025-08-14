@@ -7,7 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("Text", typeof(string))]
+[DependencyProperty<string>("Text")]
 internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

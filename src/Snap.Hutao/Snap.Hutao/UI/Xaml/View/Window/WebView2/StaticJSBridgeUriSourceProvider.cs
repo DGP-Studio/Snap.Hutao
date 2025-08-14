@@ -8,8 +8,8 @@ using Snap.Hutao.Web.Bridge;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-[DependencyProperty("ChineseSource", typeof(string))]
-[DependencyProperty("OverseaSource", typeof(string))]
+[DependencyProperty<string>("ChineseSource")]
+[DependencyProperty<string>("OverseaSource")]
 internal sealed partial class StaticJSBridgeUriSourceProvider : DependencyObject, IJSBridgeUriSourceProvider
 {
     public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)

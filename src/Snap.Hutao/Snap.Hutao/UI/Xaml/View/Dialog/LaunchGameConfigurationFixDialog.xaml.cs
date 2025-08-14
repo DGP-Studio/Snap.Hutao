@@ -8,8 +8,8 @@ using Snap.Hutao.Service.Game.Scheme;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("KnownSchemes", typeof(IEnumerable<LaunchScheme>))]
-[DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
+[DependencyProperty<IEnumerable<LaunchScheme>>("KnownSchemes")]
+[DependencyProperty<LaunchScheme>("SelectedScheme")]
 internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

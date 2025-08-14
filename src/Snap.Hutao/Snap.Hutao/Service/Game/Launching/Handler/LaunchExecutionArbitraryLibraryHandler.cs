@@ -29,7 +29,7 @@ internal sealed class LaunchExecutionArbitraryLibraryHandler : ILaunchExecutionD
                     string pathString = path.ToString() ?? string.Empty;
                     if (File.Exists(pathString))
                     {
-                        DllInjectionUtilities.InjectUsingWindowsHook(pathString.ToString(), "DllGetWindowsHookForHutao", context.Process.Id);
+                        DllInjectionUtilities.InjectUsingWindowsHook(pathString, "DllGetWindowsHookForHutao", context.Process.Id);
                     }
                 }
             }

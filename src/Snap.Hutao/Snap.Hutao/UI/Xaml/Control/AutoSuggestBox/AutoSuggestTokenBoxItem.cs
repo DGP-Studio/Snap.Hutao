@@ -12,8 +12,8 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-[DependencyProperty("ClearButtonStyle", typeof(Style))]
-[DependencyProperty("Owner", typeof(AutoSuggestTokenBox))]
+[DependencyProperty<Style>("ClearButtonStyle")]
+[DependencyProperty<AutoSuggestTokenBox>("Owner")]
 [TemplatePart(Name = TokenRemoveButton, Type = typeof(ButtonBase))]
 [TemplatePart(Name = TextAutoSuggestBox, Type = typeof(Microsoft.UI.Xaml.Controls.AutoSuggestBox))]
 [TemplatePart(Name = TextTokensCounter, Type = typeof(Microsoft.UI.Xaml.Controls.TextBlock))]

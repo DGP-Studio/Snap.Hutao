@@ -11,9 +11,9 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("Text", typeof(string))]
-[DependencyProperty("SelectedServerTimeZoneOffset", typeof(NameValue<TimeSpan>))]
-[DependencyProperty("IsUidAttached", typeof(bool))]
+[DependencyProperty<string>("Text")]
+[DependencyProperty<NameValue<TimeSpan>>("SelectedServerTimeZoneOffset")]
+[DependencyProperty<bool>("IsUidAttached", NotNull = true)]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

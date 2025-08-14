@@ -7,8 +7,8 @@ using Snap.Hutao.Factory.ContentDialog;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("UserName", typeof(string))]
-[DependencyProperty("Password", typeof(string))]
+[DependencyProperty<string>("UserName")]
+[DependencyProperty<string>("Password")]
 internal sealed partial class HutaoPassportLoginDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

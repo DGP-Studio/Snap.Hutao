@@ -8,9 +8,9 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[DependencyProperty("Current", typeof(string), List)]
-[DependencyProperty("LocalSettingKeySuffixForCurrent", typeof(string))]
-[DependencyProperty("LocalSettingKeyExtraForCurrent", typeof(string), "")]
+[DependencyProperty<string>("Current", DefaultValue = List)]
+[DependencyProperty<string>("LocalSettingKeySuffixForCurrent")]
+[DependencyProperty<string>("LocalSettingKeyExtraForCurrent", DefaultValue = "")]
 internal sealed partial class LayoutSwitch : Segmented
 {
     public const string List = nameof(List);

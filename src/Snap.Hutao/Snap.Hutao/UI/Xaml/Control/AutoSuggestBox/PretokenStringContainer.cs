@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-[DependencyProperty("Text", typeof(string))]
+[DependencyProperty<string>("Text")]
 internal sealed partial class PretokenStringContainer : DependencyObject, ITokenStringContainer
 {
     public PretokenStringContainer(bool isLast = false)

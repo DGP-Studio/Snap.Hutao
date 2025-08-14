@@ -13,9 +13,9 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("UserName", typeof(string))]
-[DependencyProperty("Password", typeof(string))]
-[DependencyProperty("VerifyCode", typeof(string))]
+[DependencyProperty<string>("UserName")]
+[DependencyProperty<string>("Password")]
+[DependencyProperty<string>("VerifyCode")]
 internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

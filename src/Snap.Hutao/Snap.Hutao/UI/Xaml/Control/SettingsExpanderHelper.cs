@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml;
 namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("IsItemsEnabled", typeof(bool), true, nameof(OnIsItemsEnabledChanged), IsAttached = true, AttachedType = typeof(SettingsExpander))]
+[DependencyProperty<bool>("IsItemsEnabled", DefaultValue = true, PropertyChangedCallbackName = nameof(OnIsItemsEnabledChanged), IsAttached = true, TargetType = typeof(SettingsExpander), NotNull = true)]
 public sealed partial class SettingsExpanderHelper
 {
     private static void OnIsItemsEnabledChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)

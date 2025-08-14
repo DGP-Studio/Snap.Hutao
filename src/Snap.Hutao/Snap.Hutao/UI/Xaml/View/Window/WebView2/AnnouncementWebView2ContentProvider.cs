@@ -16,7 +16,7 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-[DependencyProperty("Announcement", typeof(Announcement))]
+[DependencyProperty<Announcement>("Announcement")]
 internal sealed partial class AnnouncementWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     // support click open browser.

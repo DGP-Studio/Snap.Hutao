@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("Selections", typeof(IReadOnlyList<UIGFUidSelection>))]
+[DependencyProperty<IReadOnlyList<UIGFUidSelection>>("Selections")]
 internal sealed partial class UIGFExportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

@@ -9,9 +9,9 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
 
-[DependencyProperty("MinItemWidth", typeof(double), 0D, nameof(OnMinItemWidthChanged))]
-[DependencyProperty("MinColumnSpacing", typeof(double), 0D, nameof(OnSpacingChanged))]
-[DependencyProperty("MinRowSpacing", typeof(double), 0D, nameof(OnSpacingChanged))]
+[DependencyProperty<double>("MinItemWidth", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnMinItemWidthChanged), NotNull = true)]
+[DependencyProperty<double>("MinColumnSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnSpacingChanged), NotNull = true)]
+[DependencyProperty<double>("MinRowSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnSpacingChanged), NotNull = true)]
 internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 {
     /// <inheritdoc/>

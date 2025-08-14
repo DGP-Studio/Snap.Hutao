@@ -8,7 +8,7 @@ using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
-[DependencyProperty("ContentProvider", typeof(IWebView2ContentProvider))]
+[DependencyProperty<IWebView2ContentProvider>("ContentProvider")]
 internal sealed partial class ShowWebView2WindowAction : DependencyObject, IAction
 {
     public static ShowWebView2WindowAction? TryShow<TProvider>(XamlRoot? xamlRoot)

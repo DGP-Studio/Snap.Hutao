@@ -13,10 +13,10 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("UserName", typeof(string))]
-[DependencyProperty("NewUserName", typeof(string))]
-[DependencyProperty("VerifyCode", typeof(string))]
-[DependencyProperty("NewVerifyCode", typeof(string))]
+[DependencyProperty<string>("UserName")]
+[DependencyProperty<string>("NewUserName")]
+[DependencyProperty<string>("VerifyCode")]
+[DependencyProperty<string>("NewVerifyCode")]
 internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

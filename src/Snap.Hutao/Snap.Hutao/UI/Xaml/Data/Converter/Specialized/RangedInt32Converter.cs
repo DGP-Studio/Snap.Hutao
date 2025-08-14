@@ -3,8 +3,8 @@
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
-[DependencyProperty("Minimum", typeof(int), 0)]
-[DependencyProperty("Maximum", typeof(int), int.MaxValue)]
+[DependencyProperty<int>("Minimum", DefaultValue = 0, NotNull = true)]
+[DependencyProperty<int>("Maximum", DefaultValue = int.MaxValue, NotNull = true)]
 internal sealed partial class RangedInt32Converter : DependencyValueConverter<int, int>
 {
     public override int Convert(int from)

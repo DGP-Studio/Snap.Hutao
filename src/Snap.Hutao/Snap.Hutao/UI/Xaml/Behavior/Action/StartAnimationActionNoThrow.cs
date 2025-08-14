@@ -7,8 +7,8 @@ using Microsoft.Xaml.Interactivity;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
-[DependencyProperty("Animation", typeof(AnimationSet))]
-[DependencyProperty("TargetObject", typeof(UIElement))]
+[DependencyProperty<AnimationSet>("Animation")]
+[DependencyProperty<UIElement>("TargetObject")]
 internal sealed partial class StartAnimationActionNoThrow : DependencyObject, IAction
 {
     /// <inheritdoc/>

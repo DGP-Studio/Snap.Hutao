@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("ShowUpPull", typeof(bool), true)]
+[DependencyProperty<bool>("ShowUpPull", DefaultValue = true, NotNull = true)]
 internal sealed partial class StatisticsCard : UserControl
 {
     public StatisticsCard()

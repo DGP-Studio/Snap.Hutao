@@ -7,7 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("RedeemCode", typeof(string))]
+[DependencyProperty<string>("RedeemCode")]
 internal sealed partial class HutaoPassportUseRedeemCodeDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
