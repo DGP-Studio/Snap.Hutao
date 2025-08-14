@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("gacha_archives")]
-internal sealed partial class GachaArchive : ISelectable, IAdvancedCollectionViewItem
+internal sealed partial class GachaArchive : ISelectable, IPropertyValuesProvider
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal sealed partial class AvatarView : INameIconSide<Uri>,
     ICalculableSource<ICalculableAvatar>,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     public string Name { get; set; } = default!;
 

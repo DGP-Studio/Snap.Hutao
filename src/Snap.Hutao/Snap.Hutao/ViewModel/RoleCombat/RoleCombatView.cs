@@ -14,7 +14,7 @@ using MetadataRoleCombatSchedule = Snap.Hutao.Model.Metadata.RoleCombatSchedule;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
-internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, IAdvancedCollectionViewItem
+internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, IPropertyValuesProvider
 {
     private RoleCombatView(RoleCombatEntry entity, RoleCombatMetadataContext context)
         : this(entity, context.IdRoleCombatScheduleMap[entity.ScheduleId], context)

@@ -887,9 +887,10 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     }
 
     [Command("RemoveItemCommand")]
-    private void RemoveToken(AutoSuggestTokenBoxItem item)
+    private void RemoveToken(AutoSuggestTokenBoxItem? item)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove token", "AutoSuggestTokenBox.Command"));
+        ArgumentNullException.ThrowIfNull(item);
         RemoveToken(item, default);
     }
 

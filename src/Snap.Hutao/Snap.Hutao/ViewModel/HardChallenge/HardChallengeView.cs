@@ -10,7 +10,7 @@ using MetadataHardChallengeSchedule = Snap.Hutao.Model.Metadata.HardChallengeSch
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEntry?>, IAdvancedCollectionViewItem
+internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEntry?>, IPropertyValuesProvider
 {
     private HardChallengeView(HardChallengeEntry entity, HardChallengeMetadataContext context)
         : this(context.IdHardChallengeScheduleMap[entity.ScheduleId], context)

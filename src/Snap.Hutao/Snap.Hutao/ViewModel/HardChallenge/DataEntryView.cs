@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed partial class DataEntryView : IAdvancedCollectionViewItem
+internal sealed partial class DataEntryView : IPropertyValuesProvider
 {
     private DataEntryView(bool singlePlayer, HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
     {
