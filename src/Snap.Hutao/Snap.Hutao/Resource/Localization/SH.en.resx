@@ -4033,14 +4033,15 @@ Space Available: {2}</value>
     <value>Monitor ID</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>To prevent abuse of the injection feature, you need to log in with a miHoYo/HoYoLAB account and select an account and a character</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>Failed to kill the process</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
-    <comment>Need EXACT same string in game</comment>
+    <value>Cosmic Calamity</value>
+    <comment>ModelIntrinsicAssociationTypeOmniScourge
+Need EXACT same string in game; Skirk's Affiliation (丝柯克和所属阵营)</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
     <value>Nod-Krai</value>
