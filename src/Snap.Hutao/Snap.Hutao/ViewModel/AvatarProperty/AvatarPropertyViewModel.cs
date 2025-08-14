@@ -58,21 +58,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.AvatarPropertySortDescriptionKind, value.Value);
-                if (Summary?.Avatars is not { } avatars)
-                {
-                    return;
-                }
-
-                using (avatars.DeferRefresh())
-                {
-                    avatars.SortDescriptions.Clear();
-                    foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(value.Value).AsSpan())
-                    {
-                        avatars.SortDescriptions.Add(sd);
-                    }
-                }
-
-                avatars.MoveCurrentToFirst();
+                PrivateSortAvatars();
             }
         }
     }
@@ -175,11 +161,31 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
             token.ThrowIfCancellationRequested();
             Summary = summary;
-            Summary?.Avatars.MoveCurrentToFirst();
+            PrivateSortAvatars();
         }
         catch (OperationCanceledException)
         {
         }
+    }
+
+    private void PrivateSortAvatars()
+    {
+        ArgumentNullException.ThrowIfNull(SortDescriptionKind);
+        if (Summary?.Avatars is not { } avatars)
+        {
+            return;
+        }
+
+        using (avatars.DeferRefresh())
+        {
+            avatars.SortDescriptions.Clear();
+            foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(SortDescriptionKind.Value).AsSpan())
+            {
+                avatars.SortDescriptions.Add(sd);
+            }
+        }
+
+        avatars.MoveCurrentToFirst();
     }
 
     [Command("CultivateCommand")]
