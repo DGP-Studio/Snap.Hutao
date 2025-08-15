@@ -58,10 +58,6 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public IAdvancedCollectionView<DataEntryView>? DataEntries { get; }
 
-    public DataEntryView? SinglePlayer { get; }
-
-    public DataEntryView? MultiPlayer { get; }
-
     public ImmutableArray<AvatarBling> BlingAvatars { get; } = [];
 
     public static HardChallengeView Create(HardChallengeEntry entity, HardChallengeMetadataContext context)

@@ -76,7 +76,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
 
         if (archive is null)
         {
-            archive = GachaArchive.From(uid);
+            archive = GachaArchive.Create(uid);
             gachaLogRepository.AddGachaArchive(archive);
         }
 

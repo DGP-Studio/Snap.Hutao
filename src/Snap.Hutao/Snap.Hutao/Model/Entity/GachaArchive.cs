@@ -19,7 +19,7 @@ internal sealed partial class GachaArchive : ISelectable, IPropertyValuesProvide
 
     public bool IsSelected { get; set; }
 
-    public static GachaArchive From(string uid)
+    public static GachaArchive Create(string uid)
     {
         return new() { Uid = uid };
     }

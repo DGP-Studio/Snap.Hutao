@@ -18,7 +18,7 @@ internal sealed partial class AwardView : IPropertyValuesProvider
 
     public bool IsClaimed { get; set; }
 
-    public static AwardView From(Award award, int index)
+    public static AwardView Create(Award award, int index)
     {
         return new()
         {

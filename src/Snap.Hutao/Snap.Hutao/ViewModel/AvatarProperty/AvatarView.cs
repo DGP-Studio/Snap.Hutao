@@ -48,28 +48,28 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public ImmutableArray<bool> PromoteArray { get; set; }
 
-    internal AvatarId Id { get; set; }
+    public AvatarId Id { get; set; }
 
-    internal uint LevelNumber { get; set; }
+    public uint LevelNumber { get; set; }
 
     internal PromoteLevel PromoteLevel { get; set; }
 
-    internal int MaxHp
+    public int MaxHp
     {
         get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_MAX_HP);
     }
 
-    internal int CurAttack
+    public int CurAttack
     {
         get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_ATTACK);
     }
 
-    internal int CurDefense
+    public int CurDefense
     {
         get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_DEFENSE);
     }
 
-    internal int ElementMastery
+    public int ElementMastery
     {
         get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);
     }

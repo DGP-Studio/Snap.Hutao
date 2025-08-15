@@ -155,7 +155,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 infoBarService.Success(SH.FormatServiceReSignInSuccessRewardFormat(award.Name, award.Count));
             }
 
-            ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.From);
+            ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.Create);
             InitializeClaimedAwards(views, info.TotalSignDay);
 
             totalSignDay = info.TotalSignDay;
