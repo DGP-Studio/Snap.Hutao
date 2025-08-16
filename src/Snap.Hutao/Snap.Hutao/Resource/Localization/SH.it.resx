@@ -4055,4 +4055,13 @@ Spazio disponibile: {2}</value>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
     <value>获取游戏版本失败</value>
   </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>在下方列表中选中以切换到该路径</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>游迹</value>
+  </data>
 </root>
