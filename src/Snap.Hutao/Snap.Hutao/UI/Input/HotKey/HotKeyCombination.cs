@@ -131,6 +131,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     public unsafe void Initialize()
     {
         native = HutaoNative.Instance.MakeHotKeyAction(kind, HutaoNativeHotKeyActionCallback.Create(&OnAction), handle);
+        native.IsEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
         SaveAndUpdate();
     }
 
