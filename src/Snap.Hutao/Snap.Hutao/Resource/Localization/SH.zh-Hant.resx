@@ -4040,7 +4040,8 @@
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
     <value>寰宇劫滅</value>
-    <comment>Need EXACT same string in game</comment>
+    <comment>ModelIntrinsicAssociationTypeOmniScourge
+Need EXACT same string in game; Skirk's Affiliation (丝柯克和所属阵营)</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
     <value>挪德卡萊</value>
@@ -4053,15 +4054,17 @@
     <value>神之眼</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>獲取遊戲版本失敗</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>關閉</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
+    <value>在下方列表中選中以切換到該路徑</value>
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
+    <value>遊跡</value>
+    <comment>ViewPageWiKiAvatarTraceEffectHeader
+绘想游迹： https://wiki.hoyolab.com/pc/genshin/entry/6333?lang=zh-cn</comment>
   </data>
 </root>
