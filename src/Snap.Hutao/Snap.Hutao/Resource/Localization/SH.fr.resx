@@ -370,22 +370,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelAdvancing" xml:space="preserve">
-    <value>进阶</value>
+    <value>Avancé</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelDire" xml:space="preserve">
-    <value>绝境</value>
+    <value>Extrême</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelFearless" xml:space="preserve">
-    <value>无畏</value>
+    <value>Intrépide</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelHard" xml:space="preserve">
-    <value>困难</value>
+    <value>Difficile</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelMenacing" xml:space="preserve">
-    <value>险恶</value>
+    <value>Menaçant</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelNormal" xml:space="preserve">
-    <value>普通</value>
+    <value>Normal</value>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>3 Étoiles</value>
@@ -1606,13 +1606,13 @@ Espace disponible : {2}</value>
     <value>Connexion avec compte et mot de passe</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>Code de vérification</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>Code de vérification envoyé</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>Veuillez entrer le code de vérification par e-mail</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Y aller</value>
@@ -1873,7 +1873,7 @@ Espace disponible : {2}</value>
     <value>Il existe déjà un projet d'amélioration pour cet objet</value>
   </data>
   <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
-    <value>未消耗任何材料</value>
+    <value>Aucun matériau consommé</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Ajouté avec succès au plan de développement actuel</value>
@@ -1885,7 +1885,7 @@ Espace disponible : {2}</value>
     <value>Rajoutez un objet pour consulter la description du plan</value>
   </data>
   <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
-    <value>仅突破</value>
+    <value>Ascension uniquement</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Ajouté avec succès</value>
@@ -4033,35 +4033,38 @@ Espace disponible : {2}</value>
     <value>ID du moniteur</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>Pour éviter l'abus de la fonction d'injection, vous devez vous connecter avec un compte miHoYo/HoYoLAB et sélectionner un compte et un personnage</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>Échec de la fin du processus</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
-    <comment>Need EXACT same string in game</comment>
+    <value>Fléau cosmique</value>
+    <comment>ModelIntrinsicAssociationTypeOmniScourge
+Need EXACT same string in game; Skirk's Affiliation (丝柯克和所属阵营)</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>Nod-Krai</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>Pile d'appel</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
+    <value>Vision</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>Échec de l'obtention de la version du jeu</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>Fermer</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
+    <value>Sélectionnez dans la liste ci-dessous pour basculer vers ce chemin</value>
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
+    <value>Échos envisagés</value>
+    <comment>ViewPageWiKiAvatarTraceEffectHeader
+绘想游迹： https://wiki.hoyolab.com/pc/genshin/entry/6333?lang=zh-cn</comment>
   </data>
 </root>
