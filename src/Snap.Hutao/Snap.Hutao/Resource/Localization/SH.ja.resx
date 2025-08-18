@@ -4042,7 +4042,8 @@
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
     <value>宇宙の劫災</value>
-    <comment>Need EXACT same string in game</comment>
+    <comment>ModelIntrinsicAssociationTypeOmniScourge
+Need EXACT same string in game; Skirk's Affiliation (丝柯克和所属阵营)</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
     <value>ナド・クライ</value>
@@ -4065,5 +4066,7 @@
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>軌跡</value>
+    <comment>ViewPageWiKiAvatarTraceEffectHeader
+绘想游迹： https://wiki.hoyolab.com/pc/genshin/entry/6333?lang=zh-cn</comment>
   </data>
 </root>
