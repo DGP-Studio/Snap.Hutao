@@ -370,22 +370,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelAdvancing" xml:space="preserve">
-    <value>进阶</value>
+    <value>Nâng cao</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelDire" xml:space="preserve">
-    <value>绝境</value>
+    <value>Tuyệt cảnh</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelFearless" xml:space="preserve">
-    <value>无畏</value>
+    <value>Vô úy</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelHard" xml:space="preserve">
-    <value>困难</value>
+    <value>Khó</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelMenacing" xml:space="preserve">
-    <value>险恶</value>
+    <value>Hiểm ác</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelNormal" xml:space="preserve">
-    <value>普通</value>
+    <value>Bình thường</value>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>3 Sao</value>
@@ -1606,13 +1606,13 @@ Dung lượng còn trống: {2}</value>
     <value>Đăng nhập bằng tài khoản và mật khẩu</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>Mã xác nhận</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>Mã xác nhận đã được gửi</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>Vui lòng nhập mã xác nhận email</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Đi đến đó</value>
@@ -1873,7 +1873,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đã có mục tăng cấp cho vật phẩm này</value>
   </data>
   <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
-    <value>未消耗任何材料</value>
+    <value>Không tiêu hao bất kỳ nguyên liệu nào</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Đã thêm thành công vào kế hoạch bồi dưỡng hiện tại</value>
@@ -1885,7 +1885,7 @@ Dung lượng còn trống: {2}</value>
     <value>Thêm lại vật phẩm để xem mô tả bồi dưỡng</value>
   </data>
   <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
-    <value>仅突破</value>
+    <value>Chỉ đột phá</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Thêm thành công</value>
@@ -4033,35 +4033,38 @@ Dung lượng còn trống: {2}</value>
     <value>ID Màn Hình</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>Để ngăn chặn việc lạm dụng tính năng tiêm, bạn cần đăng nhập bằng tài khoản miHoYo/HoYoLAB và chọn một tài khoản và nhân vật</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>Không thể kết thúc quá trình</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
-    <comment>Need EXACT same string in game</comment>
+    <value>Hoạn nạn vũ trụ</value>
+    <comment>ModelIntrinsicAssociationTypeOmniScourge
+Need EXACT same string in game; Skirk's Affiliation (丝柯克和所属阵营)</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>Nodkrai</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>Ngăn xếp lời gọi</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
+    <value>Thần chi nhãn</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>Không thể lấy phiên bản trò chơi</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
+    <value>Đóng</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
+    <value>Chọn trong danh sách bên dưới để chuyển sang đường dẫn đó</value>
   </data>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
+    <value>Dấu vết du lịch</value>
+    <comment>ViewPageWiKiAvatarTraceEffectHeader
+绘想游迹： https://wiki.hoyolab.com/pc/genshin/entry/6333?lang=zh-cn</comment>
   </data>
 </root>
