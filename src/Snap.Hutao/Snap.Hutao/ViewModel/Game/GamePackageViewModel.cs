@@ -187,9 +187,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     }
 
     [Command("StartCommand")]
-    private async Task StartAsync(string operation)
+    private async Task StartAsync(string? operation)
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Start operation", "GamePackageViewModel.Command", [("operation", operation)]));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Start operation", "GamePackageViewModel.Command", [("operation", operation ?? "<null>")]));
 
         if (!IsInitialized)
         {
@@ -206,7 +206,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        GamePackageOperationKind operationKind = Enum.Parse<GamePackageOperationKind>(operation);
+        if (!Enum.TryParse(operation, out GamePackageOperationKind operationKind))
+        {
+            return;
+        }
 
         using (gameFileSystem)
         {

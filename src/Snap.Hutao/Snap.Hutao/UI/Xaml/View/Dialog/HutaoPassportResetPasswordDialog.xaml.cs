@@ -22,7 +22,7 @@ internal sealed partial class HutaoPassportResetPasswordDialog : ContentDialog
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, (string UserName, string Passport, string VerifyCode)>> GetInputAsync(string? userName)
+    public async ValueTask<ValueResult<bool, (string? UserName, string? Passport, string? VerifyCode)>> GetInputAsync(string? userName)
     {
         InitializeUserNameTextBox(userName);
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);

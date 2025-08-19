@@ -342,7 +342,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     [Command("CopyToClipboardCommand")]
     private async Task CopyToClipboard()
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName)]));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName ?? "<null>")]));
 
         if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IClipboardProvider>() is not { } clipboardProvider)
         {

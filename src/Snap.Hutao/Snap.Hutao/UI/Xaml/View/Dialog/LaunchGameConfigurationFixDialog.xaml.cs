@@ -14,7 +14,7 @@ internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
 
-    public async ValueTask<ValueResult<bool, LaunchScheme>> GetLaunchSchemeAsync()
+    public async ValueTask<ValueResult<bool, LaunchScheme?>> GetLaunchSchemeAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();

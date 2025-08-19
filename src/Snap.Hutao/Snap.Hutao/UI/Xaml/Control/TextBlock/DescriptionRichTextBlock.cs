@@ -57,7 +57,7 @@ internal sealed partial class DescriptionRichTextBlock : ContentControl
         ((TextBlockType)((DescriptionRichTextBlock)d).Content).Style = (Style)e.NewValue;
     }
 
-    private void UpdateDescription(TextBlockType textBlock, string text)
+    private void UpdateDescription(TextBlockType textBlock, string? text)
     {
         if (textBlock.Blocks is not [Paragraph paragraph])
         {
@@ -66,6 +66,11 @@ internal sealed partial class DescriptionRichTextBlock : ContentControl
 
         DetachHyperLinkClickEvent(paragraph.Inlines);
         paragraph.Inlines.Clear();
+
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
 
         string content = SpecialNameHandling.Handle(text);
         MiHoYoSyntaxLexer lexer = new(content);
@@ -234,7 +239,13 @@ internal sealed partial class DescriptionRichTextBlock : ContentControl
             return;
         }
 
-        (MiHoYoSyntaxLinkKind kind, uint id) = DescriptionHyperLinkHelper.GetLinkData(sender);
+        Tuple<MiHoYoSyntaxLinkKind, uint>? tuple = DescriptionHyperLinkHelper.GetLinkData(sender);
+        if (tuple is null)
+        {
+            return;
+        }
+
+        (MiHoYoSyntaxLinkKind kind, uint id) = tuple;
 
         LinkContext.TryGetNameAndDescription(kind, id, out string name, out string description);
 

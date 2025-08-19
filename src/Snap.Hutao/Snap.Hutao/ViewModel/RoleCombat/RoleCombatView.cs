@@ -66,7 +66,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public uint ScheduleId { get; }
 
-    public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
+    public string Schedule { get => SH.FormatModelEntitySpiralAbyssSchedule(ScheduleId); }
 
     public string FormattedTime { get; }
 

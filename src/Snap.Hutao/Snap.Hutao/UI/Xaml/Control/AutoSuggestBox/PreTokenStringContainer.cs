@@ -6,14 +6,14 @@ using Microsoft.UI.Xaml;
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 [DependencyProperty<string>("Text")]
-internal sealed partial class PretokenStringContainer : DependencyObject, ITokenStringContainer
+internal sealed partial class PreTokenStringContainer : DependencyObject, ITokenStringContainer
 {
-    public PretokenStringContainer(bool isLast = false)
+    public PreTokenStringContainer(bool isLast = false)
     {
         IsLast = isLast;
     }
 
-    public PretokenStringContainer(string text)
+    public PreTokenStringContainer(string text)
     {
         Text = text;
     }
@@ -22,6 +22,6 @@ internal sealed partial class PretokenStringContainer : DependencyObject, IToken
 
     public override string ToString()
     {
-        return Text;
+        return Text!;
     }
 }

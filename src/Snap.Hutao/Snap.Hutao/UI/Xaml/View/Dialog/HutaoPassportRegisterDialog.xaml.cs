@@ -22,7 +22,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, (string UserName, string Password, string VerifyCode)>> GetInputAsync()
+    public async ValueTask<ValueResult<bool, (string? UserName, string? Password, string? VerifyCode)>> GetInputAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();

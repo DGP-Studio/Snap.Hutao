@@ -17,57 +17,6 @@ internal enum WeaponType
     [LocalizationKey(nameof(SH.ModelIntrinsicWeaponTypeSwordOneHand))]
     WEAPON_SWORD_ONE_HAND = 1,
 
-    #region Not Used
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_CROSSBOW = 2,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_STAFF = 3,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_DOUBLE_DAGGER = 4,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_KATANA = 5,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_SHURIKEN = 6,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_STICK = 7,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_SPEAR = 8,
-
-    /// <summary>
-    /// ?
-    /// </summary>
-    [Obsolete("尚未发现使用")]
-    WEAPON_SHIELD_SMALL = 9,
-    #endregion
-
     /// <summary>
     /// 法器
     /// </summary>

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -216,7 +216,7 @@
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
     <value>Server time zone</value>
   </data>
-  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
     <value>Refine {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>Wednesday/Saturday/Sunday</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
     <value>{0:f2} Pulls</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
     <value>Unluckiest {0} Pulls</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
     <value>Luckiest {0} Pulls</value>
   </data>
-  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+  <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
     <value>{0} Pulls</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>Level {0}</value>
   </data>
-  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+  <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
     <value>Played {0} Times</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
@@ -264,10 +264,10 @@
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
     <value>Not refreshed</value>
   </data>
-  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+  <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
     <value>Refreshed at {0:MM.dd HH:mm:ss}</value>
   </data>
-  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+  <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
     <value>Schedule {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
@@ -279,7 +279,7 @@
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>Weapon</value>
   </data>
-  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+  <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
     <value>Schedule {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
@@ -440,7 +440,7 @@
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>Traveler</value>
   </data>
-  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+  <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
     <value>{0}/{1}</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>No data</value>
   </data>
-  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelWeaponAffix" xml:space="preserve">
     <value>Refinement {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
@@ -699,7 +699,7 @@
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>Successfully uploaded Spiral Abyss record. No Snap Hutao Cloud privilege received as this is not the first upload of current schedule.</value>
   </data>
-  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+  <data name="ServiceAchievementImportResult" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
@@ -1077,13 +1077,13 @@ Space Available: {2}</value>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>Verifying the integrity of the game</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
     <value>Backup：{0}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
     <value>Rename：{0} to：{1}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
     <value>Replace: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
@@ -1140,13 +1140,13 @@ Space Available: {2}</value>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Game resource operation failed</value>
   </data>
-  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
     <value>Make up check-in failed, {0}</value>
   </data>
-  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceReSignInSuccessReward" xml:space="preserve">
     <value>Make up for check-in successfully, {0} x{1}</value>
   </data>
-  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>Check-in failed, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
@@ -1158,7 +1158,7 @@ Space Available: {2}</value>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
     <value>Verification failed, please visit miHoYo BBS checkin page to manually claim reward</value>
   </data>
-  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceSignInSuccessReward" xml:space="preserve">
     <value>Check-in successfully, {0} x {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
@@ -1851,10 +1851,10 @@ Space Available: {2}</value>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>Failed to add Enhancement Progression plan</value>
   </data>
-  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
     <value>Operation completed: added/updated {0}, skipped {1}</value>
   </data>
-  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
     <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
@@ -3801,16 +3801,16 @@ Space Available: {2}</value>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
     <value>Execute Debug Script</value>
   </data>
-  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
     <value>Start in {0} days</value>
   </data>
-  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
     <value>End in {0} days</value>
   </data>
-  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
     <value>Starts in {0} hours</value>
   </data>
-  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
     <value>End in {0} hours</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
@@ -3876,7 +3876,7 @@ Space Available: {2}</value>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
     <value>Daily Commission Reward claimed</value>
   </data>
-  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Full in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
@@ -3891,13 +3891,13 @@ Space Available: {2}</value>
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>2 days after</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
     <value>{0} day</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Original Resin is Full</value>
   </data>
-  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
     <value>Will be Replenished in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
@@ -3906,13 +3906,13 @@ Space Available: {2}</value>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>
   </data>
-  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerDays" xml:space="preserve">
     <value>{0} days</value>
   </data>
-  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerHours" xml:space="preserve">
     <value>{0} hrs</value>
   </data>
-  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0} mins</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
@@ -3930,7 +3930,7 @@ Space Available: {2}</value>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>Ready</value>
   </data>
-  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
     <value>{0} Seconds</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
@@ -4017,13 +4017,13 @@ Space Available: {2}</value>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>Something wrong when requesting {0}</value>
   </data>
-  <data name="WebResponseFormat" xml:space="preserve">
+  <data name="WebResponse" xml:space="preserve">
     <value>Return Code: {0} | Message: {1}</value>
   </data>
-  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+  <data name="WebResponseRefreshCookieHint" xml:space="preserve">
     <value>Please refresh cookie, raw message: {0}</value>
   </data>
-  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+  <data name="WebResponseRequestException" xml:space="preserve">
     <value>[{1}] network request exception in [{0}] please try again later</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">

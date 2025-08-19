@@ -48,7 +48,7 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public string ScheduleName { get; }
 
-    public string Schedule { get => SH.FormatModelEntityHardChallengeScheduleFormat(ScheduleId - 5269000, ScheduleName); }
+    public string Schedule { get => SH.FormatModelEntityHardChallengeSchedule(ScheduleId - 5269000, ScheduleName); }
 
     public string FormattedTime { get; }
 

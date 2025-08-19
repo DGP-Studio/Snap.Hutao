@@ -9,19 +9,11 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty<AvatarPromotionDelta>("PromotionDelta")]
+[ConstructorGenerated(InitializeComponent = true)]
+[DependencyProperty<AvatarPromotionDelta>("PromotionDelta", NotNull = true, CreateDefaultValueCallbackName = nameof(CreatePromotionDeltaDefaultValue))]
 internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
-
-    public CultivatePromotionDeltaBatchDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-
-        PromotionDelta = AvatarPromotionDelta.CreateForBaseline();
-    }
 
     public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaBaselineAsync()
     {
@@ -52,5 +44,10 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
         }
 
         return new(true, new(PromotionDelta, (ConsumptionSaveStrategyKind)SaveModeSelector.SelectedIndex));
+    }
+
+    private static object CreatePromotionDeltaDefaultValue()
+    {
+        return AvatarPromotionDelta.CreateForBaseline();
     }
 }

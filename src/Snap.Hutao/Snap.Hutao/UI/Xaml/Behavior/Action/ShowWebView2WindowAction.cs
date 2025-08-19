@@ -49,7 +49,7 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
 
     public void ShowAt(XamlRoot xamlRoot)
     {
-        if (xamlRoot.XamlContext() is not { } xamlContext)
+        if (xamlRoot.XamlContext() is not { } xamlContext || ContentProvider is null)
         {
             return;
         }

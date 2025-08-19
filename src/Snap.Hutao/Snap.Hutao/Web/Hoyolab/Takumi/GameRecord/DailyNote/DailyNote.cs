@@ -29,10 +29,10 @@ internal sealed class DailyNote : DailyNoteCommon
                 0 => SH.WebDailyNoteRecoveryTimeDay0,
                 1 => SH.WebDailyNoteRecoveryTimeDay1,
                 2 => SH.WebDailyNoteRecoveryTimeDay2,
-                _ => SH.FormatWebDailyNoteRecoveryTimeDayFormat(totalDays),
+                _ => SH.FormatWebDailyNoteRecoveryTimeDay(totalDays),
             };
 
-            return SH.FormatWebDailyNoteResinRecoveryFormat(day, reach);
+            return SH.FormatWebDailyNoteResinRecovery(day, reach);
         }
     }
 
@@ -85,9 +85,9 @@ internal sealed class DailyNote : DailyNoteCommon
                 0 => SH.WebDailyNoteRecoveryTimeDay0,
                 1 => SH.WebDailyNoteRecoveryTimeDay1,
                 2 => SH.WebDailyNoteRecoveryTimeDay2,
-                _ => SH.FormatWebDailyNoteRecoveryTimeDayFormat(totalDays),
+                _ => SH.FormatWebDailyNoteRecoveryTimeDay(totalDays),
             };
-            return SH.FormatWebDailyNoteHomeCoinRecoveryFormat(day, reach);
+            return SH.FormatWebDailyNoteHomeCoinRecovery(day, reach);
         }
     }
 

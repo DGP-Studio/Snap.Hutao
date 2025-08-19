@@ -1,11 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Protobuf.Collection;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 

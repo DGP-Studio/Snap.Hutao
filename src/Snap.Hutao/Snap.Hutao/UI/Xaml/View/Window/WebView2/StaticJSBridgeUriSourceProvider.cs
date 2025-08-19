@@ -17,7 +17,7 @@ internal sealed partial class StaticJSBridgeUriSourceProvider : DependencyObject
         return ActivatorUtilities.CreateInstance<MiHoYoJSBridge>(serviceProvider, coreWebView2, userAndUid);
     }
 
-    public string GetSource(UserAndUid userAndUid)
+    public string? GetSource(UserAndUid userAndUid)
     {
         return userAndUid.IsOversea ? OverseaSource : ChineseSource;
     }

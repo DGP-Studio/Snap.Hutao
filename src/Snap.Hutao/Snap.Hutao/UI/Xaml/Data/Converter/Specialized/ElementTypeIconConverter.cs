@@ -7,10 +7,11 @@ using System.Globalization;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
-internal sealed partial class ElementTypeIconConverter : ValueConverter<ElementType, Uri>
+internal sealed partial class ElementTypeIconConverter : ValueConverter<ElementType, Uri?>
 {
-    public override Uri Convert(ElementType from)
+    public override Uri? Convert(ElementType from)
     {
-        return ElementNameIconConverter.ElementNameToUri(from.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
+        string? name = from.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture);
+        return string.IsNullOrEmpty(name) ? default : ElementNameIconConverter.ElementNameToUri(name);
     }
 }

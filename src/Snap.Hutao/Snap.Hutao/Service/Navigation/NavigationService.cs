@@ -190,7 +190,11 @@ internal sealed partial class NavigationService : INavigationService
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        NavigationViewItem? item = args.InvokedItemContainer as NavigationViewItem;
+        if (args.InvokedItemContainer is not NavigationViewItem item)
+        {
+            return;
+        }
+
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
             : NavigationViewItemHelper.GetNavigateTo(item);

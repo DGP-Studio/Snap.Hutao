@@ -7,17 +7,18 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty<IReadOnlyList<UIGFUidSelection>>("Selections")]
+[DependencyProperty<IReadOnlyList<uint>>("ItemsSource")]
 internal sealed partial class UIGFExportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private ImmutableArray<uint> selectedUids = [];
 
     public UIGFExportDialog(IServiceProvider serviceProvider, ImmutableArray<uint> uids)
     {
         InitializeComponent();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
-        Selections = uids.SelectAsArray(static item => new UIGFUidSelection(item));
+        ItemsSource = uids;
     }
 
     public async ValueTask<ValueResult<bool, ImmutableArray<uint>>> GetSelectedUidsAsync()
@@ -25,10 +26,15 @@ internal sealed partial class UIGFExportDialog : ContentDialog
         if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is ContentDialogResult.Primary)
         {
             await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
-            ImmutableArray<uint> uids = [.. Selections.Where(item => item.IsSelected).Select(item => item.Uid)];
-            return new(true, uids);
+            SelectionListView.SelectAll();
+            return new(true, selectedUids);
         }
 
-        return new(false, default!);
+        return new(false, selectedUids);
+    }
+
+    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        selectedUids = [.. ((ListViewBase)sender).SelectedItems.Cast<UIGFUidSelection>().Select(static data => data.Uid)];
     }
 }

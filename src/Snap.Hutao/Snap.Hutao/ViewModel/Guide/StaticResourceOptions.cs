@@ -14,7 +14,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class StaticResourceOptions : ObservableObject
 {
-    public ImmutableArray<NameValue<StaticResourceQuality>> ImageQualities { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceQuality>(static q => q.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
+    public ImmutableArray<NameValue<StaticResourceQuality>> ImageQualities { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceQuality>(static q => q.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
     public NameValue<StaticResourceQuality>? ImageQuality
     {
@@ -29,7 +29,7 @@ internal sealed partial class StaticResourceOptions : ObservableObject
         }
     }
 
-    public ImmutableArray<NameValue<StaticResourceArchive>> ImageArchives { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceArchive>(static a => a.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
+    public ImmutableArray<NameValue<StaticResourceArchive>> ImageArchives { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceArchive>(static a => a.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
     public NameValue<StaticResourceArchive>? ImageArchive
     {

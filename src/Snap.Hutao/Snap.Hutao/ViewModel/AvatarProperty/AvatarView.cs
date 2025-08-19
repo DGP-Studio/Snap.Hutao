@@ -52,27 +52,15 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public uint LevelNumber { get; set; }
 
+    public int MaxHp { get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_MAX_HP); }
+
+    public int CurAttack { get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_ATTACK); }
+
+    public int CurDefense { get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_DEFENSE); }
+
+    public int ElementMastery { get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_ELEMENT_MASTERY); }
+
     internal PromoteLevel PromoteLevel { get; set; }
-
-    public int MaxHp
-    {
-        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_MAX_HP);
-    }
-
-    public int CurAttack
-    {
-        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_ATTACK);
-    }
-
-    public int CurDefense
-    {
-        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_DEFENSE);
-    }
-
-    public int ElementMastery
-    {
-        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);
-    }
 
     public ICalculableAvatar ToCalculable()
     {

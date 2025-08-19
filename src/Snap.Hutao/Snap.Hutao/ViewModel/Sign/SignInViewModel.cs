@@ -146,13 +146,13 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             {
                 int index = info.TotalSignDay - 1;
                 Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
+                infoBarService.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count));
             }
             else if (postResign)
             {
                 int index = info.TotalSignDay - 1;
                 Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceReSignInSuccessRewardFormat(award.Name, award.Count));
+                infoBarService.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count));
             }
 
             ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.Create);

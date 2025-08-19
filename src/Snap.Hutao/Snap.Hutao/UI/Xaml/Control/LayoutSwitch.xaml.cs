@@ -56,7 +56,7 @@ internal sealed partial class LayoutSwitch : Segmented
             return;
         }
 
-        string value = LocalSetting.Get(GetSettingKey(selector), selector.Current);
+        string? value = LocalSetting.Get(GetSettingKey(selector), selector.Current);
         selector.Current = value;
 
         selector.SelectedItem = selector.Items.Cast<SegmentedItem>().Single(item => (string)item.Tag == selector.Current);

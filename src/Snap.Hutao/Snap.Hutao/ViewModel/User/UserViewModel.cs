@@ -183,7 +183,7 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             // Get cookie from user input
             UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>(scope.ServiceProvider).ConfigureAwait(false);
-            ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
+            ValueResult<bool, string?> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
 
             // User confirms the input
             if (result.TryGetValue(out string? rawCookie))

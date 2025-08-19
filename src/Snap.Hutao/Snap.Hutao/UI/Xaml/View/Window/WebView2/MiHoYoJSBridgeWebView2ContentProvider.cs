@@ -38,7 +38,7 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
         }
 
         await serviceProvider.GetRequiredService<ITaskContext>().SwitchToMainThreadAsync();
-        string source = SourceProvider.GetSource(userAndUid);
+        string? source = SourceProvider.GetSource(userAndUid);
         if (!string.IsNullOrEmpty(source))
         {
             CoreWebView2Navigator navigator = new(CoreWebView2);

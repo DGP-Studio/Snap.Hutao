@@ -23,7 +23,6 @@ using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Globalization;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
@@ -48,7 +47,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
-    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(static type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture));
+    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(static type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
     public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
     {
@@ -308,8 +307,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         _ = result.SkippedCount > 0
-            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount))
-            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
+            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompleted(result.SucceedCount, result.SkippedCount))
+            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompleted(result.SucceedCount, result.SkippedCount));
     }
 
     /// <returns><see langword="true"/> if we can continue saving consumptions, otherwise <see langword="false"/>.</returns>

@@ -12,16 +12,11 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
-[DependencyProperty<NameValue<TimeSpan>>("SelectedServerTimeZoneOffset")]
+[DependencyProperty<NameValue<TimeSpan>>("SelectedServerTimeZoneOffset", CreateDefaultValueCallbackName = nameof(CreateSelectedServerTimeZoneOffsetDefaultValue))]
 [DependencyProperty<bool>("IsUidAttached", NotNull = true)]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
-
-    partial void PostConstruct(IServiceProvider serviceProvider)
-    {
-        SelectedServerTimeZoneOffset = ServerTimeZoneOffsets.First();
-    }
 
     [SuppressMessage("", "SA1201")]
     [SuppressMessage("", "CA1822")]
@@ -29,12 +24,22 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
 
     public async ValueTask<ValueResult<bool, CultivateProject>> CreateProjectAsync()
     {
-        if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is ContentDialogResult.Primary)
+        if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is not ContentDialogResult.Primary)
         {
-            await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
-            return new(true, CultivateProject.From(Text, SelectedServerTimeZoneOffset.Value));
+            return new(false, default!);
         }
 
-        return new(false, default!);
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
+        if (string.IsNullOrWhiteSpace(Text) || SelectedServerTimeZoneOffset is null)
+        {
+            return new(false, default!);
+        }
+
+        return new(true, CultivateProject.From(Text, SelectedServerTimeZoneOffset.Value));
+    }
+
+    private static object CreateSelectedServerTimeZoneOffsetDefaultValue()
+    {
+        return KnownServerRegionTimeZones.Value.First();
     }
 }

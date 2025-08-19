@@ -58,7 +58,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     public AutoSuggestTokenBox()
     {
         innerItemsSource = [];
-        currentTextEdit = lastTextEdit = new PretokenStringContainer(true);
+        currentTextEdit = lastTextEdit = new PreTokenStringContainer(true);
         innerItemsSource.Insert(innerItemsSource.Count, currentTextEdit);
         ItemsSource = innerItemsSource;
 
@@ -217,7 +217,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
         if (string.IsNullOrWhiteSpace(Text))
         {
-            sender.ItemsSource = AvailableTokens
+            sender.ItemsSource = AvailableTokens?
                 .ExceptBy(Tokens, kvp => kvp.Value)
                 .OrderBy(kvp => kvp.Value.Kind)
                 .ThenBy(kvp => kvp.Value.Order)
@@ -226,9 +226,9 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = AvailableTokens
+            sender.ItemsSource = AvailableTokens?
                 .ExceptBy(Tokens, kvp => kvp.Value)
-                .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
+                .Where(kvp => kvp.Value.Value.Contains(Text ?? string.Empty, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(kvp => kvp.Value.Kind)
                 .ThenBy(kvp => kvp.Value.Order)
                 .Select(kvp => kvp.Value)
@@ -257,7 +257,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             return;
         }
 
-        if (AvailableTokens.GetValueOrDefault(args.TokenText) is { } token)
+        if (AvailableTokens?.GetValueOrDefault(args.TokenText) is { } token)
         {
             args.Item = token;
         }
@@ -660,7 +660,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                     else
                     {
                         // Otherwise, create a new textbox for this text.
-                        UpdateCurrentTextEdit(new PretokenStringContainer((string.Empty + args.Character).Trim()));
+                        UpdateCurrentTextEdit(new PreTokenStringContainer((string.Empty + args.Character).Trim()));
                         innerItemsSource.Insert(index, currentTextEdit);
 
                         void Containerization()
@@ -789,7 +789,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             }
 
             // Add our text box at the end of items and set its default value to our initial text, fix for #4749
-            currentTextEdit = lastTextEdit = new PretokenStringContainer(true) { Text = Text };
+            currentTextEdit = lastTextEdit = new PreTokenStringContainer(true) { Text = Text };
             innerItemsSource.Insert(innerItemsSource.Count, currentTextEdit);
             ItemsSource = innerItemsSource;
         }

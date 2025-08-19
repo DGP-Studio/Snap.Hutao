@@ -57,7 +57,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public uint ScheduleId { get; }
 
-    public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
+    public string Schedule { get => SH.FormatModelEntitySpiralAbyssSchedule(ScheduleId); }
 
     public string FormattedTime { get; }
 

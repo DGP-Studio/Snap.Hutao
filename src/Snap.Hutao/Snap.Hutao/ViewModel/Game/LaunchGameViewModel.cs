@@ -252,9 +252,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [Command("RemoveAspectRatioCommand")]
-    private void RemoveAspectRatio(AspectRatio aspectRatio)
+    private void RemoveAspectRatio(AspectRatio? aspectRatio)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove aspect ratio", "LaunchGameViewModel.Command"));
+        if (aspectRatio is null)
+        {
+            return;
+        }
+
         AspectRatios = LaunchOptions.RemoveAspectRatio(aspectRatio);
     }
 

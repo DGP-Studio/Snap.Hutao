@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -216,7 +216,7 @@
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
     <value>Múi giờ máy chủ</value>
   </data>
-  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
     <value>Tinh luyện {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>Thứ Tư/Thứ Bảy/Chủ Nhật</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
     <value>{0:f2} lần</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
     <value>Xui nhất {0} lần</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
     <value>May mắn nhất {0} lần</value>
   </data>
-  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+  <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
     <value>{0} lần</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>Cấp độ {0}</value>
   </data>
-  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+  <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
     <value>Xuất hiện {0} lần</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
@@ -264,10 +264,10 @@
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
     <value>Chưa làm mới</value>
   </data>
-  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+  <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
     <value>Đã làm mới vào {0:MM.dd HH:mm:ss}</value>
   </data>
-  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+  <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
     <value>Kỳ {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
@@ -279,7 +279,7 @@
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>Vũ khí</value>
   </data>
-  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+  <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
     <value>Kỳ {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
@@ -440,7 +440,7 @@
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>Nhà lữ hành</value>
   </data>
-  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+  <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
     <value>{0}/{1}</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>Không có dữ liệu</value>
   </data>
-  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelWeaponAffix" xml:space="preserve">
     <value>Tinh luyện cấp {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
@@ -699,7 +699,7 @@
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>Đã tải lên bản ghi la hoàn thành công. Không nhận được đặc quyền của Snap Hutao Cloud vì đây không phải là lần tải lên đầu tiên trong lịch trình hiện tại.</value>
   </data>
-  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+  <data name="ServiceAchievementImportResult" xml:space="preserve">
     <value>Mới: {0} thành tựu | Đã cập nhật: {1} thành tựu | Xoá: {2} thành tựu</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
@@ -943,7 +943,7 @@
     <value>Không thể lấy lịch sử cầu nguyện trên cloud</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>Yêu cầu xác thực &lt;0> thất bại</value>
+    <value>Yêu cầu xác thực &lt;0&gt; thất bại</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>Đường dẫn trò chơi Genshin Impact chưa được thiết lập hoặc thiết lập không đúng</value>
@@ -1077,13 +1077,13 @@ Dung lượng còn trống: {2}</value>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>Đang xác minh tính toàn vẹn của trò chơi</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
     <value>Sao lưu: {0}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
     <value>Đổi tên: {0} thành: {1}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
     <value>Thay thế: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
@@ -1140,13 +1140,13 @@ Dung lượng còn trống: {2}</value>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Thao tác tài nguyên trò chơi thất bại</value>
   </data>
-  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
     <value>Bù đăng nhập thất bại, {0}</value>
   </data>
-  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceReSignInSuccessReward" xml:space="preserve">
     <value>Bù đăng nhập thành công, {0}×{1}</value>
   </data>
-  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>Điểm danh thất bại, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
@@ -1158,7 +1158,7 @@ Dung lượng còn trống: {2}</value>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
     <value>Xác minh thất bại, vui lòng truy cập trang điểm danh 米游社 để tự nhận thưởng</value>
   </data>
-  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceSignInSuccessReward" xml:space="preserve">
     <value>Đã điểm danh thành công, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
@@ -1851,10 +1851,10 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>Thêm kế hoạch bồi dưỡng thất bại</value>
   </data>
-  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
     <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
-  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
@@ -3801,16 +3801,16 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
     <value>Thực thi tập lệnh gỡ lỗi</value>
   </data>
-  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
     <value>Bắt đầu sau {0} ngày</value>
   </data>
-  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
     <value>Kết thúc sau {0} ngày</value>
   </data>
-  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
     <value>Bắt đầu sau {0} giờ</value>
   </data>
-  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
     <value>Kết thúc sau {0} giờ</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
@@ -3876,7 +3876,7 @@ Dung lượng còn trống: {2}</value>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
     <value>Đã nhận thưởng 「Ủy thác hằng ngày」</value>
   </data>
-  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Dự kiến đầy vào {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
@@ -3891,13 +3891,13 @@ Dung lượng còn trống: {2}</value>
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>Ngày kia</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
     <value>{0} ngày</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Nguyên Thủy Nhựa đã hồi phục hoàn toàn</value>
   </data>
-  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
     <value>Sẽ hồi phục hoàn toàn sau {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
@@ -3906,13 +3906,13 @@ Dung lượng còn trống: {2}</value>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Có thể dùng lại sau</value>
   </data>
-  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerDays" xml:space="preserve">
     <value>{0} ngày</value>
   </data>
-  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerHours" xml:space="preserve">
     <value>{0} giờ</value>
   </data>
-  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0} phút</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
@@ -3930,7 +3930,7 @@ Dung lượng còn trống: {2}</value>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>Sẵn sàng</value>
   </data>
-  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
     <value>{0} giây</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
@@ -4017,13 +4017,13 @@ Dung lượng còn trống: {2}</value>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>Gặp sự cố khi yêu cầu {0}</value>
   </data>
-  <data name="WebResponseFormat" xml:space="preserve">
+  <data name="WebResponse" xml:space="preserve">
     <value>Trạng thái: {0} | Thông tin: {1}</value>
   </data>
-  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+  <data name="WebResponseRefreshCookieHint" xml:space="preserve">
     <value>Vui lòng làm mới Cookie, tin nhắn gốc: {0}</value>
   </data>
-  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+  <data name="WebResponseRequestException" xml:space="preserve">
     <value>[{1}] yêu cầu mạng trong [{0}] không thành công, vui lòng thử lại sau</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">

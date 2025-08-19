@@ -139,7 +139,6 @@ internal sealed partial class LaunchGameShared
 
         using (gameFileSystem)
         {
-            LaunchScheme launchScheme;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
@@ -152,16 +151,15 @@ internal sealed partial class LaunchGameShared
 
                 dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
                 dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-                (bool isOk, launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
 
-                if (!isOk)
+                if (await dialog.GetLaunchSchemeAsync().ConfigureAwait(false) is not (true, { } launchScheme))
                 {
                     return;
                 }
-            }
 
-            gameFileSystem.TryFixConfigurationFile(launchScheme);
-            infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+                gameFileSystem.TryFixConfigurationFile(launchScheme);
+                infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+            }
         }
     }
 

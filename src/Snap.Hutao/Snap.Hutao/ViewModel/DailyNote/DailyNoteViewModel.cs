@@ -157,7 +157,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
         DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>(serviceProvider).ConfigureAwait(true);
         dialog.Text = DailyNoteOptions.WebhookUrl;
-        (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
+        (bool isOk, string? url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
