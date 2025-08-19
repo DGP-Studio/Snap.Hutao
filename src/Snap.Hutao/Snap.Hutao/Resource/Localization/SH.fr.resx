@@ -1852,10 +1852,10 @@ Espace disponible : {2}</value>
     <value>Échec de l'ajout au plan de développement</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
     <value>Cette action est irréversible et les objets du sac de ce plan seront perdus.</value>
@@ -3892,7 +3892,7 @@ Espace disponible : {2}</value>
     <value>Après-demain</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} jour(s)</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>La Résine originelle est complètement restaurée</value>
@@ -3907,10 +3907,10 @@ Espace disponible : {2}</value>
     <value>Prêt à être utilisé après</value>
   </data>
   <data name="WebDailyNoteTransformerDays" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} jour(s)</value>
   </data>
   <data name="WebDailyNoteTransformerHours" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} Heure(s)</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0} 分</value>
