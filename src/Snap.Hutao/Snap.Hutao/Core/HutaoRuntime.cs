@@ -59,7 +59,7 @@ internal static class HutaoRuntime
             .ToString();
 
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
-        string? displayName = SH.GetString(CultureInfo.CurrentCulture, name, Version);
+        string? displayName = SH.GetString(name, Version);
         return displayName is null ? null : string.Intern(displayName);
     }
 
