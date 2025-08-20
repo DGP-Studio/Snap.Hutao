@@ -2506,10 +2506,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Не удалось создать значок в области уведомлений, автоматическое обновление не будет выполняться после закрытия окна.</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Не показывать уведомления Snap Hutao во время игры в Genshin Impact</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Режим "Не беспокоить"</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
