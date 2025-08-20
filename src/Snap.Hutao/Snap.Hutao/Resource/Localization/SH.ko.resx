@@ -2508,10 +2508,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>알림 영역 아이콘 생성에 실패했습니다. 창을 닫으면 자동 새로고침이 실행되지 않습니다</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>원신을 플레이 할 때 알리지 않음</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>방해 금지 모드</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
