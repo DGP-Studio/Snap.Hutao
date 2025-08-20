@@ -2508,11 +2508,11 @@ Espace disponible : {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Échec de la création de l'icône de la zone de notification, l'actualisation automatique ne s'exécutera pas après la fermeture de la fenêtre</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>Ne pas me déranger pendant que je joue à Genshin Impact</value>
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
+    <value>在我游玩原神时不通知我</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
-    <value>Mode Ne pas déranger</value>
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
+    <value>免打扰模式</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Lanceur de jeu</value>
