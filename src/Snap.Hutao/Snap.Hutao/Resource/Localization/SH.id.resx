@@ -2508,10 +2508,10 @@ Ruang Tersedia: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Pembuatan ikon area notifikasi gagal, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Jangan ganggu selama bermain Genshin</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Jangan ganggu</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
