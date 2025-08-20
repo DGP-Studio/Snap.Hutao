@@ -557,16 +557,16 @@
                                                     Severity="Warning"
                                                     Visibility="{Binding RuntimeOptions.IsToastAvailable, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <cwcont:SettingsCard
-                                                    Description="{shuxm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
-                                                    Header="{shuxm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
+                                                    Description="{shuxm:ResourceString Name=ViewPageDailyNoteSilentModeDescription}"
+                                                    Header="{shuxm:ResourceString Name=ViewPageDailyNoteSilentModeHeader}"
                                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7ED;}">
-                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame.Value, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                                 <cwcont:SettingsCard
                                                     Description="{shuxm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
                                                     Header="{shuxm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEA8F;}">
-                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
+                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification.Value, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                             </StackPanel>
                                         </cwcont:HeaderedContentControl>

@@ -50,7 +50,7 @@ internal static class HoyolabOptions
     [SuppressMessage("", "CA1308")]
     private static string GenerateDeviceId40()
     {
-        Guid uuid = Core.Uuid.NewV5(DeviceId36, new("9450ea74-be9c-35c0-9568-f97407856768"));
+        Guid uuid = Uuid.NewV5(DeviceId36, new("9450ea74-be9c-35c0-9568-f97407856768"));
 
         Span<byte> uuidSpan = stackalloc byte[16];
         Span<byte> hash = stackalloc byte[20];

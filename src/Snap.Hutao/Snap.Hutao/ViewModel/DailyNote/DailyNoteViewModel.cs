@@ -162,7 +162,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();
-            DailyNoteOptions.WebhookUrl = url;
+            DailyNoteOptions.WebhookUrl.Value = url;
             infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
         }
     }

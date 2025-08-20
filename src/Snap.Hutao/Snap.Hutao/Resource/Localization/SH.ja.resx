@@ -2509,10 +2509,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>通知領域アイコンの作成に失敗したため、自動更新は、ウィンドウを閉じた後に実行されません</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>原神をプレイ中に通知しない</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>集中モード</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

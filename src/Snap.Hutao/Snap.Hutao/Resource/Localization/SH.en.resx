@@ -2508,10 +2508,10 @@ Space Available: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Notification area icon is disabled, auto-refresh will not be executed after Snap Hutao is closed</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Do not disturb during Genshin gaming</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Do Not Disturb</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

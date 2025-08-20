@@ -2508,10 +2508,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว การรีเฟรชอัตโนมัติจะไม่ทำงานหลังจากปิดหน้าต่าง</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>ไม่ต้องแจ้งเตือนเมื่อฉันเล่น Genshin Impact</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>โหมดห้ามรบกวน</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

@@ -2508,10 +2508,10 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Erstellung des Symbols im Benachrichtigungsbereich fehlgeschlagen. Die automatische Aktualisierung wird nach dem Schließen des Fensters nicht ausgeführt.</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Mich nicht benachrichtigen, wenn ich Genshin spiele</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Nicht stören Modus</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

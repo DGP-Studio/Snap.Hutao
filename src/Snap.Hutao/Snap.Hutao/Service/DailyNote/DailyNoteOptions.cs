@@ -5,6 +5,7 @@ using Quartz;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Property;
 using Snap.Hutao.Service.Job;
 using System.Collections.Immutable;
 
@@ -19,8 +20,6 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     private readonly IQuartzService quartzService;
 
     private bool? isAutoRefreshEnabled;
-    private bool? isReminderNotification;
-    private bool? isSilentWhenPlayingGame;
 
     public ImmutableArray<NameValue<int>> RefreshTimes { get; } =
     [
@@ -73,22 +72,12 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         }
     }
 
-    public bool IsReminderNotification
-    {
-        get => GetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, false);
-        set => SetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsReminderNotification { get => field ??= CreateProperty(SettingEntry.DailyNoteReminderNotify, false); }
 
-    public bool IsSilentWhenPlayingGame
-    {
-        get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, false);
-        set => SetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsSilentWhenPlayingGame { get => field ??= CreateProperty(SettingEntry.DailyNoteSilentWhenPlayingGame, false); }
 
-    [SuppressMessage("", "CA1822")]
-    public string? WebhookUrl
-    {
-        get => GetOption(ref field, SettingEntry.DailyNoteWebhookUrl);
-        set => SetOption(ref field, SettingEntry.DailyNoteWebhookUrl, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<string?> WebhookUrl { get => field ??= CreateProperty(SettingEntry.DailyNoteWebhookUrl); }
 }

@@ -126,6 +126,7 @@ dotnet_naming_style.pascal_case.word_separator =
 
 dotnet_diagnostic.IDE0005.severity = warning    # IDE0005: 删除不必要的 using 指令
 dotnet_diagnostic.IDE0060.severity = none       # IDE0060: 删除未使用的参数
+dotnet_diagnostic.IDE0290.severity = none
 
 dotnet_diagnostic.CA1000.severity = suggestion  # CA1000: 不要在泛型类型中声明静态成员
 dotnet_diagnostic.CA1001.severity = warning     # CA1001: 具有可释放字段的类型应该是可释放的

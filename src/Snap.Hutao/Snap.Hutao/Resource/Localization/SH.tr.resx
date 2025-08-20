@@ -2508,10 +2508,10 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Bildirim alanı simgesi oluşturulamadı, pencere kapatıldıktan sonra otomatik yenileme yapılmayacak</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Genshin oynarken beni rahatsız etme</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Rahatsız Etmeyin Modu</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

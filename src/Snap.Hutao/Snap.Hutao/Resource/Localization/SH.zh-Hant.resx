@@ -2508,10 +2508,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>通知區域圖示建立失敗，關閉視窗後自動重新整理將不會執行</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>在我遊玩原神時不通知我</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>免打擾模式</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">

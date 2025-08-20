@@ -35,9 +35,19 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return new StringDbProperty(serviceProvider, key, defaultValue);
     }
 
+    protected DbProperty<string?> CreateProperty(string key)
+    {
+        return new NullableStringDbProperty(serviceProvider, key);
+    }
+
     protected DbProperty<bool> CreateProperty(string key, bool defaultValue)
     {
-        return new BoolDbProperty(serviceProvider, key, defaultValue);
+        return new BooleanDbProperty(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<int> CreateProperty(string key, int defaultValue)
+    {
+        return new Int32DbProperty(serviceProvider, key, defaultValue);
     }
 
     protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
@@ -87,11 +97,13 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return GetOption(ref storage, key, bool.Parse, defaultValueFactory);
     }
 
+    [Obsolete]
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
     {
         return GetOption(ref storage, key, () => defaultValue);
     }
 
+    [Obsolete]
     protected int GetOption(ref int? storage, string key, Func<int> defaultValueFactory)
     {
         return GetOption(ref storage, key, int.Parse, defaultValueFactory);
@@ -185,6 +197,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
+    [Obsolete]
     protected bool SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
