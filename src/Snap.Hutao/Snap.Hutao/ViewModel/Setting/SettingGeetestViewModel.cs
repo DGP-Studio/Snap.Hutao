@@ -33,7 +33,7 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        appOptions.GeetestCustomCompositeUrl = template;
+        appOptions.GeetestCustomCompositeUrl.Value = template;
         infoBarService.Success(SH.ViewModelSettingGeetestCustomUrlSucceed);
     }
 }
