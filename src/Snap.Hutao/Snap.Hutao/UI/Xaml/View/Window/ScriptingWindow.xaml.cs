@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Scripting;
+using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -23,7 +24,7 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
 
     public FrameworkElement TitleBarCaptionAccess { get => DragableGrid; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get; } = [];
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get; } = [];
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 500, this); }
 }

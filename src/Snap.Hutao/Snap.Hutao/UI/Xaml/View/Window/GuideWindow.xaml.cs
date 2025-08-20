@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Guide;
+using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -37,7 +38,7 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
 
     public FrameworkElement TitleBarCaptionAccess { get => DraggableGrid; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1000, 650, this); }
 }

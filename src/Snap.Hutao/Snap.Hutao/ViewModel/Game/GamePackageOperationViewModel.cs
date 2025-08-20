@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
@@ -20,7 +21,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
 
-    private readonly FrozenDictionary<GamePackageOperationReportKind, Lock> syncRoots = FrozenDictionary.ToFrozenDictionary(
+    private readonly FrozenDictionary<GamePackageOperationReportKind, Lock> syncRoots = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(GamePackageOperationReportKind.Download, new Lock()),
         KeyValuePair.Create(GamePackageOperationReportKind.Install, new Lock()),

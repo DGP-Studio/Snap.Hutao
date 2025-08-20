@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using System.Collections.Frozen;
 
@@ -16,7 +17,7 @@ internal sealed partial class LayoutSwitch : Segmented
     public const string List = nameof(List);
     public const string Grid = nameof(Grid);
 
-    private static readonly FrozenDictionary<int, string> IndexTypeMap = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<int, string> IndexTypeMap = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(0, List),
         KeyValuePair.Create(1, Grid),

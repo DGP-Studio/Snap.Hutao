@@ -227,7 +227,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         DownloadSummaries = GetUnfulfilledCategoryCollection(serviceProvider);
 
         // Pass a collection copy, so that we can remove element in loop
-        await Parallel.ForEachAsync([.. DownloadSummaries], async (summary, token) =>
+        await Parallel.ForEachAsync((DownloadSummary[])[.. DownloadSummaries], async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))
             {

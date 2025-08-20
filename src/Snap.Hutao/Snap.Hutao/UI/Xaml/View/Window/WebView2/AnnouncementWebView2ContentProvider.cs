@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Win32;
@@ -27,7 +28,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
         }
         """;
 
-    private static readonly FrozenDictionary<string, string> DarkLightReverts = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, string> DarkLightReverts = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create("color:rgba(0,0,0,1)", "color:rgba(255,255,255,1)"),
         KeyValuePair.Create("color:rgba(17,17,17,1)", "color:rgba(238,238,238,1)"),

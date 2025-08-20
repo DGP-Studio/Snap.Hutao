@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Game;
+using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -41,7 +42,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
 
     public FrameworkElement TitleBarCaptionAccess { get => DraggableGrid; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public Task CloseTask { get => closeTcs.Task; }
 

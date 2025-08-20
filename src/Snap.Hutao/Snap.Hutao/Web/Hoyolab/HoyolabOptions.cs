@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using System.Collections.Frozen;
 using System.Security.Cryptography;
@@ -28,7 +29,7 @@ internal static class HoyolabOptions
 
     public static string DeviceId53 { get; } = Random.GetLowerAndNumberString(53);
 
-    public static FrozenDictionary<SaltType, string> Salts { get; } = FrozenDictionary.ToFrozenDictionary(
+    public static FrozenDictionary<SaltType, string> Salts { get; } = WinRTAdaptive.ToFrozenDictionary(
     [
 
         // Chinese
