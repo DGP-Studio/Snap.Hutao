@@ -2508,10 +2508,10 @@ Espaço disponível: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Falha ao criar o ícone da área de notificação, a atualização automática não será executada após fechar a janela</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>Não incomodar durante o Genshin</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Não perturbe</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
