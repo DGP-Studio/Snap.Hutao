@@ -805,7 +805,7 @@
                                     Header="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE81C;}">
                                     <ToggleSwitch
-                                        IsOn="{Binding AppOptions.IsEmptyHistoryWishVisible, Mode=TwoWay}"
+                                        IsOn="{Binding AppOptions.IsEmptyHistoryWishVisible.Value, Mode=TwoWay}"
                                         OffContent="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                                         OnContent="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>
@@ -814,7 +814,7 @@
                                     Header="{shuxm:ResourceString Name=ViewPageSettingUnobtainedWishItemVisibleHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE890;}">
                                     <ToggleSwitch
-                                        IsOn="{Binding AppOptions.IsUnobtainedWishItemVisible, Mode=TwoWay}"
+                                        IsOn="{Binding AppOptions.IsUnobtainedWishItemVisible.Value, Mode=TwoWay}"
                                         OffContent="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                                         OnContent="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>

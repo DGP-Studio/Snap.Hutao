@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction.Property;
 using System.Collections.Immutable;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -29,6 +30,16 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return input.ToStringOrEmpty();
     }
 
+    protected DbProperty<string> CreateProperty(string key, string defaultValue)
+    {
+        return new StringDbProperty(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<bool> CreateProperty(string key, bool defaultValue)
+    {
+        return new BoolDbProperty(serviceProvider, key, defaultValue);
+    }
+
     protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -41,11 +52,13 @@ internal abstract partial class DbStoreOptions : ObservableObject
         }
     }
 
+    [Obsolete]
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
         return GetOption(ref storage, key, () => defaultValue);
     }
 
+    [Obsolete]
     protected string GetOption(ref string? storage, string key, Func<string> defaultValueFactory)
     {
         if (storage is not null)
@@ -62,11 +75,13 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
+    [Obsolete]
     protected bool GetOption(ref bool? storage, string key, bool defaultValue)
     {
         return GetOption(ref storage, key, defaultValue ? TrueFunc : FalseFunc);
     }
 
+    [Obsolete]
     protected bool GetOption(ref bool? storage, string key, Func<bool> defaultValueFactory)
     {
         return GetOption(ref storage, key, bool.Parse, defaultValueFactory);
@@ -158,11 +173,13 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
+    [Obsolete]
     protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => v, propertyName);
     }
 
+    [Obsolete]
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);

@@ -37,7 +37,7 @@ internal sealed partial class CustomGeetestClient
             if (ImpossibleHosts.Contains(uriBuilder.Host))
             {
                 await taskContext.SwitchToMainThreadAsync();
-                appOptions.GeetestCustomCompositeUrl = string.Empty;
+                appOptions.GeetestCustomCompositeUrl.Value = string.Empty;
                 return GeetestResponse.InternalFailure;
             }
         }

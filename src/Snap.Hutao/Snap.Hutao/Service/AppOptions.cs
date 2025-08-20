@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Property;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
@@ -19,8 +20,6 @@ namespace Snap.Hutao.Service;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private bool? isEmptyHistoryWishVisible;
-    private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
     private ElementTheme? elementTheme;
     private BackgroundImageType? backgroundImageType;
@@ -32,17 +31,11 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
-    public bool IsEmptyHistoryWishVisible
-    {
-        get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, false);
-        set => SetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsEmptyHistoryWishVisible { get => field ??= CreateProperty(SettingEntry.IsEmptyHistoryWishVisible, false); }
 
-    public bool IsUnobtainedWishItemVisible
-    {
-        get => GetOption(ref isUnobtainedWishItemVisible, SettingEntry.IsUnobtainedWishItemVisible, false);
-        set => SetOption(ref isUnobtainedWishItemVisible, SettingEntry.IsUnobtainedWishItemVisible, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsUnobtainedWishItemVisible { get => field ??= CreateProperty(SettingEntry.IsUnobtainedWishItemVisible, false); }
 
     public ImmutableArray<NameValue<BackdropType>> BackdropTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
 
@@ -85,12 +78,8 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, NullableExtension.ToStringOrEmpty);
     }
 
-    [field: AllowNull]
-    public string GeetestCustomCompositeUrl
-    {
-        get => GetOption(ref field, SettingEntry.GeetestCustomCompositeUrl);
-        set => SetOption(ref field, SettingEntry.GeetestCustomCompositeUrl, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<string> GeetestCustomCompositeUrl { get => field ??= CreateProperty(SettingEntry.GeetestCustomCompositeUrl, string.Empty); }
 
     public int DownloadSpeedLimitPerSecondInKiloByte
     {
