@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -217,7 +217,7 @@
     <value>Zona horaria del servidor</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
-    <value>Refinar {0}</value>
+    <value>精炼 {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>Lunes/Jueves/Domingo</value>
@@ -229,16 +229,16 @@
     <value>Miércoles/Sábado/Domingo</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
-    <value>{0:f2} tiradas</value>
+    <value>{0:f2} 抽</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
-    <value>Peor racha {0} tiradas</value>
+    <value>最非 {0} 抽</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
-    <value>Mejor racha {0} tiradas</value>
+    <value>最欧 {0} 抽</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
-    <value>{0} tiradas</value>
+    <value>{0} 抽</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>Piso {0}</value>
@@ -247,7 +247,7 @@
     <value>Nivel {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
-    <value>Apareció {0} veces</value>
+    <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>BiliBili</value>
@@ -265,10 +265,10 @@
     <value>No se ha actualizado</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
-    <value>Actualizado el {0:MM.dd HH:mm:ss}</value>
+    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>Horario {0}: {1}</value>
+    <value>第 {0} 期：{1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Personaje</value>
@@ -280,7 +280,7 @@
     <value>Arma</value>
   </data>
   <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
-    <value>Fase {0}</value>
+    <value>第 {0} 期</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Personaje</value>
@@ -370,22 +370,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelAdvancing" xml:space="preserve">
-    <value>进阶</value>
+    <value>Avanzado</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelDire" xml:space="preserve">
-    <value>绝境</value>
+    <value>Extremo</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelFearless" xml:space="preserve">
-    <value>无畏</value>
+    <value>Intrépido</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelHard" xml:space="preserve">
-    <value>困难</value>
+    <value>Difícil</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelMenacing" xml:space="preserve">
-    <value>险恶</value>
+    <value>Amenazante</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelNormal" xml:space="preserve">
-    <value>普通</value>
+    <value>Normal</value>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>3 estrellas</value>
@@ -441,7 +441,7 @@
     <value>Traveler</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
-    <value>{0}/{1}</value>
+    <value>{0} 月 {1} 日</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
     <value>Character and Weapon Enhancement Materials</value>
@@ -562,7 +562,7 @@
     <value>Sin datos</value>
   </data>
   <data name="ModelWeaponAffix" xml:space="preserve">
-    <value>Refinamiento {0}</value>
+    <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Debes iniciar sesión en 米游社 / HoYoLAB y seleccionar un usuario y un rol</value>
@@ -700,7 +700,7 @@
     <value>Se ha subido el registro del abismo correctamente, pero no es la primera subida de este período, no se puede obtener la duración del servicio de subida de registros de deseos.</value>
   </data>
   <data name="ServiceAchievementImportResult" xml:space="preserve">
-    <value>Nuevo: {0} Logros | Actualizado: {1} Logros | Eliminado: {2} Logros</value>
+    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>Archivos JSON UIAF</value>
@@ -1078,13 +1078,13 @@ Espacio disponible: {2}</value>
     <value>Verificando la integridad del juego</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
-    <value>Copia de seguridad: {0}</value>
+    <value>备份：{0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>Cambiar nombre: {0} a: {1}</value>
+    <value>重命名：{0} 到：{1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
-    <value>Reemplazar: {0}</value>
+    <value>替换：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Se ha encontrado un problema al leer la versión local del paquete, reparar el juego puede ayudar</value>
@@ -1141,13 +1141,13 @@ Espacio disponible: {2}</value>
     <value>Operación de recursos del juego fallida</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>Fallo en la compensación de registro, {0}</value>
+    <value>补签失败，{0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>Compensación de registro exitosa, {0}×{1}</value>
+    <value>补签成功，{0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
-    <value>Error al registrarse, {0}</value>
+    <value>签到失败，{0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>Error al obtener el número de registros</value>
@@ -1159,7 +1159,7 @@ Espacio disponible: {2}</value>
     <value>Error de verificación, visita la página de registro de Genshin Impact de 米游社 para reclamar la recompensa manualmente</value>
   </data>
   <data name="ServiceSignInSuccessReward" xml:space="preserve">
-    <value>Registro exitoso, {0}×{1}</value>
+    <value>签到成功，{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>Artículo no compatible, Id: {0}</value>
@@ -1606,13 +1606,13 @@ Espacio disponible: {2}</value>
     <value>Acceder con cuenta y contraseña</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>Código de verificación</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>Código de verificación enviado</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>Por favor, ingrese el código de verificación del correo electrónico</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Ir ahora</value>
@@ -1852,10 +1852,10 @@ Espacio disponible: {2}</value>
     <value>Error al añadir el plan de mejora</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
-    <value>Operación completada: añadido/actualizado: {0}, omitido {1}</value>
+    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
-    <value>La operación no se completó del todo: añadido/actualizado: {0}, omitido {1}</value>
+    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
     <value>Esta operación es irreversible, se perderán los objetos del inventario de este plan.</value>
@@ -1873,7 +1873,7 @@ Espacio disponible: {2}</value>
     <value>Ya existe un proyecto de desarrollo para este objeto</value>
   </data>
   <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
-    <value>未消耗任何材料</value>
+    <value>No se consumió ningún material</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Añadido correctamente al plan de mejora actual</value>
@@ -1885,7 +1885,7 @@ Espacio disponible: {2}</value>
     <value>Vuelve a añadir un objeto para ver la descripción de mejora</value>
   </data>
   <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
-    <value>仅突破</value>
+    <value>Solo ascenso</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Añadido correctamente</value>
@@ -2509,10 +2509,10 @@ Espacio disponible: {2}</value>
     <value>Fallo al crear el icono del área de notificación, la actualización automática no se realizará después de cerrar la ventana</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
-    <value>No molestar mientras juego a Genshin Impact</value>
+    <value>在我游玩原神时不通知我</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
-    <value>Modo No Molestar</value>
+    <value>免打扰模式</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Iniciar juego</value>
@@ -3802,16 +3802,16 @@ Espacio disponible: {2}</value>
     <value>Ejecutar script de depuración</value>
   </data>
   <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
-    <value>Comienza en {0} día</value>
+    <value>{0} 天后开始</value>
   </data>
   <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
-    <value>Finaliza en {0} día</value>
+    <value>{0} 天后结束</value>
   </data>
   <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
-    <value>Comienza en {0} hora</value>
+    <value>{0} 小时后开始</value>
   </data>
   <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
-    <value>Finaliza en {0} hora</value>
+    <value>{0} 小时后结束</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Error al abrir el portapapeles</value>
@@ -3877,7 +3877,7 @@ Espacio disponible: {2}</value>
     <value>Recompensa de «Comisión diaria» reclamada</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
-    <value>Se alcanzará el límite de almacenamiento en {0} a las {1:HH:mm}</value>
+    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Relajatetera no desbloqueada</value>
@@ -3892,13 +3892,13 @@ Espacio disponible: {2}</value>
     <value>Pasado mañana</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} día</value>
+    <value>{0} 天</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Resina original totalmente recuperada</value>
   </data>
   <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>Se recuperará totalmente en {0} a las {1:HH:mm}</value>
+    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Restablecer en {0:c}</value>
@@ -3907,13 +3907,13 @@ Espacio disponible: {2}</value>
     <value>Listo para usar de nuevo después de</value>
   </data>
   <data name="WebDailyNoteTransformerDays" xml:space="preserve">
-    <value>{0} días</value>
+    <value>{0} 天</value>
   </data>
   <data name="WebDailyNoteTransformerHours" xml:space="preserve">
-    <value>{0} h</value>
+    <value>{0} 时</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
-    <value>{0} min</value>
+    <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
     <value>No obtenido</value>
@@ -3931,7 +3931,7 @@ Espacio disponible: {2}</value>
     <value>Listo</value>
   </data>
   <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
-    <value>{0} s</value>
+    <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
     <value>Falló la verificación. Verifica manualmente o consulta la página de «miHoYo BBS - Herramientas - Notas en tiempo real»</value>
@@ -4018,13 +4018,13 @@ Espacio disponible: {2}</value>
     <value>Hubo un problema al solicitar {0}</value>
   </data>
   <data name="WebResponse" xml:space="preserve">
-    <value>Código de retorno: {0} | Mensaje: {1}</value>
+    <value>状态：{0} | 信息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHint" xml:space="preserve">
-    <value>Por favor, actualice la cookie, mensaje original: {0}</value>
+    <value>请刷新 Cookie，原始消息：{0}</value>
   </data>
   <data name="WebResponseRequestException" xml:space="preserve">
-    <value>Excepción de solicitud de red [{1}] en [{0}], por favor, inténtelo de nuevo más tarde</value>
+    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>Error al iniciar sesión, visita HoYoLAB para inicializar tu cuenta, mensaje original: {0}</value>
@@ -4033,26 +4033,35 @@ Espacio disponible: {2}</value>
     <value>ID del monitor</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>Para prevenir el abuso de la función de inyección, es necesario iniciar sesión con una cuenta de miHoYo/HoYoLAB y seleccionar una cuenta y un personaje</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>Fallo al terminar el proceso</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
+    <value>Calamidad Cósmica</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>Nod-Krai</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>Pila de llamadas</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
+    <value>Visión</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>Fallo al obtener la versión del juego</value>
+  </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>Seleccione en la lista de abajo para cambiar a esa ruta</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>Ecos Imaginados</value>
   </data>
 </root>
