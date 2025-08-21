@@ -52,7 +52,7 @@ jobs:
     runs-on: ${{ needs.select-runner.outputs.runner }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup .NET (self-hosted)
         if: needs.select-runner.outputs.runner == 'sjc1'
