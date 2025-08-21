@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
+using System.Globalization;
 
 namespace Snap.Hutao.Service.Abstraction.Property;
 
@@ -36,7 +37,7 @@ internal sealed partial class Int32DbProperty : DbProperty<int>
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     string? value = GetValue(appDbContext, key);
-                    @field = value is null ? defaultValueFactory() : int.Parse(value);
+                    @field = value is null ? defaultValueFactory() : int.Parse(value, CultureInfo.CurrentCulture);
                 }
             }
 

@@ -53,7 +53,7 @@ internal sealed partial class LaunchExecutionContext : AbstractLaunchExecutionCo
         {
             CheckDisposedAndDispose();
 
-            Options.GamePath = gamePath;
+            Options.GamePath.Value = gamePath;
             PerformGamePathEntrySynchronization();
         }
     }

@@ -4,53 +4,55 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
+using System.Globalization;
 
 namespace Snap.Hutao.Service.Abstraction.Property;
 
-internal sealed partial class StringDbProperty : DbProperty<string>
+internal sealed partial class SingleDbProperty : DbProperty<float>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly string key;
-    private readonly Func<string> defaultValueFactory;
+    private readonly Func<float> defaultValueFactory;
+    private float? field;
 
-    public StringDbProperty(IServiceProvider serviceProvider, string key, Func<string> defaultValueFactory)
+    public SingleDbProperty(IServiceProvider serviceProvider, string key, Func<float> defaultValueFactory)
     {
         this.serviceProvider = serviceProvider;
         this.key = key;
         this.defaultValueFactory = defaultValueFactory;
     }
 
-    public StringDbProperty(IServiceProvider serviceProvider, string key, string defaultValue)
+    public SingleDbProperty(IServiceProvider serviceProvider, string key, float defaultValue)
         : this(serviceProvider, key, () => defaultValue)
     {
     }
 
-    [field: MaybeNull]
-    public override string Value
+    public override float Value
     {
         get
         {
-            if (field is null)
+            if (@field is null)
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    field = GetValue(appDbContext, key) ?? defaultValueFactory();
+                    string? value = GetValue(appDbContext, key);
+                    @field = value is null ? defaultValueFactory() : float.Parse(value, CultureInfo.CurrentCulture);
                 }
             }
 
-            return field;
+            return @field.Value;
         }
 
         set
         {
-            if (SetProperty(ref field, value))
+            if (SetProperty(ref @field, value))
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-                    appDbContext.Settings.AddAndSave(new(key, value));
+                    appDbContext.Settings.AddAndSave(new(key, $"{value}"));
                 }
             }
         }

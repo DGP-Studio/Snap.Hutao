@@ -43,17 +43,17 @@ internal sealed partial class GamePathService : IGamePathService
 
         using (await launchOptions.GamePathLock.WriterLockAsync().ConfigureAwait(false))
         {
-            foreach (GamePathEntry entry in launchOptions.GamePathEntries)
+            foreach (GamePathEntry entry in launchOptions.GamePathEntries.Value)
             {
                 paths.Remove(entry.Path);
             }
 
-            ImmutableArray<GamePathEntry>.Builder builder = launchOptions.GamePathEntries.ToBuilder();
+            ImmutableArray<GamePathEntry>.Builder builder = launchOptions.GamePathEntries.Value.ToBuilder();
             builder.AddRange(paths.Select(GamePathEntry.Create));
 
             // Since all path we add are not in original list, we can skip calling PerformGamePathEntrySynchronization
             await taskContext.SwitchToMainThreadAsync();
-            launchOptions.GamePathEntries = builder.ToImmutable();
+            launchOptions.GamePathEntries.Value = builder.ToImmutable();
         }
     }
 }

@@ -50,6 +50,28 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return new Int32DbProperty(serviceProvider, key, defaultValue);
     }
 
+    protected DbProperty<int> CreateProperty(string key, Func<int> defaultValueFactory)
+    {
+        return new Int32DbProperty(serviceProvider, key, defaultValueFactory);
+    }
+
+    protected DbProperty<float> CreateProperty(string key, float defaultValue)
+    {
+        return new SingleDbProperty(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<TEnum> CreateProperty<TEnum>(string key, TEnum defaultValue)
+        where TEnum : struct, Enum
+    {
+        return new EnumDbProperty<TEnum>(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<T> CreatePropertyForStructUsingJson<T>(string key, T defaultValue)
+        where T : struct
+    {
+        return new StructToJsonDbProperty<T>(serviceProvider, key, defaultValue);
+    }
+
     protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())

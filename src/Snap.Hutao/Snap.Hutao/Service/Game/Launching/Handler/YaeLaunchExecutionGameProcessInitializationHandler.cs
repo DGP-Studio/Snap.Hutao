@@ -30,7 +30,7 @@ internal sealed class YaeLaunchExecutionGameProcessInitializationHandler : ILaun
     {
         LaunchOptions launchOptions = context.Options;
 
-        bool authTicketAvailable = launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount: true } && !string.IsNullOrEmpty(context.AuthTicket);
+        bool authTicketAvailable = launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount.Value: true } && !string.IsNullOrEmpty(context.AuthTicket);
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html

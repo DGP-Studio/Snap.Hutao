@@ -70,7 +70,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                LaunchOptions.PlatformType = value.Value;
+                LaunchOptions.PlatformType.Value = value.Value;
             }
         }
     }
@@ -149,7 +149,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get;
         set
         {
-            if (value is not null && !LaunchOptions.GamePathEntries.Contains(value))
+            if (value is not null && !LaunchOptions.GamePathEntries.Value.Contains(value))
             {
                 HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
             }
@@ -164,7 +164,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 using (releaser)
                 {
-                    LaunchOptions.GamePath = value?.Path ?? string.Empty;
+                    LaunchOptions.GamePath.Value = value?.Path ?? string.Empty;
                 }
             }
 
@@ -202,7 +202,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
-        if (LaunchOptions.GamePathEntries.IsDefaultOrEmpty)
+        if (LaunchOptions.GamePathEntries.Value.IsDefaultOrEmpty)
         {
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
@@ -260,7 +260,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return;
         }
 
-        AspectRatios = LaunchOptions.RemoveAspectRatio(aspectRatio);
+        if (aspectRatio.Equals(LaunchOptions.SelectedAspectRatio))
+        {
+            LaunchOptions.SelectedAspectRatio = default;
+        }
+
+        AspectRatios = LaunchOptions.AspectRatios.Remove(aspectRatio);
     }
 
     [Command("LaunchCommand")]

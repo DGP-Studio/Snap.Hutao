@@ -8,6 +8,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Property;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
@@ -99,28 +100,20 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
-    [field: AllowNull]
-    public string GamePath
-    {
-        get => GetOption(ref field, SettingEntry.GamePath);
-        set => SetOption(ref field, SettingEntry.GamePath, value);
-    }
+    string IRestrictedGamePathAccess.GamePath { get => GamePath; set => GamePath.Value = value; }
 
-    public ImmutableArray<GamePathEntry> GamePathEntries
-    {
-        // Because DbStoreOptions can't detect collection change, We use
-        // ImmutableArray to imply that the whole list needs to be replaced
-        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw, JsonOptions.Default), []);
-        set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v, JsonOptions.Default));
-    }
+    [field: MaybeNull]
+    public DbProperty<string> GamePath { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty); }
+
+    ImmutableArray<GamePathEntry> IRestrictedGamePathAccess.GamePathEntries { get => GamePathEntries.Value; set => GamePathEntries.Value = value; }
+
+    [field: MaybeNull]
+    public DbProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.GamePathEntries, ImmutableArray<GamePathEntry>.Empty); }
 
     public AsyncReaderWriterLock GamePathLock { get; } = new();
 
-    public bool UsingHoyolabAccount
-    {
-        get => GetOption(ref fields.UsingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, false);
-        set => SetOption(ref fields.UsingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> UsingHoyolabAccount { get => field ??= CreateProperty(SettingEntry.LaunchUsingHoyolabAccount, false); }
 
     public bool AreCommandLineArgumentsEnabled
     {
@@ -131,53 +124,35 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
             {
                 if (!value)
                 {
-                    UsingHoyolabAccount = false;
+                    UsingHoyolabAccount.Value = false;
                 }
             }
         }
     }
 
-    public bool IsFullScreen
-    {
-        get => GetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, false);
-        set => SetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsFullScreen { get => field ??= CreateProperty(SettingEntry.LaunchIsFullScreen, false); }
 
-    public bool IsBorderless
-    {
-        get => GetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless, false);
-        set => SetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsBorderless { get => field ??= CreateProperty(SettingEntry.LaunchIsBorderless, false); }
 
-    public bool IsExclusive
-    {
-        get => GetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive, false);
-        set => SetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsExclusive { get => field ??= CreateProperty(SettingEntry.LaunchIsExclusive, false); }
 
-    public int ScreenWidth
-    {
-        get => GetOption(ref fields.ScreenWidth, SettingEntry.LaunchScreenWidth, DisplayArea.Primary.OuterBounds.Width);
-        set => SetOption(ref fields.ScreenWidth, SettingEntry.LaunchScreenWidth, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsScreenWidthEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsScreenWidthEnabled, true); }
 
-    public bool IsScreenWidthEnabled
-    {
-        get => GetOption(ref fields.IsScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, true);
-        set => SetOption(ref fields.IsScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<int> ScreenWidth { get => field ??= CreateProperty(SettingEntry.LaunchScreenWidth, DisplayArea.Primary.OuterBounds.Width); }
 
-    public int ScreenHeight
-    {
-        get => GetOption(ref fields.ScreenHeight, SettingEntry.LaunchScreenHeight, DisplayArea.Primary.OuterBounds.Height);
-        set => SetOption(ref fields.ScreenHeight, SettingEntry.LaunchScreenHeight, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsScreenHeightEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsScreenHeightEnabled, true); }
 
-    public bool IsScreenHeightEnabled
-    {
-        get => GetOption(ref fields.IsScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, true);
-        set => SetOption(ref fields.IsScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<int> ScreenHeight { get => field ??= CreateProperty(SettingEntry.LaunchScreenHeight, DisplayArea.Primary.OuterBounds.Height); }
+
+    [field: MaybeNull]
+    public DbProperty<bool> IsMonitorEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsMonitorEnabled, true); }
 
     public ImmutableArray<NameValue<int>> Monitors { get; } = InitializeMonitors();
 
@@ -203,133 +178,67 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
-    public bool IsMonitorEnabled
-    {
-        get => GetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
-        set => SetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsPlatformTypeEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsPlatformTypeEnabled, false); }
 
     public ImmutableArray<NameValue<PlatformType>> PlatformTypes { get; } = ImmutableCollectionsNameValue.FromEnum<PlatformType>();
 
-    public PlatformType PlatformType
-    {
-        get => GetOption(ref fields.PlatformType, SettingEntry.LaunchPlatformType, Enum.Parse<PlatformType>, PlatformType.PC);
-        set => SetOption(ref fields.PlatformType, SettingEntry.LaunchPlatformType, value, EnumToStringOrEmpty);
-    }
+    [field: MaybeNull]
+    public DbProperty<PlatformType> PlatformType { get => field ??= CreateProperty(SettingEntry.LaunchPlatformType, Model.Intrinsic.PlatformType.PC); }
 
-    public bool IsPlatformTypeEnabled
-    {
-        get => GetOption(ref fields.IsPlatformTypeEnabled, SettingEntry.LaunchIsPlatformTypeEnabled, false);
-        set => SetOption(ref fields.IsPlatformTypeEnabled, SettingEntry.LaunchIsPlatformTypeEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsWindowsHDREnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsWindowsHDREnabled, false); }
 
-    public bool IsWindowsHDREnabled
-    {
-        get => GetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
-        set => SetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> UsingStarwardPlayTimeStatistics { get => field ??= CreateProperty(SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false); }
 
-    public bool UsingStarwardPlayTimeStatistics
-    {
-        get => GetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false);
-        set => SetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> UsingBetterGenshinImpactAutomation { get => field ??= CreateProperty(SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false); }
 
-    public bool UsingBetterGenshinImpactAutomation
-    {
-        get => GetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false);
-        set => SetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> SetDiscordActivityWhenPlaying { get => field ??= CreateProperty(SettingEntry.LaunchSetDiscordActivityWhenPlaying, false); }
 
-    public bool SetDiscordActivityWhenPlaying
-    {
-        get => GetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
-        set => SetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsIslandEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsIslandEnabled, false); }
 
-    public bool IsIslandEnabled
-    {
-        get => GetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
-        set => SetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsSetFieldOfViewEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsSetFieldOfViewEnabled, true); }
 
-    public bool IsSetFieldOfViewEnabled
-    {
-        get => GetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
-        set => SetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<float> TargetFov { get => field ??= CreateProperty(SettingEntry.LaunchTargetFov, 45f); }
 
-    public float TargetFov
-    {
-        get => GetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, 45f);
-        set => SetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> FixLowFovScene { get => field ??= CreateProperty(SettingEntry.LaunchFixLowFovScene, true); }
 
-    public bool FixLowFovScene
-    {
-        get => GetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
-        set => SetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> DisableFog { get => field ??= CreateProperty(SettingEntry.LaunchDisableFog, false); }
 
-    public bool DisableFog
-    {
-        get => GetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, false);
-        set => SetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> IsSetTargetFrameRateEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsSetTargetFrameRateEnabled, true); }
 
-    public bool IsSetTargetFrameRateEnabled
-    {
-        get => GetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
-        set => SetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<int> TargetFps { get => field ??= CreateProperty(SettingEntry.LaunchTargetFps, InitializeTargetFpsWithScreenFps); }
 
-    public int TargetFps
-    {
-        get => GetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, InitializeScreenFps);
-        set => SetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> RemoveOpenTeamProgress { get => field ??= CreateProperty(SettingEntry.LaunchRemoveOpenTeamProgress, false); }
 
-    public bool RemoveOpenTeamProgress
-    {
-        get => GetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
-        set => SetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> HideQuestBanner { get => field ??= CreateProperty(SettingEntry.LaunchHideQuestBanner, false); }
 
-    public bool HideQuestBanner
-    {
-        get => GetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, false);
-        set => SetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> DisableEventCameraMove { get => field ??= CreateProperty(SettingEntry.LaunchDisableEventCameraMove, false); }
 
-    public bool DisableEventCameraMove
-    {
-        get => GetOption(ref fields.DisableEventCameraMove, SettingEntry.LaunchDisableEventCameraMove, false);
-        set => SetOption(ref fields.DisableEventCameraMove, SettingEntry.LaunchDisableEventCameraMove, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> DisableShowDamageText { get => field ??= CreateProperty(SettingEntry.LaunchDisableShowDamageText, false); }
 
-    public bool DisableShowDamageText
-    {
-        get => GetOption(ref fields.DisableShowDamageText, SettingEntry.LaunchDisableShowDamageText, false);
-        set => SetOption(ref fields.DisableShowDamageText, SettingEntry.LaunchDisableShowDamageText, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> UsingTouchScreen { get => field ??= CreateProperty(SettingEntry.LaunchUsingTouchScreen, false); }
 
-    public bool UsingTouchScreen
-    {
-        get => GetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, false);
-        set => SetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, value);
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> RedirectCombineEntry { get => field ??= CreateProperty(SettingEntry.LaunchRedirectCombineEntry, false); }
 
-    public bool RedirectCombineEntry
-    {
-        get => GetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, false);
-        set => SetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, value);
-    }
-
-    public ImmutableArray<AspectRatio> AspectRatios
-    {
-        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw, JsonOptions.Default), []);
-        set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v, JsonOptions.Default));
-    }
+    [field: MaybeNull]
+    public DbProperty<ImmutableArray<AspectRatio>> AspectRatios { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.AspectRatios, ImmutableArray<AspectRatio>.Empty); }
 
     public AspectRatio? SelectedAspectRatio
     {
@@ -338,7 +247,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                (ScreenWidth, ScreenHeight) = ((int)value.Width, (int)value.Height);
+                (ScreenWidth.Value, ScreenHeight.Value) = ((int)value.Width, (int)value.Height);
             }
         }
     }
@@ -361,7 +270,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         });
     }
 
-    private static int InitializeScreenFps()
+    private static int InitializeTargetFpsWithScreenFps()
     {
         return HutaoNative.Instance.MakeDeviceCapabilities().GetPrimaryScreenVerticalRefreshRate();
     }
