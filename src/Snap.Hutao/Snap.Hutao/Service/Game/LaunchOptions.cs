@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
-using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -14,93 +13,20 @@ using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32;
 using System.Collections.Immutable;
-using System.Globalization;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game;
 
+[ConstructorGenerated(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class LaunchOptions : DbStoreOptions,
     IRestrictedGamePathAccess,
     IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
     private readonly ITaskContext taskContext;
-    private Fields fields;
 
-    public LaunchOptions(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+    public static bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
 
-        // Batch initialization, boost up performance
-        InitializeOptions(entry => entry.Key.StartsWith("Launch."), (key, value) =>
-        {
-            _ = key switch
-            {
-                SettingEntry.LaunchUsingHoyolabAccount => InitializeNullableBooleanValue(ref fields.UsingHoyolabAccount, value),
-                SettingEntry.LaunchAreCommandLineArgumentsEnabled => InitializeNullableBooleanValue(ref fields.AreCommandLineArgumentsEnabled, value),
-                SettingEntry.LaunchIsFullScreen => InitializeNullableBooleanValue(ref fields.IsFullScreen, value),
-                SettingEntry.LaunchIsBorderless => InitializeNullableBooleanValue(ref fields.IsBorderless, value),
-                SettingEntry.LaunchIsExclusive => InitializeNullableBooleanValue(ref fields.IsExclusive, value),
-                SettingEntry.LaunchScreenWidth => InitializeNullableInt32Value(ref fields.ScreenWidth, value),
-                SettingEntry.LaunchIsScreenWidthEnabled => InitializeNullableBooleanValue(ref fields.IsScreenWidthEnabled, value),
-                SettingEntry.LaunchScreenHeight => InitializeNullableInt32Value(ref fields.ScreenHeight, value),
-                SettingEntry.LaunchIsScreenHeightEnabled => InitializeNullableBooleanValue(ref fields.IsScreenHeightEnabled, value),
-                SettingEntry.LaunchIsMonitorEnabled => InitializeNullableBooleanValue(ref fields.IsMonitorEnabled, value),
-                SettingEntry.LaunchIsWindowsHDREnabled => InitializeNullableBooleanValue(ref fields.IsWindowsHDREnabled, value),
-                SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeNullableBooleanValue(ref fields.UsingStarwardPlayTimeStatistics, value),
-                SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeNullableBooleanValue(ref fields.UsingBetterGenshinImpactAutomation, value),
-                SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeNullableBooleanValue(ref fields.SetDiscordActivityWhenPlaying, value),
-                SettingEntry.LaunchIsIslandEnabled => InitializeNullableBooleanValue(ref fields.IsIslandEnabled, value),
-                SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeNullableBooleanValue(ref fields.IsSetFieldOfViewEnabled, value),
-                SettingEntry.LaunchTargetFov => InitializeNullableFloatValue(ref fields.TargetFov, value),
-                SettingEntry.LaunchFixLowFovScene => InitializeNullableBooleanValue(ref fields.FixLowFovScene, value),
-                SettingEntry.LaunchDisableFog => InitializeNullableBooleanValue(ref fields.DisableFog, value),
-                SettingEntry.LaunchIsSetTargetFrameRateEnabled => InitializeNullableBooleanValue(ref fields.IsSetTargetFrameRateEnabled, value),
-                SettingEntry.LaunchTargetFps => InitializeNullableInt32Value(ref fields.TargetFps, value),
-                SettingEntry.LaunchRemoveOpenTeamProgress => InitializeNullableBooleanValue(ref fields.RemoveOpenTeamProgress, value),
-                SettingEntry.LaunchHideQuestBanner => InitializeNullableBooleanValue(ref fields.HideQuestBanner, value),
-                _ => default,
-            };
-        });
-
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
-
-        static Void InitializeNullableBooleanValue(ref bool? storage, string? value)
-        {
-            if (value is not null)
-            {
-                _ = bool.TryParse(value, out bool result);
-                storage = result;
-            }
-
-            return default;
-        }
-
-        static Void InitializeNullableInt32Value(ref int? storage, string? value)
-        {
-            if (value is not null)
-            {
-                _ = int.TryParse(value, CultureInfo.InvariantCulture, out int result);
-                storage = result;
-            }
-
-            return default;
-        }
-
-        static Void InitializeNullableFloatValue(ref float? storage, string? value)
-        {
-            if (value is not null)
-            {
-                _ = float.TryParse(value, CultureInfo.InvariantCulture, out float result);
-                storage = result;
-            }
-
-            return default;
-        }
-    }
-
-    string IRestrictedGamePathAccess.GamePath { get => GamePath; set => GamePath.Value = value; }
+    string IRestrictedGamePathAccess.GamePath { get => GamePath.Value; set => GamePath.Value = value; }
 
     [field: MaybeNull]
     public DbProperty<string> GamePath { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty); }
@@ -115,20 +41,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     [field: MaybeNull]
     public DbProperty<bool> UsingHoyolabAccount { get => field ??= CreateProperty(SettingEntry.LaunchUsingHoyolabAccount, false); }
 
-    public bool AreCommandLineArgumentsEnabled
-    {
-        get => GetOption(ref fields.AreCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
-        set
-        {
-            if (SetOption(ref fields.AreCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value))
-            {
-                if (!value)
-                {
-                    UsingHoyolabAccount.Value = false;
-                }
-            }
-        }
-    }
+    [field: MaybeNull]
+    public DbProperty<bool> AreCommandLineArgumentsEnabled { get => field ??= CreateProperty(SettingEntry.LaunchAreCommandLineArgumentsEnabled, true).AlsoSetFalseWhenFalse(UsingHoyolabAccount); }
 
     [field: MaybeNull]
     public DbProperty<bool> IsFullScreen { get => field ??= CreateProperty(SettingEntry.LaunchIsFullScreen, false); }
@@ -156,27 +70,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public ImmutableArray<NameValue<int>> Monitors { get; } = InitializeMonitors();
 
-    [NotNull]
-    public NameValue<int>? Monitor
-    {
-        get
-        {
-            return GetOption(ref field, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
-
-            static int RestrictIndex(ImmutableArray<NameValue<int>> monitors, string index)
-            {
-                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Length - 1);
-            }
-        }
-
-        set
-        {
-            if (value is not null)
-            {
-                SetOption(ref field, SettingEntry.LaunchMonitor, value, static selected => selected.Value.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-    }
+    [field: MaybeNull]
+    public DbProperty<NameValue<int>?> Monitor { get => field ??= CreatePropertyForSelectedOneBasedIndex(SettingEntry.LaunchMonitor, Monitors); }
 
     [field: MaybeNull]
     public DbProperty<bool> IsPlatformTypeEnabled { get => field ??= CreateProperty(SettingEntry.LaunchIsPlatformTypeEnabled, false); }
@@ -252,15 +147,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
-    public bool UsingOverlay
-    {
-        get => GetOption(ref fields.UsingOverlay, SettingEntry.LaunchUsingOverlay, false);
-        set => SetOption(ref fields.UsingOverlay, SettingEntry.LaunchUsingOverlay, value);
-    }
-
-#pragma warning disable CA1822
-    public bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
-#pragma warning restore CA1822
+    [field: MaybeNull]
+    public DbProperty<bool> UsingOverlay { get => field ??= CreateProperty(SettingEntry.LaunchUsingOverlay, false); }
 
     public void Receive(LaunchExecutionProcessStatusChangedMessage message)
     {
@@ -296,43 +184,5 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
 
         return monitors.ToImmutable();
-    }
-
-    [StructLayout(LayoutKind.Auto)]
-    private struct Fields
-    {
-        public ImmutableArray<GamePathEntry>? GamePathEntries;
-        public ImmutableArray<AspectRatio>? AspectRatios;
-
-        public bool? UsingHoyolabAccount;
-        public bool? AreCommandLineArgumentsEnabled;
-        public bool? IsFullScreen;
-        public bool? IsBorderless;
-        public bool? IsExclusive;
-        public int? ScreenWidth;
-        public bool? IsScreenWidthEnabled;
-        public int? ScreenHeight;
-        public bool? IsScreenHeightEnabled;
-        public bool? IsIslandEnabled;
-        public bool? IsSetFieldOfViewEnabled;
-        public float? TargetFov;
-        public bool? FixLowFovScene;
-        public bool? DisableFog;
-        public bool? IsSetTargetFrameRateEnabled;
-        public int? TargetFps;
-        public bool? RemoveOpenTeamProgress;
-        public bool? HideQuestBanner;
-        public bool? DisableEventCameraMove;
-        public bool? DisableShowDamageText;
-        public bool? UsingTouchScreen;
-        public bool? RedirectCombineEntry;
-        public bool? UsingOverlay;
-        public bool? IsMonitorEnabled;
-        public PlatformType? PlatformType;
-        public bool? IsPlatformTypeEnabled;
-        public bool? IsWindowsHDREnabled;
-        public bool? UsingStarwardPlayTimeStatistics;
-        public bool? UsingBetterGenshinImpactAutomation;
-        public bool? SetDiscordActivityWhenPlaying;
     }
 }

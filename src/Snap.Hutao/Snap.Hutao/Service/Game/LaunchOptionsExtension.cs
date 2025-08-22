@@ -22,12 +22,11 @@ internal static class LaunchOptionsExtension
 
     public static ImmutableArray<AspectRatio> Remove(this DbProperty<ImmutableArray<AspectRatio>> aspectRatios, AspectRatio aspectRatio)
     {
-        aspectRatios.Value = aspectRatios.Value.Remove(aspectRatio);
-        return aspectRatios.Value;
+        return aspectRatios.Value = aspectRatios.Value.Remove(aspectRatio);
     }
 
     public static NameValue<PlatformType>? GetCurrentPlatformTypeForSelectionOrDefault(this LaunchOptions options)
     {
-        return options.PlatformTypes.SingleOrDefault(c => c.Value == options.PlatformType);
+        return options.PlatformTypes.SingleOrDefault(c => c.Value == options.PlatformType.Value);
     }
 }

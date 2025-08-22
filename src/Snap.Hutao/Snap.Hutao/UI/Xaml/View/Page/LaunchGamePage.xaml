@@ -349,12 +349,12 @@
                                         <!--  悬浮窗  -->
                                         <ScrollViewer>
                                             <cwc:SettingsExpander
-                                                shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.UsingOverlay}"
+                                                shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.UsingOverlay.Value}"
                                                 Description="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayDescription}"
                                                 Header="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHeader}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xEB91;}"
                                                 IsExpanded="True">
-                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay, Mode=TwoWay}"/>
+                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay.Value, Mode=TwoWay}"/>
                                                 <cwc:SettingsExpander.Items>
                                                     <cwc:SettingsCard
                                                         Padding="{ThemeResource SettingsCardAlignSettingsExpanderPadding}"
@@ -641,7 +641,7 @@
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
-                                        IsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled}">
+                                        IsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled.Value}">
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount.Value, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
@@ -688,12 +688,12 @@
                                     </cwc:SettingsCard>
                                     <ScrollViewer>
                                         <cwc:SettingsExpander
-                                            shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled}"
+                                            shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled.Value}"
                                             Description="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                             HeaderIcon="{shuxm:FontIcon Glyph=&#xE943;}"
                                             IsExpanded="True">
-                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.AreCommandLineArgumentsEnabled, Mode=TwoWay}"/>
+                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.AreCommandLineArgumentsEnabled.Value, Mode=TwoWay}"/>
                                             <cwc:SettingsExpander.Items>
                                                 <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">
                                                     <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsExclusive.Value, Mode=TwoWay}"/>

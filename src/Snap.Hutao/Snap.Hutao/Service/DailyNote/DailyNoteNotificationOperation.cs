@@ -45,7 +45,7 @@ internal sealed partial class DailyNoteNotificationOperation
 
         string attribution = entry.UserGameRole?.ToString() ?? ToastAttributionUnknown;
 
-        string reminder = options.IsReminderNotification ? @"scenario=""reminder""" : string.Empty;
+        string reminder = options.IsReminderNotification.Value ? @"scenario=""reminder""" : string.Empty;
         string content;
 
         if (notifyInfos.Count > 2)
@@ -101,7 +101,7 @@ internal sealed partial class DailyNoteNotificationOperation
             throw;
         }
 
-        if (options.IsSilentWhenPlayingGame && gameService.IsGameRunning())
+        if (options.IsSilentWhenPlayingGame.Value && gameService.IsGameRunning())
         {
             notification.SuppressDisplay = true;
         }

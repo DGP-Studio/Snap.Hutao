@@ -18,7 +18,7 @@ internal sealed class LaunchExecutionArbitraryLibraryHandler : ILaunchExecutionD
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
         {
             ApplicationDataCompositeValue value = LocalSetting.Get<ApplicationDataCompositeValue>(SettingKeys.LaunchExecutionArbitraryLibrary, []);
 

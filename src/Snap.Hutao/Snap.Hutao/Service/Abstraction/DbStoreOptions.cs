@@ -6,11 +6,9 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction.Property;
 using System.Collections.Immutable;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -72,39 +70,9 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return new StructToJsonDbProperty<T>(serviceProvider, key, defaultValue);
     }
 
-    protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
+    protected DbProperty<NameValue<int>?> CreatePropertyForSelectedOneBasedIndex(string key, ImmutableArray<NameValue<int>> array)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            foreach (SettingEntry entry in appDbContext.Settings.Where(entrySelector))
-            {
-                entryAction(entry.Key, entry.Value);
-            }
-        }
-    }
-
-    [Obsolete]
-    protected string GetOption(ref string? storage, string key, string defaultValue = "")
-    {
-        return GetOption(ref storage, key, () => defaultValue);
-    }
-
-    [Obsolete]
-    protected string GetOption(ref string? storage, string key, Func<string> defaultValueFactory)
-    {
-        if (storage is not null)
-        {
-            return storage;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            storage = GetValue(appDbContext, key) ?? defaultValueFactory();
-        }
-
-        return storage;
+        return new SelectedOneBasedIndexDbProperty(serviceProvider, key, array);
     }
 
     [Obsolete]
@@ -129,16 +97,6 @@ internal abstract partial class DbStoreOptions : ObservableObject
     protected int GetOption(ref int? storage, string key, Func<int> defaultValueFactory)
     {
         return GetOption(ref storage, key, int.Parse, defaultValueFactory);
-    }
-
-    protected float GetOption(ref float? storage, string key, float defaultValue = 0f)
-    {
-        return GetOption(ref storage, key, () => defaultValue);
-    }
-
-    protected float GetOption(ref float? storage, string key, Func<float> defaultValueFactory)
-    {
-        return GetOption(ref storage, key, float.Parse, defaultValueFactory);
     }
 
     [return: NotNullIfNotNull(nameof(defaultValue))]
@@ -208,12 +166,6 @@ internal abstract partial class DbStoreOptions : ObservableObject
     }
 
     [Obsolete]
-    protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
-    {
-        return SetOption(ref storage, key, value, static v => v, propertyName);
-    }
-
-    [Obsolete]
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
@@ -221,11 +173,6 @@ internal abstract partial class DbStoreOptions : ObservableObject
 
     [Obsolete]
     protected bool SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
-    {
-        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
-    }
-
-    protected bool SetOption(ref float? storage, string key, float value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }

@@ -16,7 +16,7 @@ internal sealed partial class GeetestCustomUrlDialog : ContentDialog
     {
         InitializeComponent();
 
-        Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl;
+        Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl.Value;
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
     }
 

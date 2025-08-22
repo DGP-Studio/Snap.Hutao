@@ -168,7 +168,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 }
             }
 
-            GamePathSelectedAndValid = File.Exists(LaunchOptions.GamePath);
+            GamePathSelectedAndValid = File.Exists(LaunchOptions.GamePath.Value);
         }
     }
 
@@ -211,7 +211,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
-        AspectRatios = LaunchOptions.AspectRatios;
+        AspectRatios = LaunchOptions.AspectRatios.Value;
         return true;
     }
 
@@ -278,7 +278,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         // AspectRatios might be updated during the launch
         await taskContext.SwitchToMainThreadAsync();
-        AspectRatios = LaunchOptions.AspectRatios;
+        AspectRatios = LaunchOptions.AspectRatios.Value;
     }
 
     [Command("DetectGameAccountCommand")]

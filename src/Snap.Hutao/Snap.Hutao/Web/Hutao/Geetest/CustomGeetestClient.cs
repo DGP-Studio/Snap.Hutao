@@ -29,7 +29,7 @@ internal sealed partial class CustomGeetestClient
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
-        string template = appOptions.GeetestCustomCompositeUrl;
+        string template = appOptions.GeetestCustomCompositeUrl.Value;
 
         try
         {

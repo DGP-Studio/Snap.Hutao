@@ -17,9 +17,9 @@ internal sealed partial class GamePathService : IGamePathService
     public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
     {
         // Found in setting
-        if (!string.IsNullOrEmpty(launchOptions.GamePath))
+        if (!string.IsNullOrEmpty(launchOptions.GamePath.Value))
         {
-            return new(true, launchOptions.GamePath);
+            return new(true, launchOptions.GamePath.Value);
         }
 
         // Try to locate by unity log
@@ -27,7 +27,7 @@ internal sealed partial class GamePathService : IGamePathService
         {
             await taskContext.SwitchToMainThreadAsync();
             launchOptions.UpdateGamePath(path);
-            return new(true, launchOptions.GamePath);
+            return new(true, launchOptions.GamePath.Value);
         }
 
         return new(false, SH.ServiceGamePathLocateFailed);

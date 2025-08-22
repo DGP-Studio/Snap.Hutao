@@ -156,7 +156,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note webhook settings", "DailyNoteViewModel.Command"));
 
         DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>(serviceProvider).ConfigureAwait(true);
-        dialog.Text = DailyNoteOptions.WebhookUrl;
+        dialog.Text = DailyNoteOptions.WebhookUrl.Value;
         (bool isOk, string? url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
