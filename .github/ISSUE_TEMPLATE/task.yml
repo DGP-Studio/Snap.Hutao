@@ -1,0 +1,13 @@
+name: 内部任务
+description: 此Issue模板仅用于创建内部任务，非 DGP Studio 成员请勿使用
+title: "[Task]: 在这里填写一个合适的标题"
+type: "Task"
+labels: ["priority:none"]
+body:
+  - type: textarea
+    id: content
+    attributes:
+      label: 背景与动机
+      description: 添加相关的说明
+    validations:
+      required: true

@@ -1773,6 +1773,15 @@
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
     <value>업적 ID 복사 성공</value>
   </data>
+  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
+    <value>미유사로 이동하여 검색</value>
+  </data>
+  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
+    <value>HoYoLAB로 이동하여 검색</value>
+  </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} 업적</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 파일</value>
   </data>
