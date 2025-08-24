@@ -24,10 +24,6 @@
             HorizontalAlignment="Stretch"
             DisplayMemberPath="Name"
             ItemsSource="{x:Bind ServerTimeZoneOffsets}"
-            SelectedItem="{x:Bind SelectedServerTimeZoneOffset, Mode=TwoWay}">
-            <mxi:Interaction.Behaviors>
-                <behavior:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-            </mxi:Interaction.Behaviors>
-        </ComboBox>
+            SelectedItem="{x:Bind SelectedServerTimeZoneOffset, Mode=TwoWay}"/>
     </StackPanel>
 </ContentDialog>

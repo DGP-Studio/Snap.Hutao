@@ -573,11 +573,7 @@
                                         DisplayMemberPath="Name"
                                         ItemsSource="{Binding SortDescriptionKinds}"
                                         SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
-                                        Style="{ThemeResource DefaultComboBoxStyle}">
-                                        <mxi:Interaction.Behaviors>
-                                            <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                                        </mxi:Interaction.Behaviors>
-                                    </ComboBox>
+                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
                                 </shuxc:SizeRestrictedContentControl>
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"

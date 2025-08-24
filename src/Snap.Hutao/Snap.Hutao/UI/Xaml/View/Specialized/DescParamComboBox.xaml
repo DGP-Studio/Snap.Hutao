@@ -53,11 +53,7 @@
                     DisplayMemberPath="Level"
                     ItemsSource="{x:Bind Source, Mode=OneWay}"
                     SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                    Style="{StaticResource SettingsContentComboBoxStyle}">
-                    <mxi:Interaction.Behaviors>
-                        <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                    </mxi:Interaction.Behaviors>
-                </ComboBox>
+                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
             </shuxc:SizeRestrictedContentControl>
         </cwc:SettingsExpander>
     </ScrollViewer>
