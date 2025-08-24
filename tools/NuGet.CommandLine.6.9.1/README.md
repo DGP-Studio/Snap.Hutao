@@ -1,1 +1,0 @@
-NuGet Command Line Interface.
