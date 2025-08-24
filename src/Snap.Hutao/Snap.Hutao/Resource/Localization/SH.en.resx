@@ -1779,11 +1779,8 @@ Space Available: {2}</value>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
     <value>Search in HoYoLAB</value>
   </data>
-  <data name="ViewModelAchievementSearchKeyword" xml:space="preserve">
-    <value>Achievement</value>
-  </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} {1}</value>
+    <value>{0} Achievement</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF File</value>

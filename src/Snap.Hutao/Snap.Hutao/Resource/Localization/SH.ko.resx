@@ -1779,11 +1779,8 @@
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
     <value>HoYoLAB에서 검색</value>
   </data>
-  <data name="ViewModelAchievementSearchKeyword" xml:space="preserve">
-    <value>업적</value>
-  </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} {1}</value>
+    <value>{0} 업적</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 파일</value>

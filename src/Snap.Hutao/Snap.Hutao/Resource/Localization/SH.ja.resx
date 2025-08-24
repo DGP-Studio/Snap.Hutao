@@ -1780,11 +1780,8 @@
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
     <value>HoYoLABで検索</value>
   </data>
-  <data name="ViewModelAchievementSearchKeyword" xml:space="preserve">
-    <value>実績</value>
-  </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} {1}</value>
+    <value>{0} 実績</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
