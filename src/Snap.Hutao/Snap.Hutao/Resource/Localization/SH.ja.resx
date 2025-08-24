@@ -1783,6 +1783,9 @@
   <data name="ViewModelAchievementSearchKeyword" xml:space="preserve">
     <value>実績</value>
   </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
   </data>

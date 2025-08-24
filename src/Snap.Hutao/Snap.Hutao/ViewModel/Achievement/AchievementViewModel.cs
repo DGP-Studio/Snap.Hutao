@@ -458,7 +458,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} {SH.ViewModelAchievementSearchKeyword}");
+        string keyword = Uri.EscapeDataString(SH.FormatViewModelAchievementSearchQuery(achievement.Inner.Title, SH.ViewModelAchievementSearchKeyword));
         Uri targetUri = $"https://www.miyoushe.com/ys/search?keyword={keyword}".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }
@@ -473,7 +473,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} {SH.ViewModelAchievementSearchKeyword}");
+        string keyword = Uri.EscapeDataString(SH.FormatViewModelAchievementSearchQuery(achievement.Inner.Title, SH.ViewModelAchievementSearchKeyword));
         Uri targetUri = $"https://www.hoyolab.com/search?keyword={keyword}".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }
