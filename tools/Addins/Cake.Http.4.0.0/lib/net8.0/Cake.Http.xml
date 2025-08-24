@@ -1,0 +1,1426 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cake.Http</name>
+    </assembly>
+    <members>
+        <member name="T:Cake.Http.CakeHttpClientHandler">
+            <summary>
+            Custom HTTP Handler to delegate the processing of HTTP requests and extending it.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.CakeHttpClientHandler.#ctor(Cake.Core.ICakeContext,Cake.Http.HttpSettings)">
+            <summary>
+            Custom HTTP Handler to delegate the processing of HTTP requests and extending it.
+            </summary>
+            <param name="context">Cake Context the request is geting </param>
+            <param name="settings">HttpSettings to apply to the inner handler</param>
+        </member>
+        <member name="M:Cake.Http.CakeHttpClientHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+             Sends an HTTP request to the inner handler to send to the server as an asynchronous  operation.
+            </summary>
+            <param name="request"> The HTTP request message to send to the server.</param>
+            <param name="cancellationToken">A cancellation token to cancel operation.</param>
+            <returns>Returns System.Threading.Tasks.Task`1. The task object representing the asynchronous</returns>
+        </member>
+        <member name="M:Cake.Http.CakeHttpClientHandler.AppendHeaders(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Appends headers to HttpRequestMessage before sending the
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="M:Cake.Http.CakeHttpClientHandler.LogHttpEvent(System.String,Cake.Http.CakeHttpClientHandler.HttpEventType,System.String,System.Byte[])">
+            <summary>
+            Logs a request/response to the current cake context
+            </summary>
+            <param name="id">Unique identifer that can link the request with response</param>
+            <param name="eventType">Request or Response</param>
+            <param name="requestInfo">Request info</param>
+            <param name="message">message to log</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Cake.Http.HttpClientAliases">
+            <summary>
+            <para>
+            Contains functionality for working with HTTP operations such as GET, PUT, POST, DELETE, PATCH, etc.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpGetAsByteArray(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            GETS the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                 byte[] responseBody = HttpGetAsByteArray("https://www.google.com", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpGet(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             GETS the specified resource over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = HttpGet("https://www.google.com", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to GET.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpGet(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            GETS the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                   var responseBody = HttpGet("https://www.google.com", settings =>
+                   {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetNoCache()
+                               .AppendHeader("Connection", "keep-alive");
+                   });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the request as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpGet(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            GETS the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+              string responseBody = HttpGet("https://www.google.com");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPostAsByteArray(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            POST the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                btye[] responseBody = HttpPostAsByteArray("https://www.google.com", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPost(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             POST the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = HttpPost("https://www.google.com", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to POST.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPost(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            POST the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = HttpPost("https://www.google.com", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPost(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            POST the specified resource over HTTP.
+            </summary>
+            <example>
+            <code>
+                string responseBody = HttpPost("https://www.google.com");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPutAsByteArray(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            PUT the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                byte[] responseBody = HttpPutAsByteArray("https://www.google.com/1", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPut(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             PUT the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = HttpPut("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to PUT.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPut(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            PUT the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = HttpPut("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPut(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            PUT the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                string responseBody = HttpPut("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPatchAsByteArray(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            PATCH the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                byte[] responseBody = HttpPatchAsByteArray("https://www.google.com/1", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPatch(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             PATCH the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = HttpPatch("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to PATCH.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPatch(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            PATCH the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = HttpPatch("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpPatch(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            PATCH the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                string responseBody = HttpPatch("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <returns>Content of the response body a string</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpDelete(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             DELETE the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = true
+                    };
+            
+                    HttpDelete("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to DELETE.</param>
+             <param name="settings">The settings</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpDelete(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            DELETE the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    HttpDelete("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to DELETE.</param>
+            <param name="configurator">The settings configurator.</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpDelete(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            DELETE the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                HttpDelete("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to DELETE.</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpSendAsByteArray(Cake.Core.ICakeContext,System.String,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpSend(Cake.Core.ICakeContext,System.String,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpSend(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpSend(Cake.Core.ICakeContext,System.String,System.String)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.HttpSend(Cake.Core.ICakeContext,System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method using the HttpRequestMessage Object
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="request">Raw HttpRequest Message with full access to underlying request object.</param>
+            <returns>HttpResponseMessage</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAliases.GetHttpClient(Cake.Core.ICakeContext,Cake.Http.HttpSettings)">
+            <summary>
+            Gets an <see cref="T:System.Net.Http.HttpClient"/> pre-populated with the correct default/
+            The returned client should be disposed of by the caller.
+            </summary>
+            <param name="context">The current Cake context.</param>
+            <param name="settings">HttpSettings to apply to the HttpClient.</param>
+            <returns>A <see cref="T:System.Net.Http.HttpClient"/> instance.</returns>
+        </member>
+        <member name="T:Cake.Http.HttpClientAsyncAliases">
+            <summary>
+            <para>
+            Contains functionality for working with HTTP operations such as GET, PUT, POST, DELETE, PATCH, etc.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpGetAsByteArrayAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            GETS the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                 byte[] responseBody = await HttpGetAsByteArrayAsync("https://www.google.com", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpGetAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             GETS the specified resource over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = await HttpGetAsync("https://www.google.com", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to GET.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpGetAsync(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            GETS the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                   var responseBody = await HttpGetAsync("https://www.google.com", settings =>
+                   {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetNoCache()
+                               .AppendHeader("Connection", "keep-alive");
+                   });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the request as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpGetAsync(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            GETS the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+              string responseBody = await HttpGetAsync("https://www.google.com");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to GET.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPostAsByteArrayAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            POST the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                btye[] responseBody = await HttpPostAsByteArrayAsync("https://www.google.com", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPostAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             POST the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = HttpPost("https://www.google.com", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to POST.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPostAsync(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            POST the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = await HttpPostAsync("https://www.google.com", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPostAsync(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            POST the specified resource over HTTP.
+            </summary>
+            <example>
+            <code>
+                string responseBody = await HttpPostAsync("https://www.google.com");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to POST.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPutAsByteArrayAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            PUT the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                byte[] responseBody = await HttpPutAsByteArrayAsync("https://www.google.com/1", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPutAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             PUT the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = await HttpPutAsync("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to PUT.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPutAsync(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            PUT the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = await HttpPutAsync("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPutAsync(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            PUT the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                string responseBody = HttpPut("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PUT.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPatchAsByteArrayAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            PATCH the specified resource over over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                byte[] responseBody = await HttpPatchAsByteArrayAsync("https://www.google.com/1", new HttpSettings());
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPatchAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             PATCH the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = false
+                    };
+            
+                    string responseBody = await HttpPatchAsync("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to PATCH.</param>
+             <param name="settings">The settings</param>
+             <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPatchAsync(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            PATCH the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    string responseBody = await HttpPatchAsync("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24")
+                               .SetContentType("application/json")
+                               .SetRequestBody("{ \"id\": 123, \"name\": \"Test Test\" }");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpPatchAsync(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            PATCH the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                string responseBody = await HttpPatchAsync("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to PATCH.</param>
+            <returns>Content of the response body a string</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpDeleteAsync(Cake.Core.ICakeContext,System.String,Cake.Http.HttpSettings)">
+             <summary>
+             DELETE the specified resource over over HTTP/HTTPS.
+             </summary>
+             <example>
+             <code>
+                    var settings = new HttpSettings
+                    {
+                       Headers = new Dictionary&lt;string, string&gt;
+                        {
+                          { "Authorization", "Bearer 1af538baa9045a84c0e889f672baf83ff24" },
+                            { "Cache-Control", "no-store" },
+                            { "Connection", "keep-alive" }
+                        },
+                        UseDefaultCredentials = true,
+                        EnsureSuccessStatusCode = true
+                    };
+            
+                    await HttpDeleteAsync("https://www.google.com/1", settings);
+             </code>
+             </example>
+             <param name="context">The context.</param>
+             <param name="address">The URL of the resource to DELETE.</param>
+             <param name="settings">The settings</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpDeleteAsync(Cake.Core.ICakeContext,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            DELETE the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                    await HttpDeleteAsync("https://www.google.com/1", settings =>
+                    {
+                       settings.UseBearerAuthorization("1af538baa9045a84c0e889f672baf83ff24");
+                    });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to DELETE.</param>
+            <param name="configurator">The settings configurator.</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpDeleteAsync(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            DELETE the specified resource over HTTP/HTTPS.
+            </summary>
+            <example>
+            <code>
+                HttpDelete("https://www.google.com/1");
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource to DELETE.</param>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpSendAsByteArrayAsync(Cake.Core.ICakeContext,System.String,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a byte array.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpSendAsync(Cake.Core.ICakeContext,System.String,System.String,Cake.Http.HttpSettings)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="settings">The settings</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpSendAsync(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.Http.HttpSettings})">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <param name="configurator">The settings configurator.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpSendAsync(Cake.Core.ICakeContext,System.String,System.String)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method.
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="address">The URL of the resource.</param>
+            <param name="httpMethod">Http Method used to: POST, PUT, GET, DELETE, PATCH, etc.</param>
+            <returns>Content of the response body as a string.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.HttpSendAsync(Cake.Core.ICakeContext,System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Sends the HTTP Request using the generic HttpClient Send Method using the HttpRequestMessage Object
+            </summary>
+            <example>
+            </example>
+            <param name="context">The context.</param>
+            <param name="request">Raw HttpRequest Message with full access to underlying request object.</param>
+            <returns>HttpResponseMessage</returns>
+        </member>
+        <member name="M:Cake.Http.HttpClientAsyncAliases.GetHttpClient(Cake.Core.ICakeContext,Cake.Http.HttpSettings)">
+            <summary>
+            Gets an <see cref="T:System.Net.Http.HttpClient"/> pre-populated with the correct default/
+            The returned client should be disposed of by the caller.
+            </summary>
+            <param name="context">The current Cake context.</param>
+            <param name="settings">HttpSettings to apply to the HttpClient.</param>
+            <returns>A <see cref="T:System.Net.Http.HttpClient"/> instance.</returns>
+        </member>
+        <member name="T:Cake.Http.HttpSettings">
+            <summary>
+            Http Settings to apply to the request
+            </summary>
+        </member>
+        <member name="M:Cake.Http.HttpSettings.#ctor">
+            <summary>
+            Http Settings to apply to the request
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.RequestBody">
+            <summary>
+            Gets or Sets the Body of the Request
+            </summary>
+            <remarks>
+            This is only valid for http operations such as POST or PUT.
+            Other Operations such as GET will ignore this setting.
+            </remarks>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.Headers">
+            <summary>
+            Collection of headers to append to the http request
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.Cookies">
+            <summary>
+            Collection of 'Cookie(s)' to append to the http request.
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.UseDefaultCredentials">
+            <summary>
+            Gets or sets a value that controls whether default credentials are sent with requests by the handler
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.EnsureSuccessStatusCode">
+            <summary>
+            Gets or Sets whether to throw an exception if the returned response is not a Successful Status Code
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.ThrowExceptionOnNonSuccessStatusCode">
+            <summary>
+            Gets or Sets where an exception is thrown on non success code.
+            This is used in conjunction with EnsureSuccessStatusCode.
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.ClientCertificates">
+            <summary>
+            List of Client Certificates to be enclosed with the http request.
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.Timeout">
+            <summary>
+            Time out for http request, default is 100 seconds reference https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.timeout?view=netcore-3.1
+            </summary>
+        </member>
+        <member name="P:Cake.Http.HttpSettings.LogRequestResponseOutput">
+            <summary>
+            Determines whether to log the response/request body to the console.
+            </summary>
+        </member>
+        <member name="T:Cake.Http.HttpSettingsExtensions">
+            <summary>
+            Contains functionality related to HTTP settings.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.AppendHeader(Cake.Http.HttpSettings,System.String,System.String)">
+            <summary>
+            Appends the header to the settings header collection
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="name">name of the header</param>
+            <param name="value">value to apply to the header</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.AppendCookie(Cake.Http.HttpSettings,System.String,System.String)">
+            <summary>
+            Appends the cookie to the settings cookie collection
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="name">name of the cookie</param>
+            <param name="value">value to cookie</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetAuthorization(Cake.Http.HttpSettings,System.String,System.String)">
+            <summary>
+            Adds a Authorization Header to the request.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="schema">The scheme to use for authorization.</param>
+            <param name="parameter">The credentials containing the authentication information of the user agent for</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.UseBasicAuthorization(Cake.Http.HttpSettings,System.String,System.String)">
+            <summary>
+            Adds a "Basic" Authorization Header to the request.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="userName">The userName used to authorize to the resource.</param>
+            <param name="password">The credentials containing the authentication information of the user agent for</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.UseBearerAuthorization(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Adds a "Bearer" Token Authorization Header to the request.
+            Used when authorization against a resource that uses OAUTH2
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="token">Token to apply to the header</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetContentType(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the content-type of the request
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="contentType">The MIME type of the body of the request (used with POST and PUT requests).</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetAccept(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the accept header of the request.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="accept">Content-Types that are acceptable for the response. See Content negotiation.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetAcceptLanguage(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the "Accept-Language" header of the request.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="acceptLanguage">List of acceptable human languages for response.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetNoCache(Cake.Http.HttpSettings)">
+            <summary>
+            Appends a Cache-Control header with no-store
+            </summary>
+            <param name="settings">The settings.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetOrigin(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the origin header to initiate a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response field).
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="url">the url to apply to the "origin" header</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetReferer(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the "Referer" header of the address of the previous web page from which a link to the currently requested page was followed.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="url">the url to apply to the "refer" header</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetRequestBody(Cake.Http.HttpSettings,System.String)">
+            <summary>
+            Sets the request body from a string input
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="requestBody">The string to set as the request body.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetJsonRequestBody``1(Cake.Http.HttpSettings,``0,System.Boolean)">
+            <summary>
+            Sets the request body from an object. Serialized as JSON
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="data">The object to set as the request body. It will be serialized to JSON.</param>
+            <param name="indentOutput">Option to indent the output of the format</param>
+            <remarks>
+            This uses the JavascriptSerializer
+            </remarks>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetFormUrlEncodedRequestBody(Cake.Http.HttpSettings,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Sets the request body as form url encoded.
+            Only valid for Http Methods that allow a request body.
+            Any existing content in the RequestBody is overridden.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="data">Dictionary of data to url encode and set to the body.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetFormUrlEncodedRequestBody(Cake.Http.HttpSettings,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Sets the request body as form url encoded.
+            Only valid for Http Methods that allow a request body.
+            Any existing content in the RequestBody is overridden.
+            Accepts multiple parameters with the same key.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="data">Enumerable of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> of data to url encode and set to the body.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetMultipartFormDataRequestBody(Cake.Http.HttpSettings,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}},System.Collections.Generic.IEnumerable{Cake.Core.IO.FilePath})">
+             <summary>
+             Sets the request body as form url encoded.
+             Only valid for Http Methods that allow a request body.
+             Any existing content in the RequestBody is overridden.
+             Accepts multiple parameters with the same key.
+            This can be used to post files to a remote URL
+             </summary>
+             <param name="settings">The settings.</param>
+             <param name="data">Enumerable of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> of data to url encode and set to the body.</param>
+             <param name="filePaths">Enumerable of <see cref="T:Cake.Core.IO.FilePath"/> of file paths to post.</param>
+             <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetMultipartFormDataRequestBody(Cake.Http.HttpSettings,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}},System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Cake.Core.IO.FilePath}})">
+            <summary>
+            Sets the request body as form url encoded.
+            Only valid for Http Methods that allow a request body.
+            Any existing content in the RequestBody is overridden.
+            Accepts multiple parameters with the same key.
+            This can be used to post files to a remote URL
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="data">Enumerable of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> of data to include in the post</param>
+            <param name="filePaths">Enumerable of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> of file paths and associated names.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.EnsureSuccessStatusCode(Cake.Http.HttpSettings,System.Boolean)">
+            <summary>
+            Sets the EnsureSuccessStatusCode to true. This makes the httpclient throw an error if it does not return a 200 range status.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="throwExceptionOnNonSuccessStatusCode">Determines if an exception is thrown on non-success code.</param>
+            <returns>The same <see cref="T:Cake.Http.HttpSettings"/> instance so that multiple calls can be chained.</returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.UseClientCertificates(Cake.Http.HttpSettings,System.Security.Cryptography.X509Certificates.X509Certificate2[])">
+            <summary>
+             Adds client certificate(s) to the http handler.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="clientCertificates">Client certificates to include in requests.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.UseClientCertificates(Cake.Http.HttpSettings,System.Collections.Generic.IEnumerable{System.Security.Cryptography.X509Certificates.X509Certificate2})">
+            <summary>
+             Adds client certificate(s) to the http handler.
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="clientCertificates">Client certificates to include in requests.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SetTimeout(Cake.Http.HttpSettings,System.TimeSpan)">
+            <summary>
+            Sets the timeout for the http request
+            </summary>
+            <param name="settings">The settings.</param>
+            <param name="timeout">Timeout to set in the http request</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.HttpSettingsExtensions.SuppressLogResponseRequestBodyOutput(Cake.Http.HttpSettings)">
+            <summary>
+            Supresses logging to the console
+            </summary>
+            <param name="settings">The settings.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cake.Http.JsonArray">
+            <summary>
+            Represents the json array.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonArray.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cake.Http.JsonArray"/> class.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonArray.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cake.Http.JsonArray"/> class.
+            </summary>
+            <param name="capacity">The capacity of the json array.</param>
+        </member>
+        <member name="M:Cake.Http.JsonArray.ToString">
+            <summary>
+            The json representation of the array.
+            </summary>
+            <returns>The json representation of the array.</returns>
+        </member>
+        <member name="T:Cake.Http.JsonObject">
+            <summary>
+            Represents the json object.
+            </summary>
+        </member>
+        <member name="F:Cake.Http.JsonObject._members">
+            <summary>
+            The internal member dictionary.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonObject.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Cake.Http.JsonObject"/>.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonObject.#ctor(System.Collections.Generic.IEqualityComparer{System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:Cake.Http.JsonObject"/>.
+            </summary>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing keys, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> for the type of the key.</param>
+        </member>
+        <member name="P:Cake.Http.JsonObject.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Object"/> at the specified index.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Add(System.String,System.Object)">
+            <summary>
+            Adds the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Cake.Http.JsonObject.ContainsKey(System.String)">
+            <summary>
+            Determines whether the specified key contains key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>
+                <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Cake.Http.JsonObject.Keys">
+            <summary>
+            Gets the keys.
+            </summary>
+            <value>The keys.</value>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Remove(System.String)">
+            <summary>
+            Removes the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TryGetValue(System.String,System.Object@)">
+            <summary>
+            Tries the get value.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Cake.Http.JsonObject.Values">
+            <summary>
+            Gets the values.
+            </summary>
+            <value>The values.</value>
+        </member>
+        <member name="P:Cake.Http.JsonObject.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:System.Object"/> with the specified key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Adds the specified item.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Determines whether [contains] [the specified item].
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            	<c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)">
+            <summary>
+            Copies to.
+            </summary>
+            <param name="array">The array.</param>
+            <param name="arrayIndex">Index of the array.</param>
+        </member>
+        <member name="P:Cake.Http.JsonObject.Count">
+            <summary>
+            Gets the count.
+            </summary>
+            <value>The count.</value>
+        </member>
+        <member name="P:Cake.Http.JsonObject.IsReadOnly">
+            <summary>
+            Gets a value indicating whether this instance is read only.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is read only; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Cake.Http.JsonObject.Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Removes the specified item.
+            </summary>
+            <param name="item">The item.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.GetEnumerator">
+            <summary>
+            Gets the enumerator.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.ToString">
+            <summary>
+            Returns a json <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A json <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TryConvert(System.Dynamic.ConvertBinder,System.Object@)">
+            <summary>
+            Provides implementation for type conversion operations. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.
+            </summary>
+            <param name="binder">Provides information about the conversion operation. The binder.Type property provides the type to which the object must be converted. For example, for the statement (String)sampleObject in C# (CType(sampleObject, Type) in Visual Basic), where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, binder.Type returns the <see cref="T:System.String"/> type. The binder.Explicit property provides information about the kind of conversion that occurs. It returns true for explicit conversion and false for implicit conversion.</param>
+            <param name="result">The result of the type conversion operation.</param>
+            <returns>
+            Alwasy returns true.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TryDeleteMember(System.Dynamic.DeleteMemberBinder)">
+            <summary>
+            Provides the implementation for operations that delete an object member. This method is not intended for use in C# or Visual Basic.
+            </summary>
+            <param name="binder">Provides information about the deletion.</param>
+            <returns>
+            Alwasy returns true.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TryGetIndex(System.Dynamic.GetIndexBinder,System.Object[],System.Object@)">
+            <summary>
+            Provides the implementation for operations that get a value by index. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for indexing operations.
+            </summary>
+            <param name="binder">Provides information about the operation.</param>
+            <param name="indexes">The indexes that are used in the operation. For example, for the sampleObject[3] operation in C# (sampleObject(3) in Visual Basic), where sampleObject is derived from the DynamicObject class, <paramref name="indexes"/> is equal to 3.</param>
+            <param name="result">The result of the index operation.</param>
+            <returns>
+            Alwasy returns true.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TryGetMember(System.Dynamic.GetMemberBinder,System.Object@)">
+            <summary>
+            Provides the implementation for operations that get member values. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations such as getting a value for a property.
+            </summary>
+            <param name="binder">Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the Console.WriteLine(sampleObject.SampleProperty) statement, where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.</param>
+            <param name="result">The result of the get operation. For example, if the method is called for a property, you can assign the property value to <paramref name="result"/>.</param>
+            <returns>
+            Alwasy returns true.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TrySetIndex(System.Dynamic.SetIndexBinder,System.Object[],System.Object)">
+            <summary>
+            Provides the implementation for operations that set a value by index. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations that access objects by a specified index.
+            </summary>
+            <param name="binder">Provides information about the operation.</param>
+            <param name="indexes">The indexes that are used in the operation. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, <paramref name="indexes"/> is equal to 3.</param>
+            <param name="value">The value to set to the object that has the specified index. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, <paramref name="value"/> is equal to 10.</param>
+            <returns>
+            true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.TrySetMember(System.Dynamic.SetMemberBinder,System.Object)">
+            <summary>
+            Provides the implementation for operations that set member values. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations such as setting a value for a property.
+            </summary>
+            <param name="binder">Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member to which the value is being assigned. For example, for the statement sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.</param>
+            <param name="value">The value to set to the member. For example, for sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, the <paramref name="value"/> is "Test".</param>
+            <returns>
+            true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonObject.GetDynamicMemberNames">
+            <summary>
+            Returns the enumeration of all dynamic member names.
+            </summary>
+            <returns>
+            A sequence that contains dynamic member names.
+            </returns>
+        </member>
+        <member name="T:Cake.Http.JsonEncoder">
+             <summary>
+             This class encodes and decodes JSON strings.
+             Spec. details, see http://www.json.org/
+            
+             JSON uses Arrays and Objects. These correspond here to the datatypes JsonArray(IList&lt;object>) and JsonObject(IDictionary&lt;string,object>).
+             All numbers are parsed to doubles.
+             </summary>
+        </member>
+        <member name="M:Cake.Http.JsonEncoder.DeserializeObject(System.String)">
+            <summary>
+            Parses the string json into a value
+            </summary>
+            <param name="json">A JSON string.</param>
+            <returns>An IList&lt;object>, a IDictionary&lt;string,object>, a double, a string, null, true, or false</returns>
+        </member>
+        <member name="M:Cake.Http.JsonEncoder.TryDeserializeObject(System.String,System.Object@)">
+            <summary>
+            Try parsing the json string into a value.
+            </summary>
+            <param name="json">
+            A JSON string.
+            </param>
+            <param name="obj">
+            The object.
+            </param>
+            <returns>
+            Returns true if successfull otherwise false.
+            </returns>
+        </member>
+        <member name="M:Cake.Http.JsonEncoder.SerializeObject(System.Object,Cake.Http.IJsonSerializerStrategy)">
+            <summary>
+            Converts a IDictionary&lt;string,object> / IList&lt;object> object into a JSON string
+            </summary>
+            <param name="json">A IDictionary&lt;string,object> / IList&lt;object></param>
+            <param name="jsonSerializerStrategy">Serializer strategy to use</param>
+            <returns>A JSON encoded string, or null if object 'json' is not serializable</returns>
+        </member>
+        <member name="M:Cake.Http.JsonEncoder.IsNumeric(System.Object)">
+            <summary>
+            Determines if a given object is numeric in any way
+            (can be integer, double, null, etc).
+            </summary>
+        </member>
+        <member name="M:Cake.Http.JsonEncoder.FormatJsonOutput(System.String)">
+            <summary>
+            Adds indentation and line breaks to output of JavaScriptSerializer
+            </summary>
+        </member>
+        <member name="T:Cake.Http.NamespaceDoc">
+            <summary>
+            This namespace contains Http aliases.
+            </summary>
+        </member>
+    </members>
+</doc>
