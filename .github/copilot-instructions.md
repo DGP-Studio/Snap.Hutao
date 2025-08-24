@@ -3,6 +3,14 @@ Snap Hutao (胡桃工具箱) is an open-source Genshin Impact toolkit under MIT 
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
+## Branch Workflow Requirements
+
+**CRITICAL**: Always work on the `develop` branch for all development work:
+- **Always checkout and work on `develop` branch**: `git checkout develop`
+- **Always target PRs to `develop` branch** - never target `main` or other branches
+- **All feature development, bug fixes, and contributions must be done on `develop`**
+- The `main` branch is reserved for stable releases only
+
 ## Working Effectively
 
 ### Prerequisites - Install on Windows Only
@@ -29,7 +37,7 @@ Always reference these instructions first and fallback to search or bash command
 - **MANUAL VALIDATION REQUIRED**: After building, install and test the MSIX package by launching the application and verifying core functionality
 
 ### Development Workflow
-- **Always work on `develop` branch for pull requests**
+- **REMINDER: Always work on `develop` branch and target PRs to `develop`** (see Branch Workflow Requirements above)
 - Main project solution: `src/Snap.Hutao/Snap.Hutao.sln`
 - Main application project: `src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj`
 - Test project: `src/Snap.Hutao/Snap.Hutao.Test/Snap.Hutao.Test.csproj`
