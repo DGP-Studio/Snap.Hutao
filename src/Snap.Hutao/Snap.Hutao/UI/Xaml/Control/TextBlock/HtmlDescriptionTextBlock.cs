@@ -13,8 +13,8 @@ using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
 // TODO: change the parsing to syntax tree
-[DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
-[DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
+[DependencyProperty<string>("Description", DefaultValue = "", PropertyChangedCallbackName = nameof(OnDescriptionChanged))]
+[DependencyProperty<Style>("TextStyle", PropertyChangedCallbackName = nameof(OnTextStyleChanged))]
 internal sealed partial class HtmlDescriptionTextBlock : ContentControl
 {
     private static readonly int ColorTagFullLength = "<color style='color:#FFFFFF;'></color>".Length;

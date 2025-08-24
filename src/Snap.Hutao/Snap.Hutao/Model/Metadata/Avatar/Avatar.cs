@@ -24,7 +24,7 @@ internal partial class Avatar : IDefaultIdentity<AvatarId>,
     IItemConvertible,
     ICalculableSource<ICalculableAvatar>,
     ICultivationItemsAccess,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     public required AvatarId Id { get; init; }
 

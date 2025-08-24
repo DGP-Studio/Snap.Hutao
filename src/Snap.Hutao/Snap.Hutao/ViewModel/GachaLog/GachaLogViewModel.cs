@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;

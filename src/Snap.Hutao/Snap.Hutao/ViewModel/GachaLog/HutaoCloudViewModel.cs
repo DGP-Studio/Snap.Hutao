@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
     private readonly IGachaLogHutaoCloudService hutaoCloudService;

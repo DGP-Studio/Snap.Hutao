@@ -12,7 +12,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IProfilePictureService))]
+[Service(ServiceLifetime.Singleton, typeof(IProfilePictureService))]
 internal sealed partial class ProfilePictureService : IProfilePictureService
 {
     private readonly IUidProfilePictureRepository uidProfilePictureRepository;

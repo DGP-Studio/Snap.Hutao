@@ -9,10 +9,10 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 /// <summary>
 /// Int32 转 色阶颜色
 /// </summary>
-[DependencyProperty("MaximumValue", typeof(int), 90)]
-[DependencyProperty("MinimumValue", typeof(int), 1)]
-[DependencyProperty("Maximum", typeof(Color))]
-[DependencyProperty("Minimum", typeof(Color))]
+[DependencyProperty<int>("MaximumValue", DefaultValue = 90, NotNull = true)]
+[DependencyProperty<int>("MinimumValue", DefaultValue = 1, NotNull = true)]
+[DependencyProperty<Color>("Maximum", NotNull = true)]
+[DependencyProperty<Color>("Minimum", NotNull = true)]
 internal sealed partial class Int32ToGradientColorConverter : DependencyValueConverter<int, Color>
 {
     public Int32ToGradientColorConverter()

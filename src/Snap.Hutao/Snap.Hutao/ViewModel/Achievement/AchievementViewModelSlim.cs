@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
     [ObservableProperty]

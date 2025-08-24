@@ -5,7 +5,7 @@ using Snap.Hutao.Web.Request.Builder.Abstraction;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-[Injection(InjectAs.Singleton, typeof(IHttpRequestMessageBuilderFactory))]
+[Service(ServiceLifetime.Singleton, typeof(IHttpRequestMessageBuilderFactory))]
 [ConstructorGenerated]
 internal sealed partial class HttpRequestMessageBuilderFactory : IHttpRequestMessageBuilderFactory
 {

@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed partial class FloorView : IAdvancedCollectionViewItem
+internal sealed partial class FloorView : IPropertyValuesProvider
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
     {

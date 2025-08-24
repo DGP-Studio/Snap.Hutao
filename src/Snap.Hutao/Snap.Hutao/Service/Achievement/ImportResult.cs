@@ -18,6 +18,6 @@ internal readonly struct ImportResult
 
     public override string ToString()
     {
-        return SH.FormatServiceAchievementImportResultFormat(Add, Update, Remove);
+        return SH.FormatServiceAchievementImportResult(Add, Update, Remove);
     }
 }

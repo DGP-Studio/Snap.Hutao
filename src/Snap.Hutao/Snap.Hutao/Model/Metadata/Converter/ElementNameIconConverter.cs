@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 using Snap.Hutao.Web.Endpoint.Hutao;
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal sealed partial class ElementNameIconConverter : ValueConverter<string, Uri>
 {
-    private static readonly FrozenDictionary<string, string> LocalizedNameToElementIconName = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, string> LocalizedNameToElementIconName = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(SH.ModelIntrinsicElementNameElec, "Electric"),
         KeyValuePair.Create(SH.ModelIntrinsicElementNameFire, "Fire"),
@@ -21,7 +22,7 @@ internal sealed partial class ElementNameIconConverter : ValueConverter<string, 
         KeyValuePair.Create(SH.ModelIntrinsicElementNameWind, "Wind"),
     ]);
 
-    private static readonly FrozenDictionary<string, ElementType> LocalizedNameToElementType = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, ElementType> LocalizedNameToElementType = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(SH.ModelIntrinsicElementNameElec, ElementType.Electric),
         KeyValuePair.Create(SH.ModelIntrinsicElementNameFire, ElementType.Fire),

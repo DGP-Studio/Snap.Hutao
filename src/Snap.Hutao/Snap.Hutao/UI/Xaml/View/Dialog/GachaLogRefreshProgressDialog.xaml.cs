@@ -6,7 +6,7 @@ using Snap.Hutao.Service.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("Status", typeof(GachaLogFetchStatus))]
+[DependencyProperty<GachaLogFetchStatus>("Status")]
 internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
 {
     public GachaLogRefreshProgressDialog()

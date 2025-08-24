@@ -9,9 +9,9 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [TemplateVisualState(Name = "Show", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "Empty", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "Hide", GroupName = "CommonStates")]
-[DependencyProperty("EmptyContent", typeof(UIElement))]
-[DependencyProperty("ShowCondition", typeof(bool), false, nameof(OnShowConditionChanged))]
-[DependencyProperty("HideCondition", typeof(bool), false, nameof(OnHideConditionChanged))]
+[DependencyProperty<UIElement>("EmptyContent")]
+[DependencyProperty<bool>("ShowCondition", DefaultValue = false, PropertyChangedCallbackName = nameof(OnShowConditionChanged), NotNull = true)]
+[DependencyProperty<bool>("HideCondition", DefaultValue = false, PropertyChangedCallbackName = nameof(OnHideConditionChanged), NotNull = true)]
 internal sealed partial class StandardView : ContentControl
 {
     public StandardView()

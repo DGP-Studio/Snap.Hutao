@@ -7,8 +7,8 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
-[DependencyProperty("MinItemWidth", typeof(double))]
-[DependencyProperty("Spacing", typeof(double))]
+[DependencyProperty<double>("MinItemWidth", NotNull = true)]
+[DependencyProperty<double>("Spacing", NotNull = true)]
 internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 {
     private Size effectiveSize;

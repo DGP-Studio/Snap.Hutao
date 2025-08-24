@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.UI.Xaml.Data;
 
-internal interface IAdvancedCollectionViewItem
+internal interface IPropertyValuesProvider
 {
     object? GetPropertyValue(string name);
 }

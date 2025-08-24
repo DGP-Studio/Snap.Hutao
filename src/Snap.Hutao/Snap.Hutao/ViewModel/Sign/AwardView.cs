@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
 namespace Snap.Hutao.ViewModel.Sign;
 
-internal sealed partial class AwardView : IAdvancedCollectionViewItem
+internal sealed partial class AwardView : IPropertyValuesProvider
 {
     public required int Index { get; init; }
 
@@ -18,7 +18,7 @@ internal sealed partial class AwardView : IAdvancedCollectionViewItem
 
     public bool IsClaimed { get; set; }
 
-    public static AwardView From(Award award, int index)
+    public static AwardView Create(Award award, int index)
     {
         return new()
         {

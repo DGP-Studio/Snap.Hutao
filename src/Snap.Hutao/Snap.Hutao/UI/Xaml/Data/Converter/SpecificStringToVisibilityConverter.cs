@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
-[DependencyProperty("Value", typeof(string))]
+[DependencyProperty<string>("Value")]
 internal sealed partial class SpecificStringToVisibilityConverter : DependencyValueConverter<string, Visibility>
 {
     public override Visibility Convert(string from)

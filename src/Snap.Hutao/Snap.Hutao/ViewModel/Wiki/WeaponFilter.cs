@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -33,21 +34,21 @@ internal static class WeaponFilter
                 case SearchTokenKind.WeaponType:
                     if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(weapon.WeaponType.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(weapon.WeaponType.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.ItemQuality:
                     if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(weapon.Quality.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(weapon.Quality.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.FightProperty:
                     if (IntrinsicFrozen.FightProperties.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(weapon.GrowCurves.Array.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(weapon.GrowCurves.Array.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;

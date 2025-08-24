@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.Core.LifeCycle;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IAppActivation))]
+[Service(ServiceLifetime.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]
 internal sealed partial class AppActivation : IAppActivation, IAppActivationActionHandlersAccess
 {

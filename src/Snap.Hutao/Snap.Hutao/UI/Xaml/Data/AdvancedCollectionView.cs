@@ -17,7 +17,7 @@ using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyColle
 namespace Snap.Hutao.UI.Xaml.Data;
 
 internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<T>
-    where T : class, IAdvancedCollectionViewItem
+    where T : class, IPropertyValuesProvider
 {
     private readonly bool created;
     private readonly List<T> view = [];

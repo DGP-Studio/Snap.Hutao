@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Calendar;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<CultivationPage>
 {

@@ -8,7 +8,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -59,7 +58,7 @@ internal static class HutaoRuntime
             .ToString();
 
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
-        string? displayName = SH.GetString(CultureInfo.CurrentCulture, name, Version);
+        string? displayName = SH.GetString(name, Version);
         return displayName is null ? null : string.Intern(displayName);
     }
 

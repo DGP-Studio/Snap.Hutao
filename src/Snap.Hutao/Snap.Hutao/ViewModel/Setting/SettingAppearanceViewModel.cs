@@ -14,7 +14,7 @@ using System.Globalization;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 {
     public partial CultureOptions CultureOptions { get; }

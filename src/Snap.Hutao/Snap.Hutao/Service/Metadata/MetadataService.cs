@@ -22,7 +22,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Service.Metadata;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IMetadataService))]
+[Service(ServiceLifetime.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MetadataService : IMetadataService
 {

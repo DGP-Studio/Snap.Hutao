@@ -7,12 +7,12 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("Speed", typeof(string))]
-[DependencyProperty("RemainingTime", typeof(string))]
-[DependencyProperty("Value", typeof(int), 0, nameof(OnChunksChanged))]
-[DependencyProperty("Maximum", typeof(int), -1, nameof(OnChunksChanged))]
-[DependencyProperty("Description", typeof(string))]
-[DependencyProperty("IconGlyph", typeof(string))]
+[DependencyProperty<string>("Speed")]
+[DependencyProperty<string>("RemainingTime")]
+[DependencyProperty<int>("Value", DefaultValue = 0, PropertyChangedCallbackName = nameof(OnChunksChanged), NotNull = true)]
+[DependencyProperty<int>("Maximum", DefaultValue = -1, PropertyChangedCallbackName = nameof(OnChunksChanged), NotNull = true)]
+[DependencyProperty<string>("Description")]
+[DependencyProperty<string>("IconGlyph")]
 internal sealed partial class SophonProgressBar : UserControl, INotifyPropertyChanged
 {
     public SophonProgressBar()

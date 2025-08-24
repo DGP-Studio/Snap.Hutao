@@ -8,7 +8,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class WishCountdownViewModel : Abstraction.ViewModelSlim
 {

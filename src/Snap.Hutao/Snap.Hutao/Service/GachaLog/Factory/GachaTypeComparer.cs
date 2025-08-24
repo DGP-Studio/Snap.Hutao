@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.Frozen;
 using System.Runtime.CompilerServices;
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal sealed class GachaTypeComparer : IComparer<GachaType>
 {
     private static readonly Lazy<GachaTypeComparer> LazyShared = new(() => new());
-    private static readonly FrozenDictionary<GachaType, int> OrderMap = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<GachaType, int> OrderMap = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(GachaType.ActivityAvatar, 0),
         KeyValuePair.Create(GachaType.SpecialActivityAvatar, 1),

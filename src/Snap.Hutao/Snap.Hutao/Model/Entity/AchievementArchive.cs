@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("achievement_archives")]
-internal sealed partial class AchievementArchive : ISelectable, IAdvancedCollectionViewItem
+internal sealed partial class AchievementArchive : ISelectable, IPropertyValuesProvider
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

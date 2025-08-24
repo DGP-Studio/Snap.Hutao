@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
@@ -84,7 +83,6 @@ internal sealed class WrapLayoutState
         Point? lastPosition = default;
         double maxHeight = 0;
 
-        //Span<WrapItem> itemSpan = CollectionsMarshal.AsSpan(items);
         for (int i = items.Count - 1; i >= 0; --i)
         {
             WrapItem item = items[i];

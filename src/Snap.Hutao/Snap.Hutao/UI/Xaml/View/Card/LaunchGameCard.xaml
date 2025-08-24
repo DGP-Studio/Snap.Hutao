@@ -64,7 +64,7 @@
                 <Grid
                     Padding="12"
                     Style="{ThemeResource GridShimmerStyle}"
-                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityConverter}}">
+                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -94,11 +94,7 @@
                     PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
                     SelectedItem="{Binding GameAccountsView.CurrentItem, FallbackValue={x:Null}, Mode=TwoWay}"
                     Style="{ThemeResource ShimmerComboBoxStyle}"
-                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}">
-                    <mxi:Interaction.Behaviors>
-                        <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                    </mxi:Interaction.Behaviors>
-                </ComboBox>
+                    Visibility="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
             </StackPanel>
 
             <Button

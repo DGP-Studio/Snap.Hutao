@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGamePathService))]
+[Service(ServiceLifetime.Singleton, typeof(IGamePathService))]
 internal sealed partial class GamePathService : IGamePathService
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
@@ -17,9 +17,9 @@ internal sealed partial class GamePathService : IGamePathService
     public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
     {
         // Found in setting
-        if (!string.IsNullOrEmpty(launchOptions.GamePath))
+        if (!string.IsNullOrEmpty(launchOptions.GamePath.Value))
         {
-            return new(true, launchOptions.GamePath);
+            return new(true, launchOptions.GamePath.Value);
         }
 
         // Try to locate by unity log
@@ -27,7 +27,7 @@ internal sealed partial class GamePathService : IGamePathService
         {
             await taskContext.SwitchToMainThreadAsync();
             launchOptions.UpdateGamePath(path);
-            return new(true, launchOptions.GamePath);
+            return new(true, launchOptions.GamePath.Value);
         }
 
         return new(false, SH.ServiceGamePathLocateFailed);
@@ -43,17 +43,17 @@ internal sealed partial class GamePathService : IGamePathService
 
         using (await launchOptions.GamePathLock.WriterLockAsync().ConfigureAwait(false))
         {
-            foreach (GamePathEntry entry in launchOptions.GamePathEntries)
+            foreach (GamePathEntry entry in launchOptions.GamePathEntries.Value)
             {
                 paths.Remove(entry.Path);
             }
 
-            ImmutableArray<GamePathEntry>.Builder builder = launchOptions.GamePathEntries.ToBuilder();
+            ImmutableArray<GamePathEntry>.Builder builder = launchOptions.GamePathEntries.Value.ToBuilder();
             builder.AddRange(paths.Select(GamePathEntry.Create));
 
             // Since all path we add are not in original list, we can skip calling PerformGamePathEntrySynchronization
             await taskContext.SwitchToMainThreadAsync();
-            launchOptions.GamePathEntries = builder.ToImmutable();
+            launchOptions.GamePathEntries.Value = builder.ToImmutable();
         }
     }
 }

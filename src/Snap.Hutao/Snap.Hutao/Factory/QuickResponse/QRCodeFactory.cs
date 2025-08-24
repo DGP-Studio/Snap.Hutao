@@ -5,7 +5,7 @@ using QRCoder;
 
 namespace Snap.Hutao.Factory.QuickResponse;
 
-[Injection(InjectAs.Singleton, typeof(IQRCodeFactory))]
+[Service(ServiceLifetime.Singleton, typeof(IQRCodeFactory))]
 internal class QRCodeFactory : IQRCodeFactory
 {
     public byte[] Create(string source)

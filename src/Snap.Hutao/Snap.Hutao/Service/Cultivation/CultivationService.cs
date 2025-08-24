@@ -21,7 +21,7 @@ using ModelItem = Snap.Hutao.Model.Item;
 namespace Snap.Hutao.Service.Cultivation;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ICultivationService))]
+[Service(ServiceLifetime.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {
     private readonly ConcurrentDictionary<Guid, ObservableCollection<CultivateEntryView>> entryCollectionCache = [];

@@ -14,7 +14,7 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class HutaoUserOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
@@ -118,7 +118,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             // TODO: Step1: remove password storage
             string username = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
-            string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
             string refreshToken = LocalSetting.Get(SettingKeys.PassportRefreshToken, string.Empty);
 
             if (string.IsNullOrEmpty(username))
@@ -130,17 +129,9 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
             if (!string.IsNullOrEmpty(refreshToken))
             {
-                // TODO: Step2: Remove this: Aggressively set password to empty to avoid accidental reuse
-                LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
                 loginEvent.Reset();
                 infoEvent.Reset();
                 await RefreshTokenAsync(username, refreshToken, token).ConfigureAwait(false);
-            }
-            else if (!string.IsNullOrEmpty(password))
-            {
-                loginEvent.Reset();
-                infoEvent.Reset();
-                await LoginAsync(username, password, true, token).ConfigureAwait(false);
             }
             else
             {

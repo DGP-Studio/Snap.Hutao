@@ -5,21 +5,17 @@ using Snap.Hutao.UI.Xaml.Control;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
-/// <summary>
-/// 条件转换器
-/// </summary>
-[DependencyProperty("ListValue", typeof(object))]
-[DependencyProperty("GridValue", typeof(object))]
-internal sealed partial class LayoutSwitchModeConverter : DependencyValueConverter<string, object>
+[DependencyProperty<object>("ListValue")]
+[DependencyProperty<object>("GridValue")]
+internal sealed partial class LayoutSwitchModeConverter : DependencyValueConverter<string, object?>
 {
-    /// <inheritdoc/>
-    public override object Convert(string from)
+    public override object? Convert(string from)
     {
         return from switch
         {
             LayoutSwitch.List => ListValue,
             LayoutSwitch.Grid => GridValue,
-            _ => default!,
+            _ => default,
         };
     }
 }

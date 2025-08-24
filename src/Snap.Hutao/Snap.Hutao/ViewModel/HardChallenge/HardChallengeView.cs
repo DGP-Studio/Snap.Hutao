@@ -10,7 +10,7 @@ using MetadataHardChallengeSchedule = Snap.Hutao.Model.Metadata.HardChallengeSch
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEntry?>, IAdvancedCollectionViewItem
+internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEntry?>, IPropertyValuesProvider
 {
     private HardChallengeView(HardChallengeEntry entity, HardChallengeMetadataContext context)
         : this(context.IdHardChallengeScheduleMap[entity.ScheduleId], context)
@@ -48,7 +48,7 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
 
     public string ScheduleName { get; }
 
-    public string Schedule { get => SH.FormatModelEntityHardChallengeScheduleFormat(ScheduleId - 5269000, ScheduleName); }
+    public string Schedule { get => SH.FormatModelEntityHardChallengeSchedule(ScheduleId - 5269000, ScheduleName); }
 
     public string FormattedTime { get; }
 
@@ -57,10 +57,6 @@ internal sealed partial class HardChallengeView : IEntityAccess<HardChallengeEnt
     public HardChallengeEntry? Entity { get; }
 
     public IAdvancedCollectionView<DataEntryView>? DataEntries { get; }
-
-    public DataEntryView? SinglePlayer { get; }
-
-    public DataEntryView? MultiPlayer { get; }
 
     public ImmutableArray<AvatarBling> BlingAvatars { get; } = [];
 

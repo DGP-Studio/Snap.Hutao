@@ -9,8 +9,8 @@ using Snap.Hutao.UI.Input;
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [UsedImplicitly]
-[DependencyProperty("Command", typeof(ICommand))]
-[DependencyProperty("CommandParameter", typeof(object))]
+[DependencyProperty<ICommand>("Command")]
+[DependencyProperty<object>("CommandParameter")]
 internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
 {
     private bool executed;

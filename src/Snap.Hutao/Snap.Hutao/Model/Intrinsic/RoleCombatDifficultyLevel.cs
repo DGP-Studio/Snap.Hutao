@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-[Localization]
+[ExtendedEnum]
 internal enum RoleCombatDifficultyLevel
 {
     None = 0,

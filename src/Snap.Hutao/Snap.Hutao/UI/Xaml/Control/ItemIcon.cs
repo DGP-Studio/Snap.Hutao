@@ -5,8 +5,8 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[DependencyProperty("Quality", typeof(QualityType), QualityType.QUALITY_NONE)]
-[DependencyProperty("Icon", typeof(Uri))]
-[DependencyProperty("IconOpacity", typeof(double), 1.0)]
-[DependencyProperty("Badge", typeof(Uri))]
+[DependencyProperty<QualityType>("Quality", DefaultValue = QualityType.QUALITY_NONE, NotNull = true)]
+[DependencyProperty<Uri>("Icon")]
+[DependencyProperty<double>("IconOpacity", DefaultValue = 1.0, NotNull = true)]
+[DependencyProperty<Uri>("Badge")]
 internal sealed partial class ItemIcon : Microsoft.UI.Xaml.Controls.Control;
