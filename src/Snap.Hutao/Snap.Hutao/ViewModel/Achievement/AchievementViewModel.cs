@@ -449,7 +449,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     }
 
     [Command("SearchInMiyousheCommand")]
-    private static async Task SearchInMiyousheAsync(AchievementView? achievement)
+    private async Task SearchInMiyousheAsync(AchievementView? achievement)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Search achievement in Miyoushe", "AchievementViewModel.Command"));
 
@@ -458,13 +458,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} 成就");
+        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} {SH.ViewModelAchievementSearchKeyword}");
         Uri targetUri = $"https://www.miyoushe.com/ys/search?keyword={keyword}".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }
 
     [Command("SearchInHoYoLABCommand")]
-    private static async Task SearchInHoYoLABAsync(AchievementView? achievement)
+    private async Task SearchInHoYoLABAsync(AchievementView? achievement)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Search achievement in HoYoLAB", "AchievementViewModel.Command"));
 
@@ -473,7 +473,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} 成就");
+        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} {SH.ViewModelAchievementSearchKeyword}");
         Uri targetUri = $"https://www.hoyolab.com/search?keyword={keyword}".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }

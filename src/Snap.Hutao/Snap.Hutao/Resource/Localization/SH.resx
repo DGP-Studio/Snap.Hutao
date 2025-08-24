@@ -1779,6 +1779,9 @@
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
     <value>在HoYoLAB搜索</value>
   </data>
+  <data name="ViewModelAchievementSearchKeyword" xml:space="preserve">
+    <value>成就</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 文件</value>
   </data>
