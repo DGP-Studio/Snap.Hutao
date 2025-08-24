@@ -1775,10 +1775,10 @@
     <value>実績 ID をコピーしました</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>米游社で検索</value>
+    <value>米游社に移動して検索</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>HoYoLABで検索</value>
+    <value>HoYoLABに移動して検索</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
     <value>{0} 実績</value>

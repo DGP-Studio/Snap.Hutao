@@ -1774,10 +1774,10 @@
     <value>複製成就 ID 成功</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>在米遊社搜尋</value>
+    <value>前往米遊社搜尋</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>在HoYoLAB搜尋</value>
+    <value>前往HoYoLAB搜尋</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
     <value>{0} 成就</value>

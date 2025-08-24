@@ -1774,10 +1774,10 @@ Space Available: {2}</value>
     <value>Achievement ID copied successfully</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>Search in Miyoushe</value>
+    <value>Go to Miyoushe search</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>Search in HoYoLAB</value>
+    <value>Go to HoYoLAB search</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
     <value>{0} Achievement</value>

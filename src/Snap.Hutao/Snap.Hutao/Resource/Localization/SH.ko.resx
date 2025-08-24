@@ -1774,10 +1774,10 @@
     <value>업적 ID 복사 성공</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>미유사에서 검색</value>
+    <value>미유사로 이동하여 검색</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>HoYoLAB에서 검색</value>
+    <value>HoYoLAB로 이동하여 검색</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
     <value>{0} 업적</value>
