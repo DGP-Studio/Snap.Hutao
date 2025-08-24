@@ -1,320 +1,143 @@
-# Snap Hutao
-Snap Hutao (胡桃工具箱) is an open-source Genshin Impact toolkit under MIT license, designed for modern Windows platforms. It's a .NET 9.0 WinUI application that provides desktop tools for Genshin Impact players without requiring mobile devices.
+Your task is to “onboard” this repository to the Copilot coding agent by adding this .github/copilot-instructions.md file. It gives the agent the minimum, durable context it needs to understand the project, build it, validate changes, and open mergeable PRs.
 
-Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
+These instructions are repository-wide and task-agnostic. If something here contradicts ad-hoc guidance in an issue or PR, prefer the ad-hoc guidance for that task.
 
-## Branch Workflow Requirements
+<Goals>
+- Keep generated PRs mergeable by building and validating locally before proposing changes.
+- Minimize broken shell/PowerShell steps by pinning prerequisites and the order of operations.
+- Reduce unnecessary codebase exploration by pointing to the right files and patterns first.
+</Goals>
 
-**CRITICAL**: Always work on the `develop` branch for all development work:
-- **Always checkout and work on `develop` branch**: `git checkout develop`
-- **Always target PRs to `develop` branch** - never target `main` or other branches
-- **All feature development, bug fixes, and contributions must be done on `develop`**
-- The `main` branch is reserved for stable releases only
+<Limitations>
+- Do not include issue-specific plans or debugging transcripts.
+- Keep guidance concise (≈2 pages). Link to existing scripts/configs in-repo rather than inlining them.
+</Limitations>
 
-## Working Effectively
+---
 
-### Prerequisites - Install on Windows Only
-- Install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/)
-  - Visual Studio will automatically install required workloads when opening the solution
-  - For Visual Studio 2022 17.8: Install [Single-project MSIX Packaging Tools for VS 2022](https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17)
-- Install [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-- Ensure Windows SDK 10.0.26100.0 or later is installed (bundled with Visual Studio)
+## High-level overview
 
-### Build and Test Process
-- Clone repository: `git clone https://github.com/DGP-Studio/Snap.Hutao.git`
-- Switch to `develop` branch: `git checkout develop`
-- Navigate to repository root
-- Install Cake build tool: `dotnet tool restore` -- takes 30 seconds. NEVER CANCEL.
-- Restore NuGet packages: `dotnet restore src/Snap.Hutao/Snap.Hutao.sln --configfile NuGet.Config` -- takes 20 seconds. NEVER CANCEL.
-- **CRITICAL: Full build requires Windows environment. Linux/macOS builds will fail.**
-- Run tests only: `dotnet test src/Snap.Hutao/Snap.Hutao.Test/Snap.Hutao.Test.csproj` -- takes 10 seconds. Expect 5-10 test failures on non-Windows platforms.
+- What this is. Snap Hutao (胡桃工具箱) is a C# WinUI 3 desktop application packaged as MSIX. It’s an open-source toolkit that enhances the Genshin Impact experience on Windows without modifying the game client.
+- Target OS. Runs on Windows 11 (22H2+) and Windows 10 22H2 with the January 2025 update (Build 19045.5371, KB5049981). Agent work should assume a modern, fully updated Windows dev box.
+- Key tech. .NET 9 (C#), Windows App SDK / WinUI 3 (XAML), GitHub Actions CI. The repo uses analyzers (e.g., StyleCop), and common validation utilities (e.g., Microsoft.VisualStudio.Validation).
+- License & scope. MIT. The app integrates official game data and community features; it must not introduce destructive client modifications.
 
-### Build on Windows (Complete Process)
-- **WARNING: Build process takes 45+ minutes. NEVER CANCEL. Set timeout to 90+ minutes.**
-- Full build: `dotnet tool restore && dotnet cake` -- takes 45+ minutes. NEVER CANCEL.
-- Build creates MSIX package in `src/output/` directory
-- Build requires Windows SDK and MSIX packaging tools
-- **MANUAL VALIDATION REQUIRED**: After building, install and test the MSIX package by launching the application and verifying core functionality
+Rule of thumb: Prefer Visual Studio 2022 for build/package/sign workflows. Use the .NET SDK CLI for restore/build/test where practical.
 
-### Development Workflow
-- **REMINDER: Always work on `develop` branch and target PRs to `develop`** (see Branch Workflow Requirements above)
-- Main project solution: `src/Snap.Hutao/Snap.Hutao.sln`
-- Main application project: `src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj`
-- Test project: `src/Snap.Hutao/Snap.Hutao.Test/Snap.Hutao.Test.csproj`
-- Open solution in Visual Studio 2022 for best development experience
+---
 
-## Validation Requirements
+## Repository layout (what to look for first)
 
-### Testing
-- Run unit tests: `dotnet test src/Snap.Hutao/Snap.Hutao.Test/Snap.Hutao.Test.csproj` -- takes 8-15 seconds
-- Test success criteria: 47+ out of 52 tests should pass
-- **Expected test failures on non-Windows**: Registry access, network connectivity, file path issues
-- **Always test on Windows before submitting PRs**
+- Top level
+  - .github/ — issue templates/workflows; this file lives here.
+  - res/ — assets and misc resources.
+  - src/Snap.Hutao/ — the solution root for the desktop app (primary code lives here).
+  - Build/CI config in the root (e.g., build.cake, NuGet.Config, CI YAML).
 
-### Manual Validation Scenarios
-- **CRITICAL**: After any UI changes, build and install the MSIX package locally
-- **Test core workflows**: 
-  - Application launch and initialization
-  - User interface responsiveness
-  - Game data synchronization features
-  - Settings configuration and persistence
-- **Always validate changes by running the actual application**, not just building
+- Inside src/Snap.Hutao
+  - Solution: Snap.Hutao.sln (primary).
+  - Main app project: Snap.Hutao/ (WinUI 3 XAML + C#).
+  - Common folders you’ll work in:
+    - UI/ (XAML views, controls) and ViewModel/ (MVVM view models).
+    - Service/ (app/business services; network, storage, background work).
+    - Model/ (domain/data models).
+    - Core/ and Extension/ (infrastructure, helpers, extensions).
+    - Web/ (HTTP/API integrations) and Win32/ (interop).
+  - Important config:
+    - App.xaml / App.xaml.cs (app startup/resources), Package.appxmanifest (MSIX).
+    - .editorconfig, stylecop.json, GlobalUsing.cs, BannedSymbols.txt (coding standards & guardrails).
 
-### Code Quality Requirements
-- **No linting tools configured** - rely on Visual Studio and compiler warnings
-- **No automated formatting** - follow existing code style
-- **Always run full test suite before committing**
-- Use existing StyleCop and analyzer configurations in project files
+Search shortcuts: “Package.appxmanifest” for capabilities/identity, “stylecop.json” for style rules, “GlobalUsing.cs” for shared namespaces, and “*.xaml” + “ViewModel” for MVVM entry points.
 
-## Coding Standards
+---
 
-### File Headers and Licensing
-- All C# files must include MIT license header:
-  ```csharp
-  // Copyright (c) DGP Studio. All rights reserved.
-  // Licensed under the MIT license.
-  ```
+## Branching & PR policy (follow strictly)
 
-### Namespace and Type Conventions
-- **File-scoped namespaces**: Use `namespace Snap.Hutao.Extension;` format
-- **PascalCase**: All types, properties, methods, and public members
-- **Interface naming**: Interfaces must start with "I" (e.g., `IEntityAccess`)
-- **No var keyword**: Use explicit type declarations (enforced as warning)
-  ```csharp
-  // ✅ Correct
-  string value = GetValue();
-  List<string> items = new();
-  
-  // ❌ Avoid
-  var value = GetValue();
-  var items = new List<string>();
-  ```
+- Work on develop for feature and bug-fix branches; target PRs to develop.
+- CI builds main, develop, and feat/* branches. Alpha artifacts may be produced by CI for testing.
+- Link issues with closing keywords in PR descriptions when appropriate (e.g., Fixes #123).
 
-### Code Style and Formatting
-- **Indentation**: 4 spaces, no tabs
-- **Line endings**: CRLF (Windows style)
-- **Braces**: Always use braces for control structures
-- **Using directives**: Place outside namespace, order System first
-- **Expression-bodied members**: Prefer for single-line accessors only
-- **Modern C# features**: Use pattern matching, records, and latest language features
+---
 
-### Architecture Patterns
-- **MVVM**: Strict Model-View-ViewModel separation
-- **Dependency Injection**: Use built-in .NET DI container with `[Injection]` attributes
-- **Async/Await**: Prefer async methods, use `ConfigureAwait(false)` in libraries
-- **Extension methods**: Organize by type in separate static classes
-- **Global usings**: Common namespaces defined in `GlobalUsing.cs`
+## Prerequisites (Windows only)
 
-### Documentation and Comments
-- **XML documentation**: Not required for internal APIs
-- **Inline comments**: Minimal, code should be self-documenting
-- **TODO/HACK comments**: Avoid in production code
+1) Windows: Windows 11 22H2+ or Windows 10 22H2 Build 19045.5371 (KB5049981). Enable Developer Mode.
+2) Visual Studio 2022 with workloads:
+   - .NET desktop development
+   - Desktop development with C++
+   - Windows application development
+3) MSIX tooling: Single-project MSIX Packaging Tools for VS 2022 (install if your VS version doesn’t include it).
+4) Optional (runtime features & UX): WebView2 Runtime, Segoe Fluent Icons font, MSVC Runtime (for some features).
 
-### Error Handling
-- **Exceptions**: Use specific exception types, avoid generic `Exception`
-- **Nullable reference types**: Enabled throughout project
-- **Defensive programming**: Validate parameters and handle edge cases
+If the agent runs headless, prefer CLI restore/build/test for validation and rely on CI to produce MSIX artifacts.
 
-## UI Guidelines and XAML Standards
+---
 
-### XAML Architecture
-- **WinUI 3**: Modern Windows UI framework with Material Design principles
-- **MVVM Pattern**: Strict separation between View (XAML) and ViewModel (C#)
-- **Page-based Navigation**: Each major feature has its own Page in `UI/Xaml/View/Page/`
-- **Custom Controls**: Application-specific controls in `shuxc` namespace
-- **Behaviors**: UI logic encapsulated in `shuxb` namespace behaviors
+## Build, run, and validate (minimal, reliable sequence)
 
-### XAML Formatting (XAML Styler)
-- **Attribute ordering**: Standardized order with `x:Class`, `xmlns`, positioning, sizing
-- **Indentation**: Clean hierarchical structure with proper spacing
-- **Line breaks**: Keep related attributes grouped, break for readability
-- **Element structure**:
-  ```xml
-  <Grid x:Name="MainGrid"
-        Margin="16"
-        HorizontalAlignment="Stretch">
-      <!-- Content -->
-  </Grid>
-  ```
+Always do steps in this order on a clean clone:
 
-### Namespace Conventions
-- **Standard namespaces**: Use conventional WinUI namespace prefixes
-  - Default: `http://schemas.microsoft.com/winfx/2006/xaml/presentation`
-  - `x:` for XAML features
-  - `cw:` for CommunityToolkit.WinUI
-  - `cwc:` for CommunityToolkit.WinUI.Controls
-- **Custom namespaces**: Snap Hutao specific
-  - `shuxc:` for custom controls (`using:Snap.Hutao.UI.Xaml.Control`)
-  - `shuxb:` for behaviors (`using:Snap.Hutao.UI.Xaml.Behavior`)
-  - `shuxm:` for markup extensions (`using:Snap.Hutao.UI.Xaml.Markup`)
+1) Restore
+    dotnet restore src/Snap.Hutao/Snap.Hutao.sln
 
-### Page and Control Structure
-- **ScopedPage**: Use `shuxc:ScopedPage` as base for application pages
-- **Design-time data**: Include `d:DataContext` for ViewModel binding
-- **Background themes**: Use `{ThemeResource ApplicationPageBackgroundThemeBrush}`
-- **Accessibility**: Include appropriate automation properties
-- **Resource management**: Leverage theme resources and styles
+2) Build (Debug)
+    dotnet build src/Snap.Hutao/Snap.Hutao.sln -c Debug
 
-### Data Binding Patterns
-- **ViewModel binding**: Use `{Binding PropertyName}` for ViewModel properties
-- **Command binding**: Use `{Binding CommandName}` for ICommand implementations
-- **Design-time context**: `d:DataContext="{d:DesignInstance Type}"`
-- **Converters**: Place data converters in `UI/Xaml/Data/` folder
+   Expect WinUI 3 XAML compilation and analyzer checks. Fix all analyzer violations before proposing changes.
 
-### Visual Design Standards
-- **Theming**: Support Light/Dark themes with appropriate resources
-- **Layout**: Use Grid, StackPanel, and modern layout containers
-- **Spacing**: Consistent margins and padding using theme resources
-- **Cards**: Use `AcrylicGridCardStyle` and `GridCardStyle` for content grouping
-- **Icons**: Leverage Segoe Fluent Icons and custom application icons
+3) Run (developer install via VS)
+   - Open src/Snap.Hutao/Snap.Hutao.sln in Visual Studio 2022.
+   - Set the main project as startup, select x64, press F5 (packaged debugging will register the app locally).
 
-### Responsive Design
-- **Adaptive layouts**: Design for various window sizes and orientations
-- **Content scaling**: Use relative sizing and theme-appropriate dimensions
-- **Navigation**: Implement proper focus management and keyboard navigation
+4) Package (when needed)
+   - Use Visual Studio’s Publish / Package for MSIX.
+   - CI may also produce Alpha packages for main/develop/feat/*. Local install of CI-signed packages can require installing the provided certificate.
 
-## Common Build Issues and Solutions
+5) Tests (if present)
+    dotnet test src/Snap.Hutao/Snap.Hutao.sln
 
-### Network/Firewall Limitations
-- CommunityToolkit-Labs NuGet feed may fail in restricted environments
-- **Workaround**: Use cached packages or work from a less restricted network
-- Document in instructions: "NuGet restore may fail due to firewall limitations on CommunityToolkit-Labs packages"
+   Add or update tests for non-UI logic when you change behavior.
 
-### Platform-Specific Limitations
-- **Cannot build on Linux/macOS** - Windows SDK and MSIX tooling required
-- **Registry and Windows-specific APIs** - tests will fail on non-Windows platforms
-- **Always include platform warnings** in any build instructions
+Common validation (run before opening a PR):
+- Solution builds cleanly (no warnings from analyzers if the repo treats warnings as errors for StyleCop).
+- App starts in Debug; smoke-test the feature you touched.
+- No changes to Package.appxmanifest capabilities unless required by the task and documented in the PR.
 
-## Project Structure
+---
 
-### Repository Root
-- `src/Snap.Hutao/Snap.Hutao/` - Main application project
-- `src/Snap.Hutao/Snap.Hutao.Test/` - Unit test project  
-- `src/Snap.Hutao/Snap.Hutao.Benchmark/` - Performance benchmarks
-- `.github/workflows/` - CI/CD pipeline definitions
-- `build.cake` - Cake build script for automated builds
-- `NuGet.Config` - NuGet package source configuration
+## Coding style & contribution patterns
 
-### Main Application Structure (`src/Snap.Hutao/Snap.Hutao/`)
-- `Core/` - Core application functionality
-  - `Abstraction/` - Abstract base classes and interfaces
-  - `Caching/` - Memory and disk caching systems
-  - `Database/` - Entity Framework and database operations
-  - `DependencyInjection/` - IoC container configuration
-  - `Diagnostics/` - Application diagnostics and monitoring
-  - `IO/` - File system operations and utilities
-  - `Threading/` - Async/await patterns and thread safety
-- `UI/` - User interface components and utilities
-  - `Input/` - Keyboard and mouse input handling
-  - `Shell/` - Application shell and navigation
-  - `Windowing/` - Window management and display
-  - `Xaml/` - XAML controls, behaviors, and utilities
-    - `View/` - XAML pages and user controls
-      - `Page/` - Application pages (Settings, Game, etc.)
-      - `Dialog/` - Modal dialogs and popups
-      - `Card/` - Reusable card components
-    - `Control/` - Custom WinUI controls
-    - `Behavior/` - XAML behaviors for UI interactions
-    - `Data/` - Data binding converters and templates
-- `ViewModel/` - MVVM view models organized by feature
-  - `Achievement/` - Achievement tracking
-  - `Game/` - Game launch and management
-  - `Setting/` - Application settings and preferences
-  - `User/` - User account and authentication
-  - `Calendar/` - Event calendar functionality
-- `Service/` - Business logic and external integrations
-  - `Game/` - Genshin Impact game integration
-  - `Metadata/` - Game data and asset management
-  - `Navigation/` - Page navigation and routing
-  - `Notification/` - Toast and in-app notifications
-  - `Update/` - Application update management
-- `Model/` - Data models and entities
-  - `Entity/` - Database entity models
-  - `Metadata/` - Game metadata structures
-  - `InterChange/` - Data exchange formats (UIGF, etc.)
-  - `Primitive/` - Basic value types and structures
-- `Extension/` - Extension methods for built-in and external types
-- `Web/` - HTTP clients and web service integrations
-- `Win32/` - Windows API interop and native functionality
+- MVVM: Put UI behavior in ViewModels; keep XAML code-behind minimal. Use async APIs for I/O and keep the UI thread responsive.
+- Consistency first: Mirror existing folder structure, naming, and patterns. Prefer existing services/helpers over new global/singleton patterns.
+- Analyzers: Fix StyleCop and other analyzer diagnostics. Follow rules set in .editorconfig / stylecop.json (naming, docs, layout).
+- Validation & errors: Use established guard/validation utilities; fail fast on bad inputs; handle network/storage exceptions gracefully.
+- XAML: Reuse existing styles/resources; keep bindings simple and observable; avoid UI thread blocking.
+- Security & privacy: Don’t log secrets or game tokens; follow existing storage conventions.
 
-### Important Files
-- `Package.appxmanifest` - MSIX application manifest
-- `Package.development.appxmanifest` - Development manifest
-- `GlobalUsing.cs` - Global using directives for common namespaces
-- `stylecop.json` - StyleCop analyzer configuration
-- `.editorconfig` - Code formatting and style rules
-- `settings.xamlstyler` - XAML formatting configuration
-- `.filenesting.json` - Visual Studio file nesting rules
+---
 
-## CI/CD Information
+## Where to implement changes (quick map)
 
-### GitHub Actions Workflows
-- **Alpha workflow**: Triggered on `develop` branch changes
-- **Canary workflow**: Triggered on feature branches (merges all open PRs)
-- **Build time**: 45+ minutes including package signing. NEVER CANCEL.
-- **Artifacts**: Signed MSIX packages uploaded as GitHub releases
+- New UI feature → UI/ (XAML) + ViewModel/ (presentation) + Service/ (logic/data) + Model/ (types).
+- Network/API work → Web/ (HTTP clients, DTOs) + relevant Service/.
+- Interop → Win32/ (P/Invoke/wrappers). Be conservative and follow precedent to avoid regressions.
+- Cross-cutting → Core/ & Extension/ for helpers, DI, and reusable infrastructure.
 
-### Build Process Overview
-1. NuGet package restoration (20 seconds)
-2. AppX manifest generation 
-3. .NET compilation and linking (30 minutes)
-4. Asset and resource copying
-5. MSIX package creation (10 minutes)
-6. Code signing (5 minutes)
+---
 
-## Troubleshooting
+## CI interaction (what the agent should expect)
 
-### Common Issues
-- **"Registry is not supported on this platform"** - Expected on non-Windows
-- **"Name or service not known"** - Network/firewall blocking external APIs  
-- **"UnsafeAccessor missing field"** - Platform-specific .NET behavior differences
-- **"Cannot find file"** - Windows vs Unix path separator issues
+- Pushes to feature branches trigger build checks; some branches produce Alpha artifacts.
+- If CI fails on analyzers or formatting, align code with the repo’s rules rather than suppressing diagnostics.
+- Treat CI as the source of truth for packaging/signing; keep local steps minimal and deterministic.
 
-### Recovery Steps
-- Clear NuGet cache: `dotnet nuget locals all --clear`
-- Clean build artifacts: Delete `src/Snap.Hutao/Snap.Hutao/bin/` and `src/Snap.Hutao/Snap.Hutao/obj/`
-- Reset tools: `dotnet tool restore --force-evaluation`
+---
 
-## Time Expectations
-- **NEVER CANCEL**: Full build takes 45+ minutes. Set timeout to 90+ minutes.
-- **NEVER CANCEL**: Test suite takes 5-10 seconds but may timeout on slow systems.
-- **NEVER CANCEL**: NuGet restore takes 10-30 seconds depending on network.
-- **Package installation**: MSIX install takes 2-5 minutes depending on system.
+## Agent operating guidelines
 
-Always wait for operations to complete rather than assuming they've failed.
+- Trust this file first. Only explore or run extra commands if information is missing or build errors indicate a mismatch.
+- Be conservative with tooling changes. Don’t alter SDK/target framework, packaging, or signing settings unless the task explicitly requires it.
+- Keep edits scoped. Touch the smallest set of files; update tests/docs alongside code when you change behavior.
+- PR hygiene. Use clear commit messages, link issues with keywords, and summarize validation steps you performed (build, tests, manual smoke).
 
-## Common Task Examples
-The following are outputs from frequently run commands. Reference them instead of running bash commands to save time.
-
-### Repository Structure
-```
-ls -la src/Snap.Hutao/
-total 56
-drwxr-xr-x  5 runner docker  4096 Aug 24 10:10 .
-drwxr-xr-x  3 runner docker  4096 Aug 24 10:10 ..
--rw-r--r--  1 runner docker 13468 Aug 24 10:10 .editorconfig
--rw-r--r--  1 runner docker   368 Aug 24 10:10 .vsconfig
-drwxr-xr-x 16 runner docker  4096 Aug 24 10:13 Snap.Hutao
-drwxr-xr-x  2 runner docker  4096 Aug 24 10:10 Snap.Hutao.Benchmark
-drwxr-xr-x  9 runner docker  4096 Aug 24 10:13 Snap.Hutao.Test
--rw-r--r--  1 runner docker  4726 Aug 24 10:10 Snap.Hutao.sln
--rw-r--r--  1 runner docker  1143 Aug 24 10:10 Snap.Hutao.slnx
--rw-r--r--  1 runner docker  1863 Aug 24 10:10 settings.xamlstyler
-```
-
-### Test Results (Expected)
-```
-Test summary: total: 52, failed: 5, succeeded: 47, skipped: 0, duration: 1.9s
-```
-47 out of 52 tests pass on non-Windows platforms. 5 expected failures due to:
-- Registry access (Windows-only)
-- Network connectivity restrictions
-- File path format differences
-- Platform-specific .NET behavior
-
-### Tool Restoration
-```
-dotnet tool restore
-Tool 'cake.tool' (version '5.0.0') was restored. Available commands: dotnet-cake
-Restore was successful.
-```
+---
