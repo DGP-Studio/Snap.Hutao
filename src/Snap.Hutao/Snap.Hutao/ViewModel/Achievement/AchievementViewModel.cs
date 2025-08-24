@@ -20,6 +20,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Windows.System;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 
@@ -445,5 +446,35 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             scopeContext.InfoBarService.Error(ex);
         }
+    }
+
+    [Command("SearchInMiyousheCommand")]
+    private static async Task SearchInMiyousheAsync(AchievementView? achievement)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Search achievement in Miyoushe", "AchievementViewModel.Command"));
+
+        if (achievement is null)
+        {
+            return;
+        }
+
+        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} 成就");
+        Uri targetUri = $"https://www.miyoushe.com/ys/search?keyword={keyword}".ToUri();
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("SearchInHoYoLABCommand")]
+    private static async Task SearchInHoYoLABAsync(AchievementView? achievement)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Search achievement in HoYoLAB", "AchievementViewModel.Command"));
+
+        if (achievement is null)
+        {
+            return;
+        }
+
+        string keyword = Uri.EscapeDataString($"{achievement.Inner.Title} 成就");
+        Uri targetUri = $"https://www.hoyolab.com/search?keyword={keyword}".ToUri();
+        await Launcher.LaunchUriAsync(targetUri);
     }
 }
