@@ -66,6 +66,113 @@ Always reference these instructions first and fallback to search or bash command
 - **Always run full test suite before committing**
 - Use existing StyleCop and analyzer configurations in project files
 
+## Coding Standards
+
+### File Headers and Licensing
+- All C# files must include MIT license header:
+  ```csharp
+  // Copyright (c) DGP Studio. All rights reserved.
+  // Licensed under the MIT license.
+  ```
+
+### Namespace and Type Conventions
+- **File-scoped namespaces**: Use `namespace Snap.Hutao.Extension;` format
+- **PascalCase**: All types, properties, methods, and public members
+- **Interface naming**: Interfaces must start with "I" (e.g., `IEntityAccess`)
+- **No var keyword**: Use explicit type declarations (enforced as warning)
+  ```csharp
+  // ✅ Correct
+  string value = GetValue();
+  List<string> items = new();
+  
+  // ❌ Avoid
+  var value = GetValue();
+  var items = new List<string>();
+  ```
+
+### Code Style and Formatting
+- **Indentation**: 4 spaces, no tabs
+- **Line endings**: CRLF (Windows style)
+- **Braces**: Always use braces for control structures
+- **Using directives**: Place outside namespace, order System first
+- **Expression-bodied members**: Prefer for single-line accessors only
+- **Modern C# features**: Use pattern matching, records, and latest language features
+
+### Architecture Patterns
+- **MVVM**: Strict Model-View-ViewModel separation
+- **Dependency Injection**: Use built-in .NET DI container with `[Injection]` attributes
+- **Async/Await**: Prefer async methods, use `ConfigureAwait(false)` in libraries
+- **Extension methods**: Organize by type in separate static classes
+- **Global usings**: Common namespaces defined in `GlobalUsing.cs`
+
+### Documentation and Comments
+- **XML documentation**: Not required for internal APIs
+- **Inline comments**: Minimal, code should be self-documenting
+- **TODO/HACK comments**: Avoid in production code
+
+### Error Handling
+- **Exceptions**: Use specific exception types, avoid generic `Exception`
+- **Nullable reference types**: Enabled throughout project
+- **Defensive programming**: Validate parameters and handle edge cases
+
+## UI Guidelines and XAML Standards
+
+### XAML Architecture
+- **WinUI 3**: Modern Windows UI framework with Material Design principles
+- **MVVM Pattern**: Strict separation between View (XAML) and ViewModel (C#)
+- **Page-based Navigation**: Each major feature has its own Page in `UI/Xaml/View/Page/`
+- **Custom Controls**: Application-specific controls in `shuxc` namespace
+- **Behaviors**: UI logic encapsulated in `shuxb` namespace behaviors
+
+### XAML Formatting (XAML Styler)
+- **Attribute ordering**: Standardized order with `x:Class`, `xmlns`, positioning, sizing
+- **Indentation**: Clean hierarchical structure with proper spacing
+- **Line breaks**: Keep related attributes grouped, break for readability
+- **Element structure**:
+  ```xml
+  <Grid x:Name="MainGrid"
+        Margin="16"
+        HorizontalAlignment="Stretch">
+      <!-- Content -->
+  </Grid>
+  ```
+
+### Namespace Conventions
+- **Standard namespaces**: Use conventional WinUI namespace prefixes
+  - Default: `http://schemas.microsoft.com/winfx/2006/xaml/presentation`
+  - `x:` for XAML features
+  - `cw:` for CommunityToolkit.WinUI
+  - `cwc:` for CommunityToolkit.WinUI.Controls
+- **Custom namespaces**: Snap Hutao specific
+  - `shuxc:` for custom controls (`using:Snap.Hutao.UI.Xaml.Control`)
+  - `shuxb:` for behaviors (`using:Snap.Hutao.UI.Xaml.Behavior`)
+  - `shuxm:` for markup extensions (`using:Snap.Hutao.UI.Xaml.Markup`)
+
+### Page and Control Structure
+- **ScopedPage**: Use `shuxc:ScopedPage` as base for application pages
+- **Design-time data**: Include `d:DataContext` for ViewModel binding
+- **Background themes**: Use `{ThemeResource ApplicationPageBackgroundThemeBrush}`
+- **Accessibility**: Include appropriate automation properties
+- **Resource management**: Leverage theme resources and styles
+
+### Data Binding Patterns
+- **ViewModel binding**: Use `{Binding PropertyName}` for ViewModel properties
+- **Command binding**: Use `{Binding CommandName}` for ICommand implementations
+- **Design-time context**: `d:DataContext="{d:DesignInstance Type}"`
+- **Converters**: Place data converters in `UI/Xaml/Data/` folder
+
+### Visual Design Standards
+- **Theming**: Support Light/Dark themes with appropriate resources
+- **Layout**: Use Grid, StackPanel, and modern layout containers
+- **Spacing**: Consistent margins and padding using theme resources
+- **Cards**: Use `AcrylicGridCardStyle` and `GridCardStyle` for content grouping
+- **Icons**: Leverage Segoe Fluent Icons and custom application icons
+
+### Responsive Design
+- **Adaptive layouts**: Design for various window sizes and orientations
+- **Content scaling**: Use relative sizing and theme-appropriate dimensions
+- **Navigation**: Implement proper focus management and keyboard navigation
+
 ## Common Build Issues and Solutions
 
 ### Network/Firewall Limitations
@@ -80,7 +187,7 @@ Always reference these instructions first and fallback to search or bash command
 
 ## Project Structure
 
-### Key Directories
+### Repository Root
 - `src/Snap.Hutao/Snap.Hutao/` - Main application project
 - `src/Snap.Hutao/Snap.Hutao.Test/` - Unit test project  
 - `src/Snap.Hutao/Snap.Hutao.Benchmark/` - Performance benchmarks
@@ -88,11 +195,56 @@ Always reference these instructions first and fallback to search or bash command
 - `build.cake` - Cake build script for automated builds
 - `NuGet.Config` - NuGet package source configuration
 
+### Main Application Structure (`src/Snap.Hutao/Snap.Hutao/`)
+- `Core/` - Core application functionality
+  - `Abstraction/` - Abstract base classes and interfaces
+  - `Caching/` - Memory and disk caching systems
+  - `Database/` - Entity Framework and database operations
+  - `DependencyInjection/` - IoC container configuration
+  - `Diagnostics/` - Application diagnostics and monitoring
+  - `IO/` - File system operations and utilities
+  - `Threading/` - Async/await patterns and thread safety
+- `UI/` - User interface components and utilities
+  - `Input/` - Keyboard and mouse input handling
+  - `Shell/` - Application shell and navigation
+  - `Windowing/` - Window management and display
+  - `Xaml/` - XAML controls, behaviors, and utilities
+    - `View/` - XAML pages and user controls
+      - `Page/` - Application pages (Settings, Game, etc.)
+      - `Dialog/` - Modal dialogs and popups
+      - `Card/` - Reusable card components
+    - `Control/` - Custom WinUI controls
+    - `Behavior/` - XAML behaviors for UI interactions
+    - `Data/` - Data binding converters and templates
+- `ViewModel/` - MVVM view models organized by feature
+  - `Achievement/` - Achievement tracking
+  - `Game/` - Game launch and management
+  - `Setting/` - Application settings and preferences
+  - `User/` - User account and authentication
+  - `Calendar/` - Event calendar functionality
+- `Service/` - Business logic and external integrations
+  - `Game/` - Genshin Impact game integration
+  - `Metadata/` - Game data and asset management
+  - `Navigation/` - Page navigation and routing
+  - `Notification/` - Toast and in-app notifications
+  - `Update/` - Application update management
+- `Model/` - Data models and entities
+  - `Entity/` - Database entity models
+  - `Metadata/` - Game metadata structures
+  - `InterChange/` - Data exchange formats (UIGF, etc.)
+  - `Primitive/` - Basic value types and structures
+- `Extension/` - Extension methods for built-in and external types
+- `Web/` - HTTP clients and web service integrations
+- `Win32/` - Windows API interop and native functionality
+
 ### Important Files
 - `Package.appxmanifest` - MSIX application manifest
 - `Package.development.appxmanifest` - Development manifest
-- `.config/dotnet-tools.json` - Required build tools (Cake)
-- `stylecop.json` - Code style configuration
+- `GlobalUsing.cs` - Global using directives for common namespaces
+- `stylecop.json` - StyleCop analyzer configuration
+- `.editorconfig` - Code formatting and style rules
+- `settings.xamlstyler` - XAML formatting configuration
+- `.filenesting.json` - Visual Studio file nesting rules
 
 ## CI/CD Information
 
