@@ -11,6 +11,7 @@ These instructions are repository-wide and task-agnostic. If something here cont
 <Limitations>
 - Do not include issue-specific plans or debugging transcripts.
 - Keep guidance concise (≈2 pages). Link to existing scripts/configs in-repo rather than inlining them.
+- Localization policy: Base language is Chinese (Simplified). English is also maintained by the core team; all other languages are community-contributed via Crowdin. If a PR introduces new UI strings, only add the new strings to the Chinese resource file at src/Snap.Hutao/Snap.Hutao/Resource/Localization/SH.resx. Do not edit any other locale files (including English) in that PR; leave them untranslated.
 </Limitations>
 
 ---
