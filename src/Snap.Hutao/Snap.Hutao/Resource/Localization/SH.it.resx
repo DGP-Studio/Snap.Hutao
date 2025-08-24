@@ -1773,6 +1773,15 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
     <value>ID dell'obiettivo copiato con successo</value>
   </data>
+  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
+    <value>前往米游社搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
+    <value>前往HoYoLAB搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} 成就</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>File UIAF</value>
   </data>
