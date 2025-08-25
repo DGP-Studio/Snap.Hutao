@@ -69,6 +69,7 @@ internal sealed partial class SettingEntry
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
     public const string LaunchUsingHoyolabAccount = "Launch.UsingHoyolabAccount";
     public const string LaunchUsingOverlay = "Launch.UsingOverlay";
+    public const string LaunchGameOnAppStartup = "Launch.GameOnAppStartup";
 
     [Obsolete("不再区分解锁器类型，统一使用注入")]
     public const string LaunchUnlockerKind = "Launch.UnlockerKind";

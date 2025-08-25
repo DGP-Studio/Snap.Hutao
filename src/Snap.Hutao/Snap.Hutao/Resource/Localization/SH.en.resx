@@ -2970,6 +2970,12 @@ Space Available: {2}</value>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>Game Hours Record</value>
   </data>
+  <data name="ViewPageLaunchGameStartupLaunchDescription" xml:space="preserve">
+    <value>Automatically launch Genshin Impact when starting Snap Hutao toolbox</value>
+  </data>
+  <data name="ViewPageLaunchGameStartupLaunchHeader" xml:space="preserve">
+    <value>Auto Launch Game on Startup</value>
+  </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
     <value>Team Configuration Cold Switch</value>
   </data>

@@ -2970,6 +2970,12 @@
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>时长统计</value>
   </data>
+  <data name="ViewPageLaunchGameStartupLaunchDescription" xml:space="preserve">
+    <value>在启动胡桃工具箱时自动启动原神游戏</value>
+  </data>
+  <data name="ViewPageLaunchGameStartupLaunchHeader" xml:space="preserve">
+    <value>启动时自动运行游戏</value>
+  </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
     <value>队伍配置冷开关</value>
   </data>
