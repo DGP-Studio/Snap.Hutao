@@ -215,9 +215,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         // Check if auto-launch game on startup is enabled
         LaunchOptions launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
-        if (launchOptions.LaunchGameOnAppStartup)
+        if (launchOptions.LaunchGameOnAppStartup && !launchOptions.IsGameRunning)
         {
-            // Launch the game automatically
+            // Launch the game automatically only if it's not already running
             await HandleLaunchGameActionAsync().ConfigureAwait(false);
         }
     }
