@@ -8,6 +8,7 @@ using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Discord;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
@@ -211,6 +212,14 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         ]).ConfigureAwait(false);
 
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Initialization completed", "Application"));
+
+        // Check if auto-launch game on startup is enabled
+        LaunchOptions launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+        if (launchOptions.LaunchGameOnAppStartup)
+        {
+            // Launch the game automatically
+            await HandleLaunchGameActionAsync().ConfigureAwait(false);
+        }
     }
 
     private async ValueTask HandleProtocolActivationAsync(Uri uri, bool isRedirectTo)

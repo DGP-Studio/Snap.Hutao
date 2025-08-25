@@ -50,6 +50,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
                 SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeNullableBooleanValue(ref fields.UsingStarwardPlayTimeStatistics, value),
                 SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeNullableBooleanValue(ref fields.UsingBetterGenshinImpactAutomation, value),
                 SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeNullableBooleanValue(ref fields.SetDiscordActivityWhenPlaying, value),
+                SettingEntry.LaunchGameOnAppStartup => InitializeNullableBooleanValue(ref fields.LaunchGameOnAppStartup, value),
                 SettingEntry.LaunchIsIslandEnabled => InitializeNullableBooleanValue(ref fields.IsIslandEnabled, value),
                 SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeNullableBooleanValue(ref fields.IsSetFieldOfViewEnabled, value),
                 SettingEntry.LaunchTargetFov => InitializeNullableFloatValue(ref fields.TargetFov, value),
@@ -247,6 +248,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
     }
 
+    public bool LaunchGameOnAppStartup
+    {
+        get => GetOption(ref fields.LaunchGameOnAppStartup, SettingEntry.LaunchGameOnAppStartup, false);
+        set => SetOption(ref fields.LaunchGameOnAppStartup, SettingEntry.LaunchGameOnAppStartup, value);
+    }
+
     public bool IsIslandEnabled
     {
         get => GetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
@@ -425,5 +432,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? UsingStarwardPlayTimeStatistics;
         public bool? UsingBetterGenshinImpactAutomation;
         public bool? SetDiscordActivityWhenPlaying;
+        public bool? LaunchGameOnAppStartup;
     }
 }

@@ -796,6 +796,12 @@
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xEC92;}">
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
+                                    <cwc:SettingsCard
+                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameStartupLaunchDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameStartupLaunchHeader}"
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE7EF;}">
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.LaunchGameOnAppStartup, Mode=TwoWay}"/>
+                                    </cwc:SettingsCard>
                                 </StackPanel>
                             </Border>
                         </Border>
