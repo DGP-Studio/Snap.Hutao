@@ -167,7 +167,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Awards = advancedViews;
             CurrentUid = userAndUid.Uid.ToString();
 
-            string monthName = cultureOptions.CurrentCulture.DateTimeFormat.MonthNames[reward.Month - 1];
+            string monthName = cultureOptions.CurrentCulture.Value.DateTimeFormat.MonthNames[reward.Month - 1];
             TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(monthName, info.TotalSignDay);
             ScrollToCurrentOrNextAward(postSign || postResign);
 

@@ -3,59 +3,62 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Service.Abstraction.Property;
 
-internal sealed partial class StructToJsonDbProperty<T> : DbProperty<T>
-    where T : struct
+internal partial class ClassUsingCustomDbProperty<T> : DbProperty<T>
+    where T : class
 {
     private readonly IServiceProvider serviceProvider;
     private readonly string key;
     private readonly Func<T> defaultValueFactory;
-    private T? field;
+    private readonly Func<string, T> from;
+    private readonly Func<T, string> to;
 
-    public StructToJsonDbProperty(IServiceProvider serviceProvider, string key, Func<T> defaultValueFactory)
+    public ClassUsingCustomDbProperty(IServiceProvider serviceProvider, string key, Func<T> defaultValueFactory, Func<string, T> from, Func<T, string> to)
     {
         this.serviceProvider = serviceProvider;
         this.key = key;
         this.defaultValueFactory = defaultValueFactory;
+        this.from = from;
+        this.to = to;
     }
 
-    public StructToJsonDbProperty(IServiceProvider serviceProvider, string key, T defaultValue)
-        : this(serviceProvider, key, () => defaultValue)
+    public ClassUsingCustomDbProperty(IServiceProvider serviceProvider, string key, T defaultValue, Func<string, T> from, Func<T, string> to)
+        : this(serviceProvider, key, () => defaultValue, from, to)
     {
     }
 
+    [field: MaybeNull]
     public override T Value
     {
         get
         {
-            if (@field is null)
+            if (field is null)
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     string? value = GetValue(appDbContext, key);
-                    @field = string.IsNullOrEmpty(value)
+                    field = string.IsNullOrEmpty(value)
                         ? defaultValueFactory()
-                        : JsonSerializer.Deserialize<T>(value, JsonOptions.Default);
+                        : from(value);
                 }
             }
 
-            return @field.Value;
+            return field;
         }
 
         set
         {
-            if (SetProperty(ref @field, value))
+            if (SetProperty(ref field, value))
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-                    appDbContext.Settings.AddAndSave(new(key, JsonSerializer.Serialize(value, JsonOptions.Default)));
+                    appDbContext.Settings.AddAndSave(new(key, to(value)));
                 }
             }
         }

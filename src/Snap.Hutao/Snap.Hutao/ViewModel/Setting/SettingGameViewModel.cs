@@ -21,8 +21,8 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 
     public int KiloBytesPerSecondLimit
     {
-        get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte;
-        set => AppOptions.DownloadSpeedLimitPerSecondInKiloByte = value;
+        get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value;
+        set => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value = value;
     }
 
     [Command("DeleteGameWebCacheCommand")]

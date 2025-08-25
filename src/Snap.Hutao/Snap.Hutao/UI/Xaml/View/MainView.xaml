@@ -31,7 +31,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+        <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType.Value, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
             <Border.OpacityTransition>
                 <ScalarTransition Duration="0:0:1"/>
             </Border.OpacityTransition>

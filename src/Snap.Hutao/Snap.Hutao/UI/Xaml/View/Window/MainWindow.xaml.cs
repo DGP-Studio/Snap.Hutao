@@ -81,7 +81,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        if (!XamlApplicationLifetime.NotifyIconCreated || app.Options.LastWindowCloseBehavior is LastWindowCloseBehavior.ExitApplication)
+        if (!XamlApplicationLifetime.NotifyIconCreated || app.Options.LastWindowCloseBehavior.Value is LastWindowCloseBehavior.ExitApplication)
         {
             app.Exit();
             return;

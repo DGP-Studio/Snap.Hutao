@@ -87,7 +87,7 @@ internal sealed class XamlWindowController
         hasCustomSystemBackdrop = window.SystemBackdrop is not null;
 
         // SystemBackdrop
-        UpdateSystemBackdrop(appOptions.BackdropType);
+        UpdateSystemBackdrop(appOptions.BackdropType.Value);
 
         appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
 
@@ -203,7 +203,7 @@ internal sealed class XamlWindowController
 
         _ = e.PropertyName switch
         {
-            nameof(AppOptions.BackdropType) => UpdateSystemBackdrop(options.BackdropType),
+            nameof(AppOptions.BackdropType) => UpdateSystemBackdrop(options.BackdropType.Value),
             _ => false,
         };
     }

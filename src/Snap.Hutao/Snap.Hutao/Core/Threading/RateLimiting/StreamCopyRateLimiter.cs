@@ -17,7 +17,7 @@ internal static class StreamCopyRateLimiter
 
     private static TokenBucketRateLimiter? PrivateCreate(AppOptions appOptions)
     {
-        int bytesPerSecond = appOptions.DownloadSpeedLimitPerSecondInKiloByte * 1024;
+        int bytesPerSecond = appOptions.DownloadSpeedLimitPerSecondInKiloByte.Value * 1024;
 
         if (bytesPerSecond <= 0)
         {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -20,51 +21,14 @@ namespace Snap.Hutao.Service;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private BackdropType? backdropType;
-    private ElementTheme? elementTheme;
-    private BackgroundImageType? backgroundImageType;
-    private Region? region;
-    private int? downloadSpeedLimitPerSecondInKiloByte;
-    private BridgeShareSaveType? bridgeShareSaveType;
-    private TimeSpan? calendarServerTimeZoneOffset;
-    private LastWindowCloseBehavior? lastWindowCloseBehavior;
-
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
-    [field: MaybeNull]
-    public DbProperty<bool> IsEmptyHistoryWishVisible { get => field ??= CreateProperty(SettingEntry.IsEmptyHistoryWishVisible, false); }
-
-    [field: MaybeNull]
-    public DbProperty<bool> IsUnobtainedWishItemVisible { get => field ??= CreateProperty(SettingEntry.IsUnobtainedWishItemVisible, false); }
-
-    public ImmutableArray<NameValue<BackdropType>> BackdropTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
-
-    public BackdropType BackdropType
-    {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<BackdropType>, BackdropType.Mica);
-        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
-    }
-
-    public Lazy<List<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(() =>
+    public Lazy<ImmutableArray<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(() =>
     [
-        new(SH.CoreWindowThemeLight, ElementTheme.Light),
-        new(SH.CoreWindowThemeDark, ElementTheme.Dark),
-        new(SH.CoreWindowThemeSystem, ElementTheme.Default),
+        new(SH.CoreWindowThemeLight, Microsoft.UI.Xaml.ElementTheme.Light),
+        new(SH.CoreWindowThemeDark, Microsoft.UI.Xaml.ElementTheme.Dark),
+        new(SH.CoreWindowThemeSystem, Microsoft.UI.Xaml.ElementTheme.Default),
     ]);
-
-    public ElementTheme ElementTheme
-    {
-        get => GetOption(ref elementTheme, SettingEntry.ElementTheme, Enum.Parse<ElementTheme>, ElementTheme.Default);
-        set => SetOption(ref elementTheme, SettingEntry.ElementTheme, value, EnumToStringOrEmpty);
-    }
-
-    public ImmutableArray<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
-
-    public BackgroundImageType BackgroundImageType
-    {
-        get => GetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, Enum.Parse<BackgroundImageType>, BackgroundImageType.None);
-        set => SetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, value, EnumToStringOrEmpty);
-    }
 
     public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(() =>
     {
@@ -72,46 +36,50 @@ internal sealed partial class AppOptions : DbStoreOptions
         return KnownRegions.Value;
     });
 
-    public Region Region
-    {
-        get => GetOption(ref region, SettingEntry.AnnouncementRegion, Region.FromRegionString, Region.CNGF01);
-        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, NullableExtension.ToStringOrEmpty);
-    }
-
-    [field: MaybeNull]
-    public DbProperty<string> GeetestCustomCompositeUrl { get => field ??= CreateProperty(SettingEntry.GeetestCustomCompositeUrl, string.Empty); }
-
-    public int DownloadSpeedLimitPerSecondInKiloByte
-    {
-        get => GetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0);
-        set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
-    }
-
-    public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
-
-    public BridgeShareSaveType BridgeShareSaveType
-    {
-        get => GetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, Enum.Parse<BridgeShareSaveType>, BridgeShareSaveType.CopyToClipboard);
-        set => SetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, value, EnumToStringOrEmpty);
-    }
-
     public Lazy<ImmutableArray<NameValue<TimeSpan>>> LazyCalendarServerTimeZoneOffsets { get; } = new(() =>
     {
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
         return KnownServerRegionTimeZones.Value;
     });
 
-    public TimeSpan CalendarServerTimeZoneOffset
-    {
-        get => GetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, TimeSpan.Parse, ServerRegionTimeZone.CommonOffset);
-        set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
-    }
+    public ImmutableArray<NameValue<BackdropType>> BackdropTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
+
+    public ImmutableArray<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
+
+    public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
     public ImmutableArray<NameValue<LastWindowCloseBehavior>> LastWindowCloseBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<LastWindowCloseBehavior>(static @enum => @enum.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
-    public LastWindowCloseBehavior LastWindowCloseBehavior
-    {
-        get => GetOption(ref lastWindowCloseBehavior, SettingEntry.LastWindowCloseBehavior, Enum.Parse<LastWindowCloseBehavior>, LastWindowCloseBehavior.EnsureNotifyIconCreated);
-        set => SetOption(ref lastWindowCloseBehavior, SettingEntry.LastWindowCloseBehavior, value, EnumToStringOrEmpty);
-    }
+    [field: MaybeNull]
+    public IObservableProperty<bool> IsEmptyHistoryWishVisible { get => field ??= CreateProperty(SettingEntry.IsEmptyHistoryWishVisible, false); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> IsUnobtainedWishItemVisible { get => field ??= CreateProperty(SettingEntry.IsUnobtainedWishItemVisible, false); }
+
+    [field: MaybeNull]
+    public IObservableProperty<BackdropType> BackdropType { get => field ??= CreateProperty(SettingEntry.SystemBackdropType, UI.Xaml.Media.Backdrop.BackdropType.Mica); }
+
+    [field: MaybeNull]
+    public IObservableProperty<ElementTheme> ElementTheme { get => field ??= CreateProperty(SettingEntry.ElementTheme, Microsoft.UI.Xaml.ElementTheme.Default); }
+
+    [field: MaybeNull]
+    public IObservableProperty<BackgroundImageType> BackgroundImageType { get => field ??= CreateProperty(SettingEntry.BackgroundImageType, BackgroundImage.BackgroundImageType.None); }
+
+    [field: MaybeNull]
+    public IObservableProperty<Region> Region { get => field ??= CreatePropertyForStructUsingCustom(SettingEntry.AnnouncementRegion, Web.Hoyolab.Region.CNGF01, Web.Hoyolab.Region.FromRegionString, Web.Hoyolab.Region.ToRegionString); }
+
+    [field: MaybeNull]
+    public IObservableProperty<string> GeetestCustomCompositeUrl { get => field ??= CreateProperty(SettingEntry.GeetestCustomCompositeUrl, string.Empty); }
+
+    [field: MaybeNull]
+    public IObservableProperty<int> DownloadSpeedLimitPerSecondInKiloByte { get => field ??= CreateProperty(SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0); }
+
+    [field: MaybeNull]
+    public IObservableProperty<BridgeShareSaveType> BridgeShareSaveType { get => field ??= CreateProperty(SettingEntry.BridgeShareSaveType, Web.Bridge.BridgeShareSaveType.CopyToClipboard);}
+
+    [field: MaybeNull]
+    public IObservableProperty<TimeSpan> CalendarServerTimeZoneOffset { get => field ??= CreatePropertyForStructUsingCustom(SettingEntry.CalendarServerTimeZoneOffset, ServerRegionTimeZone.CommonOffset, TimeSpan.Parse, static v => v.ToString()); }
+
+    [field: MaybeNull]
+    public IObservableProperty<LastWindowCloseBehavior> LastWindowCloseBehavior { get => field ??= CreateProperty(SettingEntry.LastWindowCloseBehavior, Service.LastWindowCloseBehavior.EnsureNotifyIconCreated); }
 }

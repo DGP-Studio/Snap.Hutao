@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
@@ -65,7 +66,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public NameValue<PlatformType>? SelectedPlatformType
     {
-        get => field ??= LaunchOptions.GetCurrentPlatformTypeForSelectionOrDefault();
+        get => field ??= Selection.Initialize(LaunchOptions.PlatformTypes, LaunchOptions.PlatformType.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)

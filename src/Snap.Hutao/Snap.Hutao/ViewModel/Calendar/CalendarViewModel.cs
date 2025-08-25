@@ -45,7 +45,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
         }
 
         CultivateProject? cultivateProject = await cultivationService.GetCurrentProjectAsync().ConfigureAwait(false);
-        TimeSpan serverTimeZoneOffset = cultivateProject?.ServerTimeZoneOffset ?? appOptions.CalendarServerTimeZoneOffset;
+        TimeSpan serverTimeZoneOffset = cultivateProject?.ServerTimeZoneOffset ?? appOptions.CalendarServerTimeZoneOffset.Value;
 
         IAdvancedCollectionView<CalendarDay> weekDays;
         using (ValueStopwatch.MeasureExecution(logger, nameof(CreateWeekDays)))
@@ -193,7 +193,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
         };
 
         DateTimeOffset effectiveToday = DateTimeOffset.Now.ToOffset(serverTimeZoneOffset).Date;
-        DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
+        DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek.Value;
         DateTimeOffset nearestStartOfWeek = effectiveToday.AddDays((int)firstDayOfWeek - (int)effectiveToday.DayOfWeek);
         if (nearestStartOfWeek > effectiveToday)
         {

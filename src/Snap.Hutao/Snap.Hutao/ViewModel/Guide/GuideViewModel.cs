@@ -82,12 +82,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameCultureInfoValue? SelectedCulture
     {
-        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture);
+        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                CultureOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture.Value = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -95,12 +95,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region);
+        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.Region = value.Value;
+                AppOptions.Region.Value = value.Value;
             }
         }
     }

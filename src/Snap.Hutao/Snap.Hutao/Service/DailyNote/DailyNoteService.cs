@@ -137,8 +137,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        bool autoRefresh = dailyNoteOptions.IsAutoRefreshEnabled;
-        TimeSpan threshold = TimeSpan.FromSeconds(dailyNoteOptions.SelectedRefreshTime?.Value ?? 60 * 60 * 4);
+        bool autoRefresh = dailyNoteOptions.IsAutoRefreshEnabled.Value;
+        TimeSpan threshold = TimeSpan.FromSeconds(dailyNoteOptions.SelectedRefreshTime.Value?.Value ?? 60 * 60 * 4);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

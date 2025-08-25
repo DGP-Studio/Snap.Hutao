@@ -62,7 +62,7 @@ internal static class DependencyInjection
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
         cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
-        CultureInfo cultureInfo = cultureOptions.CurrentCulture;
+        CultureInfo cultureInfo = cultureOptions.CurrentCulture.Value;
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
