@@ -25,6 +25,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Text;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -377,6 +378,28 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         _ = await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false)
             ? scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess)
+            : scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
+    }
+
+    [Command("ExportAllToTextCommand")]
+    private async Task ExportAllToTextAsync()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export all avatars as text to ClipBoard", "AvatarPropertyViewModel.Command"));
+
+        if (Summary is not { Avatars: { } avatars })
+        {
+            return;
+        }
+
+        StringBuilder allAvatarsText = new();
+        foreach (AvatarView avatar in avatars.Source)
+        {
+            allAvatarsText.Append(AvatarViewTextTemplating.GetTemplatedText(avatar));
+            allAvatarsText.AppendLine();
+        }
+
+        _ = await scopeContext.ClipboardProvider.SetTextAsync(allAvatarsText.ToString()).ConfigureAwait(false)
+            ? scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportAllTextSuccess)
             : scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
     }
 
