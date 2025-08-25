@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.DailyNote;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IDailyNoteRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IDailyNoteRepository))]
 internal sealed partial class DailyNoteRepository : IDailyNoteRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

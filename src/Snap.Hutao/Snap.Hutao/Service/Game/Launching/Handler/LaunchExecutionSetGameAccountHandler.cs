@@ -19,7 +19,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Options.UsingHoyolabAccount)
+        if (context.Options.UsingHoyolabAccount.Value)
         {
             if (!await HandleHoyolabAccountAsync(context).ConfigureAwait(false))
             {

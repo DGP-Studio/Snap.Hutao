@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media;
 namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("Background", typeof(Brush), default(Brush), nameof(OnBackgroundChanged), IsAttached = true, AttachedType = typeof(Microsoft.UI.Xaml.Controls.Control))]
+[DependencyProperty<Brush>("Background", PropertyChangedCallbackName = nameof(OnBackgroundChanged), IsAttached = true, TargetType = typeof(Microsoft.UI.Xaml.Controls.Control))]
 public sealed partial class ControlHelper
 {
     private static void OnBackgroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

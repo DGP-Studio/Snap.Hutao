@@ -23,8 +23,8 @@ using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
+using System.Globalization;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -33,7 +33,7 @@ using CalculatorItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemH
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>, IDisposable
 {
     private readonly ExclusiveTokenProvider refreshTokenProvider = new();
@@ -47,7 +47,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
-    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(static type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
     public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
     {
@@ -57,21 +57,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.AvatarPropertySortDescriptionKind, value.Value);
-                if (Summary?.Avatars is not { } avatars)
-                {
-                    return;
-                }
-
-                using (avatars.DeferRefresh())
-                {
-                    avatars.SortDescriptions.Clear();
-                    foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(value.Value).AsSpan())
-                    {
-                        avatars.SortDescriptions.Add(sd);
-                    }
-                }
-
-                avatars.MoveCurrentToFirst();
+                PrivateSortAvatars();
             }
         }
     }
@@ -174,11 +160,31 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
             token.ThrowIfCancellationRequested();
             Summary = summary;
-            Summary?.Avatars.MoveCurrentToFirst();
+            PrivateSortAvatars();
         }
         catch (OperationCanceledException)
         {
         }
+    }
+
+    private void PrivateSortAvatars()
+    {
+        ArgumentNullException.ThrowIfNull(SortDescriptionKind);
+        if (Summary?.Avatars is not { } avatars)
+        {
+            return;
+        }
+
+        using (avatars.DeferRefresh())
+        {
+            avatars.SortDescriptions.Clear();
+            foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(SortDescriptionKind.Value).AsSpan())
+            {
+                avatars.SortDescriptions.Add(sd);
+            }
+        }
+
+        avatars.MoveCurrentToFirst();
     }
 
     [Command("CultivateCommand")]
@@ -301,8 +307,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         _ = result.SkippedCount > 0
-            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount))
-            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
+            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompleted(result.SucceedCount, result.SkippedCount))
+            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompleted(result.SucceedCount, result.SkippedCount));
     }
 
     /// <returns><see langword="true"/> if we can continue saving consumptions, otherwise <see langword="false"/>.</returns>

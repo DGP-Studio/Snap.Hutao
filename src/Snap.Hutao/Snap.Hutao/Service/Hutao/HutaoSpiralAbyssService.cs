@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
+[Service(ServiceLifetime.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHutaoSpiralAbyssService
 {
     public override string TypeName { get; } = nameof(HutaoSpiralAbyssService);

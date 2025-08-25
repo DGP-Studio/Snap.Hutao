@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -15,5 +16,5 @@ internal sealed partial class TitleView : UserControl
 
     public FrameworkElement DragArea { get => DraggableGrid; }
 
-    public IEnumerable<FrameworkElement> Passthrough { get; } = [];
+    public ImmutableArray<FrameworkElement> Passthrough { get; } = [];
 }

@@ -44,19 +44,19 @@ internal class Response : ICommonResponse<Response>
     public static void DefaultIfNull<TResponse>([NotNull] ref TResponse? response, [CallerMemberName] string callerName = default!)
         where TResponse : ICommonResponse<TResponse>
     {
-        string message = SH.FormatWebResponseRequestExceptionFormat(callerName, TypeNameHelper.GetTypeDisplayName(typeof(TResponse)));
+        string message = SH.FormatWebResponseRequestException(callerName, TypeNameHelper.GetTypeDisplayName(typeof(TResponse)));
         response ??= TResponse.CreateDefault(InternalFailure, message);
 
         if ((KnownReturnCode)response.ReturnCode is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
-            response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
+            response.Message = SH.FormatWebResponseRefreshCookieHint(response.Message);
         }
 
         switch ((KnownReturnCode)response.ReturnCode)
         {
             case KnownReturnCode.PleaseLogin:
             case KnownReturnCode.RET_TOKEN_INVALID:
-                response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
+                response.Message = SH.FormatWebResponseRefreshCookieHint(response.Message);
                 break;
             case KnownReturnCode.SignInError:
                 response.Message = SH.FormatWebResponseSignInErrorHint(response.Message);
@@ -71,7 +71,7 @@ internal class Response : ICommonResponse<Response>
 
     public override string ToString()
     {
-        return SH.FormatWebResponseFormat(ReturnCode, Message);
+        return SH.FormatWebResponse(ReturnCode, Message);
     }
 }
 

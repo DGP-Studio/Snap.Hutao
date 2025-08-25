@@ -6,7 +6,7 @@ using Snap.Hutao.Core.ExceptionService;
 namespace Snap.Hutao.Factory.Progress;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IProgressFactory))]
+[Service(ServiceLifetime.Transient, typeof(IProgressFactory))]
 internal sealed partial class ProgressFactory : IProgressFactory
 {
     private readonly ITaskContext taskContext;

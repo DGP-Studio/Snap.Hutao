@@ -8,7 +8,7 @@ using System.IO;
 namespace Snap.Hutao.Service.Metadata;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class MetadataOptions
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;

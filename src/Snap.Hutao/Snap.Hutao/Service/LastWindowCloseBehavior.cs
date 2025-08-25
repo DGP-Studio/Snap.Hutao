@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service;
 
-[Localization]
+[ExtendedEnum]
 internal enum LastWindowCloseBehavior
 {
     [LocalizationKey("ServiceCloseButtonBehaviorTypeMinimize")]

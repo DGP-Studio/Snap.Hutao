@@ -20,7 +20,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Service.Yae;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IYaeService))]
+[Service(ServiceLifetime.Singleton, typeof(IYaeService))]
 internal sealed partial class YaeService : IYaeService
 {
     private readonly IContentDialogFactory contentDialogFactory;

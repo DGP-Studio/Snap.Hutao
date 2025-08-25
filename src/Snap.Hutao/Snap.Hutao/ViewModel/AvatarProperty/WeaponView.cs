@@ -15,7 +15,7 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
 
     public uint AffixLevelNumber { get; set; }
 
-    public string AffixLevel { get => SH.FormatModelBindingAvatarPropertyWeaponAffixFormat(AffixLevelNumber); }
+    public string AffixLevel { get => SH.FormatModelBindingAvatarPropertyWeaponAffix(AffixLevelNumber); }
 
     public string AffixName { get; set; } = default!;
 

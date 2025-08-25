@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Database;
 
 internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView<TEntity>,
     IAdvancedDbCollectionView<TEntity>
-    where TEntity : class, IAdvancedCollectionViewItem, ISelectable
+    where TEntity : class, IPropertyValuesProvider, ISelectable
 {
     private readonly IServiceProvider serviceProvider;
 
@@ -77,7 +77,7 @@ internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollec
 [SuppressMessage("", "SA1402")]
 internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> : AdvancedCollectionView<TEntityAccess>,
     IAdvancedDbCollectionView<TEntityAccess>
-    where TEntityAccess : class, IEntityAccess<TEntity>, IAdvancedCollectionViewItem
+    where TEntityAccess : class, IEntityAccess<TEntity>, IPropertyValuesProvider
     where TEntity : class, ISelectable
 {
     private readonly IServiceProvider serviceProvider;

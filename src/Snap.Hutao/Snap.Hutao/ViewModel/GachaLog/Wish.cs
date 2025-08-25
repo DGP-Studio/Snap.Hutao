@@ -24,7 +24,7 @@ internal abstract class Wish
 
     public string FormattedTotalCount
     {
-        get => SH.FormatModelBindingGachaWishBaseTotalCountFormat(TotalCount);
+        get => SH.FormatModelBindingGachaWishBaseTotalCount(TotalCount);
     }
 
     internal required DateTimeOffset From { get; init; }

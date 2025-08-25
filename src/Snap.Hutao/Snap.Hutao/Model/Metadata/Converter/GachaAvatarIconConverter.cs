@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Text;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 using Snap.Hutao.Web.Endpoint.Hutao;
 
@@ -16,9 +15,7 @@ internal sealed partial class GachaAvatarIconConverter : ValueConverter<string, 
             return default!;
         }
 
-        string icon = default!;
-        Interpolated.Parse(name, $"UI_AvatarIcon_{icon}");
-        return StaticResourcesEndpoints.StaticRaw("GachaAvatarIcon", $"UI_Gacha_AvatarIcon_{icon}.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("GachaAvatarIcon", $"UI_Gacha_AvatarIcon_{CommonNameExtractor.ExtractUIAvatarIconName(name)}.png").ToUri();
     }
 
     public override Uri Convert(string from)

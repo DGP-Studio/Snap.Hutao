@@ -14,7 +14,7 @@ using System.IO;
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageServiceOperationInformationTraits
 {
     private readonly IContentDialogFactory contentDialogFactory;

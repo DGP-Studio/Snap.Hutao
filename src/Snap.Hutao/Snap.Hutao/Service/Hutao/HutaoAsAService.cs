@@ -14,7 +14,7 @@ using HutaoAnnouncement = Snap.Hutao.Web.Hutao.HutaoAsAService.Announcement;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IHutaoAsAService))]
+[Service(ServiceLifetime.Scoped, typeof(IHutaoAsAService))]
 internal sealed partial class HutaoAsAService : IHutaoAsAService
 {
     private const int AnnouncementDuration = 30;

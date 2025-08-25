@@ -24,7 +24,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.DailyNote;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
@@ -156,13 +156,13 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note webhook settings", "DailyNoteViewModel.Command"));
 
         DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>(serviceProvider).ConfigureAwait(true);
-        dialog.Text = DailyNoteOptions.WebhookUrl;
-        (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
+        dialog.Text = DailyNoteOptions.WebhookUrl.Value;
+        (bool isOk, string? url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();
-            DailyNoteOptions.WebhookUrl = url;
+            DailyNoteOptions.WebhookUrl.Value = url;
             infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
         }
     }

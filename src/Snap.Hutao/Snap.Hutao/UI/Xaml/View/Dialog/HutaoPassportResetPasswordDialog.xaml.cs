@@ -13,16 +13,16 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("UserName", typeof(string))]
-[DependencyProperty("Password", typeof(string))]
-[DependencyProperty("VerifyCode", typeof(string))]
+[DependencyProperty<string>("UserName")]
+[DependencyProperty<string>("Password")]
+[DependencyProperty<string>("VerifyCode")]
 internal sealed partial class HutaoPassportResetPasswordDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, (string UserName, string Passport, string VerifyCode)>> GetInputAsync(string? userName)
+    public async ValueTask<ValueResult<bool, (string? UserName, string? Passport, string? VerifyCode)>> GetInputAsync(string? userName)
     {
         InitializeUserNameTextBox(userName);
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);

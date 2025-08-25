@@ -3,20 +3,21 @@
 
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[DependencyProperty("Current", typeof(string), List)]
-[DependencyProperty("LocalSettingKeySuffixForCurrent", typeof(string))]
-[DependencyProperty("LocalSettingKeyExtraForCurrent", typeof(string), "")]
+[DependencyProperty<string>("Current", DefaultValue = List)]
+[DependencyProperty<string>("LocalSettingKeySuffixForCurrent")]
+[DependencyProperty<string>("LocalSettingKeyExtraForCurrent", DefaultValue = "")]
 internal sealed partial class LayoutSwitch : Segmented
 {
     public const string List = nameof(List);
     public const string Grid = nameof(Grid);
 
-    private static readonly FrozenDictionary<int, string> IndexTypeMap = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<int, string> IndexTypeMap = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(0, List),
         KeyValuePair.Create(1, Grid),
@@ -56,7 +57,7 @@ internal sealed partial class LayoutSwitch : Segmented
             return;
         }
 
-        string value = LocalSetting.Get(GetSettingKey(selector), selector.Current);
+        string? value = LocalSetting.Get(GetSettingKey(selector), selector.Current);
         selector.Current = value;
 
         selector.SelectedItem = selector.Items.Cast<SegmentedItem>().Single(item => (string)item.Tag == selector.Current);

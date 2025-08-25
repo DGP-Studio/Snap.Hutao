@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace Snap.Hutao;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 [SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application
 {
@@ -68,7 +68,7 @@ public sealed partial class App : Application
             AppNotificationManager.Default.NotificationInvoked += activation.NotificationInvoked;
             AppNotificationManager.Default.Register();
 
-            // E_INVALIDARG
+            // E_INVALIDARG E_OUTOFMEMORY
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))

@@ -22,7 +22,7 @@ internal readonly struct GachaStatisticsFactoryContext
         appOptions = serviceProvider.GetRequiredService<AppOptions>();
     }
 
-    public bool IsUnobtainedWishItemVisible { get => appOptions.IsUnobtainedWishItemVisible; }
+    public bool IsUnobtainedWishItemVisible { get => appOptions.IsUnobtainedWishItemVisible.Value; }
 
-    public bool IsEmptyHistoryWishVisible { get => appOptions.IsEmptyHistoryWishVisible; }
+    public bool IsEmptyHistoryWishVisible { get => appOptions.IsEmptyHistoryWishVisible.Value; }
 }

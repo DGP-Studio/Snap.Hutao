@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("Avatars", typeof(IAdvancedCollectionView<AvatarView>))]
+[DependencyProperty<IAdvancedCollectionView<AvatarView>>("Avatars")]
 [ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class AvatarPropertyMultiAvatarCultivateSelectDialog : ContentDialog
 {

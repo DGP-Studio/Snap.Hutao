@@ -5,7 +5,6 @@ using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;

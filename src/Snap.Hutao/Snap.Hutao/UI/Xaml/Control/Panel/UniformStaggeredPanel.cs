@@ -6,9 +6,9 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
-[DependencyProperty("MinItemWidth", typeof(double), 0D, nameof(OnPropertyChanged))]
-[DependencyProperty("ColumnSpacing", typeof(double), 0D, nameof(OnPropertyChanged))]
-[DependencyProperty("RowSpacing", typeof(double), 0D, nameof(OnPropertyChanged))]
+[DependencyProperty<double>("MinItemWidth", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnPropertyChanged), NotNull = true)]
+[DependencyProperty<double>("ColumnSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnPropertyChanged), NotNull = true)]
+[DependencyProperty<double>("RowSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnPropertyChanged), NotNull = true)]
 internal sealed partial class UniformStaggeredPanel : Microsoft.UI.Xaml.Controls.Panel
 {
     private readonly List<Column> columns = [];

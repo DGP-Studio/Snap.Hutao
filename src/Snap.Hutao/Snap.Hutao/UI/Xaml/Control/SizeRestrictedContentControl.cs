@@ -7,8 +7,8 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[DependencyProperty("IsWidthRestricted", typeof(bool), true)]
-[DependencyProperty("IsHeightRestricted", typeof(bool), true)]
+[DependencyProperty<bool>("IsWidthRestricted", DefaultValue = true, NotNull = true)]
+[DependencyProperty<bool>("IsHeightRestricted", DefaultValue = true, NotNull = true)]
 internal sealed partial class SizeRestrictedContentControl : ContentControl
 {
     private double minContentWidth;

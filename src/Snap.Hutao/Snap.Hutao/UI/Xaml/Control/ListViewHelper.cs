@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("ScrollToTopAssociatedObject", typeof(object), default, nameof(OnScrollToTopAssociatedObjectChanged), IsAttached = true, AttachedType = typeof(ListView))]
+[DependencyProperty<object>("ScrollToTopAssociatedObject", PropertyChangedCallbackName = nameof(OnScrollToTopAssociatedObjectChanged), IsAttached = true, TargetType = typeof(ListView))]
 public sealed partial class ListViewHelper
 {
     private static void OnScrollToTopAssociatedObjectChanged(DependencyObject dp, DependencyPropertyChangedEventArgs args)

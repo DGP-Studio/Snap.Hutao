@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Service.Discord;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IDiscordService))]
+[Service(ServiceLifetime.Singleton, typeof(IDiscordService))]
 internal sealed partial class DiscordService : IDiscordService, IDisposable
 {
     private readonly IInfoBarService infoBarService;

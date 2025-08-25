@@ -8,7 +8,7 @@ using System.Collections.Frozen;
 namespace Snap.Hutao.Service.SpiralAbyss;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ISpiralAbyssRepository))]
+[Service(ServiceLifetime.Singleton, typeof(ISpiralAbyssRepository))]
 internal sealed partial class SpiralAbyssRepository : ISpiralAbyssRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

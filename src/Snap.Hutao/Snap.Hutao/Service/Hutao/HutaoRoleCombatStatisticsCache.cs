@@ -10,7 +10,7 @@ using AvatarView = Snap.Hutao.ViewModel.Complex.AvatarView;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IHutaoRoleCombatStatisticsCache))]
+[Service(ServiceLifetime.Singleton, typeof(IHutaoRoleCombatStatisticsCache))]
 internal sealed partial class HutaoRoleCombatStatisticsCache : StatisticsCache, IHutaoRoleCombatStatisticsCache
 {
     private readonly IServiceProvider serviceProvider;
