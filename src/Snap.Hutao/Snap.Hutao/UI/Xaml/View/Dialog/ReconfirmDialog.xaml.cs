@@ -8,7 +8,7 @@ using Snap.Hutao.Factory.ContentDialog;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("Text", typeof(string), default(string), nameof(OnTextChanged))]
+[DependencyProperty<string>("Text", PropertyChangedCallbackName = nameof(OnTextChanged))]
 internal sealed partial class ReconfirmDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

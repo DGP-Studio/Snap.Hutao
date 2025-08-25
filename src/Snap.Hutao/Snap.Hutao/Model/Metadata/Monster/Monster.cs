@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
 
-internal sealed partial class Monster : IAdvancedCollectionViewItem
+internal sealed partial class Monster : IPropertyValuesProvider
 {
     internal const uint MaxLevel = 110U;
 

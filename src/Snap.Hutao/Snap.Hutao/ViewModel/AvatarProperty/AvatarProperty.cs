@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Web.Endpoint.Hutao;
@@ -11,7 +12,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
 {
-    private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(FightProperty.FIGHT_PROP_SKILL_CD_MINUS_RATIO, StaticResourcesEndpoints.StaticRaw("Property", "UI_Icon_CDReduce.png").ToUri()),
         KeyValuePair.Create(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, StaticResourcesEndpoints.StaticRaw("Property", "UI_Icon_ChargeEfficiency.png").ToUri()),

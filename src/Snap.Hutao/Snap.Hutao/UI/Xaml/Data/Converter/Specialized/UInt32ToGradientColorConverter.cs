@@ -6,13 +6,10 @@ using Windows.UI;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
-/// <summary>
-/// UInt32 转 色阶颜色
-/// </summary>
-[DependencyProperty("MaximumValue", typeof(int), 6)]
-[DependencyProperty("MinimumValue", typeof(int), 1)]
-[DependencyProperty("Maximum", typeof(Color))]
-[DependencyProperty("Minimum", typeof(Color))]
+[DependencyProperty<int>("MaximumValue", DefaultValue = 6, NotNull = true)]
+[DependencyProperty<int>("MinimumValue", DefaultValue = 1, NotNull = true)]
+[DependencyProperty<Color>("Maximum", NotNull = true)]
+[DependencyProperty<Color>("Minimum", NotNull = true)]
 internal sealed partial class UInt32ToGradientColorConverter : DependencyValueConverter<uint, Color>
 {
     public UInt32ToGradientColorConverter()

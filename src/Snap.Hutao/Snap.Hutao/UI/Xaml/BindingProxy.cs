@@ -5,5 +5,5 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml;
 
-[DependencyProperty("DataContext", typeof(object))]
+[DependencyProperty<object>("DataContext")]
 internal sealed partial class BindingProxy : DependencyObject;

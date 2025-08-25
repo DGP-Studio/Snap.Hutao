@@ -6,10 +6,11 @@ using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-internal sealed partial class DataEntryView : IAdvancedCollectionViewItem
+internal sealed partial class DataEntryView : IPropertyValuesProvider
 {
     private DataEntryView(bool singlePlayer, HardChallengeDataEntry dataEntry, HardChallengeMetadataContext context)
     {
@@ -18,7 +19,7 @@ internal sealed partial class DataEntryView : IAdvancedCollectionViewItem
             : SH.ViewModelHardChalllengeDataEntryMultiPlayerName;
         Debug.Assert(dataEntry.HasData);
         DifficultyIcon = HardChallengeDifficultyIconConverter.Convert(dataEntry.Best.Icon.Split(',').Last());
-        Difficulty = dataEntry.Best.Difficulty.GetLocalizedDescription();
+        Difficulty = dataEntry.Best.Difficulty.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture);
         FormattedSeconds = SH.FormatViewModelHardChallengeSeconds(dataEntry.Best.Seconds);
 
         Challenges = dataEntry.Challenges.SelectAsArray(ChallengeView.Create, context);

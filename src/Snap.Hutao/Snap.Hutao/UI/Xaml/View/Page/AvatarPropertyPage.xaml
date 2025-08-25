@@ -573,11 +573,7 @@
                                         DisplayMemberPath="Name"
                                         ItemsSource="{Binding SortDescriptionKinds}"
                                         SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
-                                        Style="{ThemeResource DefaultComboBoxStyle}">
-                                        <mxi:Interaction.Behaviors>
-                                            <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                                        </mxi:Interaction.Behaviors>
-                                    </ComboBox>
+                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
                                 </shuxc:SizeRestrictedContentControl>
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
@@ -605,10 +601,18 @@
                                 Text="{Binding SearchData.FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>
-                        <AppBarButton
-                            Command="{Binding ExportToTextCommand}"
-                            Icon="{shuxm:FontIcon Glyph=&#xEDE1;}"
-                            Label="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportToTextLabel}"/>
+                        <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xEDE1;}" Label="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportToTextLabel}">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Command="{Binding ExportToTextCommand}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportToTextLabel}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding ExportAllToTextCommand}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportAllToTextLabel}"/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                         <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE8EF;}" Label="{shuxm:ResourceString Name=ViewPageCultivateCalculate}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout>

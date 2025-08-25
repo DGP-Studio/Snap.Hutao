@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<DailyNotePage>
 {

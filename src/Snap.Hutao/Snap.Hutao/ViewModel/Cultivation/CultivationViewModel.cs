@@ -26,7 +26,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 [SuppressMessage("", "CA1001")]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly WeakReference<ItemsRepeater> weakItemsRepeater = new(default!);

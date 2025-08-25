@@ -39,7 +39,7 @@ internal static class DependencyInjection
             // Hutao extensions
             .AddJsonOptions()
             .AddDatabase()
-            .AddInjections()
+            .AddServices()
             .AddResponseValidation()
             .AddConfiguredHttpClients()
 

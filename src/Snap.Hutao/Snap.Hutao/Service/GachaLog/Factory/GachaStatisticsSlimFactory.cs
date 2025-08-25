@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaStatisticsSlimFactory))]
+[Service(ServiceLifetime.Scoped, typeof(IGachaStatisticsSlimFactory))]
 internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
 {
     private readonly ITaskContext taskContext;

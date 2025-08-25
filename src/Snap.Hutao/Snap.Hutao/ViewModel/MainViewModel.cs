@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
 {
     private readonly WeakReference<Image> weakBackgroundImagePresenter = new(default!);

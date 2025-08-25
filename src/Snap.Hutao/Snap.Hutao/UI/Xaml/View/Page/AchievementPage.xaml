@@ -102,6 +102,23 @@
                             CommandParameter="{Binding}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8C8;}"
                             Text="{Binding Inner.Id}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem
+                            Command="{Binding Path=DataContext.SearchInMiyousheCommand, Source={StaticResource BindingProxy}}"
+                            CommandParameter="{Binding}"
+                            Text="{shuxm:ResourceString Name=ViewModelAchievementSearchInMiyoushe}">
+                            <MenuFlyoutItem.Icon>
+                                <ImageIcon Source="ms-appx:///Resource/ThirdParty/miyoushe128.png"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{Binding Path=DataContext.SearchInHoYoLABCommand, Source={StaticResource BindingProxy}}"
+                            CommandParameter="{Binding}"
+                            Text="{shuxm:ResourceString Name=ViewModelAchievementSearchInHoYoLAB}">
+                            <MenuFlyoutItem.Icon>
+                                <ImageIcon Source="ms-appx:///Resource/ThirdParty/hoyolab128.png"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Border.ContextFlyout>
                 <Grid MinHeight="48" Padding="8">
@@ -303,11 +320,7 @@
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Archives, Mode=OneWay}"
                                     SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
-                                    Style="{ThemeResource CommandBarComboBoxStyle}">
-                                    <mxi:Interaction.Behaviors>
-                                        <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                                    </mxi:Interaction.Behaviors>
-                                </ComboBox>
+                                    Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
                         <AppBarButton

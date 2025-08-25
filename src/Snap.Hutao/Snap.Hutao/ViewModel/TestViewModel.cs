@@ -38,7 +38,7 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;

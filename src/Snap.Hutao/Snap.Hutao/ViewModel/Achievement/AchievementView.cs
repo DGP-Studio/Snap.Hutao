@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed partial class AchievementView : ObservableObject,
     IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     // ReSharper disable once ReplaceWithFieldKeyword
     private bool isChecked;

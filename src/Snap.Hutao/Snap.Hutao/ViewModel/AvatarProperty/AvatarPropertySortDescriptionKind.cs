@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-[Localization]
+[ExtendedEnum]
 internal enum AvatarPropertySortDescriptionKind
 {
     [LocalizationKey(nameof(SH.ViewModelAvatarPropertySortDescriptionKindDefault))]

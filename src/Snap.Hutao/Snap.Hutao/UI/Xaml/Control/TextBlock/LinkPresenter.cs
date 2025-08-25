@@ -5,8 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
-[DependencyProperty("LinkName", typeof(string), default(string))]
-[DependencyProperty("LinkDescription", typeof(string), default(string))]
+[DependencyProperty<string>("LinkName")]
+[DependencyProperty<string>("LinkDescription")]
 internal sealed partial class LinkPresenter : ContentControl
 {
     public LinkPresenter()

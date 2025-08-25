@@ -10,7 +10,7 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-[DependencyProperty("SourceProvider", typeof(IJSBridgeUriSourceProvider))]
+[DependencyProperty<IJSBridgeUriSourceProvider>("SourceProvider")]
 internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     private MiHoYoJSBridge? jsBridge;
@@ -38,7 +38,7 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
         }
 
         await serviceProvider.GetRequiredService<ITaskContext>().SwitchToMainThreadAsync();
-        string source = SourceProvider.GetSource(userAndUid);
+        string? source = SourceProvider.GetSource(userAndUid);
         if (!string.IsNullOrEmpty(source))
         {
             CoreWebView2Navigator navigator = new(CoreWebView2);

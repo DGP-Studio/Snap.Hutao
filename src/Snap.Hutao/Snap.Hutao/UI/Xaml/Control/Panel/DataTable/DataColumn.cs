@@ -6,8 +6,8 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel.DataTable;
 
-[DependencyProperty("CanResize", typeof(bool))]
-[DependencyProperty("DesiredWidth", typeof(GridLength), default, nameof(OnDesiredWidthPropertyChanged), RawDefaultValue = "GridLength.Auto")]
+[DependencyProperty<bool>("CanResize", NotNull = true)]
+[DependencyProperty<GridLength>("DesiredWidth", PropertyChangedCallbackName = nameof(OnDesiredWidthPropertyChanged), CreateDefaultValueCallbackName = nameof(CreateDesiredWidthDefaultValue), NotNull = true)]
 internal sealed partial class DataColumn : ContentControl
 {
     public DataColumn()
@@ -18,6 +18,11 @@ internal sealed partial class DataColumn : ContentControl
     internal double MaxChildDesiredWidth { get; set; }
 
     internal GridLength CurrentWidth { get; private set; }
+
+    private static object CreateDesiredWidthDefaultValue()
+    {
+        return GridLength.Auto;
+    }
 
     private static void OnDesiredWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

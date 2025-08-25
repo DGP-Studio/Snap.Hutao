@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.RoleCombat;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IRoleCombatService))]
+[Service(ServiceLifetime.Scoped, typeof(IRoleCombatService))]
 internal sealed partial class RoleCombatService : IRoleCombatService
 {
     private readonly IRoleCombatRepository roleCombatRepository;

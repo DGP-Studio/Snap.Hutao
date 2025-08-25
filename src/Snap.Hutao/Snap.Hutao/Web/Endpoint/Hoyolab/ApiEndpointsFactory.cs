@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IApiEndpointsFactory))]
+[Service(ServiceLifetime.Singleton, typeof(IApiEndpointsFactory))]
 internal sealed partial class ApiEndpointsFactory : IApiEndpointsFactory
 {
     private readonly IServiceProvider serviceProvider;

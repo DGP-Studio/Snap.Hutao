@@ -192,17 +192,17 @@
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    IsEnabled="{Binding LaunchOptions.IsIslandEnabled}">
+                    IsEnabled="{Binding LaunchOptions.IsIslandEnabled.Value}">
                     <StackPanel Orientation="Horizontal" Spacing="4">
                         <ToggleSplitButton
                             Padding="4,2"
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
-                            IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                            IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value, Mode=TwoWay}"
                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
                             <ToggleSplitButton.Flyout>
                                 <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
-                                    <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
+                                    <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <Slider
                                                 Width="180"
@@ -212,7 +212,7 @@
                                                 Maximum="720"
                                                 Minimum="-1"
                                                 SmallChange="1"
-                                                Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                                Value="{Binding LaunchOptions.TargetFps.Value, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </ContentControl>
 
@@ -227,7 +227,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{Binding LaunchOptions.TargetFps, Converter={StaticResource FrameRateStringConverter}}"/>
+                                    Text="{Binding LaunchOptions.TargetFps.Value, Converter={StaticResource FrameRateStringConverter}}"/>
                             </StackPanel>
                         </ToggleSplitButton>
 
@@ -249,11 +249,11 @@
                                                 Maximum="100"
                                                 Minimum="0"
                                                 SmallChange="1"
-                                                Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                                Value="{Binding LaunchOptions.TargetFov.Value, Mode=TwoWay}"/>
                                             <ToggleButton
                                                 Padding="8"
                                                 VerticalAlignment="Stretch"
-                                                IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
+                                                IsChecked="{Binding LaunchOptions.FixLowFovScene.Value, Mode=TwoWay}"
                                                 Style="{ThemeResource DefaultToggleButtonStyle}"
                                                 ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}">
                                                 <FontIcon FontSize="16" Glyph="&#xF19D;"/>
@@ -261,7 +261,7 @@
                                             <ToggleButton
                                                 Padding="8"
                                                 VerticalAlignment="Stretch"
-                                                IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                                IsChecked="{Binding LaunchOptions.DisableFog.Value, Mode=TwoWay}"
                                                 Style="{ThemeResource DefaultToggleButtonStyle}"
                                                 ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
                                                 <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
@@ -278,7 +278,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{Binding LaunchOptions.TargetFov}"/>
+                                    Text="{Binding LaunchOptions.TargetFov.Value}"/>
                             </StackPanel>
                         </ToggleSplitButton>
 
@@ -287,7 +287,7 @@
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                            IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress.Value, Mode=TwoWay}"
                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
                             <Grid>
                                 <FontIcon FontSize="16" Glyph="&#xE805;"/>
@@ -299,7 +299,7 @@
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
+                            IsChecked="{Binding LaunchOptions.HideQuestBanner.Value, Mode=TwoWay}"
                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
                             <Grid>
                                 <FontIcon FontSize="16" Glyph="&#xE81E;"/>
@@ -311,7 +311,7 @@
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
+                            IsChecked="{Binding LaunchOptions.DisableEventCameraMove.Value, Mode=TwoWay}"
                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
                             <Grid>
                                 <FontIcon FontSize="16" Glyph="&#xE89E;"/>
@@ -323,7 +323,7 @@
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
+                            IsChecked="{Binding LaunchOptions.DisableShowDamageText.Value, Mode=TwoWay}"
                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}">
                             <Grid>
                                 <TextBlock

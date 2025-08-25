@@ -15,7 +15,7 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed partial class GameAccount : ObservableObject,
     IAppDbEntity,
     IReorderable,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

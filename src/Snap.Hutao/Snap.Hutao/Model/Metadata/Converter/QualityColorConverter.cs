@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Data.Converter;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal sealed partial class QualityColorConverter : ValueConverter<QualityType, Color>
 {
-    private static readonly FrozenDictionary<string, QualityType> LocalizedNameToQualityType = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, QualityType> LocalizedNameToQualityType = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(SH.ModelIntrinsicItemQualityWhite, QualityType.QUALITY_WHITE),
         KeyValuePair.Create(SH.ModelIntrinsicItemQualityGreen, QualityType.QUALITY_GREEN),
@@ -22,7 +23,7 @@ internal sealed partial class QualityColorConverter : ValueConverter<QualityType
         KeyValuePair.Create(SH.ModelIntrinsicItemQualityRed, QualityType.QUALITY_ORANGE_SP),
     ]);
 
-    private static readonly FrozenDictionary<QualityType, Color> QualityTypeToColor = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<QualityType, Color> QualityTypeToColor = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, KnownColors.White),
         KeyValuePair.Create(QualityType.QUALITY_GREEN, KnownColors.Green),

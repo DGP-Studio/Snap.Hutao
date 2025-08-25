@@ -21,7 +21,7 @@ internal sealed class FetterInfo
     public required uint BirthDay { get; init; }
 
     [JsonIgnore]
-    public string BirthFormatted { get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay); }
+    public string BirthFormatted { get => SH.FormatModelMetadataFetterInfoBirthday(BirthMonth, BirthDay); }
 
     public required string VisionBefore { get; init; }
 

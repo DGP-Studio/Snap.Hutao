@@ -50,7 +50,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
         {
             try
             {
@@ -61,7 +61,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             {
                 context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
                 context.Result.ErrorMessage = ex.Message;
-                context.Process.Kill(); // The Unlocker can't unlock the process
+                context.Process.Kill();
             }
         }
         else

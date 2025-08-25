@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
 {

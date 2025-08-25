@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using System.Collections.Immutable;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -41,28 +42,28 @@ internal static class AvatarFilter
                 case SearchTokenKind.AssociationType:
                     if (IntrinsicFrozen.AssociationTypes.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.WeaponType:
                     if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatar.Weapon.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatar.Weapon.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.ItemQuality:
                     if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatar.Quality.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatar.Quality.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.BodyType:
                     if (IntrinsicFrozen.BodyTypes.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatar.Body.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatar.Body.GetLocalizedDescriptionOrDefault(SH.ResourceManager)));
                     }
 
                     break;

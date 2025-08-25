@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel.User;
 
 internal sealed partial class User : IEntityAccess<EntityUser>,
     ISelectable,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     private readonly IServiceProvider serviceProvider;
 

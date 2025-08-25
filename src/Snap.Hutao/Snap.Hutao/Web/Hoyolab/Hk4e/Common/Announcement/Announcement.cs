@@ -22,12 +22,12 @@ internal sealed class Announcement : AnnouncementContent
             if (StartTime > now)
             {
                 TimeSpan span = StartTime - now;
-                return span.TotalDays <= 1 ? SH.FormatWebAnnouncementTimeHoursBeginFormat((int)span.TotalHours) : SH.FormatWebAnnouncementTimeDaysBeginFormat((int)span.TotalDays);
+                return span.TotalDays <= 1 ? SH.FormatWebAnnouncementTimeHoursBegin((int)span.TotalHours) : SH.FormatWebAnnouncementTimeDaysBegin((int)span.TotalDays);
             }
             else
             {
                 TimeSpan span = EndTime - now;
-                return span.TotalDays <= 1 ? SH.FormatWebAnnouncementTimeHoursEndFormat((int)span.TotalHours) : SH.FormatWebAnnouncementTimeDaysEndFormat((int)span.TotalDays);
+                return span.TotalDays <= 1 ? SH.FormatWebAnnouncementTimeHoursEnd((int)span.TotalHours) : SH.FormatWebAnnouncementTimeDaysEnd((int)span.TotalDays);
             }
         }
     }

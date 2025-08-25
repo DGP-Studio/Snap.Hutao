@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.View.Page;
 namespace Snap.Hutao.Service.Navigation;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(INavigationService))]
+[Service(ServiceLifetime.Singleton, typeof(INavigationService))]
 internal sealed partial class NavigationService : INavigationService
 {
     private readonly ITaskContext taskContext;
@@ -190,7 +190,11 @@ internal sealed partial class NavigationService : INavigationService
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        NavigationViewItem? item = args.InvokedItemContainer as NavigationViewItem;
+        if (args.InvokedItemContainer is not NavigationViewItem item)
+        {
+            return;
+        }
+
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
             : NavigationViewItemHelper.GetNavigateTo(item);

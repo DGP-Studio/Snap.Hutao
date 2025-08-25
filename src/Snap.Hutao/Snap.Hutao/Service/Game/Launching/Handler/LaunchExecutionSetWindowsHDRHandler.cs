@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionSetWindowsHDRHandler : ILaunchExecutionDele
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Options.IsWindowsHDREnabled)
+        if (context.Options.IsWindowsHDREnabled.Value)
         {
             context.Logger.LogInformation("Set Windows HDR");
             RegistryInterop.SetWindowsHDR(context.TargetScheme.IsOversea);

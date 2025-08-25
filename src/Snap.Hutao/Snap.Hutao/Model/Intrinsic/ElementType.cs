@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-[Localization]
+[ExtendedEnum]
 internal enum ElementType
 {
     None = 0, // 无元素

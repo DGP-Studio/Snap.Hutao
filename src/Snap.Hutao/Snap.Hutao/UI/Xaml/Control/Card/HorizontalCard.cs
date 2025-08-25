@@ -5,8 +5,8 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Control.Card;
 
-[DependencyProperty("Left", typeof(UIElement), default!)]
-[DependencyProperty("Right", typeof(UIElement), default!)]
+[DependencyProperty<UIElement>("Left")]
+[DependencyProperty<UIElement>("Right")]
 internal sealed partial class HorizontalCard : Microsoft.UI.Xaml.Controls.Control
 {
     public HorizontalCard()

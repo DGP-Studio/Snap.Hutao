@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionViewItem
+internal sealed partial class CultivateEntryView : Item, IPropertyValuesProvider
 {
     private CultivateEntryView(CultivateEntry entry, Item item, ImmutableArray<CultivateItemView> items)
     {

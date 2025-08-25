@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hutao.RoleCombat;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Scoped, typeof(IHutaoRoleCombatService))]
+[Service(ServiceLifetime.Scoped, typeof(IHutaoRoleCombatService))]
 internal sealed partial class HutaoRoleCombatService : ObjectCacheService, IHutaoRoleCombatService
 {
     public override string TypeName { get; } = nameof(HutaoRoleCombatService);

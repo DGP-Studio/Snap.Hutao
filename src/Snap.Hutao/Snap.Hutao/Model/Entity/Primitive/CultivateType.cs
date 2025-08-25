@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Entity.Primitive;
 
-[Localization]
+[ExtendedEnum]
 internal enum CultivateType
 {
     None,

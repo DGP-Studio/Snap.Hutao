@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvd="using:Snap.Hutao.UI.Xaml.View.Dialog"
     Title="{shuxm:ResourceString Name=ViewDialogExportUIGFTitle}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
@@ -16,13 +17,18 @@
     <Grid>
         <ScrollViewer MaxHeight="480">
             <cwc:HeaderedContentControl Header="{shuxm:ResourceString Name=ViewDialogExportUIGFSubtitle}">
-                <ItemsControl Margin="0,4,0,0" ItemsSource="{x:Bind Selections}">
+                <ListView
+                    x:Name="SelectionListView"
+                    Margin="0,4,0,0"
+                    ItemsSource="{x:Bind ItemsSource}"
+                    SelectionChanged="OnSelectionChanged"
+                    SelectionMode="Multiple">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox Content="{Binding Uid}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                        <DataTemplate x:DataType="shuxvd:UIGFUidSelection">
+                            <TextBlock Text="{Binding Uid}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </ListView>
             </cwc:HeaderedContentControl>
         </ScrollViewer>
     </Grid>

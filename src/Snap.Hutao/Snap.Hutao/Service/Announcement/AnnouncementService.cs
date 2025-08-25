@@ -15,7 +15,7 @@ using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announce
 namespace Snap.Hutao.Service.Announcement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
+[Service(ServiceLifetime.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private readonly IServiceScopeFactory serviceScopeFactory;

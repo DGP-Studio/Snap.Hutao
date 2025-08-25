@@ -11,11 +11,12 @@ using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.ViewModel.Overlay;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowMouseWheelHandler,
@@ -70,7 +71,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public FrameworkElement TitleBarCaptionAccess { get => RootBorder; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public bool PreventClose { get; set; } = true;
 

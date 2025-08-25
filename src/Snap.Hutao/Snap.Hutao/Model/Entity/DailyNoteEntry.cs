@@ -63,7 +63,7 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
         {
             return RefreshTime == default
                 ? SH.ModelEntityDailyNoteNotRefreshed
-                : SH.FormatModelEntityDailyNoteRefreshTimeFormat(RefreshTime.ToLocalTime());
+                : SH.FormatModelEntityDailyNoteRefreshTime(RefreshTime.ToLocalTime());
         }
     }
 

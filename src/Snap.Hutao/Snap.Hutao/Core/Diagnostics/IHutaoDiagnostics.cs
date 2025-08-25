@@ -11,4 +11,6 @@ public interface IHutaoDiagnostics
     ApplicationDataContainer LocalSetting { get; }
 
     ValueTask<int> ExecuteSqlAsync(string sql);
+
+    ApplicationDataCompositeValue MakeApplicationDataCompositeValue(params string[] keys);
 }

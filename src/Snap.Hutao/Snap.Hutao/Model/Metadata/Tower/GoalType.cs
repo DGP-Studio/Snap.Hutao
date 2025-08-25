@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
-[Localization]
+[ExtendedEnum]
 internal enum GoalType
 {
     [LocalizationKey(nameof(SH.ModelMetadataTowerGoalTypeDefeatMonsters))]

@@ -8,7 +8,7 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
-[Injection(InjectAs.Singleton, typeof(IContentDialogQueue))]
+[Service(ServiceLifetime.Singleton, typeof(IContentDialogQueue))]
 [SuppressMessage("", "SH003")]
 [SuppressMessage("", "SH100")]
 [SuppressMessage("", "RS0030")]

@@ -8,7 +8,7 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IGameRepository))]
 internal sealed partial class GameRepository : IGameRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

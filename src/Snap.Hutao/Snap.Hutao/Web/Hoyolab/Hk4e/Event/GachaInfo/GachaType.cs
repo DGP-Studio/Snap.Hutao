@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
-[Localization]
+[ExtendedEnum]
 internal enum GachaType
 {
     [LocalizationKey(nameof(SH.WebGachaConfigTypeNoviceWish))]

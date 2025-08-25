@@ -6,9 +6,9 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
-[DependencyProperty("MinItemWidth", typeof(double))]
-[DependencyProperty("ColumnSpacing", typeof(double))]
-[DependencyProperty("RowSpacing", typeof(double))]
+[DependencyProperty<double>("MinItemWidth", NotNull = true)]
+[DependencyProperty<double>("ColumnSpacing", NotNull = true)]
+[DependencyProperty<double>("RowSpacing", NotNull = true)]
 internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
 {
     private int columnCount;

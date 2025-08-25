@@ -13,7 +13,7 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.Service.SignIn;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ISignInService))]
+[Service(ServiceLifetime.Singleton, typeof(ISignInService))]
 internal sealed partial class SignInService : ISignInService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
@@ -45,7 +45,7 @@ internal sealed partial class SignInService : ISignInService
                     message = $"RiskCode: {result?.RiskCode}";
                 }
 
-                infoBarService.Error(SH.FormatServiceSignInClaimRewardFailedFormat(message));
+                infoBarService.Error(SH.FormatServiceSignInClaimRewardFailed(message));
                 await FallbackToWebView2SignInAsync().ConfigureAwait(false);
                 return false;
             }
@@ -85,7 +85,7 @@ internal sealed partial class SignInService : ISignInService
                     message = $"RiskCode: {signInResult?.RiskCode}";
                 }
 
-                infoBarService.Error(SH.FormatServiceReSignInClaimRewardFailedFormat(message));
+                infoBarService.Error(SH.FormatServiceReSignInClaimRewardFailed(message));
                 await FallbackToWebView2SignInAsync().ConfigureAwait(false);
                 return false;
             }

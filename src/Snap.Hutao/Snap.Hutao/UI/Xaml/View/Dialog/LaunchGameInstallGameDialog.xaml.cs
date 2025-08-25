@@ -19,17 +19,17 @@ using System.IO;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[DependencyProperty("Chinese", typeof(bool))]
-[DependencyProperty("English", typeof(bool))]
-[DependencyProperty("Japanese", typeof(bool))]
-[DependencyProperty("Korean", typeof(bool))]
-[DependencyProperty("KnownSchemes", typeof(IList<LaunchScheme>))]
-[DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
-[DependencyProperty("GameDirectory", typeof(string), default(string), nameof(OnGameDirectoryChanged))]
-[DependencyProperty("IsParallelSupported", typeof(bool), true)]
-[DependencyProperty("IsBetaGameInstallEnabled", typeof(bool), false)]
-[DependencyProperty("IsBetaGameInstall", typeof(bool), false, nameof(OnIsBetaGameInstallChanged))]
-[DependencyProperty("BetaBuildBodyFilePath", typeof(string))]
+[DependencyProperty<bool>("Chinese", NotNull = true)]
+[DependencyProperty<bool>("English", NotNull = true)]
+[DependencyProperty<bool>("Japanese", NotNull = true)]
+[DependencyProperty<bool>("Korean", NotNull = true)]
+[DependencyProperty<IList<LaunchScheme>>("KnownSchemes")]
+[DependencyProperty<LaunchScheme>("SelectedScheme")]
+[DependencyProperty<string>("GameDirectory", PropertyChangedCallbackName = nameof(OnGameDirectoryChanged))]
+[DependencyProperty<bool>("IsParallelSupported", DefaultValue = true, NotNull = true)]
+[DependencyProperty<bool>("IsBetaGameInstallEnabled", DefaultValue = false, NotNull = true)]
+[DependencyProperty<bool>("IsBetaGameInstall", DefaultValue = false, PropertyChangedCallbackName = nameof(OnIsBetaGameInstallChanged), NotNull = true)]
+[DependencyProperty<string>("BetaBuildBodyFilePath")]
 internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;

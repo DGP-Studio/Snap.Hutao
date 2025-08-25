@@ -7,9 +7,9 @@ using System.Collections;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("Skills", typeof(IList), null, nameof(OnSkillsChanged))]
-[DependencyProperty("Selected", typeof(object))]
-[DependencyProperty("ItemTemplate", typeof(DataTemplate))]
+[DependencyProperty<IList>("Skills", PropertyChangedCallbackName = nameof(OnSkillsChanged))]
+[DependencyProperty<object>("Selected")]
+[DependencyProperty<DataTemplate>("ItemTemplate")]
 internal sealed partial class SkillPivot : UserControl
 {
     public SkillPivot()

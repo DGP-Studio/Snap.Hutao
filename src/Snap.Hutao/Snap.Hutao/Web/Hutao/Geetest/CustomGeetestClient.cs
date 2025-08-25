@@ -29,7 +29,7 @@ internal sealed partial class CustomGeetestClient
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
-        string template = appOptions.GeetestCustomCompositeUrl;
+        string template = appOptions.GeetestCustomCompositeUrl.Value;
 
         try
         {
@@ -37,7 +37,7 @@ internal sealed partial class CustomGeetestClient
             if (ImpossibleHosts.Contains(uriBuilder.Host))
             {
                 await taskContext.SwitchToMainThreadAsync();
-                appOptions.GeetestCustomCompositeUrl = string.Empty;
+                appOptions.GeetestCustomCompositeUrl.Value = string.Empty;
                 return GeetestResponse.InternalFailure;
             }
         }

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-[DependencyProperty("InfoBars", typeof(ObservableCollection<InfoBarOptions>))]
+[DependencyProperty<ObservableCollection<InfoBarOptions>>("InfoBars")]
 internal sealed partial class InfoBarView : UserControl
 {
     public InfoBarView()
@@ -28,7 +28,10 @@ internal sealed partial class InfoBarView : UserControl
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        InfoBars.CollectionChanged -= OnInfoBarsCollectionChanged;
+        if (InfoBars is not null)
+        {
+            InfoBars.CollectionChanged -= OnInfoBarsCollectionChanged;
+        }
     }
 
     private void OnInfoBarsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
@@ -38,7 +41,12 @@ internal sealed partial class InfoBarView : UserControl
         [SuppressMessage("", "SH003")]
         async Task HandleInfoBarsCollectionChangedAsync(NotifyCollectionChangedEventArgs args)
         {
-            if (InfoBars.Count > 0)
+            if (InfoBars is not { } infoBars)
+            {
+                return;
+            }
+
+            if (infoBars.Count > 0)
             {
                 if (VisibilityRoot is not null)
                 {
@@ -69,13 +77,13 @@ internal sealed partial class InfoBarView : UserControl
                 }
 
                 // After adding, InfoBars.Count is not 0, so we skip the following code
-                if (InfoBars.Count > 0)
+                if (infoBars.Count > 0)
                 {
                     return;
                 }
             }
 
-            if (InfoBars.Count is 0)
+            if (infoBars.Count is 0)
             {
                 if (InfoBarPanelTransitionHelper is not null)
                 {
@@ -117,7 +125,7 @@ internal sealed partial class InfoBarView : UserControl
     {
         try
         {
-            InfoBars.Remove((InfoBarOptions)sender.DataContext);
+            InfoBars?.Remove((InfoBarOptions)sender.DataContext);
         }
         catch (COMException)
         {
@@ -134,9 +142,14 @@ internal sealed partial class InfoBarView : UserControl
         {
             try
             {
-                while (InfoBars.Count > 0)
+                if (InfoBars is not { } infoBars)
                 {
-                    InfoBars.RemoveLast();
+                    return;
+                }
+
+                while (infoBars.Count > 0)
+                {
+                    infoBars.RemoveLast();
                     await Task.Delay(50).ConfigureAwait(true);
                 }
             }

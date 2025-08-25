@@ -6,7 +6,7 @@ using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[Injection(InjectAs.Singleton, typeof(ICurrentXamlWindowReference), Key = typeof(CompactWebView2Window))]
+[Service(ServiceLifetime.Singleton, typeof(ICurrentXamlWindowReference), Key = typeof(CompactWebView2Window))]
 internal sealed class CurrentCompactWebView2WindowReference : ICurrentXamlWindowReference
 {
     private readonly WeakReference<CompactWebView2Window> reference = new(default!);

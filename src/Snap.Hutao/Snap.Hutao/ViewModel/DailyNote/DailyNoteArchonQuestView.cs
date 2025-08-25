@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
+using System.Globalization;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -18,7 +19,7 @@ internal sealed class DailyNoteArchonQuestView
         if (dailyNote is { ArchonQuestProgress.List: [{ } quest, ..] })
         {
             ProgressValue = Ids.IndexOf(quest.Id);
-            FormattedProgress = quest.Status.GetLocalizedDescription();
+            FormattedProgress = quest.Status.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture);
             FormattedChapter = $"{quest.ChapterNum} {quest.ChapterTitle}";
         }
         else
@@ -33,7 +34,7 @@ internal sealed class DailyNoteArchonQuestView
 
     public int ProgressValue { get; }
 
-    public string FormattedProgress { get; }
+    public string? FormattedProgress { get; }
 
     public string FormattedChapter { get; }
 

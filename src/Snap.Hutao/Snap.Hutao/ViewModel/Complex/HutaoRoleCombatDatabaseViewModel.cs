@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Complex;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoRoleCombatStatisticsCache hutaoCache;

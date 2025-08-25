@@ -19,7 +19,7 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;

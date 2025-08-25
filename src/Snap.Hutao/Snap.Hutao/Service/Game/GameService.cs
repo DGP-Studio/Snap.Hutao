@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.Data;
 namespace Snap.Hutao.Service.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameService))]
+[Service(ServiceLifetime.Singleton, typeof(IGameService))]
 internal sealed partial class GameService : IGameService
 {
     private readonly IGameChannelOptionsService gameChannelOptionsService;

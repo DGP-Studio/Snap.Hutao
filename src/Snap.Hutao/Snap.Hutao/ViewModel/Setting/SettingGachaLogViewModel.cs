@@ -17,7 +17,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;

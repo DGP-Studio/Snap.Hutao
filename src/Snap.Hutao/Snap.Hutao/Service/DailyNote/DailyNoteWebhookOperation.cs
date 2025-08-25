@@ -20,7 +20,7 @@ internal sealed partial class DailyNoteWebhookOperation
 
     public void TryPostDailyNoteToWebhook(PlayerUid playerUid, WebDailyNote dailyNote)
     {
-        string? targetUrl = dailyNoteOptions.WebhookUrl;
+        string? targetUrl = dailyNoteOptions.WebhookUrl.Value;
         if (string.IsNullOrEmpty(targetUrl) || !Uri.TryCreate(targetUrl, UriKind.Absolute, out Uri? targetUri))
         {
             return;

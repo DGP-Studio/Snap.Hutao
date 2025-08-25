@@ -6,8 +6,8 @@ using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("Title", typeof(string))]
-[DependencyProperty("Countdowns", typeof(IList<Countdown>))]
+[DependencyProperty<string>("Title")]
+[DependencyProperty<IList<Countdown>>("Countdowns")]
 internal sealed partial class CountdownCard : UserControl
 {
     public CountdownCard()

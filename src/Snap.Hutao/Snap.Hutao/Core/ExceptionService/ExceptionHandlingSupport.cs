@@ -12,7 +12,7 @@ using System.Runtime.ExceptionServices;
 namespace Snap.Hutao.Core.ExceptionService;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class ExceptionHandlingSupport
 {
     private readonly ILogger<ExceptionHandlingSupport> logger;
@@ -77,7 +77,6 @@ internal sealed partial class ExceptionHandlingSupport
 
         // TODO: Maybe we should close current xaml window because the message pump is still alive.
         // And user can still interact with the UI without any problems.
-
         CapturedException capturedException = new(id, exception);
 
 #pragma warning disable SH007

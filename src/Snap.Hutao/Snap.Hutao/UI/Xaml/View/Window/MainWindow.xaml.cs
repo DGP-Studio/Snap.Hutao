@@ -10,11 +10,12 @@ using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel;
+using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler,
     IXamlWindowExtendContentIntoTitleBar,
@@ -44,7 +45,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
 

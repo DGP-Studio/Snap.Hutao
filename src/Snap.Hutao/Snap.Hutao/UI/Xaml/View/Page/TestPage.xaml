@@ -235,11 +235,7 @@
                             <ComboBox
                                 Header="ServiceType"
                                 ItemsSource="{cwh:EnumValues Type=shwhr:RedeemCodeTargetServiceType}"
-                                SelectedItem="{Binding RedeemCodeGenerateOption.ServiceType, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                                </mxi:Interaction.Behaviors>
-                            </ComboBox>
+                                SelectedItem="{Binding RedeemCodeGenerateOption.ServiceType, Mode=TwoWay}"/>
                         </shuxc:SizeRestrictedContentControl>
                         <NumberBox
                             Header="Value"
@@ -342,11 +338,7 @@
                             <ComboBox
                                 Header="Severity"
                                 ItemsSource="{cwh:EnumValues Type=InfoBarSeverity}"
-                                SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <shuxb:ComboBoxDesktopAcrylicWorkaroundBehavior/>
-                                </mxi:Interaction.Behaviors>
-                            </ComboBox>
+                                SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}"/>
                         </shuxc:SizeRestrictedContentControl>
                         <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload"/>
                     </StackPanel>

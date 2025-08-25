@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 [ConstructorGenerated]
 internal sealed partial class PrivateNamedPipeMessageDispatcher
 {

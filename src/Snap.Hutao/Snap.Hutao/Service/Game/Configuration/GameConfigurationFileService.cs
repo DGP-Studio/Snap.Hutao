@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
-[Injection(InjectAs.Singleton, typeof(IGameConfigurationFileService))]
+[Service(ServiceLifetime.Singleton, typeof(IGameConfigurationFileService))]
 internal sealed class GameConfigurationFileService : IGameConfigurationFileService
 {
     private const string BackupChineseConfigurationFileName = "config_cn.ini";

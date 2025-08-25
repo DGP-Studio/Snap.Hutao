@@ -27,6 +27,10 @@ internal static class SettingKeys
     public const string IsLastWindowCloseBehaviorSet = "IsLastWindowCloseBehaviorSet";
     #endregion
 
+    #region Launching
+    public const string LaunchExecutionArbitraryLibrary = "LaunchExecutionArbitraryLibrary";
+    #endregion
+
     #region Overlay
     public const string OverlaySelectedCatalogId = "OverlaySelectedCatalogId";
     public const string OverlayWindowIsVisible = "OverlayWindowIsVisible2";

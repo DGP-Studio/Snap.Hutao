@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed class JsonHttpContentSerializer : HttpContentSerializer
 {
     public JsonHttpContentSerializer(JsonSerializerOptions jsonSerializerOptions)

@@ -6,5 +6,5 @@ using Microsoft.UI.Xaml.Controls;
 namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("IsTextSelectionEnabled", typeof(bool), false, IsAttached = true, AttachedType = typeof(InfoBar))]
+[DependencyProperty<bool>("IsTextSelectionEnabled", DefaultValue = false, IsAttached = true, TargetType = typeof(InfoBar), NotNull = true)]
 public sealed partial class InfoBarHelper;

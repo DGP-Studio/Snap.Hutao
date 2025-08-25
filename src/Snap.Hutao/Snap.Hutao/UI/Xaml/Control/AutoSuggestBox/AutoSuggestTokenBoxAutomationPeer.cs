@@ -17,7 +17,7 @@ internal sealed partial class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAu
 
     public bool IsReadOnly { get => !OwningAutoSuggestTokenBox.IsEnabled; }
 
-    public string Value { get => OwningAutoSuggestTokenBox.Text; }
+    public string? Value { get => OwningAutoSuggestTokenBox.Text; }
 
     private AutoSuggestTokenBox OwningAutoSuggestTokenBox { get => (AutoSuggestTokenBox)Owner; }
 

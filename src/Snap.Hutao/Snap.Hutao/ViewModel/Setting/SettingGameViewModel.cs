@@ -11,7 +11,7 @@ using System.IO;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {
     private readonly IInfoBarService infoBarService;
@@ -30,7 +30,7 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete game web cache", "SettingGameViewModel.Command"));
 
-        string gamePath = launchOptions.GamePath;
+        string gamePath = launchOptions.GamePath.Value;
 
         if (string.IsNullOrEmpty(gamePath))
         {

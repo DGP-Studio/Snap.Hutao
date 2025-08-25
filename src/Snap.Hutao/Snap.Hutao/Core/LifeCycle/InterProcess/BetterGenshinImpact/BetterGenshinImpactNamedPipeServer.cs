@@ -7,7 +7,7 @@ using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Task;
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class BetterGenshinImpactNamedPipeServer
 {
     private readonly IAutomationCultivationService automationCultivationService;

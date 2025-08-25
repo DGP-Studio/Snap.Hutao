@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.Service.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGachaLogWishCountdownService))]
+[Service(ServiceLifetime.Transient, typeof(IGachaLogWishCountdownService))]
 internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountdownService
 {
     private readonly ITaskContext taskContext;

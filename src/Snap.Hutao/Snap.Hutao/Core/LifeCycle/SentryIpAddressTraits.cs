@@ -7,7 +7,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Core.LifeCycle;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class SentryIpAddressTraits
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;

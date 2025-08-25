@@ -13,7 +13,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 internal static partial class ServiceCollectionExtension
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static partial IServiceCollection AddInjections(this IServiceCollection services);
+    public static partial IServiceCollection AddServices(this IServiceCollection services);
 
     public static IServiceCollection AddJsonOptions(this IServiceCollection services)
     {

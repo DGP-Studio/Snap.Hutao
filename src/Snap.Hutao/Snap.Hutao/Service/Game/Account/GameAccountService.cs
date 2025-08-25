@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 namespace Snap.Hutao.Service.Game.Account;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameAccountService))]
+[Service(ServiceLifetime.Singleton, typeof(IGameAccountService))]
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;

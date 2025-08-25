@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Service.UIGF;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Transient, typeof(IUIGFExportService), Key = UIGFVersion.UIGF41)]
+[Service(ServiceLifetime.Transient, typeof(IUIGFExportService), Key = UIGFVersion.UIGF41)]
 internal sealed partial class UIGF41ExportService : AbstractUIGF40ExportService
 {
     protected override string Version { get; } = "v4.1";

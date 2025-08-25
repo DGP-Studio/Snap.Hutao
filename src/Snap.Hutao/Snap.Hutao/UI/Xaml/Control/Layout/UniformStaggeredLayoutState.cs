@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
 
@@ -181,7 +180,6 @@ internal sealed class UniformStaggeredLayoutState
 
         foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            //Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
             for (int i = 0; i < layout.Count; i++)
             {
                 if (startIndex <= layout[i].Index && layout[i].Index <= endIndex)

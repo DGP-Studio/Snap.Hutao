@@ -7,7 +7,7 @@ using Windows.Storage.Streams;
 namespace Snap.Hutao.Core.DataTransfer;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IClipboardProvider))]
+[Service(ServiceLifetime.Transient, typeof(IClipboardProvider))]
 internal sealed partial class DefaultClipboardSource : IClipboardProvider
 {
     private readonly JsonSerializerOptions options;

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -216,7 +216,7 @@
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
     <value>เขตเวลาเซิร์ฟเวอร์</value>
   </data>
-  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
     <value>ขัดเกลา {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>พุธ/เสาร์/อาทิตย์</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
     <value>{0:f2} ครั้ง</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
     <value>แย่สุด {0} ครั้ง</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
     <value>ดีสุด {0} ครั้ง</value>
   </data>
-  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+  <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
     <value>{0} ครั้ง</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>ห้อง {0}</value>
   </data>
-  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+  <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
     <value>ปรากฏตัว {0} ครั้ง</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
@@ -264,10 +264,10 @@
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
     <value>ยังไม่ได้รีเฟรช</value>
   </data>
-  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+  <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
     <value>รีเฟรชเมื่อ {0:MM.dd HH:mm:ss}</value>
   </data>
-  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+  <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
     <value>ตารางที่ {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
@@ -279,7 +279,7 @@
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>อาวุธ</value>
   </data>
-  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+  <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
     <value>ช่วงที่ {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
@@ -440,7 +440,7 @@
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>นักเดินทาง</value>
   </data>
-  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+  <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
     <value>{0} เดือน {1} วัน</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>ไม่มีข้อมูล</value>
   </data>
-  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelWeaponAffix" xml:space="preserve">
     <value>ขัดเกลาขั้น {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
@@ -699,7 +699,7 @@
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>อัปโหลดบันทึก Abyss สำเร็จ แต่ไม่ใช่การส่งครั้งแรกของรอบปัจจุบัน ไม่สามารถรับสิทธิ์บริการอัปโหลดบันทึกการอธิษฐาน</value>
   </data>
-  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+  <data name="ServiceAchievementImportResult" xml:space="preserve">
     <value>เพิ่ม: {0} ความสำเร็จ | อัปเดต: {1} ความสำเร็จ | ลบ: {2} ความสำเร็จ</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
@@ -1077,13 +1077,13 @@
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>กำลังตรวจสอบความสมบูรณ์ของเกม</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
     <value>สำรองข้อมูล: {0}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
     <value>เปลี่ยนชื่อ: {0} เป็น: {1}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
     <value>แทนที่: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
@@ -1140,13 +1140,13 @@
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>การดำเนินการทรัพยากรเกมล้มเหลว</value>
   </data>
-  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
     <value>การลงชื่อเข้าใช้ชดเชยล้มเหลว, {0}</value>
   </data>
-  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceReSignInSuccessReward" xml:space="preserve">
     <value>การลงชื่อเข้าใช้ชดเชยสำเร็จ, {0}×{1}</value>
   </data>
-  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>การเช็คอินล้มเหลว, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
@@ -1158,7 +1158,7 @@
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
     <value>การตรวจสอบสิทธิ์ล้มเหลว โปรดไปที่หน้าเช็คอิน Genshin Impact ของ{米游社} เพื่อรับรางวัลด้วยตนเอง</value>
   </data>
-  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceSignInSuccessReward" xml:space="preserve">
     <value>เช็คอินสำเร็จ, {0} × {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
@@ -1564,7 +1564,7 @@
     <value>กำลังแปลงไคลเอนต์เกม</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.>สแกนคิวอาร์โค้ด</value>
+    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.&gt;สแกนคิวอาร์โค้ด</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>เพื่อให้แน่ใจว่าผู้เปิดใช้งานฟังก์ชันมีความสามารถในการตัดสินใจอย่างอิสระ เราจะอัปเดตเงื่อนไขการเปิดใช้งานฟังก์ชันเหล่านี้เป็นระยะ หากคุณเป็นผู้สร้างเนื้อหา โปรดอย่าแบ่งปันวิธีการเปิดใช้งานเฉพาะกับผู้ชมของคุณ</value>
@@ -1851,10 +1851,10 @@
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>เพิ่มแผนการพัฒนาไม่สำเร็จ</value>
   </data>
-  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
     <value>ดำเนินการเสร็จสิ้น: เพิ่ม / อัปเดต: {0} ข้าม {1}</value>
   </data>
-  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
     <value>ดำเนินการไม่เสร็จสมบูรณ์: เพิ่ม / อัปเดต: {0} ข้าม {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
@@ -2191,7 +2191,7 @@
     <value>พื้นที่ดิสก์ที่ใช้ไป: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0>无感验证&lt;/0>สำเร็จ</value>
+    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0&gt;无感验证&lt;/0&gt;สำเร็จ</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>กำลังรีเซ็ตทรัพยากรภาพ</value>
@@ -2508,10 +2508,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว การรีเฟรชอัตโนมัติจะไม่ทำงานหลังจากปิดหน้าต่าง</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>ไม่ต้องแจ้งเตือนเมื่อฉันเล่น Genshin Impact</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>โหมดห้ามรบกวน</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
@@ -3801,16 +3801,16 @@
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
     <value>เรียกใช้สคริปต์แก้ไขข้อบกพร่อง</value>
   </data>
-  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
     <value>เริ่มใน {0} วัน</value>
   </data>
-  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
     <value>สิ้นสุดใน {0} วัน</value>
   </data>
-  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
     <value>เริ่มใน {0} ชั่วโมง</value>
   </data>
-  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
     <value>สิ้นสุดใน {0} ชั่วโมง</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
@@ -3876,7 +3876,7 @@
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
     <value>รางวัล“ภารกิจประจำวัน”เคลมแล้ว</value>
   </data>
-  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>คาดว่าจะถึงขีดจำกัดที่เก็บใน {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
@@ -3891,13 +3891,13 @@
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>มะรืนนี้</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
     <value>{0} วัน</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Original Resin ฟื้นฟูเต็มแล้ว</value>
   </data>
-  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
     <value>จะฟื้นฟูเต็มใน {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
@@ -3906,13 +3906,13 @@
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>พร้อมใช้งานอีกครั้งใน</value>
   </data>
-  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerDays" xml:space="preserve">
     <value>{0} วัน</value>
   </data>
-  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerHours" xml:space="preserve">
     <value>{0} ชม.</value>
   </data>
-  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0} นาที</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
@@ -3930,7 +3930,7 @@
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>พร้อมแล้ว</value>
   </data>
-  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
     <value>{0} วินาที</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
@@ -4017,13 +4017,13 @@
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>พบปัญหาขณะร้องขอ {0}</value>
   </data>
-  <data name="WebResponseFormat" xml:space="preserve">
+  <data name="WebResponse" xml:space="preserve">
     <value>สถานะ: {0} | ข้อความ: {1}</value>
   </data>
-  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+  <data name="WebResponseRefreshCookieHint" xml:space="preserve">
     <value>โปรดรีเฟรช Cookie, ข้อความดิบ: {0}</value>
   </data>
-  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+  <data name="WebResponseRequestException" xml:space="preserve">
     <value>คำขอเครือข่าย [{1}] ใน [{0}] ผิดพลาด โปรดลองอีกครั้งในภายหลัง</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">

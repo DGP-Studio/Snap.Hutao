@@ -8,8 +8,8 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
 
-[DependencyProperty("HorizontalSpacing", typeof(double), 0D, nameof(LayoutPropertyChanged))]
-[DependencyProperty("VerticalSpacing", typeof(double), 0D, nameof(LayoutPropertyChanged))]
+[DependencyProperty<double>("HorizontalSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(LayoutPropertyChanged), NotNull = true)]
+[DependencyProperty<double>("VerticalSpacing", DefaultValue = 0D, PropertyChangedCallbackName = nameof(LayoutPropertyChanged), NotNull = true)]
 internal sealed partial class WrapLayout : VirtualizingLayout
 {
     protected override void InitializeForContextCore(VirtualizingLayoutContext context)

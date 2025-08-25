@@ -15,7 +15,7 @@ using System.IO;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [SuppressMessage("", "SA1201")]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {

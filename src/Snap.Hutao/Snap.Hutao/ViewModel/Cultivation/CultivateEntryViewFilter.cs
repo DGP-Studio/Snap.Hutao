@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
@@ -50,21 +51,21 @@ internal static class CultivateEntryViewFilter
                             _ => WeaponType.WEAPON_NONE,
                         };
 
-                        matches.Add(tokens.Contains(weaponType.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(weaponType.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.ItemQuality:
                     if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(cultivateEntryView.Quality.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(cultivateEntryView.Quality.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.CultivateType:
                     if (IntrinsicFrozen.CultivateTypes.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(cultivateEntryView.Type.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(cultivateEntryView.Type.GetLocalizedDescriptionOrDefault(SH.ResourceManager)));
                     }
 
                     break;

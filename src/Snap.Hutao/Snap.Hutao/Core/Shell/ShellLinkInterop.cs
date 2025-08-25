@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Snap.Hutao.Core.Shell;
 
-[Injection(InjectAs.Transient, typeof(IShellLinkInterop))]
+[Service(ServiceLifetime.Transient, typeof(IShellLinkInterop))]
 internal sealed class ShellLinkInterop : IShellLinkInterop
 {
     public bool TryCreateDesktopShortcutForElevatedLaunch()

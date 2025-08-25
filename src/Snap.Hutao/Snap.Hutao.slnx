@@ -1,24 +1,24 @@
 <Solution>
   <Configurations>
     <Platform Name="Any CPU" />
-    <Platform Name="arm64" />
     <Platform Name="x64" />
-    <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".vsconfig" />
   </Folder>
   <Project Path="Snap.Hutao.Benchmark\Snap.Hutao.Benchmark.csproj" Type="Classic C#">
-    <Configuration Solution="Debug|arm64" Project="Debug|Any CPU" />
     <Configuration Solution="Debug|x64" Project="Debug|Any CPU" />
-    <Configuration Solution="Debug|x86" Project="Debug|Any CPU" />
-    <Configuration Solution="Release|arm64" Project="Release|Any CPU" />
     <Configuration Solution="Release|x64" Project="Release|Any CPU" />
-    <Configuration Solution="Release|x86" Project="Release|Any CPU" />
   </Project>
-  <Project Path="Snap.Hutao.Test\Snap.Hutao.Test.csproj" />
+  <Project Path="Snap.Hutao.Test\Snap.Hutao.Test.csproj"/>
   <Project Path="Snap.Hutao\Snap.Hutao.csproj">
+    <!--  For Rider  -->
+    <Configuration Solution="Debug|Any CPU" Project="Debug|x64|Deploy" />
+    <Configuration Solution="Debug|x64" Project="Debug|x64|Deploy" />
+    <Configuration Solution="Release|Any CPU" Project="Release|x64|Deploy" />
+    <Configuration Solution="Release|x64" Project="Release|x64|Deploy" />
+    <!--  For Visual Studio  -->
     <Platform Solution="*|Any CPU" Project="x64" />
     <Platform Solution="*|arm64" Project="arm64" />
     <Platform Solution="*|x64" Project="x64" />

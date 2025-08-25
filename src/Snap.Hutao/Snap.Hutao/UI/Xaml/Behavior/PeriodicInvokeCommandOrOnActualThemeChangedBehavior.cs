@@ -8,9 +8,9 @@ using Snap.Hutao.UI.Input;
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [SuppressMessage("", "CA1001")]
-[DependencyProperty("Period", typeof(TimeSpan))]
-[DependencyProperty("Command", typeof(ICommand))]
-[DependencyProperty("CommandParameter", typeof(object))]
+[DependencyProperty<TimeSpan>("Period", NotNull = true)]
+[DependencyProperty<ICommand>("Command")]
+[DependencyProperty<object>("CommandParameter")]
 internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavior : BehaviorBase<FrameworkElement>
 {
     private CancellationTokenSource actualThemeChangedCts = new();

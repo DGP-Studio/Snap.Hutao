@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -216,7 +216,7 @@
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
     <value>Zona horaria del servidor</value>
   </data>
-  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
     <value>Refinar {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>Miércoles/Sábado/Domingo</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
     <value>{0:f2} tiradas</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
     <value>Peor racha {0} tiradas</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
     <value>Mejor racha {0} tiradas</value>
   </data>
-  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+  <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
     <value>{0} tiradas</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>Nivel {0}</value>
   </data>
-  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+  <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
     <value>Apareció {0} veces</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
@@ -264,10 +264,10 @@
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
     <value>No se ha actualizado</value>
   </data>
-  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+  <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
     <value>Actualizado el {0:MM.dd HH:mm:ss}</value>
   </data>
-  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
+  <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
     <value>Horario {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
@@ -279,7 +279,7 @@
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>Arma</value>
   </data>
-  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+  <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
     <value>Fase {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
@@ -440,7 +440,7 @@
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>Traveler</value>
   </data>
-  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+  <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
     <value>{0}/{1}</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>Sin datos</value>
   </data>
-  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelWeaponAffix" xml:space="preserve">
     <value>Refinamiento {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
@@ -699,7 +699,7 @@
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>Se ha subido el registro del abismo correctamente, pero no es la primera subida de este período, no se puede obtener la duración del servicio de subida de registros de deseos.</value>
   </data>
-  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+  <data name="ServiceAchievementImportResult" xml:space="preserve">
     <value>Nuevo: {0} Logros | Actualizado: {1} Logros | Eliminado: {2} Logros</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
@@ -1077,13 +1077,13 @@ Espacio disponible: {2}</value>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>Verificando la integridad del juego</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
     <value>Copia de seguridad: {0}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
     <value>Cambiar nombre: {0} a: {1}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+  <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
     <value>Reemplazar: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
@@ -1140,13 +1140,13 @@ Espacio disponible: {2}</value>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Operación de recursos del juego fallida</value>
   </data>
-  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
     <value>Fallo en la compensación de registro, {0}</value>
   </data>
-  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceReSignInSuccessReward" xml:space="preserve">
     <value>Compensación de registro exitosa, {0}×{1}</value>
   </data>
-  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+  <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>Error al registrarse, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
@@ -1158,7 +1158,7 @@ Espacio disponible: {2}</value>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
     <value>Error de verificación, visita la página de registro de Genshin Impact de 米游社 para reclamar la recompensa manualmente</value>
   </data>
-  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+  <data name="ServiceSignInSuccessReward" xml:space="preserve">
     <value>Registro exitoso, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
@@ -1851,10 +1851,10 @@ Espacio disponible: {2}</value>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>Error al añadir el plan de mejora</value>
   </data>
-  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
     <value>Operación completada: añadido/actualizado: {0}, omitido {1}</value>
   </data>
-  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
     <value>La operación no se completó del todo: añadido/actualizado: {0}, omitido {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
@@ -2508,10 +2508,10 @@ Espacio disponible: {2}</value>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Fallo al crear el icono del área de notificación, la actualización automática no se realizará después de cerrar la ventana</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>No molestar mientras juego a Genshin Impact</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>Modo No Molestar</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
@@ -3801,16 +3801,16 @@ Espacio disponible: {2}</value>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
     <value>Ejecutar script de depuración</value>
   </data>
-  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
     <value>Comienza en {0} día</value>
   </data>
-  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
     <value>Finaliza en {0} día</value>
   </data>
-  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
     <value>Comienza en {0} hora</value>
   </data>
-  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
     <value>Finaliza en {0} hora</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
@@ -3876,7 +3876,7 @@ Espacio disponible: {2}</value>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
     <value>Recompensa de «Comisión diaria» reclamada</value>
   </data>
-  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Se alcanzará el límite de almacenamiento en {0} a las {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
@@ -3891,13 +3891,13 @@ Espacio disponible: {2}</value>
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>Pasado mañana</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
     <value>{0} día</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Resina original totalmente recuperada</value>
   </data>
-  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
     <value>Se recuperará totalmente en {0} a las {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
@@ -3906,13 +3906,13 @@ Espacio disponible: {2}</value>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Listo para usar de nuevo después de</value>
   </data>
-  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerDays" xml:space="preserve">
     <value>{0} días</value>
   </data>
-  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerHours" xml:space="preserve">
     <value>{0} h</value>
   </data>
-  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0} min</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
@@ -3930,7 +3930,7 @@ Espacio disponible: {2}</value>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>Listo</value>
   </data>
-  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
     <value>{0} s</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
@@ -4017,13 +4017,13 @@ Espacio disponible: {2}</value>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>Hubo un problema al solicitar {0}</value>
   </data>
-  <data name="WebResponseFormat" xml:space="preserve">
+  <data name="WebResponse" xml:space="preserve">
     <value>Código de retorno: {0} | Mensaje: {1}</value>
   </data>
-  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+  <data name="WebResponseRefreshCookieHint" xml:space="preserve">
     <value>Por favor, actualice la cookie, mensaje original: {0}</value>
   </data>
-  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+  <data name="WebResponseRequestException" xml:space="preserve">
     <value>Excepción de solicitud de red [{1}] en [{0}], por favor, inténtelo de nuevo más tarde</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">

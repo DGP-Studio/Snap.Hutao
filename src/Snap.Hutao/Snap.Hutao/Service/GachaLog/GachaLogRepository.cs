@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGachaLogRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IGachaLogRepository))]
 internal sealed partial class GachaLogRepository : IGachaLogRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

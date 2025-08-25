@@ -11,5 +11,5 @@ internal interface IJSBridgeUriSourceProvider
 {
     MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
 
-    string GetSource(UserAndUid userAndUid);
+    string? GetSource(UserAndUid userAndUid);
 }

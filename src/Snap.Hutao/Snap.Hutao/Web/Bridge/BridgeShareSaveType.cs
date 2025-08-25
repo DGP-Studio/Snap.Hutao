@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Bridge;
 
-[Localization]
+[ExtendedEnum]
 internal enum BridgeShareSaveType
 {
     [LocalizationKey(nameof(SH.WebBridgeShareSaveKindCopyToClipboard))]

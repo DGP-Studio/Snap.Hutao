@@ -8,7 +8,7 @@ internal sealed class LevelDescription
     public required int Level { get; init; }
 
     [JsonIgnore]
-    public string FormattedLevel { get => SH.FormatModelWeaponAffixFormat(Level + 1); }
+    public string FormattedLevel { get => SH.FormatModelWeaponAffix(Level + 1); }
 
     public required string Description { get; init; }
 }

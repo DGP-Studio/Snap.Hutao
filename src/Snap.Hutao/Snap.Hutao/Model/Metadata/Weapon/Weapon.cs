@@ -21,7 +21,7 @@ internal sealed partial class Weapon : IDefaultIdentity<WeaponId>,
     IItemConvertible,
     ICalculableSource<ICalculableWeapon>,
     ICultivationItemsAccess,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     public required WeaponId Id { get; init; }
 

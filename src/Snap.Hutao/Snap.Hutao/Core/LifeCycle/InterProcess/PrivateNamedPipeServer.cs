@@ -10,7 +10,7 @@ using System.Security.AccessControl;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly BetterGenshinImpactNamedPipeServer betterGenshinImpactNamedPipeServer;

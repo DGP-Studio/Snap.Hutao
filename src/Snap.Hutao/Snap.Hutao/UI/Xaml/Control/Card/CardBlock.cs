@@ -5,10 +5,10 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Control.Card;
 
-[DependencyProperty("Text", typeof(string))]
-[DependencyProperty("ImageSource", typeof(object))]
-[DependencyProperty("DotVisibility", typeof(Visibility), Visibility.Collapsed)]
-[DependencyProperty("IconSquareLength", typeof(double))]
+[DependencyProperty<string>("Text")]
+[DependencyProperty<object>("ImageSource")]
+[DependencyProperty<Visibility>("DotVisibility", DefaultValue = Visibility.Collapsed, NotNull = true)]
+[DependencyProperty<double>("IconSquareLength", NotNull = true)]
 internal sealed partial class CardBlock : Microsoft.UI.Xaml.Controls.Control
 {
     public CardBlock()

@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -30,7 +31,7 @@ internal static class AvatarViewFilter
                 case SearchTokenKind.ElementName:
                     if (IntrinsicFrozen.ElementNames.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatarView.Element.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatarView.Element.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
@@ -38,14 +39,14 @@ internal static class AvatarViewFilter
                     if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
                     {
                         ArgumentNullException.ThrowIfNull(avatarView.Weapon);
-                        matches.Add(tokens.Contains(avatarView.Weapon.WeaponType.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatarView.Weapon.WeaponType.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture)));
                     }
 
                     break;
                 case SearchTokenKind.ItemQuality:
                     if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(avatarView.Quality.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(avatarView.Quality.GetLocalizedDescriptionOrDefault(SH.ResourceManager)));
                     }
 
                     break;

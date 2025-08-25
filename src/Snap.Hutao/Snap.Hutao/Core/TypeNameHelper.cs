@@ -19,7 +19,7 @@ internal static class TypeNameHelper
 {
     private const char DefaultNestedTypeDelimiter = '+';
 
-    private static readonly FrozenDictionary<Type, string> BuiltInTypeNames = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<Type, string> BuiltInTypeNames = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(typeof(void), "void"),
         KeyValuePair.Create(typeof(bool), "bool"),

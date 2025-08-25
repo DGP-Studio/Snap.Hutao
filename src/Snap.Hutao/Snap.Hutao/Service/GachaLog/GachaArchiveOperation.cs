@@ -17,7 +17,7 @@ internal static class GachaArchiveOperation
             return archive;
         }
 
-        GachaArchive created = GachaArchive.From(uid);
+        GachaArchive created = GachaArchive.Create(uid);
         repository.AddGachaArchive(created);
         CollectionViewAddGachaArchive(archives, created, repository.ServiceProvider.GetRequiredService<ITaskContext>());
         return created;

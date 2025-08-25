@@ -5,7 +5,7 @@ using Snap.Hutao.Service.Game.Package.Advanced.Model;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
-[Injection(InjectAs.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.ExtractExecutable)]
+[Service(ServiceLifetime.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.ExtractExecutable)]
 internal sealed class GamePackageExtractExecutableOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)

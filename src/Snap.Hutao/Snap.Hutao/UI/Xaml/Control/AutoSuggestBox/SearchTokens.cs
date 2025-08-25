@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity.Primitive.Converter;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
@@ -23,10 +24,10 @@ internal static class SearchTokens
     private static readonly ImmutableArray<KeyValuePair<string, SearchToken>> FightPropertyTokens = [.. IntrinsicFrozen.FightPropertyNameValues.Select(static nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.FightProperty, nv.Name, (int)nv.Value)))];
     private static readonly ImmutableArray<KeyValuePair<string, SearchToken>> CultivateTypeTokens = [.. IntrinsicFrozen.CultivateTypeNameValues.Select(static nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.CultivateType, nv.Name, (int)nv.Value, packageIconUri: CultivateTypeIconConverter.CultivateTypeToIconUri(nv.Value))))];
 
-    private static readonly LazySlim<FrozenDictionary<string, SearchToken>> AvatarPropertyTokens = new(() => FrozenDictionary.ToFrozenDictionary(
+    private static readonly LazySlim<FrozenDictionary<string, SearchToken>> AvatarPropertyTokens = new(() => WinRTAdaptive.ToFrozenDictionary(
     [.. ElementTokens, .. ItemQuality45Tokens, .. WeaponTypeTokens]));
 
-    private static readonly LazySlim<FrozenDictionary<string, SearchToken>> CultivationTokens = new(() => FrozenDictionary.ToFrozenDictionary(
+    private static readonly LazySlim<FrozenDictionary<string, SearchToken>> CultivationTokens = new(() => WinRTAdaptive.ToFrozenDictionary(
     [.. CultivateTypeTokens, .. ElementTokens, .. ItemQualityAllTokens, .. WeaponTypeTokens]));
 
     public static FrozenDictionary<string, SearchToken> GetForAvatarProperty()
@@ -41,7 +42,7 @@ internal static class SearchTokens
 
     public static FrozenDictionary<string, SearchToken> GetForWikiAvatar(ImmutableArray<Avatar> array)
     {
-        return FrozenDictionary.ToFrozenDictionary(
+        return WinRTAdaptive.ToFrozenDictionary(
         [
             .. array.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
             .. AssociationTypeTokens,
@@ -54,7 +55,7 @@ internal static class SearchTokens
 
     public static FrozenDictionary<string, SearchToken> GetForWikiWeapon(ImmutableArray<Weapon> array)
     {
-        return FrozenDictionary.ToFrozenDictionary(
+        return WinRTAdaptive.ToFrozenDictionary(
         [
             .. array.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
             .. FightPropertyTokens,

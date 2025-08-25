@@ -10,7 +10,7 @@ using System.Globalization;
 namespace Snap.Hutao.Service;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
     private DayOfWeek? firstDayOfWeek;

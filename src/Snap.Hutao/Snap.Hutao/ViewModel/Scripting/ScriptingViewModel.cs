@@ -10,7 +10,7 @@ using Snap.Hutao.Core.Scripting;
 namespace Snap.Hutao.ViewModel.Scripting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
 {
     private readonly ITaskContext taskContext;

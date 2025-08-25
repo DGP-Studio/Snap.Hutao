@@ -23,7 +23,7 @@ internal sealed partial class Team : List<AvatarView>
 
         AddRange(new AvatarView[4 - Count]);
 
-        UpCount = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
+        UpCount = SH.FormatModelBindingHutaoTeamUpCount(team.Rate);
         Rank = rank;
     }
 

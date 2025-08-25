@@ -8,8 +8,8 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("UIGF", typeof(UIGF))]
-[DependencyProperty("Selections", typeof(ImmutableArray<UIGFUidSelection>))]
+[DependencyProperty<UIGF>("UIGF")]
+[DependencyProperty<ImmutableArray<UIGFUidSelection>>("Selections", NotNull = true)]
 internal sealed partial class UIGFImportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

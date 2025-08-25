@@ -49,7 +49,7 @@ internal abstract partial class AbstractUIGF40ImportService : IUIGFImportService
 
             if (archive is null)
             {
-                archive = GachaArchive.From($"{entry.Uid}");
+                archive = GachaArchive.Create($"{entry.Uid}");
                 gachaLogRepository.AddGachaArchive(archive);
             }
 

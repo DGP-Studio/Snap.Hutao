@@ -3,34 +3,35 @@
 
 using Snap.Hutao.Model.Entity.Primitive;
 using System.Collections.Frozen;
+using System.Globalization;
 
 namespace Snap.Hutao.Model.Intrinsic.Frozen;
 
 internal static class IntrinsicFrozen
 {
-    public static FrozenSet<string> AssociationTypes { get; } = NamesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> AssociationTypes { get; } = NamesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<AssociationType>> AssociationTypeNameValues { get; } = NameValuesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<AssociationType>> AssociationTypeNameValues { get; } = NameValuesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<string> WeaponTypes { get; } = NamesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> WeaponTypes { get; } = NamesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<WeaponType>> WeaponTypeNameValues { get; } = NameValuesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<WeaponType>> WeaponTypeNameValues { get; } = NameValuesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<string> ItemQualities { get; } = NamesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> ItemQualities { get; } = NamesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<QualityType>> ItemQualityNameValues { get; } = NameValuesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<QualityType>> ItemQualityNameValues { get; } = NameValuesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<string> BodyTypes { get; } = NamesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> BodyTypes { get; } = NamesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<BodyType>> BodyTypeNameValues { get; } = NameValuesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<BodyType>> BodyTypeNameValues { get; } = NameValuesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<string> FightProperties { get; } = NamesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> FightProperties { get; } = NamesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<FightProperty>> FightPropertyNameValues { get; } = NameValuesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<FightProperty>> FightPropertyNameValues { get; } = NameValuesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<string> CultivateTypes { get; } = NamesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<string> CultivateTypes { get; } = NamesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
-    public static FrozenSet<NameValue<CultivateType>> CultivateTypeNameValues { get; } = NameValuesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault());
+    public static FrozenSet<NameValue<CultivateType>> CultivateTypeNameValues { get; } = NameValuesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture));
 
     public static FrozenSet<string> ElementNames { get; } =
     [

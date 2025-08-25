@@ -9,8 +9,8 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("Avatar", typeof(ICalculableAvatar))]
-[DependencyProperty("Weapon", typeof(ICalculableWeapon))]
+[DependencyProperty<ICalculableAvatar>("Avatar")]
+[DependencyProperty<ICalculableWeapon>("Weapon")]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

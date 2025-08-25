@@ -6,7 +6,7 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel.DataTable;
 
-[DependencyProperty("ColumnSpacing", typeof(double))]
+[DependencyProperty<double>("ColumnSpacing", NotNull = true)]
 internal sealed partial class DataTable : Microsoft.UI.Xaml.Controls.Panel
 {
     internal HashSet<DataRow> Rows { get; } = [];

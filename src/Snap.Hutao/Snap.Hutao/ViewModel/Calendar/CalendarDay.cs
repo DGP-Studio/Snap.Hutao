@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Calendar;
 
-internal sealed partial class CalendarDay : IAdvancedCollectionViewItem
+internal sealed partial class CalendarDay : IPropertyValuesProvider
 {
     public required DateTimeOffset Date { get; init; }
 

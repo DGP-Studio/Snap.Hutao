@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("IsPredictPullAvailable", typeof(bool), false, nameof(OnIsPredictPullAvailableChanged))]
+[DependencyProperty<bool>("IsPredictPullAvailable", DefaultValue = false, PropertyChangedCallbackName = nameof(OnIsPredictPullAvailableChanged), NotNull = true)]
 internal sealed partial class StatisticsSegmented : Segmented
 {
     private readonly SegmentedItem predictPullItem = new()

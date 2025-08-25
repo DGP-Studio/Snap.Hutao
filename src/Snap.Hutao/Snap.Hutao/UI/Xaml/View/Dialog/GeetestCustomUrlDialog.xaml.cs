@@ -7,7 +7,7 @@ using Snap.Hutao.Service;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("Text", typeof(string))]
+[DependencyProperty<string>("Text")]
 internal sealed partial class GeetestCustomUrlDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
@@ -16,7 +16,7 @@ internal sealed partial class GeetestCustomUrlDialog : ContentDialog
     {
         InitializeComponent();
 
-        Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl;
+        Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl.Value;
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
     }
 

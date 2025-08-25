@@ -14,7 +14,7 @@ using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile)
 namespace Snap.Hutao.Core.Caching;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IImageCache))]
+[Service(ServiceLifetime.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private readonly AsyncKeyedLock<ThemeFile> themeFileLocks = new();

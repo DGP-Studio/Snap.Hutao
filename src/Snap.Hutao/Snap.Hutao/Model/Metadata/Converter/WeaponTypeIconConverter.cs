@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Data.Converter;
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal sealed partial class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
-    private static readonly FrozenDictionary<string, WeaponType> LocalizedNameToWeaponType = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, WeaponType> LocalizedNameToWeaponType = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeSwordOneHand, WeaponType.WEAPON_SWORD_ONE_HAND),
         KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeBow, WeaponType.WEAPON_BOW),

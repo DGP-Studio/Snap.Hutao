@@ -38,7 +38,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
             return;
         }
 
-        if (!context.Options.IsIslandEnabled)
+        if (!context.Options.IsIslandEnabled.Value)
         {
             context.Logger.LogInformation("Island is not enabled");
             context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeIslandNotEnabled;

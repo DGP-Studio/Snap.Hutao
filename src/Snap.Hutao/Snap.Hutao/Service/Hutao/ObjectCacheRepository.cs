@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IObjectCacheRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IObjectCacheRepository))]
 internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;

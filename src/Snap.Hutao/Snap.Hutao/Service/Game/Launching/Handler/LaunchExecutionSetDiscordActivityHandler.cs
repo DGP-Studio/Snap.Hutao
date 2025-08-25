@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionSetDiscordActivityHandler : ILaunchExecutio
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        bool previousSetDiscordActivityWhenPlaying = context.Options.SetDiscordActivityWhenPlaying;
+        bool previousSetDiscordActivityWhenPlaying = context.Options.SetDiscordActivityWhenPlaying.Value;
 
         try
         {

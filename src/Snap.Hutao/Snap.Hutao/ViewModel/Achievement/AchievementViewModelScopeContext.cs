@@ -12,7 +12,7 @@ using Snap.Hutao.ViewModel.Game;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModelScopeContext
 {
     public partial IFileSystemPickerInteraction FileSystemPickerInteraction { get; }

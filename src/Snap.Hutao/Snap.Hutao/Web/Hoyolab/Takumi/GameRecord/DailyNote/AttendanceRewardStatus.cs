@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-[Localization]
+[ExtendedEnum]
 internal enum AttendanceRewardStatus
 {
     [LocalizationKey("WebDailyNoteAttendanceRewardStatusInvalid")]

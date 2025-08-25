@@ -31,7 +31,7 @@ internal static class ObservableReorderableDbCollectionExtension
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static AdvancedDbCollectionView<TEntityOnly, TEntity> AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
-        where TEntityOnly : class, IAdvancedCollectionViewItem, IEntityAccess<TEntity>
+        where TEntityOnly : class, IPropertyValuesProvider, IEntityAccess<TEntity>
         where TEntity : class, ISelectable, IReorderable
     {
         return new(AsObservableReorderableDbCollection<TEntityOnly, TEntity>(source, serviceProvider), serviceProvider);

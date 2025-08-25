@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed partial class AchievementGoalView : ObservableObject,
     INameIcon<Uri>,
-    IAdvancedCollectionViewItem
+    IPropertyValuesProvider
 {
     private AchievementGoalView(AchievementGoal goal)
     {

@@ -24,13 +24,13 @@ namespace Snap.Hutao.UI.Xaml.Control.Image;
 [SuppressMessage("", "CA1001")]
 [SuppressMessage("", "SH003")]
 [TemplatePart(Name = PartImage, Type = typeof(Microsoft.UI.Xaml.Controls.Image))]
-[DependencyProperty("SourceName", typeof(string), "UnknownSourceName")]
-[DependencyProperty("CachedName", typeof(string), "UnknownCachedName")]
-[DependencyProperty("NineGrid", typeof(Thickness))]
-[DependencyProperty("Stretch", typeof(Stretch), Stretch.Uniform)]
-[DependencyProperty("PlaceholderSource", typeof(object), default)]
-[DependencyProperty("Source", typeof(object), default, nameof(OnSourceChanged))]
-[DependencyProperty("ShowAsMonoChrome", typeof(bool), false)]
+[DependencyProperty<string>("SourceName", DefaultValue = "UnknownSourceName")]
+[DependencyProperty<string>("CachedName", DefaultValue = "UnknownCachedName")]
+[DependencyProperty<Thickness>("NineGrid", NotNull = true)]
+[DependencyProperty<Stretch>("Stretch", DefaultValue = Stretch.Uniform, NotNull = true)]
+[DependencyProperty<object>("PlaceholderSource")]
+[DependencyProperty<object>("Source", PropertyChangedCallbackName = nameof(OnSourceChanged))]
+[DependencyProperty<bool>("ShowAsMonoChrome", DefaultValue = false, NotNull = true)]
 internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 {
     private const string PartImage = "Image";
@@ -342,7 +342,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     [Command("CopyToClipboardCommand")]
     private async Task CopyToClipboard()
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName)]));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName ?? "<null>")]));
 
         if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IClipboardProvider>() is not { } clipboardProvider)
         {

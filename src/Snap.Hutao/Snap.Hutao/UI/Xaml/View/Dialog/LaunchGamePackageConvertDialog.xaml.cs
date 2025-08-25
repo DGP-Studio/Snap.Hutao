@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Game.Package;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("State", typeof(PackageConvertStatus))]
+[DependencyProperty<PackageConvertStatus>("State")]
 internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
     public LaunchGamePackageConvertDialog(IServiceProvider serviceProvider)

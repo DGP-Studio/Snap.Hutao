@@ -7,7 +7,7 @@ using Snap.Hutao.Core.LifeCycle;
 namespace Snap.Hutao.Factory.ContentDialog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IContentDialogFactory))]
+[Service(ServiceLifetime.Singleton, typeof(IContentDialogFactory))]
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly ICurrentXamlWindowReference currentWindowReference;

@@ -25,7 +25,7 @@ using System.Security.Cryptography;
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IPackageConverter))]
+[Service(ServiceLifetime.Transient, typeof(IPackageConverter))]
 internal sealed partial class PackageConverter : IPackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
@@ -462,7 +462,7 @@ internal sealed partial class PackageConverter : IPackageConverter
             if (moveToBackup)
             {
                 string localFileName = operation.OldAsset.AssetName;
-                context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileBackupFormat(localFileName)));
+                context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileBackup(localFileName)));
 
                 string localFilePath = context.GetGameFolderFilePath(localFileName);
                 string cacheFilePath = context.GetServerCacheBackupFilePath(localFileName);
@@ -478,7 +478,7 @@ internal sealed partial class PackageConverter : IPackageConverter
             if (moveToTarget)
             {
                 string targetFileName = operation.NewAsset.AssetName;
-                context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRestoreFormat(targetFileName)));
+                context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRestore(targetFileName)));
 
                 string targetFilePath = context.GetGameFolderFilePath(targetFileName);
                 string? targetFileDirectory = Path.GetDirectoryName(targetFilePath);
@@ -494,7 +494,7 @@ internal sealed partial class PackageConverter : IPackageConverter
         // 重命名 _Data 目录
         try
         {
-            context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRenameFormat(context.FromDataFolderName, context.ToDataFolderName)));
+            context.Progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRename(context.FromDataFolderName, context.ToDataFolderName)));
             DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
         }
         catch (IOException ex)

@@ -14,7 +14,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 namespace Snap.Hutao.Service.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IAchievementRepository))]
+[Service(ServiceLifetime.Singleton, typeof(IAchievementRepository))]
 internal sealed partial class AchievementRepository : IAchievementRepository
 {
     public partial IServiceProvider ServiceProvider { get; }

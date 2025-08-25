@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Frozen;
 
@@ -8,7 +9,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 internal sealed class InGameFightPropertyComparer : IComparer<FightProperty>
 {
-    private static readonly FrozenDictionary<FightProperty, int> InGamePropertyOrder = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<FightProperty, int> InGamePropertyOrder = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(FightProperty.FIGHT_PROP_MAX_HP, 1),
         KeyValuePair.Create(FightProperty.FIGHT_PROP_CUR_ATTACK, 2),

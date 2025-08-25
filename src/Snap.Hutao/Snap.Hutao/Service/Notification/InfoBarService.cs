@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.Notification;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IInfoBarService))]
+[Service(ServiceLifetime.Singleton, typeof(IInfoBarService))]
 internal sealed partial class InfoBarService : IInfoBarService
 {
     private readonly Lock syncRoot = new();

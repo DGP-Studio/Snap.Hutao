@@ -5,12 +5,12 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Snap.Hutao.UI.Xaml.Control.Card;
 
-[DependencyProperty("ProgressForeground", typeof(Brush))]
-[DependencyProperty("TextForeground", typeof(Brush))]
-[DependencyProperty("Maximum", typeof(double))]
-[DependencyProperty("Value", typeof(double))]
-[DependencyProperty("Header", typeof(string))]
-[DependencyProperty("Description", typeof(string))]
+[DependencyProperty<Brush>("ProgressForeground")]
+[DependencyProperty<Brush>("TextForeground")]
+[DependencyProperty<double>("Maximum", NotNull = true)]
+[DependencyProperty<double>("Value", NotNull = true)]
+[DependencyProperty<string>("Header")]
+[DependencyProperty<string>("Description")]
 internal sealed partial class CardProgressBar : Microsoft.UI.Xaml.Controls.Control
 {
     public CardProgressBar()

@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.ViewModel.Home;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IAnnouncementService announcementService;

@@ -3,35 +3,30 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service.Abstraction.Property;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game;
 
 internal static class LaunchOptionsExtension
 {
-    public static ImmutableArray<AspectRatio> SaveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
+    public static ImmutableArray<AspectRatio> Add(this DbProperty<ImmutableArray<AspectRatio>> aspectRatios, AspectRatio aspectRatio)
     {
-        if (!options.AspectRatios.Contains(aspectRatio))
+        if (!aspectRatios.Value.Contains(aspectRatio))
         {
-            options.AspectRatios = options.AspectRatios.Add(aspectRatio);
+            aspectRatios.Value = aspectRatios.Value.Add(aspectRatio);
         }
 
-        return options.AspectRatios;
+        return aspectRatios.Value;
     }
 
-    public static ImmutableArray<AspectRatio> RemoveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
+    public static ImmutableArray<AspectRatio> Remove(this DbProperty<ImmutableArray<AspectRatio>> aspectRatios, AspectRatio aspectRatio)
     {
-        if (aspectRatio.Equals(options.SelectedAspectRatio))
-        {
-            options.SelectedAspectRatio = default;
-        }
-
-        options.AspectRatios = options.AspectRatios.Remove(aspectRatio);
-        return options.AspectRatios;
+        return aspectRatios.Value = aspectRatios.Value.Remove(aspectRatio);
     }
 
     public static NameValue<PlatformType>? GetCurrentPlatformTypeForSelectionOrDefault(this LaunchOptions options)
     {
-        return options.PlatformTypes.SingleOrDefault(c => c.Value == options.PlatformType);
+        return options.PlatformTypes.SingleOrDefault(c => c.Value == options.PlatformType.Value);
     }
 }

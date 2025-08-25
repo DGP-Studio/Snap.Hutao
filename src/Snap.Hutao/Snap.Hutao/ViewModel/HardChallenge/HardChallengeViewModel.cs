@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IHardChallengeService hardChallengeService;

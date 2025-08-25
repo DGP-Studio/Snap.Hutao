@@ -18,7 +18,7 @@ using Windows.Graphics.Imaging;
 namespace Snap.Hutao.Service.BackgroundImage;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IBackgroundImageService))]
+[Service(ServiceLifetime.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
     private static readonly FrozenSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];

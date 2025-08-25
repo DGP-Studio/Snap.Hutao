@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 [ConstructorGenerated]
 internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 {

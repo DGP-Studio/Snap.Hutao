@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -12,7 +13,7 @@ internal sealed class BattleWave
 {
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {
-        Description = towerWave.Type.GetLocalizedDescriptionOrDefault() ?? SH.ModelMetadataTowerWaveTypeDefault;
+        Description = towerWave.Type.GetLocalizedDescriptionOrDefault(SH.ResourceManager, CultureInfo.CurrentCulture) ?? SH.ModelMetadataTowerWaveTypeDefault;
         Monsters = towerWave.Monsters.SelectAsArray(static (m, context) => CreateMonsterViewOrDefault(m, context), context);
     }
 

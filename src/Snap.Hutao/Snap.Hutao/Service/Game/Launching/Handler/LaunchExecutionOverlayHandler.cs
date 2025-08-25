@@ -15,7 +15,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay)
+        if (HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay.Value)
         {
             await context.TaskContext.SwitchToMainThreadAsync();
             LaunchExecutionOverlayWindow window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();

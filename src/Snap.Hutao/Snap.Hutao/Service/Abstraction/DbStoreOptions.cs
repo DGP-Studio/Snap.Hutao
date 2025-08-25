@@ -6,10 +6,9 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction.Property;
 using System.Collections.Immutable;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -29,67 +28,75 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return input.ToStringOrEmpty();
     }
 
-    protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
+    protected DbProperty<string> CreateProperty(string key, string defaultValue)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            foreach (SettingEntry entry in appDbContext.Settings.Where(entrySelector))
-            {
-                entryAction(entry.Key, entry.Value);
-            }
-        }
+        return new StringDbProperty(serviceProvider, key, defaultValue);
     }
 
-    protected string GetOption(ref string? storage, string key, string defaultValue = "")
+    protected DbProperty<string?> CreateProperty(string key)
     {
-        return GetOption(ref storage, key, () => defaultValue);
+        return new NullableStringDbProperty(serviceProvider, key);
     }
 
-    protected string GetOption(ref string? storage, string key, Func<string> defaultValueFactory)
+    protected DbProperty<bool> CreateProperty(string key, bool defaultValue)
     {
-        if (storage is not null)
-        {
-            return storage;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            storage = GetValue(appDbContext, key) ?? defaultValueFactory();
-        }
-
-        return storage;
+        return new BooleanDbProperty(serviceProvider, key, defaultValue);
     }
 
+    protected DbProperty<int> CreateProperty(string key, int defaultValue)
+    {
+        return new Int32DbProperty(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<int> CreateProperty(string key, Func<int> defaultValueFactory)
+    {
+        return new Int32DbProperty(serviceProvider, key, defaultValueFactory);
+    }
+
+    protected DbProperty<float> CreateProperty(string key, float defaultValue)
+    {
+        return new SingleDbProperty(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<TEnum> CreateProperty<TEnum>(string key, TEnum defaultValue)
+        where TEnum : struct, Enum
+    {
+        return new EnumDbProperty<TEnum>(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<T> CreatePropertyForStructUsingJson<T>(string key, T defaultValue)
+        where T : struct
+    {
+        return new StructToJsonDbProperty<T>(serviceProvider, key, defaultValue);
+    }
+
+    protected DbProperty<NameValue<int>?> CreatePropertyForSelectedOneBasedIndex(string key, ImmutableArray<NameValue<int>> array)
+    {
+        return new SelectedOneBasedIndexDbProperty(serviceProvider, key, array);
+    }
+
+    [Obsolete]
     protected bool GetOption(ref bool? storage, string key, bool defaultValue)
     {
         return GetOption(ref storage, key, defaultValue ? TrueFunc : FalseFunc);
     }
 
+    [Obsolete]
     protected bool GetOption(ref bool? storage, string key, Func<bool> defaultValueFactory)
     {
         return GetOption(ref storage, key, bool.Parse, defaultValueFactory);
     }
 
+    [Obsolete]
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
     {
         return GetOption(ref storage, key, () => defaultValue);
     }
 
+    [Obsolete]
     protected int GetOption(ref int? storage, string key, Func<int> defaultValueFactory)
     {
         return GetOption(ref storage, key, int.Parse, defaultValueFactory);
-    }
-
-    protected float GetOption(ref float? storage, string key, float defaultValue = 0f)
-    {
-        return GetOption(ref storage, key, () => defaultValue);
-    }
-
-    protected float GetOption(ref float? storage, string key, Func<float> defaultValueFactory)
-    {
-        return GetOption(ref storage, key, float.Parse, defaultValueFactory);
     }
 
     [return: NotNullIfNotNull(nameof(defaultValue))]
@@ -158,22 +165,14 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
-    protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
-    {
-        return SetOption(ref storage, key, value, static v => v, propertyName);
-    }
-
+    [Obsolete]
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
+    [Obsolete]
     protected bool SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
-    {
-        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
-    }
-
-    protected bool SetOption(ref float? storage, string key, float value, [CallerMemberName] string? propertyName = null)
     {
         return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }

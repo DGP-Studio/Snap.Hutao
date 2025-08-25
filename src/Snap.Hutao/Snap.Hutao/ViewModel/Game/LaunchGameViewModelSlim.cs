@@ -16,7 +16,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>,
     IViewModelSupportLaunchExecution,
@@ -45,7 +45,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public void Receive(UserAndUidChangedMessage message)
     {
-        if (!LaunchOptions.UsingHoyolabAccount)
+        if (!LaunchOptions.UsingHoyolabAccount.Value)
         {
             return;
         }
@@ -66,7 +66,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
         UserGameRole? userGameRole = default;
-        if (LaunchOptions.UsingHoyolabAccount)
+        if (LaunchOptions.UsingHoyolabAccount.Value)
         {
             userGameRole = await userService.GetCurrentUserGameRoleAsync().ConfigureAwait(false);
         }

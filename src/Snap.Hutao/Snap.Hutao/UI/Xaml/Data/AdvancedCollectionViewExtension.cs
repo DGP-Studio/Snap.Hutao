@@ -9,7 +9,7 @@ internal static class AdvancedCollectionViewExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IAdvancedCollectionView<T> AsAdvancedCollectionView<T>(this IEnumerable<T> source)
-        where T : class, IAdvancedCollectionViewItem
+        where T : class, IPropertyValuesProvider
     {
         return source switch
         {

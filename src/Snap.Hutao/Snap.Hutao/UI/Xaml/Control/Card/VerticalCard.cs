@@ -5,13 +5,13 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Control.Card;
 
-[DependencyProperty("Top", typeof(UIElement), default!)]
-[DependencyProperty("Bottom", typeof(UIElement), default!)]
-[DependencyProperty("BottomPadding", typeof(Thickness), default!)]
-[DependencyProperty("HorizontalTopAlignment", typeof(HorizontalAlignment), HorizontalAlignment.Stretch)]
-[DependencyProperty("VerticalTopAlignment", typeof(VerticalAlignment), VerticalAlignment.Stretch)]
-[DependencyProperty("HorizontalBottomAlignment", typeof(HorizontalAlignment), HorizontalAlignment.Center)]
-[DependencyProperty("VerticalBottomAlignment", typeof(VerticalAlignment), VerticalAlignment.Stretch)]
+[DependencyProperty<UIElement>("Top")]
+[DependencyProperty<UIElement>("Bottom")]
+[DependencyProperty<Thickness>("BottomPadding", NotNull = true)]
+[DependencyProperty<HorizontalAlignment>("HorizontalTopAlignment", DefaultValue = HorizontalAlignment.Stretch, NotNull = true)]
+[DependencyProperty<VerticalAlignment>("VerticalTopAlignment", DefaultValue = VerticalAlignment.Stretch, NotNull = true)]
+[DependencyProperty<HorizontalAlignment>("HorizontalBottomAlignment", DefaultValue = HorizontalAlignment.Center, NotNull = true)]
+[DependencyProperty<VerticalAlignment>("VerticalBottomAlignment", DefaultValue = VerticalAlignment.Stretch, NotNull = true)]
 internal sealed partial class VerticalCard : Microsoft.UI.Xaml.Controls.Control
 {
     public VerticalCard()

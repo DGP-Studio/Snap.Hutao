@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : ILau
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Process.IsRunning() && context.Options.UsingBetterGenshinImpactAutomation)
+        if (context.Process.IsRunning() && context.Options.UsingBetterGenshinImpactAutomation.Value)
         {
             await LaunchBetterGenshinImpactAsync(context).ConfigureAwait(false);
         }

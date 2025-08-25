@@ -5,7 +5,7 @@ namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 internal interface ITokenStringContainer
 {
-    string Text { get; set; }
+    string? Text { get; set; }
 
     bool IsLast { get; }
 }

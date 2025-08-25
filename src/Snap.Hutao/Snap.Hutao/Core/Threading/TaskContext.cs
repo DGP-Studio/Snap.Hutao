@@ -7,7 +7,7 @@ using WinRT;
 
 namespace Snap.Hutao.Core.Threading;
 
-[Injection(InjectAs.Singleton, typeof(ITaskContext))]
+[Service(ServiceLifetime.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext
 {
     public TaskContext()

@@ -17,25 +17,25 @@ using VirtualKey = Windows.System.VirtualKey;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-[DependencyProperty("AutoSuggestBoxStyle", typeof(Style))]
-[DependencyProperty("AutoSuggestBoxTextBoxStyle", typeof(Style))]
-[DependencyProperty("AvailableTokens", typeof(IReadOnlyDictionary<string, SearchToken>))]
-[DependencyProperty("FilterCommand", typeof(ICommand))]
-[DependencyProperty("FilterCommandParameter", typeof(object))]
-[DependencyProperty("MaximumTokens", typeof(int), -1, nameof(OnMaximumTokensChanged))]
-[DependencyProperty("PlaceholderText", typeof(string))]
-[DependencyProperty("QueryIcon", typeof(IconSource))]
-[DependencyProperty("SuggestedItemsSource", typeof(object))]
-[DependencyProperty("SuggestedItemTemplate", typeof(DataTemplate))]
-[DependencyProperty("SuggestedItemTemplateSelector", typeof(DataTemplateSelector))]
-[DependencyProperty("SuggestedItemContainerStyle", typeof(Style))]
-[DependencyProperty("TabNavigateBackOnArrow", typeof(bool), false)]
-[DependencyProperty("Text", typeof(string), default, nameof(OnTextPropertyChanged))]
-[DependencyProperty("TextMemberPath", typeof(string))]
-[DependencyProperty("TokenItemTemplate", typeof(DataTemplate))]
-[DependencyProperty("TokenItemTemplateSelector", typeof(DataTemplateSelector))]
-[DependencyProperty("TokenDelimiter", typeof(string), " ")]
-[DependencyProperty("TokenSpacing", typeof(double))]
+[DependencyProperty<Style>("AutoSuggestBoxStyle")]
+[DependencyProperty<Style>("AutoSuggestBoxTextBoxStyle")]
+[DependencyProperty<IReadOnlyDictionary<string, SearchToken>>("AvailableTokens")]
+[DependencyProperty<ICommand>("FilterCommand")]
+[DependencyProperty<object>("FilterCommandParameter")]
+[DependencyProperty<int>("MaximumTokens", DefaultValue = -1, PropertyChangedCallbackName = nameof(OnMaximumTokensChanged), NotNull = true)]
+[DependencyProperty<string>("PlaceholderText")]
+[DependencyProperty<IconSource>("QueryIcon")]
+[DependencyProperty<object>("SuggestedItemsSource")]
+[DependencyProperty<DataTemplate>("SuggestedItemTemplate")]
+[DependencyProperty<DataTemplateSelector>("SuggestedItemTemplateSelector")]
+[DependencyProperty<Style>("SuggestedItemContainerStyle")]
+[DependencyProperty<bool>("TabNavigateBackOnArrow", DefaultValue = false, NotNull = true)]
+[DependencyProperty<string>("Text", PropertyChangedCallbackName = nameof(OnTextPropertyChanged))]
+[DependencyProperty<string>("TextMemberPath")]
+[DependencyProperty<DataTemplate>("TokenItemTemplate")]
+[DependencyProperty<DataTemplateSelector>("TokenItemTemplateSelector")]
+[DependencyProperty<string>("TokenDelimiter", DefaultValue = " ")]
+[DependencyProperty<double>("TokenSpacing", NotNull = true)]
 [TemplatePart(Name = NormalState, Type = typeof(VisualState))]
 [TemplatePart(Name = PointerOverState, Type = typeof(VisualState))]
 [TemplatePart(Name = FocusedState, Type = typeof(VisualState))]
@@ -58,7 +58,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     public AutoSuggestTokenBox()
     {
         innerItemsSource = [];
-        currentTextEdit = lastTextEdit = new PretokenStringContainer(true);
+        currentTextEdit = lastTextEdit = new PreTokenStringContainer(true);
         innerItemsSource.Insert(innerItemsSource.Count, currentTextEdit);
         ItemsSource = innerItemsSource;
 
@@ -217,7 +217,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
         if (string.IsNullOrWhiteSpace(Text))
         {
-            sender.ItemsSource = AvailableTokens
+            sender.ItemsSource = AvailableTokens?
                 .ExceptBy(Tokens, kvp => kvp.Value)
                 .OrderBy(kvp => kvp.Value.Kind)
                 .ThenBy(kvp => kvp.Value.Order)
@@ -226,9 +226,9 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = AvailableTokens
+            sender.ItemsSource = AvailableTokens?
                 .ExceptBy(Tokens, kvp => kvp.Value)
-                .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
+                .Where(kvp => kvp.Value.Value.Contains(Text ?? string.Empty, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(kvp => kvp.Value.Kind)
                 .ThenBy(kvp => kvp.Value.Order)
                 .Select(kvp => kvp.Value)
@@ -257,7 +257,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             return;
         }
 
-        if (AvailableTokens.GetValueOrDefault(args.TokenText) is { } token)
+        if (AvailableTokens?.GetValueOrDefault(args.TokenText) is { } token)
         {
             args.Item = token;
         }
@@ -660,7 +660,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                     else
                     {
                         // Otherwise, create a new textbox for this text.
-                        UpdateCurrentTextEdit(new PretokenStringContainer((string.Empty + args.Character).Trim()));
+                        UpdateCurrentTextEdit(new PreTokenStringContainer((string.Empty + args.Character).Trim()));
                         innerItemsSource.Insert(index, currentTextEdit);
 
                         void Containerization()
@@ -789,7 +789,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             }
 
             // Add our text box at the end of items and set its default value to our initial text, fix for #4749
-            currentTextEdit = lastTextEdit = new PretokenStringContainer(true) { Text = Text };
+            currentTextEdit = lastTextEdit = new PreTokenStringContainer(true) { Text = Text };
             innerItemsSource.Insert(innerItemsSource.Count, currentTextEdit);
             ItemsSource = innerItemsSource;
         }
@@ -887,9 +887,10 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     }
 
     [Command("RemoveItemCommand")]
-    private void RemoveToken(AutoSuggestTokenBoxItem item)
+    private void RemoveToken(AutoSuggestTokenBoxItem? item)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove token", "AutoSuggestTokenBox.Command"));
+        ArgumentNullException.ThrowIfNull(item);
         RemoveToken(item, default);
     }
 

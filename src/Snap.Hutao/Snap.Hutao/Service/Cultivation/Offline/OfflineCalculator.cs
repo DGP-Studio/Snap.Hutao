@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
@@ -38,7 +39,7 @@ internal static class OfflineCalculator
     private static readonly ImmutableArray<uint> WeeklyBossCounts = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2];
 
     // 角色突破素材（元素石）基础 ID 映射
-    private static readonly FrozenDictionary<ElementType, uint> ElementGemBaseIds = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<ElementType, uint> ElementGemBaseIds = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(ElementType.Fire, Material.AgnidusAgateSliver),
         KeyValuePair.Create(ElementType.Water, Material.VarunadaLazuriteSliver),
@@ -102,7 +103,7 @@ internal static class OfflineCalculator
     ];
 
     // 武器突破摩拉消耗查找表
-    private static readonly FrozenDictionary<QualityType, ImmutableArray<int>> WeaponAscensionMoraCosts = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<int>> WeaponAscensionMoraCosts = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create(0, 5000, 5000, 10000, 0, 0)),
         KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create(5000, 5000, 10000, 15000, 0, 0)),
@@ -112,7 +113,7 @@ internal static class OfflineCalculator
     ]);
 
     // 武器突破素材消耗的查找表
-    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMaterialConsumption = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMaterialConsumption = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(1u, 1u), new(1u, 2u), new(0u, 1u), new(0u, 0u), new(0u, 0u))),
         KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(2u, 1u), new(1u, 1u), new(1u, 3u), new(0u, 1u), new(0u, 0u), new(0u, 0u))),
@@ -122,7 +123,7 @@ internal static class OfflineCalculator
     ]);
 
     // 武器精英怪物材料消耗查找表
-    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialAConsumption = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialAConsumption = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 4u), new(0u, 2u), new(0u, 4u), new(0u, 0u), new(0u, 0u))),
         KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 5u), new(0u, 3u), new(0u, 5u), new(0u, 0u), new(0u, 0u))),
@@ -132,7 +133,7 @@ internal static class OfflineCalculator
     ]);
 
     // 武器普通怪物材料消耗查找表
-    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialBConsumption = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<QualityType, ImmutableArray<QualityOffsetCount>> WeaponMonsterMaterialBConsumption = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(QualityType.QUALITY_WHITE, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 2u), new(0u, 2u), new(0u, 3u), new(0u, 0u), new(0u, 0u))),
         KeyValuePair.Create(QualityType.QUALITY_GREEN, ImmutableArray.Create<QualityOffsetCount>(new(1u, 1u), new(1u, 4u), new(0u, 3u), new(0u, 4u), new(0u, 0u), new(0u, 0u))),

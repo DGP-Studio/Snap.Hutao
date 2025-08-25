@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[DependencyProperty("EnableMemberPath", typeof(string))]
+[DependencyProperty<string>("EnableMemberPath")]
 internal sealed partial class ComboBox2 : ComboBox
 {
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)

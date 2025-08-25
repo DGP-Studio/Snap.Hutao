@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Service.Update;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IUpdateService))]
+[Service(ServiceLifetime.Singleton, typeof(IUpdateService))]
 internal sealed partial class UpdateService : IUpdateService
 {
     private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";

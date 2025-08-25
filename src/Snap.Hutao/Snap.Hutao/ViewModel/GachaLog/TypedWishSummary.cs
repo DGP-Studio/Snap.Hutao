@@ -13,12 +13,12 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
 
     public string FormattedMaxOrangePull
     {
-        get => SH.FormatModelBindingGachaTypedWishSummaryMaxOrangePullFormat(MaxOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryMaxOrangePull(MaxOrangePull);
     }
 
     public string FormattedMinOrangePull
     {
-        get => SH.FormatModelBindingGachaTypedWishSummaryMinOrangePullFormat(MinOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryMinOrangePull(MinOrangePull);
     }
 
     public required int LastOrangePull { get; init; }
@@ -46,14 +46,14 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
 
     public string FormattedAverageOrangePull
     {
-        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePull(AverageOrangePull);
     }
 
     public bool IsPredictPullAvailable { get; set => SetProperty(ref field, value); }
 
     public string FormattedAverageUpOrangePull
     {
-        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageUpOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePull(AverageUpOrangePull);
     }
 
     public string FormattedPredictedPullLeftToOrange
