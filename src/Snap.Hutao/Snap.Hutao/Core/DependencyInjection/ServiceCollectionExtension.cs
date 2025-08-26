@@ -26,7 +26,7 @@ internal static partial class ServiceCollectionExtension
 
         static void AddDbContext(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
         {
-            string dbFile = HutaoRuntime.GetDataFolderFile("Userdata.db");
+            string dbFile = HutaoRuntime.GetDataDirectoryFile("Userdata.db");
             string sqlConnectionString = $"Data Source={dbFile}";
 
             try

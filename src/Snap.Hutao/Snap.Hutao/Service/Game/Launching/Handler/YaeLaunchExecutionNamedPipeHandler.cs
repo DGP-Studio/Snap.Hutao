@@ -48,7 +48,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         }
 
         context.Logger.LogInformation("Initializing Yae");
-        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataFolder, "YaeAchievementLib.dll");
+        string dataFolderYaePath = Path.Combine(HutaoRuntime.DataDirectory, "YaeAchievementLib.dll");
         InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeAchievementLib.dll", dataFolderYaePath);
 
         try

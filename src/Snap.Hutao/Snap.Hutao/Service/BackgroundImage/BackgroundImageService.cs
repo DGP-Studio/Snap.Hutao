@@ -118,7 +118,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 {
                     if (availableBackgroundPathSet is not { Count: > 0 })
                     {
-                        string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
+                        string backgroundFolder = HutaoRuntime.GetDataBackgroundDirectory();
 
                         availableBackgroundPathSet =
                         [

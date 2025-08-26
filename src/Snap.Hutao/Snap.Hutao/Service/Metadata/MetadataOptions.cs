@@ -21,7 +21,7 @@ internal sealed partial class MetadataOptions
         {
             if (field is null)
             {
-                field = Path.Combine(HutaoRuntime.DataFolder, "Metadata", LocaleNames.CHS);
+                field = Path.Combine(HutaoRuntime.DataDirectory, "Metadata", LocaleNames.CHS);
                 Directory.CreateDirectory(field);
             }
 
@@ -36,7 +36,7 @@ internal sealed partial class MetadataOptions
         {
             if (field is null)
             {
-                field = Path.Combine(HutaoRuntime.DataFolder, "Metadata", cultureOptions.LocaleName);
+                field = Path.Combine(HutaoRuntime.DataDirectory, "Metadata", cultureOptions.LocaleName);
                 Directory.CreateDirectory(field);
             }
 

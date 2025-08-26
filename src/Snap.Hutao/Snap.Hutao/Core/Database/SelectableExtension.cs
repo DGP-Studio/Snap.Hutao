@@ -44,10 +44,4 @@ internal static class SelectableExtension
             return first;
         }
     }
-
-    private static bool IsSelected<TSelectable>(TSelectable item)
-        where TSelectable : ISelectable
-    {
-        return item.IsSelected;
-    }
 }

@@ -133,7 +133,7 @@ internal sealed partial class UpdateService : IUpdateService
 
     private async ValueTask LaunchUpdaterAsync()
     {
-        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath = HutaoRuntime.GetDataUpdateCacheDirectoryFile(UpdaterFilename);
         InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
 
         using (IServiceScope scope = serviceProvider.CreateScope())

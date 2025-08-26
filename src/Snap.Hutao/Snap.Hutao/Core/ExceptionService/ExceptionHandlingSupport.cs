@@ -7,7 +7,6 @@ using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using System.Data.Common;
 using System.Diagnostics;
-using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -84,34 +83,8 @@ internal sealed partial class ExceptionHandlingSupport
 #pragma warning restore SH007
     }
 
-    private static void OnAppDomainFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
-    {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (e.Exception is null)
-        {
-            return;
-        }
-
-        Exception exception = e.Exception;
-        if (exception is OperationCanceledException or IInternalException)
-        {
-            return;
-        }
-
-        if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
-        {
-            return;
-        }
-
-        Debugger.Break();
-    }
-
     private void Attach(Application app)
     {
-#if DEBUG
-        AppDomain.CurrentDomain.FirstChanceException += OnAppDomainFirstChanceException;
-#endif
-
         app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);
     }

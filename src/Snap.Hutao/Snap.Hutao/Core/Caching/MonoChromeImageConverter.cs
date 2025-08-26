@@ -28,25 +28,20 @@ internal static class MonoChromeImageConverter
                 using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
                 {
                     byte value = (byte)(theme is ElementTheme.Light ? 0x00 : 0xFF);
-                    SynchronizedConvert(reference.As<IMemoryBufferByteAccess>(), value);
+                    Debug.Assert(Thread.CurrentThread.IsBackground);
+
+                    reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Rgba32> span);
+                    foreach (ref Rgba32 pixel in span)
+                    {
+                        pixel.A = (byte)pixel.Luminance255;
+                        pixel.R = pixel.G = pixel.B = value;
+                    }
                 }
             }
 
             BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, destination.AsRandomAccessStream());
             encoder.SetSoftwareBitmap(sourceBitmap);
             await encoder.FlushAsync();
-        }
-    }
-
-    private static void SynchronizedConvert(IMemoryBufferByteAccess byteAccess, byte background)
-    {
-        Debug.Assert(Thread.CurrentThread.IsBackground);
-
-        byteAccess.GetBuffer(out Span<Rgba32> span);
-        foreach (ref Rgba32 pixel in span)
-        {
-            pixel.A = (byte)pixel.Luminance255;
-            pixel.R = pixel.G = pixel.B = background;
         }
     }
 }

@@ -16,8 +16,8 @@ internal static class SettingKeys
     #region Application
     public const string LastVersion = "LastVersion";
     public const string LaunchTimes = "LaunchTimes";
-    public const string DataFolderPath = "DataFolderPath";
-    public const string PreviousDataFolderToDelete = "PreviousDataFolderToDelete";
+    public const string DataDirectory = "DataFolderPath";
+    public const string PreviousDataDirectoryToDelete = "PreviousDataFolderToDelete";
     public const string GuideState = "Major1Minor13Revision1GuideState";
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";

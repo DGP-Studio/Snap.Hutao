@@ -37,7 +37,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
         if (!File.Exists(baseFile))
         {
-            throw InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'");
+            throw InternalImageCacheException.Throw($"'{uri.OriginalString}': File not exists after download attempt.");
         }
     }
 
@@ -58,14 +58,14 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 {
                     throw responseMessage.StatusCode switch
                     {
-                        HttpStatusCode.NotFound => InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'"),
+                        HttpStatusCode.NotFound => InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}': 404 Not Found"),
                         _ => InternalImageCacheException.Throw($"Unexpected HTTP status code {responseMessage.StatusCode}"),
                     };
                 }
 
                 if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
                 {
-                    return;
+                    InternalImageCacheException.Throw("Unexpected content type: application/json");
                 }
 
                 using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))

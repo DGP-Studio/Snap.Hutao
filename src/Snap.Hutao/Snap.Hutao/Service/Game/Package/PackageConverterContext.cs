@@ -47,7 +47,7 @@ internal readonly struct PackageConverterContext
     {
         ParallelOptions = new() { MaxDegreeOfParallelism = Environment.ProcessorCount, };
 
-        ServerCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
+        ServerCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
         ServerCacheChunksFolder = Path.Combine(ServerCacheFolder, "Chunks");
 
         string serverCacheOversea = Path.Combine(ServerCacheFolder, "Oversea");

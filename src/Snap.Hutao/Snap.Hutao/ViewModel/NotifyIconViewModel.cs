@@ -177,7 +177,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         int width = renderTargetBitmap.PixelWidth;
         int height = renderTargetBitmap.PixelHeight;
 
-        string directory = Path.Combine(HutaoRuntime.GetDataFolderScreenshotFolder(), CultureInfo.CurrentCulture.Name);
+        string directory = Path.Combine(HutaoRuntime.GetDataScreenshotDirectory(), CultureInfo.CurrentCulture.Name);
         Directory.CreateDirectory(directory);
         string filename = $"{navigationService.CurrentPageType?.Name ?? "None"}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
         using (FileStream fileStream = File.Create(Path.Combine(directory, filename)))

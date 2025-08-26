@@ -27,7 +27,7 @@ internal sealed class SettingStorageSetDataFolderOperation
             return false;
         }
 
-        string oldFolderPath = HutaoRuntime.DataFolder;
+        string oldFolderPath = HutaoRuntime.DataDirectory;
         if (Path.GetFullPath(oldFolderPath).Equals(Path.GetFullPath(newFolderPath), StringComparison.OrdinalIgnoreCase))
         {
             return false;
@@ -78,8 +78,8 @@ internal sealed class SettingStorageSetDataFolderOperation
             return false;
         }
 
-        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolderPath);
-        LocalSetting.Set(SettingKeys.DataFolderPath, newFolderPath);
+        LocalSetting.Set(SettingKeys.PreviousDataDirectoryToDelete, oldFolderPath);
+        LocalSetting.Set(SettingKeys.DataDirectory, newFolderPath);
         return true;
     }
 }

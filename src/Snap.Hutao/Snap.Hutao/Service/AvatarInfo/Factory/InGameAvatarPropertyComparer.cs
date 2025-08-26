@@ -7,7 +7,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-internal sealed class InGameAvatarPropertyComparer : DelegatingComparer<AvatarProperty, FightProperty>
+internal sealed class InGameAvatarPropertyComparer : DelegatingPropertyComparer<AvatarProperty, FightProperty>
 {
     private static readonly LazySlim<InGameAvatarPropertyComparer> LazyShared = new(() => new());
 

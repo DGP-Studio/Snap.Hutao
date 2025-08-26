@@ -32,7 +32,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     {
         this.context = context;
         this.resume = resume;
-        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
+        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataDirectory, "Snap.Hutao.UnlockerIsland.dll");
     }
 
     public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
