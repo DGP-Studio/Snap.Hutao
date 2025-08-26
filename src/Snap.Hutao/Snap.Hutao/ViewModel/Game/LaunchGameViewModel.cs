@@ -359,7 +359,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("KillGameProcessCommand")]
     private void KillGameProcess()
     {
-        if (!HutaoRuntime.IsProcessElevated)
+        if (!LaunchOptions.CanKillGameProcess)
         {
             return;
         }
