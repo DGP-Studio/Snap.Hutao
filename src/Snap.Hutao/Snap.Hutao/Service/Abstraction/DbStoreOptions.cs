@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service.Abstraction.Property;
 using System.Collections.Immutable;
@@ -13,61 +14,61 @@ internal abstract partial class DbStoreOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 
-    protected DbProperty<string> CreateProperty(string key, string defaultValue)
+    protected IObservableProperty<string> CreateProperty(string key, string defaultValue)
     {
         return new StringDbProperty(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<string?> CreateProperty(string key)
+    protected IObservableProperty<string?> CreateProperty(string key)
     {
         return new NullableStringDbProperty(serviceProvider, key);
     }
 
-    protected DbProperty<bool> CreateProperty(string key, bool defaultValue)
+    protected IObservableProperty<bool> CreateProperty(string key, bool defaultValue)
     {
         return new BooleanDbProperty(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<int> CreateProperty(string key, int defaultValue)
+    protected IObservableProperty<int> CreateProperty(string key, int defaultValue)
     {
         return new Int32DbProperty(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<int> CreateProperty(string key, Func<int> defaultValueFactory)
+    protected IObservableProperty<int> CreateProperty(string key, Func<int> defaultValueFactory)
     {
         return new Int32DbProperty(serviceProvider, key, defaultValueFactory);
     }
 
-    protected DbProperty<float> CreateProperty(string key, float defaultValue)
+    protected IObservableProperty<float> CreateProperty(string key, float defaultValue)
     {
         return new SingleDbProperty(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<TEnum> CreateProperty<TEnum>(string key, TEnum defaultValue)
+    protected IObservableProperty<TEnum> CreateProperty<TEnum>(string key, TEnum defaultValue)
         where TEnum : struct, Enum
     {
         return new EnumDbProperty<TEnum>(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<T> CreatePropertyForStructUsingCustom<T>(string key, T defaultValue, Func<string, T> from, Func<T, string> to)
+    protected IObservableProperty<T> CreatePropertyForStructUsingCustom<T>(string key, T defaultValue, Func<string, T> from, Func<T, string> to)
         where T : struct
     {
         return new StructUsingCustomDbProperty<T>(serviceProvider, key, defaultValue, from, to);
     }
 
-    protected DbProperty<T> CreatePropertyForStructUsingJson<T>(string key, T defaultValue)
+    protected IObservableProperty<T> CreatePropertyForStructUsingJson<T>(string key, T defaultValue)
         where T : struct
     {
         return new StructUsingJsonDbProperty<T>(serviceProvider, key, defaultValue);
     }
 
-    protected DbProperty<T> CreatePropertyForClassUsingCustom<T>(string key, T defaultValue, Func<string, T> from, Func<T, string> to)
+    protected IObservableProperty<T> CreatePropertyForClassUsingCustom<T>(string key, T defaultValue, Func<string, T> from, Func<T, string> to)
         where T : class
     {
         return new ClassUsingCustomDbProperty<T>(serviceProvider, key, defaultValue, from, to);
     }
 
-    protected DbProperty<NameValue<int>?> CreatePropertyForSelectedOneBasedIndex(string key, ImmutableArray<NameValue<int>> array)
+    protected IObservableProperty<NameValue<int>?> CreatePropertyForSelectedOneBasedIndex(string key, ImmutableArray<NameValue<int>> array)
     {
         return new SelectedOneBasedIndexDbProperty(serviceProvider, key, array);
     }

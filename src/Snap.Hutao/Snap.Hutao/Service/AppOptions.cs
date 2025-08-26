@@ -6,7 +6,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Abstraction.Property;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
@@ -75,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     public IObservableProperty<int> DownloadSpeedLimitPerSecondInKiloByte { get => field ??= CreateProperty(SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0); }
 
     [field: MaybeNull]
-    public IObservableProperty<BridgeShareSaveType> BridgeShareSaveType { get => field ??= CreateProperty(SettingEntry.BridgeShareSaveType, Web.Bridge.BridgeShareSaveType.CopyToClipboard);}
+    public IObservableProperty<BridgeShareSaveType> BridgeShareSaveType { get => field ??= CreateProperty(SettingEntry.BridgeShareSaveType, Web.Bridge.BridgeShareSaveType.CopyToClipboard); }
 
     [field: MaybeNull]
     public IObservableProperty<TimeSpan> CalendarServerTimeZoneOffset { get => field ??= CreatePropertyForStructUsingCustom(SettingEntry.CalendarServerTimeZoneOffset, ServerRegionTimeZone.CommonOffset, TimeSpan.Parse, static v => v.ToString()); }
