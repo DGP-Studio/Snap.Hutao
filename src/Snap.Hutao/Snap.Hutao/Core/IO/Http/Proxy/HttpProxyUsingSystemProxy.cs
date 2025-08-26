@@ -31,7 +31,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     }
 
     [field: MaybeNull]
-    public static HttpProxyUsingSystemProxy Instance { get => LazyInitializer.EnsureInitialized(ref field); }
+    public static HttpProxyUsingSystemProxy Instance { get => LazyInitializer.EnsureInitialized(ref field, () => new()); }
 
     [SuppressMessage("", "SA1201")]
     public string CurrentProxyUri { get => GetProxy(ProxyTestDestination)?.AbsoluteUri ?? SH.ViewPageFeedbackCurrentProxyNoProxyDescription; }
