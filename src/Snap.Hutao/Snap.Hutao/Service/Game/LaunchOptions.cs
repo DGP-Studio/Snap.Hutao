@@ -26,6 +26,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public static bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
 
+    public static bool CanKillGameProcess { get => HutaoRuntime.IsProcessElevated && IsGameRunning; }
+
     string IRestrictedGamePathAccess.GamePath { get => GamePath.Value; set => GamePath.Value = value; }
 
     [field: MaybeNull]
@@ -155,6 +157,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         taskContext.InvokeOnMainThread(() =>
         {
             OnPropertyChanged(nameof(IsGameRunning));
+            OnPropertyChanged(nameof(CanKillGameProcess));
         });
     }
 

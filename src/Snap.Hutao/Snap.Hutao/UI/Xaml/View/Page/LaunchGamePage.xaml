@@ -214,7 +214,7 @@
                     <AppBarButton
                         Command="{Binding KillGameProcessCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE733;}"
-                        IsEnabled="{Binding LaunchOptions.IsGameRunning}"
+                        IsEnabled="{Binding LaunchOptions.CanKillGameProcess}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameKillGameProcessAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
