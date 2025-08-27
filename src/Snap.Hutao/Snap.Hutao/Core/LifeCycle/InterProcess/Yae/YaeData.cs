@@ -25,6 +25,8 @@ internal sealed partial class YaeData : IDisposable
         Dispose();
     }
 
+    public static YaeData SessionEnd { get => new(YaeCommandKind.SessionEnd, default!, 0); }
+
     public YaeCommandKind Kind { get; }
 
     public ByteString Bytes { get => ByteStringMarshal.Create(owner.Memory[..contentLength]); }

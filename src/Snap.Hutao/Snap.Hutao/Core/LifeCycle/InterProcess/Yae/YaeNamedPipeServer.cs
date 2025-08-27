@@ -131,7 +131,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                 {
                     writer.Write(true);
                     writer.Flush();
-                    return default;
+                    return YaeData.SessionEnd;
                 }
 
             default:
@@ -157,7 +157,14 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                 // Actually, yae exit after read the final bool value.
                 if (HandleCommand(reader, writer, config) is { } data)
                 {
-                    builder.Add(data);
+                    if (data.Kind is YaeCommandKind.SessionEnd)
+                    {
+                        gameProcess.Kill();
+                    }
+                    else
+                    {
+                        builder.Add(data);
+                    }
                 }
             }
             catch (EndOfStreamException)
