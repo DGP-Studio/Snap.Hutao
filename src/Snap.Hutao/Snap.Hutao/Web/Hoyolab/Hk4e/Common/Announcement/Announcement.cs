@@ -67,11 +67,11 @@ internal sealed class Announcement : AnnouncementContent
     public int LoginAlert { get; set; }
 
     [JsonPropertyName("start_time")]
-    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
+    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
     public DateTimeOffset StartTime { get; set; }
 
     [JsonPropertyName("end_time")]
-    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
+    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
     public DateTimeOffset EndTime { get; set; }
 
     [JsonPropertyName("type")]

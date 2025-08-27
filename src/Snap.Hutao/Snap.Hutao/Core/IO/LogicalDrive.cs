@@ -8,8 +8,14 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class LogicalDrive
 {
-    public static long GetAvailableFreeSpace(string path)
+    public static long GetAvailableFreeSpace(ValueDirectory directory)
     {
+        if (!directory.HasValue)
+        {
+            return 0;
+        }
+
+        string path = directory;
         if (!path.EndsWith('\\'))
         {
             path += '\\';

@@ -66,10 +66,13 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
                 bytesReadSinceCopyStart += bytesRead;
                 bytesReadSinceLastReport += bytesRead;
 
-                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
+                using (RateLimitLease lease = progressReportRateLimiter.AttemptAcquire())
                 {
-                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
-                    bytesReadSinceLastReport = 0;
+                    if (lease.IsAcquired)
+                    {
+                        progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
+                        bytesReadSinceLastReport = 0;
+                    }
                 }
             }
             while (true);

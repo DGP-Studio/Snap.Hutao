@@ -10,9 +10,9 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class DirectoryOperation
 {
-    public static long GetSize(string path, CancellationToken token = default)
+    public static long GetSize(ValueDirectory directory, CancellationToken token = default)
     {
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(directory))
         {
             return 0;
         }
@@ -20,7 +20,7 @@ internal static class DirectoryOperation
         long size = 0;
         try
         {
-            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories))
+            foreach (string file in Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories))
             {
                 token.ThrowIfCancellationRequested();
 
@@ -41,17 +41,17 @@ internal static class DirectoryOperation
         return size;
     }
 
-    public static bool Copy(string sourceDirName, string destDirName, out Exception? exception)
+    public static bool Copy(ValueDirectory sourceDirectory, ValueDirectory targetDirectory, out Exception? exception)
     {
-        if (!Directory.Exists(sourceDirName))
+        if (!Directory.Exists(sourceDirectory))
         {
-            exception = new DirectoryNotFoundException($"Directory not found: {sourceDirName}");
+            exception = new DirectoryNotFoundException($"Directory '{sourceDirectory}' not exists.");
             return false;
         }
 
         try
         {
-            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(sourceDirName, destDirName, true);
+            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(sourceDirectory, targetDirectory, true);
             exception = default;
             return true;
         }
@@ -62,16 +62,16 @@ internal static class DirectoryOperation
         }
     }
 
-    public static bool Move(string sourceDirName, string destDirName)
+    public static bool Move(ValueDirectory sourceDirectory, ValueDirectory targetDirectory)
     {
-        if (!Directory.Exists(sourceDirName))
+        if (!Directory.Exists(sourceDirectory))
         {
             return false;
         }
 
         try
         {
-            Microsoft.VisualBasic.FileIO.FileSystem.MoveDirectory(sourceDirName, destDirName, true);
+            Microsoft.VisualBasic.FileIO.FileSystem.MoveDirectory(sourceDirectory, targetDirectory, true);
             return true;
         }
         catch
@@ -80,14 +80,14 @@ internal static class DirectoryOperation
         }
     }
 
-    public static void UnsafeRename(string path, string name, FILEOPERATION_FLAGS flags = FILEOPERATION_FLAGS.FOF_ALLOWUNDO | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR)
+    public static void UnsafeRename(ValueDirectory directory, string name, FILEOPERATION_FLAGS flags = FILEOPERATION_FLAGS.FOF_ALLOWUNDO | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR)
     {
-        FileSystem.RenameItem(path, name, flags);
+        FileSystem.RenameItem(directory, name, flags);
     }
 
-    public static bool TrySetFullControl(string path)
+    public static bool TrySetFullControl(ValueDirectory directory)
     {
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(directory))
         {
             return false;
         }
@@ -99,7 +99,7 @@ internal static class DirectoryOperation
 
         try
         {
-            DirectoryInfo info = new(path);
+            DirectoryInfo info = new(directory);
             DirectorySecurity accessControl = info.GetAccessControl();
 
             bool hasAllowedAccess = false;

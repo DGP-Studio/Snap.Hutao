@@ -92,16 +92,16 @@ internal sealed partial class MetadataService : IMetadataService
                     Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
                     // Write stream while convert LF to CRLF
-                    using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
-                    {
-                        while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                        {
-                            await readerWriter.WriteAsync(line).ConfigureAwait(false);
+                    using StreamReader reader = new(sourceStream);
+                    using StreamWriter writer = File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName));
 
-                            if (!readerWriter.Reader.EndOfStream)
-                            {
-                                await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
-                            }
+                    while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                    {
+                        await writer.WriteAsync(line).ConfigureAwait(false);
+
+                        if (!reader.EndOfStream)
+                        {
+                            await writer.WriteAsync("\r\n").ConfigureAwait(false);
                         }
                     }
                 }

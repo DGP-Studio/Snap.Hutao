@@ -38,6 +38,6 @@ internal sealed partial class RetryHttpHandler : DelegatingHandler
         }
 
         dispatch?.Throw();
-        throw HutaoException.InvalidOperation("Unexpected Request retry state");
+        throw HutaoException.InvalidOperation("Unexpected request retry state");
     }
 }
