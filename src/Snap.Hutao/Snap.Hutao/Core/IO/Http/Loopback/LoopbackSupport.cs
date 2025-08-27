@@ -17,7 +17,7 @@ internal sealed partial class LoopbackSupport : ObservableObject
         native = HutaoNative.Instance.MakeLoopbackSupport();
         try
         {
-            if (!native.IsPublicFirewallEnabled())
+            if (!native.IsPublicFirewallEnabled)
             {
                 IsLoopbackEnabled = false;
                 hutaoContainerStringSid = string.Empty;

@@ -94,7 +94,7 @@ internal sealed partial class NotifyIconController : IDisposable
         ObjectDisposedException.ThrowIf(disposed, this);
         try
         {
-            return native.IsPromoted();
+            return native.IsPromoted;
         }
         catch (Exception ex)
         {

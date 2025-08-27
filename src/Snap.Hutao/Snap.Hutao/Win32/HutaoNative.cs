@@ -19,6 +19,7 @@ internal sealed unsafe class HutaoNative
     private readonly ObjectReference<Vftbl4>? objRef4;
     private readonly ObjectReference<Vftbl5>? objRef5;
     private readonly ObjectReference<Vftbl6>? objRef6;
+    private readonly ObjectReference<Vftbl7>? objRef7;
 
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
@@ -30,6 +31,7 @@ internal sealed unsafe class HutaoNative
         objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
         objRef.TryAs(typeof(Vftbl5).GUID, out objRef5);
         objRef.TryAs(typeof(Vftbl6).GUID, out objRef6);
+        objRef.TryAs(typeof(Vftbl7).GUID, out objRef7);
     }
 
     [field: MaybeNull]
@@ -57,6 +59,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl5>? ObjRef5 { get => objRef5; }
 
     private ObjectReference<Vftbl6>? ObjRef6 { get => objRef6; }
+
+    private ObjectReference<Vftbl7>? ObjRef7 { get => objRef7; }
 
     public static BOOL IsWin32(HRESULT hr, WIN32_ERROR error)
     {
@@ -232,6 +236,14 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativeHotKeyAction.Vftbl>.Attach(ref pv, typeof(HutaoNativeHotKeyAction.Vftbl).GUID));
     }
 
+    public HutaoNativeProcess MakeProcess(HutaoNativeProcessStartInfo info)
+    {
+        HutaoException.NotSupportedIf(ObjRef7 is null, "IHutaoNative7 is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(ObjRef7.Vftbl.MakeProcess(ObjRef7.ThisPtr, info, (HutaoNativeProcess.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeProcess.Vftbl>.Attach(ref pv, typeof(HutaoNativeProcess.Vftbl).GUID));
+    }
+
 #pragma warning disable CS0649
     [Guid(HutaoNativeMethods.IID_IHutaoNative)]
     internal readonly struct Vftbl
@@ -278,6 +290,13 @@ internal sealed unsafe class HutaoNative
     {
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeHotKeyActionKind, HutaoNativeHotKeyActionCallback, nint, HutaoNativeHotKeyAction.Vftbl**, HRESULT> MakeHotKeyAction;
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNative7)]
+    private readonly struct Vftbl7
+    {
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeProcessStartInfo, HutaoNativeProcess.Vftbl**, HRESULT> MakeProcess;
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoPrivate)]

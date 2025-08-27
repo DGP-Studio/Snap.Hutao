@@ -19,6 +19,18 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
     }
 
+    public BOOL IsPublicFirewallEnabled
+    {
+        get
+        {
+            HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNativeLoopbackSupport2 is not supported");
+
+            BOOL isEnabled = default;
+            Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.IsPublicFirewallEnabled(ObjRef2.ThisPtr, &isEnabled));
+            return isEnabled;
+        }
+    }
+
     private ObjectReference<Vftbl> ObjRef { get; }
 
     private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
@@ -41,15 +53,6 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         {
             Marshal.ThrowExceptionForHR(ObjRef.Vftbl.Enable(ObjRef.ThisPtr, pSid));
         }
-    }
-
-    public BOOL IsPublicFirewallEnabled()
-    {
-        HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNativeLoopbackSupport2 is not supported");
-
-        BOOL isEnabled = default;
-        Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.IsPublicFirewallEnabled(ObjRef2.ThisPtr, &isEnabled));
-        return isEnabled;
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNativeLoopbackSupport)]

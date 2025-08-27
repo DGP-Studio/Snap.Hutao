@@ -38,11 +38,14 @@ internal sealed unsafe class HutaoNativeNotifyIcon
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Destroy(objRef.ThisPtr));
     }
 
-    public BOOL IsPromoted()
+    public BOOL IsPromoted
     {
-        BOOL promoted = default;
-        Marshal.ThrowExceptionForHR(objRef.Vftbl.IsPromoted(objRef.ThisPtr, &promoted));
-        return promoted;
+        get
+        {
+            BOOL promoted = default;
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsPromoted(objRef.ThisPtr, &promoted));
+            return promoted;
+        }
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNativeNotifyIcon)]
