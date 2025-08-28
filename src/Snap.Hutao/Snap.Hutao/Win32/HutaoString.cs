@@ -22,11 +22,14 @@ internal sealed unsafe class HutaoString
         return new(ObjectReference<Vftbl>.Attach(ref abi, typeof(Vftbl).GUID));
     }
 
-    public string? Get()
+    public string? Value
     {
-        PCWSTR buffer;
-        Marshal.ThrowExceptionForHR(objRef.Vftbl.GetBuffer(objRef.ThisPtr, &buffer));
-        return buffer.Value is null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
+        get
+        {
+            PCWSTR buffer;
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.GetBuffer(objRef.ThisPtr, &buffer));
+            return buffer.Value is null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
+        }
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoString)]

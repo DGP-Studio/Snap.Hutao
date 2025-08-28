@@ -11,11 +11,12 @@ namespace Snap.Hutao.Win32;
 
 internal sealed unsafe class HutaoNativeLoopbackSupport
 {
+    private readonly ObjectReference<Vftbl> objRef;
     private readonly ObjectReference<Vftbl2>? objRef2;
 
     public HutaoNativeLoopbackSupport(ObjectReference<Vftbl> objRef)
     {
-        ObjRef = objRef;
+        this.objRef = objRef;
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
     }
 
@@ -23,17 +24,13 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
     {
         get
         {
-            HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNativeLoopbackSupport2 is not supported");
+            HutaoException.NotSupportedIf(objRef2 is null, "IHutaoNativeLoopbackSupport2 is not supported");
 
             BOOL isEnabled = default;
-            Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.IsPublicFirewallEnabled(ObjRef2.ThisPtr, &isEnabled));
+            Marshal.ThrowExceptionForHR(objRef2.Vftbl.IsPublicFirewallEnabled(objRef2.ThisPtr, &isEnabled));
             return isEnabled;
         }
     }
-
-    private ObjectReference<Vftbl> ObjRef { get; }
-
-    private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
 
     public BOOL IsEnabled(ReadOnlySpan<char> familyName, out string? sid)
     {
@@ -41,8 +38,8 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         {
             nint pSid = default;
             BOOL enabled = default;
-            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.IsEnabled(ObjRef.ThisPtr, pFamilyName, (HutaoString.Vftbl**)&pSid, &enabled));
-            sid = HutaoString.AttachAbi(ref pSid).Get();
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsEnabled(objRef.ThisPtr, pFamilyName, (HutaoString.Vftbl**)&pSid, &enabled));
+            sid = HutaoString.AttachAbi(ref pSid).Value;
             return enabled;
         }
     }
@@ -51,7 +48,7 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
     {
         fixed (char* pSid = sid)
         {
-            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.Enable(ObjRef.ThisPtr, pSid));
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.Enable(objRef.ThisPtr, pSid));
         }
     }
 

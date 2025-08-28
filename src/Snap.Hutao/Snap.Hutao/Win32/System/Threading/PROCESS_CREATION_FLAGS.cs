@@ -5,7 +5,7 @@ namespace Snap.Hutao.Win32.System.Threading;
 
 // ReSharper disable InconsistentNaming
 [Flags]
-public enum PROCESS_CREATION_FLAGS : uint
+internal enum PROCESS_CREATION_FLAGS : uint
 {
     DEBUG_PROCESS = 1u,
     DEBUG_ONLY_THIS_PROCESS = 2u,
