@@ -588,19 +588,19 @@
         </Border>
 
         <ScrollView Grid.Row="1">
-            <ItemsRepeater
+            <ItemsControl
                 Margin="16"
                 ItemTemplate="{StaticResource DailyNoteEntryTemplate}"
                 ItemsSource="{Binding DailyNoteEntries}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        ItemsJustification="Start"
-                        ItemsStretch="Fill"
-                        MinColumnSpacing="12"
-                        MinItemWidth="300"
-                        MinRowSpacing="12"/>
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <shuxcp:UniformStaggeredPanel
+                            ColumnSpacing="12"
+                            MinItemWidth="300"
+                            RowSpacing="12"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollView>
     </Grid>
 </shuxc:ScopedPage>

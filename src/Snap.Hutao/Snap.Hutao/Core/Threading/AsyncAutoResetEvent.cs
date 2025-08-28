@@ -10,7 +10,12 @@ internal sealed class AsyncAutoResetEvent
     private readonly Queue<TaskCompletionSource> waits = [];
     private bool signaled;
 
-    public Task WaitAsync()
+    public AsyncAutoResetEvent(bool initialState)
+    {
+        signaled = initialState;
+    }
+
+    public Task WaitOneAsync()
     {
         lock (waits)
         {

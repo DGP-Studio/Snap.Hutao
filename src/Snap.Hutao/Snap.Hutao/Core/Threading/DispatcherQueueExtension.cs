@@ -9,7 +9,9 @@ namespace Snap.Hutao.Core.Threading;
 
 internal static class DispatcherQueueExtension
 {
-    private static readonly ObjectPool<ManualResetEventSlim> EventPool = new DefaultObjectPool<ManualResetEventSlim>(new PooledManualResetEventSlimPolicy());
+    // TODO: DisposableObjectPool: Consider disposing the pool when application exits.
+    // Once disposed, Invoke methods will not work anymore.
+    private static readonly ObjectPool<ManualResetEventSlim> EventPool = new DefaultObjectPoolProvider().Create(new PooledManualResetEventSlimPolicy());
 
     public static void Invoke(this DispatcherQueue dispatcherQueue, Action action)
     {

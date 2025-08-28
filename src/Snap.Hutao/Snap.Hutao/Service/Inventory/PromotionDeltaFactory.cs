@@ -113,6 +113,10 @@ internal sealed partial class PromotionDeltaFactory
     {
         private static readonly LazySlim<CultivationItemsAccessComparer> LazyShared = new(() => new());
 
+        private CultivationItemsAccessComparer()
+        {
+        }
+
         public static CultivationItemsAccessComparer Shared { get => LazyShared.Value; }
 
         public int Compare(ICultivationItemsAccess? x, ICultivationItemsAccess? y)

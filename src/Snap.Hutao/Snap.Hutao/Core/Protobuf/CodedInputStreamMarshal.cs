@@ -25,6 +25,7 @@ internal static class CodedInputStreamMarshal
         return new(ReadRawBytes(stream, stream.ReadLength()));
     }
 
+    // internal byte[] ReadRawBytes(int size)
     [UnsafeAccessor(UnsafeAccessorKind.Method)]
     private static extern byte[] ReadRawBytes(CodedInputStream stream, int size);
 }

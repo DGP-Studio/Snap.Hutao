@@ -10,6 +10,7 @@ using System.Security.AccessControl;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
+[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
@@ -17,30 +18,9 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
     private readonly ILogger<PrivateNamedPipeServer> logger;
 
+    private readonly NamedPipeServerStream serverStream = CreatePipeServerStream();
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly AsyncLock serverLock = new();
-
-    private readonly NamedPipeServerStream serverStream;
-
-    public PrivateNamedPipeServer(IServiceProvider serviceProvider)
-    {
-        betterGenshinImpactNamedPipeServer = serviceProvider.GetRequiredService<BetterGenshinImpactNamedPipeServer>();
-        messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
-        logger = serviceProvider.GetRequiredService<ILogger<PrivateNamedPipeServer>>();
-
-        PipeSecurity pipeSecurity = new();
-        pipeSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, PipeAccessRights.FullControl, AccessControlType.Allow));
-
-        serverStream = NamedPipeServerStreamAcl.Create(
-            PrivateNamedPipe.Name,
-            PipeDirection.InOut,
-            NamedPipeServerStream.MaxAllowedServerInstances,
-            PipeTransmissionMode.Byte,
-            PipeOptions.Asynchronous | PipeOptions.WriteThrough,
-            0,
-            0,
-            pipeSecurity);
-    }
 
     public void Dispose()
     {
@@ -53,6 +33,22 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     public void Start()
     {
         RunAsync().SafeForget();
+    }
+
+    private static NamedPipeServerStream CreatePipeServerStream()
+    {
+        PipeSecurity pipeSecurity = new();
+        pipeSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, PipeAccessRights.FullControl, AccessControlType.Allow));
+
+        return NamedPipeServerStreamAcl.Create(
+            PrivateNamedPipe.Name,
+            PipeDirection.InOut,
+            NamedPipeServerStream.MaxAllowedServerInstances,
+            PipeTransmissionMode.Byte,
+            PipeOptions.Asynchronous | PipeOptions.WriteThrough,
+            0,
+            0,
+            pipeSecurity);
     }
 
     private async ValueTask RunAsync()
