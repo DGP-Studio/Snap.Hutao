@@ -115,7 +115,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             {
                 url = url1;
             }
-            else if (newHomeInfo.Navigator.SingleOrDefault(nav => nav.Name.Equals("直播兑换码", StringComparison.OrdinalIgnoreCase)) is { AppPath: { } url2 })
+            else if (newHomeInfo.Navigator.SingleOrDefault(nav => nav.Name.EqualsAny(["直播兑换码", "前瞻直播"], StringComparison.OrdinalIgnoreCase)) is { AppPath: { } url2 })
             {
                 url = url2;
             }
