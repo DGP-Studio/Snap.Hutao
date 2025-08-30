@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Factory.Process;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -26,7 +28,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
+    private static IProcess InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 
@@ -53,17 +55,6 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);
-
-        return new()
-        {
-            StartInfo = new()
-            {
-                Arguments = commandLine,
-                FileName = gameFileSystem.GameFilePath,
-                UseShellExecute = true,
-                Verb = "runas",
-                WorkingDirectory = gameFileSystem.GetGameDirectory(),
-            },
-        };
+        return ProcessFactory.CreateUsingShellExecuteRunAs(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory());
     }
 }

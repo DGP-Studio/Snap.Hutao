@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;

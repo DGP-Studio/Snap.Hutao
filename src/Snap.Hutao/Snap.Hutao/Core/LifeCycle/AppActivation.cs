@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
@@ -120,7 +121,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
             default:
                 Debugger.Break(); // Should never happen
-                Process.GetCurrentProcess().Kill();
+                ProcessFactory.KillCurrent();
                 return;
         }
     }
@@ -182,7 +183,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         catch (COMException ex) when (ex.HResult == unchecked((int)0x8001010E))
         {
             // The given object has already been closed / disposed and may no longer be used.
-            Process.GetCurrentProcess().Kill();
+            ProcessFactory.KillCurrent();
         }
 
         lock (NotifyIconController.InitializationSyncRoot)

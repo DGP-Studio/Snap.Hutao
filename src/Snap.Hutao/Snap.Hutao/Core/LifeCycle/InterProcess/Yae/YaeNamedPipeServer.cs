@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Yae.Achievement;
 using System.Buffers;
@@ -18,7 +19,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
     private readonly ILogger<YaeNamedPipeServer> logger;
     private readonly NamedPipeServerStream serverStream;
-    private readonly Process gameProcess;
+    private readonly IProcess gameProcess;
     private readonly TargetNativeConfiguration config;
 
     private readonly CancellationTokenSource disposeCts = new();
@@ -26,7 +27,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
     private volatile bool disposed;
 
-    public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess, TargetNativeConfiguration config)
+    public YaeNamedPipeServer(IServiceProvider serviceProvider, IProcess gameProcess, TargetNativeConfiguration config)
     {
         Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
 

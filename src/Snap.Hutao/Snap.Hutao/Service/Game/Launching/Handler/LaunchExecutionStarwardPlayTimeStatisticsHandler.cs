@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using Windows.System;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;

@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Diagnostics;
+using Snap.Hutao.Factory.Process;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
@@ -35,7 +35,7 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
         }
         catch
         {
-            Process.GetCurrentProcess().Kill();
+            ProcessFactory.KillCurrent();
         }
     }
 }

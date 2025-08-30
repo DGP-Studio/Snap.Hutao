@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using Windows.System;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -30,7 +31,7 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : ILau
             try
             {
                 context.Logger.LogInformation("Waiting game window to be ready");
-                SpinWait.SpinUntil(() => context.Process.MainWindowHandle is not 0);
+                SpinWait.SpinUntil(() => context.Process.MainWindowHandle.Value is not 0);
             }
             catch (InvalidOperationException)
             {

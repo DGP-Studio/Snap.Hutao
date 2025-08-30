@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using System.Data.Common;
@@ -42,7 +43,7 @@ internal sealed partial class ExceptionHandlingSupport
     private static DbException KillProcessOnDbException(DbException exception)
     {
         HutaoNative.Instance.ShowErrorMessage("Warning | 警告", exception.Message);
-        Process.GetCurrentProcess().Kill();
+        ProcessFactory.KillCurrent();
         return exception;
     }
 

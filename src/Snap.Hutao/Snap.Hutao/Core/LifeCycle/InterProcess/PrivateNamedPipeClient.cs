@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
-using System.Diagnostics;
+using Snap.Hutao.Factory.Process;
 using System.IO;
 using System.IO.Pipes;
 
@@ -61,40 +62,16 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
 
     private static void WaitPreviousProcessExit(ElevationStatusResponse response)
     {
-        Process process;
-        try
+        if (!ProcessFactory.TryGetById(response.ProcessId, out IProcess? process))
         {
-            process = Process.GetProcessById(response.ProcessId);
-        }
-        catch (ArgumentException)
-        {
-            // Process with an Id of ? is not running.
             return;
         }
 
         if (process is { HasExited: false })
         {
-            try
-            {
-                process.WaitForExit();
-            }
-            catch (ArgumentException)
-            {
-                return;
-            }
+            process.SafeWaitForExit();
         }
 
-        SpinWaitPolyfill.SpinUntil(response, static response =>
-        {
-            try
-            {
-                _ = Process.GetProcessById(response.ProcessId);
-                return false;
-            }
-            catch (ArgumentException)
-            {
-                return true;
-            }
-        });
+        SpinWaitPolyfill.SpinUntil(response, static response => ProcessFactory.TryGetById(response.ProcessId, out _));
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
@@ -33,7 +34,7 @@ internal abstract partial class AbstractLaunchExecutionContext : IDisposable
     /// <summary>
     /// Requires <see cref="Handler.LaunchExecutionGameProcessInitializationHandler"/> to execute before getting the value.
     /// </summary>
-    public System.Diagnostics.Process Process { get; set; } = default!;
+    public IProcess Process { get; set; } = default!;
 
     protected Lock SyncRoot { get; } = new();
 

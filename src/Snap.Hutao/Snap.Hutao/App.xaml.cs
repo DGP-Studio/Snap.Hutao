@@ -8,10 +8,10 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using System.Diagnostics;
 
 namespace Snap.Hutao;
 
@@ -92,7 +92,7 @@ public sealed partial class App : Application
             SentrySdk.CaptureException(ex);
             SentrySdk.Flush();
 
-            Process.GetCurrentProcess().Kill();
+            ProcessFactory.KillCurrent();
         }
     }
 }

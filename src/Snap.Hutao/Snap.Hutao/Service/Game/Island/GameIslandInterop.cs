@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Feature;

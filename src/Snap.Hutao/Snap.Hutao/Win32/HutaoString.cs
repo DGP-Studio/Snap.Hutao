@@ -17,11 +17,6 @@ internal sealed unsafe class HutaoString
         this.objRef = objRef;
     }
 
-    public static HutaoString AttachAbi(ref nint abi)
-    {
-        return new(ObjectReference<Vftbl>.Attach(ref abi, typeof(Vftbl).GUID));
-    }
-
     public string? Value
     {
         get
@@ -30,6 +25,11 @@ internal sealed unsafe class HutaoString
             Marshal.ThrowExceptionForHR(objRef.Vftbl.GetBuffer(objRef.ThisPtr, &buffer));
             return buffer.Value is null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
         }
+    }
+
+    public static HutaoString AttachAbi(ref nint abi)
+    {
+        return new(ObjectReference<Vftbl>.Attach(ref abi, typeof(Vftbl).GUID));
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoString)]

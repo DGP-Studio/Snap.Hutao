@@ -2,19 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Service.Notification;
-using System.Diagnostics;
+using Snap.Hutao.Factory.Process;
 
 namespace Snap.Hutao.Service.Discord;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IDiscordService))]
 internal sealed partial class DiscordService : IDiscordService, IDisposable
 {
-    private readonly IInfoBarService infoBarService;
-
-    private bool isInitialized;
-
     public async ValueTask SetPlayingActivityAsync(bool isOversea)
     {
         if (IsSupported())
@@ -38,40 +32,10 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
         DiscordController.Stop();
     }
 
-    private bool IsSupported()
+    private static bool IsSupported()
     {
         // Actually requires a discord client to be running on Windows platform.
         // If not, discord core creation code will throw.
-        Process[] discordProcesses = Process.GetProcessesByName("Discord");
-
-        if (discordProcesses.Length <= 0)
-        {
-            return false;
-        }
-
-        foreach (ref readonly Process process in discordProcesses.AsSpan())
-        {
-            try
-            {
-                if (string.Equals(process.MainWindowTitle, "Discord Updater", StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-
-                _ = process.Handle;
-            }
-            catch (Exception)
-            {
-                if (!isInitialized)
-                {
-                    isInitialized = true;
-                    infoBarService.Warning(SH.ServiceDiscordActivityElevationRequiredHint);
-                }
-
-                return false;
-            }
-        }
-
-        return true;
+        return ProcessFactory.IsRunning("Discord", "Discord Updater");
     }
 }

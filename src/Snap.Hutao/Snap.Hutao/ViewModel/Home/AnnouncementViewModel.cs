@@ -103,7 +103,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 .GetRequiredService<IOverseaSupportFactory<IHomeClient>>()
                 .CreateFor(userAndUid);
 
-            Response<NewHomeNewInfo>? newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
+            Response<NewHomeNewInfo> newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidateWithoutUINotification(newHomeInfoResponse, out NewHomeNewInfo? newHomeInfo))
             {

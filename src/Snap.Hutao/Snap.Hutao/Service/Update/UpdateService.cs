@@ -6,12 +6,12 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -145,12 +145,7 @@ internal sealed partial class UpdateService : IUpdateService
                 .ToString();
 
             // The updater will request UAC permissions itself
-            Process.Start(new ProcessStartInfo
-            {
-                Arguments = commandLine,
-                FileName = updaterTargetPath,
-                UseShellExecute = true,
-            });
+            ProcessFactory.StartUsingShellExecute(commandLine, updaterTargetPath);
         }
     }
 }

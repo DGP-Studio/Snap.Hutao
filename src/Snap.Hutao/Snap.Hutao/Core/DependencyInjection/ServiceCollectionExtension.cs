@@ -3,10 +3,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Win32;
 using System.Data.Common;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -51,7 +51,7 @@ internal static partial class ServiceCollectionExtension
                     {ex.Message}
                     """;
                 HutaoNative.Instance.ShowErrorMessage("Warning | 警告", message);
-                Process.GetCurrentProcess().Kill();
+                ProcessFactory.KillCurrent();
                 return;
             }
 

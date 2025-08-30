@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Discord.GameSDK.ABI;
+using Snap.Hutao.Factory.Process;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -161,12 +162,12 @@ internal static class DiscordController
             catch (FileNotFoundException)
             {
                 // Critical program integrity error
-                Process.GetCurrentProcess().Kill();
+                ProcessFactory.KillCurrent();
             }
             catch (DllNotFoundException)
             {
                 // Critical program integrity error
-                Process.GetCurrentProcess().Kill();
+                ProcessFactory.KillCurrent();
             }
 
             if (ptr is null)
