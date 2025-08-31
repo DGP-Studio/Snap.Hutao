@@ -8,15 +8,15 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using System.Diagnostics;
 
 namespace Snap.Hutao;
 
 [ConstructorGenerated(InitializeComponent = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 [SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application
 {
@@ -68,7 +68,7 @@ public sealed partial class App : Application
             AppNotificationManager.Default.NotificationInvoked += activation.NotificationInvoked;
             AppNotificationManager.Default.Register();
 
-            // E_INVALIDARG
+            // E_INVALIDARG E_OUTOFMEMORY
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
@@ -81,7 +81,7 @@ public sealed partial class App : Application
 
             logger.LogInformation($"{ConsoleBanner}");
 
-            FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
+            FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme.Value));
 
             // Manually invoke
             SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Activate and Initialize", "Application"));
@@ -92,7 +92,7 @@ public sealed partial class App : Application
             SentrySdk.CaptureException(ex);
             SentrySdk.Flush();
 
-            Process.GetCurrentProcess().Kill();
+            ProcessFactory.KillCurrent();
         }
     }
 }

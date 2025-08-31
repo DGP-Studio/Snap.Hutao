@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Quartz;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -11,16 +12,12 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.DailyNote;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
     private readonly IQuartzService quartzService;
-
-    private bool? isAutoRefreshEnabled;
-    private bool? isReminderNotification;
-    private bool? isSilentWhenPlayingGame;
 
     public ImmutableArray<NameValue<int>> RefreshTimes { get; } =
     [
@@ -31,64 +28,45 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
     ];
 
-    public bool IsAutoRefreshEnabled
-    {
-        get => GetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, false);
-        set
-        {
-            if (SetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, value))
-            {
-                if (value)
-                {
-                    if (SelectedRefreshTime is not null)
-                    {
-                        int refreshTime = SelectedRefreshTime.Value;
-                        quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
-                        {
-                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(refreshTime).RepeatForever());
-                        }).GetAwaiter().GetResult();
-                    }
-                }
-                else
-                {
-                    quartzService.StopJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName).GetAwaiter().GetResult();
-                }
-            }
-        }
-    }
+    [field: MaybeNull]
+    public IObservableProperty<bool> IsAutoRefreshEnabled { get => field ??= CreateProperty(SettingEntry.DailyNoteIsAutoRefreshEnabled, false).WithValueChangedCallback(OnIsAutoRefreshEnabledChanged, this); }
 
-    public NameValue<int>? SelectedRefreshTime
+    [field: MaybeNull]
+    public IObservableProperty<NameValue<int>?> SelectedRefreshTime { get => field ??= CreateProperty(SettingEntry.DailyNoteRefreshSeconds, OneMinute * 30).WithValueChangedCallback(OnSelectedRefreshTimeChanged, this).AsNameValue(RefreshTimes); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> IsReminderNotification { get => field ??= CreateProperty(SettingEntry.DailyNoteReminderNotify, false); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> IsSilentWhenPlayingGame { get => field ??= CreateProperty(SettingEntry.DailyNoteSilentWhenPlayingGame, false); }
+
+    [field: MaybeNull]
+    public IObservableProperty<string?> WebhookUrl { get => field ??= CreateProperty(SettingEntry.DailyNoteWebhookUrl); }
+
+    private static void OnIsAutoRefreshEnabledChanged(bool value, DailyNoteOptions options)
     {
-        get => GetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, RefreshTimes, static v => $"{v}", RefreshTimes[1]);
-        set
+        if (value)
         {
-            if (value is not null)
+            if (options.SelectedRefreshTime.Value is not null)
             {
-                SetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, value, static v => $"{v.Value}");
-                quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
+                int refreshTime = options.SelectedRefreshTime.Value.Value;
+                options.quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
-                    return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());
+                    return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(refreshTime).RepeatForever());
                 }).GetAwaiter().GetResult();
             }
         }
+        else
+        {
+            options.quartzService.StopJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName).GetAwaiter().GetResult();
+        }
     }
 
-    public bool IsReminderNotification
+    private static void OnSelectedRefreshTimeChanged(int value, DailyNoteOptions options)
     {
-        get => GetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, false);
-        set => SetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, value);
-    }
-
-    public bool IsSilentWhenPlayingGame
-    {
-        get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, false);
-        set => SetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
-    }
-
-    [SuppressMessage("", "CA1822")]
-    public string? WebhookUrl
-    {
-        get => GetOption(ref field, SettingEntry.DailyNoteWebhookUrl);
-        set => SetOption(ref field, SettingEntry.DailyNoteWebhookUrl, value);
+        options.quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
+        {
+            return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value).RepeatForever());
+        }).GetAwaiter().GetResult();
     }
 }

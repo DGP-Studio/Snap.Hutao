@@ -22,7 +22,7 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
 
     public override TEnum Read(ref Utf8JsonReader reader, Type typeToConverTEnum, JsonSerializerOptions options)
     {
-        if (readAs == JsonEnumHandling.Number)
+        if (readAs is JsonEnumHandling.Number)
         {
             return GetEnum(ref reader, enumTypeCode);
         }

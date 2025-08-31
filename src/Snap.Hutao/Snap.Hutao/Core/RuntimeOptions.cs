@@ -3,14 +3,14 @@
 
 namespace Snap.Hutao.Core;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed class RuntimeOptions
 {
     [Obsolete("This property only exist for binding purpose")]
     public Version Version { get => HutaoRuntime.Version; }
 
     [Obsolete("This property only exist for binding purpose")]
-    public string DataFolder { get => HutaoRuntime.DataFolder; }
+    public string DataFolder { get => HutaoRuntime.DataDirectory; }
 
     [Obsolete("This property only exist for binding purpose")]
     public string DeviceId { get => HutaoRuntime.DeviceId; }

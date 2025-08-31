@@ -6,7 +6,7 @@ using Snap.Hutao.Win32;
 
 namespace Snap.Hutao.Core.IO.Http.Loopback;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class LoopbackSupport : ObservableObject
 {
     private readonly HutaoNativeLoopbackSupport native;
@@ -17,7 +17,7 @@ internal sealed partial class LoopbackSupport : ObservableObject
         native = HutaoNative.Instance.MakeLoopbackSupport();
         try
         {
-            if (!native.IsPublicFirewallEnabled())
+            if (!native.IsPublicFirewallEnabled)
             {
                 IsLoopbackEnabled = false;
                 hutaoContainerStringSid = string.Empty;

@@ -9,17 +9,12 @@ internal sealed class InternStringConverter : JsonConverter<string?>
 {
     public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType is JsonTokenType.Null)
+        return reader.TokenType switch
         {
-            return null;
-        }
-
-        if (reader.TokenType is JsonTokenType.String)
-        {
-            return string.Intern(reader.GetString()!);
-        }
-
-        throw new JsonException();
+            JsonTokenType.Null => null,
+            JsonTokenType.String => string.Intern(reader.GetString()!),
+            _ => throw new JsonException(),
+        };
     }
 
     public override string ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -30,23 +25,11 @@ internal sealed class InternStringConverter : JsonConverter<string?>
 
     public override void Write(Utf8JsonWriter writer, string? value, JsonSerializerOptions options)
     {
-        if (value is null)
-        {
-            writer.WriteNullValue();
-        }
-        else
-        {
-            writer.WriteStringValue(value.AsSpan());
-        }
+        writer.WriteStringValue(value);
     }
 
     public override void WriteAsPropertyName(Utf8JsonWriter writer, string? value, JsonSerializerOptions options)
     {
-        if (value is null)
-        {
-            throw new JsonException();
-        }
-
-        writer.WritePropertyName(value.AsSpan());
+        writer.WritePropertyName(value!);
     }
 }

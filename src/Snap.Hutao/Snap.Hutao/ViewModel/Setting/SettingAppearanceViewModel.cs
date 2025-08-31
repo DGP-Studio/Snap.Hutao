@@ -14,7 +14,7 @@ using System.Globalization;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 {
     public partial CultureOptions CultureOptions { get; }
@@ -25,12 +25,12 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture);
+        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                CultureOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture.Value = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -38,36 +38,36 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<DayOfWeek>? SelectedFirstDayOfWeek
     {
-        get => field ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek);
+        get => field ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                CultureOptions.FirstDayOfWeek = value.Value;
+                CultureOptions.FirstDayOfWeek.Value = value.Value;
             }
         }
     }
 
     public NameValue<BackdropType>? SelectedBackdropType
     {
-        get => field ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType);
+        get => field ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.BackdropType = value.Value;
+                AppOptions.BackdropType.Value = value.Value;
             }
         }
     }
 
     public NameValue<ElementTheme>? SelectedElementTheme
     {
-        get => field ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme);
+        get => field ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.ElementTheme = value.Value;
+                AppOptions.ElementTheme.Value = value.Value;
                 FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(value.Value));
             }
         }
@@ -75,24 +75,24 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<BackgroundImageType>? SelectedBackgroundImageType
     {
-        get => field ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
+        get => field ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.BackgroundImageType = value.Value;
+                AppOptions.BackgroundImageType.Value = value.Value;
             }
         }
     }
 
     public NameValue<LastWindowCloseBehavior>? SelectedLastWindowCloseBehavior
     {
-        get => field ??= AppOptions.LastWindowCloseBehaviors.Single(t => t.Value == AppOptions.LastWindowCloseBehavior);
+        get => field ??= AppOptions.LastWindowCloseBehaviors.Single(t => t.Value == AppOptions.LastWindowCloseBehavior.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.LastWindowCloseBehavior = value.Value;
+                AppOptions.LastWindowCloseBehavior.Value = value.Value;
             }
         }
     }

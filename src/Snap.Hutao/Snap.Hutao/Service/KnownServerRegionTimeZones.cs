@@ -9,9 +9,6 @@ namespace Snap.Hutao.Service;
 
 internal static class KnownServerRegionTimeZones
 {
-    /// <summary>
-    /// ??
-    /// </summary>
     public static ImmutableArray<NameValue<TimeSpan>> Value
     {
         get

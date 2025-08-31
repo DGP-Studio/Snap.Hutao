@@ -7,9 +7,11 @@ namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 [SuppressMessage("", "SA1307")]
 internal struct KBDLLHOOKSTRUCT
 {
+#pragma warning disable CS0649
     public uint vkCode;
     public uint scanCode;
     public KBDLLHOOKSTRUCT_FLAGS flags;
     public uint time;
     public nuint dwExtraInfo;
+#pragma warning disable CS0649
 }

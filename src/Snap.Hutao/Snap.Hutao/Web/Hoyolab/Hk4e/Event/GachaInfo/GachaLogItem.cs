@@ -23,7 +23,7 @@ internal class GachaLogItem
     public int? Count { get; set; }
 
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
+    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
     public DateTimeOffset Time { get; set; }
 
     [JsonPropertyName("name")]

@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.Threading;
 [SuppressMessage("", "SH003")]
 internal sealed class AsyncCountdownEvent
 {
-    private readonly AsyncManualResetEvent amre = new();
+    private readonly AsyncManualResetEvent asyncManualResetEvent = new();
     private int count;
 
     public AsyncCountdownEvent(int initialCount)
@@ -18,30 +18,21 @@ internal sealed class AsyncCountdownEvent
 
     public Task WaitAsync()
     {
-        return amre.WaitAsync();
+        return asyncManualResetEvent.WaitAsync();
     }
 
     public void Signal()
     {
-        if (count <= 0)
-        {
-            throw new InvalidOperationException();
-        }
+        Verify.Operation(count > 0, "Cannot signal when count is less than or equals to 0.");
 
         int newCount = Interlocked.Decrement(ref count);
-        if (newCount == 0)
+        switch (newCount)
         {
-            amre.Set();
+            case 0:
+                asyncManualResetEvent.Set();
+                break;
+            case < 0:
+                throw new InvalidOperationException();
         }
-        else if (newCount < 0)
-        {
-            throw new InvalidOperationException();
-        }
-    }
-
-    public Task SignalAndWait()
-    {
-        Signal();
-        return WaitAsync();
     }
 }

@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Complex;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;

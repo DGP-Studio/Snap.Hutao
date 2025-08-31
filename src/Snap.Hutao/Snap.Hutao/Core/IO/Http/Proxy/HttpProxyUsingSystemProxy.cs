@@ -18,7 +18,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
 
     private static readonly Lazy<MethodInfo> LazyConstructSystemProxyMethod = new(GetConstructSystemProxyMethod);
     private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
-    private static readonly Lock SyncRoot = new();
 
     // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
     private readonly HutaoNativeRegistryNotification native;
@@ -32,21 +31,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     }
 
     [field: MaybeNull]
-    public static HttpProxyUsingSystemProxy Instance
-    {
-        get
-        {
-            if (field is null)
-            {
-                lock (SyncRoot)
-                {
-                    field ??= new();
-                }
-            }
-
-            return field;
-        }
-    }
+    public static HttpProxyUsingSystemProxy Instance { get => LazyInitializer.EnsureInitialized(ref field, () => new()); }
 
     [SuppressMessage("", "SA1201")]
     public string CurrentProxyUri { get => GetProxy(ProxyTestDestination)?.AbsoluteUri ?? SH.ViewPageFeedbackCurrentProxyNoProxyDescription; }
@@ -83,6 +68,9 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         return InnerProxy.IsBypassed(host);
     }
 
+#if NET10_0_OR_GREATER
+    [Obsolete("Use UnsafeAccessor")]
+#endif
     private static MethodInfo GetConstructSystemProxyMethod()
     {
         Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");

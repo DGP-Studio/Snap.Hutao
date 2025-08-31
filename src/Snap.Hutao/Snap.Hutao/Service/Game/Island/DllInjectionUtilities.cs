@@ -31,7 +31,26 @@ internal static class DllInjectionUtilities
         }
     }
 
-    // Security note: This method uses LOAD_WITH_ALTERED_SEARCH_PATH to load the DLL.
+    public static unsafe void InjectUsingRemoteThread(ReadOnlySpan<char> dllPath, int processId)
+    {
+        fixed (char* pDllPath = dllPath)
+        {
+            Marshal.ThrowExceptionForHR(DllInjectionUtilitiesInjectUsingRemoteThread(pDllPath, processId));
+        }
+    }
+
+    public static unsafe void InjectUsingRemoteThread(ReadOnlySpan<char> dllPath, ReadOnlySpan<char> functionName, int processId)
+    {
+        fixed (char* pDllPath = dllPath)
+        {
+            fixed (char* pFunctionName = functionName)
+            {
+                Marshal.ThrowExceptionForHR(DllInjectionUtilitiesInjectUsingRemoteThreadWithFunction(pDllPath, pFunctionName, processId));
+            }
+        }
+    }
+
+    // Security note: These method uses LOAD_WITH_ALTERED_SEARCH_PATH to load the DLL.
     // Which can cause arbitrary DLL in the same directory with the same name that required by the DLL to be loaded.
     // We should pre-check the directory to ensure that it only contains the expected DLL.
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
@@ -39,4 +58,10 @@ internal static class DllInjectionUtilities
 
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT DllInjectionUtilitiesInjectUsingWindowsHook2(PCWSTR dllPath, PCWSTR functionName, int processId);
+
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT DllInjectionUtilitiesInjectUsingRemoteThread(PCWSTR dllPath, int processId);
+
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT DllInjectionUtilitiesInjectUsingRemoteThreadWithFunction(PCWSTR dllPath, PCWSTR functionName, int processId);
 }

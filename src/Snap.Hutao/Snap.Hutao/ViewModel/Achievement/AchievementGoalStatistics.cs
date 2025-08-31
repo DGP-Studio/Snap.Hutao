@@ -5,16 +5,18 @@ using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalV
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-internal struct AchievementGoalStatistics
+internal sealed class AchievementGoalStatistics
 {
-    public readonly BindingAchievementGoal AchievementGoal;
-    public int Finished;
-    public int TotalCount;
-
     private AchievementGoalStatistics(BindingAchievementGoal goal)
     {
         AchievementGoal = goal;
     }
+
+    public BindingAchievementGoal AchievementGoal { get; }
+
+    public int Finished { get; set; }
+
+    public int TotalCount { get; set; }
 
     public static AchievementGoalStatistics Create(BindingAchievementGoal goal)
     {

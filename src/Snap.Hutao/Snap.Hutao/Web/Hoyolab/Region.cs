@@ -33,6 +33,11 @@ internal readonly struct Region : IEquatable<Region>
         return new(value);
     }
 
+    public static string ToRegionString(Region region)
+    {
+        return region.Value;
+    }
+
     public static Region UnsafeFromUidString(string uid)
     {
         return uid.AsSpan()[^9] switch

@@ -6,17 +6,17 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Update;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IUpdateService))]
+[Service(ServiceLifetime.Singleton, typeof(IUpdateService))]
 internal sealed partial class UpdateService : IUpdateService
 {
     private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";
@@ -133,7 +133,7 @@ internal sealed partial class UpdateService : IUpdateService
 
     private async ValueTask LaunchUpdaterAsync()
     {
-        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath = HutaoRuntime.GetDataUpdateCacheDirectoryFile(UpdaterFilename);
         InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -145,12 +145,7 @@ internal sealed partial class UpdateService : IUpdateService
                 .ToString();
 
             // The updater will request UAC permissions itself
-            Process.Start(new ProcessStartInfo
-            {
-                Arguments = commandLine,
-                FileName = updaterTargetPath,
-                UseShellExecute = true,
-            });
+            ProcessFactory.StartUsingShellExecute(commandLine, updaterTargetPath);
         }
     }
 }

@@ -9,7 +9,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 namespace Snap.Hutao.Service.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IAchievementStatisticsService))]
+[Service(ServiceLifetime.Transient, typeof(IAchievementStatisticsService))]
 internal sealed partial class AchievementStatisticsService : IAchievementStatisticsService
 {
     private const int AchievementCardTakeCount = 2;

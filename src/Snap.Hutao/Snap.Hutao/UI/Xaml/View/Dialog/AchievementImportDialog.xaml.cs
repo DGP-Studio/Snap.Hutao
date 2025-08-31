@@ -8,7 +8,7 @@ using Snap.Hutao.Service.Achievement;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("UIAF", typeof(UIAF))]
+[DependencyProperty<UIAF>("UIAF")]
 internal sealed partial class AchievementImportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

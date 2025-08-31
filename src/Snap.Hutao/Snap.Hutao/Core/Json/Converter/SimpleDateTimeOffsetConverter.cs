@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Snap.Hutao.Core.Json.Converter;
 
 // 此转换器无法实现无损往返 必须在反序列化后调整 Offset
-internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
+internal sealed class SimpleDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 {
     private const string Format = "yyyy-MM-dd HH:mm:ss";
 
@@ -17,7 +17,9 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
             // By doing so, the DateTimeOffset parsed out will be a
             // no offset datetime, and need to be adjusted later
             DateTime dateTime = DateTime.ParseExact(dataTimeString, Format, CultureInfo.InvariantCulture);
-            return new DateTimeOffset(dateTime, default);
+
+            // The dateTime.Kind is Unspecified
+            return new(dateTime, default);
         }
 
         return default;

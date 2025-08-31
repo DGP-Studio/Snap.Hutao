@@ -538,7 +538,8 @@
                 <Button
                     Command="{Binding NextOrCompleteCommand}"
                     Content="{Binding NextOrCompleteButtonText}"
-                    IsEnabled="{Binding IsNextOrCompleteButtonEnabled}"/>
+                    IsEnabled="{Binding IsNextOrCompleteButtonEnabled}"
+                    Style="{ThemeResource AccentButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Grid>

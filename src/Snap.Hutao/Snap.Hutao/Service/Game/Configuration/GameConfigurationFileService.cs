@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
-[Injection(InjectAs.Singleton, typeof(IGameConfigurationFileService))]
+[Service(ServiceLifetime.Singleton, typeof(IGameConfigurationFileService))]
 internal sealed class GameConfigurationFileService : IGameConfigurationFileService
 {
     private const string BackupChineseConfigurationFileName = "config_cn.ini";
@@ -19,7 +19,7 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
     {
         if (File.Exists(source))
         {
-            string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
+            string serverCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
             string configFileName = isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName;
             FileOperation.Copy(source, Path.Combine(serverCacheFolder, configFileName), true);
         }
@@ -27,7 +27,7 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
 
     public void Restore(string destination, bool isOversea)
     {
-        string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
+        string serverCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
         string source = Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName);
 
         if (!File.Exists(source))

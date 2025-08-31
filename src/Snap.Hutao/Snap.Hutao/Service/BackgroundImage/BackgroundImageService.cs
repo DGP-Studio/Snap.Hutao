@@ -18,7 +18,7 @@ using Windows.Graphics.Imaging;
 namespace Snap.Hutao.Service.BackgroundImage;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IBackgroundImageService))]
+[Service(ServiceLifetime.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
     private static readonly FrozenSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];
@@ -79,7 +79,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             }
             catch (COMException comException)
             {
-                if (appOptions.BackgroundImageType is not BackgroundImageType.LocalFolder)
+                if (appOptions.BackgroundImageType.Value is not BackgroundImageType.LocalFolder)
                 {
                     // For web wallpaper, skip invalid file, as users can't control the file
                     return new(false, default!);
@@ -112,13 +112,13 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private async ValueTask<HashSet<string>> SkipOrInitAvailableBackgroundAsync(BackgroundImage? previous, CancellationToken token = default)
     {
-        switch (appOptions.BackgroundImageType)
+        switch (appOptions.BackgroundImageType.Value)
         {
             case BackgroundImageType.LocalFolder:
                 {
                     if (availableBackgroundPathSet is not { Count: > 0 })
                     {
-                        string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
+                        string backgroundFolder = HutaoRuntime.GetDataBackgroundDirectory();
 
                         availableBackgroundPathSet =
                         [

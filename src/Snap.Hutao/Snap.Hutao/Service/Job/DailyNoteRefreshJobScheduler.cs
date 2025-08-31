@@ -7,7 +7,7 @@ using Snap.Hutao.Service.DailyNote;
 namespace Snap.Hutao.Service.Job;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IJobScheduler))]
+[Service(ServiceLifetime.Transient, typeof(IJobScheduler))]
 internal sealed partial class DailyNoteRefreshJobScheduler : IJobScheduler
 {
     private readonly DailyNoteOptions dailyNoteOptions;
@@ -34,9 +34,9 @@ internal sealed partial class DailyNoteRefreshJobScheduler : IJobScheduler
 
     private bool TryGetRefreshInterval(out int interval)
     {
-        if (dailyNoteOptions is { IsAutoRefreshEnabled: true, SelectedRefreshTime: { } })
+        if (dailyNoteOptions is { IsAutoRefreshEnabled.Value: true, SelectedRefreshTime.Value: { } refreshTime })
         {
-            interval = dailyNoteOptions.SelectedRefreshTime.Value;
+            interval = refreshTime.Value;
             return true;
         }
 

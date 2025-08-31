@@ -12,25 +12,18 @@ namespace Snap.Hutao.Win32;
 
 internal sealed unsafe class HutaoNativeFileSystem
 {
+    private readonly ObjectReference<Vftbl> objRef;
     private readonly ObjectReference<Vftbl2>? objRef2;
     private readonly ObjectReference<Vftbl3>? objRef3;
     private readonly ObjectReference<Vftbl4>? objRef4;
 
     public HutaoNativeFileSystem(ObjectReference<Vftbl> objRef)
     {
-        ObjRef = objRef;
+        this.objRef = objRef;
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
         objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
     }
-
-    private ObjectReference<Vftbl> ObjRef { get; }
-
-    private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
-
-    private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
-
-    private ObjectReference<Vftbl4>? ObjRef4 { get => objRef4; }
 
     public void RenameItem(ReadOnlySpan<char> filePath, ReadOnlySpan<char> newName)
     {
@@ -38,7 +31,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewName = newName)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.RenameItem(ObjRef.ThisPtr, pFilePath, pNewName));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.RenameItem(objRef.ThisPtr, pFilePath, pNewName));
             }
         }
     }
@@ -49,7 +42,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewName = newName)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.RenameItemWithOptions(ObjRef.ThisPtr, pFilePath, pNewName, flags));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.RenameItemWithOptions(objRef.ThisPtr, pFilePath, pNewName, flags));
             }
         }
     }
@@ -60,7 +53,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewFolder = newFolder)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MoveItem(ObjRef.ThisPtr, pOldPath, pNewFolder));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.MoveItem(objRef.ThisPtr, pOldPath, pNewFolder));
             }
         }
     }
@@ -71,7 +64,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewFolder = newFolder)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MoveItemWithOptions(ObjRef.ThisPtr, pOldPath, pNewFolder, flags));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.MoveItemWithOptions(objRef.ThisPtr, pOldPath, pNewFolder, flags));
             }
         }
     }
@@ -84,7 +77,7 @@ internal sealed unsafe class HutaoNativeFileSystem
             {
                 fixed (char* pName = name)
                 {
-                    Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MoveItemWithName(ObjRef.ThisPtr, pOldPath, pNewFolder, pName));
+                    Marshal.ThrowExceptionForHR(objRef.Vftbl.MoveItemWithName(objRef.ThisPtr, pOldPath, pNewFolder, pName));
                 }
             }
         }
@@ -98,7 +91,7 @@ internal sealed unsafe class HutaoNativeFileSystem
             {
                 fixed (char* pName = name)
                 {
-                    Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MoveItemWithNameAndOptions(ObjRef.ThisPtr, pOldPath, pNewFolder, pName, flags));
+                    Marshal.ThrowExceptionForHR(objRef.Vftbl.MoveItemWithNameAndOptions(objRef.ThisPtr, pOldPath, pNewFolder, pName, flags));
                 }
             }
         }
@@ -110,7 +103,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewFolder = newFolder)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.CopyItem(ObjRef.ThisPtr, pOldPath, pNewFolder));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.CopyItem(objRef.ThisPtr, pOldPath, pNewFolder));
             }
         }
     }
@@ -121,7 +114,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         {
             fixed (char* pNewFolder = newFolder)
             {
-                Marshal.ThrowExceptionForHR(ObjRef.Vftbl.CopyItemWithOptions(ObjRef.ThisPtr, pOldPath, pNewFolder, flags));
+                Marshal.ThrowExceptionForHR(objRef.Vftbl.CopyItemWithOptions(objRef.ThisPtr, pOldPath, pNewFolder, flags));
             }
         }
     }
@@ -134,7 +127,7 @@ internal sealed unsafe class HutaoNativeFileSystem
             {
                 fixed (char* pName = name)
                 {
-                    Marshal.ThrowExceptionForHR(ObjRef.Vftbl.CopyItemWithName(ObjRef.ThisPtr, pOldPath, pNewFolder, pName));
+                    Marshal.ThrowExceptionForHR(objRef.Vftbl.CopyItemWithName(objRef.ThisPtr, pOldPath, pNewFolder, pName));
                 }
             }
         }
@@ -148,7 +141,7 @@ internal sealed unsafe class HutaoNativeFileSystem
             {
                 fixed (char* pName = name)
                 {
-                    Marshal.ThrowExceptionForHR(ObjRef.Vftbl.CopyItemWithNameAndOptions(ObjRef.ThisPtr, pOldPath, pNewFolder, pName, flags));
+                    Marshal.ThrowExceptionForHR(objRef.Vftbl.CopyItemWithNameAndOptions(objRef.ThisPtr, pOldPath, pNewFolder, pName, flags));
                 }
             }
         }
@@ -158,7 +151,7 @@ internal sealed unsafe class HutaoNativeFileSystem
     {
         fixed (char* pFilePath = filePath)
         {
-            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.DeleteItem(ObjRef.ThisPtr, pFilePath));
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.DeleteItem(objRef.ThisPtr, pFilePath));
         }
     }
 
@@ -166,13 +159,13 @@ internal sealed unsafe class HutaoNativeFileSystem
     {
         fixed (char* pFilePath = filePath)
         {
-            Marshal.ThrowExceptionForHR(ObjRef.Vftbl.DeleteItemWithOptions(ObjRef.ThisPtr, pFilePath, flags));
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.DeleteItemWithOptions(objRef.ThisPtr, pFilePath, flags));
         }
     }
 
     public void CreateLink(ReadOnlySpan<char> fileLocation, ReadOnlySpan<char> arguments, ReadOnlySpan<char> iconLocation, ReadOnlySpan<char> fileName)
     {
-        HutaoException.ThrowIf(ObjRef2 is null, "IHutaoFileSystem2 is not supported");
+        HutaoException.ThrowIf(objRef2 is null, "IHutaoFileSystem2 is not supported");
         fixed (char* pFileLocation = fileLocation)
         {
             fixed (char* pArguments = arguments)
@@ -181,7 +174,7 @@ internal sealed unsafe class HutaoNativeFileSystem
                 {
                     fixed (char* pFileName = fileName)
                     {
-                        Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.CreateLink(ObjRef2.ThisPtr, pFileLocation, pArguments, pIconLocation, pFileName));
+                        Marshal.ThrowExceptionForHR(objRef2.Vftbl.CreateLink(objRef2.ThisPtr, pFileLocation, pArguments, pIconLocation, pFileName));
                     }
                 }
             }
@@ -190,7 +183,7 @@ internal sealed unsafe class HutaoNativeFileSystem
 
     public BOOL PickFile(HWND hwnd, ReadOnlySpan<char> title, ReadOnlySpan<char> defaultFileName, ReadOnlySpan<char> fileFilterName, ReadOnlySpan<char> fileFilterType, out string? path)
     {
-        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        HutaoException.ThrowIf(objRef3 is null, "IHutaoFileSystem3 is not supported");
         fixed (char* pTitle = title)
         {
             fixed (char* pDefaultFileName = defaultFileName)
@@ -201,8 +194,8 @@ internal sealed unsafe class HutaoNativeFileSystem
                     {
                         BOOL picked;
                         nint pPath = default;
-                        Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.PickFile(ObjRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
-                        path = HutaoString.AttachAbi(ref pPath).Get();
+                        Marshal.ThrowExceptionForHR(objRef3!.Vftbl.PickFile(objRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
+                        path = HutaoString.AttachAbi(ref pPath).Value;
                         return picked;
                     }
                 }
@@ -212,7 +205,7 @@ internal sealed unsafe class HutaoNativeFileSystem
 
     public BOOL SaveFile(HWND hwnd, ReadOnlySpan<char> title, ReadOnlySpan<char> defaultFileName, ReadOnlySpan<char> fileFilterName, ReadOnlySpan<char> fileFilterType, out string? path)
     {
-        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        HutaoException.ThrowIf(objRef3 is null, "IHutaoFileSystem3 is not supported");
         fixed (char* pTitle = title)
         {
             fixed (char* pDefaultFileName = defaultFileName)
@@ -223,8 +216,8 @@ internal sealed unsafe class HutaoNativeFileSystem
                     {
                         BOOL picked;
                         nint pPath = default;
-                        Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.SaveFile(ObjRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
-                        path = HutaoString.AttachAbi(ref pPath).Get();
+                        Marshal.ThrowExceptionForHR(objRef3!.Vftbl.SaveFile(objRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
+                        path = HutaoString.AttachAbi(ref pPath).Value;
                         return picked;
                     }
                 }
@@ -234,25 +227,25 @@ internal sealed unsafe class HutaoNativeFileSystem
 
     public BOOL PickFolder(HWND hwnd, ReadOnlySpan<char> title, out string? path)
     {
-        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        HutaoException.ThrowIf(objRef3 is null, "IHutaoFileSystem3 is not supported");
         fixed (char* pTitle = title)
         {
             BOOL picked;
             nint pPath = default;
-            Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.PickFolder(ObjRef3.ThisPtr, hwnd, pTitle, &picked, (HutaoString.Vftbl**)&pPath));
-            path = HutaoString.AttachAbi(ref pPath).Get();
+            Marshal.ThrowExceptionForHR(objRef3!.Vftbl.PickFolder(objRef3.ThisPtr, hwnd, pTitle, &picked, (HutaoString.Vftbl**)&pPath));
+            path = HutaoString.AttachAbi(ref pPath).Value;
             return picked;
         }
     }
 
     public void CopyFileAllowDecryptedDestination(ReadOnlySpan<char> existingFileName, ReadOnlySpan<char> newFileName, BOOL overwrite)
     {
-        HutaoException.ThrowIf(ObjRef4 is null, "IHutaoFileSystem4 is not supported");
+        HutaoException.ThrowIf(objRef4 is null, "IHutaoFileSystem4 is not supported");
         fixed (char* pExistingFileName = existingFileName)
         {
             fixed (char* pNewFileName = newFileName)
             {
-                Marshal.ThrowExceptionForHR(ObjRef4!.Vftbl.CopyFileAllowDecryptedDestination(ObjRef4.ThisPtr, pExistingFileName, pNewFileName, overwrite));
+                Marshal.ThrowExceptionForHR(objRef4!.Vftbl.CopyFileAllowDecryptedDestination(objRef4.ThisPtr, pExistingFileName, pNewFileName, overwrite));
             }
         }
     }

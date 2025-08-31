@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game.Island;
 // IMPORTANT: DO NOT REORDER FIELDS
 internal struct IslandFunctionOffsets
 {
+#pragma warning disable CS0649
     [JsonInclude]
     public uint GameManagerAwake;
     [JsonInclude]
@@ -50,4 +51,5 @@ internal struct IslandFunctionOffsets
     public uint MickeyWonderCombineEntryMethod;
     [JsonInclude]
     public uint MickeyWonderCombineEntryMethodPartner;
+#pragma warning restore CS0649
 }

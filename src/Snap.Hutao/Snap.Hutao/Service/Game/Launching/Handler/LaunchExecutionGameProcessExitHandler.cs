@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
+
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDelegateHandler
@@ -17,12 +19,13 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
             context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
             try
             {
-                await context.Process.WaitForExitAsync().ConfigureAwait(false);
+                context.Process.WaitForExit();
             }
-            catch (Win32Exception)
+            catch (Exception ex)
             {
                 // Access denied, we are in non-elevated process
                 // Just leave and let invoker spin wait
+                SentrySdk.CaptureException(ex);
                 return;
             }
         }

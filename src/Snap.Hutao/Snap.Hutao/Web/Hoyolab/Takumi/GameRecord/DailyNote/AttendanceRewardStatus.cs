@@ -3,24 +3,24 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-[Localization]
+[ExtendedEnum]
 internal enum AttendanceRewardStatus
 {
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusInvalid")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusInvalid))]
     AttendanceRewardStatusInvalid,
 
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusTakenAward")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusTakenAward))]
     AttendanceRewardStatusTakenAward,
 
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusWaitTaken")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusWaitTaken))]
     AttendanceRewardStatusWaitTaken,
 
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusUnfinished")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusUnfinished))]
     AttendanceRewardStatusUnfinished,
 
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusFinishedNonReward")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusFinishedNonReward))]
     AttendanceRewardStatusFinishedNonReward,
 
-    [LocalizationKey("WebDailyNoteAttendanceRewardStatusForbid")]
+    [LocalizationKey(nameof(SH.WebDailyNoteAttendanceRewardStatusForbid))]
     AttendanceRewardStatusForbid,
 }

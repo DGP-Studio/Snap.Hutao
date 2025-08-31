@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 using System.Collections.Frozen;
@@ -9,7 +10,7 @@ namespace Snap.Hutao.Model.Entity.Primitive.Converter;
 
 internal sealed partial class CultivateTypeIconConverter : ValueConverter<CultivateType, Uri>
 {
-    private static readonly FrozenDictionary<string, CultivateType> LocalizedNameToCultivateType = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<string, CultivateType> LocalizedNameToCultivateType = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(SH.ModelEntityPrimitiveCultivateTypeAvatarAndSkill, CultivateType.AvatarAndSkill),
         KeyValuePair.Create(SH.ModelEntityPrimitiveCultivateTypeWeapon, CultivateType.Weapon),

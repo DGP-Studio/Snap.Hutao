@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Factory.Process;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -26,44 +28,35 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
+    private static IProcess InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 
         string commandLine = string.Empty;
-        if (launchOptions.AreCommandLineArgumentsEnabled)
+        if (launchOptions.AreCommandLineArgumentsEnabled.Value)
         {
             // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
             // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
             commandLine = new CommandLineBuilder()
-                .AppendIf(launchOptions.IsBorderless, "-popupwindow")
-                .AppendIf(launchOptions.IsExclusive, "-window-mode", "exclusive")
-                .Append("-screen-fullscreen", launchOptions.IsFullScreen ? "1" : "0")
-                .AppendIf(launchOptions.IsScreenWidthEnabled, "-screen-width", launchOptions.ScreenWidth)
-                .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
-                .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
-                .AppendIf(launchOptions.IsPlatformTypeEnabled, "-platform_type", $"{launchOptions.PlatformType:G}")
-                .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
+                .AppendIf(launchOptions.IsBorderless.Value, "-popupwindow")
+                .AppendIf(launchOptions.IsExclusive.Value, "-window-mode", "exclusive")
+                .Append("-screen-fullscreen", launchOptions.IsFullScreen.Value ? "1" : "0")
+                .AppendIf(launchOptions.IsScreenWidthEnabled.Value, "-screen-width", launchOptions.ScreenWidth.Value)
+                .AppendIf(launchOptions.IsScreenHeightEnabled.Value, "-screen-height", launchOptions.ScreenHeight.Value)
+                .AppendIf(launchOptions.IsMonitorEnabled.Value, "-monitor", launchOptions.Monitor.Value?.Value ?? 1)
+                .AppendIf(launchOptions.IsPlatformTypeEnabled.Value, "-platform_type", $"{launchOptions.PlatformType.Value:G}")
+                .AppendIf(launchOptions.UsingHoyolabAccount.Value && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
                 .ToString();
 
             context.TaskContext.InvokeOnMainThread(() =>
             {
-                launchOptions.SaveAspectRatio(new(launchOptions.ScreenWidth, launchOptions.ScreenHeight));
+                launchOptions.AspectRatios.Add(new(launchOptions.ScreenWidth.Value, launchOptions.ScreenHeight.Value));
             });
         }
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);
-
-        return new()
-        {
-            StartInfo = new()
-            {
-                Arguments = commandLine,
-                FileName = gameFileSystem.GameFilePath,
-                UseShellExecute = true,
-                Verb = "runas",
-                WorkingDirectory = gameFileSystem.GetGameDirectory(),
-            },
-        };
+        return HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value
+            ? ProcessFactory.CreateSuspended(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory())
+            : ProcessFactory.CreateUsingShellExecuteRunAs(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory());
     }
 }

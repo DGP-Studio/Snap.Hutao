@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.IO;
 
-internal readonly struct ValueFile
+internal readonly struct ValueFile : IEquatable<ValueFile>
 {
     private readonly string value;
 
@@ -33,5 +33,15 @@ internal readonly struct ValueFile
     public override string ToString()
     {
         return value;
+    }
+
+    public bool Equals(ValueFile other)
+    {
+        return string.Equals(value, other.value, StringComparison.Ordinal);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is ValueFile other && Equals(other);
     }
 }

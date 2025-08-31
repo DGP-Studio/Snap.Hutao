@@ -24,7 +24,7 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private string ticket;
+    private string? ticket;
     private bool isOversea;
 
     public event PropertyChangedEventHandler? PropertyChanged;

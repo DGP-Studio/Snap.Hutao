@@ -8,19 +8,19 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {
     public partial AppOptions AppOptions { get; }
 
     public NameValue<BridgeShareSaveType>? SelectedShareSaveType
     {
-        get => field ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType);
+        get => field ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.BridgeShareSaveType = value.Value;
+                AppOptions.BridgeShareSaveType.Value = value.Value;
             }
         }
     }

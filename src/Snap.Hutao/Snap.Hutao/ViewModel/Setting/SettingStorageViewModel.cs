@@ -20,7 +20,7 @@ using Windows.System;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
@@ -36,7 +36,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     private static async Task OpenBackgroundImageFolderAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open background image folder", "SettingStorageViewModel.Command"));
-        await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataFolderBackgroundFolder());
+        await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataBackgroundDirectory());
     }
 
     [Command("SetDataFolderCommand")]
@@ -72,7 +72,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             return;
         }
 
-        string cacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
+        string cacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
         if (Directory.Exists(cacheFolder))
         {
             Directory.Delete(cacheFolder, true);
@@ -101,7 +101,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             StaticResource.FailAll();
             try
             {
-                Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
+                Directory.Delete(Path.Combine(HutaoRuntime.LocalCacheDirectory, nameof(ImageCache)), true);
             }
             catch (DirectoryNotFoundException ex)
             {

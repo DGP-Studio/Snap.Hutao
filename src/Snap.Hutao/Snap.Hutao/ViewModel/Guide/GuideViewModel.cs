@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel.Guide;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
@@ -82,12 +82,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameCultureInfoValue? SelectedCulture
     {
-        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture);
+        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                CultureOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture.Value = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -95,12 +95,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region);
+        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region.Value);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                AppOptions.Region = value.Value;
+                AppOptions.Region.Value = value.Value;
             }
         }
     }
@@ -227,7 +227,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         DownloadSummaries = GetUnfulfilledCategoryCollection(serviceProvider);
 
         // Pass a collection copy, so that we can remove element in loop
-        await Parallel.ForEachAsync([.. DownloadSummaries], async (summary, token) =>
+        await Parallel.ForEachAsync((DownloadSummary[])[.. DownloadSummaries], async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))
             {

@@ -28,7 +28,7 @@
             Grid.Row="0"
             Grid.RowSpan="3"
             Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-            Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+            Opacity="{Binding AppOptions.BackdropType.Value, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
             <Border.OpacityTransition>
                 <ScalarTransition Duration="0:0:1"/>
             </Border.OpacityTransition>

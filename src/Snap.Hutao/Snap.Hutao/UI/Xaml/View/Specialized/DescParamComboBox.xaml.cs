@@ -7,9 +7,9 @@ using Snap.Hutao.Model.Metadata;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[DependencyProperty("Source", typeof(IList<LevelParameters<string, ParameterDescription>>), default!, nameof(OnSourceChanged))]
-[DependencyProperty("SelectedItem", typeof(LevelParameters<string, ParameterDescription>), default!)]
-[DependencyProperty("PreferredSelectedIndex", typeof(int), 0)]
+[DependencyProperty<IList<LevelParameters<string, ParameterDescription>>>("Source", PropertyChangedCallbackName = nameof(OnSourceChanged))]
+[DependencyProperty<LevelParameters<string, ParameterDescription>>("SelectedItem")]
+[DependencyProperty<int>("PreferredSelectedIndex", DefaultValue = 0, NotNull = true)]
 internal sealed partial class DescParamComboBox : UserControl
 {
     public DescParamComboBox()

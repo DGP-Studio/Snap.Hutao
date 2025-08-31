@@ -8,7 +8,7 @@ using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.IO.Http;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class RetryHttpHandler : DelegatingHandler
 {
     public static HttpRequestOptionsKey<bool> DisableRetry { get; } = new("DisableRetry");
@@ -38,6 +38,6 @@ internal sealed partial class RetryHttpHandler : DelegatingHandler
         }
 
         dispatch?.Throw();
-        throw HutaoException.InvalidOperation("Unexpected Request retry state");
+        throw HutaoException.InvalidOperation("Unexpected request retry state");
     }
 }

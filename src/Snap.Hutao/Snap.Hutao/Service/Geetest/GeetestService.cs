@@ -14,7 +14,7 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.Service.Geetest;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGeetestService))]
+[Service(ServiceLifetime.Transient, typeof(IGeetestService))]
 internal sealed partial class GeetestService : IGeetestService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;

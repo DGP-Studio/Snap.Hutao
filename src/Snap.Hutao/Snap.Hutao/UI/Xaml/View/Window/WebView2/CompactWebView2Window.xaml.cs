@@ -15,6 +15,7 @@ using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -23,7 +24,7 @@ using Windows.Graphics;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,
@@ -130,7 +131,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
     }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get; }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 600, this); }
 

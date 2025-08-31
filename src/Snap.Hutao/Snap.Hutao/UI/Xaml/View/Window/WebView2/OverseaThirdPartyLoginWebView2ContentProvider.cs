@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.WebView2;
 using System.Collections.Frozen;
@@ -15,7 +16,7 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
 {
     private const string BaseUrl = "https://account.hoyoverse.com/single-page/third-party-oauth.html";
 
-    private static readonly FrozenDictionary<OverseaThirdPartyKind, string> ThirdPartyToType = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<OverseaThirdPartyKind, string> ThirdPartyToType = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(OverseaThirdPartyKind.Google, "gl"),
         KeyValuePair.Create(OverseaThirdPartyKind.Apple, "ap"),
@@ -23,7 +24,7 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
         KeyValuePair.Create(OverseaThirdPartyKind.Twitter, "tw"),
     ]);
 
-    private static readonly FrozenDictionary<OverseaThirdPartyKind, string> ThirdPartyToClientId = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<OverseaThirdPartyKind, string> ThirdPartyToClientId = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(OverseaThirdPartyKind.Google, "332303543001-mt3n63m59a8o33vs496a55ct6l42vipc.apps.googleusercontent.com"),
         KeyValuePair.Create(OverseaThirdPartyKind.Apple, "com.hoyoverse.platoversealogin"),

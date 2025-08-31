@@ -18,7 +18,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.Inventory;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IInventoryService))]
+[Service(ServiceLifetime.Singleton, typeof(IInventoryService))]
 internal sealed partial class InventoryService : IInventoryService
 {
     private readonly PromotionDeltaFactory promotionDeltaFactory;

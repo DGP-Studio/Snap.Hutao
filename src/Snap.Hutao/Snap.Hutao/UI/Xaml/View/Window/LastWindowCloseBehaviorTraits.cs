@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
@@ -7,7 +7,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 [ConstructorGenerated]
 internal sealed partial class LastWindowCloseBehaviorTraits
 {
@@ -28,7 +28,7 @@ internal sealed partial class LastWindowCloseBehaviorTraits
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        appOptions.LastWindowCloseBehavior = behavior;
+        appOptions.LastWindowCloseBehavior.Value = behavior;
         LocalSetting.Set(SettingKeys.IsLastWindowCloseBehaviorSet, true);
         window.Close();
     }

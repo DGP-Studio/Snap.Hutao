@@ -14,7 +14,7 @@ using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporter
 {
     private readonly AchievementImporterScopeContext scopeContext;
@@ -102,7 +102,7 @@ internal sealed partial class AchievementImporter
         using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             ImportResult result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
-            scopeContext.InfoBarService.Success(SH.FormatServiceAchievementImportResultFormat(result.Add, result.Update, result.Remove));
+            scopeContext.InfoBarService.Success(SH.FormatServiceAchievementImportResult(result.Add, result.Update, result.Remove));
         }
 
         return true;

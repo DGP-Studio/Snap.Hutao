@@ -8,12 +8,12 @@ using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Win32.Foundation;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,7 +23,7 @@ using Windows.Storage.Streams;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
     [FromKeyed(typeof(CompactWebView2Window))]
@@ -51,12 +51,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
         try
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
-                UseShellExecute = true,
-                Verb = "runas",
-            });
+            ProcessFactory.StartUsingShellExecuteRunAs($"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App");
         }
         catch (Win32Exception ex)
         {
@@ -177,7 +172,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         int width = renderTargetBitmap.PixelWidth;
         int height = renderTargetBitmap.PixelHeight;
 
-        string directory = Path.Combine(HutaoRuntime.GetDataFolderScreenshotFolder(), CultureInfo.CurrentCulture.Name);
+        string directory = Path.Combine(HutaoRuntime.GetDataScreenshotDirectory(), CultureInfo.CurrentCulture.Name);
         Directory.CreateDirectory(directory);
         string filename = $"{navigationService.CurrentPageType?.Name ?? "None"}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
         using (FileStream fileStream = File.Create(Path.Combine(directory, filename)))

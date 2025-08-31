@@ -16,7 +16,7 @@ using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 namespace Snap.Hutao.Service.Inventory;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class PromotionDeltaFactory
 {
     private readonly ILogger<PromotionDeltaFactory> logger;
@@ -112,6 +112,10 @@ internal sealed partial class PromotionDeltaFactory
     private sealed class CultivationItemsAccessComparer : IComparer<ICultivationItemsAccess>
     {
         private static readonly LazySlim<CultivationItemsAccessComparer> LazyShared = new(() => new());
+
+        private CultivationItemsAccessComparer()
+        {
+        }
 
         public static CultivationItemsAccessComparer Shared { get => LazyShared.Value; }
 

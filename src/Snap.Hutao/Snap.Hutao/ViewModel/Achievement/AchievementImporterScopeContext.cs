@@ -10,7 +10,7 @@ using Snap.Hutao.Service.Yae;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporterScopeContext
 {
     public partial IFileSystemPickerInteraction FileSystemPickerInteraction { get; }

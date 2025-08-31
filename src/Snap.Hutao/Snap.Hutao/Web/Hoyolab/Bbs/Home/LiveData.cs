@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using System.Collections.Immutable;
@@ -35,7 +35,7 @@ internal sealed class LiveData
     public required string LivingButtonText { get; init; }
 
     [JsonPropertyName("living_end_button_text")]
-    public required string LivingEndButtonText { get; init; }
+    public string? LivingEndButtonText { get; init; }
 
     [JsonPropertyName("awards")]
     public required ImmutableArray<LiveDataAward> Awards { get; init; }

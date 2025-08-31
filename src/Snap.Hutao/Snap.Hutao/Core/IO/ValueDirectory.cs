@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.IO;
 
-internal readonly struct ValueDirectory
+internal readonly struct ValueDirectory : IEquatable<ValueDirectory>
 {
     private readonly string value;
 
@@ -33,5 +33,15 @@ internal readonly struct ValueDirectory
     public override string ToString()
     {
         return value;
+    }
+
+    public bool Equals(ValueDirectory other)
+    {
+        return string.Equals(value, other.value, StringComparison.Ordinal);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is ValueDirectory other && Equals(other);
     }
 }

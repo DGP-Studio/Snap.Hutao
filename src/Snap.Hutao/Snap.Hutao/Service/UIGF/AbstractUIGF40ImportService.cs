@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
@@ -49,7 +49,7 @@ internal abstract partial class AbstractUIGF40ImportService : IUIGFImportService
 
             if (archive is null)
             {
-                archive = GachaArchive.From($"{entry.Uid}");
+                archive = GachaArchive.Create($"{entry.Uid}");
                 gachaLogRepository.AddGachaArchive(archive);
             }
 

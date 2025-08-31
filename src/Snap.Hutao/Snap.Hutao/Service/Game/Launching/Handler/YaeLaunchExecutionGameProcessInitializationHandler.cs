@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Factory.Process;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -26,11 +28,11 @@ internal sealed class YaeLaunchExecutionGameProcessInitializationHandler : ILaun
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
+    private static IProcess InitializeGameProcess(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 
-        bool authTicketAvailable = launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount: true } && !string.IsNullOrEmpty(context.AuthTicket);
+        bool authTicketAvailable = launchOptions is { AreCommandLineArgumentsEnabled.Value: true, UsingHoyolabAccount.Value: true } && !string.IsNullOrEmpty(context.AuthTicket);
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
@@ -42,17 +44,6 @@ internal sealed class YaeLaunchExecutionGameProcessInitializationHandler : ILaun
             .ToString();
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);
-
-        return new()
-        {
-            StartInfo = new()
-            {
-                Arguments = commandLine,
-                FileName = gameFileSystem.GameFilePath,
-                UseShellExecute = true,
-                Verb = "runas",
-                WorkingDirectory = gameFileSystem.GetGameDirectory(),
-            },
-        };
+        return ProcessFactory.CreateUsingShellExecuteRunAs(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory());
     }
 }

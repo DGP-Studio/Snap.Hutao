@@ -17,6 +17,16 @@ internal sealed unsafe class HutaoNativeNotifyIcon
         this.objRef = objRef;
     }
 
+    public BOOL IsPromoted
+    {
+        get
+        {
+            BOOL promoted = default;
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsPromoted(objRef.ThisPtr, &promoted));
+            return promoted;
+        }
+    }
+
     public void Create(HutaoNativeNotifyIconCallback callback, nint userData, ReadOnlySpan<char> tip)
     {
         fixed (char* pTip = tip)
@@ -36,13 +46,6 @@ internal sealed unsafe class HutaoNativeNotifyIcon
     public void Destroy()
     {
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Destroy(objRef.ThisPtr));
-    }
-
-    public BOOL IsPromoted()
-    {
-        BOOL promoted = default;
-        Marshal.ThrowExceptionForHR(objRef.Vftbl.IsPromoted(objRef.ThisPtr, &promoted));
-        return promoted;
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoNativeNotifyIcon)]

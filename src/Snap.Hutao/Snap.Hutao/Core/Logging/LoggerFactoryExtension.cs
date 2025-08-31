@@ -89,12 +89,8 @@ internal static class LoggerFactoryExtension
         Dictionary<string, object> webView2 = new()
         {
             ["Supported"] = webView2Version.Supported,
+            ["Version"] = webView2Version.RawVersion,
         };
-
-        if (webView2Version.Supported)
-        {
-            webView2["Version"] = webView2Version.Version;
-        }
 
         scope.Contexts["WebView2"] = webView2;
     }

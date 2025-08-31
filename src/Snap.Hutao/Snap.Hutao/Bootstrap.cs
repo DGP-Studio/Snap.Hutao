@@ -12,8 +12,6 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using WinRT;
 
-// Visible to test project.
-[assembly: InternalsVisibleTo("Snap.Hutao.Test")]
 [assembly: DisableRuntimeMarshalling]
 
 namespace Snap.Hutao;

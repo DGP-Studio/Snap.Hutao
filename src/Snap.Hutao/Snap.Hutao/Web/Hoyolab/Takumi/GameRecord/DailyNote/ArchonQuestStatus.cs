@@ -3,15 +3,15 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-[Localization]
+[ExtendedEnum]
 internal enum ArchonQuestStatus
 {
-    [LocalizationKey("WebDailyNoteArchonQuestStatusFinished")]
+    [LocalizationKey(nameof(SH.WebDailyNoteArchonQuestStatusFinished))]
     StatusFinished,
 
-    [LocalizationKey("WebDailyNoteArchonQuestStatusOngoing")]
+    [LocalizationKey(nameof(SH.WebDailyNoteArchonQuestStatusOngoing))]
     StatusOngoing,
 
-    [LocalizationKey("WebDailyNoteArchonQuestStatusNotOpen")]
+    [LocalizationKey(nameof(SH.WebDailyNoteArchonQuestStatusNotOpen))]
     StatusNotOpen,
 }

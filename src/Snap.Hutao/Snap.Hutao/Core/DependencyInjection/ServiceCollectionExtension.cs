@@ -3,17 +3,17 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Win32;
 using System.Data.Common;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static partial class ServiceCollectionExtension
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static partial IServiceCollection AddInjections(this IServiceCollection services);
+    public static partial IServiceCollection AddServices(this IServiceCollection services);
 
     public static IServiceCollection AddJsonOptions(this IServiceCollection services)
     {
@@ -26,7 +26,7 @@ internal static partial class ServiceCollectionExtension
 
         static void AddDbContext(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
         {
-            string dbFile = HutaoRuntime.GetDataFolderFile("Userdata.db");
+            string dbFile = HutaoRuntime.GetDataDirectoryFile("Userdata.db");
             string sqlConnectionString = $"Data Source={dbFile}";
 
             try
@@ -51,7 +51,7 @@ internal static partial class ServiceCollectionExtension
                     {ex.Message}
                     """;
                 HutaoNative.Instance.ShowErrorMessage("Warning | 警告", message);
-                Process.GetCurrentProcess().Kill();
+                ProcessFactory.KillCurrent();
                 return;
             }
 

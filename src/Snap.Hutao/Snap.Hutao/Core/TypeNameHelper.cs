@@ -6,20 +6,15 @@ using System.Text;
 
 namespace Snap.Hutao.Core;
 
-/// <summary>
-/// 类型名称帮助类
-/// Directly copied from .NET Runtime library
-/// https://github.com/dotnet/runtime/blob/main/src/libraries/Common/src/Extensions/TypeNameHelper/TypeNameHelper.cs
-///
-/// Licensed to the .NET Foundation under one or more agreements.
-/// The .NET Foundation licenses this file to you under the MIT license.
-/// </summary>
+// Directly copied from .NET Runtime library
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 [SuppressMessage("", "SH007")]
 internal static class TypeNameHelper
 {
     private const char DefaultNestedTypeDelimiter = '+';
 
-    private static readonly FrozenDictionary<Type, string> BuiltInTypeNames = FrozenDictionary.ToFrozenDictionary(
+    private static readonly FrozenDictionary<Type, string> BuiltInTypeNames = WinRTAdaptive.ToFrozenDictionary(
     [
         KeyValuePair.Create(typeof(void), "void"),
         KeyValuePair.Create(typeof(bool), "bool"),
@@ -39,27 +34,12 @@ internal static class TypeNameHelper
         KeyValuePair.Create(typeof(ushort), "ushort"),
     ]);
 
-    /// <summary>
-    /// 获取对象类型的显示名称
-    /// </summary>
-    /// <param name="item">物品</param>
-    /// <param name="fullName">是否全名</param>
-    /// <returns>对象类型的显示名称</returns>
     [return: NotNullIfNotNull(nameof(item))]
     public static string? GetTypeDisplayName(object? item, bool fullName = true)
     {
         return item is null ? null : GetTypeDisplayName(item.GetType(), fullName);
     }
 
-    /// <summary>
-    /// Pretty print a type name.
-    /// </summary>
-    /// <param name="type">The <see cref="Type"/>.</param>
-    /// <param name="fullName"><c>true</c> to print a fully qualified name.</param>
-    /// <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
-    /// <param name="includeGenericParameters"><c>true</c> to include generic parameters.</param>
-    /// <param name="nestedTypeDelimiter">Character to use as a delimiter in nested type names</param>
-    /// <returns>The pretty printed type name.</returns>
     public static string GetTypeDisplayName(Type type, bool fullName = true, bool includeGenericParameterNames = false, bool includeGenericParameters = true, char nestedTypeDelimiter = DefaultNestedTypeDelimiter)
     {
         StringBuilder? builder = null;

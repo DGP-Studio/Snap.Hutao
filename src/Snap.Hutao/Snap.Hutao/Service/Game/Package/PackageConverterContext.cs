@@ -31,9 +31,6 @@ internal readonly struct PackageConverterContext
     public readonly string FromDataFolder;
     public readonly string ToDataFolder;
 
-    public readonly string? ScatteredFilesUrl;
-    public readonly string? PkgVersionUrl;
-
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
     public PackageConverterContext(CommonReferences common, BranchWrapper currentBranch, BranchWrapper targetBranch)
@@ -47,7 +44,7 @@ internal readonly struct PackageConverterContext
     {
         ParallelOptions = new() { MaxDegreeOfParallelism = Environment.ProcessorCount, };
 
-        ServerCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
+        ServerCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
         ServerCacheChunksFolder = Path.Combine(ServerCacheFolder, "Chunks");
 
         string serverCacheOversea = Path.Combine(ServerCacheFolder, "Oversea");
@@ -73,11 +70,6 @@ internal readonly struct PackageConverterContext
     public IGameFileSystemView GameFileSystem { get => Common.GameFileSystem; }
 
     public IProgress<PackageConvertStatus> Progress { get => Common.Progress; }
-
-    public string GetScatteredFilesUrl(string file)
-    {
-        return $"{ScatteredFilesUrl}/{file}";
-    }
 
     public string GetServerCacheBackupFilePath(string filePath)
     {

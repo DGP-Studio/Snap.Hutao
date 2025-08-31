@@ -19,7 +19,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Sign;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Transient)]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
@@ -146,16 +146,16 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             {
                 int index = info.TotalSignDay - 1;
                 Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
+                infoBarService.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count));
             }
             else if (postResign)
             {
                 int index = info.TotalSignDay - 1;
                 Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceReSignInSuccessRewardFormat(award.Name, award.Count));
+                infoBarService.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count));
             }
 
-            ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.From);
+            ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.Create);
             InitializeClaimedAwards(views, info.TotalSignDay);
 
             totalSignDay = info.TotalSignDay;
@@ -167,7 +167,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Awards = advancedViews;
             CurrentUid = userAndUid.Uid.ToString();
 
-            string monthName = cultureOptions.CurrentCulture.DateTimeFormat.MonthNames[reward.Month - 1];
+            string monthName = cultureOptions.CurrentCulture.Value.DateTimeFormat.MonthNames[reward.Month - 1];
             TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(monthName, info.TotalSignDay);
             ScrollToCurrentOrNextAward(postSign || postResign);
 

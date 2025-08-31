@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>, IAdvancedCollectionViewItem
+internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>, IPropertyValuesProvider
 {
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
         : this(entity, context.IdTowerScheduleMap[entity.ScheduleId], context)
@@ -57,7 +57,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public uint ScheduleId { get; }
 
-    public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
+    public string Schedule { get => SH.FormatModelEntitySpiralAbyssSchedule(ScheduleId); }
 
     public string FormattedTime { get; }
 

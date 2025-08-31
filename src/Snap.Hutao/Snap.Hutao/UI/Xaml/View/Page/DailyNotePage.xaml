@@ -518,13 +518,13 @@
                                                     Description="{shuxm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
                                                     Header="{shuxm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"
                                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE72C;}">
-                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsAutoRefreshEnabled, Mode=TwoWay}"/>
+                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsAutoRefreshEnabled.Value, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                                 <RadioButtons
                                                     Margin="0,12,0,5"
-                                                    IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled}"
+                                                    IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled.Value}"
                                                     ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
-                                                    SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
+                                                    SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime.Value, Mode=TwoWay}">
                                                     <RadioButtons.Header>
                                                         <TextBlock
                                                             Margin="1,0,0,0"
@@ -557,16 +557,16 @@
                                                     Severity="Warning"
                                                     Visibility="{Binding RuntimeOptions.IsToastAvailable, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <cwcont:SettingsCard
-                                                    Description="{shuxm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
-                                                    Header="{shuxm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
+                                                    Description="{shuxm:ResourceString Name=ViewPageDailyNoteSilentModeDescription}"
+                                                    Header="{shuxm:ResourceString Name=ViewPageDailyNoteSilentModeHeader}"
                                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7ED;}">
-                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame.Value, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                                 <cwcont:SettingsCard
                                                     Description="{shuxm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
                                                     Header="{shuxm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEA8F;}">
-                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
+                                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification.Value, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                             </StackPanel>
                                         </cwcont:HeaderedContentControl>
@@ -588,19 +588,19 @@
         </Border>
 
         <ScrollView Grid.Row="1">
-            <ItemsRepeater
+            <ItemsControl
                 Margin="16"
                 ItemTemplate="{StaticResource DailyNoteEntryTemplate}"
                 ItemsSource="{Binding DailyNoteEntries}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        ItemsJustification="Start"
-                        ItemsStretch="Fill"
-                        MinColumnSpacing="12"
-                        MinItemWidth="300"
-                        MinRowSpacing="12"/>
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <shuxcp:UniformStaggeredPanel
+                            ColumnSpacing="12"
+                            MinItemWidth="300"
+                            RowSpacing="12"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollView>
     </Grid>
 </shuxc:ScopedPage>

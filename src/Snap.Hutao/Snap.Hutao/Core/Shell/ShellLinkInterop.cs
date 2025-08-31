@@ -6,13 +6,13 @@ using System.IO;
 
 namespace Snap.Hutao.Core.Shell;
 
-[Injection(InjectAs.Transient, typeof(IShellLinkInterop))]
+[Service(ServiceLifetime.Transient, typeof(IShellLinkInterop))]
 internal sealed class ShellLinkInterop : IShellLinkInterop
 {
     public bool TryCreateDesktopShortcutForElevatedLaunch()
     {
-        string targetLogoPath = HutaoRuntime.GetDataFolderFile("ShellLinkLogo.ico");
-        string elevatedLauncherPath = HutaoRuntime.GetDataFolderFile("Snap.Hutao.Elevated.Launcher.exe");
+        string targetLogoPath = HutaoRuntime.GetDataDirectoryFile("ShellLinkLogo.ico");
+        string elevatedLauncherPath = HutaoRuntime.GetDataDirectoryFile("Snap.Hutao.Elevated.Launcher.exe");
 
         try
         {

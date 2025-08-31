@@ -3,6 +3,16 @@
 
 namespace Snap.Hutao.Core.Threading;
 
+internal static class LazySlim
+{
+    public static LazySlim<T> Create<T>()
+        where T : new()
+    {
+        return new(static () => new T());
+    }
+}
+
+[SuppressMessage("", "SA1402")]
 internal sealed class LazySlim<T>
 {
     private readonly Func<T> valueFactory;

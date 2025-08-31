@@ -329,7 +329,7 @@ internal class MiHoYoJSBridge
             IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
             IFileSystemPickerInteraction fileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>();
-            BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType;
+            BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType.Value;
 
             if (coreWebView2 is null)
             {

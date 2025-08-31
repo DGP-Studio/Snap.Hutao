@@ -216,7 +216,7 @@
   <data name="MetadataSpecialNameServerTimeZone" xml:space="preserve">
     <value>서버 시간대</value>
   </data>
-  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
     <value>재련 {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>수요일/토요일/일요일</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
     <value>{0:f2} 뽑음</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
     <value>가장 나쁨 {0} 뽑음</value>
   </data>
-  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
     <value>가장 좋음 {0} 뽑음</value>
   </data>
-  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+  <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
     <value>{0} 뽑음</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>제 {0} 방</value>
   </data>
-  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+  <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
     <value>{0}번 플레이</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
@@ -264,11 +264,11 @@
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
     <value>아직 새로 고침되지 않음</value>
   </data>
-  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>{0:MM.dd HH:mm:ss}에 새로 고침됨</value>
+  <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
+    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
-  <data name="ModelEntityHardChallengeScheduleFormat" xml:space="preserve">
-    <value>제 {0} 호: {1}</value>
+  <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
+    <value>第 {0} 期：{1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>캐릭터</value>
@@ -279,7 +279,7 @@
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>무기</value>
   </data>
-  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+  <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
     <value>제 {0} 호</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
@@ -370,22 +370,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelAdvancing" xml:space="preserve">
-    <value>进阶</value>
+    <value>진급</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelDire" xml:space="preserve">
-    <value>绝境</value>
+    <value>절경</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelFearless" xml:space="preserve">
-    <value>无畏</value>
+    <value>무모</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelHard" xml:space="preserve">
-    <value>困难</value>
+    <value>어려움</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelMenacing" xml:space="preserve">
-    <value>险恶</value>
+    <value>위협</value>
   </data>
   <data name="ModelIntrinsicHardChallengeDifficultyLevelNormal" xml:space="preserve">
-    <value>普通</value>
+    <value>보통</value>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>3성</value>
@@ -440,7 +440,7 @@
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>여행자</value>
   </data>
-  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+  <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
     <value>{0}월 {1}일</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>데이터 없음</value>
   </data>
-  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+  <data name="ModelWeaponAffix" xml:space="preserve">
     <value>재련 {0}단계</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
@@ -699,8 +699,8 @@
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>심연 기록 업로드에 성공했지만, 이번 회차에 처음 제출한 것이 아니므로 기원 기록 업로드 서비스 시간을 받을 수 없습니다.</value>
   </data>
-  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>추가: {0} 업적 | 수정: {1} 업적 | 삭제 {2} 업적</value>
+  <data name="ServiceAchievementImportResult" xml:space="preserve">
+    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>UIAF JSON 파일</value>
@@ -1077,14 +1077,14 @@
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>게임 무결성 검증 중</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
-    <value>백업: {0}</value>
+  <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
+    <value>备份：{0}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
-    <value>이름 변경: {0}에서 {1}(으)로</value>
+  <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
+    <value>重命名：{0} 到：{1}</value>
   </data>
-  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>교체: {0}</value>
+  <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
+    <value>替换：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>로컬 패키지 버전을 읽는 중 문제가 발생했습니다. 게임을 복구하면 도움이 될 수 있습니다.</value>
@@ -1140,14 +1140,14 @@
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>게임 리소스 작업 실패</value>
   </data>
-  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>추가 체크인 실패, {0}</value>
+  <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
+    <value>补签失败，{0}</value>
   </data>
-  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
-    <value>추가 체크인 성공, {0}×{1}</value>
+  <data name="ServiceReSignInSuccessReward" xml:space="preserve">
+    <value>补签成功，{0}×{1}</value>
   </data>
-  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>체크인 실패, {0}</value>
+  <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
+    <value>签到失败，{0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>체크인 횟수 가져오기 실패</value>
@@ -1158,8 +1158,8 @@
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
     <value>인증 실패, 미유사(米游社) 원신 체크인 페이지에서 직접 보상을 받으세요</value>
   </data>
-  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
-    <value>체크인 성공, {0}×{1}</value>
+  <data name="ServiceSignInSuccessReward" xml:space="preserve">
+    <value>签到成功，{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>지원되지 않는 아이템, Id: {0}</value>
@@ -1606,13 +1606,13 @@
     <value>계정 비밀번호 로그인</value>
   </data>
   <data name="ViewDialogUserAccountVerificationCaptchaPlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>인증 코드</value>
   </data>
   <data name="ViewDialogUserAccountVerificationEmailCaptchaSent" xml:space="preserve">
-    <value>验证码已发送</value>
+    <value>인증 코드 전송</value>
   </data>
   <data name="ViewDialogUserAccountVerificationTitle" xml:space="preserve">
-    <value>请输入邮箱验证码</value>
+    <value>인증 코드를 입력하세요</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>지금 이동</value>
@@ -1773,6 +1773,15 @@
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
     <value>업적 ID 복사 성공</value>
   </data>
+  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
+    <value>前往米游社搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
+    <value>前往HoYoLAB搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} 成就</value>
+  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 파일</value>
   </data>
@@ -1851,10 +1860,10 @@
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>육성 계획을 추가하지 못했습니다</value>
   </data>
-  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
     <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
-  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+  <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
@@ -1873,7 +1882,7 @@
     <value>해당 아이템의 육성 항목이 이미 존재합니다</value>
   </data>
   <data name="ViewModelCultivationEntryAddNoConsumptionWarning" xml:space="preserve">
-    <value>未消耗任何材料</value>
+    <value>어떤 재료도 소비하지 않음</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>현재 육성 계획 추가에 성공했습니다</value>
@@ -1885,7 +1894,7 @@
     <value>아이템을 다시 추가하여 육성 설명을 확인하세요</value>
   </data>
   <data name="ViewModelCultivationEntryViewPromoteOnlyHint" xml:space="preserve">
-    <value>仅突破</value>
+    <value>오직 돌파</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>성공적으로 추가됨</value>
@@ -2508,10 +2517,10 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>알림 영역 아이콘 생성에 실패했습니다. 창을 닫으면 자동 새로고침이 실행되지 않습니다</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
     <value>원신을 플레이 할 때 알리지 않음</value>
   </data>
-  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+  <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
     <value>방해 금지 모드</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
@@ -3801,16 +3810,16 @@
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
     <value>디버그 스크립트 실행</value>
   </data>
-  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
     <value>{0}일 후 시작</value>
   </data>
-  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
     <value>{0}일 후 종료</value>
   </data>
-  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
     <value>{0}시간 후 시작</value>
   </data>
-  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+  <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
     <value>{0}시간 후 종료</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
@@ -3876,8 +3885,8 @@
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
     <value>「일일 의뢰」 보상 획득 완료</value>
   </data>
-  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm}에 저장 한도 도달 예상</value>
+  <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
+    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>선계가 아직 해제되지 않음</value>
@@ -3891,14 +3900,14 @@
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>모레</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
     <value>{0}일</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>원소 레진 완전 회복</value>
   </data>
-  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm} 이후 전부 회복</value>
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
+    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 후 재설정</value>
@@ -3906,13 +3915,13 @@
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>추후 재사용 가능</value>
   </data>
-  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerDays" xml:space="preserve">
     <value>{0}일</value>
   </data>
-  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerHours" xml:space="preserve">
     <value>{0}시간</value>
   </data>
-  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
     <value>{0}분</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
@@ -3930,7 +3939,7 @@
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>준비 완료</value>
   </data>
-  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+  <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
     <value>{0}초</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
@@ -4017,14 +4026,14 @@
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>{0} 요청 중 문제가 발생했습니다</value>
   </data>
-  <data name="WebResponseFormat" xml:space="preserve">
+  <data name="WebResponse" xml:space="preserve">
     <value>상태：{0} | 정보：{1}</value>
   </data>
-  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>쿠키를 새로 고쳐주세요. 원시 메시지: {0}</value>
+  <data name="WebResponseRefreshCookieHint" xml:space="preserve">
+    <value>请刷新 Cookie，原始消息：{0}</value>
   </data>
-  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}]의 [{1}] 네트워크 요청 예외입니다. 나중에 다시 시도해주세요.</value>
+  <data name="WebResponseRequestException" xml:space="preserve">
+    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>로그인 실패, HoYoLAB에서 계정을 초기화하세요. 원본 메시지: {0}</value>
@@ -4033,26 +4042,35 @@
     <value>모니터 ID</value>
   </data>
   <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+    <value>주입 기능의 남용을 방지하기 위해, 미호요/호요랩 계정으로 로그인하고 계정과 캐릭터를 선택해야 합니다</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
+    <value>프로세스 종료 실패</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
+    <value>우주적 재앙</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
+    <value>노드크라이</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
+    <value>호출 스택</value>
   </data>
   <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
+    <value>신의 눈</value>
   </data>
   <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
+    <value>게임 버전 가져오기 실패</value>
+  </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>닫기</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>아래 목록에서 선택하여 해당 경로로 전환하세요</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>유적</value>
   </data>
 </root>

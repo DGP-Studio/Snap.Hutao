@@ -34,6 +34,8 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNative5 = "7B4D20F1-4DAD-492E-8485-B4701A2ED19B";
     public const string IID_IHutaoNativeHotKeyAction = "8C776674-9910-4721-A764-97BDB791F719";
     public const string IID_IHutaoNative6 = "B68CABFA-C55A-49FA-8C51-21615C594E2B";
+    public const string IID_IHutaoNativeProcess = "13A2B1A2-03CB-46E1-AED5-6AFEA2DFFB39";
+    public const string IID_IHutaoNative7 = "B7A49A20-D9E2-43FD-9637-E80190443ABE";
     public const string IID_IHutaoPrivate = "1A6980D9-EB36-4E3E-86E7-3665C57C6E8D";
     public const string IID_IHutaoPrivate2 = "4E5D37CF-5F38-4FF2-9059-DF39CA696365";
 

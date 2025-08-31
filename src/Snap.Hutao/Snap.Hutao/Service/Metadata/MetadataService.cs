@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
@@ -22,7 +21,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Service.Metadata;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IMetadataService))]
+[Service(ServiceLifetime.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MetadataService : IMetadataService
 {
@@ -92,16 +91,16 @@ internal sealed partial class MetadataService : IMetadataService
                     Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
                     // Write stream while convert LF to CRLF
-                    using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
-                    {
-                        while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                        {
-                            await readerWriter.WriteAsync(line).ConfigureAwait(false);
+                    using StreamReader reader = new(sourceStream);
+                    using StreamWriter writer = File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName));
 
-                            if (!readerWriter.Reader.EndOfStream)
-                            {
-                                await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
-                            }
+                    while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                    {
+                        await writer.WriteAsync(line).ConfigureAwait(false);
+
+                        if (!reader.EndOfStream)
+                        {
+                            await writer.WriteAsync("\r\n").ConfigureAwait(false);
                         }
                     }
                 }

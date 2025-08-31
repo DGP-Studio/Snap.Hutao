@@ -5,10 +5,10 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -24,9 +24,9 @@ internal static class HutaoRuntime
 
     public static string UserAgent { get; } = $"Snap Hutao/{Version}";
 
-    public static string DataFolder { get; } = InitializeDataFolder();
+    public static string DataDirectory { get; } = InitializeDataDirectory();
 
-    public static string LocalCache { get; } = ApplicationData.Current.LocalCacheFolder.Path;
+    public static string LocalCacheDirectory { get; } = ApplicationData.Current.LocalCacheFolder.Path;
 
     public static string FamilyName { get; } = Package.Current.Id.FamilyName;
 
@@ -59,93 +59,90 @@ internal static class HutaoRuntime
             .ToString();
 
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
-        string? displayName = SH.GetString(CultureInfo.CurrentCulture, name, Version);
+        string? displayName = SH.GetString(name, Version);
         return displayName is null ? null : string.Intern(displayName);
     }
 
-    public static string GetDataFolderFile(string fileName)
+    public static ValueFile GetDataDirectoryFile(string fileName)
     {
-        return string.Intern(Path.Combine(DataFolder, fileName));
+        return string.Intern(Path.Combine(DataDirectory, fileName));
     }
 
-    public static string GetDataFolderUpdateCacheFolderFile(string fileName)
+    public static ValueFile GetDataUpdateCacheDirectoryFile(string fileName)
     {
-        string directory = Path.Combine(DataFolder, "UpdateCache");
+        string directory = Path.Combine(DataDirectory, "UpdateCache");
         Directory.CreateDirectory(directory);
         return string.Intern(Path.Combine(directory, fileName));
     }
 
-    public static string GetDataFolderServerCacheFolder()
+    public static ValueDirectory GetDataServerCacheDirectory()
     {
-        string directory = Path.Combine(DataFolder, "ServerCache");
+        string directory = Path.Combine(DataDirectory, "ServerCache");
         Directory.CreateDirectory(directory);
         return string.Intern(directory);
     }
 
-    public static string GetDataFolderBackgroundFolder()
+    public static ValueDirectory GetDataBackgroundDirectory()
     {
-        string directory = Path.Combine(DataFolder, "Background");
+        string directory = Path.Combine(DataDirectory, "Background");
         Directory.CreateDirectory(directory);
         return string.Intern(directory);
     }
 
-    public static string GetLocalCacheImageCacheFolder()
+    public static ValueDirectory GetDataScreenshotDirectory()
     {
-        string directory = Path.Combine(LocalCache, "ImageCache");
+        string directory = Path.Combine(DataDirectory, "Screenshot");
         Directory.CreateDirectory(directory);
         return string.Intern(directory);
     }
 
-    public static string GetDataFolderScreenshotFolder()
+    public static ValueDirectory GetLocalCacheImageCacheDirectory()
     {
-        string directory = Path.Combine(DataFolder, "Screenshot");
+        string directory = Path.Combine(LocalCacheDirectory, "ImageCache");
         Directory.CreateDirectory(directory);
         return string.Intern(directory);
     }
 
-    private static string InitializeDataFolder()
+    private static string InitializeDataDirectory()
     {
         // Delete the previous data folder if it exists
         try
         {
-            string previousPath = LocalSetting.Get(SettingKeys.PreviousDataFolderToDelete, string.Empty);
-            if (!string.IsNullOrEmpty(previousPath) && Directory.Exists(previousPath))
+            string previousDirectory = LocalSetting.Get(SettingKeys.PreviousDataDirectoryToDelete, string.Empty);
+            if (!string.IsNullOrEmpty(previousDirectory) && Directory.Exists(previousDirectory))
             {
-                Directory.Delete(previousPath, true);
-                LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, string.Empty);
+                Directory.Delete(previousDirectory, true);
             }
         }
-        catch
+        finally
         {
-#if !RELEASE
-            Debugger.Break();
-            throw;
-#endif
+            LocalSetting.Set(SettingKeys.PreviousDataDirectoryToDelete, string.Empty);
         }
 
         // Check if the preferred path is set
-        string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
+        string currentDirectory = LocalSetting.Get(SettingKeys.DataDirectory, string.Empty);
 
-        if (!string.IsNullOrEmpty(preferredPath))
+        if (!string.IsNullOrEmpty(currentDirectory))
         {
-            Directory.CreateDirectory(preferredPath);
-            return preferredPath;
+            Directory.CreateDirectory(currentDirectory);
+            return currentDirectory;
         }
 
         const string FolderName
-#if IS_ALPHA_BUILD || IS_CANARY_BUILD
+#if IS_ALPHA_BUILD
         = "HutaoAlpha";
+#elif IS_CANARY_BUILD
+        = "HutaoCanary";
 #else
         = "Hutao";
 #endif
 
         // Check if the old documents path exists
-        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        string oldPath = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
-        if (Directory.Exists(oldPath))
+        string myDocumentsHutaoDirectory = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), FolderName));
+        if (Directory.Exists(myDocumentsHutaoDirectory))
         {
-            LocalSetting.Set(SettingKeys.DataFolderPath, oldPath);
-            return oldPath;
+            LocalSetting.Set(SettingKeys.DataDirectory, myDocumentsHutaoDirectory);
+            return myDocumentsHutaoDirectory;
         }
 
         // Prefer LocalApplicationData
@@ -162,7 +159,7 @@ internal static class HutaoRuntime
             HutaoException.InvalidOperation($"Failed to create data folder: {path}", ex);
         }
 
-        LocalSetting.Set(SettingKeys.DataFolderPath, path);
+        LocalSetting.Set(SettingKeys.DataDirectory, path);
         return path;
     }
 

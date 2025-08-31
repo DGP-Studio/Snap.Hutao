@@ -9,6 +9,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
@@ -133,10 +134,10 @@ internal static class AvatarViewBuilderExtension
     {
         RecommendPropertiesView view = new()
         {
-            SandProperties = recommendProperties.SandMainPropertyList.SelectAsArray(FightPropertyExtension.GetLocalizedDescription),
-            GobletProperties = recommendProperties.GobletMainPropertyList.SelectAsArray(FightPropertyExtension.GetLocalizedDescription),
-            CircletProperties = recommendProperties.CircletMainPropertyList.SelectAsArray(FightPropertyExtension.GetLocalizedDescription),
-            SubProperties = recommendProperties.SubPropertyList.SelectAsArray(FightPropertyExtension.GetLocalizedDescription),
+            SandProperties = recommendProperties.SandMainPropertyList.SelectAsArray(static prop => prop.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture)),
+            GobletProperties = recommendProperties.GobletMainPropertyList.SelectAsArray(static prop => prop.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture)),
+            CircletProperties = recommendProperties.CircletMainPropertyList.SelectAsArray(static prop => prop.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture)),
+            SubProperties = recommendProperties.SubPropertyList.SelectAsArray(static prop => prop.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture)),
         };
 
         return builder.SetRecommendedProperties(view);

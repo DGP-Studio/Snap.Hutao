@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.ViewModel.Home;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IAnnouncementService announcementService;
@@ -62,7 +62,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     {
         try
         {
-            AnnouncementWrapper? announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, token).ConfigureAwait(false);
+            AnnouncementWrapper? announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region.Value, token).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
             DeferContentLoader?.Load("GameAnnouncementPivot");
@@ -103,7 +103,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 .GetRequiredService<IOverseaSupportFactory<IHomeClient>>()
                 .CreateFor(userAndUid);
 
-            Response<NewHomeNewInfo>? newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
+            Response<NewHomeNewInfo> newHomeInfoResponse = await homeClient.GetNewHomeInfoAsync(2, token).ConfigureAwait(false);
 
             if (!ResponseValidator.TryValidateWithoutUINotification(newHomeInfoResponse, out NewHomeNewInfo? newHomeInfo))
             {
@@ -115,7 +115,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             {
                 url = url1;
             }
-            else if (newHomeInfo.Navigator.SingleOrDefault(nav => nav.Name.Equals("直播兑换码", StringComparison.OrdinalIgnoreCase)) is { AppPath: { } url2 })
+            else if (newHomeInfo.Navigator.SingleOrDefault(nav => nav.Name.EqualsAny(["直播兑换码", "前瞻直播"], StringComparison.OrdinalIgnoreCase)) is { AppPath: { } url2 })
             {
                 url = url2;
             }

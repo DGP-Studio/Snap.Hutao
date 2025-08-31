@@ -18,7 +18,7 @@ using System.Text;
 
 namespace Snap.Hutao.UI.Shell;
 
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class NotifyIconController : IDisposable
 {
     private static bool constructed;
@@ -94,7 +94,7 @@ internal sealed partial class NotifyIconController : IDisposable
         ObjectDisposedException.ThrowIf(disposed, this);
         try
         {
-            return native.IsPromoted();
+            return native.IsPromoted;
         }
         catch (Exception ex)
         {

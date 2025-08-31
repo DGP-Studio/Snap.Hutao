@@ -11,15 +11,10 @@ internal static class RandomAccessRead
     public static bool Exactly(SafeFileHandle handle, Span<byte> buffer, long fileOffset)
     {
         int bytesRead = 0;
-        while (true)
+        while (bytesRead < buffer.Length)
         {
             int read = RandomAccess.Read(handle, buffer[bytesRead..], fileOffset + bytesRead);
             bytesRead += read;
-
-            if (bytesRead == buffer.Length)
-            {
-                break;
-            }
 
             if (read is 0)
             {
@@ -27,21 +22,16 @@ internal static class RandomAccessRead
             }
         }
 
-        return true;
+        return bytesRead == buffer.Length;
     }
 
     public static async ValueTask ExactlyAsync(SafeFileHandle handle, Memory<byte> buffer, long fileOffset, CancellationToken token)
     {
         int bytesRead = 0;
-        while (true)
+        while (bytesRead < buffer.Length)
         {
             int read = await RandomAccess.ReadAsync(handle, buffer[bytesRead..], fileOffset + bytesRead, token).ConfigureAwait(false);
             bytesRead += read;
-
-            if (bytesRead == buffer.Length)
-            {
-                break;
-            }
 
             if (read is 0)
             {

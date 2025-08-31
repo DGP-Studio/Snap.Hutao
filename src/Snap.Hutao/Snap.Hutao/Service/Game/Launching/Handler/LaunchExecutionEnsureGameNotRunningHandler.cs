@@ -1,8 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Win32;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -13,34 +14,14 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecut
         return IsGameRunning(out _);
     }
 
-    public static bool IsGameRunning([NotNullWhen(true)] out Process? runningProcess)
+    public static bool IsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
     {
-        int currentSessionId = Process.GetCurrentProcess().SessionId;
-
-        // GetProcesses once and manually loop is O(n)
-        foreach (ref readonly Process process in Process.GetProcesses().AsSpan())
-        {
-            if (!process.ProcessName.EqualsAny([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            if (process.SessionId != currentSessionId)
-            {
-                continue;
-            }
-
-            runningProcess = process;
-            return true;
-        }
-
-        runningProcess = default;
-        return false;
+        return ProcessFactory.IsRunning([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], out runningProcess);
     }
 
     public static bool TryKillGameProcess()
     {
-        if (!IsGameRunning(out Process? process))
+        if (!IsGameRunning(out IProcess? process))
         {
             return false;
         }

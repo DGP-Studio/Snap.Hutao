@@ -18,16 +18,19 @@ internal static class ExceptionFormat
 
     public static StringBuilder Format(StringBuilder builder, Exception exception)
     {
-        builder.AppendLine("Exception Data:");
-
-        foreach (DictionaryEntry entry in exception.Data)
+        if (exception.Data.Count > 0)
         {
-            builder.AppendLine(CultureInfo.CurrentCulture, $"[{TypeNameHelper.GetTypeDisplayName(entry.Value)}]:{entry.Key}:{entry.Value}");
+            builder.AppendLine("Exception Data:");
+
+            foreach (DictionaryEntry entry in exception.Data)
+            {
+                builder.AppendLine(CultureInfo.CurrentCulture, $"[{TypeNameHelper.GetTypeDisplayName(entry.Value)}] {entry.Key}:'{entry.Value}'");
+            }
+
+            builder.AppendLine(SectionSeparator);
         }
 
-        builder.AppendLine(SectionSeparator);
         builder.Append(exception);
-
         return builder;
     }
 }

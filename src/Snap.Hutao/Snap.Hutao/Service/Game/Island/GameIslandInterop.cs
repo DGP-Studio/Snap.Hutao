@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Feature;
@@ -32,7 +33,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     {
         this.context = context;
         this.resume = resume;
-        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
+        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataDirectory, "Snap.Hutao.UnlockerIsland.dll");
     }
 
     public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
@@ -107,7 +108,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                 InitializeIslandEnvironment(handle, in offsets, context.Options);
                 if (!resume)
                 {
-                    DllInjectionUtilities.InjectUsingWindowsHook(dataFolderIslandPath, "DllGetWindowsHookForHutao", context.Process.Id);
+                    DllInjectionUtilities.InjectUsingRemoteThread(dataFolderIslandPath, context.Process.Id);
                 }
 
                 using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
@@ -147,7 +148,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
         pIslandEnvironment->FunctionOffsets = offsets;
-        pIslandEnvironment->UsingTouchScreen = options.UsingTouchScreen;
+        pIslandEnvironment->UsingTouchScreen = options.UsingTouchScreen.Value;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -156,17 +157,17 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
-        pIslandEnvironment->EnableSetFieldOfView = options.IsSetFieldOfViewEnabled;
-        pIslandEnvironment->FieldOfView = options.TargetFov;
-        pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
-        pIslandEnvironment->DisableFog = options.DisableFog;
-        pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled;
-        pIslandEnvironment->TargetFrameRate = options.TargetFps;
-        pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
-        pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
-        pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove;
-        pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText;
-        pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry;
+        pIslandEnvironment->EnableSetFieldOfView = options.IsSetFieldOfViewEnabled.Value;
+        pIslandEnvironment->FieldOfView = options.TargetFov.Value;
+        pIslandEnvironment->FixLowFovScene = options.FixLowFovScene.Value;
+        pIslandEnvironment->DisableFog = options.DisableFog.Value;
+        pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled.Value;
+        pIslandEnvironment->TargetFrameRate = options.TargetFps.Value;
+        pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress.Value;
+        pIslandEnvironment->HideQuestBanner = options.HideQuestBanner.Value;
+        pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove.Value;
+        pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText.Value;
+        pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry.Value;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }

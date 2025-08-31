@@ -1,10 +1,9 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Cultivation;
 

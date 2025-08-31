@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("PaneCornerRadius", typeof(CornerRadius), default, nameof(OnPaneCornerRadiusChanged), IsAttached = true, AttachedType = typeof(NavigationView))]
+[DependencyProperty<CornerRadius>("PaneCornerRadius", PropertyChangedCallbackName = nameof(OnPaneCornerRadiusChanged), IsAttached = true, TargetType = typeof(NavigationView), NotNull = true)]
 public sealed partial class NavigationViewHelper
 {
     private static void OnPaneCornerRadiusChanged(DependencyObject dp, DependencyPropertyChangedEventArgs args)

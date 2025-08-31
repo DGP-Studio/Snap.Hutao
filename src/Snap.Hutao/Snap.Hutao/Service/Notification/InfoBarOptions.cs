@@ -21,5 +21,19 @@ internal sealed class InfoBarOptions
 
     public int MilliSecondsDelay { get; set; }
 
-    public bool IsTextSelectionEnabled { get => Severity is InfoBarSeverity.Error; }
+    public bool IsTextSelectionEnabled { get => Severity >= InfoBarSeverity.Warning; }
+
+    public static InfoBarOptions Create(InfoBarMessage message)
+    {
+        return new()
+        {
+            Severity = message.Severity,
+            Title = message.Title,
+            Message = message.Message,
+            Content = message.Content,
+            ActionButtonContent = message.ActionButtonContent,
+            ActionButtonCommand = message.ActionButtonCommand,
+            MilliSecondsDelay = message.MilliSecondsDelay,
+        };
+    }
 }

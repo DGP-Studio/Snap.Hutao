@@ -3,16 +3,16 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using System.Data.Common;
 using System.Diagnostics;
-using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class ExceptionHandlingSupport
 {
     private readonly ILogger<ExceptionHandlingSupport> logger;
@@ -43,7 +43,7 @@ internal sealed partial class ExceptionHandlingSupport
     private static DbException KillProcessOnDbException(DbException exception)
     {
         HutaoNative.Instance.ShowErrorMessage("Warning | 警告", exception.Message);
-        Process.GetCurrentProcess().Kill();
+        ProcessFactory.KillCurrent();
         return exception;
     }
 
@@ -77,7 +77,6 @@ internal sealed partial class ExceptionHandlingSupport
 
         // TODO: Maybe we should close current xaml window because the message pump is still alive.
         // And user can still interact with the UI without any problems.
-
         CapturedException capturedException = new(id, exception);
 
 #pragma warning disable SH007
@@ -85,34 +84,8 @@ internal sealed partial class ExceptionHandlingSupport
 #pragma warning restore SH007
     }
 
-    private static void OnAppDomainFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
-    {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (e.Exception is null)
-        {
-            return;
-        }
-
-        Exception exception = e.Exception;
-        if (exception is OperationCanceledException or IInternalException)
-        {
-            return;
-        }
-
-        if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
-        {
-            return;
-        }
-
-        Debugger.Break();
-    }
-
     private void Attach(Application app)
     {
-#if DEBUG
-        AppDomain.CurrentDomain.FirstChanceException += OnAppDomainFirstChanceException;
-#endif
-
         app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);
     }

@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.HardChallenge;
 
-[Localization]
+[ExtendedEnum]
 internal enum HardChallengeBestAvatarType
 {
     None,

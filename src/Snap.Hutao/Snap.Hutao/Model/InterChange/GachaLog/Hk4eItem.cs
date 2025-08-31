@@ -24,7 +24,7 @@ internal sealed class Hk4eItem : IJsonOnDeserialized
     public required uint ItemId { get; init; }
 
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(Core.Json.Converter.DateTimeConverter))]
+    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeConverter))]
     public required DateTime Time { get; init; }
 
     [JsonPropertyName("id")]

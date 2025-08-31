@@ -20,9 +20,9 @@ using TextBlockType = Microsoft.UI.Xaml.Controls.TextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
-[DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
-[DependencyProperty("LinkContext", typeof(LinkMetadataContext), default(LinkMetadataContext))]
-[DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
+[DependencyProperty<string>("Description", PropertyChangedCallbackName = nameof(OnDescriptionChanged))]
+[DependencyProperty<LinkMetadataContext>("LinkContext")]
+[DependencyProperty<Style>("TextStyle", PropertyChangedCallbackName = nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
     private static readonly BitmapImage BitmapSourceIce = new("ms-appx:///Resource/Icon/UI_Gcg_Buff_Common_Element_Ice.png".ToUri());
@@ -48,7 +48,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     {
         DescriptionTextBlock descriptionTextBlock = (DescriptionTextBlock)d;
         TextBlockType textBlock = (TextBlockType)descriptionTextBlock.Content;
-        descriptionTextBlock.UpdateDescription(textBlock, (string)e.NewValue);
+        descriptionTextBlock.UpdateDescription(textBlock, (string?)e.NewValue);
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -56,10 +56,15 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         ((TextBlockType)((DescriptionTextBlock)d).Content).Style = (Style)e.NewValue;
     }
 
-    private void UpdateDescription(TextBlockType textBlock, string text)
+    private void UpdateDescription(TextBlockType textBlock, string? text)
     {
         DetachHyperLinkClickEvent(textBlock.Inlines);
         textBlock.Inlines.Clear();
+
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
 
         string content = SpecialNameHandling.Handle(text);
         MiHoYoSyntaxLexer lexer = new(content);
@@ -228,8 +233,13 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             return;
         }
 
-        (MiHoYoSyntaxLinkKind kind, uint id) = DescriptionHyperLinkHelper.GetLinkData(sender);
+        Tuple<MiHoYoSyntaxLinkKind, uint>? tuple = DescriptionHyperLinkHelper.GetLinkData(sender);
+        if (tuple is null)
+        {
+            return;
+        }
 
+        (MiHoYoSyntaxLinkKind kind, uint id) = tuple;
         LinkContext.TryGetNameAndDescription(kind, id, out string name, out string description);
 
         Flyout flyout = new()

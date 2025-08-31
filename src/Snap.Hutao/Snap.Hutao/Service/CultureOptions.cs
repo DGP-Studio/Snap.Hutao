@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -10,27 +11,19 @@ using System.Globalization;
 namespace Snap.Hutao.Service;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
-[Injection(InjectAs.Singleton)]
+[Service(ServiceLifetime.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
-    private DayOfWeek? firstDayOfWeek;
+    public static ImmutableArray<NameCultureInfoValue> Cultures { get => SupportedCultures.GetValues(); }
 
-    public ImmutableArray<NameCultureInfoValue> Cultures { get => SupportedCultures.Values; }
+    public ImmutableArray<NameValue<DayOfWeek>> DayOfWeeks { get => !field.IsDefaultOrEmpty ? field : field = ImmutableCollectionsNameValue.FromEnum<DayOfWeek>(CurrentCulture.Value.DateTimeFormat.GetDayName); }
 
     [field: MaybeNull]
-    public List<NameValue<DayOfWeek>> DayOfWeeks { get => field ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }
-
-    [field: AllowNull]
-    public CultureInfo CurrentCulture
-    {
-        get => GetOption(ref field, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
-        set => SetOption(ref field, SettingEntry.Culture, value, static v => v.Name);
-    }
+    public IObservableProperty<CultureInfo> CurrentCulture { get => field ??= CreatePropertyForClassUsingCustom(SettingEntry.Culture, CultureInfo.CurrentCulture, CultureInfo.GetCultureInfo, static v => v.Name); }
 
     public CultureInfo SystemCulture { get; set; } = default!;
 
-    [field: MaybeNull]
-    public string LocaleName { get => field ??= CultureOptionsExtension.GetLocaleName(CurrentCulture); }
+    public string LocaleName { get => CultureOptionsExtension.GetLocaleName(CurrentCulture.Value); }
 
     [field: AllowNull]
     [field: MaybeNull]
@@ -47,9 +40,6 @@ internal sealed partial class CultureOptions : DbStoreOptions
         }
     }
 
-    public DayOfWeek FirstDayOfWeek
-    {
-        get => GetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, Enum.Parse<DayOfWeek>, CurrentCulture.DateTimeFormat.FirstDayOfWeek);
-        set => SetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, value, EnumToStringOrEmpty);
-    }
+    [field: MaybeNull]
+    public IObservableProperty<DayOfWeek> FirstDayOfWeek { get => field ??= CreateProperty(SettingEntry.FirstDayOfWeek, CurrentCulture.Value.DateTimeFormat.FirstDayOfWeek); }
 }

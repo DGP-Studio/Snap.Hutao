@@ -9,11 +9,11 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class FileOperation
 {
-    public static void Copy(string source, string destination, bool overwrite)
+    public static void Copy(ValueFile source, ValueFile target, bool overwrite)
     {
         try
         {
-            File.Copy(source, destination, overwrite);
+            File.Copy(source, target, overwrite);
         }
         catch (IOException ex)
         {
@@ -21,13 +21,13 @@ internal static class FileOperation
             {
                 try
                 {
-                    FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(destination), overwrite);
+                    FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(target), overwrite);
                 }
                 catch (Exception)
                 {
                     using (FileStream srcStream = File.Open(source, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        using (FileStream destStream = new(destination, overwrite ? FileMode.Create : FileMode.CreateNew))
+                        using (FileStream destStream = new(target, overwrite ? FileMode.Create : FileMode.CreateNew))
                         {
                             srcStream.CopyTo(destStream);
                         }
@@ -41,9 +41,9 @@ internal static class FileOperation
         }
     }
 
-    public static bool Move(string sourceFileName, string destFileName, bool overwrite)
+    public static bool Move(ValueFile source, ValueFile target, bool overwrite)
     {
-        if (!File.Exists(sourceFileName))
+        if (!File.Exists(source))
         {
             return false;
         }
@@ -52,7 +52,7 @@ internal static class FileOperation
         {
             try
             {
-                File.Move(sourceFileName, destFileName, true);
+                File.Move(source, target, true);
                 return true;
             }
             catch
@@ -61,14 +61,14 @@ internal static class FileOperation
             }
         }
 
-        if (File.Exists(destFileName))
+        if (File.Exists(target))
         {
             return false;
         }
 
         try
         {
-            File.Move(sourceFileName, destFileName, false);
+            File.Move(source, target, false);
             return true;
         }
         catch
@@ -77,28 +77,28 @@ internal static class FileOperation
         }
     }
 
-    public static bool Delete(string path)
+    public static bool Delete(ValueFile file)
     {
-        if (!File.Exists(path))
+        if (!File.Exists(file))
         {
             return false;
         }
 
-        File.Delete(path);
+        File.Delete(file);
         return true;
     }
 
-    public static void UnsafeDelete(string path)
+    public static void UnsafeDelete(ValueFile file)
     {
-        FileSystem.DeleteItem(path);
+        FileSystem.DeleteItem(file);
     }
 
-    public static void UnsafeMove(string sourceFileName, string destFileName)
+    public static void UnsafeMove(ValueFile source, ValueFile target)
     {
-        string? destFolder = Path.GetDirectoryName(destFileName);
-        ArgumentException.ThrowIfNullOrEmpty(destFolder);
-        string fileName = Path.GetFileName(destFileName);
+        string? targetDirectory = Path.GetDirectoryName(target);
+        ArgumentException.ThrowIfNullOrEmpty(targetDirectory);
+        string fileName = Path.GetFileName(target);
         ArgumentException.ThrowIfNullOrEmpty(fileName);
-        FileSystem.MoveItem(sourceFileName, destFolder, fileName);
+        FileSystem.MoveItem(source, targetDirectory, fileName);
     }
 }
