@@ -1,7 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.CodeAnalysis.CodeFixes;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
 
@@ -116,6 +119,29 @@ internal sealed class ProcessFactory
         };
 
         return new DiagnosticsProcess(process);
+    }
+
+    public static unsafe IProcess CreateSuspended(string arguments, string fileName, string workingDirectory)
+    {
+        fixed (char* pArguments = arguments)
+        {
+            fixed (char* pFileName = fileName)
+            {
+                fixed (char* pWorkingDirectory = workingDirectory)
+                {
+                    HutaoNativeProcessStartInfo startInfo = new()
+                    {
+                        ApplicationName = pFileName,
+                        CommandLine = pArguments,
+                        InheritHandles = BOOL.FALSE,
+                        CreationFlags = Win32.System.Threading.PROCESS_CREATION_FLAGS.CREATE_SUSPENDED,
+                        CurrentDirectory = pWorkingDirectory,
+                    };
+
+                    return new NativeProcess(HutaoNative.Instance.MakeProcess(startInfo));
+                }
+            }
+        }
     }
 
     public static void StartUsingShellExecute(string arguments, string fileName)

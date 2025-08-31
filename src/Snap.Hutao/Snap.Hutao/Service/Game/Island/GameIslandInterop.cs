@@ -108,7 +108,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                 InitializeIslandEnvironment(handle, in offsets, context.Options);
                 if (!resume)
                 {
-                    DllInjectionUtilities.InjectUsingWindowsHook(dataFolderIslandPath, "DllGetWindowsHookForHutao", context.Process.Id);
+                    DllInjectionUtilities.InjectUsingRemoteThread(dataFolderIslandPath, context.Process.Id);
                 }
 
                 using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))

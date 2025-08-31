@@ -55,6 +55,8 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);
-        return ProcessFactory.CreateUsingShellExecuteRunAs(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory());
+        return HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value
+            ? ProcessFactory.CreateSuspended(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory())
+            : ProcessFactory.CreateUsingShellExecuteRunAs(commandLine, gameFileSystem.GameFilePath, gameFileSystem.GetGameDirectory());
     }
 }
