@@ -19,7 +19,7 @@ jobs:
         shell: pwsh
         run: |
           $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/DGP-Studio/Snap.Hutao/releases/latest"
-          $asset = $latestRelease.assets[1]
+          $asset = $latestRelease.assets[0]
           $assetUrl = "https://ghproxy.qhy04.cc/" + $asset.browser_download_url
           $tagName = $latestRelease.tag_name
           
