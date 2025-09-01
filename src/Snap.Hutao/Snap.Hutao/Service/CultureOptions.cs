@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
-    public static ImmutableArray<NameCultureInfoValue> Cultures { get => SupportedCultures.GetValues(); }
+    public static ImmutableArray<NameCultureInfoValue> Cultures { get; } = SupportedCultures.GetValues();
 
     public ImmutableArray<NameValue<DayOfWeek>> DayOfWeeks { get => !field.IsDefaultOrEmpty ? field : field = ImmutableCollectionsNameValue.FromEnum<DayOfWeek>(CurrentCulture.Value.DateTimeFormat.GetDayName); }
 
