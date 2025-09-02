@@ -22,12 +22,17 @@ internal sealed class ProcessFactory
             process = new DiagnosticsProcess(global::System.Diagnostics.Process.GetProcessById(processId));
             return true;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            SentrySdk.CaptureException(e);
-            process = null;
-            return false;
+            // Process with an Id of $id$ is not running.
+            if (ex is not ArgumentException)
+            {
+                SentrySdk.CaptureException(ex);
+            }
         }
+
+        process = null;
+        return false;
     }
 
     public static bool IsRunning(string processName, string mainWindowTitle)
@@ -95,6 +100,24 @@ internal sealed class ProcessFactory
             }
             catch (Exception ex)
             {
+                switch (ex)
+                {
+                    // 拒绝访问。
+                    case Win32Exception we:
+                        if (we.NativeErrorCode is (int)WIN32_ERROR.ERROR_ACCESS_DENIED)
+                        {
+                            runningProcess = new DiagnosticsProcess(process);
+                            return true;
+                        }
+
+                        break;
+
+                    // Cannot process request because the process ($id$) has exited.
+                    case InvalidOperationException ioe:
+                        runningProcess = default;
+                        return false;
+                }
+
                 SentrySdk.CaptureException(ex);
                 break;
             }
