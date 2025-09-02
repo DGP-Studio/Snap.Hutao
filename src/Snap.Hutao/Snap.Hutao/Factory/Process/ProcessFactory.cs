@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.CodeAnalysis.CodeFixes;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
