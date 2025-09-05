@@ -4073,4 +4073,7 @@ Espace disponible : {2}</value>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>Échos envisagés</value>
   </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
+  </data>
 </root>
