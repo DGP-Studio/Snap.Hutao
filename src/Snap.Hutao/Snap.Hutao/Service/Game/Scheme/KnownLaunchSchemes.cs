@@ -15,6 +15,7 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerChineseChannel01SubChannel03Compat = new LaunchSchemeChinese(ChannelType.Official, SubChannelType.Epic, false);
     private static readonly LaunchScheme ServerChineseChannel01SubChannel06Compat = new LaunchSchemeChinese(ChannelType.Official, SubChannelType.Google, false);
     private static readonly LaunchScheme ServerChineseChannel01SubChannel14Compat = new LaunchSchemeChinese(ChannelType.Official, (SubChannelType)14, false);
+    private static readonly LaunchScheme ServerChineseChannel02SubChannel01Compat = new LaunchSchemeChinese(ChannelType.MiHoYoSONY, SubChannelType.Official);
 
     private static readonly LaunchScheme ServerChineseChannel14SubChannel00 = new LaunchSchemeBilibili(SubChannelType.Default);
     private static readonly LaunchScheme ServerChineseChannel14SubChannel01Compat = new LaunchSchemeBilibili(SubChannelType.Official, false);
@@ -41,6 +42,7 @@ internal static class KnownLaunchSchemes
         ServerChineseChannel01SubChannel03Compat,
         ServerChineseChannel01SubChannel06Compat,
         ServerChineseChannel01SubChannel14Compat,
+        ServerChineseChannel02SubChannel01Compat,
 
         ServerChineseChannel14SubChannel00,
         ServerChineseChannel14SubChannel01Compat,
