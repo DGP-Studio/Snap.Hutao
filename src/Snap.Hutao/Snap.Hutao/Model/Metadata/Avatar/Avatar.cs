@@ -24,7 +24,8 @@ internal partial class Avatar : IDefaultIdentity<AvatarId>,
     IItemConvertible,
     ICalculableSource<ICalculableAvatar>,
     ICultivationItemsAccess,
-    IPropertyValuesProvider
+    IPropertyValuesProvider,
+    IJsonOnDeserialized
 {
     public required AvatarId Id { get; init; }
 
@@ -130,5 +131,13 @@ internal partial class Avatar : IDefaultIdentity<AvatarId>,
             LastPull = lastPull,
             IsUp = isUp,
         };
+    }
+
+    public void OnDeserialized()
+    {
+        if (AvatarIds.UsesGnosis(Id))
+        {
+            FetterInfo.VisionOverride = SH.ViewPageWiKiAvatarGnosisTitle;
+        }
     }
 }

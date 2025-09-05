@@ -134,12 +134,26 @@ internal static class AvatarIds
         Aloy,
     ];
 
-    public static bool IsStandardWish(in AvatarId avatarId)
+    private static readonly FrozenSet<AvatarId> GnosisAvatars =
+    [
+        Venti,
+        Zhongli,
+        Shougun,
+        Nahida,
+        Mavuika,
+    ];
+
+    public static bool IsStandardWish(AvatarId avatarId)
     {
         return StandardWishIds.Contains(avatarId);
     }
 
-    public static bool IsPlayer(in AvatarId avatarId)
+    public static bool UsesGnosis(AvatarId avatarId)
+    {
+        return GnosisAvatars.Contains(avatarId);
+    }
+
+    public static bool IsPlayer(AvatarId avatarId)
     {
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
