@@ -716,7 +716,7 @@
                                                         <ComboBox
                                                             MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
                                                             ItemTemplateSelector="{StaticResource AspectRatioComboBoxTemplateSelector}"
-                                                            ItemsSource="{Binding LaunchOptions.AspectRatios}"
+                                                            ItemsSource="{Binding LaunchOptions.AspectRatios.Value}"
                                                             PlaceholderText="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
                                                             SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"
                                                             Style="{ThemeResource DefaultComboBoxStyle}"/>
