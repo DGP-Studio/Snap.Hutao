@@ -36,23 +36,29 @@ internal sealed class FetterInfo
 
     public string? VisionOverrideUnlocked { get; init; }
 
+    [field: MaybeNull]
     public string VisionOverride
     {
         get
         {
+            if (!string.IsNullOrEmpty(field))
+            {
+                return field;
+            }
+
             if (!string.IsNullOrEmpty(VisionOverrideUnlocked))
             {
-                return VisionOverrideUnlocked;
+                return field = VisionOverrideUnlocked;
             }
 
             if (!string.IsNullOrEmpty(VisionOverrideLocked))
             {
-                return VisionOverrideLocked;
+                return field = VisionOverrideLocked;
             }
 
-            // TODO: Handle Gnosis
-            return SH.ViewPageWiKiAvatarVisionTitle;
+            return field = SH.ViewPageWiKiAvatarVisionTitle;
         }
+        set;
     }
 
     public required string ConstellationBefore { get; init; }

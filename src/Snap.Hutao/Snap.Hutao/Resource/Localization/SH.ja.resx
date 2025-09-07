@@ -4075,4 +4075,7 @@
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>軌跡</value>
   </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
+  </data>
 </root>

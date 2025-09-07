@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty<IReadOnlyList<uint>>("ItemsSource")]
+[DependencyProperty<IReadOnlyList<UIGFUidSelection>>("ItemsSource")]
 internal sealed partial class UIGFExportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
@@ -18,7 +18,7 @@ internal sealed partial class UIGFExportDialog : ContentDialog
         InitializeComponent();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
-        ItemsSource = uids;
+        ItemsSource = uids.SelectAsArray(UIGFUidSelection.Create);
     }
 
     public async ValueTask<ValueResult<bool, ImmutableArray<uint>>> GetSelectedUidsAsync()
@@ -35,6 +35,6 @@ internal sealed partial class UIGFExportDialog : ContentDialog
 
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        selectedUids = [.. ((ListViewBase)sender).SelectedItems.Cast<UIGFUidSelection>().Select(static data => data.Uid)];
+        selectedUids = UIGFUidSelection.GetSelectedUidArray((ListViewBase)sender);
     }
 }

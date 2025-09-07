@@ -4073,4 +4073,7 @@
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>유적</value>
   </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
+  </data>
 </root>

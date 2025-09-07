@@ -445,14 +445,14 @@
                                                             Grid.Row="0"
                                                             Grid.Column="0"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHotSwitchHeader}"
-                                                            IsOn="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
+                                                            IsOn="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
                                                         <NumberBox
                                                             Grid.Row="0"
                                                             Grid.Column="1"
                                                             Padding="10,8,6,6"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
+                                                            IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value}"
                                                             LargeChange="10"
                                                             Maximum="100"
                                                             Minimum="0"
@@ -507,11 +507,7 @@
                                                             <ToggleSwitch.Header>
                                                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                                                     <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"/>
-                                                                    <Button
-                                                                        Grid.Row="2"
-                                                                        Grid.Column="0"
-                                                                        Padding="1,1,0.5,0.5"
-                                                                        VerticalAlignment="Center">
+                                                                    <Button Padding="1,1,0.5,0.5" VerticalAlignment="Center">
                                                                         <mxi:Interaction.Behaviors>
                                                                             <mxi:EventTriggerBehavior EventName="Click">
                                                                                 <mxi:EventTriggerBehavior.Actions>
@@ -573,8 +569,6 @@
                                                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                                                     <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"/>
                                                                     <Button
-                                                                        Grid.Row="3"
-                                                                        Grid.Column="1"
                                                                         Padding="1,1,0.5,0.5"
                                                                         HorizontalAlignment="Right"
                                                                         VerticalAlignment="Center">
@@ -722,7 +716,7 @@
                                                         <ComboBox
                                                             MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
                                                             ItemTemplateSelector="{StaticResource AspectRatioComboBoxTemplateSelector}"
-                                                            ItemsSource="{Binding LaunchOptions.AspectRatios}"
+                                                            ItemsSource="{Binding LaunchOptions.AspectRatios.Value}"
                                                             PlaceholderText="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
                                                             SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"
                                                             Style="{ThemeResource DefaultComboBoxStyle}"/>
@@ -762,7 +756,7 @@
                                                                 DisplayMemberPath="Name"
                                                                 IsEnabled="{Binding LaunchOptions.IsMonitorEnabled.Value}"
                                                                 ItemsSource="{Binding LaunchOptions.Monitors}"
-                                                                SelectedItem="{Binding LaunchOptions.Monitor, Mode=TwoWay}"/>
+                                                                SelectedItem="{Binding LaunchOptions.Monitor.Value, Mode=TwoWay}"/>
                                                         </shuxc:SizeRestrictedContentControl>
                                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsMonitorEnabled.Value, Mode=TwoWay}"/>
                                                     </StackPanel>

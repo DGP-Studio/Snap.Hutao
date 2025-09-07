@@ -4073,4 +4073,7 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>Dấu vết du lịch</value>
   </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
+  </data>
 </root>

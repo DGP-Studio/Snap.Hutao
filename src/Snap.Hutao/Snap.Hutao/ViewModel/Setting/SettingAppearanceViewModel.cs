@@ -23,7 +23,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public partial BackgroundImageOptions BackgroundImageOptions { get; }
 
-    public NameValue<CultureInfo>? SelectedCulture
+    public NameCultureInfoValue? SelectedCulture
     {
         get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
         set
