@@ -4073,4 +4073,7 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
     <value>Echi immaginati</value>
   </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
+  </data>
 </root>
