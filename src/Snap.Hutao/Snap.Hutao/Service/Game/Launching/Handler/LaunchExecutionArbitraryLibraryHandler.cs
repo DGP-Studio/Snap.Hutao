@@ -42,9 +42,7 @@ internal sealed class LaunchExecutionArbitraryLibraryHandler : ILaunchExecutionD
                 context.Process.Kill();
             }
         }
-        else
-        {
-            await next().ConfigureAwait(false);
-        }
+
+        await next().ConfigureAwait(false);
     }
 }
