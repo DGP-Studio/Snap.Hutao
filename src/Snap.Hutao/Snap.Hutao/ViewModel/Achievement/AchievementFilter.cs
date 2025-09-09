@@ -3,11 +3,15 @@
 
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-internal static class AchievementFilter
+internal static partial class AchievementFilter
 {
+    [GeneratedRegex(@"\p{P}")]
+    private static partial Regex PunctuationRegex { get; }
+
     public static Predicate<AchievementGoalView>? GoalCompile(IAdvancedCollectionView<AchievementView> collection)
     {
         if (collection.Filter is null)
@@ -65,7 +69,9 @@ internal static class AchievementFilter
 
     private static bool SearchComponent(AchievementView view, string search)
     {
-        return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+        return PunctuationRegex.Replace(view.Inner.Title, string.Empty).Contains(search, StringComparison.CurrentCultureIgnoreCase)
+            || view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+            || PunctuationRegex.Replace(view.Inner.Description, string.Empty).Contains(search, StringComparison.CurrentCultureIgnoreCase)
             || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
     }
 }
