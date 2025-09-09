@@ -53,7 +53,7 @@ jobs:
 
       - name: Setup .NET
         if: ${{ steps.merge.outputs.continue == 'true' }}
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0
 
