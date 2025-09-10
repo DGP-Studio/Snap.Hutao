@@ -27,7 +27,7 @@ internal sealed class DailyTask
     public double StoredAttendance { get; set; }
 
     [JsonPropertyName("stored_attendance_refresh_countdown")]
-    public double StoredAttendanceRefreshCountdown { get; set; }
+    public long StoredAttendanceRefreshCountdown { get; set; }
 
     [JsonIgnore]
     public string StoredAttendanceRefreshCountdownFormat
