@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Factory.Process;
+using Snap.Hutao.Service.Game.FileSystem;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 

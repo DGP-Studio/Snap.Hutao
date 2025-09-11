@@ -6,7 +6,7 @@ using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal static class GameScriptVersion
 {

@@ -8,7 +8,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal static class GameFileSystemExtension
 {
