@@ -7,7 +7,7 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
 
-internal sealed class NativeProcess : IProcess
+internal sealed partial class NativeProcess : IProcess
 {
     private readonly HutaoNativeProcess process;
 
