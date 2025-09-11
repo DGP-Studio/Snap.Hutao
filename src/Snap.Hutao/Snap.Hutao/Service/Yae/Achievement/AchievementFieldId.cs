@@ -11,13 +11,13 @@ internal sealed class AchievementFieldId
     [JsonPropertyName("status")]
     public required int Status { get; init; }
 
-    [JsonPropertyName("cur_progress")]
+    [JsonPropertyName("currentProgress")]
     public required int CurrentProgress { get; init; }
 
-    [JsonPropertyName("total_progress")]
+    [JsonPropertyName("totalProgress")]
     public required int TotalProgress { get; init; }
 
-    [JsonPropertyName("finish_timestamp")]
+    [JsonPropertyName("finishTimestamp")]
     public required int FinishTimestamp { get; init; }
 
     [JsonPropertyName("nativeConfig")]
