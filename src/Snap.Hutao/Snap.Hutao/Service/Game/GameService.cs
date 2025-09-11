@@ -16,12 +16,12 @@ namespace Snap.Hutao.Service.Game;
 internal sealed partial class GameService : IGameService
 {
     private readonly IGameChannelOptionsService gameChannelOptionsService;
-    private readonly IGameAccountService gameAccountService;
+    private readonly IGameInRegistryAccountService gameInRegistryAccountService;
     private readonly IGamePathService gamePathService;
 
     public ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync()
     {
-        return gameAccountService.GetGameAccountCollectionAsync();
+        return gameInRegistryAccountService.GetGameAccountCollectionAsync();
     }
 
     public bool KillGameProcess()
@@ -39,24 +39,24 @@ internal sealed partial class GameService : IGameService
         return gameChannelOptionsService.GetChannelOptions();
     }
 
-    public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme)
+    public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<Task<ValueResult<bool, string?>>> providerNameCallback)
     {
-        return gameAccountService.DetectCurrentGameAccountAsync(scheme);
+        return gameInRegistryAccountService.DetectCurrentGameAccountAsync(scheme, providerNameCallback);
     }
 
     public GameAccount? DetectCurrentGameAccount(SchemeType scheme)
     {
-        return gameAccountService.DetectCurrentGameAccount(scheme);
+        return gameInRegistryAccountService.DetectCurrentGameAccount(scheme);
     }
 
-    public ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
+    public ValueTask ModifyGameAccountAsync(GameAccount gameAccount, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback)
     {
-        return gameAccountService.ModifyGameAccountAsync(gameAccount);
+        return gameInRegistryAccountService.ModifyGameAccountAsync(gameAccount, providerNameCallback);
     }
 
     public ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
-        return gameAccountService.RemoveGameAccountAsync(gameAccount);
+        return gameInRegistryAccountService.RemoveGameAccountAsync(gameAccount);
     }
 
     public bool IsGameRunning()
