@@ -7,17 +7,17 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.Service.Game.Account;
 
-internal interface IGameAccountService
+internal interface IGameInRegistryAccountService
 {
     GameAccount? DetectCurrentGameAccount(SchemeType schemeType);
 
-    ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType);
+    ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType, Func<Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync();
 
-    ValueTask ModifyGameAccountAsync(GameAccount gameAccount);
+    ValueTask ModifyGameAccountAsync(GameAccount gameAccount, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
-    bool SetGameAccount(GameAccount account);
+    bool SetCurrentGameAccount(GameAccount account);
 }

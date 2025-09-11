@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Game;
 
 internal interface IGameService
 {
-    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);
+    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask<ValueResult<bool, string>> GetGamePathAsync();
 
@@ -20,7 +20,7 @@ internal interface IGameService
 
     bool KillGameProcess();
 
-    ValueTask ModifyGameAccountAsync(GameAccount gameAccount);
+    ValueTask ModifyGameAccountAsync(GameAccount gameAccount, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
