@@ -128,6 +128,7 @@ internal static class AvatarIds
         Qiqi,
         Tighnari,
         Dehya,
+        Mizuki,
         Lisa,
         Ambor,
         Kaeya,
