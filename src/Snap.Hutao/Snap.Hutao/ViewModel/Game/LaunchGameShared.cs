@@ -158,7 +158,7 @@ internal sealed partial class LaunchGameShared
                     return;
                 }
 
-                gameFileSystem.TryFixConfigurationFile(launchScheme);
+                GameConfiguration.Patch(launchScheme, gameFileSystem.GetScriptVersionFilePath(), gameFileSystem.GetGameConfigurationFilePath());
                 infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
             }
         }

@@ -6,13 +6,13 @@ using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game.FileSystem;
+namespace Snap.Hutao.Service.Game.Configuration;
 
 internal static class GameScriptVersion
 {
-    public static bool Copy(string fromConfigFilePath, string toScriptVersionFilePath)
+    public static bool Patch(string configFilePath, string scriptVersionFilePath)
     {
-        if (!File.Exists(fromConfigFilePath))
+        if (!File.Exists(configFilePath))
         {
             return false;
         }
@@ -20,7 +20,7 @@ internal static class GameScriptVersion
         try
         {
             string? version = default;
-            foreach (IniElement element in IniSerializer.DeserializeFromFile(fromConfigFilePath))
+            foreach (IniElement element in IniSerializer.DeserializeFromFile(configFilePath))
             {
                 if (element is IniParameter { Key: GameConstants.GameVersion } parameter)
                 {
@@ -34,11 +34,11 @@ internal static class GameScriptVersion
                 return false;
             }
 
-            string? directory = Path.GetDirectoryName(toScriptVersionFilePath);
+            string? directory = Path.GetDirectoryName(scriptVersionFilePath);
             ArgumentNullException.ThrowIfNull(directory);
             Directory.CreateDirectory(directory);
 
-            File.WriteAllText(toScriptVersionFilePath, version);
+            File.WriteAllText(scriptVersionFilePath, version);
             return true;
         }
         catch (UnauthorizedAccessException)

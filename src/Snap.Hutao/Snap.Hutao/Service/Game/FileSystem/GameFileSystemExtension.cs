@@ -172,7 +172,7 @@ internal static class GameFileSystemExtension
         {
             foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
             {
-                if (element is IniParameter { Key: "game_version", Value: { Length: > 0 } value })
+                if (element is IniParameter { Key: GameConstants.GameVersion, Value: { Length: > 0 } value })
                 {
                     version = value;
                     return true;
@@ -188,64 +188,5 @@ internal static class GameFileSystemExtension
         }
 
         return false;
-    }
-
-    public static void GenerateConfigurationFile(this IGameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
-    {
-        string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
-        string content = $$$"""
-            [general]
-            uapc={"{{{gameBiz}}}":{"uapc":""},"hyp":{"uapc":""}}
-            channel={{{launchScheme.Channel:D}}}
-            sub_channel={{{launchScheme.SubChannel:D}}}
-            cps=gw_pc
-            game_version={{{version}}}
-            """;
-
-        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
-        string? directory = Path.GetDirectoryName(configFilePath);
-        ArgumentNullException.ThrowIfNull(directory);
-        Directory.CreateDirectory(directory);
-        File.WriteAllText(configFilePath, content);
-    }
-
-    public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
-    {
-        bool updated = false;
-        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
-        IniElement[]? ini = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(configFilePath));
-
-        if (ini is null)
-        {
-            return false;
-        }
-
-        foreach (ref IniElement element in ini.AsSpan())
-        {
-            if (element is not IniParameter { Key: "game_version" } parameter)
-            {
-                continue;
-            }
-
-            element = parameter.WithValue(version, out updated);
-            break;
-        }
-
-        IniSerializer.SerializeToFile(configFilePath, ini);
-        return updated;
-    }
-
-    public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
-    {
-        string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
-        if (!File.Exists(scriptVersionFilePath))
-        {
-            return false;
-        }
-
-        string version = File.ReadAllText(scriptVersionFilePath);
-        GenerateConfigurationFile(gameFileSystem, version, launchScheme);
-
-        return true;
     }
 }
