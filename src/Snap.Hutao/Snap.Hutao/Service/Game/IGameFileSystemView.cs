@@ -5,9 +5,9 @@ namespace Snap.Hutao.Service.Game;
 
 internal interface IGameFileSystemView
 {
+    bool IsDisposed { get; }
+
     string GameFilePath { get; }
 
-    GameAudioSystem Audio { get; }
-
-    bool IsDisposed { get; }
+    GameAudioInstallation Audio { get; }
 }

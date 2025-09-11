@@ -18,7 +18,7 @@ internal sealed partial class GameFileSystem : IGameFileSystem
     public string GameFilePath { get; }
 
     [field: MaybeNull]
-    public GameAudioSystem Audio { get => field ??= new(this.GetGameDirectory()); }
+    public GameAudioInstallation Audio { get => field ??= new(this.GetGameDirectory()); }
 
     public bool IsDisposed { get; private set; }
 
@@ -27,7 +27,7 @@ internal sealed partial class GameFileSystem : IGameFileSystem
         return new GameFileSystem(gameFilePath, releaser);
     }
 
-    public static IGameFileSystem CreateForPackageOperation(string gameFilePath, GameAudioSystem? gameAudioSystem = default)
+    public static IGameFileSystem CreateForPackageOperation(string gameFilePath, GameAudioInstallation? gameAudioSystem = default)
     {
         return new PackageOperationGameFileSystem(gameFilePath, gameAudioSystem);
     }
