@@ -2674,16 +2674,16 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Aktuelles Archiv löschen</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Charakter</value>
+    <value>Figur</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>Verlauf</value>
+    <value>历史</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>Übersicht</value>
+    <value>总览</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>Globale Wunschstatistik</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Waffe</value>
