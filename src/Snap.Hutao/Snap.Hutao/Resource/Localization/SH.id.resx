@@ -2674,7 +2674,7 @@ Ruang Tersedia: {2}</value>
     <value>Hapus Arsip Saat Ini</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Karakter</value>
+    <value>Role</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>Sejarah</value>
