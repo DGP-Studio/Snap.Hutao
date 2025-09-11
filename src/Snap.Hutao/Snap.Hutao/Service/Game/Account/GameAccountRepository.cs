@@ -5,11 +5,11 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Account;
 
 [ConstructorGenerated]
-[Service(ServiceLifetime.Singleton, typeof(IGameRepository))]
-internal sealed partial class GameRepository : IGameRepository
+[Service(ServiceLifetime.Singleton, typeof(IGameAccountRepository))]
+internal sealed partial class GameAccountRepository : IGameAccountRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 

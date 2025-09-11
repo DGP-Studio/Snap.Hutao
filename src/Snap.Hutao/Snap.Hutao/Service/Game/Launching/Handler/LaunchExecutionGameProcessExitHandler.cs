@@ -16,7 +16,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
     {
         if (context.Process.IsRunning())
         {
-            context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
+            context.Progress.Report(new(SH.ServiceGameLaunchPhaseWaitingProcessExit));
             try
             {
                 await context.TaskContext.SwitchToBackgroundAsync();
@@ -32,7 +32,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
         }
 
         // Accessing Process there is unsafe
-        context.Progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
+        context.Progress.Report(new(SH.ServiceGameLaunchPhaseProcessExited));
         await next().ConfigureAwait(false);
     }
 }

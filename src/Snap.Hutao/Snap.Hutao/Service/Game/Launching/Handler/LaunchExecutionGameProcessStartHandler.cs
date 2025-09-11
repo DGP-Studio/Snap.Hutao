@@ -31,7 +31,7 @@ internal sealed class LaunchExecutionGameProcessStartHandler : ILaunchExecutionD
             throw;
         }
 
-        context.Progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
+        context.Progress.Report(new(SH.ServiceGameLaunchPhaseProcessStarted));
         await next().ConfigureAwait(false);
     }
 }
