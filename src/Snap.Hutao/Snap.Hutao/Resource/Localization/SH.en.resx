@@ -2674,7 +2674,7 @@ Space Available: {2}</value>
     <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Character</value>
+    <value>Role</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>History</value>
