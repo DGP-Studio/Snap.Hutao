@@ -2673,19 +2673,19 @@
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>ลบข้อมูลที่จัดเก็บปัจจุบัน</value>
   </data>
-  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
     <value>ตัวละคร</value>
   </data>
-  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>ประวัติ</value>
   </data>
-  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
     <value>ภาพรวม</value>
   </data>
-  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
     <value>สถิติการอธิษฐานทั่วโลก</value>
   </data>
-  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>อาวุธ</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">

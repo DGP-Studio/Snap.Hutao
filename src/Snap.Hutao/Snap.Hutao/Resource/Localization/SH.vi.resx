@@ -2673,19 +2673,19 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>Xóa bản lưu hiện tại</value>
   </data>
-  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
     <value>Tài khoản</value>
   </data>
-  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>Lịch sử</value>
   </data>
-  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
     <value>Tổng quan</value>
   </data>
-  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
     <value>Thống kê cầu nguyện toàn cầu</value>
   </data>
-  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Vũ khí</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">

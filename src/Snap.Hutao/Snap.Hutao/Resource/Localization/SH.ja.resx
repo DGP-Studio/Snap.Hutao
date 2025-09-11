@@ -2675,19 +2675,19 @@
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>現在のアーカイブを削除する</value>
   </data>
-  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
     <value>キャラクター</value>
   </data>
-  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>履歴</value>
   </data>
-  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
     <value>一覧</value>
   </data>
-  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
     <value>グローバル祈願統計</value>
   </data>
-  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">

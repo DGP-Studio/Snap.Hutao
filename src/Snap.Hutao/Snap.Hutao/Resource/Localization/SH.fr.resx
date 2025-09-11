@@ -2673,19 +2673,19 @@ Espace disponible : {2}</value>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>Supprimer l'archive actuelle</value>
   </data>
-  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
     <value>Personnage</value>
   </data>
-  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>Historique</value>
   </data>
-  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
     <value>Aperçu</value>
   </data>
-  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
     <value>Statistiques globales de vœux</value>
   </data>
-  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Armes</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
