@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using System.Collections.Immutable;
@@ -38,7 +39,7 @@ internal sealed class GamePackageUpdateOperation : GamePackageOperation
 
         await PrivateVerifyAndRepairAsync(context, remoteBuild, remoteBuild.UncompressedTotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
-        context.Operation.GameFileSystem.TryUpdateConfigurationFile(remoteBuild.Tag);
+        GameConfiguration.UpdateVersion(context.Operation.GameFileSystem.GetGameConfigurationFilePath(), remoteBuild.Tag);
 
         if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
