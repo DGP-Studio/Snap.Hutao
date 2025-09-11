@@ -124,10 +124,3 @@ internal static class RestrictedGamePathAccessExtension
         return access.PerformGamePathEntrySynchronization(out _);
     }
 }
-
-internal enum GameFileSystemErrorKind
-{
-    None,
-    GamePathNullOrEmpty,
-    GamePathLocked,
-}

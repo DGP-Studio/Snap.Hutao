@@ -21,7 +21,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
             return;
         }
 
-        context.Progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
+        context.Progress.Report(new(SH.ServiceGameLaunchPhaseProcessInitializing));
         using (context.Process = InitializeGameProcess(context, gameFileSystem))
         {
             await next().ConfigureAwait(false);

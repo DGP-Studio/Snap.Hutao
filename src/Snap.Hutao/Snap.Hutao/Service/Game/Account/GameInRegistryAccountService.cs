@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service.Game.Account;
 [Service(ServiceLifetime.Singleton, typeof(IGameInRegistryAccountService))]
 internal sealed partial class GameInRegistryAccountService : IGameInRegistryAccountService
 {
-    private readonly IGameRepository gameRepository;
+    private readonly IGameAccountRepository gameAccountRepository;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
@@ -28,7 +28,7 @@ internal sealed partial class GameInRegistryAccountService : IGameInRegistryAcco
             if (gameAccounts is null)
             {
                 await taskContext.SwitchToBackgroundAsync();
-                gameAccounts = gameRepository.GetGameAccountCollection().AsAdvancedCollectionView();
+                gameAccounts = gameAccountRepository.GetGameAccountCollection().AsAdvancedCollectionView();
             }
         }
 
@@ -65,7 +65,7 @@ internal sealed partial class GameInRegistryAccountService : IGameInRegistryAcco
         account = GameAccount.Create(name, registrySdk, schemeType);
 
         await taskContext.SwitchToBackgroundAsync();
-        gameRepository.AddGameAccount(account);
+        gameAccountRepository.AddGameAccount(account);
 
         await taskContext.SwitchToMainThreadAsync();
         gameAccounts.Add(account);
@@ -98,7 +98,7 @@ internal sealed partial class GameInRegistryAccountService : IGameInRegistryAcco
         gameAccount.UpdateName(name);
 
         await taskContext.SwitchToBackgroundAsync();
-        gameRepository.UpdateGameAccount(gameAccount);
+        gameAccountRepository.UpdateGameAccount(gameAccount);
     }
 
     public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
@@ -109,7 +109,7 @@ internal sealed partial class GameInRegistryAccountService : IGameInRegistryAcco
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        gameRepository.RemoveGameAccountById(gameAccount.InnerId);
+        gameAccountRepository.RemoveGameAccountById(gameAccount.InnerId);
     }
 
     private static GameAccount? SingleGameAccountOrDefault(IReadOnlyCollection<GameAccount> gameAccounts, string registrySdk)
