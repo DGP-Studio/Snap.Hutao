@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.PathAbstraction;
 
 namespace Snap.Hutao.ViewModel.Game;

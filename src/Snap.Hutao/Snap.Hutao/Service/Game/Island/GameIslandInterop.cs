@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Feature;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;

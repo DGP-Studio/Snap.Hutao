@@ -8,6 +8,7 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.InterChange.Inventory;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;

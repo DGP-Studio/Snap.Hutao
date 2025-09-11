@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Service.Game.Package.Advanced;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal sealed partial class GameFileSystem : IGameFileSystem
 {
