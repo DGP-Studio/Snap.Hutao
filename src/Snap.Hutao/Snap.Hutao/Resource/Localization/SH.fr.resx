@@ -2677,16 +2677,16 @@ Espace disponible : {2}</value>
     <value>Personnage</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>Historique</value>
+    <value>历史</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>Aperçu</value>
+    <value>总览</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>Statistiques globales de vœux</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
-    <value>Armes</value>
+    <value>Arme</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
     <value>Temps de combat</value>
