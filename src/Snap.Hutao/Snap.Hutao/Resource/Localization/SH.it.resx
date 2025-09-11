@@ -2677,13 +2677,13 @@ Spazio disponibile: {2}</value>
     <value>Personaggio</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>Cronologia</value>
+    <value>历史</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>Panoramica</value>
+    <value>总览</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>Statistiche dei desideri globali</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Arma</value>
