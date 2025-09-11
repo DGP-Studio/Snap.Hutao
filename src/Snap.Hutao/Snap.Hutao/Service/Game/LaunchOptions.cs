@@ -28,17 +28,13 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public static bool CanKillGameProcess { get => HutaoRuntime.IsProcessElevated && IsGameRunning; }
 
-    string IRestrictedGamePathAccess.GamePath { get => GamePath.Value; set => GamePath.Value = value; }
+    public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     [field: MaybeNull]
     public IObservableProperty<string> GamePath { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty); }
 
-    ImmutableArray<GamePathEntry> IRestrictedGamePathAccess.GamePathEntries { get => GamePathEntries.Value; set => GamePathEntries.Value = value; }
-
     [field: MaybeNull]
     public IObservableProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.GamePathEntries, ImmutableArray<GamePathEntry>.Empty); }
-
-    public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     [field: MaybeNull]
     public IObservableProperty<bool> UsingHoyolabAccount { get => field ??= CreateProperty(SettingEntry.LaunchUsingHoyolabAccount, false); }

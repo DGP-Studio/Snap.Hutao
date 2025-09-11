@@ -1,8 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
+
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
@@ -11,10 +13,10 @@ internal static class GameConfiguration
 {
     public static ChannelOptions Read(string configFilePath, IGameFileSystem gameFileSystem)
     {
-        ReadOnlySpan<IniElement> elements;
+        ImmutableArray<IniElement> elements;
         try
         {
-            elements = IniSerializer.DeserializeFromFile(configFilePath).AsSpan();
+            elements = IniSerializer.DeserializeFromFile(configFilePath);
         }
         catch (IOException ex)
         {
@@ -24,8 +26,7 @@ internal static class GameConfiguration
                 return ChannelOptions.SharingViolation(configFilePath);
             }
 
-            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY) ||
-                HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
+            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_NOT_READY, WIN32_ERROR.ERROR_NO_SUCH_DEVICE]))
             {
                 return ChannelOptions.DeviceNotFound(gameFileSystem.GetGameDirectory());
             }
@@ -36,7 +37,7 @@ internal static class GameConfiguration
         string? channel = default;
         string? subChannel = default;
 
-        foreach (ref readonly IniElement element in elements)
+        foreach (IniElement element in elements)
         {
             if (element is not IniParameter parameter)
             {
