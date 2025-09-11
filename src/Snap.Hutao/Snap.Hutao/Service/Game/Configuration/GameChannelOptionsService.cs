@@ -48,7 +48,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
             {
                 // Try to fix ScriptVersion by reading game_version from the configuration file
                 // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
-                if (!GameScriptVersion.Copy(configFilePath, scriptVersionFilePath))
+                if (!GameScriptVersion.Patch(configFilePath, scriptVersionFilePath))
                 {
                     return ChannelOptions.GameContentCorrupted(gameFileSystem.GetGameDirectory());
                 }

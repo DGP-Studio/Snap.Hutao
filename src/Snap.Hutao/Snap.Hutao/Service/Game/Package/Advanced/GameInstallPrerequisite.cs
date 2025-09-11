@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Win32;
@@ -59,7 +60,7 @@ internal sealed class GameInstallPrerequisite
             return true;
         }
 
-        gameFileSystem.GenerateConfigurationFile(version, launchScheme);
+        GameConfiguration.Create(launchScheme, version, gameFileSystem.GetGameConfigurationFilePath());
         {
             ImmutableArray<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath());
             IniSerializer.SerializeToFile(gameFileSystem.GetGameConfigurationFilePath(), ini.Add(new IniParameter(InstallingName, string.Empty)));
