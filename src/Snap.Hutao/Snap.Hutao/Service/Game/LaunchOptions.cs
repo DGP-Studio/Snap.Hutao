@@ -8,6 +8,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;

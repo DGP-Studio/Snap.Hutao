@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal sealed class GameAudioInstallation
 {

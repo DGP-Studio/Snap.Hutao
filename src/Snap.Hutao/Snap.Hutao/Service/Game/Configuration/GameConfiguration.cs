@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.Collections.Immutable;

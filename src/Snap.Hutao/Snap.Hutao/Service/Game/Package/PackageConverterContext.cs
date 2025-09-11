@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using System.Collections.Concurrent;

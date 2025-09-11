@@ -5,7 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal static class RestrictedGamePathAccessExtension
 {
