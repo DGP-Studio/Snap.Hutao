@@ -2677,13 +2677,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Karakter</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>Geçmiş</value>
+    <value>历史</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>Genel Bakış</value>
+    <value>总览</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>Küresel Dilek İstatistikleri</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Silah</value>
