@@ -21,19 +21,16 @@ internal static class RegistryInterop
 
     public static bool Set(GameAccount? account)
     {
-        if (account is not null)
+        if (account is null)
         {
-            (string keyName, string valueName) = GetKeyValueName(account.Type);
-            byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
-            Registry.SetValue(keyName, valueName, target);
-
-            if (Get(account.Type) == account.MihoyoSDK)
-            {
-                return true;
-            }
+            return false;
         }
 
-        return false;
+        (string keyName, string valueName) = GetKeyValueName(account.Type);
+        byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
+        Registry.SetValue(keyName, valueName, target);
+
+        return Get(account.Type) == account.MihoyoSDK;
     }
 
     public static unsafe string? Get(SchemeType scheme)
@@ -48,15 +45,13 @@ internal static class RegistryInterop
 
         fixed (byte* pByte = bytes)
         {
-            ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
-            return Encoding.UTF8.GetString(span);
+            return Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte));
         }
     }
 
     public static void SetWindowsHDR(bool isOversea)
     {
-        string keyName = isOversea ? OverseaKeyName : ChineseKeyName;
-        Registry.SetValue(keyName, WindowsHDROnValueName, 1);
+        Registry.SetValue(isOversea ? OverseaKeyName : ChineseKeyName, WindowsHDROnValueName, 1);
     }
 
     private static (string KeyName, string ValueName) GetKeyValueName(SchemeType scheme)

@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -20,6 +21,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.Immutable;
@@ -34,10 +36,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     // Required for the SetProperty
     private LaunchScheme? selectedScheme;
@@ -122,13 +124,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         }
                         else
                         {
-                            infoBarService.Warning(SH.ViewModelLaunchGameSchemeNotSelected);
+                            messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
                         }
                     }
                 }
                 catch (HutaoException ex)
                 {
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                 }
             }
         }
@@ -291,7 +293,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SelectedScheme is null)
             {
-                infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
+                messenger.Send(InfoBarMessage.Error(SH.ViewModelLaunchGameSchemeNotSelected));
                 return;
             }
 
@@ -300,16 +302,27 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 return;
             }
 
-            // If user canceled the operation, the return is null
-            if (await gameService.DetectGameAccountAsync(SelectedScheme).ConfigureAwait(false) is { } account)
+            GameAccount? currentAccount = await gameService.DetectGameAccountAsync(SelectedScheme, async () =>
+            {
+                using (IServiceScope scope = serviceProvider.CreateScope())
+                {
+                    LaunchGameAccountNameDialog dialog = await scope.ServiceProvider
+                        .GetRequiredService<IContentDialogFactory>()
+                        .CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider)
+                        .ConfigureAwait(false);
+                    return await dialog.GetInputNameAsync().ConfigureAwait(false);
+                }
+            }).ConfigureAwait(false);
+
+            if (currentAccount is not null)
             {
                 await taskContext.SwitchToMainThreadAsync();
-                GameAccountsView.MoveCurrentTo(account);
+                GameAccountsView.MoveCurrentTo(currentAccount);
             }
         }
         catch (Exception ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 
@@ -323,7 +336,18 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return;
         }
 
-        await gameService.ModifyGameAccountAsync(gameAccount).ConfigureAwait(false);
+        await gameService.ModifyGameAccountAsync(gameAccount, async originalName =>
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                LaunchGameAccountNameDialog dialog = await scope.ServiceProvider
+                    .GetRequiredService<IContentDialogFactory>()
+                    .CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider, originalName)
+                    .ConfigureAwait(false);
+
+                return await dialog.GetInputNameAsync().ConfigureAwait(false);
+            }
+        }).ConfigureAwait(false);
     }
 
     [Command("RemoveGameAccountCommand")]
