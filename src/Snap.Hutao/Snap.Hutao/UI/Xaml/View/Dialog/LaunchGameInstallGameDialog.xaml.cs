@@ -72,7 +72,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
             return new(false, default!);
         }
 
-        GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
+        GameAudioInstallation gameAudioInstallation = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
 
         if (IsBetaGameInstall)
@@ -95,10 +95,10 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
                 return new(false, default!);
             }
 
-            return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioSystem), SelectedScheme, build));
+            return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioInstallation), SelectedScheme, build));
         }
 
-        return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioSystem), SelectedScheme));
+        return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioInstallation), SelectedScheme));
     }
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

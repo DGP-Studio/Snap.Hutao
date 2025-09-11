@@ -4,8 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Win32;
-using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -249,49 +247,5 @@ internal static class GameFileSystemExtension
         GenerateConfigurationFile(gameFileSystem, version, launchScheme);
 
         return true;
-    }
-
-    public static bool TryFixScriptVersion(this IGameFileSystem gameFileSystem)
-    {
-        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
-        if (!File.Exists(configFilePath))
-        {
-            return false;
-        }
-
-        string? version = default;
-        try
-        {
-            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
-            {
-                if (element is IniParameter { Key: "game_version" } parameter)
-                {
-                    version = parameter.Value;
-                    break;
-                }
-            }
-
-            string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
-            string? directory = Path.GetDirectoryName(scriptVersionFilePath);
-            ArgumentNullException.ThrowIfNull(directory);
-
-            Directory.CreateDirectory(directory);
-            File.WriteAllText(scriptVersionFilePath, version);
-            return true;
-        }
-        catch (UnauthorizedAccessException)
-        {
-            // Access to the path '.*?' is denied.
-            return false;
-        }
-        catch (IOException ex)
-        {
-            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_NO_SUCH_DEVICE, WIN32_ERROR.ERROR_DEVICE_HARDWARE_ERROR]))
-            {
-                return false;
-            }
-
-            throw;
-        }
     }
 }

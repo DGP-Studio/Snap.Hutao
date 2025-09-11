@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game;
 
-internal sealed class GameAudioSystem
+internal sealed class GameAudioInstallation
 {
-    public GameAudioSystem(string gameDirectory)
+    public GameAudioInstallation(string gameDirectory)
     {
         Chinese = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioChinesePkgVersion));
         English = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioEnglishPkgVersion));
@@ -15,7 +15,7 @@ internal sealed class GameAudioSystem
         Korean = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioKoreanPkgVersion));
     }
 
-    public GameAudioSystem(bool chinese, bool english, bool japanese, bool korean)
+    public GameAudioInstallation(bool chinese, bool english, bool japanese, bool korean)
     {
         Chinese = chinese;
         English = english;

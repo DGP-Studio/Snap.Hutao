@@ -9,9 +9,10 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class RestrictedGamePathAccessExtension
 {
+    [Obsolete]
     public static bool TryGetGameFileSystem(this IRestrictedGamePathAccess access, [NotNullWhen(true)] out IGameFileSystem? fileSystem)
     {
-        string gamePath = access.GamePath;
+        string gamePath = access.GamePath.Value;
 
         if (string.IsNullOrEmpty(gamePath) || !access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
         {
@@ -23,22 +24,43 @@ internal static class RestrictedGamePathAccessExtension
         return true;
     }
 
+    // TODO: implement tracing
+    public static GameFileSystemErrorKind TryGetGameFileSystem(this IRestrictedGamePathAccess access, string trace, out IGameFileSystem? fileSystem)
+    {
+        string gamePath = access.GamePath.Value;
+
+        if (string.IsNullOrEmpty(gamePath))
+        {
+            fileSystem = default;
+            return GameFileSystemErrorKind.GamePathNullOrEmpty;
+        }
+
+        if (!access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
+        {
+            fileSystem = default;
+            return GameFileSystemErrorKind.GamePathLocked;
+        }
+
+        fileSystem = GameFileSystem.Create(gamePath, releaser);
+        return GameFileSystemErrorKind.None;
+    }
+
     public static ImmutableArray<GamePathEntry> PerformGamePathEntrySynchronization(this IRestrictedGamePathAccess access, out GamePathEntry? selected)
     {
-        string gamePath = access.GamePath;
+        string gamePath = access.GamePath.Value;
 
         // The game path is null or empty, this means no game path is selected, just return the entries.
         if (string.IsNullOrEmpty(gamePath))
         {
             selected = default;
-            return access.GamePathEntries;
+            return access.GamePathEntries.Value;
         }
 
         // The game path is in the entries, just return the entries.
-        if (access.GamePathEntries.SingleOrDefault(entry => string.Equals(entry.Path, gamePath, StringComparison.OrdinalIgnoreCase)) is { } existed)
+        if (access.GamePathEntries.Value.SingleOrDefault(entry => string.Equals(entry.Path, gamePath, StringComparison.OrdinalIgnoreCase)) is { } existed)
         {
             selected = existed;
-            return access.GamePathEntries;
+            return access.GamePathEntries.Value;
         }
 
         // We need update the entries when game path not in the entries.
@@ -50,8 +72,8 @@ internal static class RestrictedGamePathAccessExtension
         using (releaser)
         {
             // The game path is not in the entries, add it to the entries.
-            selected = GamePathEntry.Create(access.GamePath);
-            return access.GamePathEntries = access.GamePathEntries.Add(selected);
+            selected = GamePathEntry.Create(access.GamePath.Value);
+            return access.GamePathEntries.Value = access.GamePathEntries.Value.Add(selected);
         }
     }
 
@@ -72,12 +94,12 @@ internal static class RestrictedGamePathAccessExtension
         using (releaser)
         {
             // Clear game path if it's selected.
-            if (string.Equals(access.GamePath, entry.Path, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(access.GamePath.Value, entry.Path, StringComparison.OrdinalIgnoreCase))
             {
-                access.GamePath = string.Empty;
+                access.GamePath.Value = string.Empty;
             }
 
-            access.GamePathEntries = access.GamePathEntries.Remove(entry);
+            access.GamePathEntries.Value = access.GamePathEntries.Value.Remove(entry);
         }
 
         // Synchronization takes write lock when game path changed,
@@ -94,11 +116,18 @@ internal static class RestrictedGamePathAccessExtension
 
         using (releaser)
         {
-            access.GamePath = gamePath;
+            access.GamePath.Value = gamePath;
         }
 
         // Synchronization takes write lock when game path changed,
         // so we release the write lock before calling.
         return access.PerformGamePathEntrySynchronization(out _);
     }
+}
+
+internal enum GameFileSystemErrorKind
+{
+    None,
+    GamePathNullOrEmpty,
+    GamePathLocked,
 }
