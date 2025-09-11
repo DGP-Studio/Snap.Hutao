@@ -2677,13 +2677,13 @@
     <value>ตัวละคร</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>ประวัติ</value>
+    <value>历史</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>ภาพรวม</value>
+    <value>总览</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>สถิติการอธิษฐานทั่วโลก</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>อาวุธ</value>
