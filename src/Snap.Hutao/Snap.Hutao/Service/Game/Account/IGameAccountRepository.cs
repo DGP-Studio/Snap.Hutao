@@ -5,9 +5,9 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Account;
 
-internal interface IGameRepository : IRepository<GameAccount>
+internal interface IGameAccountRepository : IRepository<GameAccount>
 {
     void AddGameAccount(GameAccount gameAccount);
 

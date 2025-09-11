@@ -50,9 +50,6 @@ internal static class DllInjectionUtilities
         }
     }
 
-    // Security note: These method uses LOAD_WITH_ALTERED_SEARCH_PATH to load the DLL.
-    // Which can cause arbitrary DLL in the same directory with the same name that required by the DLL to be loaded.
-    // We should pre-check the directory to ensure that it only contains the expected DLL.
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT DllInjectionUtilitiesInjectUsingWindowsHook(PCWSTR dllPath, PCWSTR functionName, int processId);
 

@@ -24,7 +24,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             interop = new(context, resume);
             try
             {
-                context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
+                context.Progress.Report(new(SH.ServiceGameLaunchPhaseUnlockingFps));
                 if (!await interop.PrepareAsync().ConfigureAwait(false))
                 {
                     if (!string.IsNullOrEmpty(context.Result.ErrorMessage))

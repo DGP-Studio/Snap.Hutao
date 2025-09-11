@@ -22,8 +22,8 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     private const string IslandEnvironmentName = "4F3E8543-40F7-4808-82DC-21E48A6037A7";
 
     private readonly LaunchExecutionContext context;
-    private readonly bool resume;
     private readonly string dataFolderIslandPath;
+    private readonly bool resume;
 
     private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
