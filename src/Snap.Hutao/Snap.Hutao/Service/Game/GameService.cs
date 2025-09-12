@@ -26,12 +26,12 @@ internal sealed partial class GameService : IGameService
 
     public bool KillGameProcess()
     {
-        return LaunchExecutionEnsureGameNotRunningHandler.TryKillGameProcess();
+        return GameLifeCycle.TryKillGameProcess();
     }
 
     public ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
-        return gamePathService.SilentGetGamePathAsync();
+        return gamePathService.SilentLocateGamePathAsync();
     }
 
     public ChannelOptions GetChannelOptions()
@@ -61,6 +61,6 @@ internal sealed partial class GameService : IGameService
 
     public bool IsGameRunning()
     {
-        return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
+        return GameLifeCycle.IsGameRunning();
     }
 }

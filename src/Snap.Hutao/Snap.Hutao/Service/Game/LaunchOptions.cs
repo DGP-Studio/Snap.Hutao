@@ -25,7 +25,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 {
     private readonly ITaskContext taskContext;
 
-    public static bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
+    public static bool IsGameRunning { get => GameLifeCycle.IsGameRunning(); }
 
     public static bool CanKillGameProcess { get => HutaoRuntime.IsProcessElevated && IsGameRunning; }
 

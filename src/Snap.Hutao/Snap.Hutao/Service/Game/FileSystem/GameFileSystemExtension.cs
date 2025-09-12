@@ -3,10 +3,8 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.FileSystem;
 
@@ -66,7 +64,7 @@ internal static class GameFileSystemExtension
         return gameConfigFilePath;
     }
 
-    public static string GetPcGameSdkFilePath(this IGameFileSystemView gameFileSystem)
+    public static string GetPCGameSDKFilePath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 

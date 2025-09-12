@@ -1,10 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Service.Game.Launching;
@@ -48,7 +46,7 @@ internal abstract class LaunchExecutionInvoker
             {
                 unsafe
                 {
-                    SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+                    SpinWaitPolyfill.SpinWhile(&GameLifeCycle.IsGameRunning);
                 }
 
                 context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();

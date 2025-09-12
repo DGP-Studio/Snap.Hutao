@@ -23,6 +23,8 @@ internal abstract partial class AbstractLaunchExecutionContext : IDisposable
 
     public partial LaunchOptions Options { get; }
 
+    public partial IMessenger Messenger { get; }
+
     public string? AuthTicket { get; set; }
 
     public bool ChannelOptionsChanged { get; set; }

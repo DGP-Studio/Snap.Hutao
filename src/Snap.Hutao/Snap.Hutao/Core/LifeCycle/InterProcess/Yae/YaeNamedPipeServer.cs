@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Yae.Achievement;
 using System.Buffers;
@@ -64,7 +65,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
-            while (LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
+            while (GameLifeCycle.IsGameRunning())
             {
                 try
                 {

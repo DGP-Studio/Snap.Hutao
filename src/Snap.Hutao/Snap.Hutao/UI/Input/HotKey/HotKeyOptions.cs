@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -67,6 +68,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static BOOL OnCallback()
     {
-        return IsInGameOnly && !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
+        return IsInGameOnly && !GameLifeCycle.IsGameRunning();
     }
 }

@@ -1,74 +1,43 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Package.Advanced;
-using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.UI.Xaml.View.Dialog;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
-using Snap.Hutao.Web.Response;
 using System.IO;
 using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
-    {
-        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystemView))
+        if (!ShouldConvert(context))
         {
             return;
         }
 
-        if (ShouldConvert(context, gameFileSystemView))
+        using (BlockDeferralWithProgress<PackageConvertStatus> deferral = await context.ViewModel.CreateConvertBlockDeferralAsync().ConfigureAwait(false))
         {
-            using (IServiceScope scope = context.ServiceProvider.CreateScope())
-            {
-                IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
-                LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>(scope.ServiceProvider).ConfigureAwait(false);
-                using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
-                {
-                    IProgress<PackageConvertStatus> convertProgress = scope.ServiceProvider
-                        .GetRequiredService<IProgressFactory>()
-                        .CreateForMainThread<PackageConvertStatus, LaunchGamePackageConvertDialog>(static (state, dialog) => dialog.State = state, dialog);
-
-                    if (!await EnsureGameResourceAsync(context, gameFileSystemView, convertProgress).ConfigureAwait(false))
-                    {
-                        // context.Result is set in EnsureGameResourceAsync
-                        return;
-                    }
-                }
-            }
+            await EnsureGameResourceAsync(context, deferral.Progress).ConfigureAwait(false);
         }
-
-        await next().ConfigureAwait(false);
     }
 
-    private static bool ShouldConvert(LaunchExecutionContext context, IGameFileSystemView gameFileSystemView)
+    private static bool ShouldConvert(BeforeLaunchExecutionContext context)
     {
         // Configuration file changed
-        if (context.ChannelOptionsChanged)
+        if (context[LaunchExecutionOptionsKey.ChannelOptionsChanged])
         {
             return true;
         }
 
-        if (context.TargetScheme.IsOversea ^ gameFileSystemView.IsExecutableOversea())
+        if (context.TargetScheme.IsOversea ^ context.FileSystem.IsExecutableOversea())
         {
             return true;
         }
@@ -76,7 +45,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         if (!context.TargetScheme.IsOversea)
         {
             // [It's Bilibili channel xor PCGameSDK.dll exists] means we need to convert
-            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(gameFileSystemView.GetPcGameSdkFilePath()))
+            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(context.FileSystem.GetPCGameSDKFilePath()))
             {
                 return true;
             }
@@ -85,144 +54,102 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         return false;
     }
 
-    private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, IGameFileSystemView gameFileSystemView, IProgress<PackageConvertStatus> progress)
+    private static async ValueTask EnsureGameResourceAsync(BeforeLaunchExecutionContext context, IProgress<PackageConvertStatus> progress)
     {
-        string gameFolder = gameFileSystemView.GetGameDirectory();
+        string gameFolder = context.FileSystem.GetGameDirectory();
 
-        if (!CheckDirectoryPermissions(gameFolder))
+        if (!CheckDirectoryPermissions(gameFolder, out Exception? inner))
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameDirectoryInsufficientPermissions;
-            context.Result.ErrorMessage = SH.ServiceGameEnsureGameResourceInsufficientDirectoryPermissions;
-            return false;
+            throw HutaoException.UnauthorizedAccess(SH.ServiceGameEnsureGameResourceInsufficientDirectoryPermissions, inner);
         }
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
-        HoyoPlayClient hoyoPlayClient = context.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-        if (await TryGetCurrentBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } currentBranches))
+        if (await context.HoyoPlay.TryGetBranchesAsync(context.CurrentScheme).ConfigureAwait(false) is not (true, { } currentBranches))
         {
-            return false;
+            throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Current Branches"));
         }
 
-        if (await TryGetTargetBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } targetBranches))
+        if (await context.HoyoPlay.TryGetBranchesAsync(context.TargetScheme).ConfigureAwait(false) is not (true, { } targetBranches))
         {
-            return false;
+            throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Branches"));
         }
 
-        if (await TryGetChannelSdkAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } channelSdks))
+        if (await context.HoyoPlay.TryGetChannelSdksAsync(context.TargetScheme).ConfigureAwait(false) is not (true, { } channelSdks))
         {
-            return false;
+            throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Channel SDKs"));
         }
 
-        if (await TryGetDeprecatedFileConfigurationsAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } deprecatedFileConfigs))
+        if (await context.HoyoPlay.TryGetDeprecatedFileConfigurationsAsync(context.TargetScheme).ConfigureAwait(false) is not (true, { } deprecatedFileConfigs))
         {
-            return false;
+            throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Deprecated File Configs"));
         }
 
         IHttpClientFactory httpClientFactory = context.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))
         {
-            string currentGameId = context.CurrentScheme.GameId;
-            string targetGameId = context.TargetScheme.GameId;
-            PackageConverterContext converterContext = new(
-                new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystemView, progress),
-                currentBranches.GameBranches.Single(b => b.Game.Id == currentGameId).Main,
-                targetBranches.GameBranches.Single(b => b.Game.Id == targetGameId).Main);
+            PackageConverterContext converterContext = new(context.CurrentScheme, context.TargetScheme, context.FileSystem)
+            {
+                HttpClient = httpClient,
+                Progress = progress,
+                CurrentBranch = currentBranches.GetMainBranch(context.CurrentScheme.GameId),
+                TargetBranch = targetBranches.GetMainBranch(context.TargetScheme.GameId),
+            };
 
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
 
             // Executable does not match the target scheme
-            if (context.TargetScheme.IsOversea ^ gameFileSystemView.IsExecutableOversea())
+            if (context.TargetScheme.IsOversea ^ context.FileSystem.IsExecutableOversea())
             {
                 if (!await packageConverter.EnsureGameResourceAsync(converterContext).ConfigureAwait(false))
                 {
-                    context.Result.Kind = LaunchExecutionResultKind.GameResourcePackageConvertInternalError;
-                    context.Result.ErrorMessage = SH.ViewModelLaunchGameEnsureGameResourceFail;
-                    return false;
+                    throw HutaoException.InvalidOperation(SH.ViewModelLaunchGameEnsureGameResourceFail);
                 }
 
                 // We need to change the gamePath.
                 await context.TaskContext.SwitchToMainThreadAsync();
                 string executableName = context.TargetScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName;
-                context.UpdateGamePath(Path.Combine(gameFolder, executableName));
-
-                // After UpdateGamePath the GameFileSystem is no longer valid.
-                if (!context.TryGetGameFileSystem(out gameFileSystemView!))
-                {
-                    return false;
-                }
+                context.FileSystem = context.LaunchOptions.UnsafeForceUpdateGamePath(Path.Combine(gameFolder, executableName), context.FileSystem);
             }
 
-            PackageConverterDeprecationContext deprecationContext = new(httpClient, gameFileSystemView, channelSdks.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault());
-            await packageConverter.EnsureDeprecatedFilesAndSdkAsync(deprecationContext).ConfigureAwait(false);
-            return true;
+            PackageConverterDeprecationContext deprecationContext = new(httpClient, context.FileSystem, channelSdks.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault());
+            await packageConverter.EnsureDeprecatedFilesAndSDKAsync(deprecationContext).ConfigureAwait(false);
         }
     }
 
-    private static async ValueTask<ValueResult<bool, T>> TryGetAsync<T>(HoyoPlayClient hoyoPlayClient, LaunchExecutionResult result, LaunchScheme scheme, [RequireStaticDelegate] Func<HoyoPlayClient, LaunchScheme, ValueTask<Response<T>>> asyncMethod)
+    private static bool CheckDirectoryPermissions(string folder, [NotNullWhen(false)] out Exception? exception)
     {
-        Response<T> response = await asyncMethod(hoyoPlayClient, scheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(response, out T? data))
+        if (!LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false))
         {
-            result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(response);
-            return new(false, default!);
-        }
-
-        return new(true, data);
-    }
-
-    private static ValueTask<ValueResult<bool, GameBranchesWrapper>> TryGetCurrentBranchesAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)
-    {
-        return TryGetAsync(hoyoPlayClient, context.Result, context.CurrentScheme, static (client, scheme) => client.GetBranchesAsync(scheme));
-    }
-
-    private static ValueTask<ValueResult<bool, GameBranchesWrapper>> TryGetTargetBranchesAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)
-    {
-        return TryGetAsync(hoyoPlayClient, context.Result, context.TargetScheme, static (client, scheme) => client.GetBranchesAsync(scheme));
-    }
-
-    private static ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSdkAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)
-    {
-        return TryGetAsync(hoyoPlayClient, context.Result, context.TargetScheme, static (client, scheme) => client.GetChannelSDKAsync(scheme));
-    }
-
-    private static ValueTask<ValueResult<bool, DeprecatedFileConfigurationsWrapper>> TryGetDeprecatedFileConfigurationsAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)
-    {
-        return TryGetAsync(hoyoPlayClient, context.Result, context.TargetScheme, static (client, scheme) => client.GetDeprecatedFileConfigurationsAsync(scheme));
-    }
-
-    private static bool CheckDirectoryPermissions(string folder)
-    {
-        if (LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false))
-        {
-            return true;
-        }
-
-        try
-        {
-            string tempFilePath = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
-            string tempFilePathMove = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
-
-            // Test create file
-            using (SafeFileHandle handle = File.OpenHandle(tempFilePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, preallocationSize: 32 * 1024))
+            try
             {
-                // Test write file
-                RandomAccess.Write(handle, "SNAP HUTAO DIRECTORY PERMISSION CHECK"u8, 0);
-                RandomAccess.FlushToDisk(handle);
+                Directory.CreateDirectory(folder);
+
+                string tempFilePath = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
+                string tempFilePathMove = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
+
+                // Test create file
+                using (SafeFileHandle handle = File.OpenHandle(tempFilePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, preallocationSize: 32 * 1024))
+                {
+                    // Test write file
+                    RandomAccess.Write(handle, "SNAP HUTAO DIRECTORY PERMISSION CHECK"u8, 0);
+                    RandomAccess.FlushToDisk(handle);
+                }
+
+                // Test move file
+                File.Move(tempFilePath, tempFilePathMove);
+
+                // Test delete file
+                File.Delete(tempFilePathMove);
             }
-
-            // Test move file
-            File.Move(tempFilePath, tempFilePathMove);
-
-            // Test delete file
-            File.Delete(tempFilePathMove);
-
-            return true;
+            catch (Exception ex)
+            {
+                exception = ex;
+                return false;
+            }
         }
-        catch (Exception)
-        {
-            return false;
-        }
+
+        exception = null;
+        return true;
     }
 }

@@ -123,4 +123,13 @@ internal static class RestrictedGamePathAccessExtension
         // so we release the write lock before calling.
         return access.PerformGamePathEntrySynchronization(out _);
     }
+
+    public static IGameFileSystem UnsafeForceUpdateGamePath(this IRestrictedGamePathAccess access, string gamePath, IGameFileSystem old)
+    {
+        old.Dispose();
+        access.UpdateGamePath(gamePath);
+        access.TryGetGameFileSystem($"{nameof(RestrictedGamePathAccessExtension)}.{nameof(UnsafeForceUpdateGamePath)}", out IGameFileSystem? newFileSystem);
+        ArgumentNullException.ThrowIfNull(newFileSystem);
+        return newFileSystem;
+    }
 }

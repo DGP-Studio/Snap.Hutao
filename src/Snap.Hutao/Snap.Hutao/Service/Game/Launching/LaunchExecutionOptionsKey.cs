@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed class LaunchExecutionResult
+internal static class LaunchExecutionOptionsKey
 {
-    public string ErrorMessage { get; set; } = default!;
+    public const string ChannelOptionsChanged = nameof(ChannelOptionsChanged);
 }

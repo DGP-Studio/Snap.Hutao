@@ -2,45 +2,41 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Service.Notification;
 using Windows.System;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
-    {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override async ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
         if (context.Process.IsRunning() && context.Options.UsingBetterGenshinImpactAutomation.Value)
         {
             await LaunchBetterGenshinImpactAsync(context).ConfigureAwait(false);
         }
-
-        await next().ConfigureAwait(false);
     }
 
     private static async ValueTask LaunchBetterGenshinImpactAsync(LaunchExecutionContext context)
     {
         Uri betterGenshinImpactUri = "bettergi://start".ToUri();
-        if (await Launcher.QueryUriSupportAsync(betterGenshinImpactUri, LaunchQuerySupportType.Uri) is LaunchQuerySupportStatus.Available)
+        if (await Launcher.QueryUriSupportAsync(betterGenshinImpactUri, LaunchQuerySupportType.Uri) is not LaunchQuerySupportStatus.Available)
         {
-            try
-            {
-                context.Logger.LogInformation("Waiting game window to be ready");
-                SpinWait.SpinUntil(() => context.Process.MainWindowHandle.Value is not 0);
-            }
-            catch (InvalidOperationException)
-            {
-                context.Logger.LogInformation("Failed to get game window handle");
-                return;
-            }
-
-            context.Logger.LogInformation("Launching BetterGI");
-            await Launcher.LaunchUriAsync(betterGenshinImpactUri);
+            context.Messenger.Send(InfoBarMessage.Warning(SH.ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered));
+            return;
         }
+
+        try
+        {
+            SpinWaitPolyfill.SpinUntil(context.Process, static process => process.MainWindowHandle.Value is not 0);
+        }
+        catch (Exception ex)
+        {
+            context.Messenger.Send(InfoBarMessage.Error(SH.ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException, ex));
+            return;
+        }
+
+        context.Messenger.Send(InfoBarMessage.Information(SH.ServiceGameLaunchExecutionBetterGenshinImpactStarted));
+        await Launcher.LaunchUriAsync(betterGenshinImpactUri);
     }
 }

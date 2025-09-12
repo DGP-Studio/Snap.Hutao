@@ -33,6 +33,17 @@ internal sealed class InfoBarMessage
         };
     }
 
+    public static InfoBarMessage Error(string title, Exception exception)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Error,
+            Title = title,
+            Message = ExceptionFormat.Format(exception),
+            MilliSecondsDelay = 0,
+        };
+    }
+
     public static InfoBarMessage Error(Exception exception)
     {
         return new()
@@ -44,13 +55,23 @@ internal sealed class InfoBarMessage
         };
     }
 
+    public static InfoBarMessage Information(string message)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Informational,
+            Message = message,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+        };
+    }
+
     public static InfoBarMessage Warning(string message)
     {
         return new()
         {
             Severity = InfoBarSeverity.Warning,
             Message = message,
-            MilliSecondsDelay = 30000,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
         };
     }
 }

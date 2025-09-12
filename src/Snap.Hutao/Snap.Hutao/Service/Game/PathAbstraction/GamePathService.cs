@@ -15,7 +15,7 @@ internal sealed partial class GamePathService : IGamePathService
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
+    public async ValueTask<ValueResult<bool, string>> SilentLocateGamePathAsync()
     {
         // Found in setting
         if (!string.IsNullOrEmpty(launchOptions.GamePath.Value))

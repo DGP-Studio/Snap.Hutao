@@ -9,7 +9,7 @@ internal sealed partial class GameFileSystem : IGameFileSystem
 {
     private readonly AsyncReaderWriterLock.Releaser releaser;
 
-    public GameFileSystem(string gameFilePath, AsyncReaderWriterLock.Releaser releaser)
+    private GameFileSystem(string gameFilePath, AsyncReaderWriterLock.Releaser releaser)
     {
         GameFilePath = gameFilePath;
         this.releaser = releaser;

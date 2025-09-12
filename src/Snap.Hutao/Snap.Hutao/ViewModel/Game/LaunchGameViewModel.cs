@@ -176,7 +176,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
+    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !GameLifeCycle.IsGameRunning();
 
     public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
     {
