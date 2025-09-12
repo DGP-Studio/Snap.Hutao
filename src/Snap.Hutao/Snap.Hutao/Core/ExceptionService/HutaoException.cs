@@ -100,4 +100,9 @@ internal sealed class HutaoException : Exception
     {
         throw new OperationCanceledException(message, innerException);
     }
+
+    public static UnauthorizedAccessException UnauthorizedAccess(string message, Exception? innerException = default)
+    {
+        throw new UnauthorizedAccessException(message, innerException);
+    }
 }

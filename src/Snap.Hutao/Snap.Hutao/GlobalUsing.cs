@@ -3,6 +3,7 @@
 
 // CommunityToolkit
 global using CommunityToolkit.Mvvm.DependencyInjection;
+global using CommunityToolkit.Mvvm.Messaging;
 
 // Microsoft
 global using Microsoft;

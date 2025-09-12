@@ -14,7 +14,7 @@ internal sealed class ResumeLaunchExecutionEnsureGameRunningHandler : ILaunchExe
 
     public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out IProcess? gameProcess))
+        if (!GameLifeCycle.IsGameRunning(out IProcess? gameProcess))
         {
             return;
         }

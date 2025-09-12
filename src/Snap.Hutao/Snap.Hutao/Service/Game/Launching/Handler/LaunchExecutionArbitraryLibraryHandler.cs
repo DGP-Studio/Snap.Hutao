@@ -4,45 +4,48 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Notification;
 using System.IO;
 using Windows.Storage;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionArbitraryLibraryHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionArbitraryLibraryHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
-    {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
         if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
         {
-            ApplicationDataCompositeValue value = LocalSetting.Get<ApplicationDataCompositeValue>(SettingKeys.LaunchExecutionArbitraryLibrary, []);
+            return Execute(context);
+        }
 
+        return ValueTask.CompletedTask;
+    }
+
+    private static ValueTask Execute(LaunchExecutionContext context)
+    {
+        ApplicationDataCompositeValue value = LocalSetting.Get<ApplicationDataCompositeValue>(SettingKeys.LaunchExecutionArbitraryLibrary, []);
+
+        foreach ((_, object path) in value)
+        {
+            string pathString = path.ToString() ?? string.Empty;
             try
             {
-                foreach ((string md5, object path) in value)
+                // File.Exists handles null/empty/whitespace first
+                if (File.Exists(pathString) && string.Equals(Path.GetExtension(pathString), ".dll", StringComparison.OrdinalIgnoreCase))
                 {
-                    string pathString = path.ToString() ?? string.Empty;
-                    if (File.Exists(pathString))
-                    {
-                        DllInjectionUtilities.InjectUsingRemoteThread(pathString, context.Process.Id);
-                    }
+                    DllInjectionUtilities.InjectUsingRemoteThread(pathString, context.Process.Id);
                 }
-
-                context.Process.ResumeMainThread();
             }
             catch (Exception ex)
             {
-                context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                context.Result.ErrorMessage = ex.Message;
+                context.Messenger.Send(InfoBarMessage.Error(SH.FormatServiceGameLaunchExecutionArbitraryLibraryInjectionException(pathString), ex));
                 context.Process.Kill();
+                return ValueTask.FromException(ex);
             }
         }
 
-        await next().ConfigureAwait(false);
+        context.Process.ResumeMainThread();
+        return ValueTask.CompletedTask;
     }
 }
