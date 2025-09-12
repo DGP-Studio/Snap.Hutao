@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed class LaunchExecutionResult
+internal sealed class AfterLaunchExecutionContext
 {
-    public string ErrorMessage { get; set; } = default!;
+
 }
