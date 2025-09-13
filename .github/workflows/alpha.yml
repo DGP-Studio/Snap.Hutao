@@ -2,8 +2,7 @@ name: Snap Hutao Alpha
 on:
   workflow_dispatch:
   push:
-    branches:
-      - develop
+    branches: [ develop ]
     paths-ignore:
       - '.gitattributes'
       - '.github/**'
@@ -13,8 +12,7 @@ on:
       - 'LICENSE'
       - '**.yml'
   pull_request:
-    branches:
-      - develop
+    branches: [ develop ]
     paths-ignore:
       - '.gitattributes'
       - '.github/**'
@@ -33,20 +31,43 @@ jobs:
     steps:
       - name: Select runner
         id: select_runner
+        shell: bash
+        env:
+          ORG:  ${{ github.repository_owner }}
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.RUNNER_CHECK_TOKEN }}
+          LABEL: ${{ vars.RUNNER_LABEL || 'sjc1' }}
         run: |
-          runner_id=${{ vars.RUNNER_ID }}
-          runner_status=$(curl -s -X GET \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" \
-            https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id \
-            | jq -r '.status')
-          if [ "$runner_status" == "online" ]; then
-            runner=sjc1
-          else
-            runner=windows-latest
-          fi
-          echo "runner=$runner" >> $GITHUB_OUTPUT
+          set -o pipefail
+          FALLBACK="windows-latest"
 
+          get_status_by_label () {
+            local url="$1"
+            local json
+            json=$(curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $TOKEN" \
+              "$url" 2>/dev/null || true)
+            jq -r --arg label "$LABEL" '
+              (.runners // [])
+              | map(select(any(.labels[]?; .name==$label)))
+              | .[0].status // ""' <<<"$json" 2>/dev/null || echo ""
+          }
+
+          # Check org's runner first and then repo's
+          STATUS="$(get_status_by_label "https://api.github.com/orgs/${ORG}/actions/runners?per_page=100")"
+          if [ -z "$STATUS" ]; then
+            STATUS="$(get_status_by_label "https://api.github.com/repos/${REPO}/actions/runners?per_page=100")"
+          fi
+
+          if [ "$STATUS" = "online" ]; then
+            PICK="$LABEL"
+          else
+            PICK="$FALLBACK"
+          fi
+
+          echo "Selected runner: $PICK (label=$LABEL, status=${STATUS:-unknown})"
+          echo "runner=$PICK" >> "$GITHUB_OUTPUT"
   build:
     needs: select-runner
     runs-on: ${{ needs.select-runner.outputs.runner }}
@@ -55,7 +76,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup .NET (self-hosted)
-        if: needs.select-runner.outputs.runner == 'sjc1'
+        if: ${{ needs.select-runner.outputs.runner == 'sjc1' }}
         shell: pwsh
         run: |
           Write-Host "Running enviornment setup script…"
@@ -111,6 +132,7 @@ jobs:
           echo $summary >> $Env:GITHUB_STEP_SUMMARY
 
       - name: Clean up
+        shell: pwsh
         run: |
           Write-Host "Cleaning up NuGet cache..."
           Remove-Item -Recurse -Force "$env:USERPROFILE\.nuget\packages"
