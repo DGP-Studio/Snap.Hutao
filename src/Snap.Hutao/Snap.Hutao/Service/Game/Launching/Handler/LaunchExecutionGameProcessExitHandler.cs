@@ -19,6 +19,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
             context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
             try
             {
+                await context.TaskContext.SwitchToBackgroundAsync();
                 context.Process.WaitForExit();
             }
             catch (Exception ex)
