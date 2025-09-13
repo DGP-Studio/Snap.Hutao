@@ -219,15 +219,12 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                    <TextBlock
-                        Width="32"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding Version}"/>
-                    <TextBlock
-                        Margin="0,0,0,0"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding Name}"/>
+                <StackPanel
+                    Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Version}"/>
+                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
                 </StackPanel>
 
                 <TextBlock
@@ -401,7 +398,7 @@
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </Pivot.RightHeader>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotOverview}">
                 <ScrollViewer
                     Margin="16,0"
                     cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
@@ -449,7 +446,7 @@
                 </Grid>
 
             </PivotItem>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotHistory}">
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <SplitView
@@ -526,7 +523,7 @@
                     </Border>
                 </Border>
             </PivotItem>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotAvatar}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotAvatar}">
                 <ScrollViewer>
                     <StackPanel Margin="16,0,16,16">
                         <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -561,7 +558,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotWeapon}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotWeapon}">
                 <ScrollViewer>
                     <StackPanel Margin="16,0,16,16">
                         <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -609,7 +606,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotStatistics}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotStatistics}">
                 <Grid>
                     <shuxc:Loading
                         Margin="16"

@@ -19,32 +19,36 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
 
     public async ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
     {
-        interop = new(context, resume);
-        try
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
         {
-            context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
-            if (!await interop.PrepareAsync().ConfigureAwait(false))
+            interop = new(context, resume);
+            try
             {
-                if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
+                context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
+                if (!await interop.PrepareAsync().ConfigureAwait(false))
                 {
-                    context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                }
-                else
-                {
-                    HutaoException.Throw("Failed to download island feature configuration.");
-                }
+                    if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
+                    }
+                    else
+                    {
+                        HutaoException.Throw("Failed to download island feature configuration.");
+                    }
 
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
+                context.Result.ErrorMessage = ex.Message;
                 return false;
             }
-        }
-        catch (Exception ex)
-        {
-            context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-            context.Result.ErrorMessage = ex.Message;
-            return false;
+
+            context.Progress.Report(default);
         }
 
-        context.Progress.Report(default);
         return await next().ConfigureAwait(false);
     }
 

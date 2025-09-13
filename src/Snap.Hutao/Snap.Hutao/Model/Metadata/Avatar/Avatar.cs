@@ -82,7 +82,7 @@ internal partial class Avatar : IDefaultIdentity<AvatarId>,
 
     public static uint GetMaxLevel()
     {
-        return 90U;
+        return 100U;
     }
 
     public ICalculableAvatar ToCalculable()

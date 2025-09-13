@@ -30,6 +30,7 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerOverseaChannel01SubChannel02Compat = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.NoTapTap, false);
     private static readonly LaunchScheme ServerOverseaChannel01SubChannel03 = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Epic);
     private static readonly LaunchScheme ServerOverseaChannel01SubChannel06 = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Google);
+    private static readonly LaunchScheme ServerOverseaChannel02SubChannel01Compat = new LaunchSchemeOversea(ChannelType.MiHoYoSONY, SubChannelType.Official);
     private static readonly LaunchScheme ServerOverseaChannel14SubChannel00Compat = new LaunchSchemeOversea(ChannelType.Bili, SubChannelType.Default, false);
     private static readonly LaunchScheme ServerOverseaChannel14SubChannel14Compat = new LaunchSchemeOversea(ChannelType.Bili, (SubChannelType)14, false);
 
@@ -57,6 +58,7 @@ internal static class KnownLaunchSchemes
         ServerOverseaChannel01SubChannel02Compat,
         ServerOverseaChannel01SubChannel03,
         ServerOverseaChannel01SubChannel06,
+        ServerOverseaChannel02SubChannel01Compat,
         ServerOverseaChannel14SubChannel00Compat,
         ServerOverseaChannel14SubChannel14Compat,
     ];

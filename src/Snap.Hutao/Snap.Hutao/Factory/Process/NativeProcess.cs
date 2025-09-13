@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
@@ -7,7 +7,7 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
 
-internal sealed class NativeProcess : IProcess
+internal sealed partial class NativeProcess : IProcess
 {
     private readonly HutaoNativeProcess process;
 
