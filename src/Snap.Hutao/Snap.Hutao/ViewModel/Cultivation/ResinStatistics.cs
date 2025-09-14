@@ -45,17 +45,17 @@ internal sealed partial class ResinStatistics : ObservableObject
         }
     }
 
-    public ResinStatisticsItem BlossomOfWealth { get; } = new(SH.ViewModelCultivationResinStatisticsBlossomOfWealthTitle, ResinStatisticsItemKind.BlossomOfWealth, 20, true);
+    public ResinStatisticsItem BlossomOfWealth { get; } = new(SH.ViewModelCultivationResinStatisticsBlossomOfWealthTitle, ResinStatisticsItemKind.BlossomOfWealth, 20);
 
-    public ResinStatisticsItem BlossomOfRevelation { get; } = new(SH.ViewModelCultivationResinStatisticsBlossomOfRevelationTitle, ResinStatisticsItemKind.BlossomOfRevelation, 20, true);
+    public ResinStatisticsItem BlossomOfRevelation { get; } = new(SH.ViewModelCultivationResinStatisticsBlossomOfRevelationTitle, ResinStatisticsItemKind.BlossomOfRevelation, 20);
 
-    public ResinStatisticsItem TalentAscension { get; } = new(SH.ViewModelCultivationResinStatisticsTalentAscensionTitle, ResinStatisticsItemKind.TalentAscension, 20, true);
+    public ResinStatisticsItem TalentAscension { get; } = new(SH.ViewModelCultivationResinStatisticsTalentAscensionTitle, ResinStatisticsItemKind.TalentAscension, 20);
 
-    public ResinStatisticsItem WeaponAscension { get; } = new(SH.ViewModelCultivationResinStatisticsWeaponAscensionTitle, ResinStatisticsItemKind.WeaponAscension, 20, true);
+    public ResinStatisticsItem WeaponAscension { get; } = new(SH.ViewModelCultivationResinStatisticsWeaponAscensionTitle, ResinStatisticsItemKind.WeaponAscension, 20);
 
-    public ResinStatisticsItem NormalBoss { get; } = new(SH.ViewModelCultivationResinStatisticsNormalBossTitle, ResinStatisticsItemKind.NormalBoss, 40, false);
+    public ResinStatisticsItem NormalBoss { get; } = new(SH.ViewModelCultivationResinStatisticsNormalBossTitle, ResinStatisticsItemKind.NormalBoss, 40);
 
-    public ResinStatisticsItem WeeklyBoss { get; } = new(SH.ViewModelCultivationResinStatisticsWeeklyBossTitle, ResinStatisticsItemKind.WeeklyBoss, 60, false);
+    public ResinStatisticsItem WeeklyBoss { get; } = new(SH.ViewModelCultivationResinStatisticsWeeklyBossTitle, ResinStatisticsItemKind.WeeklyBoss, 60);
 
     public IEnumerable<ResinStatisticsItem> ItemsSource
     {

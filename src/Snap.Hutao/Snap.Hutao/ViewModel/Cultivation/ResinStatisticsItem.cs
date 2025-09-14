@@ -9,13 +9,11 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class ResinStatisticsItem
 {
-    private readonly bool canUseCondensedResin;
     private readonly ResinStatisticsItemKind kind;
 
-    public ResinStatisticsItem(string title, ResinStatisticsItemKind kind, int resinPerBlossom, bool canUseCondensedResin)
+    public ResinStatisticsItem(string title, ResinStatisticsItemKind kind, int resinPerBlossom)
     {
         this.kind = kind;
-        this.canUseCondensedResin = canUseCondensedResin;
         Title = title;
         ResinPerBlossom = resinPerBlossom;
         SelectedDropDistribution = MaterialDropDistribution.Nine;
@@ -51,14 +49,9 @@ internal sealed class ResinStatisticsItem
         get => RawTimes * ResinPerBlossom;
     }
 
-    public int? CondensedResin
+    public int FragileResin
     {
-        get => canUseCondensedResin ? (int)Math.Ceiling(TotalResin / 40D) : null;
-    }
-
-    public int? FragileResin
-    {
-        get => canUseCondensedResin ? (int)Math.Ceiling(TotalResin / 60D) : null;
+        get => (int)Math.Ceiling(TotalResin / 60D);
     }
 
     public string Days
