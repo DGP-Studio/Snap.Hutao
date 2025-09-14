@@ -159,7 +159,7 @@
                     <ItemsPanelTemplate>
                         <cwcont:UniformGrid
                             ColumnSpacing="4"
-                            Columns="6"
+                            Columns="7"
                             RowSpacing="4"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
