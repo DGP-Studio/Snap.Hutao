@@ -217,7 +217,7 @@
     <value>Server-Zeitzone</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
-    <value>精炼 {0}</value>
+    <value>Verfeinern {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>Montag/Donnerstag/Sonntag</value>
@@ -229,16 +229,16 @@
     <value>Mittwoch/Samstag/Sonntag</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
-    <value>{0:f2} 抽</value>
+    <value>{0:f2} Züge</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
-    <value>最非 {0} 抽</value>
+    <value>Unglücklichste {0} Züge</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
-    <value>最欧 {0} 抽</value>
+    <value>Glücklichste {0} Züge</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
-    <value>{0} 抽</value>
+    <value>{0} Züge</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>Ebene {0}</value>
@@ -247,7 +247,7 @@
     <value>Raum {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
-    <value>上场 {0} 次</value>
+    <value>Eingesetzt {0} Mal</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>Kanal-Server</value>
@@ -265,10 +265,10 @@
     <value>Noch nicht aktualisiert</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
-    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
+    <value>Aktualisiert am {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Phase {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Charakter</value>
@@ -280,7 +280,7 @@
     <value>Waffe</value>
   </data>
   <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
-    <value>第 {0} 期</value>
+    <value>Phase {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Figur</value>
@@ -441,7 +441,7 @@
     <value>Reisende</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
-    <value>{0} 月 {1} 日</value>
+    <value>{0}. Monat {1}. Tag</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
     <value>Materialien zur Verbesserung von Charakteren und Waffen</value>
@@ -562,7 +562,7 @@
     <value>Keine Daten</value>
   </data>
   <data name="ModelWeaponAffix" xml:space="preserve">
-    <value>精炼 {0} 阶</value>
+    <value>Verfeinern Stufe {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Sie müssen sich bei 米游社 / HoYoLAB anmelden und einen Benutzer und eine Rolle auswählen.</value>
@@ -700,7 +700,7 @@
     <value>Abgrundaufzeichnungen erfolgreich hochgeladen, aber nicht die erste Einreichung dieser Periode, keine Gutschrift für die Dauer des Hochladens von Gebetsaufzeichnungen erhalten</value>
   </data>
   <data name="ServiceAchievementImportResult" xml:space="preserve">
-    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
+    <value>Hinzugefügt: {0} Erfolge | Aktualisiert: {1} Erfolge | Gelöscht: {2} Erfolge</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>UIAF-JSON-Dateien</value>
@@ -1078,13 +1078,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Spielintegrität wird überprüft</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Sicherung: {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Umbenennen: {0} zu: {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Ersetzen: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Beim Lesen der lokalen Paketversion ist ein Problem aufgetreten. Eine Reparatur des Spiels kann hilfreich sein.</value>
@@ -1141,13 +1141,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Fehler bei der Spielressourcenoperation</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Nachsignieren fehlgeschlagen, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Nachsignieren erfolgreich, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Signieren fehlgeschlagen, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>Fehler beim Abrufen der Anmeldeanzahl</value>
@@ -1159,7 +1159,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Verifizierung fehlgeschlagen, bitte gehe zur Genshin Impact Anmeldeseite von 米游社, um die Belohnung selbst abzuholen</value>
   </data>
   <data name="ServiceSignInSuccessReward" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Signieren erfolgreich, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>Nicht unterstützter Artikel, Id: {0}</value>
@@ -1774,13 +1774,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Erfolgreiche Kopie der Erfolgs-ID</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>Zu MiYouShe suchen gehen</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>Zu HoYoLAB suchen gehen</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} Erfolg</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF-Datei</value>
@@ -1861,10 +1861,10 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Fehler beim Hinzufügen des Aufwertungsplans</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>Vorgang abgeschlossen: Hinzugefügt / Aktualisiert: {0}, Übersprungen {1}</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>Vorgang nicht vollständig abgeschlossen: Hinzugefügt / Aktualisiert: {0}, Übersprungen {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
     <value>Diese Operation ist irreversibel. Inventargegenstände in diesem Plan gehen verloren.</value>
@@ -2518,10 +2518,10 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Erstellung des Symbols im Benachrichtigungsbereich fehlgeschlagen. Die automatische Aktualisierung wird nach dem Schließen des Fensters nicht ausgeführt.</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
-    <value>在我游玩原神时不通知我</value>
+    <value>Mich nicht benachrichtigen, wenn ich Genshin Impact spiele</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>Nicht stören Modus</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Spiel starten</value>
@@ -2674,7 +2674,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Aktuelles Archiv löschen</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Charakter</value>
+    <value>Figur</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>Verlauf</value>
@@ -3811,16 +3811,16 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Debug-Skript ausführen</value>
   </data>
   <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>Beginnt in {0} Tagen</value>
   </data>
   <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>Endet in {0} Tagen</value>
   </data>
   <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>Beginnt in {0} Stunden</value>
   </data>
   <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>Endet in {0} Stunden</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Fehler beim Öffnen der Zwischenablage</value>
@@ -3886,7 +3886,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Belohnung für „Tägliche Aufträge“ abgeholt</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>Voraussichtlich {0} {1:HH:mm} Speicherlimit erreicht</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Reich der Träume noch nicht freigeschaltet</value>
@@ -3901,13 +3901,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Übermorgen</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} Tage</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Ursprüngliches Harz vollständig wiederhergestellt</value>
   </data>
   <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>Wird in {0} {1:HH:mm} vollständig wiederhergestellt</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Zurücksetzen nach {0:c}</value>
@@ -3916,13 +3916,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Nachher wieder verwendbar</value>
   </data>
   <data name="WebDailyNoteTransformerDays" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} Tage</value>
   </data>
   <data name="WebDailyNoteTransformerHours" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} Stunden</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} Minuten</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
     <value>Nicht erhalten</value>
@@ -3940,7 +3940,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Bereit</value>
   </data>
   <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} Sekunden</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
     <value>Verifizierung fehlgeschlagen. Bitte manuell verifizieren oder die Seite „miHoYo BBS – Werkzeuge – Echtzeit-Notizen“ überprüfen.</value>
@@ -4027,13 +4027,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Problem bei der Anforderung von {0}</value>
   </data>
   <data name="WebResponse" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>Status: {0} | Info: {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHint" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Bitte Cookie aktualisieren, ursprüngliche Nachricht: {0}</value>
   </data>
   <data name="WebResponseRequestException" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{0}] in [{1}] Netzwerkanfrage abnormal, bitte später erneut versuchen</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>Anmeldung fehlgeschlagen. Bitte initialisieren Sie Ihr Konto bei HoYoLAB. Ursprüngliche Nachricht: {0}</value>
@@ -4074,6 +4074,6 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Envisaged Echoes</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Göttliches Herz</value>
   </data>
 </root>

@@ -268,7 +268,7 @@
     <value>Обновление в {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Расписание {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Персонаж</value>
@@ -1139,10 +1139,10 @@
     <value>Не удалось выполнить операцию с игровыми ресурсами</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Ошибка регистрации, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Перемещение успешно, {0} × {1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>Ошибка регистрации, {0}</value>
@@ -1772,13 +1772,13 @@
     <value>ID достижения успешно скопирован</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>Перейти к поиску в MiYouShe</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>Перейти к поиску в HoYoLAB</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} Достижение</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>Файл UIAF</value>
@@ -2672,7 +2672,7 @@
     <value>Удалить текущую историю молитв</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Персонаж</value>
+    <value>Персонажи</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>История</value>
@@ -4072,6 +4072,6 @@
     <value>Представленные эхо</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Гнозис</value>
   </data>
 </root>

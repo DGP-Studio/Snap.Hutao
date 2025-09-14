@@ -217,7 +217,7 @@
     <value>Múi giờ máy chủ</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
-    <value>精炼 {0}</value>
+    <value>Tinh luyện {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>Thứ Hai/Thứ Năm/Chủ Nhật</value>
@@ -229,16 +229,16 @@
     <value>Thứ Tư/Thứ Bảy/Chủ Nhật</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
-    <value>{0:f2} 抽</value>
+    <value>{0:f2} lần rút</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
-    <value>最非 {0} 抽</value>
+    <value>Kém may mắn nhất {0} lần rút</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
-    <value>最欧 {0} 抽</value>
+    <value>May mắn nhất {0} lần rút</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
-    <value>{0} 抽</value>
+    <value>{0} lần rút</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>Tầng {0}</value>
@@ -247,7 +247,7 @@
     <value>Cấp độ {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
-    <value>上场 {0} 次</value>
+    <value>Lên sân {0} lần</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>Máy chủ BiliBili</value>
@@ -265,10 +265,10 @@
     <value>Chưa làm mới</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
-    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
+    <value>Làm mới lúc {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Kỳ {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Tài khoản</value>
@@ -562,7 +562,7 @@
     <value>Không có dữ liệu</value>
   </data>
   <data name="ModelWeaponAffix" xml:space="preserve">
-    <value>精炼 {0} 阶</value>
+    <value>Tinh luyện cấp {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Phải đăng nhập vào tài khoản MiHoYo BBS của bạn và chọn người dùng</value>
@@ -1078,13 +1078,13 @@ Dung lượng còn trống: {2}</value>
     <value>Đang xác minh tính toàn vẹn của trò chơi</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Sao lưu: {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Đổi tên: {0} thành: {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Thay thế: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Đã xảy ra sự cố khi đọc Phiên bản gói cục bộ, việc sửa chữa trò chơi có thể hữu ích</value>
@@ -1141,13 +1141,13 @@ Dung lượng còn trống: {2}</value>
     <value>Thao tác tài nguyên trò chơi thất bại</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Bổ sung điểm danh thất bại, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Bổ sung điểm danh thành công, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Điểm danh thất bại, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>Không thể lấy số lần điểm danh</value>
@@ -1159,7 +1159,7 @@ Dung lượng còn trống: {2}</value>
     <value>Xác minh thất bại, vui lòng truy cập trang điểm danh 米游社 để tự nhận thưởng</value>
   </data>
   <data name="ServiceSignInSuccessReward" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Điểm danh thành công, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>Vật phẩm không được hỗ trợ, Id: {0}</value>
@@ -1774,13 +1774,13 @@ Dung lượng còn trống: {2}</value>
     <value>Sao chép ID thành tích thành công</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>Tìm kiếm trên MiYouShe</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>Tìm kiếm trên HoYoLAB</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} thành tựu</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>Tệp UIAF</value>
@@ -2518,10 +2518,10 @@ Dung lượng còn trống: {2}</value>
     <value>Không thể tạo biểu tượng khu vực thông báo, làm mới tự động sẽ không được thực hiện sau khi đóng cửa sổ</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
-    <value>在我游玩原神时不通知我</value>
+    <value>Không thông báo cho tôi khi tôi chơi Genshin Impact</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>Chế độ không làm phiền</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Trình khởi chạy</value>
@@ -2674,7 +2674,7 @@ Dung lượng còn trống: {2}</value>
     <value>Xóa bản lưu hiện tại</value>
   </data>
   <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>Tài khoản</value>
+    <value>Nhân Vật</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
     <value>Lịch sử</value>
@@ -2686,7 +2686,7 @@ Dung lượng còn trống: {2}</value>
     <value>Thống kê cầu nguyện toàn cầu</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
-    <value>Vũ khí</value>
+    <value>Vũ Khí</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
     <value>Thời gian chiến đấu</value>
@@ -3811,16 +3811,16 @@ Dung lượng còn trống: {2}</value>
     <value>Thực thi tập lệnh gỡ lỗi</value>
   </data>
   <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>Bắt đầu sau {0} ngày</value>
   </data>
   <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>Kết thúc sau {0} ngày</value>
   </data>
   <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>Bắt đầu sau {0} giờ</value>
   </data>
   <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>Kết thúc sau {0} giờ</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Mở khay nhớ tạm thất bại</value>
@@ -3886,7 +3886,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đã nhận thưởng 「Ủy thác hằng ngày」</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>Dự kiến đạt giới hạn lưu trữ lúc {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Chưa mở khóa động thiên</value>
@@ -3901,13 +3901,13 @@ Dung lượng còn trống: {2}</value>
     <value>Ngày kia</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} ngày</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Nguyên Thủy Nhựa đã hồi phục hoàn toàn</value>
   </data>
   <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>Sẽ phục hồi hoàn toàn sau {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Đặt lại sau {0:c}</value>
@@ -3916,13 +3916,13 @@ Dung lượng còn trống: {2}</value>
     <value>Có thể dùng lại sau</value>
   </data>
   <data name="WebDailyNoteTransformerDays" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} ngày</value>
   </data>
   <data name="WebDailyNoteTransformerHours" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} giờ</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} phút</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
     <value>Chưa nhận được</value>
@@ -3940,7 +3940,7 @@ Dung lượng còn trống: {2}</value>
     <value>Sẵn sàng</value>
   </data>
   <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} giây</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
     <value>Xác minh thất bại, vui lòng xác minh thủ công hoặc truy cập trang "MiHoYo BBS - Công cụ du hành - Nhật ký chiến đấu - Ghi chú thời gian thực"</value>
@@ -4027,13 +4027,13 @@ Dung lượng còn trống: {2}</value>
     <value>Gặp sự cố khi yêu cầu {0}</value>
   </data>
   <data name="WebResponse" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>Trạng thái: {0} | Thông tin: {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHint" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Vui lòng làm mới Cookie, tin nhắn gốc: {0}</value>
   </data>
   <data name="WebResponseRequestException" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>Yêu cầu mạng bất thường trong [{0}] [{1}], vui lòng thử lại sau</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>Đăng nhập thất bại, vui lòng truy cập HoYoLAB để khởi tạo tài khoản, tin nhắn gốc: {0}</value>
@@ -4074,6 +4074,6 @@ Dung lượng còn trống: {2}</value>
     <value>Dấu vết du lịch</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Thần Chi Tâm</value>
   </data>
 </root>
