@@ -217,7 +217,7 @@
     <value>Sunucu saat dilimi</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffix" xml:space="preserve">
-    <value>精炼 {0}</value>
+    <value>Arıtma {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>Pazartesi/Perşembe/Pazar</value>
@@ -229,16 +229,16 @@
     <value>Çarşamba/Cumartesi/Pazar</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePull" xml:space="preserve">
-    <value>{0:f2} 抽</value>
+    <value>{0:f2} çekiliş</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePull" xml:space="preserve">
-    <value>最非 {0} 抽</value>
+    <value>En şanssız {0} çekiliş</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePull" xml:space="preserve">
-    <value>最欧 {0} 抽</value>
+    <value>En şanslı {0} çekiliş</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCount" xml:space="preserve">
-    <value>{0} 抽</value>
+    <value>{0} çekiliş</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>{0}. Kat</value>
@@ -247,7 +247,7 @@
     <value>{0}. Oda</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCount" xml:space="preserve">
-    <value>上场 {0} 次</value>
+    <value>Sahneye çıkış {0} kez</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>Kanal Sunucusu</value>
@@ -265,10 +265,10 @@
     <value>Henüz yenilenmedi</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTime" xml:space="preserve">
-    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
+    <value>{0:dd.MM HH:mm:ss} tarihinde yenilendi</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>{0}. Dönem: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Karakter</value>
@@ -280,7 +280,7 @@
     <value>Silah</value>
   </data>
   <data name="ModelEntitySpiralAbyssSchedule" xml:space="preserve">
-    <value>第 {0} 期</value>
+    <value>{0}. Dönem</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Karakter</value>
@@ -441,7 +441,7 @@
     <value>Gezgin</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthday" xml:space="preserve">
-    <value>{0} 月 {1} 日</value>
+    <value>{0} Ay {1} Gün</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
     <value>Karakter ve Silah Geliştirme Malzemeleri</value>
@@ -562,7 +562,7 @@
     <value>Veri yok</value>
   </data>
   <data name="ModelWeaponAffix" xml:space="preserve">
-    <value>精炼 {0} 阶</value>
+    <value>Arıtma {0}. Seviye</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>MiYouShe / HoYoLAB'e giriş yapmalı ve bir kullanıcı ve rol seçmelisiniz</value>
@@ -700,7 +700,7 @@
     <value>Derinlik Kayıtları başarıyla yüklendi, ancak bu dönem ilk gönderim olmadığından dilek kayıtları yükleme hizmeti süresi alınamadı.</value>
   </data>
   <data name="ServiceAchievementImportResult" xml:space="preserve">
-    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
+    <value>Yeni: {0} başarım | Güncellenen: {1} başarım | Silinen: {2} başarım</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>UIAF JSON dosyaları</value>
@@ -1078,13 +1078,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Oyunun bütünlüğü doğrulanıyor</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Yedek: {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Yeniden adlandır: {0} -> {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Değiştir: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Yerel Paket Sürümü okunurken bir sorunla karşılaşıldı, oyunu onarmak yardımcı olabilir</value>
@@ -1141,13 +1141,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Oyun kaynağı işlemi başarısız oldu</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Telafi imzalama başarısız, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Telafi imzalama başarılı, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>İmzalama başarısız, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>Giriş gün sayısı alınamadı</value>
@@ -1159,7 +1159,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Doğrulama başarısız, lütfen ödülü manuel olarak almak için 米游社 Genshin Impact giriş sayfasına gidin</value>
   </data>
   <data name="ServiceSignInSuccessReward" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>İmzalama başarılı, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>Desteklenmeyen eşya, Id: {0}</value>
@@ -1774,13 +1774,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Başarı kimliği kopyalandı</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>MiYouShe'de ara</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>HoYoLAB'da ara</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} başarım</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF Dosyası</value>
@@ -1861,10 +1861,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Geliştirme planı eklenemedi</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompleted" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>İşlem tamamlandı: Ekle / Güncelle: {0} adet, Atla: {1} adet</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompleted" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>İşlem tamamlanmadı: Ekle / Güncelle: {0} adet, Atla: {1} adet</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
     <value>Bu işlem geri alınamaz, bu plandaki envanter öğeleri kaybolacaktır.</value>
@@ -2518,10 +2518,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Bildirim alanı simgesi oluşturulamadı, pencere kapatıldıktan sonra otomatik yenileme yapılmayacak</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
-    <value>在我游玩原神时不通知我</value>
+    <value>Ben Genshin Impact oynarken bana bildirim gönderme</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>Rahatsız Etmeyin Modu</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Oyunu Başlat</value>
@@ -2677,13 +2677,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Karakter</value>
   </data>
   <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>历史</value>
+    <value>Geçmiş</value>
   </data>
   <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>总览</value>
+    <value>Genel Bakış</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>全球祈愿统计</value>
+    <value>Küresel Dilek İstatistikleri</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
     <value>Silah</value>
@@ -3811,16 +3811,16 @@ Kullanılabilir Alan: {2}</value>
     <value>Hata Ayıklama Komut Dosyasını Yürüt</value>
   </data>
   <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>{0} gün sonra başlayacak</value>
   </data>
   <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>{0} gün sonra bitecek</value>
   </data>
   <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>{0} saat sonra başlayacak</value>
   </data>
   <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>{0} saat sonra bitecek</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Pano açma başarısız oldu</value>
@@ -3886,7 +3886,7 @@ Kullanılabilir Alan: {2}</value>
     <value>「Günlük Görev」 ödülü alındı</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>{0} {1:HH:mm} tahmini depolama sınırına ulaşılacak</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Açık Dünya Yerleşkesi henüz açılmadı</value>
@@ -3901,13 +3901,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Yarından sonraki gün</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} gün</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Orijinal Reçine tamamen doldu</value>
   </data>
   <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>{0} {1:HH:mm} sonra tamamen yenilenecek</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} sonra sıfırla</value>
@@ -3916,13 +3916,13 @@ Kullanılabilir Alan: {2}</value>
     <value>sonra tekrar kullanılabilir</value>
   </data>
   <data name="WebDailyNoteTransformerDays" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} gün</value>
   </data>
   <data name="WebDailyNoteTransformerHours" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} saat</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} dakika</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
     <value>Henüz alınmadı</value>
@@ -3940,7 +3940,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Hazır</value>
   </data>
   <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} saniye</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
     <value>Doğrulama başarısız oldu, lütfen manuel olarak doğrulayın veya "MiHoYo BBS - Seyahat Araçları - Genshin Etkinlik Notları - Gerçek Zamanlı Notlar" sayfasına gidin</value>
@@ -4027,13 +4027,13 @@ Kullanılabilir Alan: {2}</value>
     <value>{0} istenirken bir sorun oluştu</value>
   </data>
   <data name="WebResponse" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>Durum: {0} | Bilgi: {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHint" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Lütfen Cookie'yi yenileyin, orijinal mesaj: {0}</value>
   </data>
   <data name="WebResponseRequestException" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{0}] içindeki [{1}] ağ isteği hatası, lütfen daha sonra tekrar deneyin</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>Giriş başarısız, lütfen hesabınızı başlatmak için HoYoLAB'i ziyaret edin, orijinal mesaj: {0}</value>
@@ -4074,6 +4074,6 @@ Kullanılabilir Alan: {2}</value>
     <value>Yankılanan İzler</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Tanrı'nın Kalbi</value>
   </data>
 </root>
