@@ -79,7 +79,7 @@ jobs:
         if: ${{ needs.select-runner.outputs.runner == 'sjc1' }}
         shell: pwsh
         run: |
-          Write-Host "Running enviornment setup script…"
+          Write-Host "Running environment setup script…"
           Invoke-WebRequest `
             -Uri 'https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.DevelopEnvironment.Setup/refs/heads/main/setup.ps1' `
             -OutFile 'setup.ps1' `
