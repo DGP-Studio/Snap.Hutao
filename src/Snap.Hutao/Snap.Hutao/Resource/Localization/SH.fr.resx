@@ -268,7 +268,7 @@
     <value>Rafraîchie à {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Calendrier {0} : {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Personnage</value>
@@ -562,7 +562,7 @@
     <value>Pas de données</value>
   </data>
   <data name="ModelWeaponAffix" xml:space="preserve">
-    <value>精炼 {0} 阶</value>
+    <value>Raffiner {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
@@ -700,7 +700,7 @@
     <value>Téléchargement réussi de l'enregistrement de l'abysse, mais ce n'est pas la première soumission de cette période, impossible de recevoir la durée du service de téléchargement de l'enregistrement de vœux.</value>
   </data>
   <data name="ServiceAchievementImportResult" xml:space="preserve">
-    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
+    <value>Ajouté : {0} succès | Mis à jour : {1} succès | Supprimé : {2} succès</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>Fichiers JSON UIAF</value>
@@ -1078,13 +1078,13 @@ Espace disponible : {2}</value>
     <value>Vérification de l'intégrité du jeu en cours</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackup" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Sauvegarde : {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Renommer : {0} en : {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Remplacer : {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Un problème est survenu lors de la lecture de la version du package local. La réparation du jeu pourrait être utile.</value>
@@ -1141,13 +1141,13 @@ Espace disponible : {2}</value>
     <value>Échec de l'opération sur les ressources du jeu</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Rattrapage échoué, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Rattrapage réussi, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Connexion échouée, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
     <value>Échec de la récupération du nombre de connexions</value>
@@ -1159,7 +1159,7 @@ Espace disponible : {2}</value>
     <value>Échec de la vérification, veuillez vous rendre sur la page de connexion de 米游社 pour réclamer la récompense manuellement</value>
   </data>
   <data name="ServiceSignInSuccessReward" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Connexion réussie, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
     <value>Objet non supporté, Id: {0}</value>
@@ -1774,13 +1774,13 @@ Espace disponible : {2}</value>
     <value>Copie de l'ID de réussite réussie</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>Rechercher dans MiYouShe</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>Rechercher dans HoYoLAB</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} succès</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>format UIAF</value>
@@ -2518,10 +2518,10 @@ Espace disponible : {2}</value>
     <value>Échec de la création de l'icône de la zone de notification, l'actualisation automatique ne s'exécutera pas après la fermeture de la fenêtre</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeDescription" xml:space="preserve">
-    <value>在我游玩原神时不通知我</value>
+    <value>Ne pas me notifier lorsque je joue à Genshin Impact</value>
   </data>
   <data name="ViewPageDailyNoteSilentModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>Mode Ne pas déranger</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
     <value>Lanceur de jeu</value>
@@ -2683,10 +2683,10 @@ Espace disponible : {2}</value>
     <value>Aperçu</value>
   </data>
   <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>Statistiques globales de vœux</value>
+    <value>Statistiques mondiales des souhaits</value>
   </data>
   <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
-    <value>Armes</value>
+    <value>Arme</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
     <value>Temps de combat</value>
@@ -3811,16 +3811,16 @@ Espace disponible : {2}</value>
     <value>Exécuter le script de débogage</value>
   </data>
   <data name="WebAnnouncementTimeDaysBegin" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>Commence dans {0} jour(s)</value>
   </data>
   <data name="WebAnnouncementTimeDaysEnd" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>Se termine dans {0} jour(s)</value>
   </data>
   <data name="WebAnnouncementTimeHoursBegin" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>Commence dans {0} heure(s)</value>
   </data>
   <data name="WebAnnouncementTimeHoursEnd" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>Se termine dans {0} heure(s)</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Échec de l'ouverture du presse-papiers</value>
@@ -3886,7 +3886,7 @@ Espace disponible : {2}</value>
     <value>Récompense de « Commissions quotidiennes » récupérée</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>Prévu d'atteindre la limite de stockage {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>La Sérénithéière n'est pas débloquée</value>
@@ -3907,7 +3907,7 @@ Espace disponible : {2}</value>
     <value>La Résine originelle est complètement restaurée</value>
   </data>
   <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>Sera entièrement restauré après {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Réinitialiser après {0:c}</value>
@@ -3922,7 +3922,7 @@ Espace disponible : {2}</value>
     <value>{0} Heure(s)</value>
   </data>
   <data name="WebDailyNoteTransformerMinutes" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} minute(s)</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
     <value>Non obtenu</value>
@@ -3940,7 +3940,7 @@ Espace disponible : {2}</value>
     <value>Prêt</value>
   </data>
   <data name="WebDailyNoteTransformerSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} seconde(s)</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
     <value>La vérification a échoué, veuillez vérifier manuellement ou consulter la page « miHoYo BBS-Outils de voyage-Chroniques-Notes en temps réel »</value>
@@ -4027,13 +4027,13 @@ Espace disponible : {2}</value>
     <value>Un problème est survenu lors de la requête de {0}</value>
   </data>
   <data name="WebResponse" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>Statut : {0} | Info : {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHint" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Veuillez actualiser le cookie, message original : {0}</value>
   </data>
   <data name="WebResponseRequestException" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>Requête réseau anormale dans [{0}] [{1}], veuillez réessayer plus tard</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>Échec de la connexion. Veuillez vous rendre sur HoYoLAB pour initialiser votre compte. Message d'origine : {0}</value>
@@ -4074,6 +4074,6 @@ Espace disponible : {2}</value>
     <value>Échos envisagés</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Gnosis</value>
   </data>
 </root>

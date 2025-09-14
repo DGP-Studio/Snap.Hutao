@@ -268,7 +268,7 @@
     <value>Atualizado em {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityHardChallengeSchedule" xml:space="preserve">
-    <value>第 {0} 期：{1}</value>
+    <value>Fase {0}: {1}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
     <value>Personagem</value>
@@ -1141,10 +1141,10 @@ Espaço disponível: {2}</value>
     <value>Falha ao operar nos recursos do jogo</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailed" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Falha no check-in de recuperação, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessReward" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Check-in de recuperação bem-sucedido, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailed" xml:space="preserve">
     <value>Falha no check-in, {0}</value>
@@ -1774,13 +1774,13 @@ Espaço disponível: {2}</value>
     <value>ID de conquista copiado com sucesso</value>
   </data>
   <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
+    <value>Ir para MiYouShe pesquisar</value>
   </data>
   <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
+    <value>Ir para HoYoLAB pesquisar</value>
   </data>
   <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
+    <value>{0} conquista</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>Arquivo UIAF</value>
@@ -4074,6 +4074,6 @@ Espaço disponível: {2}</value>
     <value>Ecos Imaginados</value>
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
+    <value>Gnosis</value>
   </data>
 </root>

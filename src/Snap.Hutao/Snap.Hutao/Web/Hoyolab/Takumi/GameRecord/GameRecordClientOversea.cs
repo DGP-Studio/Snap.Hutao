@@ -122,13 +122,37 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public ValueTask<Response<HardChallengePopularity>> GetHardChallengePopularityAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<HardChallengePopularity>> GetHardChallengePopularityAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        return ValueTask.FromException<Response<HardChallengePopularity>>(new NotSupportedException());
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordHardChallengePopularity(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(apiEndpoints.WebStaticReferer())
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<HardChallengePopularity>? resp = await builder
+            .SendAsync<Response<HardChallengePopularity>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull<Response<HardChallengePopularity>>(resp);
     }
 
-    public ValueTask<Response<HardChallenge.HardChallenge>> GetHardChallengeAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<HardChallenge.HardChallenge>> GetHardChallengeAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        return ValueTask.FromException<Response<HardChallenge.HardChallenge>>(new NotSupportedException());
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordHardChallenge(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(apiEndpoints.WebStaticReferer())
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<HardChallenge.HardChallenge>? resp = await builder
+            .SendAsync<Response<HardChallenge.HardChallenge>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull<Response<HardChallenge.HardChallenge>>(resp);
     }
 }

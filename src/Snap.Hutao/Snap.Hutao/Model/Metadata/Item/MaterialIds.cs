@@ -53,7 +53,7 @@ internal static class MaterialIds
         new(DaysOfWeek.WednesdayAndSaturday, 114045U, 114046U, 114047U, 114048U), // 谧林涓露
         new(DaysOfWeek.WednesdayAndSaturday, 114057U, 114058U, 114059U, 114060U), // 无垢之海
         new(DaysOfWeek.WednesdayAndSaturday, 114069U, 114070U, 114071U, 114072U), // 神合秘烟
-        new(DaysOfWeek.WednesdayAndSaturday, 114081U, 114082U, 114083U, 114084U), // 神合秘烟
+        new(DaysOfWeek.WednesdayAndSaturday, 114081U, 114082U, 114083U, 114084U), // 终北遗嗣
     ];
 
     public static FrozenSet<MaterialId> MondayThursdayItems { get; } = [.. Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.MondayAndThursday).SelectMany(entry => entry.Enumerate())];
