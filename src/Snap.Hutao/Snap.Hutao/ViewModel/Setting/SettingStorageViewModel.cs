@@ -93,8 +93,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
         ContentDialogResult confirmResult = await contentDialogFactory.CreateForConfirmCancelAsync(
             SH.ViewModelSettingResetStaticResourceConfirmTitle,
-            SH.ViewModelSettingResetStaticResourceConfirmContent,
-            ContentDialogButton.Primary)
+            SH.ViewModelSettingResetStaticResourceConfirmContent)
             .ConfigureAwait(false);
 
         if (confirmResult is not ContentDialogResult.Primary)
