@@ -11,9 +11,11 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class BeforeLaunchExecutionContext
 {
-    private readonly ConcurrentDictionary<string, bool> options = [];
+    private readonly ConcurrentDictionary<string, object?> options = [];
 
     public required IViewModelSupportLaunchExecution2 ViewModel { get; init; }
+
+    public required IProgress<LaunchStatus?> Progress { get; init; }
 
     public required IServiceProvider ServiceProvider { get; init; }
 
@@ -31,9 +33,22 @@ internal sealed class BeforeLaunchExecutionContext
 
     public required LaunchScheme TargetScheme { get; init; }
 
-    public bool this[string key]
+    public required GameIdentity Identity { get; init; }
+
+    public bool TryGetOption<TValue>(LaunchExecutionOptionsKey<TValue> key, [MaybeNullWhen(false)] out TValue value)
     {
-        get => options[key];
-        set => options[key] = value;
+        if (options.TryGetValue(key.Key, out object? objValue) && objValue is TValue tValue)
+        {
+            value = tValue;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public void SetOption<TValue>(LaunchExecutionOptionsKey<TValue> key, TValue value)
+    {
+        options[key.Key] = value;
     }
 }

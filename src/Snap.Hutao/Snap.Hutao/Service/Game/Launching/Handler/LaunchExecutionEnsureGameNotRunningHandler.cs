@@ -9,11 +9,8 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : AbstractLaunc
 {
     public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        if (GameLifeCycle.IsGameRunning())
-        {
-            return ValueTask.FromException(HutaoException.OperationCanceled(SH.ServiceGameLaunchExecutionGameIsRunning));
-        }
-
-        return ValueTask.CompletedTask;
+        return GameLifeCycle.IsGameRunning()
+            ? ValueTask.FromException(HutaoException.Throw(SH.ServiceGameLaunchExecutionGameIsRunning))
+            : ValueTask.CompletedTask;
     }
 }

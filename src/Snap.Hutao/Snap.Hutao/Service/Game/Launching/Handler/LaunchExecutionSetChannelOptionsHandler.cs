@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
@@ -9,23 +10,11 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionSetChannelOptionsHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
-    {
-        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
-        {
-            // context.Result is set in TryGetGameFileSystem
-            return;
-        }
-
-        string configPath = gameFileSystem.GetGameConfigurationFilePath();
-        context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
+        string configPath = context.FileSystem.GetGameConfigurationFilePath();
 
         IniElement[]? elements;
         try
@@ -33,43 +22,36 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             elements = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(configPath));
             ArgumentNullException.ThrowIfNull(elements);
         }
-        catch (FileNotFoundException)
+        catch (FileNotFoundException fnfEx)
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameConfigFileNotFound;
-            context.Result.ErrorMessage = SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath);
-            return;
+            return ValueTask.FromException(HutaoException.NotSupported(SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath), fnfEx));
         }
-        catch (DirectoryNotFoundException)
+        catch (DirectoryNotFoundException dnfEx)
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameConfigDirectoryNotFound;
-            context.Result.ErrorMessage = SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath);
-            return;
+            return ValueTask.FromException(HutaoException.NotSupported(SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath), dnfEx));
         }
-        catch (UnauthorizedAccessException)
+        catch (UnauthorizedAccessException uaEx)
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameConfigInsufficientPermissions;
-            context.Result.ErrorMessage = SH.ServiceGameSetMultiChannelUnauthorizedAccess;
-            return;
+            return ValueTask.FromException(HutaoException.NotSupported(SH.ServiceGameSetMultiChannelUnauthorizedAccess, uaEx));
         }
 
-        SetChannelOptions(context, elements);
+        UpdateChannelOptionsFromTargetLaunchScheme(elements, context);
 
-        if (context.ChannelOptionsChanged)
+        if (context.TryGetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, out bool changed) && changed)
         {
             IniSerializer.SerializeToFile(configPath, elements);
         }
 
         // Backup config file, recover when an incompatible launcher deleted it.
         // Config file has already been overwritten as target scheme at the moment.
-        //
         // We should backup config file every time we launch the game due to the possibility of the game version outdated.
         context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>()
-            .Backup(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsExecutableOversea());
+            .Backup(context.FileSystem.GetGameConfigurationFilePath(), context.FileSystem.IsExecutableOversea());
 
-        await next().ConfigureAwait(false);
+        return ValueTask.CompletedTask;
     }
 
-    private static void SetChannelOptions(LaunchExecutionContext context, IniElement[] elements)
+    private static void UpdateChannelOptionsFromTargetLaunchScheme(IniElement[] elements, BeforeLaunchExecutionContext context)
     {
         foreach (ref IniElement element in elements.AsSpan())
         {
@@ -83,14 +65,16 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
                 case ChannelOptions.ChannelName:
                     {
                         element = parameter.WithValue(context.TargetScheme.Channel.ToString("D"), out bool changed);
-                        context.ChannelOptionsChanged = changed || context.ChannelOptionsChanged;
+                        context.TryGetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, out bool previous);
+                        context.SetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, changed || previous);
                         continue;
                     }
 
                 case ChannelOptions.SubChannelName:
                     {
                         element = parameter.WithValue(context.TargetScheme.SubChannel.ToString("D"), out bool changed);
-                        context.ChannelOptionsChanged = changed || context.ChannelOptionsChanged;
+                        context.TryGetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, out bool previous);
+                        context.SetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, changed || previous);
                         continue;
                     }
             }

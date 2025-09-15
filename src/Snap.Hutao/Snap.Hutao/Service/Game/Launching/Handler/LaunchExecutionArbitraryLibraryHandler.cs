@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionArbitraryLibraryHandler : AbstractLaunchExe
 {
     public override ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
+        if (HutaoRuntime.IsProcessElevated && context.LaunchOptions.IsIslandEnabled.Value)
         {
             return Execute(context);
         }

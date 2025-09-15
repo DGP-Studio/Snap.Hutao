@@ -5,25 +5,23 @@ using Snap.Hutao.Service.Game.Launching.Handler;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed class DefaultLaunchExecutionInvoker : LaunchExecutionInvoker
+internal sealed class DefaultLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
 {
     public DefaultLaunchExecutionInvoker()
     {
-        Handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());
-        Handlers.Enqueue(new LaunchExecutionEnsureSchemeHandler());
-        Handlers.Enqueue(new LaunchExecutionSetChannelOptionsHandler());
-        Handlers.Enqueue(new LaunchExecutionEnsureGameResourceHandler());
-        Handlers.Enqueue(new LaunchExecutionSetGameAccountHandler());
-        Handlers.Enqueue(new LaunchExecutionSetWindowsHDRHandler());
-        Handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
-        Handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
-        Handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
-        Handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
-        Handlers.Enqueue(new LaunchExecutionGameIslandHandler(resume: false));
-        Handlers.Enqueue(new LaunchExecutionArbitraryLibraryHandler());
-        Handlers.Enqueue(new LaunchExecutionOverlayHandler());
-        Handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
-        Handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandler());
-        Handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
+        Handlers =
+        [
+            new LaunchExecutionEnsureGameNotRunningHandler(),
+            new LaunchExecutionSetChannelOptionsHandler(),
+            new LaunchExecutionEnsureGameResourceHandler(),
+            new LaunchExecutionSetGameAccountHandler(),
+            new LaunchExecutionSetWindowsHDRHandler(),
+            new LaunchExecutionGameProcessStartHandler(),
+            new LaunchExecutionGameIslandHandler(resume: false),
+            new LaunchExecutionArbitraryLibraryHandler(),
+            new LaunchExecutionOverlayHandler(),
+            new LaunchExecutionStarwardPlayTimeStatisticsHandler(),
+            new LaunchExecutionBetterGenshinImpactAutomationHandler()
+        ];
     }
 }

@@ -1,60 +1,23 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.ViewModel.Game;
-using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Core.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed partial class LaunchExecutionContext : AbstractLaunchExecutionContext
+internal sealed class LaunchExecutionContext
 {
-    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
-        : base(serviceProvider)
-    {
-        ViewModel = new(viewModel);
+    public required IProgress<LaunchStatus?> Progress { get; init; }
 
-        LaunchScheme? currentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile();
-        ArgumentNullException.ThrowIfNull(currentScheme);
-        CurrentScheme = currentScheme;
-        TargetScheme = viewModel.SelectedScheme ?? currentScheme;
+    public required IServiceProvider ServiceProvider { get; init; }
 
-        Account = viewModel.SelectedGameAccount;
-        UserAndUid = userAndUid;
-    }
+    public required ITaskContext TaskContext { get; init; }
 
-    public WeakReference<IViewModelSupportLaunchExecution> ViewModel { get; }
+    public required IMessenger Messenger { get; init; }
 
-    public LaunchScheme CurrentScheme { get; }
+    public required LaunchOptions LaunchOptions { get; init; }
 
-    public LaunchScheme TargetScheme { get; }
+    public required IProcess Process { get; init; }
 
-    public GameAccount? Account { get; }
-
-    public UserAndUid? UserAndUid { get; }
-
-    public void PerformGamePathEntrySynchronization()
-    {
-        lock (SyncRoot)
-        {
-            CheckDisposedAndDispose();
-
-            if (ViewModel.TryGetTarget(out IViewModelSupportLaunchExecution? viewModel))
-            {
-                viewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
-            }
-        }
-    }
-
-    public void UpdateGamePath(string gamePath)
-    {
-        lock (SyncRoot)
-        {
-            CheckDisposedAndDispose();
-
-            Options.GamePath.Value = gamePath;
-            PerformGamePathEntrySynchronization();
-        }
-    }
+    public required bool IsOversea { get; init; }
 }

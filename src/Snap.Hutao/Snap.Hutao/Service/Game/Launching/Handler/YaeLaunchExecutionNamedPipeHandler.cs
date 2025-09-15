@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Island;
 using Snap.Hutao.Service.Yae.Achievement;
@@ -11,7 +12,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDelegateHandler
+internal sealed class YaeLaunchExecutionNamedPipeHandler : AbstractLaunchExecutionHandler
 {
     private readonly TargetNativeConfiguration config;
     private readonly YaeDataArrayReceiver receiver;
@@ -22,49 +23,38 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
         this.receiver = receiver;
     }
 
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
-    {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override async ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
         if (!HutaoRuntime.IsProcessElevated)
         {
-            context.Logger.LogInformation("Process is not elevated");
-            context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeClientNotElevated;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated;
             context.Process.Kill();
-            return;
+            HutaoException.NotSupported(SH.ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated);
         }
 
-        if (!context.Options.IsIslandEnabled.Value)
+        if (!context.LaunchOptions.IsIslandEnabled.Value)
         {
-            context.Logger.LogInformation("Island is not enabled");
-            context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeIslandNotEnabled;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled;
             context.Process.Kill();
+            HutaoException.NotSupported(SH.ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled);
             return;
         }
 
-        context.Logger.LogInformation("Initializing Yae");
         string dataFolderYaePath = Path.Combine(HutaoRuntime.DataDirectory, "YaeAchievementLib.dll");
         InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeAchievementLib.dll", dataFolderYaePath);
 
         try
         {
-            DllInjectionUtilities.InjectUsingWindowsHook2(dataFolderYaePath, "YaeWndHook", context.Process.Id);
+            DllInjectionUtilities.InjectUsingRemoteThread(dataFolderYaePath, "YaeMain", context.Process.Id);
         }
         catch (Exception ex)
         {
             // Windows Defender Application Control
             if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_SYSTEM_INTEGRITY_POLICY_VIOLATION))
             {
-                context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeNamedPipeError;
-                context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation;
                 context.Process.Kill();
-                return;
+                throw HutaoException.Throw(SH.ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation);
             }
+
+            throw;
         }
 
         try
@@ -75,14 +65,11 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
             {
                 receiver.Array = await server.GetDataArrayAsync().ConfigureAwait(false);
             }
-
-            await next().ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeNamedPipeError;
-            context.Result.ErrorMessage = ex.Message;
             context.Process.Kill();
+            throw;
         }
     }
 }
