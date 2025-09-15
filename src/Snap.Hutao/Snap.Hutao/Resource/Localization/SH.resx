@@ -2205,6 +2205,12 @@
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>正在重置图片资源</value>
   </data>
+  <data name="ViewModelSettingResetStaticResourceConfirmTitle" xml:space="preserve">
+    <value>重置图片资源</value>
+  </data>
+  <data name="ViewModelSettingResetStaticResourceConfirmContent" xml:space="preserve">
+    <value>此操作将删除所有本地图片资源并重新下载。程序将在操作完成后自动重启。是否继续？</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
   </data>

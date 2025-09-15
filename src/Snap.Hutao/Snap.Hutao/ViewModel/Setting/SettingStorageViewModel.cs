@@ -91,6 +91,17 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset static resource", "SettingStorageViewModel.Command"));
 
+        ContentDialogResult confirmResult = await contentDialogFactory.CreateForConfirmCancelAsync(
+            SH.ViewModelSettingResetStaticResourceConfirmTitle,
+            SH.ViewModelSettingResetStaticResourceConfirmContent,
+            ContentDialogButton.Primary)
+            .ConfigureAwait(false);
+
+        if (confirmResult is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelSettingResetStaticResourceProgress)
             .ConfigureAwait(false);
