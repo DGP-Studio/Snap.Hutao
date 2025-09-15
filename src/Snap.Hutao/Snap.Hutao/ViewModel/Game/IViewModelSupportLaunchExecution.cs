@@ -27,6 +27,12 @@ internal interface IViewModelSupportLaunchExecution
 
 internal interface IViewModelSupportLaunchExecution2
 {
+    LaunchScheme? TargetScheme { get; }
+
+    LaunchScheme CurrentScheme { get; }
+
+    GameAccount? GameAccount { get; }
+
     ValueTask<BlockDeferralWithProgress<PackageConvertStatus>> CreateConvertBlockDeferralAsync()
     {
         return BlockDeferralWithProgress<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(default, static (state, dialog) => dialog.State = state);

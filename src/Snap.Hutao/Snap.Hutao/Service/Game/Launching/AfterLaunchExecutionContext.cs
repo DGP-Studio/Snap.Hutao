@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class AfterLaunchExecutionContext
 {
-
+    public required ITaskContext TaskContext { get; init; }
 }

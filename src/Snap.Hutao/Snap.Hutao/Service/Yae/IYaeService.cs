@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Yae;
 
 internal interface IYaeService
 {
-    ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution viewModel);
+    ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution2 viewModel);
 
-    ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution viewModel);
+    ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution2 viewModel);
 }

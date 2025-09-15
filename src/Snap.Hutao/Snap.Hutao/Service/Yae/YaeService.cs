@@ -27,11 +27,11 @@ internal sealed partial class YaeService : IYaeService
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IFeatureService featureService;
-    private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
-    public async ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution viewModel)
+    public async ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution2 viewModel)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
@@ -45,54 +45,50 @@ internal sealed partial class YaeService : IYaeService
                 try
                 {
                     UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-                    using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
+                    LaunchExecutionInvocationContext context = new()
                     {
-                        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) ||
-                            !gameFileSystem.TryGetGameVersion(out string? version) ||
-                            string.IsNullOrEmpty(version))
+                        ViewModel = viewModel,
+                        ServiceProvider = serviceProvider,
+                        LaunchOptions = serviceProvider.GetRequiredService<LaunchOptions>(),
+                        Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
+                    };
+
+                    if (!TryGetGameVersion(context, out string? version))
+                    {
+                        return default;
+                    }
+
+                    AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
+                    ArgumentNullException.ThrowIfNull(fieldId);
+
+                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.ViewModel.CurrentScheme.IsOversea);
+                    await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
+
+                    UIAF? uiaf = default;
+                    foreach (YaeData data in receiver.Array)
+                    {
+                        using (data)
                         {
-                            infoBarService.Error(SH.ServiceYaeGetGameVersionFailed);
-                            return default;
-                        }
-
-                        AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
-                        ArgumentNullException.ThrowIfNull(fieldId);
-
-                        TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.TargetScheme.IsOversea);
-                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
-
-                        if (result.Kind is not LaunchExecutionResultKind.Ok)
-                        {
-                            infoBarService.Warning(result.ErrorMessage);
-                            return default;
-                        }
-
-                        UIAF? uiaf = default;
-                        foreach (YaeData data in receiver.Array)
-                        {
-                            using (data)
+                            if (data.Kind is YaeCommandKind.ResponseAchievement)
                             {
-                                if (data.Kind is YaeCommandKind.ResponseAchievement)
-                                {
-                                    Debug.Assert(uiaf is null);
-                                    uiaf = AchievementParser.Parse(data.Bytes, fieldId);
-                                }
+                                Debug.Assert(uiaf is null);
+                                uiaf = AchievementParser.Parse(data.Bytes, fieldId);
                             }
                         }
-
-                        return uiaf;
                     }
+
+                    return uiaf;
                 }
                 catch (Exception ex)
                 {
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                     return default;
                 }
             }
         }
     }
 
-    public async ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution viewModel)
+    public async ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution2 viewModel)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
@@ -108,32 +104,28 @@ internal sealed partial class YaeService : IYaeService
                 try
                 {
                     UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-                    using (LaunchExecutionContext context = new(serviceProvider, viewModel, userAndUid))
+                    LaunchExecutionInvocationContext context = new()
                     {
-                        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem) ||
-                            !gameFileSystem.TryGetGameVersion(out string? version) ||
-                            string.IsNullOrEmpty(version))
-                        {
-                            infoBarService.Error(SH.ServiceYaeGetGameVersionFailed);
-                            return default;
-                        }
+                        ViewModel = viewModel,
+                        ServiceProvider = serviceProvider,
+                        LaunchOptions = serviceProvider.GetRequiredService<LaunchOptions>(),
+                        Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
+                    };
 
-                        AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
-                        ArgumentNullException.ThrowIfNull(fieldId);
-
-                        TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.TargetScheme.IsOversea);
-                        LaunchExecutionResult result = await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
-
-                        if (result.Kind is not LaunchExecutionResultKind.Ok)
-                        {
-                            infoBarService.Warning(result.ErrorMessage);
-                            return default;
-                        }
+                    if (!TryGetGameVersion(context, out string? version))
+                    {
+                        return default;
                     }
+
+                    AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
+                    ArgumentNullException.ThrowIfNull(fieldId);
+
+                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.ViewModel.CurrentScheme.IsOversea);
+                    await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                     return default;
                 }
 
@@ -169,5 +161,32 @@ internal sealed partial class YaeService : IYaeService
 
             return uiif.WithList([mora, .. uiif.List]);
         }
+    }
+
+    private bool TryGetGameVersion(LaunchExecutionInvocationContext context, [NotNullWhen(true)] out string? version)
+    {
+        const string LockTrace = $"{nameof(YaeService)}.{nameof(TryGetGameVersion)}";
+
+        if (context.LaunchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem) is not GameFileSystemErrorKind.None)
+        {
+            context.ServiceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(SH.ServiceYaeGetGameVersionFailed));
+        }
+
+        if (gameFileSystem is null)
+        {
+            version = default;
+            return false;
+        }
+
+        using (gameFileSystem)
+        {
+            if (!gameFileSystem.TryGetGameVersion(out version) || string.IsNullOrEmpty(version))
+            {
+                messenger.Send(InfoBarMessage.Error(SH.ServiceYaeGetGameVersionFailed));
+                return false;
+            }
+        }
+
+        return false;
     }
 }

@@ -1,18 +1,26 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Service.Game.Launching.Handler;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed class ResumeLaunchExecutionInvoker : LaunchExecutionInvoker
+internal sealed class ResumeLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
 {
     public ResumeLaunchExecutionInvoker()
     {
-        Handlers.Enqueue(new ResumeLaunchExecutionEnsureGameRunningHandler());
-        Handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
-        Handlers.Enqueue(new LaunchExecutionGameIslandHandler(resume: true));
-        Handlers.Enqueue(new LaunchExecutionOverlayHandler());
-        Handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
+        Handlers =
+        [
+            new ResumeLaunchExecutionEnsureGameRunningHandler(),
+            new LaunchExecutionGameIslandHandler(resume: true),
+            new LaunchExecutionOverlayHandler()
+        ];
+    }
+
+    protected override IProcess? CreateProcess(BeforeLaunchExecutionContext context)
+    {
+        context.TryGetOption(LaunchExecutionOptionsKey.RunningProcess, out IProcess? process);
+        return process;
     }
 }

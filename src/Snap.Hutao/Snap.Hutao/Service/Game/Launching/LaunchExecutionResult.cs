@@ -5,5 +5,4 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class LaunchExecutionResult
 {
-    public string ErrorMessage { get; set; } = default!;
 }

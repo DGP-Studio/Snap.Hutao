@@ -5,21 +5,15 @@ using Snap.Hutao.Core.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class ResumeLaunchExecutionEnsureGameRunningHandler : ILaunchExecutionDelegateHandler
+internal sealed class ResumeLaunchExecutionEnsureGameRunningHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
-    {
-        if (!GameLifeCycle.IsGameRunning(out IProcess? gameProcess))
+        if (GameLifeCycle.IsGameRunning(out IProcess? gameProcess))
         {
-            return;
+            context.SetOption(LaunchExecutionOptionsKey.RunningProcess, gameProcess);
         }
 
-        context.Process = gameProcess;
-        await next().ConfigureAwait(false);
+        return ValueTask.CompletedTask;
     }
 }

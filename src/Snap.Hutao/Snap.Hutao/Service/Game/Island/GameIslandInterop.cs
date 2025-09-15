@@ -13,8 +13,6 @@ using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Net;
-using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Island;
 
@@ -22,64 +20,45 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 {
     private const string IslandEnvironmentName = "4F3E8543-40F7-4808-82DC-21E48A6037A7";
 
-    private readonly LaunchExecutionContext context;
-    private readonly string dataFolderIslandPath;
+    private static readonly string DataFolderIslandPath = HutaoRuntime.GetDataDirectoryFile("Snap.Hutao.UnlockerIsland.dll");
     private readonly bool resume;
 
     private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
     private uint previousUid;
 
-    public GameIslandInterop(LaunchExecutionContext context, bool resume)
+    public GameIslandInterop(bool resume)
     {
-        this.context = context;
         this.resume = resume;
-        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataDirectory, "Snap.Hutao.UnlockerIsland.dll");
     }
 
-    public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
+    public async ValueTask BeforeAsync(BeforeLaunchExecutionContext context, CancellationToken token = default)
     {
-        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
+        if (!context.FileSystem.TryGetGameVersion(out string? gameVersion))
         {
-            return false;
+            throw HutaoException.NotSupported("获取本地游戏版本失败，无法获取注入配置信息");
         }
 
-        if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
+        IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
+        if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
         {
-            return false;
+            throw HutaoException.NotSupported(SH.ServiceGameIslandFeature404);
         }
 
-        try
+        if (feature.Message is { } message)
         {
-            IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-            IslandFeature? feature = await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false);
-            ArgumentNullException.ThrowIfNull(feature);
-            if (feature.Message is { } message)
-            {
-                context.Result.ErrorMessage = message;
-            }
-
-            offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
+            throw HutaoException.NotSupported(message);
         }
-        catch (HttpRequestException ex)
-        {
-            if (ex.StatusCode is HttpStatusCode.NotFound)
-            {
-                throw HutaoException.NotSupported(SH.ServiceGameIslandFeature404);
-            }
 
-            throw;
-        }
+        offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
 
         if (!resume && /* CopyDll */ !LocalSetting.Get(SettingKeys.PreventCopyIslandDll, false))
         {
-            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", DataFolderIslandPath);
         }
-
-        return true;
     }
 
-    public async ValueTask WaitForExitAsync(CancellationToken token = default)
+    public async ValueTask WaitForExitAsync(LaunchExecutionContext context, CancellationToken token = default)
     {
         MemoryMappedFile file;
         if (resume)
@@ -92,7 +71,6 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             {
                 // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
                 // Simply return if the game is running without island injected previously
-                // We do not inject the island to process that not started by us.
                 return;
             }
         }
@@ -106,40 +84,13 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
             {
                 nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                InitializeIslandEnvironment(handle, in offsets, context.Options);
+                InitializeIslandEnvironment(handle, in offsets, context.LaunchOptions);
                 if (!resume)
                 {
-                    DllInjectionUtilities.InjectUsingRemoteThread(dataFolderIslandPath, context.Process.Id);
+                    DllInjectionUtilities.InjectUsingRemoteThread(DataFolderIslandPath, context.Process.Id);
                 }
 
-                using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
-                {
-                    while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
-                    {
-                        if (!context.Process.IsRunning())
-                        {
-                            break;
-                        }
-
-                        IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.Options);
-                        if (Interlocked.Exchange(ref previousUid, view.Uid) != view.Uid)
-                        {
-                            await HandleUidChangedAsync(view.Uid, token).ConfigureAwait(false);
-                        }
-
-                        if (view.State is IslandState.None or IslandState.Stopped)
-                        {
-                            if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
-                            {
-                                HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
-                            }
-                        }
-                        else
-                        {
-                            Interlocked.Exchange(ref accumulatedBadStateCount, 0);
-                        }
-                    }
-                }
+                await PeriodicUpdateIslandEnvironmentAsync(context, handle, token).ConfigureAwait(false);
             }
         }
     }
@@ -170,19 +121,62 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText.Value;
         pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry.Value;
 
-        return *(IslandEnvironmentView*)pIslandEnvironment;
+        return pIslandEnvironment->View;
     }
 
-    private async ValueTask HandleUidChangedAsync(uint uid, CancellationToken token)
+    private static async ValueTask HandleUidChangedAsync(LaunchExecutionContext context, uint uid, CancellationToken token)
     {
-        HutaoResponse response = await context.ServiceProvider
-            .GetRequiredService<HutaoInfrastructureClient>()
-            .AmIBannedAsync($"{uid}", token)
-            .ConfigureAwait(false);
-
-        if (!ResponseValidator.TryValidate(response, context.ServiceProvider))
+        using (IServiceScope scope = context.ServiceProvider.CreateScope())
         {
-            context.Process.Kill();
+            HutaoResponse response = await scope.ServiceProvider
+                .GetRequiredService<HutaoInfrastructureClient>()
+                .AmIBannedAsync($"{uid}", token)
+                .ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, context.ServiceProvider))
+            {
+                context.Process.Kill();
+            }
+        }
+    }
+
+    private async ValueTask PeriodicUpdateIslandEnvironmentAsync(LaunchExecutionContext context, nint handle, CancellationToken token)
+    {
+        using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
+        {
+            while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+            {
+                if (!context.Process.IsRunning())
+                {
+                    break;
+                }
+
+                IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.LaunchOptions);
+                if (Interlocked.Exchange(ref previousUid, view.Uid) != view.Uid)
+                {
+                    await HandleUidChangedAsync(context, view.Uid, token).ConfigureAwait(false);
+                }
+
+                if (view.State is IslandState.None or IslandState.Stopped)
+                {
+                    if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
+                    {
+                        HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
+                    }
+                }
+                else
+                {
+                    unsafe
+                    {
+                        if (view.State is IslandState.Started && view.Size != sizeof(IslandEnvironment))
+                        {
+                            HutaoException.Throw("IslandEnvironment size mismatch");
+                        }
+                    }
+
+                    Interlocked.Exchange(ref accumulatedBadStateCount, 0);
+                }
+            }
         }
     }
 }

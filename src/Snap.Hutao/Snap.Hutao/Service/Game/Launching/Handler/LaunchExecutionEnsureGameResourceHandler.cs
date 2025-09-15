@@ -32,7 +32,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchE
     private static bool ShouldConvert(BeforeLaunchExecutionContext context)
     {
         // Configuration file changed
-        if (context[LaunchExecutionOptionsKey.ChannelOptionsChanged])
+        if (context.TryGetOption(LaunchExecutionOptionsKey.ChannelOptionsChanged, out bool changed) && changed)
         {
             return true;
         }

@@ -86,7 +86,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
+    private unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
     {
         YaeCommandKind kind = reader.Read<YaeCommandKind>();
 
@@ -109,7 +109,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
             case YaeCommandKind.RequestResumeThread:
                 {
-                    // DO NOTHING
+                    gameProcess.ResumeMainThread();
                     return default;
                 }
 
