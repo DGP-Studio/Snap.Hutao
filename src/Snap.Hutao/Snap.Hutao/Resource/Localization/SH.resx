@@ -2209,7 +2209,7 @@
     <value>重置图片资源</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceConfirmContent" xml:space="preserve">
-    <value>此操作将删除所有本地图片资源并重新下载。程序将在操作完成后自动重启。是否继续？</value>
+    <value>此操作将删除所有本地图片资源并重新下载。确认后程序将立刻重启并重置图片资源，是否继续？</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
