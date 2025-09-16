@@ -30,7 +30,7 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete game web cache", "SettingGameViewModel.Command"));
 
-        string gamePath = launchOptions.GamePath.Value;
+        string? gamePath = launchOptions.GamePathEntry.Value?.Path;
 
         if (string.IsNullOrEmpty(gamePath))
         {
