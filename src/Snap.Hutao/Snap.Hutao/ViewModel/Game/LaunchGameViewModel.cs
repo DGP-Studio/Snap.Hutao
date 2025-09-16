@@ -8,7 +8,6 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Locator;
@@ -49,8 +48,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public partial LowLevelKeyOptions LowLevelKeyOptions { get; }
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
     public partial LaunchOptions LaunchOptions { get; }
 
     public partial LaunchGameShared Shared { get; }
@@ -63,21 +60,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         set => SetSelectedSchemeAsync(value).SafeForget();
     }
 
-    public NameValue<PlatformType>? SelectedPlatformType
-    {
-        get => field ??= Selection.Initialize(LaunchOptions.PlatformTypes, LaunchOptions.PlatformType.Value);
-        set
-        {
-            if (SetProperty(ref field, value) && value is not null)
-            {
-                LaunchOptions.PlatformType.Value = value.Value;
-            }
-        }
-    }
+    [field: MaybeNull]
+    public IObservableProperty<NameValue<PlatformType>?> SelectedPlatformType { get => field ??= LaunchOptions.PlatformType.AsNameValue(LaunchOptions.PlatformTypes); }
 
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
-
-    public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
     /// <summary>
     /// Update this property will also:
@@ -133,10 +119,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public ImmutableArray<GamePathEntry> GamePathEntries { get; set => SetProperty(ref field, value); } = [];
-
-    public ImmutableArray<AspectRatio> AspectRatios { get; set => SetProperty(ref field, value); } = [];
-
     /// <summary>
     /// Update this property will also:
     /// <br/>
@@ -144,6 +126,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// <br/>
     /// 2. Update <see cref="GamePathSelectedAndValid"/> to the selected path's existence
     /// </summary>
+    [Obsolete]
     public GamePathEntry? SelectedGamePathEntry
     {
         get;
@@ -174,12 +157,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !GameLifeCycle.IsGameRunning();
 
-    public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
-    {
-        GamePathEntries = gamePathEntries;
-        SelectedGamePathEntry = selectedEntry;
-    }
-
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
@@ -204,9 +181,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
-        await taskContext.SwitchToMainThreadAsync();
-        this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
-        AspectRatios = LaunchOptions.AspectRatios.Value;
         return true;
     }
 
@@ -221,14 +195,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private async Task SetGamePathAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set game path by picker", "LaunchGameViewModel.Command"));
-        (bool isOk, string path) = await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Manual).ConfigureAwait(false);
-        if (!isOk)
+        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Manual).ConfigureAwait(false) is not (true, var path))
         {
             return;
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        GamePathEntries = LaunchOptions.UpdateGamePath(path);
+        LaunchOptions.UpdateGamePath(path);
     }
 
     [Command("ResetGamePathCommand")]
@@ -242,7 +215,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private void RemoveGamePathEntry(GamePathEntry? entry)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove game path", "LaunchGameViewModel.Command"));
-        GamePathEntries = LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
+        LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
         SelectedGamePathEntry = selected;
     }
 
@@ -260,7 +233,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             LaunchOptions.SelectedAspectRatio = default;
         }
 
-        AspectRatios = LaunchOptions.AspectRatios.Remove(aspectRatio);
+        LaunchOptions.AspectRatios.Remove(aspectRatio);
     }
 
     [Command("LaunchCommand")]
@@ -269,11 +242,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Launch game", "LaunchGameViewModel.Command"));
 
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-        await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
-
-        // AspectRatios might be updated during the launch
-        await taskContext.SwitchToMainThreadAsync();
-        AspectRatios = LaunchOptions.AspectRatios.Value;
+        await Shared.DefaultLaunchExecutionAsync(this, userAndUid).ConfigureAwait(false);
     }
 
     [Command("DetectGameAccountCommand")]
@@ -400,7 +369,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         else
         {
             // Clear the selected game account to prevent setting
-            // incorrect CN/OS account when scheme not match
+            // incorrect CN/OS registry account when scheme not match
             await taskContext.SwitchToMainThreadAsync();
             GameAccountsView.MoveCurrentTo(default);
         }

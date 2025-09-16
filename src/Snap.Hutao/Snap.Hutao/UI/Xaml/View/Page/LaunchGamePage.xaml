@@ -162,10 +162,10 @@
                         HorizontalAlignment="Center"
                         Foreground="{ThemeResource SystemErrorTextColor}"
                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePathHint}"/>
-                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
+                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding LaunchOptions.GamePathEntries.Value.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
-                            ItemsSource="{Binding GamePathEntries}"
+                            ItemsSource="{Binding LaunchOptions.GamePathEntries.Value}"
                             SelectedItem="{Binding SelectedGamePathEntry, Mode=TwoWay}"/>
                     </Border>
                     <cwc:SettingsCard
@@ -706,7 +706,7 @@
                                                                 DisplayMemberPath="Name"
                                                                 IsEnabled="{Binding LaunchOptions.IsPlatformTypeEnabled.Value}"
                                                                 ItemsSource="{Binding LaunchOptions.PlatformTypes}"
-                                                                SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"/>
+                                                                SelectedItem="{Binding SelectedPlatformType.Value, Mode=TwoWay}"/>
                                                         </shuxc:SizeRestrictedContentControl>
                                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsPlatformTypeEnabled.Value, Mode=TwoWay}"/>
                                                     </StackPanel>
