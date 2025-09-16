@@ -33,7 +33,7 @@ internal sealed partial class YaeService : IYaeService
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    public async ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution2 viewModel)
+    public async ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution viewModel)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
@@ -90,7 +90,7 @@ internal sealed partial class YaeService : IYaeService
         }
     }
 
-    public async ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution2 viewModel)
+    public async ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution viewModel)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)

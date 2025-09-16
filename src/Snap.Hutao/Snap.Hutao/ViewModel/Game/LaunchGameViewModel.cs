@@ -29,7 +29,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution2, INavigationRecipient
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly IServiceProvider serviceProvider;
@@ -105,7 +105,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 {
                     using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
-                        LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
+                        LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
@@ -187,7 +187,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return false;
         }
 
-        if (data is LaunchGameWithUidData { TypedData: { } uid })
+        if (data is LaunchGameExtraData { TypedData: { } uid })
         {
             return await userService.SetCurrentUserByUidAsync(uid).ConfigureAwait(false);
         }
@@ -407,6 +407,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         // Update GameAccountsView
         await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView.Filter = GameAccountFilter.CreateFilter(SelectedScheme?.GetSchemeType());
+        GameAccountsView.Filter = GameAccountFilter.Create(SelectedScheme?.GetSchemeType());
     }
 }

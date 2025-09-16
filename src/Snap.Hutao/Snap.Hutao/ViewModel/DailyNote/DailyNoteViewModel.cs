@@ -116,7 +116,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         if (entry is not null)
         {
             await navigationService
-                .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(entry.Uid), true)
+                .NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(entry.Uid), true)
                 .ConfigureAwait(false);
         }
     }

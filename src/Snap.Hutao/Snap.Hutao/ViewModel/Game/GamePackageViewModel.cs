@@ -141,7 +141,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
-        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } launchScheme)
         {
             return false;
         }
@@ -197,7 +197,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } launchScheme)
         {
             return;
         }

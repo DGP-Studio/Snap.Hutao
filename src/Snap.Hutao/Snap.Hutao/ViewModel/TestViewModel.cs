@@ -357,7 +357,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             LaunchOptions launchOptions = scope.ServiceProvider.GetRequiredService<LaunchOptions>();
 
-            if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
+            if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } launchScheme)
             {
                 return;
             }

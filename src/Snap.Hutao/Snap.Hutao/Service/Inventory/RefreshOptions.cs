@@ -22,7 +22,7 @@ internal sealed class RefreshOptions
 
     public required IYaeService? YaeService { get; init; }
 
-    public required IViewModelSupportLaunchExecution2? ViewModelSupportLaunchExecution { get; init; }
+    public required IViewModelSupportLaunchExecution? ViewModelSupportLaunchExecution { get; init; }
 
     public static RefreshOptions CreateForWebCalculator(CultivateProject project, ICultivationMetadataContext context)
     {
@@ -36,7 +36,7 @@ internal sealed class RefreshOptions
         };
     }
 
-    public static RefreshOptions CreateForEmbeddedYae(CultivateProject project, IYaeService yaeService, IViewModelSupportLaunchExecution2 viewModel)
+    public static RefreshOptions CreateForEmbeddedYae(CultivateProject project, IYaeService yaeService, IViewModelSupportLaunchExecution viewModel)
     {
         return new()
         {

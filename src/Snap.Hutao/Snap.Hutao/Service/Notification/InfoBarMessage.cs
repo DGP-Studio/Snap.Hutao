@@ -65,6 +65,16 @@ internal sealed class InfoBarMessage
         };
     }
 
+    public static InfoBarMessage Success(string message)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Success,
+            Message = message,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+        };
+    }
+
     public static InfoBarMessage Warning(string message)
     {
         return new()

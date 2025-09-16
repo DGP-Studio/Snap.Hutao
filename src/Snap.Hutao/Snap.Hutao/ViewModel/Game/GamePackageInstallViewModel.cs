@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;

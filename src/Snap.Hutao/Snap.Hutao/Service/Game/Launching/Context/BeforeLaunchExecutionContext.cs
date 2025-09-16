@@ -13,7 +13,7 @@ internal sealed class BeforeLaunchExecutionContext
 {
     private readonly ConcurrentDictionary<string, object?> options = [];
 
-    public required IViewModelSupportLaunchExecution2 ViewModel { get; init; }
+    public required IViewModelSupportLaunchExecution ViewModel { get; init; }
 
     public required IProgress<LaunchStatus?> Progress { get; init; }
 

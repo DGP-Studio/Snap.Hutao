@@ -20,4 +20,9 @@ internal sealed class GameIdentity
             GameAccount = gameAccount,
         };
     }
+
+    public static GameIdentity Create()
+    {
+        return new();
+    }
 }
