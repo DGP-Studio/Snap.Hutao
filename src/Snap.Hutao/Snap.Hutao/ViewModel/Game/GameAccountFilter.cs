@@ -10,12 +10,12 @@ internal sealed class GameAccountFilter
 {
     private readonly SchemeType? type;
 
-    public GameAccountFilter(SchemeType? type)
+    private GameAccountFilter(SchemeType? type)
     {
         this.type = type;
     }
 
-    public static Predicate<GameAccount> CreateFilter(SchemeType? type)
+    public static Predicate<GameAccount> Create(SchemeType? type)
     {
         return new GameAccountFilter(type).Filter;
     }

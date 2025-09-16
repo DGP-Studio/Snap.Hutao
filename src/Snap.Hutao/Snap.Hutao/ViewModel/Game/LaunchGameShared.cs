@@ -7,6 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Launching.Invoker;
 using Snap.Hutao.Service.Game.Scheme;
@@ -14,6 +15,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -24,7 +26,6 @@ internal sealed partial class LaunchGameShared
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
@@ -32,7 +33,7 @@ internal sealed partial class LaunchGameShared
 
     private bool resuming;
 
-    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(bool showInfo = true)
+    public LaunchScheme? GetCurrentLaunchSchemeFromConfigurationFile(bool showInfo = true)
     {
         ChannelOptions options = gameService.GetChannelOptions();
 
@@ -83,6 +84,32 @@ internal sealed partial class LaunchGameShared
         return default;
     }
 
+    public async ValueTask DefaultLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
+    {
+        // The game process can exist longer than the view model
+        // Force use root scope
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+            DefaultLaunchExecutionInvoker invoker = new();
+            try
+            {
+                LaunchExecutionInvocationContext context = new()
+                {
+                    ViewModel = viewModel,
+                    ServiceProvider = scope.ServiceProvider,
+                    LaunchOptions = scope.ServiceProvider.GetRequiredService<LaunchOptions>(),
+                    Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
+                };
+
+                await invoker.InvokeAsync(context).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                scope.ServiceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(ex));
+            }
+        }
+    }
+
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
         if (Interlocked.Exchange(ref resuming, true))
@@ -90,7 +117,7 @@ internal sealed partial class LaunchGameShared
             return;
         }
 
-        if (GetCurrentLaunchSchemeFromConfigFile(false) is null)
+        if (GetCurrentLaunchSchemeFromConfigurationFile(false) is null)
         {
             return;
         }
@@ -106,19 +133,19 @@ internal sealed partial class LaunchGameShared
             {
                 try
                 {
-                    using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, default))
+                    LaunchExecutionInvocationContext context = new()
                     {
-                        LaunchExecutionResult result = await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+                        ViewModel = viewModel,
+                        ServiceProvider = scope.ServiceProvider,
+                        LaunchOptions = launchOptions,
+                        Identity = GameIdentity.Create(),
+                    };
 
-                        if (result.Kind is not LaunchExecutionResultKind.Ok)
-                        {
-                            infoBarService.Warning(result.ErrorMessage);
-                        }
-                    }
+                    await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                 }
             }
         }
@@ -133,9 +160,19 @@ internal sealed partial class LaunchGameShared
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Generate config file", "LaunchGameShared.Command"));
 
-        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        const string LockTrace = $"{nameof(LaunchGameShared)}.{nameof(HandleConfigurationFileNotFoundAsync)}";
+        GameFileSystemErrorKind errorKind = launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem);
+        switch (errorKind)
         {
-            return;
+            case GameFileSystemErrorKind.GamePathLocked:
+                messenger.Send(InfoBarMessage.Warning("生成配置文件失败", "游戏路径被锁定，请稍后再试"));
+                return;
+            case GameFileSystemErrorKind.GamePathNullOrEmpty:
+                messenger.Send(InfoBarMessage.Warning("生成配置文件失败", "游戏路径为空，请先设置游戏路径"));
+                return;
+            default:
+                ArgumentNullException.ThrowIfNull(gameFileSystem);
+                break;
         }
 
         using (gameFileSystem)
@@ -159,7 +196,7 @@ internal sealed partial class LaunchGameShared
                 }
 
                 GameConfiguration.Patch(launchScheme, gameFileSystem.GetScriptVersionFilePath(), gameFileSystem.GetGameConfigurationFilePath());
-                infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+                messenger.Send(InfoBarMessage.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess));
             }
         }
     }

@@ -72,6 +72,11 @@ internal abstract class AbstractLaunchExecutionInvoker
                 throw HutaoException.InvalidOperation(SH.ViewModelLaunchGameSchemeNotSelected);
             }
 
+            if (context.ViewModel.CurrentScheme is not { } currentScheme)
+            {
+                throw HutaoException.InvalidOperation(SH.ServiceGameLaunchExecutionCurrentSchemeNull);
+            }
+
             IProgress<LaunchStatus?> progress = CreateStatusProgress(context.ServiceProvider);
 
             BeforeLaunchExecutionContext beforeContext = new()
@@ -84,7 +89,7 @@ internal abstract class AbstractLaunchExecutionInvoker
                 HoyoPlay = context.ServiceProvider.GetRequiredService<IHoyoPlayService>(),
                 Messenger = context.ServiceProvider.GetRequiredService<IMessenger>(),
                 LaunchOptions = context.LaunchOptions,
-                CurrentScheme = context.ViewModel.CurrentScheme,
+                CurrentScheme = currentScheme,
                 TargetScheme = targetScheme,
                 Identity = context.Identity,
             };

@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.Game.Launching.Context;
 
 internal sealed class LaunchExecutionInvocationContext
 {
-    public required IViewModelSupportLaunchExecution2 ViewModel { get; init; }
+    public required IViewModelSupportLaunchExecution ViewModel { get; init; }
 
     public required IServiceProvider ServiceProvider { get; init; }
 

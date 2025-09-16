@@ -101,7 +101,7 @@ internal sealed partial class InventoryService : IInventoryService
         }
     }
 
-    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, IViewModelSupportLaunchExecution2 viewModel, CultivateProject project)
+    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, IViewModelSupportLaunchExecution viewModel, CultivateProject project)
     {
         if (await yaeService.GetInventoryAsync(viewModel).ConfigureAwait(false) is not { } uiif)
         {

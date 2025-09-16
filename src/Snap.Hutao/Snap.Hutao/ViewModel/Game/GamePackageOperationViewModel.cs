@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
-    private const string ZeroBytesPerSecondSpeed = "0 bytes/s";
+    private const string ZeroBytesPerSecondSpeed = "0 byte/s";
     private const string UnknownRemainingTime = "99:59:59";
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
