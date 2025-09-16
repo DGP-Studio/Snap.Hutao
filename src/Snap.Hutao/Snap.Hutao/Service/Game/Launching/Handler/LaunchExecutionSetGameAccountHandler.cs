@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;

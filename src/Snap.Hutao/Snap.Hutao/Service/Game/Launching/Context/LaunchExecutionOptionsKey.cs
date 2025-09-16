@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Diagnostics;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Context;
 
 internal readonly struct LaunchExecutionOptionsKey<TValue>
 {

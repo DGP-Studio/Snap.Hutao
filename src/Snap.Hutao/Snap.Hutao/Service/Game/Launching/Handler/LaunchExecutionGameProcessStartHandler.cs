@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -12,7 +13,7 @@ internal sealed class LaunchExecutionGameProcessStartHandler : AbstractLaunchExe
         try
         {
             context.Process.Start();
-            context.Messenger.Send<LaunchExecutionProcessStatusChangedMessage>();
+            GameLifeCycle.IsGameRunningProperty.Value = true;
         }
         catch (Win32Exception ex)
         {

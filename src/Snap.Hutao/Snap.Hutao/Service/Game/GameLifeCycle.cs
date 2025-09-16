@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Win32;
@@ -9,14 +10,26 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameLifeCycle
 {
+    public static IObservableProperty<bool> IsGameRunningProperty { get; } = Property.CreateObservable(PrivateIsGameRunning(out _));
+
+    public static unsafe void SpinWaitGameExit()
+    {
+        SpinWaitPolyfill.SpinWhile(&IsGameRunning);
+        IsGameRunningProperty.Value = false;
+    }
+
     public static bool IsGameRunning()
     {
-        return IsGameRunning(out _);
+        bool result = PrivateIsGameRunning(out _);
+        IsGameRunningProperty.Value = result;
+        return result;
     }
 
     public static bool IsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
     {
-        return ProcessFactory.IsRunning([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], out runningProcess);
+        bool result = PrivateIsGameRunning(out runningProcess);
+        IsGameRunningProperty.Value = result;
+        return result;
     }
 
     public static bool TryKillGameProcess()
@@ -29,6 +42,7 @@ internal static class GameLifeCycle
         try
         {
             process.Kill();
+            IsGameRunningProperty.Value = PrivateIsGameRunning(out _);
             return true;
         }
         catch (Exception ex)
@@ -36,5 +50,10 @@ internal static class GameLifeCycle
             HutaoNative.Instance.ShowErrorMessage(SH.ServiceGameLaunchExecutionGameRunningKillFailed, ex.Message);
             return false;
         }
+    }
+
+    private static bool PrivateIsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
+    {
+        return ProcessFactory.IsRunning([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], out runningProcess);
     }
 }

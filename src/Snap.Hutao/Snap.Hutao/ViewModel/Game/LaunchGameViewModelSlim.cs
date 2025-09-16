@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
@@ -19,7 +18,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>,
-    IViewModelSupportLaunchExecution,
+    IViewModelSupportLaunchExecution2,
     IRecipient<UserAndUidChangedMessage>
 {
     private readonly IInfoBarService infoBarService;

@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Model;
@@ -9,8 +8,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.FileSystem;
-using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32;
 using System.Collections.Immutable;
@@ -19,15 +16,13 @@ namespace Snap.Hutao.Service.Game;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
-internal sealed partial class LaunchOptions : DbStoreOptions,
-    IRestrictedGamePathAccess,
-    IRecipient<LaunchExecutionProcessStatusChangedMessage>
+internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePathAccess
 {
-    private readonly ITaskContext taskContext;
+    [field: MaybeNull]
+    public static IObservableProperty<bool> IsGameRunning { get => field ??= GameLifeCycle.IsGameRunningProperty; }
 
-    public static bool IsGameRunning { get => GameLifeCycle.IsGameRunning(); }
-
-    public static bool CanKillGameProcess { get => HutaoRuntime.IsProcessElevated && IsGameRunning; }
+    [field: MaybeNull]
+    public static IObservableProperty<bool> CanKillGameProcess { get => field ??= Property.Observe(IsGameRunning, value => HutaoRuntime.IsProcessElevated && value); }
 
     public AsyncReaderWriterLock GamePathLock { get; } = new();
 
@@ -148,15 +143,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     [field: MaybeNull]
     public IObservableProperty<bool> UsingOverlay { get => field ??= CreateProperty(SettingEntry.LaunchUsingOverlay, false); }
-
-    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
-    {
-        taskContext.InvokeOnMainThread(() =>
-        {
-            OnPropertyChanged(nameof(IsGameRunning));
-            OnPropertyChanged(nameof(CanKillGameProcess));
-        });
-    }
 
     private static int InitializeTargetFpsWithScreenFps()
     {

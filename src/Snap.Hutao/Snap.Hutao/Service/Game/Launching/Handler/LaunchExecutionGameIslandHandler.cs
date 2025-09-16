@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;

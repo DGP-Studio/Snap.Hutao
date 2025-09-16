@@ -7,7 +7,8 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
-using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Context;
+using Snap.Hutao.Service.Game.Launching.Invoker;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -27,6 +28,7 @@ internal sealed partial class LaunchGameShared
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
+    private readonly IMessenger messenger;
 
     private bool resuming;
 
@@ -52,32 +54,30 @@ internal sealed partial class LaunchGameShared
             return default;
         }
 
-        switch (options.ErrorKind)
+        InfoBarMessage? message = options.ErrorKind switch
         {
-            case ChannelOptionsErrorKind.ConfigurationFileNotFound:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
-                    SH.ViewModelLaunchGameFixConfigurationFileButtonText,
-                    HandleConfigurationFileNotFoundCommand);
-                break;
-            case ChannelOptionsErrorKind.GamePathNullOrEmpty:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.ViewModelLaunchGameGamePathNullOrEmpty,
-                    SH.ViewModelLaunchGameSetGamePathButtonText,
-                    HandleGamePathNullOrEmptyCommand);
-                break;
-            case ChannelOptionsErrorKind.DeviceNotFound:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.ViewModelLaunchGameDeviceNotFound);
-                break;
-            case ChannelOptionsErrorKind.GameContentCorrupted:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath));
-                break;
+            ChannelOptionsErrorKind.ConfigurationFileNotFound => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
+                SH.ViewModelLaunchGameFixConfigurationFileButtonText,
+                HandleConfigurationFileNotFoundCommand),
+            ChannelOptionsErrorKind.GamePathNullOrEmpty => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.ViewModelLaunchGameGamePathNullOrEmpty,
+                SH.ViewModelLaunchGameSetGamePathButtonText,
+                HandleGamePathNullOrEmptyCommand),
+            ChannelOptionsErrorKind.DeviceNotFound => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.ViewModelLaunchGameDeviceNotFound),
+            ChannelOptionsErrorKind.GameContentCorrupted => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath)),
+            _ => default,
+        };
+
+        if (message is not null)
+        {
+            messenger.Send(message);
         }
 
         return default;
@@ -85,17 +85,17 @@ internal sealed partial class LaunchGameShared
 
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
+        if (Interlocked.Exchange(ref resuming, true))
+        {
+            return;
+        }
+
         if (GetCurrentLaunchSchemeFromConfigFile(false) is null)
         {
             return;
         }
 
-        if (LaunchExecutionInvoker.IsAnyLaunchExecutionInvoking())
-        {
-            return;
-        }
-
-        if (Interlocked.Exchange(ref resuming, true))
+        if (AbstractLaunchExecutionInvoker.HasAnyInvoking())
         {
             return;
         }

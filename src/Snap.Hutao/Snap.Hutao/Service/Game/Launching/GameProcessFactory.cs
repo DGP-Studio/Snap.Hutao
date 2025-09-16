@@ -5,10 +5,11 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Game.FileSystem;
+using Snap.Hutao.Service.Game.Launching.Context;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal sealed class LaunchExecutionGameProcessFactory
+internal sealed class GameProcessFactory
 {
     public static IProcess CreateDefault(BeforeLaunchExecutionContext context)
     {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;

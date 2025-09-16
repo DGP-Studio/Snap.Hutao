@@ -74,4 +74,28 @@ internal sealed class InfoBarMessage
             MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
         };
     }
+
+    public static InfoBarMessage Warning(string title, string message)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Warning,
+            Title = title,
+            Message = message,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
+        };
+    }
+
+    public static InfoBarMessage Warning(string title, string message, string actionButtonContent, ICommand actionButtonCommand)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Warning,
+            Title = title,
+            Message = message,
+            ActionButtonContent = actionButtonContent,
+            ActionButtonCommand = actionButtonCommand,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
+        };
+    }
 }

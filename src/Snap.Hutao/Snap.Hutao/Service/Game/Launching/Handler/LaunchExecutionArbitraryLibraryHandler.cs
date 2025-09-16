@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Notification;
 using System.IO;
 using Windows.Storage;

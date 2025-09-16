@@ -214,12 +214,12 @@
                     <AppBarButton
                         Command="{Binding KillGameProcessCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE733;}"
-                        IsEnabled="{Binding LaunchOptions.CanKillGameProcess}"
+                        IsEnabled="{Binding LaunchOptions.CanKillGameProcess.Value}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameKillGameProcessAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
-                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
                 </CommandBar>
             </Pivot.RightHeader>
@@ -339,7 +339,7 @@
                                                     <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
                                                         EnableMemberPath="IsNotCompatOnly"
-                                                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                                                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                         ItemsSource="{Binding KnownSchemes}"
                                                         SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
                                                         Style="{StaticResource DefaultComboBoxStyle}"/>
@@ -354,7 +354,7 @@
                                                 Header="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHeader}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xEB91;}"
                                                 IsExpanded="True">
-                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay.Value, Mode=TwoWay}"/>
+                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay.Value, Mode=TwoWay}"/>
                                                 <cwc:SettingsExpander.Items>
                                                     <cwc:SettingsCard
                                                         Padding="{ThemeResource SettingsCardAlignSettingsExpanderPadding}"
@@ -405,7 +405,7 @@
                                                 <ToggleSwitch
                                                     Grid.Column="1"
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                    IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                                                    IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                     IsOn="{Binding LaunchOptions.IsIslandEnabled.Value, Mode=TwoWay}"
                                                     Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
                                             </Grid>
@@ -604,7 +604,7 @@
                                                             Grid.Row="3"
                                                             Grid.Column="2"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandUsingTouchScreenHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                                                            IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                             IsOn="{Binding LaunchOptions.UsingTouchScreen.Value, Mode=TwoWay}"/>
                                                     </Grid>
                                                 </Border>
