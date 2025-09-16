@@ -219,6 +219,11 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             result.Add(CardReference.Create(new CalendarCard(serviceProvider), SettingKeys.HomeCardCalendarOrder));
         }
 
+        if (LocalSetting.Get(SettingKeys.IsHomeCardBugStatsPresented, true))
+        {
+            result.Add(CardReference.Create(new BugStatsCard(serviceProvider), SettingKeys.HomeCardBugStatsOrder));
+        }
+
         if (LocalSetting.Get(SettingKeys.IsHomeCardSignInPresented, true))
         {
             result.Add(CardReference.Create(new SignInCard(serviceProvider), SettingKeys.HomeCardSignInOrder));

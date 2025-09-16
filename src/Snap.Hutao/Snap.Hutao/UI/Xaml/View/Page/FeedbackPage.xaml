@@ -230,7 +230,9 @@
                         <Grid Padding="16" RowSpacing="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition/>
+                                <!-- Reduce search results area to make room for bug list below -->
+                                <RowDefinition Height="220"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <AutoSuggestBox
                                 Grid.Row="0"
@@ -293,7 +295,56 @@
                                 </ScrollViewer>
                             </shuxc:StandardView>
 
+                            <!-- Confirmed bugs section -->
+                            <StackPanel Grid.Row="2" Spacing="8">
+                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugSectionHeader}"/>
 
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Waiting for release -->
+                                    <StackPanel Grid.Column="0" Spacing="4">
+                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugWaitingForRelease}"/>
+                                        <ItemsControl ItemsSource="{Binding WaitingForRelease}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HyperlinkButton Content="{Binding Title}" NavigateUri="{Binding IssueUri}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+
+                                    <!-- Untreated -->
+                                    <StackPanel Grid.Column="1" Spacing="4">
+                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugUntreated}"/>
+                                        <ItemsControl ItemsSource="{Binding Untreated}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HyperlinkButton Content="{Binding Title}" NavigateUri="{Binding IssueUri}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+
+                                    <!-- Hard to fix -->
+                                    <StackPanel Grid.Column="2" Spacing="4">
+                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugHardToFix}"/>
+                                        <ItemsControl ItemsSource="{Binding HardToFix}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HyperlinkButton Content="{Binding Title}" NavigateUri="{Binding IssueUri}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Button Content="{shuxm:ResourceString Name=ViewPageFeedbackReportIssue}" Command="{Binding ReportIssueCommand}" HorizontalAlignment="Left"/>
+                            </StackPanel>
                         </Grid>
                     </shuxc:StandardView>
 

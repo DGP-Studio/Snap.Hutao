@@ -22,4 +22,9 @@ internal interface IInfrastructureEndpoints :
     {
         return $"{Root}/ips";
     }
+
+    public string IssueBug()
+    {
+        return $"{Root}/issue/bug";
+    }
 }

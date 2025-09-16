@@ -53,6 +53,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
             new(SH.ViewPageSettingHomeCardItemAchievementHeader, SettingKeys.IsHomeCardAchievementPresented, SettingKeys.HomeCardAchievementOrder),
             new(SH.ViewPageSettingHomeCardItemDailyNoteHeader, SettingKeys.IsHomeCardDailyNotePresented, SettingKeys.HomeCardDailyNoteOrder),
             new(SH.ViewPageSettingHomeCardItemCalendarHeader, SettingKeys.IsHomeCardCalendarPresented, SettingKeys.HomeCardCalendarOrder),
+            new(SH.ViewPageSettingHomeCardItemBugStatsHeader, SettingKeys.IsHomeCardBugStatsPresented, SettingKeys.HomeCardBugStatsOrder),
             new(SH.ViewPageSettingHomeCardItemSignInHeader, SettingKeys.IsHomeCardSignInPresented, SettingKeys.HomeCardSignInOrder),
         ];
 

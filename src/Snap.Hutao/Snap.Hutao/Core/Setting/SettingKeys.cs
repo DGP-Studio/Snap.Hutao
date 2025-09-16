@@ -80,6 +80,10 @@ internal static class SettingKeys
 
     public const string IsHomeCardSignInPresented = "IsHomeCardSignInPresented";
     public const string HomeCardSignInOrder = "HomeCardSignInOrder";
+
+    // Bug statistics card
+    public const string IsHomeCardBugStatsPresented = "IsHomeCardBugStatsPresented";
+    public const string HomeCardBugStatsOrder = "HomeCardBugStatsOrder";
     #endregion
 
     #region Compact WebView2

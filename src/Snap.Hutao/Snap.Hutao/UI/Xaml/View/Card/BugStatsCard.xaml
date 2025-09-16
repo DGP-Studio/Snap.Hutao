@@ -1,0 +1,90 @@
+<Button
+    x:Class="Snap.Hutao.UI.Xaml.View.Card.BugStatsCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvf="using:Snap.Hutao.ViewModel.Feedback"
+    Height="{ThemeResource HomeAdaptiveCardHeight}"
+    Padding="0"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    d:DataContext="{d:DesignInstance shvf:BugStatsViewModelSlim}"
+    Background="Transparent"
+    BorderBrush="{x:Null}"
+    BorderThickness="0"
+    Command="{Binding NavigateCommand}"
+    Style="{ThemeResource DefaultButtonStyle}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Grid>
+        <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="12" RowSpacing="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                    Height="48"
+                    Padding="12"
+                    Style="{ThemeResource GridShimmerStyle}">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="-4"
+                            Source="ms-appx:///Resource/Navigation/Feedback.png"/>
+
+                        <TextBlock Text="{shuxm:ResourceString Name=ViewCardBugStatsTitle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" ColumnSpacing="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Padding="12" Style="{ThemeResource BorderShimmerStyle}">
+                        <StackPanel VerticalAlignment="Center" Spacing="4">
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugWaitingForRelease}"/>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding WaitingForReleaseCount}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Padding="12" Style="{ThemeResource BorderShimmerStyle}">
+                        <StackPanel VerticalAlignment="Center" Spacing="4">
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugUntreated}"/>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding UntreatedCount}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Padding="12" Style="{ThemeResource BorderShimmerStyle}">
+                        <StackPanel VerticalAlignment="Center" Spacing="4">
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageFeedbackBugHardToFix}"/>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding HardToFixCount}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <shuxc:Loading IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" Style="{ThemeResource DefaultLoadingCardStyle}"/>
+    </Grid>
+</Button>

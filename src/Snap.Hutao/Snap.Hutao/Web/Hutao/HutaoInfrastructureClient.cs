@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Hutao.Issue;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Win32;
@@ -67,6 +68,16 @@ internal sealed partial class HutaoInfrastructureClient
             .Get();
 
         HutaoResponse? resp = await builder.SendAsync<HutaoResponse>(httpClient, token).ConfigureAwait(false);
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse<BugIssuePayload>> GetBugIssuesAsync(CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().IssueBug())
+            .Get();
+
+        HutaoResponse<BugIssuePayload>? resp = await builder.SendAsync<HutaoResponse<BugIssuePayload>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }
