@@ -137,7 +137,7 @@
         </shvg:AspectRatioComboBoxTemplateSelector>
     </Page.Resources>
 
-    <shuxc:StandardView ShowCondition="{Binding GamePathSelectedAndValid, Mode=OneWay}" Style="{ThemeResource DefaultStandardViewStyle}">
+    <shuxc:StandardView ShowCondition="{Binding GamePathEntryValid.Value, Mode=OneWay}" Style="{ThemeResource DefaultStandardViewStyle}">
         <shuxc:StandardView.EmptyContent>
             <Border
                 Margin="128,0"
@@ -166,12 +166,12 @@
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
                             ItemsSource="{Binding LaunchOptions.GamePathEntries.Value}"
-                            SelectedItem="{Binding SelectedGamePathEntry, Mode=TwoWay}"/>
+                            SelectedItem="{Binding LaunchOptions.GamePathEntry, Mode=TwoWay}"/>
                     </Border>
                     <cwc:SettingsCard
                         ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
                         ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                        Command="{Binding SetGamePathCommand}"
+                        Command="{Binding PickGamePathCommand}"
                         Header="{shuxm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE7FC;}"
                         IsClickEnabled="True">
@@ -209,7 +209,7 @@
                     <AppBarButton
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
-                        IsEnabled="{Binding CanResetGamePathEntry}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
                     <AppBarButton
                         Command="{Binding KillGameProcessCommand}"

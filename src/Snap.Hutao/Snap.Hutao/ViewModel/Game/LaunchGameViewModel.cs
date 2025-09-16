@@ -65,97 +65,40 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// Update this property will also:
-    /// <br/>
-    /// 1. Call <see cref="SetSelectedSchemeAsync"/>
-    /// <br/>
-    /// 2. Force refresh the GamePackageViewModel
-    /// <br/>
-    /// 3. Try to set the current account for selected scheme
-    /// </summary>
-    public bool GamePathSelectedAndValid
+    public IObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshUIAsync().SafeForget(), this); }
+
+    [SuppressMessage("", "SH003")]
+    private async Task RefreshUIAsync()
     {
-        get;
-        set
+        try
         {
-            if (SetProperty(ref field, value) && value)
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                RefreshUIAsync().SafeForget();
-            }
+                LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
 
-            [SuppressMessage("", "SH003")]
-            async Task RefreshUIAsync()
-            {
-                try
+                await taskContext.SwitchToMainThreadAsync();
+                await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
+
+                await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
+
+                // Try set to the current account.
+                if (SelectedScheme is not null && GameAccountsView is not null)
                 {
-                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-                    {
-                        LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
-
-                        await taskContext.SwitchToMainThreadAsync();
-                        await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
-
-                        await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
-
-                        // Try set to the current account.
-                        if (SelectedScheme is not null && GameAccountsView is not null)
-                        {
-                            // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                            // Except when scheme is bilibili, which is not supported
-                            _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(SelectedScheme));
-                        }
-                        else
-                        {
-                            messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
-                        }
-                    }
+                    // The GameAccount is guaranteed to be in the view, because the scheme is synced
+                    // Except when scheme is bilibili, which is not supported
+                    _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(SelectedScheme));
                 }
-                catch (HutaoException ex)
+                else
                 {
-                    messenger.Send(InfoBarMessage.Error(ex));
+                    messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Update this property will also:
-    /// <br/>
-    /// 1. Set the <see cref="LaunchOptions.GamePath"/> to the selected path
-    /// <br/>
-    /// 2. Update <see cref="GamePathSelectedAndValid"/> to the selected path's existence
-    /// </summary>
-    [Obsolete]
-    public GamePathEntry? SelectedGamePathEntry
-    {
-        get;
-        set
+        catch (HutaoException ex)
         {
-            if (value is not null && !LaunchOptions.GamePathEntries.Value.Contains(value))
-            {
-                HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
-            }
-
-            if (!SetProperty(ref field, value))
-            {
-                return;
-            }
-
-            // We are selecting from existing entries, so we don't need to update GamePathEntries
-            if (LaunchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
-            {
-                using (releaser)
-                {
-                    LaunchOptions.GamePath.Value = value?.Path ?? string.Empty;
-                }
-            }
-
-            GamePathSelectedAndValid = File.Exists(LaunchOptions.GamePath.Value);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
-
-    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !GameLifeCycle.IsGameRunning();
 
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
@@ -180,7 +123,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
-
         return true;
     }
 
@@ -191,8 +133,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await IdentifyMonitorWindow.IdentifyAllMonitorsAsync(3).ConfigureAwait(false);
     }
 
-    [Command("SetGamePathCommand")]
-    private async Task SetGamePathAsync()
+    [Command("PickGamePathCommand")]
+    private async Task PickGamePathAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set game path by picker", "LaunchGameViewModel.Command"));
         if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Manual).ConfigureAwait(false) is not (true, var path))
@@ -208,15 +150,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private void ResetGamePath()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset game path", "LaunchGameViewModel.Command"));
-        SelectedGamePathEntry = default;
+        LaunchOptions.GamePathEntry.Value = default;
     }
 
     [Command("RemoveGamePathEntryCommand")]
     private void RemoveGamePathEntry(GamePathEntry? entry)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove game path", "LaunchGameViewModel.Command"));
-        LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
-        SelectedGamePathEntry = selected;
+        LaunchOptions.RemoveGamePathEntry(entry);
     }
 
     [Command("RemoveAspectRatioCommand")]

@@ -22,7 +22,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
             case GameFileSystemErrorKind.GamePathNullOrEmpty:
                 return ChannelOptions.GamePathNullOrEmpty();
             case GameFileSystemErrorKind.GamePathLocked:
-                return ChannelOptions.GamePathLocked(launchOptions.GamePath.Value);
+                return ChannelOptions.GamePathLocked(launchOptions.GamePathEntry.Value?.Path ?? string.Empty);
         }
 
         ArgumentNullException.ThrowIfNull(gameFileSystem);

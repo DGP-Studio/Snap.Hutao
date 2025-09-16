@@ -9,7 +9,10 @@ namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal interface IRestrictedGamePathAccess
 {
+    [Obsolete]
     IObservableProperty<string> GamePath { get; }
+
+    IObservableProperty<GamePathEntry?> GamePathEntry { get; }
 
     IObservableProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get; }
 
