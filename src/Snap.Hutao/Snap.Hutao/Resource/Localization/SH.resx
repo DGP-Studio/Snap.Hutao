@@ -1650,6 +1650,21 @@
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>反馈中心</value>
   </data>
+  <data name="ViewPageFeedbackBugSectionHeader" xml:space="preserve">
+    <value>当前版本已确认的问题</value>
+  </data>
+  <data name="ViewPageFeedbackBugWaitingForRelease" xml:space="preserve">
+    <value>已修复（等待发布）</value>
+  </data>
+  <data name="ViewPageFeedbackBugUntreated" xml:space="preserve">
+    <value>未处理</value>
+  </data>
+  <data name="ViewPageFeedbackBugHardToFix" xml:space="preserve">
+    <value>难以处理</value>
+  </data>
+  <data name="ViewPageFeedbackReportIssue" xml:space="preserve">
+    <value>汇报问题</value>
+  </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈愿记录</value>
   </data>
@@ -3309,11 +3324,17 @@
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>签到</value>
   </data>
+  <data name="ViewPageSettingHomeCardItemBugStatsHeader" xml:space="preserve">
+    <value>问题统计</value>
+  </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>隐藏</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>显示</value>
+  </data>
+  <data name="ViewCardBugStatsTitle" xml:space="preserve">
+    <value>问题统计</value>
   </data>
   <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>主页</value>
