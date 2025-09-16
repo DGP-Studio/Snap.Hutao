@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Windows.System;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;

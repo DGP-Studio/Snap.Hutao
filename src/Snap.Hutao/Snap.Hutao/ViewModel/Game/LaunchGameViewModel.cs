@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
@@ -12,8 +11,6 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.FileSystem;
-using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
@@ -32,8 +29,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient,
-    IRecipient<LaunchExecutionGameFileSystemExclusiveAccessChangedMessage>
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution2, INavigationRecipient
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly IServiceProvider serviceProvider;
@@ -197,11 +193,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         return false;
-    }
-
-    public void Receive(LaunchExecutionGameFileSystemExclusiveAccessChangedMessage message)
-    {
-        taskContext.InvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
@@ -384,7 +375,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("KillGameProcessCommand")]
     private void KillGameProcess()
     {
-        if (!LaunchOptions.CanKillGameProcess)
+        if (!LaunchOptions.CanKillGameProcess.Value)
         {
             return;
         }

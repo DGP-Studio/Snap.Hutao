@@ -5,6 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.FileSystem;
+using Snap.Hutao.Service.Game.Launching.Context;
 using System.IO;
 using System.Runtime.InteropServices;
 

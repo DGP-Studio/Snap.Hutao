@@ -21,6 +21,16 @@ internal static partial class Property
         return property.Value = value;
     }
 
+    public static IObservableProperty<T> CreateObservable<T>(T value)
+    {
+        return new ObservableProperty<T>(value);
+    }
+
+    public static IObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
+    {
+        return new PropertyListener<TSource, T>(source, converter);
+    }
+
     public static IObservableProperty<TSource> Link<TSource, TTarget>(this IObservableProperty<TSource> source, IProperty<TTarget> target, [RequireStaticDelegate] Action<TSource, IProperty<TTarget>> callback)
     {
         return new PropertyLinker<TSource, TTarget>(source, target, callback);
@@ -35,6 +45,11 @@ internal static partial class Property
                 target.Value = false;
             }
         });
+    }
+
+    public static IObservableProperty<T> WithValueChangedCallback<T>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)
+    {
+        return new PropertyValueChangedCallbackWrapper<T>(source, callback);
     }
 
     public static IObservableProperty<T> WithValueChangedCallback<T, TState>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T, TState> callback, TState state)
@@ -100,6 +115,31 @@ internal static partial class Property
         }
     }
 
+    private sealed partial class PropertyValueChangedCallbackWrapper<T> : ObservableObject, IObservableProperty<T>
+    {
+        private readonly IObservableProperty<T> source;
+        private readonly Action<T> callback;
+
+        public PropertyValueChangedCallbackWrapper(IObservableProperty<T> source, Action<T> callback)
+        {
+            this.source = source;
+            this.callback = callback;
+
+            this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
+        }
+
+        public T Value
+        {
+            get => source.Value;
+            set => SetProperty(source.Value, value, source, static (prop, v) => prop.Value = v);
+        }
+
+        private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T> self, object? sender, PropertyChangedEventArgs e)
+        {
+            self.callback(self.source.Value);
+        }
+    }
+
     private sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : ObservableObject, IObservableProperty<T>
     {
         private readonly IObservableProperty<T> source;
@@ -124,6 +164,32 @@ internal static partial class Property
         private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T, TState> self, object? sender, PropertyChangedEventArgs e)
         {
             self.callback(self.source.Value, self.state);
+        }
+    }
+
+    private sealed partial class PropertyListener<TSource, T> : ObservableObject, IObservableProperty<T>
+    {
+        private readonly IObservableProperty<TSource> source;
+        private readonly Func<TSource, T> converter;
+
+        public PropertyListener(IObservableProperty<TSource> source, Func<TSource, T> converter)
+        {
+            this.source = source;
+            this.converter = converter;
+
+            this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
+        }
+
+        [field: MaybeNull]
+        public T Value
+        {
+            get => field ??= converter(source.Value);
+            set => SetProperty(ref field, value);
+        }
+
+        private static void OnWeakSourceValueChanged(PropertyListener<TSource, T> self, object? sender, PropertyChangedEventArgs e)
+        {
+            self.Value = self.converter(self.source.Value);
         }
     }
 }

@@ -7,7 +7,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
 using System.Collections.Concurrent;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Context;
 
 internal sealed class BeforeLaunchExecutionContext
 {

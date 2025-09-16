@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Service.Game.Launching.Context;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 

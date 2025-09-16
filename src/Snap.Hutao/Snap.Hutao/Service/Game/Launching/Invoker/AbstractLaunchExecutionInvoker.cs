@@ -5,16 +5,61 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.FileSystem;
+using Snap.Hutao.Service.Game.Launching.Context;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Package;
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Invoker;
 
 internal abstract class AbstractLaunchExecutionInvoker
 {
-    protected ImmutableArray<ILaunchExecutionHandler> Handlers { get; set; }
+    private static readonly ConcurrentDictionary<AbstractLaunchExecutionInvoker, Void> Invokers = [];
+
+    private bool invoked;
+
+    protected ImmutableArray<ILaunchExecutionHandler> Handlers { get; init; }
+
+    public static bool HasAnyInvoking()
+    {
+        return !Invokers.IsEmpty;
+    }
 
     public async ValueTask InvokeAsync(LaunchExecutionInvocationContext context)
+    {
+        HutaoException.ThrowIf(Interlocked.Exchange(ref invoked, true), "The invoker has been invoked");
+        ITaskContext taskContext = context.ServiceProvider.GetRequiredService<ITaskContext>();
+
+        try
+        {
+            Invokers.TryAdd(this, default);
+            await InvokeCoreAsync(context, taskContext).ConfigureAwait(false);
+        }
+        finally
+        {
+            Invokers.TryRemove(this, out _);
+            if (!HasAnyInvoking())
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                GameLifeCycle.SpinWaitGameExit();
+            }
+        }
+    }
+
+    protected virtual IProcess? CreateProcess(BeforeLaunchExecutionContext beforeContext)
+    {
+        return GameProcessFactory.CreateDefault(beforeContext);
+    }
+
+    private static IProgress<LaunchStatus?> CreateStatusProgress(IServiceProvider serviceProvider)
+    {
+        IProgressFactory progressFactory = serviceProvider.GetRequiredService<IProgressFactory>();
+        LaunchStatusOptions options = serviceProvider.GetRequiredService<LaunchStatusOptions>();
+        return progressFactory.CreateForMainThread<LaunchStatus?, LaunchStatusOptions>(static (status, options) => options.LaunchStatus = status, options);
+    }
+
+    private async ValueTask InvokeCoreAsync(LaunchExecutionInvocationContext context, ITaskContext taskContext)
     {
         string lockTrace = $"{GetType().Name}.{nameof(InvokeAsync)}";
         context.LaunchOptions.TryGetGameFileSystem(lockTrace, out IGameFileSystem? gameFileSystem);
@@ -27,7 +72,6 @@ internal abstract class AbstractLaunchExecutionInvoker
                 throw HutaoException.InvalidOperation(SH.ViewModelLaunchGameSchemeNotSelected);
             }
 
-            ITaskContext taskContext = context.ServiceProvider.GetRequiredService<ITaskContext>();
             IProgress<LaunchStatus?> progress = CreateStatusProgress(context.ServiceProvider);
 
             BeforeLaunchExecutionContext beforeContext = new()
@@ -103,17 +147,5 @@ internal abstract class AbstractLaunchExecutionInvoker
                 await handler.AfterAsync(afterContext).ConfigureAwait(false);
             }
         }
-    }
-
-    protected virtual IProcess? CreateProcess(BeforeLaunchExecutionContext beforeContext)
-    {
-        return LaunchExecutionGameProcessFactory.CreateDefault(beforeContext);
-    }
-
-    private static IProgress<LaunchStatus?> CreateStatusProgress(IServiceProvider serviceProvider)
-    {
-        IProgressFactory progressFactory = serviceProvider.GetRequiredService<IProgressFactory>();
-        LaunchStatusOptions options = serviceProvider.GetRequiredService<LaunchStatusOptions>();
-        return progressFactory.CreateForMainThread<LaunchStatus?, LaunchStatusOptions>(static (status, options) => options.LaunchStatus = status, options);
     }
 }

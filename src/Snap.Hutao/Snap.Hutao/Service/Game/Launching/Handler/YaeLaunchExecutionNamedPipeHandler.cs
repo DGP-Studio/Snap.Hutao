@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;

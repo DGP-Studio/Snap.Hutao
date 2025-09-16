@@ -5,7 +5,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Configuration;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
 

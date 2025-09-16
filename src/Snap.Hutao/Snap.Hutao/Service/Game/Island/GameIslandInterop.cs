@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;

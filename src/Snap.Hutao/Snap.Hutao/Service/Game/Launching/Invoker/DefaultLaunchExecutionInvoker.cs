@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Service.Game.Launching.Handler;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Invoker;
 
 internal sealed class DefaultLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
 {

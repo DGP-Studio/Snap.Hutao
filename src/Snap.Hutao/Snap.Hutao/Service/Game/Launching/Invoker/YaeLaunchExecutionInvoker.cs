@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Yae.Achievement;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Invoker;
 
 internal sealed class YaeLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
 {
@@ -25,6 +26,6 @@ internal sealed class YaeLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
 
     protected override IProcess? CreateProcess(BeforeLaunchExecutionContext beforeContext)
     {
-        return LaunchExecutionGameProcessFactory.CreateForEmbeddedYae(beforeContext);
+        return GameProcessFactory.CreateForEmbeddedYae(beforeContext);
     }
 }
