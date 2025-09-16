@@ -144,6 +144,7 @@ internal abstract class AbstractLaunchExecutionInvoker
 
             AfterLaunchExecutionContext afterContext = new()
             {
+                ServiceProvider = context.ServiceProvider,
                 TaskContext = taskContext,
             };
 
