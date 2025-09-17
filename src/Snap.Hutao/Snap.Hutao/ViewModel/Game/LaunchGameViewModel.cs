@@ -128,6 +128,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset game path", "LaunchGameViewModel.Command"));
         LaunchOptions.GamePathEntry.Value = default;
+        _ = 1;
     }
 
     [Command("RemoveGamePathEntryCommand")]
