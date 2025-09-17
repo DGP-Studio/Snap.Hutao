@@ -54,7 +54,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
                 }
             }
 
-            return GameConfiguration.Read(configFilePath, gameFileSystem);
+            return GameConfiguration.Read(gameFileSystem);
         }
     }
 }
