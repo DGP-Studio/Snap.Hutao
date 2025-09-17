@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -55,7 +56,7 @@ internal sealed partial class YaeService : IYaeService
                         Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
                     };
 
-                    if (!TryGetGameVersion(context, out string? version))
+                    if (!TryGetGameVersion(context, out string? version, out bool isOversea))
                     {
                         return default;
                     }
@@ -63,7 +64,7 @@ internal sealed partial class YaeService : IYaeService
                     AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
                     ArgumentNullException.ThrowIfNull(fieldId);
 
-                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.ViewModel.CurrentScheme.IsOversea);
+                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, isOversea);
                     await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
 
                     UIAF? uiaf = default;
@@ -114,7 +115,7 @@ internal sealed partial class YaeService : IYaeService
                         Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
                     };
 
-                    if (!TryGetGameVersion(context, out string? version))
+                    if (!TryGetGameVersion(context, out string? version, out bool isOversea))
                     {
                         return default;
                     }
@@ -122,7 +123,7 @@ internal sealed partial class YaeService : IYaeService
                     AchievementFieldId? fieldId = await featureService.GetAchievementFieldIdAsync(version).ConfigureAwait(false);
                     ArgumentNullException.ThrowIfNull(fieldId);
 
-                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, context.ViewModel.CurrentScheme.IsOversea);
+                    TargetNativeConfiguration config = TargetNativeConfiguration.Create(fieldId.NativeConfig, isOversea);
                     await new YaeLaunchExecutionInvoker(config, receiver).InvokeAsync(context).ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -165,7 +166,7 @@ internal sealed partial class YaeService : IYaeService
         }
     }
 
-    private bool TryGetGameVersion(LaunchExecutionInvocationContext context, [NotNullWhen(true)] out string? version)
+    private bool TryGetGameVersion(LaunchExecutionInvocationContext context, [NotNullWhen(true)] out string? version, out bool isOversea)
     {
         const string LockTrace = $"{nameof(YaeService)}.{nameof(TryGetGameVersion)}";
 
@@ -177,6 +178,7 @@ internal sealed partial class YaeService : IYaeService
         if (gameFileSystem is null)
         {
             version = default;
+            isOversea = false;
             return false;
         }
 
@@ -185,10 +187,13 @@ internal sealed partial class YaeService : IYaeService
             if (!gameFileSystem.TryGetGameVersion(out version) || string.IsNullOrEmpty(version))
             {
                 messenger.Send(InfoBarMessage.Error(SH.ServiceYaeGetGameVersionFailed));
+                isOversea = false;
                 return false;
             }
+
+            isOversea = gameFileSystem.IsExecutableOversea();
         }
 
-        return false;
+        return true;
     }
 }

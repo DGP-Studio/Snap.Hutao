@@ -25,11 +25,11 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
 
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     private bool updating;
     private int totalSignDay;
@@ -70,7 +70,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         }
         else
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
         }
     }
 
@@ -87,7 +87,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         }
         else
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
         }
     }
 
@@ -123,36 +123,34 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User).ConfigureAwait(false);
                 if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, out reward))
                 {
-                    infoBarService.Error(SH.ServiceSignInRewardListRequestFailed);
+                    messenger.Send(InfoBarMessage.Error(SH.ServiceSignInRewardListRequestFailed));
                     return;
                 }
 
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid).ConfigureAwait(false);
                 if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, out info))
                 {
-                    infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
+                    messenger.Send(InfoBarMessage.Error(SH.ServiceSignInInfoRequestFailed));
                     return;
                 }
 
                 Response<SignInRewardReSignInfo> resignInfoResponse = await signInClient.GetResignInfoAsync(userAndUid).ConfigureAwait(false);
                 if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, out resignInfo))
                 {
-                    infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
+                    messenger.Send(InfoBarMessage.Error(SH.ServiceSignInInfoRequestFailed));
                     return;
                 }
             }
 
+            int index = info.TotalSignDay - 1;
+            Award award = reward.Awards[index];
             if (postSign)
             {
-                int index = info.TotalSignDay - 1;
-                Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count));
+                messenger.Send(InfoBarMessage.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count)));
             }
             else if (postResign)
             {
-                int index = info.TotalSignDay - 1;
-                Award award = reward.Awards[index];
-                infoBarService.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count));
+                messenger.Send(InfoBarMessage.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count)));
             }
 
             ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.Create);
@@ -210,7 +208,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 
@@ -225,7 +223,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 

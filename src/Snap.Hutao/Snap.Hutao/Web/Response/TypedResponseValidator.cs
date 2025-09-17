@@ -8,11 +8,11 @@ namespace Snap.Hutao.Web.Response;
 [SuppressMessage("", "SA1402")]
 internal sealed class TypedResponseValidator<TData> : ITypedResponseValidator<TData>
 {
-    private readonly IInfoBarService infoBarService;
+    private readonly IMessenger messenger;
 
-    public TypedResponseValidator(IInfoBarService infoBarService)
+    public TypedResponseValidator(IMessenger messenger)
     {
-        this.infoBarService = infoBarService;
+        this.messenger = messenger;
     }
 
     public bool TryValidate(Response<TData> response, [NotNullWhen(true)] out TData? data)
@@ -35,7 +35,7 @@ internal sealed class TypedResponseValidator<TData> : ITypedResponseValidator<TD
             return true;
         }
 
-        infoBarService.Error(response.ToString());
+        messenger.Send(InfoBarMessage.Error(response.ToString()));
         return false;
     }
 

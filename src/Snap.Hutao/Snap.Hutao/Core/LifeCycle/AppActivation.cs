@@ -195,7 +195,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
             catch (Exception ex)
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex));
+                serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex)));
             }
         }
 

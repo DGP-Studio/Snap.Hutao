@@ -21,8 +21,8 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private string? ticket;
     private bool isOversea;
@@ -63,7 +63,7 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
             }
 
             taskContext.InvokeOnMainThread(() => Email = actionTicketInfo.UserInfo.Email);
-            infoBarService.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent);
+            messenger.Send(InfoBarMessage.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent));
 
             ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
             if (result is not ContentDialogResult.Primary)
@@ -108,7 +108,7 @@ internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAi
 
             if (ResponseValidator.TryValidate(response, serviceProvider))
             {
-                infoBarService.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent);
+                messenger.Send(InfoBarMessage.Information(SH.ViewDialogUserAccountVerificationEmailCaptchaSent));
                 await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
             }
         }

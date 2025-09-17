@@ -32,8 +32,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private bool suppressCurrentItemChangedHandling;
     private GachaLogServiceMetadataContext? metadataContext;
@@ -158,7 +158,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             {
                 if (!string.IsNullOrEmpty(query.Message))
                 {
-                    infoBarService.Warning(query.Message);
+                    messenger.Send(InfoBarMessage.Warning(query.Message));
                 }
 
                 return;
@@ -188,7 +188,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             if (ex.HResult is HRESULT.E_ASYNC_OPERATION_NOT_STARTED)
             {
-                infoBarService.Error(ex);
+                messenger.Send(InfoBarMessage.Error(ex));
                 return;
             }
 
@@ -219,7 +219,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 catch (HutaoException ex)
                 {
                     authkeyValid = false;
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                 }
             }
         }
@@ -227,7 +227,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             // We set true here in order to hide the dialog.
             authkeyValid = true;
-            infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelGachaLogRefreshOperationCancel));
         }
 
         await taskContext.SwitchToMainThreadAsync();
@@ -329,7 +329,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 }

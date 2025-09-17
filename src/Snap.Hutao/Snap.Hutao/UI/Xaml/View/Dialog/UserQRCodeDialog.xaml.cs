@@ -20,9 +20,9 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
     private readonly HoyoPlayPassportClient hoyoPlayPassportClient;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IInfoBarService infoBarService;
     private readonly IQRCodeFactory qrCodeFactory;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private readonly CancellationTokenSource userManualCancellationTokenSource = new();
     private bool disposed;
@@ -95,7 +95,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
     private async ValueTask<string> FetchQRCodeAndSetImageAsync(CancellationToken token)
     {
         Response<QrLogin> qrLoginResponse = await hoyoPlayPassportClient.CreateQrLoginAsync(token).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(qrLoginResponse, infoBarService, out QrLogin? qrLogin))
+        if (!ResponseValidator.TryValidate(qrLoginResponse, messenger, out QrLogin? qrLogin))
         {
             return string.Empty;
         }

@@ -21,9 +21,9 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
 {
     private readonly IHardChallengeService hardChallengeService;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     private HardChallengeMetadataContext? metadataContext;
 
@@ -66,7 +66,7 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
         }
         else
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
         }
 
         return true;

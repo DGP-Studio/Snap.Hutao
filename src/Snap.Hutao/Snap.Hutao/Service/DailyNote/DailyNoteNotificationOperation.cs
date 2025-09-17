@@ -20,9 +20,9 @@ internal sealed partial class DailyNoteNotificationOperation
     private const string ToastAttributionUnknown = "Unknown UID";
 
     private readonly IGameService gameService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
+    private readonly IMessenger messenger;
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
@@ -114,7 +114,7 @@ internal sealed partial class DailyNoteNotificationOperation
         catch (Exception ex)
         {
             ExceptionAttachment.SetAttachment(ex, "RawXml", rawXml);
-            infoBarService.Error(ex, SH.ServiceDailyNoteNotificationSendExceptionTitle);
+            messenger.Send(InfoBarMessage.Error(SH.ServiceDailyNoteNotificationSendExceptionTitle, ex));
         }
     }
 }

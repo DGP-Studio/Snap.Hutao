@@ -48,9 +48,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IClipboardProvider clipboardProvider;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
 
@@ -191,7 +191,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(accessToken, Announcement).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
                 await taskContext.SwitchToMainThreadAsync();
                 Announcement = new();
             }
@@ -219,7 +219,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(accessToken, GachaLogCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -245,7 +245,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(accessToken, GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -271,7 +271,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.CdnCompensationAsync(accessToken, CdnCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -297,7 +297,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.CdnDesignationAsync(accessToken, CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -307,10 +307,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Send random infobar notification", "TestViewModel.Command"));
 
-        infoBarService.PrepareInfoBarAndShow(builder => builder
-            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
-            .SetTitle("Lorem ipsum dolor sit amet")
-            .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
+        messenger.Send(new InfoBarMessage
+        {
+            Severity = (InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1,
+            Title = "Lorem ipsum dolor sit amet",
+            Message = "Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt.",
+        });
     }
 
     [Command("CheckPathBelongsToSSDCommand")]
@@ -322,7 +324,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         if (isOk)
         {
             bool isSolidState = PhysicalDrive.DangerousGetIsSolidState(file);
-            infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
+            messenger.Send(InfoBarMessage.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive."));
         }
     }
 
@@ -375,7 +377,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             if (gameBranch.PreDownload is null)
             {
-                infoBarService.Warning("PreDownload not available");
+                messenger.Send(InfoBarMessage.Warning("PreDownload not available"));
                 return;
             }
 
@@ -433,7 +435,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
                     if (localBuild is null || remoteBuild is null || patchBuild is null)
                     {
-                        infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                        messenger.Send(InfoBarMessage.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
                         return;
                     }
                 }
@@ -497,7 +499,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             if (branch is null)
             {
-                infoBarService.Warning("PreDownload not available");
+                messenger.Send(InfoBarMessage.Warning("PreDownload not available"));
                 return;
             }
 
@@ -531,7 +533,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch).ConfigureAwait(false);
                     if (build is null)
                     {
-                        infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                        messenger.Send(InfoBarMessage.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
                         return;
                     }
                 }
@@ -577,13 +579,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         if (type is RedeemCodeType.None)
         {
-            infoBarService.Warning("Please select at least one type");
+            messenger.Send(InfoBarMessage.Warning("Please select at least one type"));
             return;
         }
 
         if (RedeemCodeGenerateOption.ServiceType is RedeemCodeTargetServiceType.None)
         {
-            infoBarService.Warning("Please select a service type");
+            messenger.Send(InfoBarMessage.Warning("Please select a service type"));
             return;
         }
 
@@ -611,7 +613,11 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     Copied to clipboard
                     """;
                 await clipboardProvider.SetTextAsync(string.Join(", ", generateResponse.Codes)).ConfigureAwait(false);
-                infoBarService.Success(message, 0);
+                messenger.Send(new InfoBarMessage
+                {
+                    Severity = InfoBarSeverity.Success,
+                    Message = message,
+                });
                 await taskContext.SwitchToMainThreadAsync();
                 RedeemCodeGenerateOption = new();
             }

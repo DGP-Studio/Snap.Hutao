@@ -199,7 +199,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (avatar.Weapon is null)
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull));
             return;
         }
 
@@ -218,7 +218,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (!await SaveCultivationAsync(batchConsumption.Items.Single(), deltaOptions).ConfigureAwait(false))
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelCultivationEntryAddWarning));
         }
     }
 
@@ -249,7 +249,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
             if (!selectDialog.SelectedAvatars.Any())
             {
-                scopeContext.InfoBarService.Warning(SH.ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar);
+                scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelAvatarPropertyBatchCultivateNoSelectedAvatar));
                 return;
             }
 
@@ -306,9 +306,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             }
         }
 
-        _ = result.SkippedCount > 0
-            ? scopeContext.InfoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompleted(result.SucceedCount, result.SkippedCount))
-            : scopeContext.InfoBarService.Success(SH.FormatViewModelCultivationBatchAddCompleted(result.SucceedCount, result.SkippedCount));
+        InfoBarMessage message = result.SkippedCount > 0
+            ? InfoBarMessage.Warning(SH.FormatViewModelCultivationBatchAddIncompleted(result.SucceedCount, result.SkippedCount))
+            : InfoBarMessage.Success(SH.FormatViewModelCultivationBatchAddCompleted(result.SucceedCount, result.SkippedCount));
+
+        scopeContext.Messenger.Send(message);
     }
 
     /// <returns><see langword="true"/> if we can continue saving consumptions, otherwise <see langword="false"/>.</returns>
@@ -327,14 +329,19 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         ConsumptionSaveResultKind avatarSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(avatarInput).ConfigureAwait(false);
 
-        _ = avatarSaveKind switch
+        InfoBarMessage? avatarMessage = avatarSaveKind switch
         {
-            ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
-            ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
-            ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-            ConsumptionSaveResultKind.Added => isBatch ? default : scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            ConsumptionSaveResultKind.NoProject => InfoBarMessage.Warning(SH.ViewModelCultivationEntryAddWarning),
+            ConsumptionSaveResultKind.Skipped => isBatch ? default : InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+            ConsumptionSaveResultKind.NoItem => isBatch ? default : InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+            ConsumptionSaveResultKind.Added => isBatch ? default : InfoBarMessage.Success(SH.ViewModelCultivationEntryAddSuccess),
             _ => default,
         };
+
+        if (avatarMessage is not null)
+        {
+            scopeContext.Messenger.Send(avatarMessage);
+        }
 
         if (avatarSaveKind is ConsumptionSaveResultKind.NoProject)
         {
@@ -353,14 +360,19 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         };
 
         ConsumptionSaveResultKind weaponSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(weaponInput).ConfigureAwait(false);
-        _ = weaponSaveKind switch
+        InfoBarMessage? weaponMessage = weaponSaveKind switch
         {
-            ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
-            ConsumptionSaveResultKind.Skipped => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
-            ConsumptionSaveResultKind.NoItem => isBatch ? default : scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-            ConsumptionSaveResultKind.Added => isBatch ? default : scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            ConsumptionSaveResultKind.NoProject => InfoBarMessage.Warning(SH.ViewModelCultivationEntryAddWarning),
+            ConsumptionSaveResultKind.Skipped => isBatch ? default : InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+            ConsumptionSaveResultKind.NoItem => isBatch ? default : InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+            ConsumptionSaveResultKind.Added => isBatch ? default : InfoBarMessage.Success(SH.ViewModelCultivationEntryAddSuccess),
             _ => default,
         };
+
+        if (weaponMessage is not null)
+        {
+            scopeContext.Messenger.Send(weaponMessage);
+        }
 
         return weaponSaveKind is not ConsumptionSaveResultKind.NoProject;
     }
@@ -375,9 +387,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        _ = await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false)
-            ? scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess)
-            : scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
+        InfoBarMessage message = await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false)
+            ? InfoBarMessage.Success(SH.ViewModelAvatatPropertyExportTextSuccess)
+            : InfoBarMessage.Warning(SH.ViewModelAvatatPropertyExportTextError);
+
+        scopeContext.Messenger.Send(message);
     }
 
     [Command("FilterCommand")]
