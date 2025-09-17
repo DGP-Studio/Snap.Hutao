@@ -76,7 +76,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchE
             throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Branches"));
         }
 
-        if (await context.HoyoPlay.TryGetChannelSdksAsync(context.TargetScheme).ConfigureAwait(false) is not (true, { } channelSdks))
+        if (await context.HoyoPlay.TryGetChannelSDKsAsync(context.TargetScheme).ConfigureAwait(false) is not (true, { } channelSdks))
         {
             throw HutaoException.InvalidOperation(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Channel SDKs"));
         }

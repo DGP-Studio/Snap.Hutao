@@ -22,7 +22,7 @@ internal sealed partial class HoyoPlayService : IHoyoPlayService
         return TryGetAsync(scheme, static (client, scheme) => client.GetBranchesAsync(scheme));
     }
 
-    public ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSdksAsync(LaunchScheme scheme)
+    public ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSDKsAsync(LaunchScheme scheme)
     {
         return TryGetAsync(scheme, static (client, scheme) => client.GetChannelSDKAsync(scheme));
     }

@@ -33,6 +33,17 @@ internal sealed class InfoBarMessage
         };
     }
 
+    public static InfoBarMessage Error(string title, string message)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Error,
+            Title = title,
+            Message = message,
+            MilliSecondsDelay = 0,
+        };
+    }
+
     public static InfoBarMessage Error(string title, Exception exception)
     {
         return new()

@@ -127,7 +127,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
                     GameBranch branch = branchesWrapper.GameBranches.First(b => b.Game.Id == launchScheme.GameId);
 
-                    if (await hoyoPlayService.TryGetChannelSdksAsync(launchScheme) is not (true, { } channelSDKsWrapper))
+                    if (await hoyoPlayService.TryGetChannelSDKsAsync(launchScheme) is not (true, { } channelSDKsWrapper))
                     {
                         messenger.Send(InfoBarMessage.Error(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Channel SDKs")));
                         return;

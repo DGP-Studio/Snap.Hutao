@@ -165,10 +165,10 @@ internal sealed partial class LaunchGameShared
         switch (errorKind)
         {
             case GameFileSystemErrorKind.GamePathLocked:
-                messenger.Send(InfoBarMessage.Warning("生成配置文件失败", "游戏路径被锁定，请稍后再试"));
+                messenger.Send(InfoBarMessage.Warning(SH.ViewModelGameConfigurationCreateFailed, SH.ViewModelGameConfigurationCreateFailedGamePathLocked));
                 return;
             case GameFileSystemErrorKind.GamePathNullOrEmpty:
-                messenger.Send(InfoBarMessage.Warning("生成配置文件失败", "游戏路径为空，请先设置游戏路径"));
+                messenger.Send(InfoBarMessage.Warning(SH.ViewModelGameConfigurationCreateFailed, SH.ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty));
                 return;
             default:
                 ArgumentNullException.ThrowIfNull(gameFileSystem);

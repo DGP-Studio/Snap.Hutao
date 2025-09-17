@@ -28,7 +28,7 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
         }
 
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBuild.Tag, false, uniqueTotalBlocks);
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusFilePath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
@@ -44,7 +44,7 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
 
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusFilePath()))
         {
             predownloadStatus.Finished = true;
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
