@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.FileSystem;
 
-internal sealed class GameFileSystemReference : IGameFileSystem
+internal sealed partial class GameFileSystemReference : IGameFileSystem
 {
     private IGameFileSystem reference;
 
@@ -20,6 +20,12 @@ internal sealed class GameFileSystemReference : IGameFileSystem
 
     public void Exchange(IGameFileSystem newReference)
     {
+        if (newReference is GameFileSystemReference wrapper)
+        {
+            Exchange(wrapper.reference);
+            return;
+        }
+
         if (!ReferenceEquals(reference, newReference))
         {
             reference.Dispose();

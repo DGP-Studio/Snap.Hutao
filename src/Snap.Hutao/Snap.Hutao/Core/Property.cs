@@ -64,11 +64,11 @@ internal static partial class Property
         return new PropertyNameValueWrapper<T>(source, array);
     }
 
-    public static IObservableProperty<T?> AsSelection<T, TSource>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
+    public static IObservableProperty<T?> AsNullableSelection<TSource, T>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
         where T : class
         where TSource : notnull
     {
-        return new PropertySelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
+        return new PropertyNullableSelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
     }
 
     private sealed partial class PropertyLinker<TSource, TTarget> : ObservableObject, IObservableProperty<TSource>
@@ -123,7 +123,7 @@ internal static partial class Property
         }
     }
 
-    private sealed partial class PropertySelectionWrapper<T, TSource> : ObservableObject, IObservableProperty<T?>
+    private sealed partial class PropertyNullableSelectionWrapper<T, TSource> : ObservableObject, IObservableProperty<T?>
         where T : class
         where TSource : notnull
     {
@@ -131,21 +131,24 @@ internal static partial class Property
         private readonly ImmutableArray<T> array;
         private readonly Func<T, TSource> valueSelector;
         private readonly IEqualityComparer<TSource> equalityComparer;
+        private T? field;
 
-        public PropertySelectionWrapper(IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
+        public PropertyNullableSelectionWrapper(IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
         {
             this.source = source;
             this.array = array;
             this.valueSelector = valueSelector;
             this.equalityComparer = equalityComparer;
+
+            field = Selection.Initialize(array, source.Value, valueSelector, equalityComparer);
         }
 
         public T? Value
         {
-            get => field ??= Selection.Initialize(array, source.Value, valueSelector, equalityComparer);
+            get => @field;
             set
             {
-                if (SetProperty(ref field, value) && value is not null)
+                if (SetProperty(ref @field, value) && value is not null)
                 {
                     source.Value = valueSelector(value);
                 }
