@@ -24,7 +24,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchE
             return;
         }
 
-        using (BlockDeferralWithProgress<PackageConvertStatus> deferral = await context.ViewModel.CreateConvertBlockDeferralAsync().ConfigureAwait(false))
+        using (BlockDeferral<PackageConvertStatus> deferral = await context.ViewModel.CreateConvertBlockDeferralAsync().ConfigureAwait(false))
         {
             await EnsureGameResourceAsync(context, deferral.Progress).ConfigureAwait(false);
         }

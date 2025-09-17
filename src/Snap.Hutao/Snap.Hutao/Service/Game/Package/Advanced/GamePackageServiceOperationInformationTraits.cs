@@ -21,8 +21,11 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
 
     public async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndPrepareAsync(GamePackageOperationContext context)
     {
-        SophonDecodedBuild localBuild = context.LocalBuild;
-        SophonDecodedBuild remoteBuild = context.RemoteBuild;
+        SophonDecodedBuild? localBuild = context.LocalBuild;
+        SophonDecodedBuild? remoteBuild = context.RemoteBuild;
+
+        ArgumentNullException.ThrowIfNull(localBuild);
+        ArgumentNullException.ThrowIfNull(remoteBuild);
 
         if (context.Kind is GamePackageOperationKind.Verify)
         {

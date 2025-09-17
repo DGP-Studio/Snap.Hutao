@@ -12,30 +12,6 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class GamePackageOperationContext
 {
-    public GamePackageOperationContext(
-        IServiceProvider serviceProvider,
-        GamePackageOperationKind kind,
-        IGameFileSystem gameFileSystem,
-        SophonDecodedBuild localBuild, //?
-        SophonDecodedBuild remoteBuild,
-        SophonDecodedPatchBuild? patchBuild, //?
-        GameChannelSDK? gameChannelSDK,
-        string? extractDirectory) //?
-    {
-        Kind = kind;
-        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GetGameDirectory());
-        GameFileSystem = gameFileSystem;
-        LocalBuild = localBuild;
-        RemoteBuild = remoteBuild;
-        PatchBuild = patchBuild;
-        GameChannelSDK = gameChannelSDK;
-        EffectiveGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
-
-        EffectiveChunksDirectory = kind is GamePackageOperationKind.Verify
-            ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
-            : gameFileSystem.GetChunksDirectory();
-    }
-
     public GamePackageOperationContext(IServiceProvider serviceProvider, GamePackageOperationKind kind, IGameFileSystem gameFileSystem, string? extractDirectory = default)
     {
         Kind = kind;

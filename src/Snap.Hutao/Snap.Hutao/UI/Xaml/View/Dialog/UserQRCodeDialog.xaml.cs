@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.QuickResponse;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.IO;

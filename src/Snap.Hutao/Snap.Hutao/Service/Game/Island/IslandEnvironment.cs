@@ -7,7 +7,9 @@ namespace Snap.Hutao.Service.Game.Island;
 
 internal struct IslandEnvironment
 {
+#pragma warning disable CS0649
     public IslandEnvironmentView View;
+#pragma warning restore CS0649
     public IslandFunctionOffsets FunctionOffsets;
 
     public BOOL EnableSetFieldOfView;

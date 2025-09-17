@@ -381,11 +381,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
-            if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+            const string LockTrace = $"{nameof(TestViewModel)}.{nameof(ExtractGameBlocksAsync)}";
+            if (launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem) is not GameFileSystemErrorKind.None)
             {
                 return;
             }
 
+            ArgumentNullException.ThrowIfNull(gameFileSystem);
             using (gameFileSystem)
             {
                 if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
@@ -440,15 +442,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     }
                 }
 
-                GamePackageOperationContext context = new(
-                    serviceProvider,
-                    GamePackageOperationKind.ExtractBlocks,
-                    gameFileSystem,
-                    ExtractGameAssetBundles(localBuild),
-                    ExtractGameAssetBundles(remoteBuild),
-                    ExtractGameAssetBundlesPatched(patchBuild),
-                    default,
-                    extractDirectory);
+                GamePackageOperationContext context = new(serviceProvider, GamePackageOperationKind.ExtractBlocks, gameFileSystem, extractDirectory)
+                {
+                    LocalBuild = ExtractGameAssetBundles(localBuild),
+                    RemoteBuild = ExtractGameAssetBundles(remoteBuild),
+                    PatchBuild = ExtractGameAssetBundlesPatched(patchBuild),
+                };
 
                 await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
             }
@@ -538,15 +537,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     }
                 }
 
-                GamePackageOperationContext context = new(
-                    serviceProvider,
-                    GamePackageOperationKind.ExtractExecutable,
-                    gameFileSystem,
-                    default!,
-                    ExtractGameExecutable(build),
-                    default,
-                    default,
-                    default);
+                GamePackageOperationContext context = new(serviceProvider, GamePackageOperationKind.ExtractExecutable, gameFileSystem)
+                {
+                    RemoteBuild = ExtractGameExecutable(build),
+                };
 
                 await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
             }

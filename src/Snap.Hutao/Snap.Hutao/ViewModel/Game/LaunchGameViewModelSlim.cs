@@ -47,11 +47,11 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     GameAccount? IViewModelSupportLaunchExecution.GameAccount { get => GameAccountsView?.CurrentItem; }
 
-    ValueTask<BlockDeferralWithProgress<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
+    ValueTask<BlockDeferral<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
     {
         // Should never happen: slim does not support package conversion.
         Debugger.Break();
-        return BlockDeferralWithProgress<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
+        return BlockDeferral<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
     }
 
     public void Receive(UserAndUidChangedMessage message)

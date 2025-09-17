@@ -6,7 +6,6 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;

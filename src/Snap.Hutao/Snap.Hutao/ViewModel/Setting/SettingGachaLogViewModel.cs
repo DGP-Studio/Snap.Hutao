@@ -25,8 +25,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     private readonly IGachaLogRepository gachaLogRepository;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly IUIGFService uigfService;
+    private readonly IMessenger messenger;
 
     public partial AppOptions AppOptions { get; }
 
@@ -49,19 +49,20 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 
         if (await file.DeserializeFromJsonNoThrowAsync<UIGF>(jsonOptions).ConfigureAwait(false) is not (true, { } uigf))
         {
-            infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            messenger.Send(InfoBarMessage.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage));
+
             return;
         }
 
         if (uigf.Hk4e.IsDefaultOrEmpty)
         {
-            infoBarService.Warning(SH.ViewModelUIGFImportNoHk4eEntry);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelUIGFImportNoHk4eEntry));
             return;
         }
 
         if (uigf.Hk4e.Select(entry => entry.Uid).ToHashSet().Count != uigf.Hk4e.Length)
         {
-            infoBarService.Warning(SH.ViewModelUIGFImportDuplicatedHk4eEntry);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelUIGFImportDuplicatedHk4eEntry));
             return;
         }
 
@@ -73,7 +74,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 
         if (uids is null or { Count: 0 })
         {
-            infoBarService.Warning(SH.ViewModelUIGFImportNoSelectedEntry);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelUIGFImportNoSelectedEntry));
             return;
         }
 
@@ -92,11 +93,11 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             try
             {
                 await uigfService.ImportAsync(options).ConfigureAwait(false);
-                infoBarService.Success(SH.ViewModelUIGFImportSuccess);
+                messenger.Send(InfoBarMessage.Success(SH.ViewModelUIGFImportSuccess));
             }
             catch (Exception ex)
             {
-                infoBarService.Error(ex, SH.ViewModelUIGFImportError);
+                messenger.Send(InfoBarMessage.Error(SH.ViewModelUIGFImportError, ex));
             }
         }
     }
@@ -135,11 +136,11 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         try
         {
             await uigfService.ExportAsync(options).ConfigureAwait(false);
-            infoBarService.Success(SH.ViewModelUIGFExportSuccess);
+            messenger.Send(InfoBarMessage.Success(SH.ViewModelUIGFExportSuccess));
         }
         catch (Exception ex)
         {
-            infoBarService.Error(ex, SH.ViewModelUIGFExportError);
+            messenger.Send(InfoBarMessage.Error(SH.ViewModelUIGFExportError, ex));
         }
     }
 }
