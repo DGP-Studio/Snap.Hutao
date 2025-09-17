@@ -16,5 +16,5 @@ internal interface IViewModelSupportLaunchExecution
 
     GameAccount? GameAccount { get; }
 
-    ValueTask<BlockDeferralWithProgress<PackageConvertStatus>> CreateConvertBlockDeferralAsync();
+    ValueTask<BlockDeferral<PackageConvertStatus>> CreateConvertBlockDeferralAsync();
 }

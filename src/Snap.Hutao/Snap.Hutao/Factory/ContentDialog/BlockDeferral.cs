@@ -30,12 +30,12 @@ internal sealed class BlockDeferral : IDisposable
 }
 
 [SuppressMessage("", "SA1402")]
-internal sealed class BlockDeferralWithProgress<T> : IDisposable
+internal sealed class BlockDeferral<T> : IDisposable
 {
     private readonly IServiceScope serviceScope;
     private readonly BlockDeferral blockDeferral;
 
-    private BlockDeferralWithProgress(IServiceScope serviceScope, BlockDeferral blockDeferral, IProgress<T> progress)
+    private BlockDeferral(IServiceScope serviceScope, BlockDeferral blockDeferral, IProgress<T> progress)
     {
         this.serviceScope = serviceScope;
         this.blockDeferral = blockDeferral;
@@ -44,7 +44,7 @@ internal sealed class BlockDeferralWithProgress<T> : IDisposable
 
     public IProgress<T> Progress { get; }
 
-    public static async ValueTask<BlockDeferralWithProgress<T>> CreateAsync<TContentDialog>(IServiceProvider serviceProvider, [RequireStaticDelegate] Action<T, TContentDialog> progressHandler)
+    public static async ValueTask<BlockDeferral<T>> CreateAsync<TContentDialog>(IServiceProvider serviceProvider, [RequireStaticDelegate] Action<T, TContentDialog> progressHandler)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         IServiceScope scope = serviceProvider.CreateScope();

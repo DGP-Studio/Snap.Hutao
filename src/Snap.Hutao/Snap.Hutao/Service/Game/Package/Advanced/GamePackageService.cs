@@ -96,7 +96,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                             }
                         }
 
-                        serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
+                        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(SH.ServicePackageAdvancedExecuteOperationFailedTitle, ex));
                         result = false;
                     }
                     finally

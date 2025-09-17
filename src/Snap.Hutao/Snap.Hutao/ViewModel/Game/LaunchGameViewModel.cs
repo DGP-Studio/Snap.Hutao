@@ -87,9 +87,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         return false;
     }
 
-    ValueTask<BlockDeferralWithProgress<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
+    ValueTask<BlockDeferral<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
     {
-        return BlockDeferralWithProgress<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
+        return BlockDeferral<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)

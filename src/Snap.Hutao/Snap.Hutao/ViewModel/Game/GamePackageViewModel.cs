@@ -257,15 +257,13 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 }
             }
 
-            GamePackageOperationContext context = new(
-                serviceProvider,
-                operationKind,
-                gameFileSystem,
-                localBuild,
-                remoteBuild,
-                patchBuild,
-                await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
-                default);
+            GamePackageOperationContext context = new(serviceProvider, operationKind, gameFileSystem)
+            {
+                LocalBuild = localBuild,
+                RemoteBuild = remoteBuild,
+                PatchBuild = patchBuild,
+                GameChannelSDK = await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
+            };
 
             if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
             {

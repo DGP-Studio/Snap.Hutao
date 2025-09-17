@@ -15,9 +15,9 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
+    private readonly IMessenger messenger;
 
     [Command("ConfigureGeetestUrlCommand")]
     private async Task ConfigureGeetestUrlAsync()
@@ -34,6 +34,6 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
         appOptions.GeetestCustomCompositeUrl.Value = template;
-        infoBarService.Success(SH.ViewModelSettingGeetestCustomUrlSucceed);
+        messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingGeetestCustomUrlSucceed));
     }
 }

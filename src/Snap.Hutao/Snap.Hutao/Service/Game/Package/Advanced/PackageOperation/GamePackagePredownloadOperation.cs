@@ -27,7 +27,10 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
             Directory.CreateDirectory(context.Operation.GameFileSystem.GetChunksDirectory());
         }
 
-        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBuild.Tag, false, uniqueTotalBlocks);
+        SophonDecodedBuild? remoteBuild = context.Operation.RemoteBuild;
+        ArgumentNullException.ThrowIfNull(remoteBuild);
+
+        PredownloadStatus predownloadStatus = new(remoteBuild.Tag, false, uniqueTotalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusFilePath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);

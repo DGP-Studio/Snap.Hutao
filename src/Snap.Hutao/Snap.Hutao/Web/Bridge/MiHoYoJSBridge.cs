@@ -7,7 +7,6 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
