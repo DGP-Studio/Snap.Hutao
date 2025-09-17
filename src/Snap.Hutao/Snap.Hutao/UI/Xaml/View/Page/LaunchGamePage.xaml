@@ -341,7 +341,7 @@
                                                         EnableMemberPath="IsNotCompatOnly"
                                                         IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                         ItemsSource="{Binding KnownSchemes}"
-                                                        SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
+                                                        SelectedItem="{Binding TargetScheme, Mode=TwoWay}"
                                                         Style="{StaticResource DefaultComboBoxStyle}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </StackPanel>

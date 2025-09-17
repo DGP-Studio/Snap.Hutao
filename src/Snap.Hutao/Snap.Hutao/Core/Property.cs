@@ -63,6 +63,12 @@ internal static partial class Property
         return new PropertyNameValueWrapper<T>(source, array);
     }
 
+    public static IObservableProperty<T?> AsSelection<T, TSource>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
+        where T : class
+    {
+        return new PropertySelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
+    }
+
     private sealed partial class PropertyLinker<TSource, TTarget> : ObservableObject, IObservableProperty<TSource>
     {
         private readonly IObservableProperty<TSource> source;
@@ -110,6 +116,35 @@ internal static partial class Property
                 if (SetProperty(ref field, value) && value is not null)
                 {
                     target.Value = value.Value;
+                }
+            }
+        }
+    }
+
+    private sealed partial class PropertySelectionWrapper<T, TSource> : ObservableObject, IObservableProperty<T?>
+        where T : class
+    {
+        private readonly IProperty<TSource> source;
+        private readonly ImmutableArray<T> array;
+        private readonly Func<T, TSource> valueSelector;
+        private readonly IEqualityComparer<TSource> equalityComparer;
+
+        public PropertySelectionWrapper(IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
+        {
+            this.source = source;
+            this.array = array;
+            this.valueSelector = valueSelector;
+            this.equalityComparer = equalityComparer;
+        }
+
+        public T? Value
+        {
+            get => field ??= Selection.Initialize(array, source.Value, valueSelector, equalityComparer);
+            set
+            {
+                if (SetProperty(ref field, value) && value is not null)
+                {
+                    source.Value = valueSelector(value);
                 }
             }
         }
