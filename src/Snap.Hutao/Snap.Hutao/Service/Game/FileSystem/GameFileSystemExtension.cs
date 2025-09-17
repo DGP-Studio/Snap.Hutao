@@ -135,7 +135,7 @@ internal static class GameFileSystemExtension
         return chunksDirectory;
     }
 
-    public static string GetPredownloadStatusPath(this IGameFileSystemView gameFileSystem)
+    public static string GetPredownloadStatusFilePath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 

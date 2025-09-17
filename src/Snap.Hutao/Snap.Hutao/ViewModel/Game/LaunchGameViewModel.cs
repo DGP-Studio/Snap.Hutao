@@ -58,7 +58,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public LaunchScheme? TargetScheme
     {
         get => targetScheme;
-        set => SetSelectedSchemeAsync(value).SafeForget();
+        set => SetTargetSchemeAsync(value).SafeForget();
     }
 
     LaunchScheme? IViewModelSupportLaunchExecution.CurrentScheme { get => Shared.GetCurrentLaunchSchemeFromConfigurationFile(); }
@@ -70,7 +70,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
-    public IObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshUIAsync().SafeForget(), this); }
+    public IObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshForUpdatedGamePathEntryAsync().SafeForget(), this); }
 
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
@@ -273,7 +273,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task RefreshUIAsync()
+    private async Task RefreshForUpdatedGamePathEntryAsync()
     {
         try
         {
@@ -282,16 +282,19 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
 
                 await taskContext.SwitchToMainThreadAsync();
-                await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
+                await SetTargetSchemeAsync(scheme).ConfigureAwait(true);
 
                 await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
 
-                // Try set to the current account.
-                if (TargetScheme is not null && GameAccountsView is not null)
+                // Try set to the current registry account.
+                if (TargetScheme is not null)
                 {
-                    // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                    // Except when scheme is bilibili, which is not supported
-                    _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(TargetScheme));
+                    if (GameAccountsView is not null)
+                    {
+                        // The GameAccount is guaranteed to be in the view, because the scheme is synced
+                        // Except when scheme is bilibili, which is not supported
+                        _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(TargetScheme));
+                    }
                 }
                 else
                 {
@@ -306,7 +309,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task SetSelectedSchemeAsync(LaunchScheme? value)
+    private async Task SetTargetSchemeAsync(LaunchScheme? value)
     {
         if (!SetProperty(ref targetScheme, value, nameof(TargetScheme)))
         {

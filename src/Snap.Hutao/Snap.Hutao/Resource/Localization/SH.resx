@@ -4091,4 +4091,13 @@
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
     <value>本地游戏配置文件损坏，请修复后重试</value>
   </data>
+  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
+    <value>生成配置文件失败</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
+    <value>游戏路径被锁定，请稍后再试</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
+    <value>游戏路径为空，请先设置游戏路径</value>
+  </data>
 </root>

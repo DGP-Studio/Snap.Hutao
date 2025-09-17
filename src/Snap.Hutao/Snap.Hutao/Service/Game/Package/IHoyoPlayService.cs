@@ -12,7 +12,7 @@ internal interface IHoyoPlayService
 {
     ValueTask<ValueResult<bool, GameBranchesWrapper>> TryGetBranchesAsync(LaunchScheme scheme);
 
-    ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSdksAsync(LaunchScheme scheme);
+    ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSDKsAsync(LaunchScheme scheme);
 
     ValueTask<ValueResult<bool, DeprecatedFileConfigurationsWrapper>> TryGetDeprecatedFileConfigurationsAsync(LaunchScheme scheme);
 }

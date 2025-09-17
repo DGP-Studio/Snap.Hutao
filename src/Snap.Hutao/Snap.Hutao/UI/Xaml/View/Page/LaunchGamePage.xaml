@@ -296,7 +296,7 @@
                                                         Margin="4,8"
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Top"
-                                                        ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
+                                                        ToolTipService.ToolTip="{Binding GamePackageViewModel.PreVersionText}"
                                                         Visibility="{Binding GamePackageViewModel.IsPredownloadButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <FontIcon
                                                             FontSize="16"
