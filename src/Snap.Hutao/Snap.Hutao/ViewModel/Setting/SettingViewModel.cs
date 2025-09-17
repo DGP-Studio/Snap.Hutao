@@ -20,9 +20,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public const string UIGFImportExport = nameof(UIGFImportExport);
 
     private readonly IShellLinkInterop shellLinkInterop;
-    private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
     private readonly WeakReference<Border> weakGachaLogBorder = new(default!);
@@ -121,13 +121,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Create desktop shortcut for elevated launch", "SettingViewModel.Command"));
 
-        if (shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch())
-        {
-            infoBarService.Success(SH.ViewModelSettingActionComplete);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
-        }
+        _ = shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch()
+            ? messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingActionComplete))
+            : messenger.Send(InfoBarMessage.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed));
     }
 }

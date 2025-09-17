@@ -23,7 +23,6 @@ internal static class Selection
     }
 
     public static TAny? Initialize<TAny, T>(ImmutableArray<TAny> options, T current, Func<TAny, T> valueSelector, IEqualityComparer<T> comparer)
-        where TAny : notnull
         where T : notnull
     {
         return options.SingleOrDefault(option => comparer.Equals(valueSelector(option), current));

@@ -23,6 +23,16 @@ internal sealed class InfoBarMessage
 
     public int MilliSecondsDelay { get; init; }
 
+    public static InfoBarMessage Any(InfoBarSeverity severity, string message)
+    {
+        return new()
+        {
+            Severity = severity,
+            Message = message,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+        };
+    }
+
     public static InfoBarMessage Error(string message)
     {
         return new()
@@ -83,6 +93,17 @@ internal sealed class InfoBarMessage
             Severity = InfoBarSeverity.Success,
             Message = message,
             MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+        };
+    }
+
+    public static InfoBarMessage Success(string title, string message)
+    {
+        return new()
+        {
+            Severity = InfoBarSeverity.Success,
+            Title = title,
+            Message = message,
+            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
         };
     }
 

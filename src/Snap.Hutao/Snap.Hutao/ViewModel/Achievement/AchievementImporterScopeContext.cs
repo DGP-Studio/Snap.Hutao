@@ -23,7 +23,7 @@ internal sealed partial class AchievementImporterScopeContext
 
     public partial IServiceProvider ServiceProvider { get; }
 
-    public partial IInfoBarService InfoBarService { get; }
-
     public partial IYaeService YaeService { get; }
+
+    public partial IMessenger Messenger { get; }
 }

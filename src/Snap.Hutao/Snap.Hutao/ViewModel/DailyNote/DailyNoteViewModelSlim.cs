@@ -19,8 +19,8 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 {
     private readonly IDailyNoteService dailyNoteService;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private DailyNoteMetadataContext? metadataContext;
 
@@ -54,7 +54,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 }

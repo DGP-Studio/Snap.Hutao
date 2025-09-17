@@ -29,9 +29,9 @@ internal sealed partial class AvatarPropertyViewModelScopeContext
 
     public partial IMetadataService MetadataService { get; }
 
-    public partial IInfoBarService InfoBarService { get; }
-
     public partial ITaskContext TaskContext { get; }
 
     public partial IUserService UserService { get; }
+
+    public partial IMessenger Messenger { get; }
 }

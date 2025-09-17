@@ -7,9 +7,9 @@ namespace Snap.Hutao.Web.Response;
 
 internal static class ResponseValidator
 {
-    public static bool TryValidate(Response response, IInfoBarService infoBarService)
+    public static bool TryValidate(Response response, IMessenger messenger)
     {
-        return new DefaultResponseValidator(infoBarService).TryValidate(response);
+        return new DefaultResponseValidator(messenger).TryValidate(response);
     }
 
     public static bool TryValidate(Response response, IServiceProvider serviceProvider)
@@ -17,9 +17,9 @@ internal static class ResponseValidator
         return serviceProvider.GetRequiredService<ICommonResponseValidator<Response>>().TryValidate(response);
     }
 
-    public static bool TryValidate<TData>(Response<TData> response, IInfoBarService infoBarService, [NotNullWhen(true)] out TData? data)
+    public static bool TryValidate<TData>(Response<TData> response, IMessenger messenger, [NotNullWhen(true)] out TData? data)
     {
-        return new TypedResponseValidator<TData>(infoBarService).TryValidate(response, out data);
+        return new TypedResponseValidator<TData>(messenger).TryValidate(response, out data);
     }
 
     public static bool TryValidate<TData>(Response<TData> response, IServiceProvider serviceProvider, [NotNullWhen(true)] out TData? data)

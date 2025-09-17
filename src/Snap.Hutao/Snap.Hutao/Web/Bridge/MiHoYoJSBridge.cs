@@ -324,19 +324,23 @@ internal class MiHoYoJSBridge
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            JsonSerializerOptions jsonSerializerOptions = scope.ServiceProvider.GetRequiredService<JsonSerializerOptions>();
-            HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-            IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
-            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-            IFileSystemPickerInteraction fileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>();
-            BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType.Value;
-
             if (coreWebView2 is null)
             {
                 return default!;
             }
 
-            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
+            BridgeShareContext context = new()
+            {
+                CoreWebView2 = coreWebView2,
+                TaskContext = taskContext,
+                HttpClient = scope.ServiceProvider.GetRequiredService<HttpClient>(),
+                ClipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>(),
+                JsonSerializerOptions = scope.ServiceProvider.GetRequiredService<JsonSerializerOptions>(),
+                FileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>(),
+                ShareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType.Value,
+                Messenger = scope.ServiceProvider.GetRequiredService<IMessenger>(),
+            };
+
             return await BridgeShare.ShareAsync(param, context).ConfigureAwait(false);
         }
     }

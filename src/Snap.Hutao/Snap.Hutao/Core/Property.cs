@@ -27,6 +27,7 @@ internal static partial class Property
     }
 
     public static IObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
+        where T : struct
     {
         return new PropertyListener<TSource, T>(source, converter);
     }
@@ -65,6 +66,7 @@ internal static partial class Property
 
     public static IObservableProperty<T?> AsSelection<T, TSource>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
         where T : class
+        where TSource : notnull
     {
         return new PropertySelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
     }
@@ -123,6 +125,7 @@ internal static partial class Property
 
     private sealed partial class PropertySelectionWrapper<T, TSource> : ObservableObject, IObservableProperty<T?>
         where T : class
+        where TSource : notnull
     {
         private readonly IProperty<TSource> source;
         private readonly ImmutableArray<T> array;
@@ -203,9 +206,11 @@ internal static partial class Property
     }
 
     private sealed partial class PropertyListener<TSource, T> : ObservableObject, IObservableProperty<T>
+        where T : struct
     {
         private readonly IObservableProperty<TSource> source;
         private readonly Func<TSource, T> converter;
+        private T? field;
 
         public PropertyListener(IObservableProperty<TSource> source, Func<TSource, T> converter)
         {
@@ -215,11 +220,10 @@ internal static partial class Property
             this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
         }
 
-        [field: MaybeNull]
         public T Value
         {
-            get => field ??= converter(source.Value);
-            set => SetProperty(ref field, value);
+            get => @field ??= converter(source.Value);
+            set => SetProperty(ref @field, value);
         }
 
         private static void OnWeakSourceValueChanged(PropertyListener<TSource, T> self, object? sender, PropertyChangedEventArgs e)

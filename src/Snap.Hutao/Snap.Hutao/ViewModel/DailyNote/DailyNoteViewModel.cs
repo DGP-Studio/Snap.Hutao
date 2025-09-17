@@ -32,9 +32,9 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IDailyNoteService dailyNoteService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     private DailyNoteMetadataContext? metadataContext;
 
@@ -72,7 +72,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
 
         return false;
@@ -85,7 +85,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 
@@ -163,7 +163,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             DailyNoteOptions.WebhookUrl.Value = url;
-            infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
+            messenger.Send(InfoBarMessage.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete));
         }
     }
 }
