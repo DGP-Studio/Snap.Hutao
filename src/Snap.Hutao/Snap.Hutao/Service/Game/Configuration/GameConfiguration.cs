@@ -14,8 +14,9 @@ namespace Snap.Hutao.Service.Game.Configuration;
 
 internal static class GameConfiguration
 {
-    public static ChannelOptions Read(string configFilePath, IGameFileSystem gameFileSystem)
+    public static ChannelOptions Read(IGameFileSystem gameFileSystem)
     {
+        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
         ImmutableArray<IniElement> elements;
         try
         {
@@ -64,6 +65,26 @@ internal static class GameConfiguration
         }
 
         return new(channel, subChannel, gameFileSystem.IsExecutableOversea());
+    }
+
+    public static bool Read(IGameFileSystem gameFileSystem, string parameterKey)
+    {
+        ImmutableArray<IniElement> elements;
+        try
+        {
+            elements = IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath());
+        }
+        catch (IOException ex)
+        {
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY))
+            {
+                return false;
+            }
+
+            throw;
+        }
+
+        return elements.Any(e => e is IniParameter parameter && string.Equals(parameter.Key, parameterKey, StringComparison.OrdinalIgnoreCase));
     }
 
     public static void Create(LaunchScheme launchScheme, string version, string configFilePath)

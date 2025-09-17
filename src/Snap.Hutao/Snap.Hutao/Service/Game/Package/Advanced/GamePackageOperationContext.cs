@@ -10,27 +10,17 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-internal readonly struct GamePackageOperationContext
+internal sealed class GamePackageOperationContext
 {
-    public readonly GamePackageOperationKind Kind;
-    public readonly IGameAssetOperation Asset;
-    public readonly IGameFileSystem GameFileSystem;
-    public readonly SophonDecodedBuild LocalBuild;
-    public readonly SophonDecodedBuild RemoteBuild;
-    public readonly SophonDecodedPatchBuild? PatchBuild;
-    public readonly GameChannelSDK? GameChannelSDK;
-    public readonly string EffectiveGameDirectory;
-    public readonly string EffectiveChunksDirectory;
-
     public GamePackageOperationContext(
         IServiceProvider serviceProvider,
         GamePackageOperationKind kind,
         IGameFileSystem gameFileSystem,
-        SophonDecodedBuild localBuild,
+        SophonDecodedBuild localBuild, //?
         SophonDecodedBuild remoteBuild,
-        SophonDecodedPatchBuild? patchBuild,
+        SophonDecodedPatchBuild? patchBuild, //?
         GameChannelSDK? gameChannelSDK,
-        string? extractDirectory)
+        string? extractDirectory) //?
     {
         Kind = kind;
         Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GetGameDirectory());
@@ -45,4 +35,35 @@ internal readonly struct GamePackageOperationContext
             ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
             : gameFileSystem.GetChunksDirectory();
     }
+
+    public GamePackageOperationContext(IServiceProvider serviceProvider, GamePackageOperationKind kind, IGameFileSystem gameFileSystem, string? extractDirectory = default)
+    {
+        Kind = kind;
+        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(string.Empty);
+        GameFileSystem = gameFileSystem;
+
+        EffectiveGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
+
+        EffectiveChunksDirectory = kind is GamePackageOperationKind.Verify
+            ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
+            : gameFileSystem.GetChunksDirectory();
+    }
+
+    public GamePackageOperationKind Kind { get; }
+
+    public IGameAssetOperation Asset { get; }
+
+    public IGameFileSystem GameFileSystem { get; init; }
+
+    public SophonDecodedBuild? LocalBuild { get; init; }
+
+    public SophonDecodedBuild? RemoteBuild { get; init; }
+
+    public SophonDecodedPatchBuild? PatchBuild { get; init; }
+
+    public GameChannelSDK? GameChannelSDK { get; init; }
+
+    public string EffectiveGameDirectory { get; }
+
+    public string EffectiveChunksDirectory { get; }
 }
