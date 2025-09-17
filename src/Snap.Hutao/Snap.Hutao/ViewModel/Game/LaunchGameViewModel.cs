@@ -11,6 +11,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Locator;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
@@ -38,7 +39,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IMessenger messenger;
 
     // Required for the SetProperty
-    private LaunchScheme? selectedScheme;
+    private LaunchScheme? targetScheme;
 
     public partial GamePackageInstallViewModel GamePackageInstallViewModel { get; }
 
@@ -54,11 +55,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public ImmutableArray<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Values;
 
-    public LaunchScheme? SelectedScheme
+    public LaunchScheme? TargetScheme
     {
-        get => selectedScheme;
+        get => targetScheme;
         set => SetSelectedSchemeAsync(value).SafeForget();
     }
+
+    LaunchScheme? IViewModelSupportLaunchExecution.CurrentScheme { get => Shared.GetCurrentLaunchSchemeFromConfigurationFile(); }
+
+    GameAccount? IViewModelSupportLaunchExecution.GameAccount { get => GameAccountsView?.CurrentItem; }
 
     [field: MaybeNull]
     public IObservableProperty<NameValue<PlatformType>?> SelectedPlatformType { get => field ??= LaunchOptions.PlatformType.AsNameValue(LaunchOptions.PlatformTypes); }
@@ -66,39 +71,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public IObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshUIAsync().SafeForget(), this); }
-
-    [SuppressMessage("", "SH003")]
-    private async Task RefreshUIAsync()
-    {
-        try
-        {
-            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-            {
-                LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
-
-                await taskContext.SwitchToMainThreadAsync();
-                await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
-
-                await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
-
-                // Try set to the current account.
-                if (SelectedScheme is not null && GameAccountsView is not null)
-                {
-                    // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                    // Except when scheme is bilibili, which is not supported
-                    _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(SelectedScheme));
-                }
-                else
-                {
-                    messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
-                }
-            }
-        }
-        catch (HutaoException ex)
-        {
-            messenger.Send(InfoBarMessage.Error(ex));
-        }
-    }
 
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
@@ -113,6 +85,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         return false;
+    }
+
+    ValueTask<BlockDeferralWithProgress<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
+    {
+        return BlockDeferralWithProgress<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
@@ -193,7 +170,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         try
         {
-            if (SelectedScheme is null)
+            if (TargetScheme is null)
             {
                 messenger.Send(InfoBarMessage.Error(SH.ViewModelLaunchGameSchemeNotSelected));
                 return;
@@ -204,7 +181,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 return;
             }
 
-            GameAccount? currentAccount = await gameService.DetectGameAccountAsync(SelectedScheme, async () =>
+            GameAccount? currentAccount = await gameService.DetectGameAccountAsync(TargetScheme, async () =>
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
@@ -270,11 +247,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open screenshot folder", "LaunchGameViewModel.Command"));
 
-        if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        const string LockTrace = $"{nameof(LaunchGameViewModel)}.{nameof(OpenScreenshotFolderAsync)}";
+        if (LaunchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem) is not GameFileSystemErrorKind.None)
         {
             return;
         }
 
+        ArgumentNullException.ThrowIfNull(gameFileSystem);
         using (gameFileSystem)
         {
             Directory.CreateDirectory(gameFileSystem.GetScreenShotDirectory());
@@ -294,9 +273,42 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [SuppressMessage("", "SH003")]
+    private async Task RefreshUIAsync()
+    {
+        try
+        {
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
+
+                await taskContext.SwitchToMainThreadAsync();
+                await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
+
+                await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
+
+                // Try set to the current account.
+                if (TargetScheme is not null && GameAccountsView is not null)
+                {
+                    // The GameAccount is guaranteed to be in the view, because the scheme is synced
+                    // Except when scheme is bilibili, which is not supported
+                    _ = GameAccountsView.CurrentItem is null && GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(TargetScheme));
+                }
+                else
+                {
+                    messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
+                }
+            }
+        }
+        catch (HutaoException ex)
+        {
+            messenger.Send(InfoBarMessage.Error(ex));
+        }
+    }
+
+    [SuppressMessage("", "SH003")]
     private async Task SetSelectedSchemeAsync(LaunchScheme? value)
     {
-        if (!SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
+        if (!SetProperty(ref targetScheme, value, nameof(TargetScheme)))
         {
             return;
         }
@@ -317,6 +329,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         // Update GameAccountsView
         await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView.Filter = GameAccountFilter.Create(SelectedScheme?.GetSchemeType());
+        GameAccountsView.Filter = GameAccountFilter.Create(TargetScheme?.GetSchemeType());
     }
 }
