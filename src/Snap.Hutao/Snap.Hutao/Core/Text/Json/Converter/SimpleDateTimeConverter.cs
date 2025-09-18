@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-namespace Snap.Hutao.Core.Json.Converter;
+namespace Snap.Hutao.Core.Text.Json.Converter;
 
 internal sealed class SimpleDateTimeConverter : JsonConverter<DateTime>
 {

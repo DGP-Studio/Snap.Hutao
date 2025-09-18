@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.Json.Annotation;
+namespace Snap.Hutao.Core.Text.Json.Annotation;
 
 internal enum JsonEnumHandling
 {

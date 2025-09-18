@@ -1,10 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Annotation;
+using Snap.Hutao.Core.Text.Json.Annotation;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.Core.Json.Converter;
+namespace Snap.Hutao.Core.Text.Json.Converter;
 
 internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum

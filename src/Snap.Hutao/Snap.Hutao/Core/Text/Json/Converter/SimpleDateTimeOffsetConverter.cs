@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-namespace Snap.Hutao.Core.Json.Converter;
+namespace Snap.Hutao.Core.Text.Json.Converter;
 
 // 此转换器无法实现无损往返 必须在反序列化后调整 Offset
 internal sealed class SimpleDateTimeOffsetConverter : JsonConverter<DateTimeOffset>

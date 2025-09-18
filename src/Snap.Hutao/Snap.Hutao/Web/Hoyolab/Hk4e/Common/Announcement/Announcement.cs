@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Text.Json.Converter;
+
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
 internal sealed class Announcement : AnnouncementContent
@@ -67,11 +69,11 @@ internal sealed class Announcement : AnnouncementContent
     public int LoginAlert { get; set; }
 
     [JsonPropertyName("start_time")]
-    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
+    [JsonConverter(typeof(SimpleDateTimeOffsetConverter))]
     public DateTimeOffset StartTime { get; set; }
 
     [JsonPropertyName("end_time")]
-    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
+    [JsonConverter(typeof(SimpleDateTimeOffsetConverter))]
     public DateTimeOffset EndTime { get; set; }
 
     [JsonPropertyName("type")]

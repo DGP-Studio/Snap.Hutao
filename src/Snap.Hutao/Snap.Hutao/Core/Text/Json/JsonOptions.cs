@@ -1,11 +1,11 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
+using Snap.Hutao.Core.Text.Json.Converter;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Snap.Hutao.Core.Json;
+namespace Snap.Hutao.Core.Text.Json;
 
 internal static class JsonOptions
 {
