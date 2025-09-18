@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Core.Text.Json;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 

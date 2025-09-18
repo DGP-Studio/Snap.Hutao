@@ -3,6 +3,7 @@
 
 using JetBrains.Annotations;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.Text.Json;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web;
@@ -30,7 +31,7 @@ public sealed class ScriptContext
 
     public static string Serialize<T>(T data)
     {
-        return JsonSerializer.Serialize(data, Json.JsonOptions.Default);
+        return JsonSerializer.Serialize(data, JsonOptions.Default);
     }
 
     public async ValueTask<string> RequestAsync(string method, string url, string[] headers, string? body = default)

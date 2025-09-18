@@ -1,10 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
+using Snap.Hutao.Core.Text.Json.Converter;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Snap.Hutao.Core.Json.Annotation;
+namespace Snap.Hutao.Core.Text.Json.Annotation;
 
 [AttributeUsage(AttributeTargets.Property)]
 internal sealed class JsonEnumHandlingAttribute : Attribute

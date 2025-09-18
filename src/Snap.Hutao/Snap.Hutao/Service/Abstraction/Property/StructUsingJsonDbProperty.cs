@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Core.Text.Json;
 
 namespace Snap.Hutao.Service.Abstraction.Property;
 
