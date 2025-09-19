@@ -12,6 +12,11 @@ internal static class ReadOnlyProperty
         return property.Value;
     }
 
+    public static IReadOnlyObservableProperty<T> Debug<T>(this IReadOnlyObservableProperty<T> source, string name)
+    {
+        return new ReadOnlyObservablePropertyDebug<T>(source, name);
+    }
+
     public static IReadOnlyObservableProperty<T> WithValueChangedCallback<T>(this IReadOnlyObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)
     {
         return new ReadOnlyPropertyValueChangedCallbackWrapper<T>(source, callback);

@@ -2133,8 +2133,8 @@
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
     <value>修复配置文件</value>
   </data>
-  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
-    <value>修复完成</value>
+  <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
+    <value>修复成功</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>尚未设置游戏目录</value>
@@ -4099,5 +4099,8 @@
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
     <value>游戏路径为空，请先设置游戏路径</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
+    <value>修复失败</value>
   </data>
 </root>
