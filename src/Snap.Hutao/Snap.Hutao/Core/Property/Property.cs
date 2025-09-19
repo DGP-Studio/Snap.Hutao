@@ -1,0 +1,71 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using JetBrains.Annotations;
+using Snap.Hutao.Model;
+using System.Collections.Immutable;
+
+namespace Snap.Hutao.Core.Property;
+
+internal static class Property
+{
+    public static T Get<T>(this IProperty<T> property)
+    {
+        return property.Value;
+    }
+
+    public static T Set<T>(this IProperty<T> property, T value)
+    {
+        return property.Value = value;
+    }
+
+    public static IObservableProperty<T> CreateObservable<T>(T value)
+    {
+        return new ObservableProperty<T>(value);
+    }
+
+    public static IReadOnlyObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
+        where T : struct
+    {
+        return new PropertyListener<TSource, T>(source, converter);
+    }
+
+    public static IObservableProperty<TSource> Link<TSource, TTarget>(this IObservableProperty<TSource> source, IProperty<TTarget> target, [RequireStaticDelegate] Action<TSource, IProperty<TTarget>> callback)
+    {
+        return new PropertyValueChangedCallbackWrapper<TSource, IProperty<TTarget>>(source, callback, target);
+    }
+
+    public static IObservableProperty<bool> AlsoSetFalseWhenFalse(this IObservableProperty<bool> source, IProperty<bool> target)
+    {
+        return Link(source, target, static (value, target) =>
+        {
+            if (!value)
+            {
+                target.Value = false;
+            }
+        });
+    }
+
+    public static IObservableProperty<T> WithValueChangedCallback<T>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)
+    {
+        return new PropertyValueChangedCallbackWrapper<T>(source, callback);
+    }
+
+    public static IObservableProperty<T> WithValueChangedCallback<T, TState>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T, TState> callback, TState state)
+    {
+        return new PropertyValueChangedCallbackWrapper<T, TState>(source, callback, state);
+    }
+
+    public static IObservableProperty<NameValue<T>?> AsNameValue<T>(this IProperty<T> source, ImmutableArray<NameValue<T>> array)
+        where T : notnull
+    {
+        return new PropertyNameValueWrapper<T>(source, array);
+    }
+
+    public static IObservableProperty<T?> AsNullableSelection<TSource, T>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T?, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
+        where T : class
+        where TSource : notnull
+    {
+        return new PropertyNullableSelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
+    }
+}

@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Core.Property;
 
 internal sealed partial class ObservableProperty<T> : ObservableObject, IObservableProperty<T>
 {

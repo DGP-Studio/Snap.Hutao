@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -22,12 +23,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePat
     public static IObservableProperty<bool> IsGameRunning { get => field ??= GameLifeCycle.IsGameRunningProperty; }
 
     [field: MaybeNull]
-    public static IObservableProperty<bool> CanKillGameProcess { get => field ??= Property.Observe(IsGameRunning, value => HutaoRuntime.IsProcessElevated && value); }
+    public static IReadOnlyObservableProperty<bool> CanKillGameProcess { get => field ??= Property.Observe(IsGameRunning, value => HutaoRuntime.IsProcessElevated && value); }
 
     public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     [field: MaybeNull]
-    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty).AsNullableSelection(GamePathEntries.Value, static entry => entry.Path, StringComparer.OrdinalIgnoreCase); }
+    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty).AsNullableSelection(GamePathEntries.Value, static entry => entry?.Path ?? string.Empty, StringComparer.OrdinalIgnoreCase); }
 
     [field: MaybeNull]
     public IObservableProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.GamePathEntries, ImmutableArray<GamePathEntry>.Empty); }
