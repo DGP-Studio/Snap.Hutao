@@ -1537,7 +1537,7 @@
     <value>请选择当前游戏路径对应的游戏服务器</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>正在修复配置文件</value>
+    <value>修复配置文件</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>选择的安装路径不存在且无法创建</value>

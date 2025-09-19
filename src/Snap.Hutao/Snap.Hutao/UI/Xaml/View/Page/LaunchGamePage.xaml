@@ -16,7 +16,6 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -29,17 +28,6 @@
 
     <Page.Resources>
         <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
-
-        <DataTemplate x:Key="GameResourceTemplate">
-            <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                    <shuxvs:LaunchGameResourceExpander
-                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                        DataContext="{Binding Mode=OneWay}"
-                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
-                </Border>
-            </Border>
-        </DataTemplate>
 
         <DataTemplate x:Key="GameAccountListTemplate" x:DataType="shme:GameAccount">
             <Grid>
@@ -166,7 +154,7 @@
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
                             ItemsSource="{Binding LaunchOptions.GamePathEntries.Value}"
-                            SelectedItem="{Binding LaunchOptions.GamePathEntry, Mode=TwoWay}"/>
+                            SelectedItem="{Binding LaunchOptions.GamePathEntry.Value, Mode=TwoWay}"/>
                     </Border>
                     <cwc:SettingsCard
                         ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
@@ -777,12 +765,6 @@
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameBetterGIHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE961;}">
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingBetterGenshinImpactAutomation.Value, Mode=TwoWay}"/>
-                                    </cwc:SettingsCard>
-                                    <cwc:SettingsCard
-                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameDiscordActivityHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE8CF;}">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.SetDiscordActivityWhenPlaying.Value, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
