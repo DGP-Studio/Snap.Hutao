@@ -41,8 +41,7 @@ internal abstract class AbstractLaunchExecutionInvoker
             Invokers.TryRemove(this, out _);
             if (!HasAnyInvoking())
             {
-                await taskContext.SwitchToBackgroundAsync();
-                GameLifeCycle.SpinWaitGameExit();
+                await GameLifeCycle.SpinWaitGameExitAsync(taskContext);
             }
         }
     }

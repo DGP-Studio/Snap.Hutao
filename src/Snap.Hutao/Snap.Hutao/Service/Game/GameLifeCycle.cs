@@ -12,9 +12,15 @@ internal static class GameLifeCycle
 {
     public static IObservableProperty<bool> IsGameRunningProperty { get; } = Property.CreateObservable(PrivateIsGameRunning(out _));
 
-    public static unsafe void SpinWaitGameExit()
+    public static async ValueTask SpinWaitGameExitAsync(ITaskContext taskContext)
     {
-        SpinWaitPolyfill.SpinWhile(&IsGameRunning);
+        await taskContext.SwitchToBackgroundAsync();
+        unsafe
+        {
+            SpinWaitPolyfill.SpinWhile(&IsGameRunning);
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
         IsGameRunningProperty.Value = false;
     }
 
