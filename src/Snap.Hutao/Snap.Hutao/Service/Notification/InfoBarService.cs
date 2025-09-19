@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
@@ -18,16 +17,6 @@ internal sealed partial class InfoBarService : IInfoBarService, IRecipient<InfoB
     public void Receive(InfoBarMessage message)
     {
         PrivateShowAsync(InfoBarOptions.Create(message)).SafeForget();
-    }
-
-    public void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure)
-    {
-        PrivatePrepareInfoBarAndShowAsync(configure).SafeForget();
-    }
-
-    private ValueTask PrivatePrepareInfoBarAndShowAsync(Action<IInfoBarOptionsBuilder> configure)
-    {
-        return PrivateShowAsync(new InfoBarOptionsBuilder().Configure(configure).Options);
     }
 
     private async ValueTask PrivateShowAsync(InfoBarOptions infoBarOptions)
