@@ -1,11 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class PropertyValueChangedCallbackWrapper<T> : ObservableObject, IObservableProperty<T>
+internal sealed partial class PropertyValueChangedCallbackWrapper<T> : IObservableProperty<T>
 {
     private readonly IObservableProperty<T> source;
     private readonly Action<T> callback;
@@ -18,10 +16,16 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T> : Observabl
         this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged
+    {
+        add => source.PropertyChanged += value;
+        remove => source.PropertyChanged -= value;
+    }
+
     public T Value
     {
         get => source.Value;
-        set => SetProperty(source.Value, value, source, static (prop, v) => prop.Value = v);
+        set => source.Value = value;
     }
 
     private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T> self, object? sender, PropertyChangedEventArgs e)
@@ -30,7 +34,7 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T> : Observabl
     }
 }
 
-internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : ObservableObject, IObservableProperty<T>
+internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : IObservableProperty<T>
 {
     private readonly IObservableProperty<T> source;
     private readonly Action<T, TState> callback;
@@ -45,10 +49,16 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : O
         this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged
+    {
+        add => source.PropertyChanged += value;
+        remove => source.PropertyChanged -= value;
+    }
+
     public T Value
     {
         get => source.Value;
-        set => SetProperty(source.Value, value, source, static (prop, v) => prop.Value = v);
+        set => source.Value = value;
     }
 
     private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T, TState> self, object? sender, PropertyChangedEventArgs e)

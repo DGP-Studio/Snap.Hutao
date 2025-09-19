@@ -195,8 +195,9 @@ internal sealed partial class LaunchGameShared
                     return;
                 }
 
-                GameConfiguration.Patch(launchScheme, gameFileSystem.GetScriptVersionFilePath(), gameFileSystem.GetGameConfigurationFilePath());
-                messenger.Send(InfoBarMessage.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess));
+                _ = GameConfiguration.Patch(launchScheme, gameFileSystem.GetScriptVersionFilePath(), gameFileSystem.GetGameConfigurationFilePath())
+                    ? messenger.Send(InfoBarMessage.Success(SH.ViewModelLaunchGameFixConfigurationFileSucceed))
+                    : messenger.Send(InfoBarMessage.Error(SH.ViewModelLaunchGameFixConfigurationFileFailed));
             }
         }
     }

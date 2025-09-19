@@ -15,4 +15,9 @@ internal sealed class GamePathEntry
             Path = path,
         };
     }
+
+    public override string ToString()
+    {
+        return $"{{ Path = {Path} }}";
+    }
 }

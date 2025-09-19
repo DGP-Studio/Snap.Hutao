@@ -19,6 +19,11 @@ internal static class Property
         return property.Value = value;
     }
 
+    public static IObservableProperty<T> Debug<T>(this IObservableProperty<T> property, string name)
+    {
+        return new ObservablePropertyDebug<T>(property, name);
+    }
+
     public static IObservableProperty<T> CreateObservable<T>(T value)
     {
         return new ObservableProperty<T>(value);
@@ -27,7 +32,7 @@ internal static class Property
     public static IReadOnlyObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
         where T : struct
     {
-        return new PropertyListener<TSource, T>(source, converter);
+        return new PropertyObserver<TSource, T>(source, converter);
     }
 
     public static IObservableProperty<TSource> Link<TSource, TTarget>(this IObservableProperty<TSource> source, IProperty<TTarget> target, [RequireStaticDelegate] Action<TSource, IProperty<TTarget>> callback)
@@ -56,7 +61,7 @@ internal static class Property
         return new PropertyValueChangedCallbackWrapper<T, TState>(source, callback, state);
     }
 
-    public static IObservableProperty<NameValue<T>?> AsNameValue<T>(this IProperty<T> source, ImmutableArray<NameValue<T>> array)
+    public static IObservableProperty<NameValue<T>?> AsNameValue<T>(this IObservableProperty<T> source, ImmutableArray<NameValue<T>> array)
         where T : notnull
     {
         return new PropertyNameValueWrapper<T>(source, array);

@@ -1,11 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T> : ObservableObject, IReadOnlyObservableProperty<T>
+internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T> : IReadOnlyObservableProperty<T>
 {
     private readonly IReadOnlyObservableProperty<T> source;
     private readonly Action<T> callback;
@@ -16,6 +14,12 @@ internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T> : O
         this.callback = callback;
 
         this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged
+    {
+        add => source.PropertyChanged += value;
+        remove => source.PropertyChanged -= value;
     }
 
     public T Value
@@ -29,7 +33,7 @@ internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T> : O
     }
 }
 
-internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T, TState> : ObservableObject, IReadOnlyObservableProperty<T>
+internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T, TState> : IReadOnlyObservableProperty<T>
 {
     private readonly IReadOnlyObservableProperty<T> source;
     private readonly Action<T, TState> callback;
@@ -42,6 +46,12 @@ internal sealed partial class ReadOnlyPropertyValueChangedCallbackWrapper<T, TSt
         this.state = state;
 
         this.source.WeakPropertyChanged(this, OnWeakSourceValueChanged);
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged
+    {
+        add => source.PropertyChanged += value;
+        remove => source.PropertyChanged -= value;
     }
 
     public T Value

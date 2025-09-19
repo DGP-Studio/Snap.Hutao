@@ -28,7 +28,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePat
     public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     [field: MaybeNull]
-    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty).AsNullableSelection(GamePathEntries.Value, static entry => entry?.Path ?? string.Empty, StringComparer.OrdinalIgnoreCase); }
+    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty).AsNullableSelection(GamePathEntries.Value, static entry => entry?.Path ?? string.Empty, StringComparer.OrdinalIgnoreCase).Debug("GamePathEntry"); }
 
     [field: MaybeNull]
     public IObservableProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.GamePathEntries, ImmutableArray<GamePathEntry>.Empty); }
