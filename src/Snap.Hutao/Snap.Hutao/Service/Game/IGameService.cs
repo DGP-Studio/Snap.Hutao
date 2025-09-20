@@ -16,10 +16,6 @@ internal interface IGameService
 
     ChannelOptions GetChannelOptions();
 
-    bool IsGameRunning();
-
-    bool KillGameProcess();
-
     ValueTask ModifyGameAccountAsync(GameAccount gameAccount, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);

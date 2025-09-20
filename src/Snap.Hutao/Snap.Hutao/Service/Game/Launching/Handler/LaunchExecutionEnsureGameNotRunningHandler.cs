@@ -8,10 +8,11 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionEnsureGameNotRunningHandler : AbstractLaunchExecutionHandler
 {
-    public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
+    public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return GameLifeCycle.IsGameRunning()
-            ? ValueTask.FromException(HutaoException.Throw(SH.ServiceGameLaunchExecutionGameIsRunning))
-            : ValueTask.CompletedTask;
+        if (await GameLifeCycle.IsGameRunningAsync(context.TaskContext).ConfigureAwait(false))
+        {
+            HutaoException.Throw(SH.ServiceGameLaunchExecutionGameIsRunning);
+        }
     }
 }

@@ -19,7 +19,6 @@ internal sealed partial class DailyNoteNotificationOperation
 {
     private const string ToastAttributionUnknown = "Unknown UID";
 
-    private readonly IGameService gameService;
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
     private readonly IMessenger messenger;
@@ -101,7 +100,7 @@ internal sealed partial class DailyNoteNotificationOperation
             throw;
         }
 
-        if (options.IsSilentWhenPlayingGame.Value && gameService.IsGameRunning())
+        if (options.IsSilentWhenPlayingGame.Value && await GameLifeCycle.IsGameRunningAsync(taskContext).ConfigureAwait(false))
         {
             notification.SuppressDisplay = true;
         }

@@ -14,18 +14,13 @@ namespace Snap.Hutao.Service.Game;
 [Service(ServiceLifetime.Singleton, typeof(IGameService))]
 internal sealed partial class GameService : IGameService
 {
-    private readonly IGameChannelOptionsService gameChannelOptionsService;
     private readonly IGameInRegistryAccountService gameInRegistryAccountService;
+    private readonly IGameChannelOptionsService gameChannelOptionsService;
     private readonly IGamePathService gamePathService;
 
     public ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync()
     {
         return gameInRegistryAccountService.GetGameAccountCollectionAsync();
-    }
-
-    public bool KillGameProcess()
-    {
-        return GameLifeCycle.TryKillGameProcess();
     }
 
     public ValueTask<ValueResult<bool, string>> GetGamePathAsync()
@@ -56,10 +51,5 @@ internal sealed partial class GameService : IGameService
     public ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
         return gameInRegistryAccountService.RemoveGameAccountAsync(gameAccount);
-    }
-
-    public bool IsGameRunning()
-    {
-        return GameLifeCycle.IsGameRunning();
     }
 }

@@ -17,18 +17,38 @@ internal static class GameLifeCycle
         await taskContext.SwitchToBackgroundAsync();
         unsafe
         {
-            SpinWaitPolyfill.SpinWhile(&IsGameRunning);
+            SpinWaitPolyfill.SpinWhile(&PrivateIsGameRunning);
         }
 
         await taskContext.SwitchToMainThreadAsync();
         IsGameRunningProperty.Value = false;
     }
 
-    public static bool IsGameRunning()
+    public static bool IsGameRunningRequiresMainThread()
     {
         bool result = PrivateIsGameRunning(out _);
         IsGameRunningProperty.Value = result;
         return result;
+    }
+
+    public static async ValueTask<bool> IsGameRunningAsync(ITaskContext taskContext)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        bool result = PrivateIsGameRunning(out _);
+
+        await taskContext.SwitchToMainThreadAsync();
+        IsGameRunningProperty.Value = result;
+        return result;
+    }
+
+    public static async ValueTask<ValueResult<bool, IProcess?>> TryGetRunningGameProcessAsync(ITaskContext taskContext)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        bool result = PrivateIsGameRunning(out IProcess? runningProcess);
+
+        await taskContext.SwitchToMainThreadAsync();
+        IsGameRunningProperty.Value = result;
+        return new(result, runningProcess);
     }
 
     public static bool IsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
@@ -38,9 +58,9 @@ internal static class GameLifeCycle
         return result;
     }
 
-    public static bool TryKillGameProcess()
+    public static async ValueTask<bool> TryKillGameProcessAsync(ITaskContext taskContext)
     {
-        if (!IsGameRunning(out IProcess? process))
+        if (await TryGetRunningGameProcessAsync(taskContext).ConfigureAwait(false) is not (true, { } process))
         {
             return false;
         }
@@ -48,7 +68,9 @@ internal static class GameLifeCycle
         try
         {
             process.Kill();
-            IsGameRunningProperty.Value = PrivateIsGameRunning(out _);
+
+            await taskContext.SwitchToMainThreadAsync();
+            IsGameRunningProperty.Value = PrivateIsGameRunning();
             return true;
         }
         catch (Exception ex)
@@ -56,6 +78,11 @@ internal static class GameLifeCycle
             HutaoNative.Instance.ShowErrorMessage(SH.ServiceGameLaunchExecutionGameRunningKillFailed, ex.Message);
             return false;
         }
+    }
+
+    private static bool PrivateIsGameRunning()
+    {
+        return ProcessFactory.IsRunning([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], out _);
     }
 
     private static bool PrivateIsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
