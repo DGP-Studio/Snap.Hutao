@@ -89,8 +89,7 @@ internal sealed partial class UpdateService : IUpdateService
         {
             ICurrentXamlWindowReference currentXamlWindowReference = scope.ServiceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
-            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+            IMessenger messenger = scope.ServiceProvider.GetRequiredService<IMessenger>();
 
             if (currentXamlWindowReference.Window is null)
             {
@@ -126,7 +125,7 @@ internal sealed partial class UpdateService : IUpdateService
                 // 0x80070002 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动
                 // The process cannot access the file '?' because it is being used by another process.
                 // 0x80070005 Attempted to perform an unauthorized operation.
-                infoBarService.Error(ex);
+                messenger.Send(InfoBarMessage.Error(ex));
             }
         }
     }

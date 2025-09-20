@@ -114,14 +114,9 @@ internal static class BridgeShare
 
     private static async ValueTask CopyToClipboardAsync(BridgeShareContext context, InMemoryRandomAccessStream stream)
     {
-        if (await context.ClipboardProvider.SetBitmapAsync(stream).ConfigureAwait(false))
-        {
-            context.InfoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
-        }
-        else
-        {
-            context.InfoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
-        }
+        _ = await context.ClipboardProvider.SetBitmapAsync(stream).ConfigureAwait(false)
+            ? context.Messenger.Send(InfoBarMessage.Success(SH.WebBridgeShareCopyToClipboardSuccess))
+            : context.Messenger.Send(InfoBarMessage.Error(SH.WebBridgeShareCopyToClipboardFailed));
     }
 
     private static async ValueTask SaveAsFileAsync(BridgeShareContext context, InMemoryRandomAccessStream stream)
@@ -140,11 +135,11 @@ internal static class BridgeShare
                 await stream.AsStreamForRead().CopyToAsync(fileStream).ConfigureAwait(false);
             }
 
-            context.InfoBarService.Success(SH.WebBridgeShareSaveAsFileSuccess);
+            context.Messenger.Send(InfoBarMessage.Success(SH.WebBridgeShareSaveAsFileSuccess));
         }
         catch
         {
-            context.InfoBarService.Error(SH.WebBridgeShareSaveAsFileFailed);
+            context.Messenger.Send(InfoBarMessage.Error(SH.WebBridgeShareSaveAsFileFailed));
         }
     }
 

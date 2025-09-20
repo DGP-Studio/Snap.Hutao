@@ -24,8 +24,8 @@ internal sealed partial class InventoryService : IInventoryService
     private readonly PromotionDeltaFactory promotionDeltaFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInventoryRepository inventoryRepository;
-    private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
@@ -73,7 +73,7 @@ internal sealed partial class InventoryService : IInventoryService
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 
@@ -105,7 +105,7 @@ internal sealed partial class InventoryService : IInventoryService
     {
         if (await yaeService.GetInventoryAsync(viewModel).ConfigureAwait(false) is not { } uiif)
         {
-            infoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ServiceInventoryRefreshByEmbeddedYaeErrorMessage);
+            messenger.Send(InfoBarMessage.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ServiceInventoryRefreshByEmbeddedYaeErrorMessage));
             return;
         }
 

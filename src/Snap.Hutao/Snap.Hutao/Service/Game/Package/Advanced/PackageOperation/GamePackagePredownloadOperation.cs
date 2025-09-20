@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.IO;
@@ -26,8 +27,11 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
             Directory.CreateDirectory(context.Operation.GameFileSystem.GetChunksDirectory());
         }
 
-        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBuild.Tag, false, uniqueTotalBlocks);
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
+        SophonDecodedBuild? remoteBuild = context.Operation.RemoteBuild;
+        ArgumentNullException.ThrowIfNull(remoteBuild);
+
+        PredownloadStatus predownloadStatus = new(remoteBuild.Tag, false, uniqueTotalBlocks);
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusFilePath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
@@ -43,7 +47,7 @@ internal sealed partial class GamePackagePredownloadOperation : GamePackageOpera
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
 
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusFilePath()))
         {
             predownloadStatus.Finished = true;
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);

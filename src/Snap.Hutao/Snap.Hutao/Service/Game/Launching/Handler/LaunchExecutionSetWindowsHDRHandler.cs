@@ -2,24 +2,19 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Account;
+using Snap.Hutao.Service.Game.Launching.Context;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetWindowsHDRHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionSetWindowsHDRHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
-    {
-        if (context.Options.IsWindowsHDREnabled.Value)
+        if (context.LaunchOptions.IsWindowsHDREnabled.Value)
         {
-            context.Logger.LogInformation("Set Windows HDR");
             RegistryInterop.SetWindowsHDR(context.TargetScheme.IsOversea);
         }
 
-        await next().ConfigureAwait(false);
+        return ValueTask.CompletedTask;
     }
 }

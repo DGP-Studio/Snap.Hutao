@@ -324,7 +324,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             {
                 try
                 {
-                    await WebView.EnsureCoreWebView2Async();
+                    CoreWebView2EnvironmentOptions options = new()
+                    {
+                        AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required",
+                    };
+                    CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+                    await WebView.EnsureCoreWebView2Async(environment);
                 }
                 catch (SEHException ex)
                 {

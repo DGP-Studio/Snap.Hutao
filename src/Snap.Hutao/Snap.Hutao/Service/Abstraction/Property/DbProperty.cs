@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Model.Entity.Database;
 using System.Runtime.CompilerServices;
 

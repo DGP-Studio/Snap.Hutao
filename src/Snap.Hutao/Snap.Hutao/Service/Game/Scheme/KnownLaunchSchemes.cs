@@ -68,4 +68,14 @@ internal static class KnownLaunchSchemes
         ServerChineseChannel01SubChannel01,
         ServerOverseaChannel01SubChannel00,
     ];
+
+    public static IEnumerable<LaunchScheme> EnumerateNotCompatOnly()
+    {
+        return Values.Where(scheme => scheme.IsNotCompatOnly);
+    }
+
+    public static IEnumerable<LaunchScheme> EnumerateNotCompatOnly(bool isOversea)
+    {
+        return Values.Where(scheme => scheme.IsNotCompatOnly && scheme.IsOversea == isOversea);
+    }
 }

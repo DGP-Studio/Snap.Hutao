@@ -114,7 +114,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 if (await WaitWindowAsync<MainWindow>().ConfigureAwait(true) is not null)
                 {
                     INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
+                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(uid), true).ConfigureAwait(false);
                 }
 
                 return;
@@ -195,7 +195,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
             catch (Exception ex)
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex));
+                serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex)));
             }
         }
 

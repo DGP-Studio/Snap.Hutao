@@ -1,25 +1,17 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Service.Game.Launching.Context;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class ResumeLaunchExecutionEnsureGameRunningHandler : ILaunchExecutionDelegateHandler
+internal sealed class ResumeLaunchExecutionEnsureGameRunningHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
-    {
-        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out IProcess? gameProcess))
+        if (await GameLifeCycle.TryGetRunningGameProcessAsync(context.TaskContext).ConfigureAwait(false) is (true, { } gameProcess))
         {
-            return;
+            context.SetOption(LaunchExecutionOptionsKey.RunningProcess, gameProcess);
         }
-
-        context.Process = gameProcess;
-        await next().ConfigureAwait(false);
     }
 }

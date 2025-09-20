@@ -25,8 +25,8 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly HutaoUserOptions hutaoUserOptions;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get; set => SetProperty(ref field, value); }
 
@@ -82,12 +82,12 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
             if (isOk)
             {
-                infoBarService.Success(message);
+                messenger.Send(InfoBarMessage.Success(message));
                 await RefreshUidCollectionAsync().ConfigureAwait(false);
             }
             else
             {
-                infoBarService.Warning(message);
+                messenger.Send(InfoBarMessage.Warning(message));
             }
         }
     }
@@ -103,12 +103,12 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
             if (isOk)
             {
-                infoBarService.Success(message);
+                messenger.Send(InfoBarMessage.Success(message));
                 await RefreshUidCollectionAsync().ConfigureAwait(false);
             }
             else
             {
-                infoBarService.Warning(message);
+                messenger.Send(InfoBarMessage.Warning(message));
             }
         }
     }
@@ -129,7 +129,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             {
                 Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(resp, infoBarService, out ImmutableArray<GachaEntry> entries))
+                if (ResponseValidator.TryValidate(resp, messenger, out ImmutableArray<GachaEntry> entries))
                 {
                     ObservableCollection<HutaoCloudEntryOperationViewModel> collection = entries
                         .SelectAsArray(static (entry, vm) => new HutaoCloudEntryOperationViewModel(entry, vm.RetrieveCommand, vm.DeleteCommand), this)

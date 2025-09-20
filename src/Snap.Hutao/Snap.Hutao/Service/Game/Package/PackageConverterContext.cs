@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using System.Collections.Concurrent;
@@ -11,37 +12,16 @@ using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal readonly struct PackageConverterContext
+internal sealed class PackageConverterContext
 {
-    public readonly CommonReferences Common;
-    public readonly ParallelOptions ParallelOptions;
-
-    public readonly SophonChunksOnlyReferences SophonChunksOnly;
-
-    public readonly string ServerCacheFolder;
-
-    public readonly string ServerCacheChunksFolder;
-    public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
-
-    public readonly string ServerCacheBackupFolder; // From
-    public readonly string ServerCacheTargetFolder; // To
-
-    public readonly string FromDataFolderName;
-    public readonly string ToDataFolderName;
-    public readonly string FromDataFolder;
-    public readonly string ToDataFolder;
-
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public PackageConverterContext(CommonReferences common, BranchWrapper currentBranch, BranchWrapper targetBranch)
-        : this(common)
+    public PackageConverterContext(LaunchScheme currentScheme, LaunchScheme targetScheme, IGameFileSystem fileSystem)
     {
-        Common = common;
-        SophonChunksOnly = new(currentBranch, targetBranch);
-    }
+        CurrentScheme = currentScheme;
+        TargetScheme = targetScheme;
+        GameFileSystem = fileSystem;
 
-    private PackageConverterContext(CommonReferences common)
-    {
         ParallelOptions = new() { MaxDegreeOfParallelism = Environment.ProcessorCount, };
 
         ServerCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
@@ -49,27 +29,52 @@ internal readonly struct PackageConverterContext
 
         string serverCacheOversea = Path.Combine(ServerCacheFolder, "Oversea");
         string serverCacheChinese = Path.Combine(ServerCacheFolder, "Chinese");
-        (ServerCacheBackupFolder, ServerCacheTargetFolder) = common.TargetScheme.IsOversea
+
+        (ServerCacheBackupFolder, ServerCacheTargetFolder) = targetScheme.IsOversea
             ? (serverCacheChinese, serverCacheOversea)
             : (serverCacheOversea, serverCacheChinese);
 
-        (FromDataFolderName, ToDataFolderName) = common.TargetScheme.IsOversea
+        (FromDataFolderName, ToDataFolderName) = targetScheme.IsOversea
             ? (YuanShenData, GenshinImpactData)
             : (GenshinImpactData, YuanShenData);
 
-        FromDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), FromDataFolderName);
-        ToDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), ToDataFolderName);
+        FromDataFolder = Path.Combine(fileSystem.GetGameDirectory(), FromDataFolderName);
+        ToDataFolder = Path.Combine(fileSystem.GetGameDirectory(), ToDataFolderName);
     }
 
-    public HttpClient HttpClient { get => Common.HttpClient; }
+    public ParallelOptions ParallelOptions { get; }
 
-    public LaunchScheme CurrentScheme { get => Common.CurrentScheme; }
+    public string ServerCacheFolder { get; }
 
-    public LaunchScheme TargetScheme { get => Common.TargetScheme; }
+    public string ServerCacheChunksFolder { get; }
 
-    public IGameFileSystemView GameFileSystem { get => Common.GameFileSystem; }
+    public ConcurrentDictionary<string, Void> DuplicatedChunkNames { get; } = [];
 
-    public IProgress<PackageConvertStatus> Progress { get => Common.Progress; }
+    public string ServerCacheBackupFolder { get; }
+
+    public string ServerCacheTargetFolder { get; }
+
+    public string FromDataFolderName { get; }
+
+    public string ToDataFolderName { get; }
+
+    public string FromDataFolder { get; }
+
+    public string ToDataFolder { get; }
+
+    public LaunchScheme CurrentScheme { get; }
+
+    public LaunchScheme TargetScheme { get; }
+
+    public IGameFileSystem GameFileSystem { get; }
+
+    public required HttpClient HttpClient { get; init; }
+
+    public required IProgress<PackageConvertStatus> Progress { get; init; }
+
+    public BranchWrapper? CurrentBranch { get; init; }
+
+    public BranchWrapper? TargetBranch { get; init; }
 
     public string GetServerCacheBackupFilePath(string filePath)
     {
@@ -83,47 +88,12 @@ internal readonly struct PackageConverterContext
 
     public string GetGameFolderFilePath(string filePath)
     {
-        return Path.Combine(Common.GameFileSystem.GetGameDirectory(), filePath);
+        return Path.Combine(GameFileSystem.GetGameDirectory(), filePath);
     }
 
     [SuppressMessage("", "SH003")]
     public Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token = default)
     {
         return chunkLocks.LockAsync(chunkName);
-    }
-
-    internal readonly struct CommonReferences
-    {
-        public readonly HttpClient HttpClient;
-        public readonly LaunchScheme CurrentScheme;
-        public readonly LaunchScheme TargetScheme;
-        public readonly IGameFileSystemView GameFileSystem;
-        public readonly IProgress<PackageConvertStatus> Progress;
-
-        public CommonReferences(
-            HttpClient httpClient,
-            LaunchScheme currentScheme,
-            LaunchScheme targetScheme,
-            IGameFileSystemView gameFileSystem,
-            IProgress<PackageConvertStatus> progress)
-        {
-            HttpClient = httpClient;
-            CurrentScheme = currentScheme;
-            TargetScheme = targetScheme;
-            GameFileSystem = gameFileSystem;
-            Progress = progress;
-        }
-    }
-
-    internal readonly struct SophonChunksOnlyReferences
-    {
-        public readonly BranchWrapper? CurrentBranch;
-        public readonly BranchWrapper? TargetBranch;
-
-        public SophonChunksOnlyReferences(BranchWrapper currentBranch, BranchWrapper targetBranch)
-        {
-            CurrentBranch = currentBranch;
-            TargetBranch = targetBranch;
-        }
     }
 }

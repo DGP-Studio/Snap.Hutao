@@ -32,10 +32,10 @@ internal sealed partial class DownloadSummary : ObservableObject
     ];
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IImageCache imageCache;
     private readonly HttpClient httpClient;
+    private readonly IMessenger messenger;
 
     private readonly string fileUrl;
     private readonly IProgress<StreamCopyStatus> progress;
@@ -47,7 +47,7 @@ internal sealed partial class DownloadSummary : ObservableObject
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        messenger = serviceProvider.GetRequiredService<IMessenger>();
 
         FileName = fileName;
 
@@ -130,12 +130,12 @@ internal sealed partial class DownloadSummary : ObservableObject
             if (ex is not (IOException or OperationCanceledException or UnauthorizedAccessException) &&
                 HttpRequestExceptionHandling.TryHandle(builder, ex, out StringBuilder message))
             {
-                infoBarService.Error(SH.ViewModelWelcomeDownloadSummaryException, message.ToString());
+                messenger.Send(InfoBarMessage.Error(SH.ViewModelWelcomeDownloadSummaryException, message.ToString()));
             }
             else
             {
                 // SSL certificate not trusted: The decryption operation failed, see inner exception. -> 无法解密指定的数据。
-                infoBarService.Error(ex, SH.ViewModelWelcomeDownloadSummaryException);
+                messenger.Send(InfoBarMessage.Error(SH.ViewModelWelcomeDownloadSummaryException, ex));
             }
 
             await taskContext.SwitchToMainThreadAsync();

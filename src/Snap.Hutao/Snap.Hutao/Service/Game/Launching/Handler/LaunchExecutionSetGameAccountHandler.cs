@@ -2,68 +2,54 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionSetGameAccountHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        return next();
+        if (context.LaunchOptions.UsingHoyolabAccount.Value)
+        {
+            await HandleHoyolabAccountAsync(context).ConfigureAwait(false);
+        }
+        else if (context.Identity.GameAccount is { } account && !RegistryInterop.Set(account))
+        {
+            HutaoException.Throw(SH.ViewModelLaunchGameSwitchGameAccountFail);
+        }
     }
 
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override async ValueTask AfterAsync(AfterLaunchExecutionContext context)
     {
-        if (context.Options.UsingHoyolabAccount.Value)
-        {
-            if (!await HandleHoyolabAccountAsync(context).ConfigureAwait(false))
-            {
-                return;
-            }
-        }
-        else
-        {
-            if (context.Account is not null)
-            {
-                context.Logger.LogInformation("Set game account to [{Account}]", context.Account.Name);
-
-                if (!RegistryInterop.Set(context.Account))
-                {
-                    context.Result.Kind = LaunchExecutionResultKind.GameAccountRegistryWriteResultNotMatch;
-                    context.Result.ErrorMessage = SH.ViewModelLaunchGameSwitchGameAccountFail;
-                    return;
-                }
-            }
-        }
-
-        await next().ConfigureAwait(false);
+        LaunchStatusOptions options = context.ServiceProvider.GetRequiredService<LaunchStatusOptions>();
+        await context.TaskContext.SwitchToMainThreadAsync();
+        options.UserGameRole = default;
     }
 
-    private static async ValueTask<bool> HandleHoyolabAccountAsync(LaunchExecutionContext context)
+    private static async ValueTask HandleHoyolabAccountAsync(BeforeLaunchExecutionContext context)
     {
         if (context.TargetScheme.GetSchemeType() is SchemeType.ChineseBilibili)
         {
-            context.Logger.LogWarning("Bilibili server does not support auth ticket login");
-
-            // Bilibili must return true, island containment requires UsingHoyolabAccount to be true
-            return true;
+            return;
         }
 
-        if (context.UserAndUid is not { } userAndUid)
+        if (context.Identity.UserAndUid is not { } userAndUid)
         {
-            return false;
+            return;
         }
 
         if (userAndUid.IsOversea ^ context.TargetScheme.IsOversea)
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameAccountUserAndUidAndServerNotMatch;
-            context.Result.ErrorMessage = SH.ViewModelLaunchGameAccountAndServerNotMatch;
-            return false;
+            HutaoException.NotSupported(SH.ViewModelLaunchGameAccountAndServerNotMatch);
         }
 
         using (IServiceScope scope = context.ServiceProvider.CreateScope())
@@ -77,13 +63,17 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 
             if (ResponseValidator.TryValidate(resp, scope.ServiceProvider, out AuthTicketWrapper? wrapper))
             {
-                context.AuthTicket = wrapper.Ticket;
-                return true;
+                IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+                UserGameRole? userGameRole = await userService.GetUserGameRoleByUidAsync(userAndUid.Uid.Value).ConfigureAwait(false);
+
+                await context.TaskContext.SwitchToMainThreadAsync();
+                scope.ServiceProvider.GetRequiredService<LaunchStatusOptions>().UserGameRole = userGameRole;
+
+                context.SetOption(LaunchExecutionOptionsKey.LoginAuthTicket, wrapper.Ticket);
+                return;
             }
         }
 
-        context.Result.Kind = LaunchExecutionResultKind.GameAccountCreateAuthTicketFailed;
-        context.Result.ErrorMessage = SH.ViewModelLaunchGameCreateAuthTicketFailed;
-        return false;
+        HutaoException.NotSupported(SH.ViewModelLaunchGameCreateAuthTicketFailed);
     }
 }

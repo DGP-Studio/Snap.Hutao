@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -20,9 +19,9 @@ internal sealed partial class GeetestService : IGeetestService
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly CustomGeetestClient customGeetestClient;
     private readonly JsonSerializerOptions jsonOptions;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly CardClient cardClient;
+    private readonly IMessenger messenger;
 
     public async ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, bool isOversea, CancellationToken token = default)
     {
@@ -53,7 +52,7 @@ internal sealed partial class GeetestService : IGeetestService
     public async ValueTask<string?> TryVerifyXrpcChallengeAsync(Model.Entity.User user, CardVerifiationHeaders headers, CancellationToken token = default)
     {
         Response<GeetestVerification> registrationResponse = await cardClient.CreateVerificationAsync(user, headers, token).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(registrationResponse, infoBarService, out GeetestVerification? registration))
+        if (!ResponseValidator.TryValidate(registrationResponse, messenger, out GeetestVerification? registration))
         {
             return default;
         }
@@ -64,7 +63,7 @@ internal sealed partial class GeetestService : IGeetestService
         }
 
         Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(user, headers, data.Challenge, data.Validate, token).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(verifyResponse, infoBarService, out VerificationResult? result))
+        if (!ResponseValidator.TryValidate(verifyResponse, messenger, out VerificationResult? result))
         {
             return default;
         }

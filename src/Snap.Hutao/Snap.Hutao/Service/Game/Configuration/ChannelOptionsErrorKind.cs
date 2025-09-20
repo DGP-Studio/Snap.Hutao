@@ -5,10 +5,11 @@ namespace Snap.Hutao.Service.Game.Configuration;
 
 internal enum ChannelOptionsErrorKind
 {
-    None,
-    ConfigurationFileNotFound,
+    None = 0,
     GamePathNullOrEmpty,
-    DeviceNotFound,
-    GameContentCorrupted,
-    SharingViolation,
+    ConfigurationFileNotFound = 2, // ERROR_FILE_NOT_FOUND
+    GameContentCorrupted, // Both configuration file and ScriptVersion file are missing
+    SharingViolation = 32, // ERROR_SHARING_VIOLATION
+    DeviceNotFound = 433,  // ERROR_NO_SUCH_DEVICE ERROR_NOT_READY
+    GamePathLocked,
 }

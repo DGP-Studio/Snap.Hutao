@@ -158,7 +158,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         }
 
         await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(code).ConfigureAwait(false);
-        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed);
+        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed));
     }
 
     private void UpdateGreetingText()

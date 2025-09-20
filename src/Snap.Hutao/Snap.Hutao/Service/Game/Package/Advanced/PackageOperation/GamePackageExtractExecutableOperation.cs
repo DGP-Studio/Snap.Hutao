@@ -10,7 +10,8 @@ internal sealed class GamePackageExtractExecutableOperation : GamePackageOperati
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
-        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
+        SophonDecodedBuild? remoteBuild = context.Operation.RemoteBuild;
+        ArgumentNullException.ThrowIfNull(remoteBuild);
         int totalChunks = remoteBuild.TotalChunks;
         long downloadTotalBytes = remoteBuild.DownloadTotalBytes;
         long installTotalBytes = remoteBuild.UncompressedTotalBytes;

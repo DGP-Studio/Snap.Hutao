@@ -7,7 +7,7 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
 
-internal sealed class DiagnosticsProcess : IProcess
+internal sealed partial class DiagnosticsProcess : IProcess
 {
     private readonly System.Diagnostics.Process process;
 

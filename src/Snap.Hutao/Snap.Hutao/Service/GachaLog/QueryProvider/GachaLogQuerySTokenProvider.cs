@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
@@ -14,10 +13,10 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Service(ServiceLifetime.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.SToken)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
-    private readonly IInfoBarService infoBarService;
     private readonly BindingClient2 bindingClient2;
     private readonly CultureOptions cultureOptions;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
@@ -34,7 +33,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
         GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
         Response<GameAuthKey> authKeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(authKeyResponse, infoBarService, out GameAuthKey? authKey))
+        if (!ResponseValidator.TryValidate(authKeyResponse, messenger, out GameAuthKey? authKey))
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed));
         }

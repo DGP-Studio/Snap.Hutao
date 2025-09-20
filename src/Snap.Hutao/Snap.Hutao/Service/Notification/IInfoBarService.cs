@@ -8,6 +8,4 @@ namespace Snap.Hutao.Service.Notification;
 internal interface IInfoBarService
 {
     ObservableCollection<InfoBarOptions> Collection { get; }
-
-    void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure);
 }

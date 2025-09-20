@@ -20,7 +20,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInfoBarService infoBarService;
+    private readonly IMessenger messenger;
 
     public async ValueTask<ValueResult<bool, (string? UserName, string? Password, string? VerifyCode)>> GetInputAsync()
     {
@@ -41,7 +41,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
 
         if (!UserName.IsEmail())
         {
-            infoBarService.Warning(SH.ViewModelHutaoPassportEmailNotValidHint);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelHutaoPassportEmailNotValidHint));
             return;
         }
 
@@ -55,7 +55,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
                 return;
             }
 
-            infoBarService.Information(response.GetLocalizationMessage());
+            messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessage()));
         }
     }
 }

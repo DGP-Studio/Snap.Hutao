@@ -7,21 +7,21 @@ namespace Snap.Hutao.Core.Diagnostics;
 
 internal interface IProcess : IDisposable
 {
-    public int Id { get; }
+    int Id { get; }
 
-    public nint Handle { get; }
+    nint Handle { get; }
 
-    public HWND MainWindowHandle { get; }
+    HWND MainWindowHandle { get; }
 
-    public bool HasExited { get; }
+    bool HasExited { get; }
 
-    public int ExitCode { get; }
+    int ExitCode { get; }
 
-    public void Start();
+    void Start();
 
-    public void ResumeMainThread();
+    void ResumeMainThread();
 
-    public void WaitForExit();
+    void WaitForExit();
 
-    public void Kill();
+    void Kill();
 }

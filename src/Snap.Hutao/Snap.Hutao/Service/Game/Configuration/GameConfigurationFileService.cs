@@ -17,18 +17,20 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
 
     public void Backup(string source, bool isOversea)
     {
-        if (File.Exists(source))
+        if (!File.Exists(source))
         {
-            string serverCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
-            string configFileName = isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName;
-            FileOperation.Copy(source, Path.Combine(serverCacheFolder, configFileName), true);
+            return;
         }
+
+        string configFileName = isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName;
+        string destination = Path.Combine(HutaoRuntime.GetDataServerCacheDirectory(), configFileName);
+        FileOperation.Copy(source, destination, true);
     }
 
     public void Restore(string destination, bool isOversea)
     {
-        string serverCacheFolder = HutaoRuntime.GetDataServerCacheDirectory();
-        string source = Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName);
+        string configFileName = isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName;
+        string source = Path.Combine(HutaoRuntime.GetDataServerCacheDirectory(), configFileName);
 
         if (!File.Exists(source))
         {
@@ -38,7 +40,7 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
         // If target directory does not exist, do not copy the file
         // This often means user has moved the game folder away.
         string? directory = Path.GetDirectoryName(destination);
-        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        if (Directory.Exists(directory))
         {
             return;
         }

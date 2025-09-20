@@ -25,8 +25,8 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public SettingFolderViewModel? CacheFolderView { get; set => SetProperty(ref field, value); }
 
@@ -48,12 +48,12 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         {
             FileSystemPickerInteraction = fileSystemPickerInteraction,
             ContentDialogFactory = contentDialogFactory,
-            InfoBarService = infoBarService,
+            Messenger = messenger,
         };
 
         if (await operation.TryExecuteAsync().ConfigureAwait(false))
         {
-            infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
+            messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingSetDataFolderSuccess));
         }
     }
 
@@ -83,7 +83,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             await DataFolderView.UpdateFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
-        infoBarService.Success(SH.ViewModelSettingActionComplete);
+        messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingActionComplete));
     }
 
     [Command("ResetStaticResourceCommand")]
@@ -135,7 +135,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         {
             if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_PACKAGE_UPDATING))
             {
-                infoBarService.Error(SH.ViewModelSettingStorageRestartFailed);
+                messenger.Send(InfoBarMessage.Error(SH.ViewModelSettingStorageRestartFailed));
             }
         }
     }
