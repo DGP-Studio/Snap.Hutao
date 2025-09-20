@@ -128,6 +128,18 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePat
     public IObservableProperty<bool> RedirectCombineEntry { get => field ??= CreateProperty(SettingEntry.LaunchRedirectCombineEntry, false); }
 
     [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId000106Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId000106Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId000201Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId000201Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId107009Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId107009Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId220007Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId220007Allowed, true); }
+
+    [field: MaybeNull]
     public IObservableProperty<ImmutableArray<AspectRatio>> AspectRatios { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.AspectRatios, ImmutableArray<AspectRatio>.Empty); }
 
     public AspectRatio? SelectedAspectRatio

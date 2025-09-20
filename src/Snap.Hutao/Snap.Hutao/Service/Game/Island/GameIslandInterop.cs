@@ -120,12 +120,19 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove.Value;
         pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText.Value;
         pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry.Value;
+        pIslandEnvironment->ResinListItemId000106Allowed = options.ResinListItemId000106Allowed.Value;
+        pIslandEnvironment->ResinListItemId000201Allowed = options.ResinListItemId000201Allowed.Value;
+        pIslandEnvironment->ResinListItemId107009Allowed = options.ResinListItemId107009Allowed.Value;
+        pIslandEnvironment->ResinListItemId220007Allowed = options.ResinListItemId220007Allowed.Value;
 
         return pIslandEnvironment->View;
     }
 
     private static async ValueTask HandleUidChangedAsync(LaunchExecutionContext context, uint uid, CancellationToken token)
     {
+        // TODO: remove this after API is ready
+        return;
+
         using (IServiceScope scope = context.ServiceProvider.CreateScope())
         {
             HutaoResponse response = await scope.ServiceProvider

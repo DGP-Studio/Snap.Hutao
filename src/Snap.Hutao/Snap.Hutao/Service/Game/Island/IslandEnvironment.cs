@@ -24,4 +24,8 @@ internal struct IslandEnvironment
     public BOOL DisableShowDamageText;
     public BOOL UsingTouchScreen;
     public BOOL RedirectCombineEntry;
+    public BOOL ResinListItemId000106Allowed;
+    public BOOL ResinListItemId000201Allowed;
+    public BOOL ResinListItemId107009Allowed;
+    public BOOL ResinListItemId220007Allowed;
 }

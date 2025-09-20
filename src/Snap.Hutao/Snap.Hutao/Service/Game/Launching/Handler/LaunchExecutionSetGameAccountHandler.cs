@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -63,10 +64,10 @@ internal sealed class LaunchExecutionSetGameAccountHandler : AbstractLaunchExecu
             if (ResponseValidator.TryValidate(resp, scope.ServiceProvider, out AuthTicketWrapper? wrapper))
             {
                 IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                LaunchStatusOptions options = scope.ServiceProvider.GetRequiredService<LaunchStatusOptions>();
+                UserGameRole? userGameRole = await userService.GetUserGameRoleByUidAsync(userAndUid.Uid.Value).ConfigureAwait(false);
 
                 await context.TaskContext.SwitchToMainThreadAsync();
-                options.UserGameRole = await userService.GetUserGameRoleByUidAsync(userAndUid.Uid.Value).ConfigureAwait(false);
+                scope.ServiceProvider.GetRequiredService<LaunchStatusOptions>().UserGameRole = userGameRole;
 
                 context.SetOption(LaunchExecutionOptionsKey.LoginAuthTicket, wrapper.Ticket);
                 return;
