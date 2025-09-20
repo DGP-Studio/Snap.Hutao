@@ -99,6 +99,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
+        TargetScheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
+
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
         return true;
     }

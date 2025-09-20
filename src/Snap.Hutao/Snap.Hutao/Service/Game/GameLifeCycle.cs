@@ -51,13 +51,6 @@ internal static class GameLifeCycle
         return new(result, runningProcess);
     }
 
-    public static bool IsGameRunning([NotNullWhen(true)] out IProcess? runningProcess)
-    {
-        bool result = PrivateIsGameRunning(out runningProcess);
-        IsGameRunningProperty.Value = result;
-        return result;
-    }
-
     public static async ValueTask<bool> TryKillGameProcessAsync(ITaskContext taskContext)
     {
         if (await TryGetRunningGameProcessAsync(taskContext).ConfigureAwait(false) is not (true, { } process))
