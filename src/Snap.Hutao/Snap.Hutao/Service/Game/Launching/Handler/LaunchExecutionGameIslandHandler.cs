@@ -27,7 +27,7 @@ internal sealed class LaunchExecutionGameIslandHandler : AbstractLaunchExecution
 
         interop = new(resume);
 
-        if (!resume || GameLifeCycle.IsGameRunning())
+        if (!resume || await GameLifeCycle.IsGameRunningAsync(context.TaskContext).ConfigureAwait(false))
         {
             context.Progress.Report(new(SH.ServiceGameLaunchPhaseUnlockingFps));
         }

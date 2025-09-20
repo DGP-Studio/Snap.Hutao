@@ -263,14 +263,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [Command("KillGameProcessCommand")]
-    private void KillGameProcess()
+    private async Task KillGameProcess()
     {
         if (!LaunchOptions.CanKillGameProcess.Value)
         {
             return;
         }
 
-        gameService.KillGameProcess();
+        await GameLifeCycle.TryKillGameProcessAsync(taskContext).ConfigureAwait(false);
     }
 
     [SuppressMessage("", "SH003")]
