@@ -70,7 +70,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
-    public IReadOnlyObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshForUpdatedGamePathEntryAsync().SafeForget(), this).Debug("GamePathEntryValid"); }
+    public IReadOnlyObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.RefreshForUpdatedGamePathEntryAsync().SafeForget(), this); }
 
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
@@ -102,6 +102,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         TargetScheme = Shared.GetCurrentLaunchSchemeFromConfigurationFile();
 
         Shared.ResumeLaunchExecutionAsync(this).SafeForget();
+        await RefreshForUpdatedGamePathEntryAsync().ConfigureAwait(false);
         return true;
     }
 
