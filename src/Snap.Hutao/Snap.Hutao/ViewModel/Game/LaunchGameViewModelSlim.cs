@@ -76,8 +76,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     protected override async Task LoadAsync()
     {
-        Shared.ResumeLaunchExecutionAsync(this).SafeForget();
-
         if (Shared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } scheme)
         {
             // The scheme is null, user must go to LaunchGamePage to select a proper game path.
@@ -86,6 +84,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
 
         await CurrentSchemeFilteredGameAccountsView.SetAsync(scheme).ConfigureAwait(true);
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
         UserGameRole? userGameRole = LaunchOptions.UsingHoyolabAccount.Value
             ? await userService.GetCurrentUserGameRoleAsync().ConfigureAwait(false)
