@@ -329,7 +329,7 @@
                                                         EnableMemberPath="IsNotCompatOnly"
                                                         IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                         ItemsSource="{Binding KnownSchemes}"
-                                                        SelectedItem="{Binding TargetScheme, Mode=TwoWay}"
+                                                        SelectedItem="{Binding TargetSchemeFilteredGameAccountsView.Scheme, Mode=TwoWay}"
                                                         Style="{StaticResource DefaultComboBoxStyle}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </StackPanel>
@@ -399,15 +399,15 @@
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
                                         IsClickEnabled="True"
                                         IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolNegationConverter}}"/>
-                                    <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding GameAccountsView.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                    <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding TargetSchemeFilteredGameAccountsView.View.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{shuxm:IsProcessNotElevated}"
                                             CanReorderItems="{shuxm:IsProcessNotElevated}"
                                             IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
-                                            ItemsSource="{Binding GameAccountsView}"
-                                            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}">
+                                            ItemsSource="{Binding TargetSchemeFilteredGameAccountsView.View}"
+                                            SelectedItem="{Binding TargetSchemeFilteredGameAccountsView.View.CurrentItem, Mode=TwoWay}">
                                             <ListView.Header>
                                                 <InfoBar
                                                     Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"

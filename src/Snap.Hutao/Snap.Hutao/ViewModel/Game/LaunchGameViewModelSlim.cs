@@ -9,7 +9,6 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.User;
@@ -28,6 +27,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public partial LaunchGameShared Shared { get; }
 
@@ -35,17 +35,16 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public partial LaunchOptions LaunchOptions { get; }
 
-    [ObservableProperty]
-    public partial IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set; }
+    public LaunchSchemeFilteredGameAccountsView CurrentSchemeFilteredGameAccountsView { get => field ??= new(gameService, taskContext, messenger); }
 
     [ObservableProperty]
     public partial UserGameRole? CurrentUserGameRole { get; set; }
 
-    LaunchScheme? IViewModelSupportLaunchExecution.TargetScheme { get => Shared.GetCurrentLaunchSchemeFromConfigurationFile(); }
+    LaunchScheme? IViewModelSupportLaunchExecution.TargetScheme { get => CurrentSchemeFilteredGameAccountsView.Scheme; }
 
-    LaunchScheme? IViewModelSupportLaunchExecution.CurrentScheme { get => Shared.GetCurrentLaunchSchemeFromConfigurationFile(); }
+    LaunchScheme? IViewModelSupportLaunchExecution.CurrentScheme { get => CurrentSchemeFilteredGameAccountsView.Scheme; }
 
-    GameAccount? IViewModelSupportLaunchExecution.GameAccount { get => GameAccountsView?.CurrentItem; }
+    GameAccount? IViewModelSupportLaunchExecution.GameAccount { get => CurrentSchemeFilteredGameAccountsView.View?.CurrentItem; }
 
     ValueTask<BlockDeferral<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
     {
@@ -86,23 +85,14 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
             return;
         }
 
+        await CurrentSchemeFilteredGameAccountsView.SetAsync(scheme).ConfigureAwait(true);
+
         UserGameRole? userGameRole = LaunchOptions.UsingHoyolabAccount.Value
             ? await userService.GetCurrentUserGameRoleAsync().ConfigureAwait(false)
             : default;
 
-        IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
-        accountsView.Filter = GameAccountFilter.Create(scheme.GetSchemeType());
-
         await taskContext.SwitchToMainThreadAsync();
         CurrentUserGameRole = userGameRole;
-        GameAccountsView = accountsView;
-
-        // Try set to the current account.
-        if (GameAccountsView.CurrentItem is null)
-        {
-            GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccountNoThrow(scheme));
-        }
-
         IsInitialized = true;
     }
 

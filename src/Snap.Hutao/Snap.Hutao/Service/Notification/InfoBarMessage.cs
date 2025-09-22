@@ -29,7 +29,7 @@ internal sealed class InfoBarMessage
         {
             Severity = severity,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(message),
         };
     }
 
@@ -82,7 +82,7 @@ internal sealed class InfoBarMessage
         {
             Severity = InfoBarSeverity.Informational,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(message),
         };
     }
 
@@ -92,7 +92,7 @@ internal sealed class InfoBarMessage
         {
             Severity = InfoBarSeverity.Success,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(message),
         };
     }
 
@@ -103,7 +103,7 @@ internal sealed class InfoBarMessage
             Severity = InfoBarSeverity.Success,
             Title = title,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
         };
     }
 
@@ -113,7 +113,7 @@ internal sealed class InfoBarMessage
         {
             Severity = InfoBarSeverity.Warning,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(message),
         };
     }
 
@@ -124,7 +124,7 @@ internal sealed class InfoBarMessage
             Severity = InfoBarSeverity.Warning,
             Title = title,
             Message = message,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
         };
     }
 
@@ -137,7 +137,7 @@ internal sealed class InfoBarMessage
             Message = message,
             ActionButtonContent = actionButtonContent,
             ActionButtonCommand = actionButtonCommand,
-            MilliSecondsDelay = 3000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
+            MilliSecondsDelay = 5000 + TextReadingTime.Estimate(title) + TextReadingTime.Estimate(message),
         };
     }
 }
