@@ -17,7 +17,7 @@ internal sealed class YaeLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
         [
             new LaunchExecutionEnsureGameNotRunningHandler(),
             new LaunchExecutionSetChannelOptionsHandler(),
-            new LaunchExecutionEnsureGameResourceHandler(),
+            new LaunchExecutionEnsureGameResourceHandler(false),
             new LaunchExecutionSetGameAccountHandler(),
             new LaunchExecutionGameProcessStartHandler(),
             new YaeLaunchExecutionNamedPipeHandler(config, receiver),

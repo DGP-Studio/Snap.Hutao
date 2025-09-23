@@ -155,6 +155,30 @@ internal sealed partial class LaunchGameShared
         }
     }
 
+    public async ValueTask ConvertLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
+    {
+        ConvertOnlyLaunchExecutionInvoker invoker = new();
+        try
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                LaunchExecutionInvocationContext context = new()
+                {
+                    ViewModel = viewModel,
+                    ServiceProvider = scope.ServiceProvider,
+                    LaunchOptions = launchOptions,
+                    Identity = GameIdentity.Create(),
+                };
+
+                await invoker.InvokeAsync(context).ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex)
+        {
+            messenger.Send(InfoBarMessage.Error(ex));
+        }
+    }
+
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {

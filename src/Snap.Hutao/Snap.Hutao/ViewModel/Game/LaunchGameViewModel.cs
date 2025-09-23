@@ -179,6 +179,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await Shared.DefaultLaunchExecutionAsync(this, userAndUid).ConfigureAwait(false);
     }
 
+    [Command("ConvertCommand")]
+    private async Task ConvertAsync()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Convert game server", "LaunchGameViewModel.Command"));
+        await Shared.ConvertLaunchExecutionAsync(this).ConfigureAwait(false);
+    }
+
     [Command("DetectGameAccountCommand")]
     private async Task DetectGameAccountAsync()
     {
