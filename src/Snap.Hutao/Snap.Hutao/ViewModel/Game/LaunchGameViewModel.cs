@@ -79,6 +79,28 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         return false;
     }
 
+    [SuppressMessage("", "SH003")]
+    public async Task HandleGamePathEntryChangeAsync()
+    {
+        try
+        {
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                LaunchScheme? currentScheme = LaunchOptions.GamePathEntry.Value is not null
+                    ? Shared.GetCurrentLaunchSchemeFromConfigurationFile()
+                    : default;
+
+                await taskContext.SwitchToMainThreadAsync();
+                await TargetSchemeFilteredGameAccountsView.SetAsync(currentScheme).ConfigureAwait(true);
+                await GamePackageViewModel.ReloadAsync().ConfigureAwait(true);
+            }
+        }
+        catch (HutaoException ex)
+        {
+            messenger.Send(InfoBarMessage.Error(ex));
+        }
+    }
+
     ValueTask<BlockDeferral<PackageConvertStatus>> IViewModelSupportLaunchExecution.CreateConvertBlockDeferralAsync()
     {
         return BlockDeferral<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
@@ -264,27 +286,5 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         await GameLifeCycle.TryKillGameProcessAsync(taskContext).ConfigureAwait(false);
-    }
-
-    [SuppressMessage("", "SH003")]
-    private async Task HandleGamePathEntryChangeAsync()
-    {
-        try
-        {
-            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-            {
-                LaunchScheme? currentScheme = LaunchOptions.GamePathEntry.Value is not null
-                    ? Shared.GetCurrentLaunchSchemeFromConfigurationFile()
-                    : default;
-
-                await taskContext.SwitchToMainThreadAsync();
-                await TargetSchemeFilteredGameAccountsView.SetAsync(currentScheme).ConfigureAwait(true);
-                await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(true);
-            }
-        }
-        catch (HutaoException ex)
-        {
-            messenger.Send(InfoBarMessage.Error(ex));
-        }
     }
 }

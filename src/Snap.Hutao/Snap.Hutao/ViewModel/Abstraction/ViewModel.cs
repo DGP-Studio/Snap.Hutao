@@ -12,6 +12,8 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 
 internal abstract partial class ViewModel : ObservableObject, IViewModel, IDisposable
 {
+    private bool initializing;
+
     public bool IsInitialized { get; protected set => SetProperty(ref field, value); }
 
     public CancellationToken CancellationToken { get; set; }
@@ -56,11 +58,21 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
     {
         try
         {
+            if (Interlocked.Exchange(ref initializing, true))
+            {
+                await Initialization.Task.ConfigureAwait(false);
+                return;
+            }
+
             IsInitialized = await LoadOverrideAsync(CancellationToken).ConfigureAwait(true);
             Initialization.TrySetResult(IsInitialized);
         }
         catch (OperationCanceledException)
         {
+        }
+        finally
+        {
+            Volatile.Write(ref initializing, false);
         }
     }
 

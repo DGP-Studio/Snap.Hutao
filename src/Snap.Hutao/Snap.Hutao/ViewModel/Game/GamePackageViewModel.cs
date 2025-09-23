@@ -136,7 +136,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         }
     }
 
-    public async ValueTask ForceLoadAsync()
+    public async ValueTask ReloadAsync()
     {
         bool result = await LoadOverrideAsync(CancellationToken).ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();

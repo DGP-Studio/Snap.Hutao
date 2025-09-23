@@ -8,7 +8,6 @@ using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.Process;
-using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
@@ -206,7 +205,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         [
             serviceProvider.GetRequiredService<HotKeyOptions>().InitializeAsync().AsTask(),
             serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().AsTask(),
-            serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().AsTask(),
             serviceProvider.GetRequiredService<IMetadataService>().InitializeInternalAsync().AsTask(),
             serviceProvider.GetRequiredService<IQuartzService>().StartAsync()
         ]).ConfigureAwait(false);

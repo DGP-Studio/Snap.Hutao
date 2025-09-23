@@ -125,7 +125,6 @@
 
             <Button
                 Grid.Row="2"
-                HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Command="{Binding LaunchCommand}"
                 Style="{ThemeResource SettingButtonStyle}">
