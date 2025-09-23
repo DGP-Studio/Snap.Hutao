@@ -216,7 +216,7 @@
                 <ScrollViewer>
                     <StackPanel Margin="16" Spacing="16">
                         <!--  需要管理员权限的操作  -->
-                        <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                                 <Grid
                                     Margin="16"
@@ -323,6 +323,10 @@
                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                             HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AB;}">
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                                <Button
+                                                    Command="{Binding ConvertCommand}"
+                                                    Content="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchSchemeAction}"
+                                                    Style="{ThemeResource SettingButtonStyle}"/>
                                                 <shuxc:SizeRestrictedContentControl>
                                                     <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
@@ -544,7 +548,7 @@
                 </ScrollViewer>
             </PivotItem>
 
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandOptionsHeader}" Visibility="{shuxm:VisibleWhenProcessElevated}">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandOptionsHeader}" IsEnabled="{shuxm:IsProcessElevated}">
                 <ScrollViewer>
                     <StackPanel Margin="16" Spacing="16">
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">

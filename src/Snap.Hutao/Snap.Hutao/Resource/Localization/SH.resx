@@ -4130,4 +4130,10 @@
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
     <value>注入选项</value>
   </data>
+  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
+    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
+    <value>转换</value>
+  </data>
 </root>

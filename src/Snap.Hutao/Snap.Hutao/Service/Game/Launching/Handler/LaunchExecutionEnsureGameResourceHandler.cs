@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Notification;
 using System.IO;
 using System.Net.Http;
 
@@ -17,10 +18,22 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchExecutionHandler
 {
+    private readonly bool convertOnly;
+
+    public LaunchExecutionEnsureGameResourceHandler(bool convertOnly)
+    {
+        this.convertOnly = convertOnly;
+    }
+
     public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
         if (!ShouldConvert(context))
         {
+            if (convertOnly)
+            {
+                context.Messenger.Send(InfoBarMessage.Information(SH.ServiceGameLaunchingEnsureGameResourceShouldNotConvert));
+            }
+
             return;
         }
 

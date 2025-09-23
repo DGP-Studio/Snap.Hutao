@@ -13,7 +13,7 @@ internal sealed class DefaultLaunchExecutionInvoker : AbstractLaunchExecutionInv
         [
             new LaunchExecutionEnsureGameNotRunningHandler(),
             new LaunchExecutionSetChannelOptionsHandler(),
-            new LaunchExecutionEnsureGameResourceHandler(),
+            new LaunchExecutionEnsureGameResourceHandler(false),
             new LaunchExecutionSetGameAccountHandler(),
             new LaunchExecutionSetWindowsHDRHandler(),
             new LaunchExecutionGameProcessStartHandler(),
