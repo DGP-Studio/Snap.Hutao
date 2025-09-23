@@ -254,6 +254,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
+        await scopeContext.LaunchGameViewModel.HandleGamePathEntryChangeAsync().ConfigureAwait(false);
         if (await scopeContext.AchievementImporter.FromEmbeddedYaeAsync(scopeContext).ConfigureAwait(false))
         {
             await UpdateAchievementCollectionAsync(Archives?.CurrentItem, achievementsTokenProvider.GetNewToken()).ConfigureAwait(false);
