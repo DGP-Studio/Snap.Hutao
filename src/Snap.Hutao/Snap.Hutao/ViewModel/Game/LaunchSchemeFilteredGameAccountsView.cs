@@ -30,13 +30,13 @@ internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableO
     public LaunchScheme? Scheme
     {
         get => scheme;
-        set => SetAsync(value).SafeForget();
+        set => SetAsync(value, false).SafeForget();
     }
 
     [ObservableProperty]
     public partial IAdvancedCollectionView<GameAccount>? View { get; private set; }
 
-    public async ValueTask SetAsync(LaunchScheme? value)
+    public async ValueTask SetAsync(LaunchScheme? value, bool external = true)
     {
         using (await syncRoot.LockAsync().ConfigureAwait(false))
         {
@@ -67,7 +67,11 @@ internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableO
             // Try set to the current registry account.
             if (Scheme is null)
             {
-                messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
+                if (external)
+                {
+                    messenger.Send(InfoBarMessage.Warning(SH.ViewModelLaunchGameSchemeNotSelected));
+                }
+
                 return;
             }
 
