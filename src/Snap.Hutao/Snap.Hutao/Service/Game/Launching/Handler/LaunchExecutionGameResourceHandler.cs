@@ -16,11 +16,11 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionEnsureGameResourceHandler : AbstractLaunchExecutionHandler
+internal sealed class LaunchExecutionGameResourceHandler : AbstractLaunchExecutionHandler
 {
     private readonly bool convertOnly;
 
-    public LaunchExecutionEnsureGameResourceHandler(bool convertOnly)
+    public LaunchExecutionGameResourceHandler(bool convertOnly)
     {
         this.convertOnly = convertOnly;
     }

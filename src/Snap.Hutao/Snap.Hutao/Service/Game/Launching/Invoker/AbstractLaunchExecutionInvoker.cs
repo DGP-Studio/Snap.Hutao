@@ -48,7 +48,7 @@ internal abstract class AbstractLaunchExecutionInvoker
 
     protected virtual IProcess? CreateProcess(BeforeLaunchExecutionContext beforeContext)
     {
-        return GameProcessFactory.CreateDefault(beforeContext);
+        return GameProcessFactory.CreateForDefault(beforeContext);
     }
 
     private static IProgress<LaunchStatus?> CreateStatusProgress(IServiceProvider serviceProvider)

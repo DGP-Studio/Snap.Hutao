@@ -13,7 +13,7 @@ internal sealed class ResumeLaunchExecutionInvoker : AbstractLaunchExecutionInvo
     {
         Handlers =
         [
-            new ResumeLaunchExecutionEnsureGameRunningHandler(),
+            new LaunchExecutionGameLifeCycleHandler(resume: true),
             new LaunchExecutionGameIslandHandler(resume: true),
             new LaunchExecutionOverlayHandler()
         ];

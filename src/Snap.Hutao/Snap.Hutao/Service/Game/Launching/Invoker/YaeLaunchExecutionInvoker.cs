@@ -15,12 +15,12 @@ internal sealed class YaeLaunchExecutionInvoker : AbstractLaunchExecutionInvoker
     {
         Handlers =
         [
-            new LaunchExecutionEnsureGameNotRunningHandler(),
-            new LaunchExecutionSetChannelOptionsHandler(),
-            new LaunchExecutionEnsureGameResourceHandler(false),
-            new LaunchExecutionSetGameAccountHandler(),
+            new LaunchExecutionGameLifeCycleHandler(resume: false),
+            new LaunchExecutionChannelOptionsHandler(),
+            new LaunchExecutionGameResourceHandler(false),
+            new LaunchExecutionGameIdentityHandler(),
             new LaunchExecutionGameProcessStartHandler(),
-            new YaeLaunchExecutionNamedPipeHandler(config, receiver),
+            new LaunchExecutionYaeNamedPipeHandler(config, receiver),
         ];
     }
 

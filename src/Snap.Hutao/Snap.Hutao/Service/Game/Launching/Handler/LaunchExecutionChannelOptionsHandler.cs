@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetChannelOptionsHandler : AbstractLaunchExecutionHandler
+internal sealed class LaunchExecutionChannelOptionsHandler : AbstractLaunchExecutionHandler
 {
     public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {

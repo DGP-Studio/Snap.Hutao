@@ -13,12 +13,12 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class YaeLaunchExecutionNamedPipeHandler : AbstractLaunchExecutionHandler
+internal sealed class LaunchExecutionYaeNamedPipeHandler : AbstractLaunchExecutionHandler
 {
     private readonly TargetNativeConfiguration config;
     private readonly YaeDataArrayReceiver receiver;
 
-    public YaeLaunchExecutionNamedPipeHandler(TargetNativeConfiguration config, YaeDataArrayReceiver receiver)
+    public LaunchExecutionYaeNamedPipeHandler(TargetNativeConfiguration config, YaeDataArrayReceiver receiver)
     {
         this.config = config;
         this.receiver = receiver;

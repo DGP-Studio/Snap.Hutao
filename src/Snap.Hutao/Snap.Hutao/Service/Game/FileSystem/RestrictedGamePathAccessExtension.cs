@@ -2,28 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Game.PathAbstraction;
 
 namespace Snap.Hutao.Service.Game.FileSystem;
 
 internal static class RestrictedGamePathAccessExtension
 {
-    [Obsolete]
-    public static bool TryGetGameFileSystem(this IRestrictedGamePathAccess access, [NotNullWhen(true)] out IGameFileSystem? fileSystem)
-    {
-        string? gamePath = access.GamePathEntry.Value?.Path;
-
-        if (string.IsNullOrEmpty(gamePath) || !access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
-        {
-            fileSystem = default;
-            return false;
-        }
-
-        fileSystem = GameFileSystem.Create(gamePath, releaser);
-        return true;
-    }
-
-    // TODO: implement tracing
     public static GameFileSystemErrorKind TryGetGameFileSystem(this IRestrictedGamePathAccess access, string trace, out IGameFileSystem? fileSystem)
     {
         string? gamePath = access.GamePathEntry.Value?.Path;
@@ -31,16 +16,19 @@ internal static class RestrictedGamePathAccessExtension
         if (string.IsNullOrEmpty(gamePath))
         {
             fileSystem = default;
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Error: GamePathNullOrEmpty", "TryGetGameFileSystem"));
             return GameFileSystemErrorKind.GamePathNullOrEmpty;
         }
 
-        if (!access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
+        if (!access.GamePathLock.TryReaderLock(trace, out AsyncReaderWriterLock.Releaser releaser))
         {
             fileSystem = default;
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Error: GamePathLocked", "TryGetGameFileSystem"));
             return GameFileSystemErrorKind.GamePathLocked;
         }
 
         fileSystem = GameFileSystem.Create(gamePath, releaser);
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Error: None", "TryGetGameFileSystem"));
         return GameFileSystemErrorKind.None;
     }
 
@@ -65,9 +53,10 @@ internal static class RestrictedGamePathAccessExtension
         }
 
         // We need update the entries when game path not in the entries.
-        if (!access.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+        const string LockTrace = $"{nameof(RestrictedGamePathAccessExtension)}.{nameof(PerformGamePathEntrySynchronization)}";
+        if (!access.GamePathLock.TryWriterLock(LockTrace, out AsyncReaderWriterLock.Releaser releaser))
         {
-            throw HutaoException.InvalidOperation("Cannot set game path entries while it is being used.");
+            throw HutaoException.InvalidOperation($"Cannot set game path entries while it is being used. {access.GamePathLock}");
         }
 
         using (releaser)
@@ -85,9 +74,10 @@ internal static class RestrictedGamePathAccessExtension
     {
         if (entry is not null)
         {
-            if (!access.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+            const string LockTrace = $"{nameof(RestrictedGamePathAccessExtension)}.{nameof(RemoveGamePathEntry)}";
+            if (!access.GamePathLock.TryWriterLock(LockTrace, out AsyncReaderWriterLock.Releaser releaser))
             {
-                throw HutaoException.InvalidOperation("Cannot remove game path while it is being used.");
+                throw HutaoException.InvalidOperation($"Cannot remove game path while it is being used. {access.GamePathLock}");
             }
 
             using (releaser)
@@ -107,9 +97,10 @@ internal static class RestrictedGamePathAccessExtension
 
     public static string UpdateGamePath(this IRestrictedGamePathAccess access, string gamePath)
     {
-        if (!access.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+        const string LockTrace = $"{nameof(RestrictedGamePathAccessExtension)}.{nameof(UpdateGamePath)}";
+        if (!access.GamePathLock.TryWriterLock(LockTrace, out AsyncReaderWriterLock.Releaser releaser))
         {
-            throw HutaoException.InvalidOperation("Cannot update game path while it is being used.");
+            throw HutaoException.InvalidOperation($"Cannot update game path while it is being used. {access.GamePathLock}");
         }
 
         using (releaser)

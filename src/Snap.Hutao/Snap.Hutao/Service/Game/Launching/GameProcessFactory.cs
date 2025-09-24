@@ -11,7 +11,7 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class GameProcessFactory
 {
-    public static IProcess CreateDefault(BeforeLaunchExecutionContext context)
+    public static IProcess CreateForDefault(BeforeLaunchExecutionContext context)
     {
         LaunchOptions launchOptions = context.LaunchOptions;
 

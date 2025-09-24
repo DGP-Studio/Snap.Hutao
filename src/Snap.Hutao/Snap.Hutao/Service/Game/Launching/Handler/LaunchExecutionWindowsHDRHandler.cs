@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Game.Launching.Context;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetWindowsHDRHandler : AbstractLaunchExecutionHandler
+internal sealed class LaunchExecutionWindowsHDRHandler : AbstractLaunchExecutionHandler
 {
     public override ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {

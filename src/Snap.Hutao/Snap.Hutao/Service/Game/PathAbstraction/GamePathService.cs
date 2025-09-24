@@ -42,7 +42,8 @@ internal sealed partial class GamePathService : IGamePathService
             paths.Add(path);
         }
 
-        using (await launchOptions.GamePathLock.WriterLockAsync().ConfigureAwait(false))
+        const string LockTrace = $"{nameof(GamePathService)}.{nameof(SilentLocateAllGamePathAsync)}";
+        using (await launchOptions.GamePathLock.WriterLockAsync(LockTrace).ConfigureAwait(false))
         {
             foreach (GamePathEntry entry in launchOptions.GamePathEntries.Value)
             {
