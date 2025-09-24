@@ -13,9 +13,9 @@ internal sealed class ConvertOnlyLaunchExecutionInvoker : AbstractLaunchExecutio
     {
         Handlers =
         [
-            new LaunchExecutionEnsureGameNotRunningHandler(),
-            new LaunchExecutionSetChannelOptionsHandler(),
-            new LaunchExecutionEnsureGameResourceHandler(true),
+            new LaunchExecutionGameLifeCycleHandler(resume: false),
+            new LaunchExecutionChannelOptionsHandler(),
+            new LaunchExecutionGameResourceHandler(convertOnly: true),
         ];
     }
 

@@ -14,7 +14,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionSetGameAccountHandler : AbstractLaunchExecutionHandler
+internal sealed class LaunchExecutionGameIdentityHandler : AbstractLaunchExecutionHandler
 {
     public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {

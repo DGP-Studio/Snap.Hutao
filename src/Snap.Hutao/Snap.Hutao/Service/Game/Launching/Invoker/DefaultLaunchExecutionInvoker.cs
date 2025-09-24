@@ -11,11 +11,11 @@ internal sealed class DefaultLaunchExecutionInvoker : AbstractLaunchExecutionInv
     {
         Handlers =
         [
-            new LaunchExecutionEnsureGameNotRunningHandler(),
-            new LaunchExecutionSetChannelOptionsHandler(),
-            new LaunchExecutionEnsureGameResourceHandler(false),
-            new LaunchExecutionSetGameAccountHandler(),
-            new LaunchExecutionSetWindowsHDRHandler(),
+            new LaunchExecutionGameLifeCycleHandler(resume: false),
+            new LaunchExecutionChannelOptionsHandler(),
+            new LaunchExecutionGameResourceHandler(convertOnly: false),
+            new LaunchExecutionGameIdentityHandler(),
+            new LaunchExecutionWindowsHDRHandler(),
             new LaunchExecutionGameProcessStartHandler(),
             new LaunchExecutionGameIslandHandler(resume: false),
             new LaunchExecutionArbitraryLibraryHandler(),
