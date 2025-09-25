@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {

@@ -24,6 +24,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.DailyNote;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {

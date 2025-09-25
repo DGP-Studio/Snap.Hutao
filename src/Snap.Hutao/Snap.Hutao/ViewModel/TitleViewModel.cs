@@ -14,9 +14,10 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
-[ConstructorGenerated]
-[Service(ServiceLifetime.Transient)]
 [SuppressMessage("", "SA1201")]
+[ConstructorGenerated]
+[BindableCustomPropertyProvider]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
