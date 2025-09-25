@@ -81,7 +81,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     return;
                 }
 
-                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewUnloaded)
+                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewUnloaded.Value)
                 {
                     using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, viewModel.CancellationToken);
                     viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, linkedCts.Token).SafeForget();

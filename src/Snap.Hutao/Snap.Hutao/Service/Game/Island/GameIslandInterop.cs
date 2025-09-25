@@ -130,9 +130,6 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     private static async ValueTask HandleUidChangedAsync(LaunchExecutionContext context, uint uid, CancellationToken token)
     {
-        // TODO: remove this after API is ready
-        return;
-
         using (IServiceScope scope = context.ServiceProvider.CreateScope())
         {
             HutaoResponse response = await scope.ServiceProvider

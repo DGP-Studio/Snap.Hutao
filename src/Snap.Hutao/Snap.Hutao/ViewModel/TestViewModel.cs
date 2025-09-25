@@ -69,67 +69,67 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.SuppressMetadataInitialization, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.SuppressMetadataInitialization, value);
     }
 
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideElevationRequirement, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.OverrideElevationRequirement, value);
     }
 
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideUpdateVersionComparison, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
     }
 
     public bool OverrideHardDriveType
     {
         get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePhysicalDriverType, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.OverridePhysicalDriverType, value);
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
         get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
     }
 
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
     }
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
     }
 
     public bool AlphaBuildUseFJPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
     public bool TreatPredownloadAsMain
     {
         get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.TreatPredownloadAsMain, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.TreatPredownloadAsMain, value);
     }
 
     public bool EnableBetaGameInstall
     {
         get => LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.EnableBetaGameInstall, value);
+        set => LocalSetting.SetIfNot(IsViewUnloaded.Value, SettingKeys.EnableBetaGameInstall, value);
     }
 
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
