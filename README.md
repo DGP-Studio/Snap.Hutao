@@ -90,7 +90,7 @@ Snap Hutao is currently using sponsored software from the following service prov
 
 - [Ducalis.io](https://hi.ducalis.io/) provides Snap Hutao project with a complete decision-making toolkit for project management
 
-- [Jetbrains](https://www.jetbrains.com/) provides powerful IDE for Snap Hutao infrastructure services coding
+- [Cloudflare](https://www.cloudflare.com/) sponsors Snap Hutao with their Business Plan, ensuring secure, fast, and reliable worldwide connection to our infrastructure
 
 - [Termius](https://termius.com) provides a secure, reliable, and collaborative SSH client
 
