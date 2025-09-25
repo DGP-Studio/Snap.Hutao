@@ -26,6 +26,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 [SuppressMessage("", "CA1001")]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {

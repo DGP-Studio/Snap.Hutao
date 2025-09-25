@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Scheme;
@@ -10,6 +11,7 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Game;
 
+[BindableCustomPropertyProvider]
 internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableObject
 {
     private readonly AsyncLock syncRoot = new();
@@ -20,8 +22,9 @@ internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableO
 
     private LaunchScheme? scheme;
 
-    public LaunchSchemeFilteredGameAccountsView(IGameService gameService, ITaskContext taskContext, IMessenger messenger)
+    public LaunchSchemeFilteredGameAccountsView(IProperty<bool> isViewUnloaded, IGameService gameService, ITaskContext taskContext, IMessenger messenger)
     {
+        IsViewUnloaded = isViewUnloaded;
         this.gameService = gameService;
         this.taskContext = taskContext;
         this.messenger = messenger;
@@ -35,6 +38,8 @@ internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableO
 
     [ObservableProperty]
     public partial IAdvancedCollectionView<GameAccount>? View { get; private set; }
+
+    internal IProperty<bool> IsViewUnloaded { get; }
 
     public async ValueTask SetAsync(LaunchScheme? value, bool external = true)
     {

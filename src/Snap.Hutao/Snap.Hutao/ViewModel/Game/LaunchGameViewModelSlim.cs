@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
@@ -35,7 +36,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public partial LaunchOptions LaunchOptions { get; }
 
-    public LaunchSchemeFilteredGameAccountsView CurrentSchemeFilteredGameAccountsView { get => field ??= new(gameService, taskContext, messenger); }
+    public LaunchSchemeFilteredGameAccountsView CurrentSchemeFilteredGameAccountsView { get => field ??= new(Property.Create(false), gameService, taskContext, messenger); }
 
     [ObservableProperty]
     public partial UserGameRole? CurrentUserGameRole { get; set; }

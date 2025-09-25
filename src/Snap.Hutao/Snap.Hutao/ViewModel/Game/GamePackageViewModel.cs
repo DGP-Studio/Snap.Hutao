@@ -19,6 +19,7 @@ using System.IO;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {

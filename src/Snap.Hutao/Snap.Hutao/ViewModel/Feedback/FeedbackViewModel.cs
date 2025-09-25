@@ -18,8 +18,9 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Feedback;
 
-[Service(ServiceLifetime.Scoped)]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
