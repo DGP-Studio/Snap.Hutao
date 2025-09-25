@@ -24,6 +24,11 @@ internal static class Property
         return new ObservablePropertyDebug<T>(property, name);
     }
 
+    public static IProperty<T> Create<T>(T value)
+    {
+        return new Property<T>(value);
+    }
+
     public static IObservableProperty<T> CreateObservable<T>(T value)
     {
         return new ObservableProperty<T>(value);
@@ -73,4 +78,14 @@ internal static class Property
     {
         return new PropertyNullableSelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
     }
+}
+
+internal sealed class Property<T> : IProperty<T>
+{
+    public Property(T value)
+    {
+        Value = value;
+    }
+
+    public T Value { get; set; }
 }

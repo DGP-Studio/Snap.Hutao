@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
@@ -18,11 +19,13 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 
     public CancellationToken CancellationToken { get; set; }
 
-    public SemaphoreSlim CriticalSection { get; } = new(1);
+    [field: MaybeNull]
+    public SemaphoreSlim CriticalSection { get => field ??= new(1); private set; }
 
     public IDeferContentLoader? DeferContentLoader { get; set; }
 
-    public bool IsViewUnloaded { get; set; }
+    [field: MaybeNull]
+    public IProperty<bool> IsViewUnloaded { get => field ??= Property.Create(false); protected set; }
 
     protected TaskCompletionSource<bool> Initialization { get; set; } = new();
 
@@ -33,7 +36,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 
     public void Resurrect()
     {
-        IsViewUnloaded = false;
+        IsViewUnloaded.Value = false;
         Initialization = new();
     }
 
@@ -49,7 +52,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
         }
 
         UninitializeOverride();
-        IsViewUnloaded = true;
+        IsViewUnloaded.Value = true;
         DeferContentLoader = default;
     }
 
@@ -99,51 +102,61 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
         return disposable;
     }
 
+    protected void MakeSubViewModel(ReadOnlySpan<ViewModel> subViewModels)
+    {
+        foreach (ViewModel subViewModel in subViewModels)
+        {
+            subViewModel.CancellationToken = CancellationToken;
+            subViewModel.CriticalSection = CriticalSection;
+            subViewModel.IsViewUnloaded = IsViewUnloaded;
+        }
+    }
+
     #region SetProperty
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewUnloaded && base.SetProperty(ref field, newValue, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(ref field, newValue, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewUnloaded && base.SetProperty(ref field, newValue, comparer, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(ref field, newValue, comparer, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, callback, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(oldValue, newValue, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string? propertyName = null)
     {
-        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(oldValue, newValue, comparer, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, model, callback, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(oldValue, newValue, model, callback, propertyName);
     }
 
     [NotifyPropertyChangedInvocator]
     protected new bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         where TModel : class
     {
-        return !IsViewUnloaded && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+        return !IsViewUnloaded.Value && base.SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
     }
 
     #endregion
 
     private void ThrowIfViewDisposed()
     {
-        if (IsViewUnloaded)
+        if (IsViewUnloaded.Value)
         {
             HutaoException.OperationCanceled(SH.ViewModelViewDisposedOperationCancel);
         }

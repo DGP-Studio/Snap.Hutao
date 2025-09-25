@@ -78,23 +78,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
+        MakeSubViewModel([Geetest, Appearance, Storage, HotKey, Home, Game, GachaLog, WebView]);
+
         Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCacheDirectory);
         Storage.DataFolderView = new(taskContext, HutaoRuntime.DataDirectory);
 
         UpdateInfo = updateService.UpdateInfo;
 
         return ValueTask.FromResult(true);
-    }
-
-    protected override void UninitializeOverride()
-    {
-        Geetest.IsViewUnloaded = true;
-        Appearance.IsViewUnloaded = true;
-        Storage.IsViewUnloaded = true;
-        HotKey.IsViewUnloaded = true;
-        Home.IsViewUnloaded = true;
-        Game.IsViewUnloaded = true;
-        GachaLog.IsViewUnloaded = true;
     }
 
     [Command("CheckUpdateCommand")]
