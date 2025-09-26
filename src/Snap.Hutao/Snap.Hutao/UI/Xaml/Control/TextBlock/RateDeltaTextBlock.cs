@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
@@ -25,7 +26,7 @@ internal sealed partial class RateDeltaTextBlock : ContentControl
 
     private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        RateDeltaTextBlock control = (RateDeltaTextBlock)d;
+        RateDeltaTextBlock control = d.As<RateDeltaTextBlock>();
         control.UpdateState();
     }
 

@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using System.Collections.Frozen;
+using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
@@ -39,8 +41,8 @@ internal sealed partial class LayoutSwitch : Segmented
 
     private static void OnSelectedIndexChanged(DependencyObject sender, DependencyProperty dp)
     {
-        LayoutSwitch selector = (LayoutSwitch)sender;
-        selector.Current = IndexTypeMap[(int)selector.GetValue(dp)];
+        LayoutSwitch selector = sender.As<LayoutSwitch>();
+        selector.Current = IndexTypeMap[Unsafe.Unbox<int>(selector.GetValue(dp))];
 
         if (!string.IsNullOrEmpty(selector.LocalSettingKeySuffixForCurrent))
         {
@@ -50,7 +52,7 @@ internal sealed partial class LayoutSwitch : Segmented
 
     private static void OnRootLoaded(object sender, RoutedEventArgs e)
     {
-        LayoutSwitch selector = (LayoutSwitch)sender;
+        LayoutSwitch selector = sender.As<LayoutSwitch>();
 
         if (string.IsNullOrEmpty(selector.LocalSettingKeySuffixForCurrent))
         {
@@ -60,12 +62,12 @@ internal sealed partial class LayoutSwitch : Segmented
         string? value = LocalSetting.Get(GetSettingKey(selector), selector.Current);
         selector.Current = value;
 
-        selector.SelectedItem = selector.Items.Cast<SegmentedItem>().Single(item => (string)item.Tag == selector.Current);
+        selector.SelectedItem = selector.Items.Cast<SegmentedItem>().Single(item => string.Equals(item.Tag.As<string>(), selector.Current, StringComparison.Ordinal));
     }
 
     private static void OnRootUnload(object sender, RoutedEventArgs e)
     {
-        LayoutSwitch selector = (LayoutSwitch)sender;
+        LayoutSwitch selector = sender.As<LayoutSwitch>();
         selector.UnregisterPropertyChangedCallback(SelectedIndexProperty, selector.selectedIndexChangedCallbackToken);
         selector.Unloaded -= selector.unloadedEventHandler;
     }

@@ -16,6 +16,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Response;
 using System.IO;
+using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -119,13 +121,13 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDrive.GetIsSolidState((string)args.NewValue) ?? false;
+        sender.As<LaunchGameInstallGameDialog>().IsParallelSupported = PhysicalDrive.GetIsSolidState(Unsafe.As<string>(args.NewValue)) ?? false;
     }
 
     private static void OnIsBetaGameInstallChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        LaunchGameInstallGameDialog dialog = (LaunchGameInstallGameDialog)sender;
-        dialog.KnownSchemes = (bool)args.NewValue ? KnownLaunchSchemes.BetaValues : KnownLaunchSchemes.Values;
+        LaunchGameInstallGameDialog dialog = sender.As<LaunchGameInstallGameDialog>();
+        dialog.KnownSchemes = Unsafe.Unbox<bool>(args.NewValue) ? KnownLaunchSchemes.BetaValues : KnownLaunchSchemes.Values;
         dialog.SelectedScheme = dialog.KnownSchemes.First(s => s.IsNotCompatOnly);
     }
 
