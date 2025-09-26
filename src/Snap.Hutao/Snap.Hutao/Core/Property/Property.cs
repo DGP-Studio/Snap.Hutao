@@ -80,6 +80,7 @@ internal static class Property
     }
 }
 
+[SuppressMessage("", "SA1402")]
 internal sealed class Property<T> : IProperty<T>
 {
     public Property(T value)

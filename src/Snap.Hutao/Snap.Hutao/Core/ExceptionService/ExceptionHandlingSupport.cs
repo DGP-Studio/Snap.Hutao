@@ -8,6 +8,7 @@ using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -80,7 +81,7 @@ internal sealed partial class ExceptionHandlingSupport
         CapturedException capturedException = new(id, exception);
 
 #pragma warning disable SH007
-        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show((CapturedException)state!), capturedException);
+        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show(Unsafe.Unbox<CapturedException>(state!)), capturedException);
 #pragma warning restore SH007
     }
 
