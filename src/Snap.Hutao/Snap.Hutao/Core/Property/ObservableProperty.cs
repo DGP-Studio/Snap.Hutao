@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Core.Property;
 
 internal sealed partial class ObservableProperty<T> : ObservableObject, IObservableProperty<T>
 {
+    private bool deferring;
     private T field;
 
     public ObservableProperty(T value)
@@ -17,6 +19,34 @@ internal sealed partial class ObservableProperty<T> : ObservableObject, IObserva
     public T Value
     {
         get => @field;
-        set => SetProperty(ref @field, value);
+        set
+        {
+            if (Volatile.Read(ref deferring))
+            {
+                @field = value;
+            }
+            else
+            {
+                SetProperty(ref @field, value);
+            }
+        }
+    }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        if (Interlocked.Exchange(ref deferring, true))
+        {
+            throw HutaoException.InvalidOperation("Already deferring");
+        }
+
+        return NotifyPropertyChangedDeferral.Create(this, static self =>
+        {
+            if (!Interlocked.Exchange(ref self.deferring, false))
+            {
+                throw HutaoException.InvalidOperation("Not deferring");
+            }
+
+            self.OnPropertyChanged(nameof(Value));
+        });
     }
 }

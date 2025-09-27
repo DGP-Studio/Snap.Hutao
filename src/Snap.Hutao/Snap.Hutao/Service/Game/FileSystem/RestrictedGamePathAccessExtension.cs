@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Game.PathAbstraction;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.FileSystem;
 
@@ -24,6 +25,7 @@ internal static class RestrictedGamePathAccessExtension
         {
             fileSystem = default;
             SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Error: GamePathLocked", "TryGetGameFileSystem"));
+            Debug.WriteLine($"Game path is locked, {access.GamePathLock}");
             return GameFileSystemErrorKind.GamePathLocked;
         }
 
@@ -59,12 +61,18 @@ internal static class RestrictedGamePathAccessExtension
             throw HutaoException.InvalidOperation($"Cannot set game path entries while it is being used. {access.GamePathLock}");
         }
 
-        using (releaser)
+        using (access.GamePathEntry.GetDeferral())
         {
-            // The game path is not in the entries, add it to the entries.
-            GamePathEntry newEntry = GamePathEntry.Create(gamePath);
-            access.GamePathEntries.Value = access.GamePathEntries.Value.Add(newEntry);
-            access.GamePathEntry.Value = newEntry;
+            using (access.GamePathEntries.GetDeferral())
+            {
+                using (releaser)
+                {
+                    // The game path is not in the entries, add it to the entries.
+                    GamePathEntry newEntry = GamePathEntry.Create(gamePath);
+                    access.GamePathEntries.Value = access.GamePathEntries.Value.Add(newEntry);
+                    access.GamePathEntry.Value = newEntry;
+                }
+            }
         }
 
         return gamePath;

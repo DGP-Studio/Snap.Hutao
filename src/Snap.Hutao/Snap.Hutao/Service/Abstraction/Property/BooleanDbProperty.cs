@@ -45,15 +45,28 @@ internal sealed partial class BooleanDbProperty : DbProperty<bool>
 
         set
         {
-            if (SetProperty(ref @field, value))
+            if (Volatile.Read(ref Deferring))
             {
-                using (IServiceScope scope = serviceProvider.CreateScope())
+                @field = value;
+                SetValue(value);
+            }
+            else
+            {
+                if (SetProperty(ref @field, value))
                 {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-                    appDbContext.Settings.AddAndSave(new(key, value ? bool.TrueString : bool.FalseString));
+                    SetValue(value);
                 }
             }
+        }
+    }
+
+    protected override void SetValue(bool value)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
+            appDbContext.Settings.AddAndSave(new(key, value ? bool.TrueString : bool.FalseString));
         }
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using System.Collections.Immutable;
@@ -13,6 +14,7 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
 {
     private readonly IObservableProperty<T> target;
     private readonly ImmutableArray<NameValue<T>> array;
+    private bool deferring;
     private bool outside = true;
 
     public PropertyNameValueWrapper(IObservableProperty<T> target, ImmutableArray<NameValue<T>> array)
@@ -28,13 +30,46 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
         get => field ??= Selection.Initialize(array, target.Value);
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (Volatile.Read(ref deferring))
             {
-                Interlocked.Exchange(ref outside, false);
-                target.Value = value.Value;
-                Interlocked.Exchange(ref outside, true);
+                field = value;
+                if (value is not null)
+                {
+                    target.Value = value.Value;
+                }
+            }
+            else
+            {
+                if (SetProperty(ref field, value) && value is not null)
+                {
+                    Interlocked.Exchange(ref outside, false);
+                    target.Value = value.Value;
+                    Interlocked.Exchange(ref outside, true);
+                }
             }
         }
+    }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        if (Interlocked.Exchange(ref deferring, true))
+        {
+            throw HutaoException.InvalidOperation("Already deferring");
+        }
+
+        INotifyPropertyChangedDeferral targetDeferral = target.GetDeferral();
+        return NotifyPropertyChangedDeferral.Create(this, targetDeferral, static (self, targetDeferral) =>
+        {
+            if (!Interlocked.Exchange(ref self.deferring, false))
+            {
+                throw HutaoException.InvalidOperation("Not deferring");
+            }
+
+            self.OnPropertyChanged(nameof(Value));
+            using (targetDeferral)
+            {
+            }
+        });
     }
 
     private static void OnWeakTargetValueChanged(PropertyNameValueWrapper<T> self, object? sender, PropertyChangedEventArgs e)

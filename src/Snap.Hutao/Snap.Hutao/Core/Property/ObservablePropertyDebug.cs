@@ -39,4 +39,9 @@ internal sealed partial class ObservablePropertyDebug<T> : IObservableProperty<T
             source.Value = value;
         }
     }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        return source.GetDeferral();
+    }
 }

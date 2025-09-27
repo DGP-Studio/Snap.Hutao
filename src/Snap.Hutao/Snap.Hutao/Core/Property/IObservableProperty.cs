@@ -3,4 +3,7 @@
 
 namespace Snap.Hutao.Core.Property;
 
-internal interface IObservableProperty<T> : IProperty<T>, INotifyPropertyChanged;
+internal interface IObservableProperty<T> : IProperty<T>, INotifyPropertyChanged
+{
+    INotifyPropertyChangedDeferral GetDeferral();
+}

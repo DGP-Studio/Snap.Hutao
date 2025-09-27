@@ -3,15 +3,17 @@
 
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class ObservablePropertyWithConditionalSetMethod<T> : IObservableProperty<T>
+internal sealed partial class ObservablePropertyWithConditionalSetMethod<T, TState> : IObservableProperty<T>
 {
     private readonly IObservableProperty<T> source;
-    private readonly IProperty<bool> condition;
+    private readonly Func<T, TState, bool> condition;
+    private readonly TState state;
 
-    public ObservablePropertyWithConditionalSetMethod(IObservableProperty<T> source, IProperty<bool> condition)
+    public ObservablePropertyWithConditionalSetMethod(IObservableProperty<T> source, Func<T, TState, bool> condition, TState state)
     {
         this.source = source;
         this.condition = condition;
+        this.state = state;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged
@@ -25,10 +27,15 @@ internal sealed partial class ObservablePropertyWithConditionalSetMethod<T> : IO
         get => source.Value;
         set
         {
-            if (condition.Value)
+            if (condition(value, state))
             {
                 source.Value = value;
             }
         }
+    }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        return source.GetDeferral();
     }
 }
