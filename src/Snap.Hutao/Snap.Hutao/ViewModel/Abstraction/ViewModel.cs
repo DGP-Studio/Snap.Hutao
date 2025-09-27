@@ -20,11 +20,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
     [field: MaybeNull]
     public SemaphoreSlim CriticalSection { get => field ??= new(1); private set; }
 
-    public IDeferContentLoader? DeferContentLoader
-    {
-        get;
-        set;
-    }
+    public IDeferContentLoader? DeferContentLoader { get; set; }
 
     [field: MaybeNull]
     public IProperty<bool> IsViewUnloaded { get => field ??= Property.Create(false); protected set; }

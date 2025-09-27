@@ -4136,4 +4136,7 @@
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
     <value>转换</value>
   </data>
+  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
+    <value>当前游戏路径：'{0}'</value>
+  </data>
 </root>

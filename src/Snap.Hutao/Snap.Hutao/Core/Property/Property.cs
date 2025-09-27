@@ -35,7 +35,6 @@ internal static class Property
     }
 
     public static IReadOnlyObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
-        where T : struct
     {
         return new PropertyObserver<TSource, T>(source, converter);
     }
@@ -54,6 +53,11 @@ internal static class Property
                 target.Value = false;
             }
         });
+    }
+
+    public static IObservableProperty<T> SetWithCondition<T>(this IObservableProperty<T> source, IProperty<bool> condition)
+    {
+        return new ObservablePropertyWithConditionalSetMethod<T>(source, condition);
     }
 
     public static IObservableProperty<T> WithValueChangedCallback<T>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)
@@ -77,6 +81,11 @@ internal static class Property
         where TSource : notnull
     {
         return new PropertyNullableSelectionWrapper<T, TSource>(source, array, valueSelector, equalityComparer);
+    }
+
+    public static IProperty<bool> Negate(this IProperty<bool> source)
+    {
+        return new BooleanPropertyNegation(source);
     }
 }
 
