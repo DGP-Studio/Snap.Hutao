@@ -1,7 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Annotation;
+using Snap.Hutao.Core.Text.Json.Annotation;
+using Snap.Hutao.Core.Text.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -23,7 +24,7 @@ internal class GachaLogItem
     public int? Count { get; set; }
 
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(Core.Json.Converter.SimpleDateTimeOffsetConverter))]
+    [JsonConverter(typeof(SimpleDateTimeOffsetConverter))]
     public DateTimeOffset Time { get; set; }
 
     [JsonPropertyName("name")]

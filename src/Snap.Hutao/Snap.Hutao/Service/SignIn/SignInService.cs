@@ -18,8 +18,8 @@ internal sealed partial class SignInService : ISignInService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public async ValueTask<bool> ClaimSignInRewardAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
@@ -36,7 +36,7 @@ internal sealed partial class SignInService : ISignInService
 
                 if (resultResponse.ReturnCode is (int)KnownReturnCode.AlreadySignedIn)
                 {
-                    infoBarService.Success(message);
+                    messenger.Send(InfoBarMessage.Success(message));
                     return false;
                 }
 
@@ -45,7 +45,7 @@ internal sealed partial class SignInService : ISignInService
                     message = $"RiskCode: {result?.RiskCode}";
                 }
 
-                infoBarService.Error(SH.FormatServiceSignInClaimRewardFailed(message));
+                messenger.Send(InfoBarMessage.Error(SH.FormatServiceSignInClaimRewardFailed(message)));
                 await FallbackToWebView2SignInAsync().ConfigureAwait(false);
                 return false;
             }
@@ -69,14 +69,14 @@ internal sealed partial class SignInService : ISignInService
 
                 if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.PleaseSignInFirst or (int)KnownReturnCode.NoAvailableResignDate)
                 {
-                    infoBarService.Error(message);
+                    messenger.Send(InfoBarMessage.Error(message));
                     return false;
                 }
 
                 if (resultResponse.ReturnCode is (int)KnownReturnCode.NotEnoughCoin)
                 {
                     message = SH.ViewModelSignInReSignInNotEnoughCoinMessage;
-                    infoBarService.Error(message);
+                    messenger.Send(InfoBarMessage.Error(message));
                     return false;
                 }
 
@@ -85,7 +85,7 @@ internal sealed partial class SignInService : ISignInService
                     message = $"RiskCode: {signInResult?.RiskCode}";
                 }
 
-                infoBarService.Error(SH.FormatServiceReSignInClaimRewardFailed(message));
+                messenger.Send(InfoBarMessage.Error(SH.FormatServiceReSignInClaimRewardFailed(message)));
                 await FallbackToWebView2SignInAsync().ConfigureAwait(false);
                 return false;
             }

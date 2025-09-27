@@ -7,89 +7,109 @@ namespace Snap.Hutao.Core.Threading;
 [SuppressMessage("", "SH003")]
 internal sealed class AsyncReaderWriterLock
 {
-    private readonly Task<Releaser> readerReleaser;
-    private readonly Task<Releaser> writerReleaser;
-
-    private readonly Queue<TaskCompletionSource<Releaser>> waitingWriters = [];
+    private readonly List<string> traces = [];
+    private readonly Queue<(string Trace, TaskCompletionSource<Releaser> Tcs)> waitingWriters = [];
     private TaskCompletionSource<Releaser> waitingReader = new();
     private int readersWaiting;
     private int status; // readersReading or -1 if a writer is writing
 
-    public AsyncReaderWriterLock()
-    {
-        readerReleaser = Task.FromResult(new Releaser(this, false));
-        writerReleaser = Task.FromResult(new Releaser(this, true));
-    }
-
     [SuppressMessage("", "CA2008")]
-    public Task<Releaser> ReaderLockAsync()
+    public Task<Releaser> ReaderLockAsync(string trace)
     {
         lock (waitingWriters)
         {
+            traces.Add($"{trace} request as reader");
             if (status >= 0 && waitingWriters.Count == 0)
             {
                 ++status;
-                return readerReleaser;
+                traces.Add($"{trace} enter as reader");
+                return Task.FromResult(new Releaser(this, trace, false));
             }
 
             ++readersWaiting;
 
             // Cannot await in the body of a lock statement
-            return waitingReader.Task.ContinueWith(t => t.Result);
+            return waitingReader.Task.ContinueWith(t =>
+            {
+                traces.Add($"{trace} enter as reader");
+                return t.Result;
+            });
         }
     }
 
-    public bool TryReaderLock(out Releaser releaser)
+    public bool TryReaderLock(string trace, out Releaser releaser)
     {
         lock (waitingWriters)
         {
+            traces.Add($"{trace} request as reader");
             if (status >= 0 && waitingWriters.Count == 0)
             {
                 ++status;
-                releaser = new(this, false);
+                traces.Add($"{trace} enter as reader");
+                releaser = new(this, trace, false);
                 return true;
             }
         }
 
+        traces.Add($"{trace} fail to enter as reader");
         releaser = default;
         return false;
     }
 
-    public Task<Releaser> WriterLockAsync()
+    [SuppressMessage("", "CA2008")]
+    public Task<Releaser> WriterLockAsync(string trace)
     {
         lock (waitingWriters)
         {
+            traces.Add($"{trace} request as writer");
             if (status == 0)
             {
                 status = -1;
-                return writerReleaser;
+                traces.Add($"{trace} enter as writer");
+                return Task.FromResult(new Releaser(this, trace, true));
             }
 
             TaskCompletionSource<Releaser> waiter = new();
-            waitingWriters.Enqueue(waiter);
-            return waiter.Task;
+            waitingWriters.Enqueue((trace, waiter));
+            return waiter.Task.ContinueWith(t =>
+            {
+                traces.Add($"{trace} enter as writer");
+                return t.Result;
+            });
         }
     }
 
-    public bool TryWriterLock(out Releaser releaser)
+    public bool TryWriterLock(string trace, out Releaser releaser)
     {
         lock (waitingWriters)
         {
+            traces.Add($"{trace} request as writer");
             if (status == 0)
             {
                 status = -1;
-                releaser = new(this, true);
+                traces.Add($"{trace} enter as writer");
+                releaser = new(this, trace, true);
                 return true;
             }
         }
 
+        traces.Add($"{trace} fail to enter as writer");
         releaser = default;
         return false;
+    }
+
+    public override string ToString()
+    {
+        return $"""
+            Traces: 
+            {string.Join("\r\n", traces)}
+            """;
     }
 
     private void ReaderRelease()
     {
         TaskCompletionSource<Releaser>? toWake = default;
+        string trace = default!;
 
         lock (waitingWriters)
         {
@@ -97,23 +117,24 @@ internal sealed class AsyncReaderWriterLock
             if (status == 0 && waitingWriters.Count > 0)
             {
                 status = -1;
-                toWake = waitingWriters.Dequeue();
+                (trace, toWake) = waitingWriters.Dequeue();
             }
         }
 
-        toWake?.SetResult(new(this, true));
+        toWake?.SetResult(new(this, trace, true));
     }
 
     private void WriterRelease()
     {
         TaskCompletionSource<Releaser>? toWake = null;
+        string trace = default!;
         bool toWakeIsWriter = false;
 
         lock (waitingWriters)
         {
             if (waitingWriters.Count > 0)
             {
-                toWake = waitingWriters.Dequeue();
+                (trace, toWake) = waitingWriters.Dequeue();
                 toWakeIsWriter = true;
             }
             else if (readersWaiting > 0)
@@ -129,22 +150,25 @@ internal sealed class AsyncReaderWriterLock
             }
         }
 
-        toWake?.SetResult(new(this, toWakeIsWriter));
+        toWake?.SetResult(new(this, trace, toWakeIsWriter));
     }
 
     internal readonly struct Releaser : IDisposable
     {
         private readonly AsyncReaderWriterLock toRelease;
+        private readonly string trace;
         private readonly bool writer;
 
-        internal Releaser(AsyncReaderWriterLock toRelease, bool writer)
+        internal Releaser(AsyncReaderWriterLock toRelease, string trace, bool writer)
         {
             this.toRelease = toRelease;
+            this.trace = trace;
             this.writer = writer;
         }
 
         public void Dispose()
         {
+            toRelease.traces.Add($"{trace} release as {(writer ? "writer" : "reader")}");
             if (writer)
             {
                 toRelease.WriterRelease();

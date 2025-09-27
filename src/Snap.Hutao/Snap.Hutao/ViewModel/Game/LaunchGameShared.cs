@@ -6,12 +6,16 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Context;
+using Snap.Hutao.Service.Game.Launching.Invoker;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -22,14 +26,14 @@ internal sealed partial class LaunchGameShared
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
+    private readonly IMessenger messenger;
 
     private bool resuming;
 
-    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(bool showInfo = true)
+    public LaunchScheme? GetCurrentLaunchSchemeFromConfigurationFile(bool showInfo = true)
     {
         ChannelOptions options = gameService.GetChannelOptions();
 
@@ -51,50 +55,77 @@ internal sealed partial class LaunchGameShared
             return default;
         }
 
-        switch (options.ErrorKind)
+        InfoBarMessage? message = options.ErrorKind switch
         {
-            case ChannelOptionsErrorKind.ConfigurationFileNotFound:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
-                    SH.ViewModelLaunchGameFixConfigurationFileButtonText,
-                    HandleConfigurationFileNotFoundCommand);
-                break;
-            case ChannelOptionsErrorKind.GamePathNullOrEmpty:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.ViewModelLaunchGameGamePathNullOrEmpty,
-                    SH.ViewModelLaunchGameSetGamePathButtonText,
-                    HandleGamePathNullOrEmptyCommand);
-                break;
-            case ChannelOptionsErrorKind.DeviceNotFound:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.ViewModelLaunchGameDeviceNotFound);
-                break;
-            case ChannelOptionsErrorKind.GameContentCorrupted:
-                infoBarService.Warning(
-                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
-                    SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath));
-                break;
+            ChannelOptionsErrorKind.ConfigurationFileNotFound => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
+                SH.ViewModelLaunchGameFixConfigurationFileButtonText,
+                HandleConfigurationFileNotFoundCommand),
+            ChannelOptionsErrorKind.GamePathNullOrEmpty => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.ViewModelLaunchGameGamePathNullOrEmpty,
+                SH.ViewModelLaunchGameSetGamePathButtonText,
+                HandleGamePathNullOrEmptyCommand),
+            ChannelOptionsErrorKind.DeviceNotFound => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.ViewModelLaunchGameDeviceNotFound),
+            ChannelOptionsErrorKind.GameContentCorrupted => InfoBarMessage.Warning(
+                SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath)),
+            ChannelOptionsErrorKind.GamePathLocked => InfoBarMessage.Error(
+                SH.ViewModelGameConfigurationCreateFailedGamePathLocked,
+                options.FilePath ?? string.Empty),
+            _ => default,
+        };
+
+        if (message is not null)
+        {
+            messenger.Send(message);
         }
 
         return default;
     }
 
+    public async ValueTask DefaultLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
+    {
+        // The game process can exist longer than the view model
+        // Force use root scope
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+            DefaultLaunchExecutionInvoker invoker = new();
+            try
+            {
+                LaunchExecutionInvocationContext context = new()
+                {
+                    ViewModel = viewModel,
+                    ServiceProvider = scope.ServiceProvider,
+                    LaunchOptions = scope.ServiceProvider.GetRequiredService<LaunchOptions>(),
+                    Identity = GameIdentity.Create(userAndUid, viewModel.GameAccount),
+                };
+
+                await invoker.InvokeAsync(context).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                scope.ServiceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(ex));
+            }
+        }
+    }
+
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
-        if (GetCurrentLaunchSchemeFromConfigFile(false) is null)
-        {
-            return;
-        }
-
-        if (LaunchExecutionInvoker.IsAnyLaunchExecutionInvoking())
-        {
-            return;
-        }
-
         if (Interlocked.Exchange(ref resuming, true))
+        {
+            return;
+        }
+
+        if (GetCurrentLaunchSchemeFromConfigurationFile(false) is null)
+        {
+            return;
+        }
+
+        if (AbstractLaunchExecutionInvoker.HasAnyInvoking())
         {
             return;
         }
@@ -105,19 +136,19 @@ internal sealed partial class LaunchGameShared
             {
                 try
                 {
-                    using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, default))
+                    LaunchExecutionInvocationContext context = new()
                     {
-                        LaunchExecutionResult result = await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+                        ViewModel = viewModel,
+                        ServiceProvider = scope.ServiceProvider,
+                        LaunchOptions = launchOptions,
+                        Identity = GameIdentity.Create(),
+                    };
 
-                        if (result.Kind is not LaunchExecutionResultKind.Ok)
-                        {
-                            infoBarService.Warning(result.ErrorMessage);
-                        }
-                    }
+                    await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    infoBarService.Error(ex);
+                    messenger.Send(InfoBarMessage.Error(ex));
                 }
             }
         }
@@ -127,14 +158,48 @@ internal sealed partial class LaunchGameShared
         }
     }
 
+    public async ValueTask ConvertLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
+    {
+        ConvertOnlyLaunchExecutionInvoker invoker = new();
+        try
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                LaunchExecutionInvocationContext context = new()
+                {
+                    ViewModel = viewModel,
+                    ServiceProvider = scope.ServiceProvider,
+                    LaunchOptions = launchOptions,
+                    Identity = GameIdentity.Create(),
+                };
+
+                await invoker.InvokeAsync(context).ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex)
+        {
+            messenger.Send(InfoBarMessage.Error(ex));
+        }
+    }
+
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Generate config file", "LaunchGameShared.Command"));
 
-        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        const string LockTrace = $"{nameof(LaunchGameShared)}.{nameof(HandleConfigurationFileNotFoundAsync)}";
+        GameFileSystemErrorKind errorKind = launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem);
+        switch (errorKind)
         {
-            return;
+            case GameFileSystemErrorKind.GamePathLocked:
+                messenger.Send(InfoBarMessage.Warning(SH.ViewModelGameConfigurationCreateFailed, SH.ViewModelGameConfigurationCreateFailedGamePathLocked));
+                return;
+            case GameFileSystemErrorKind.GamePathNullOrEmpty:
+                messenger.Send(InfoBarMessage.Warning(SH.ViewModelGameConfigurationCreateFailed, SH.ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty));
+                return;
+            default:
+                ArgumentNullException.ThrowIfNull(gameFileSystem);
+                break;
         }
 
         using (gameFileSystem)
@@ -157,8 +222,9 @@ internal sealed partial class LaunchGameShared
                     return;
                 }
 
-                gameFileSystem.TryFixConfigurationFile(launchScheme);
-                infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+                _ = GameConfiguration.Patch(launchScheme, gameFileSystem.GetScriptVersionFilePath(), gameFileSystem.GetGameConfigurationFilePath())
+                    ? messenger.Send(InfoBarMessage.Success(SH.ViewModelLaunchGameFixConfigurationFileSucceed))
+                    : messenger.Send(InfoBarMessage.Error(SH.ViewModelLaunchGameFixConfigurationFileFailed));
             }
         }
     }

@@ -34,10 +34,10 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     public partial RuntimeOptions RuntimeOptions { get; }
 
@@ -57,21 +57,21 @@ internal sealed partial class UserViewModel : ObservableObject
                     taskContext.InvokeOnMainThread(Users.MoveCurrentToFirst);
                 }
 
-                infoBarService.Success(SH.FormatViewModelUserAdded(uid));
+                messenger.Send(InfoBarMessage.Success(SH.FormatViewModelUserAdded(uid)));
                 break;
             case UserOptionResultKind.CookieIncomplete:
-                infoBarService.Information(SH.ViewModelUserIncomplete);
+                messenger.Send(InfoBarMessage.Information(SH.ViewModelUserIncomplete));
                 break;
             case UserOptionResultKind.CookieInvalid:
-                infoBarService.Information(SH.ViewModelUserInvalid);
+                messenger.Send(InfoBarMessage.Information(SH.ViewModelUserInvalid));
                 break;
             case UserOptionResultKind.CookieUpdated:
                 ArgumentNullException.ThrowIfNull(Users);
                 taskContext.InvokeOnMainThread(Users.Refresh);
-                infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
+                messenger.Send(InfoBarMessage.Success(SH.FormatViewModelUserUpdated(uid)));
                 break;
             case UserOptionResultKind.GameRoleNotFound:
-                infoBarService.Information(SH.ViewModelUserEmptyGameRole);
+                messenger.Send(InfoBarMessage.Information(SH.ViewModelUserEmptyGameRole));
                 break;
             default:
                 throw HutaoException.NotSupported();
@@ -89,7 +89,7 @@ internal sealed partial class UserViewModel : ObservableObject
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 
@@ -166,7 +166,7 @@ internal sealed partial class UserViewModel : ObservableObject
             }
         }
 
-        if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))
+        if (ResponseValidator.TryValidate(response, messenger, out LoginResult? loginResult))
         {
             Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
             (UserOptionResultKind optionResult, string? uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, true)).ConfigureAwait(false);
@@ -259,11 +259,11 @@ internal sealed partial class UserViewModel : ObservableObject
             }
 
             await userService.RemoveUserAsync(user).ConfigureAwait(false);
-            infoBarService.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname));
+            messenger.Send(InfoBarMessage.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname)));
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 
@@ -285,11 +285,11 @@ internal sealed partial class UserViewModel : ObservableObject
             await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(cookieString).ConfigureAwait(false);
 
             ArgumentNullException.ThrowIfNull(user.UserInfo);
-            infoBarService.Success(SH.FormatViewModelUserCookieCopied(user.UserInfo.Nickname));
+            messenger.Send(InfoBarMessage.Success(SH.FormatViewModelUserCookieCopied(user.UserInfo.Nickname)));
         }
         catch (Exception ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 
@@ -303,13 +303,8 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        if (await userService.RefreshCookieTokenAsync(Users.CurrentItem).ConfigureAwait(false))
-        {
-            infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
-        }
+        _ = await userService.RefreshCookieTokenAsync(Users.CurrentItem).ConfigureAwait(false)
+            ? messenger.Send(InfoBarMessage.Success(SH.ViewUserRefreshCookieTokenSuccess))
+            : messenger.Send(InfoBarMessage.Warning(SH.ViewUserRefreshCookieTokenWarning));
     }
 }

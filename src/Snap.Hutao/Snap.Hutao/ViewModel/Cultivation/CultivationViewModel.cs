@@ -26,6 +26,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 [SuppressMessage("", "CA1001")]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
@@ -38,9 +39,9 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IInventoryService inventoryService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IYaeService yaeService;
+    private readonly IMessenger messenger;
 
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
@@ -131,20 +132,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        switch (await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false))
+        InfoBarMessage message = await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false) switch
         {
-            case ProjectAddResultKind.Added:
-                infoBarService.Success(SH.ViewModelCultivationProjectAdded);
-                break;
-            case ProjectAddResultKind.InvalidName:
-                infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
-                break;
-            case ProjectAddResultKind.AlreadyExists:
-                infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
-                break;
-            default:
-                throw HutaoException.NotSupported();
-        }
+            ProjectAddResultKind.Added => InfoBarMessage.Success(SH.ViewModelCultivationProjectAdded),
+            ProjectAddResultKind.InvalidName => InfoBarMessage.Information(SH.ViewModelCultivationProjectInvalidName),
+            ProjectAddResultKind.AlreadyExists => InfoBarMessage.Information(SH.ViewModelCultivationProjectAlreadyExists),
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        messenger.Send(message);
     }
 
     [Command("RemoveProjectCommand")]
@@ -261,7 +257,13 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, launchGameViewModel);
+            EmbeddedYaeLaunchExecutionViewModel viewModel = serviceProvider.GetRequiredService<EmbeddedYaeLaunchExecutionViewModel>();
+            if (!await viewModel.InitializeAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
+            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, viewModel);
             await inventoryService.RefreshInventoryAsync(options).ConfigureAwait(false);
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);

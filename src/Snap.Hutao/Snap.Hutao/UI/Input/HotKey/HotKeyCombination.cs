@@ -17,7 +17,7 @@ namespace Snap.Hutao.UI.Input.HotKey;
 
 internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 {
-    private readonly IInfoBarService infoBarService;
+    private readonly IMessenger messenger;
     private readonly HutaoNativeHotKeyActionKind kind;
     private readonly string settingKey;
     private readonly nint handle;
@@ -26,7 +26,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     public HotKeyCombination(IServiceProvider serviceProvider, HutaoNativeHotKeyActionKind kind, string settingKey)
     {
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        messenger = serviceProvider.GetRequiredService<IMessenger>();
         this.kind = kind;
         this.settingKey = settingKey;
 
@@ -208,15 +208,15 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         {
             native?.Update(Modifiers, (uint)Key);
         }
-        catch (COMException ex)
+        catch (Exception ex)
         {
-            if (HutaoNative.IsWin32(ex.ErrorCode, WIN32_ERROR.ERROR_HOTKEY_ALREADY_REGISTERED))
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_HOTKEY_ALREADY_REGISTERED))
             {
-                infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(kind, DisplayName));
+                messenger.Send(InfoBarMessage.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(kind, DisplayName)));
             }
             else
             {
-                infoBarService.Error(ex);
+                messenger.Send(InfoBarMessage.Error(ex));
             }
         }
     }

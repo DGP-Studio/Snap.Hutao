@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
@@ -23,7 +24,7 @@ internal sealed partial class StatisticsSegmented : Segmented
 
     private static void OnIsPredictPullAvailableChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
     {
-        StatisticsSegmented segmented = (StatisticsSegmented)obj;
+        StatisticsSegmented segmented = obj.As<StatisticsSegmented>();
         if (args.NewValue is true)
         {
             segmented.Items.Add(segmented.predictPullItem);

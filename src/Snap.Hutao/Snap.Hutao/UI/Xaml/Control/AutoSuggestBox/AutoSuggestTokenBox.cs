@@ -13,6 +13,7 @@ using Snap.Hutao.UI.Input;
 using System.Collections;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
+using WinRT;
 using VirtualKey = Windows.System.VirtualKey;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -98,7 +99,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
     public IEnumerable<SearchToken> Tokens
     {
-        get => ((IList)ItemsSource).OfType<SearchToken>();
+        get => ItemsSource.As<IList>().OfType<SearchToken>();
     }
 
     public void AddToken(object data, bool atEnd = false)
@@ -148,7 +149,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             innerItemsSource.Remove(edit);
         }
 
-        AutoSuggestTokenBoxItem last = (AutoSuggestTokenBoxItem)ContainerFromItem(lastTextEdit);
+        AutoSuggestTokenBoxItem last = ContainerFromItem(lastTextEdit).As<AutoSuggestTokenBoxItem>();
         ArgumentNullException.ThrowIfNull(last.AutoSuggestTextBox);
         last.AutoSuggestTextBox.Focus(FocusState.Keyboard);
 
@@ -271,7 +272,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     {
         if (args is SearchToken { Kind: SearchTokenKind.None } token)
         {
-            ((IList)ItemsSource).Remove(token);
+            ItemsSource.As<IList>().Remove(token);
         }
 
         RefreshTokenCounter();

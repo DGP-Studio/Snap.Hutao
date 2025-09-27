@@ -7,11 +7,11 @@ namespace Snap.Hutao.Web.Response;
 
 internal sealed class DefaultResponseValidator : ICommonResponseValidator<Response>
 {
-    private readonly IInfoBarService infoBarService;
+    private readonly IMessenger messenger;
 
-    public DefaultResponseValidator(IInfoBarService infoBarService)
+    public DefaultResponseValidator(IMessenger messenger)
     {
-        this.infoBarService = infoBarService;
+        this.messenger = messenger;
     }
 
     public bool TryValidate(Response response)
@@ -21,7 +21,7 @@ internal sealed class DefaultResponseValidator : ICommonResponseValidator<Respon
             return true;
         }
 
-        infoBarService.Error(response.ToString());
+        messenger.Send(InfoBarMessage.Error(response.ToString()));
         return false;
     }
 

@@ -15,6 +15,7 @@ using System.Globalization;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
+using WinRT;
 using TextBlockType = Microsoft.UI.Xaml.Controls.RichTextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
@@ -47,14 +48,14 @@ internal sealed partial class DescriptionRichTextBlock : ContentControl
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        DescriptionRichTextBlock descriptionTextBlock = (DescriptionRichTextBlock)d;
-        TextBlockType textBlock = (TextBlockType)descriptionTextBlock.Content;
-        descriptionTextBlock.UpdateDescription(textBlock, (string)e.NewValue);
+        DescriptionRichTextBlock descriptionTextBlock = d.As<DescriptionRichTextBlock>();
+        TextBlockType textBlock = descriptionTextBlock.Content.As<TextBlockType>();
+        descriptionTextBlock.UpdateDescription(textBlock, e.NewValue.As<string>());
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((TextBlockType)((DescriptionRichTextBlock)d).Content).Style = (Style)e.NewValue;
+        d.As<DescriptionRichTextBlock>().Content.As<TextBlockType>().Style = e.NewValue.As<Style>();
     }
 
     private void UpdateDescription(TextBlockType textBlock, string? text)
@@ -286,6 +287,6 @@ internal sealed partial class DescriptionRichTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((TextBlockType)Content, Description);
+        UpdateDescription(Content.As<TextBlockType>(), Description);
     }
 }

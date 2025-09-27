@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
@@ -19,7 +20,7 @@ internal sealed partial class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAu
 
     public string? Value { get => OwningAutoSuggestTokenBox.Text; }
 
-    private AutoSuggestTokenBox OwningAutoSuggestTokenBox { get => (AutoSuggestTokenBox)Owner; }
+    private AutoSuggestTokenBox OwningAutoSuggestTokenBox { get => Owner.As<AutoSuggestTokenBox>(); }
 
     public void SetValue(string value)
     {

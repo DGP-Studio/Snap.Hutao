@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
@@ -14,7 +15,8 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
-        SophonDecodedBuild localBuild = context.Operation.LocalBuild;
+        SophonDecodedBuild? localBuild = context.Operation.LocalBuild;
+        ArgumentNullException.ThrowIfNull(localBuild);
         ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
         int downloadTotalChunks = context.Information.DownloadTotalChunks;
         int installTotalChunks = context.Information.InstallTotalChunks;
@@ -22,8 +24,8 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
         long installTotalBytes = context.Information.InstallTotalBytes;
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
-        ImmutableArray<SophonAssetOperation> targetAssets = diffAssets.Where(ao => ao.Kind is SophonAssetOperationKind.Modify).ToImmutableArray();
-        ImmutableArray<string> targetAssetNames = targetAssets.Select(ao => Path.GetFileName(ao.OldAsset.AssetName)).ToImmutableArray();
+        ImmutableArray<SophonAssetOperation> targetAssets = [.. diffAssets.Where(ao => ao.Kind is SophonAssetOperationKind.Modify)];
+        ImmutableArray<string> targetAssetNames = [.. targetAssets.Select(ao => Path.GetFileName(ao.OldAsset.AssetName))];
 
         context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, targetAssets.Length, targetAssets.Sum(sao => sao.OldAsset.AssetSize)));
 

@@ -7,6 +7,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 using Snap.Hutao.Service.Notification;
@@ -95,7 +96,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                             }
                         }
 
-                        serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
+                        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(SH.ServicePackageAdvancedExecuteOperationFailedTitle, ex));
                         result = false;
                     }
                     finally

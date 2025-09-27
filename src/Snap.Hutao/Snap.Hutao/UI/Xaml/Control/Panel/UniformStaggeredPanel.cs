@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Windows.Foundation;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
@@ -52,7 +53,7 @@ internal sealed partial class UniformStaggeredPanel : Microsoft.UI.Xaml.Controls
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((UniformStaggeredPanel)d).InvalidateMeasure();
+        d.As<UniformStaggeredPanel>().InvalidateMeasure();
     }
 
     private static (int ColumnCount, double ColumnWidth) GetNumberOfColumnsAndWidth(double availableWidth, double minItemWidth, double columnSpacing)

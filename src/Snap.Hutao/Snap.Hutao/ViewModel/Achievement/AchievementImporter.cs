@@ -9,6 +9,7 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.ViewModel.Game;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -23,7 +24,7 @@ internal sealed partial class AchievementImporter
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2));
             return false;
         }
 
@@ -35,7 +36,7 @@ internal sealed partial class AchievementImporter
         }
         catch (Exception ex)
         {
-            scopeContext.InfoBarService.Error(ex, SH.ViewModelImportFromClipboardErrorTitle);
+            scopeContext.Messenger.Send(InfoBarMessage.Error(SH.ViewModelImportFromClipboardErrorTitle, ex));
             return false;
         }
 
@@ -46,13 +47,19 @@ internal sealed partial class AchievementImporter
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2));
             return false;
         }
 
-        if (await scopeContext.YaeService.GetAchievementAsync(context.LaunchGameViewModel).ConfigureAwait(false) is not { } uiaf)
+        EmbeddedYaeLaunchExecutionViewModel viewModel = context.ServiceProvider.GetRequiredService<EmbeddedYaeLaunchExecutionViewModel>();
+        if (!await viewModel.InitializeAsync().ConfigureAwait(false))
         {
-            scopeContext.InfoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ViewModelImportByEmbeddedYaeErrorMessage);
+            return false;
+        }
+
+        if (await scopeContext.YaeService.GetAchievementAsync(viewModel).ConfigureAwait(false) is not { } uiaf)
+        {
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ViewModelImportByEmbeddedYaeErrorMessage));
             return false;
         }
 
@@ -63,7 +70,7 @@ internal sealed partial class AchievementImporter
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2));
             return false;
         }
 
@@ -74,7 +81,7 @@ internal sealed partial class AchievementImporter
 
         if (await file.DeserializeFromJsonNoThrowAsync<UIAF>(scopeContext.JsonSerializerOptions).ConfigureAwait(false) is not (true, { } uiaf))
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage));
             return false;
         }
 
@@ -85,7 +92,7 @@ internal sealed partial class AchievementImporter
     {
         if (!uiaf.IsCurrentVersionSupported())
         {
-            scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage);
+            scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage));
             return false;
         }
 
@@ -102,7 +109,7 @@ internal sealed partial class AchievementImporter
         using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             ImportResult result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
-            scopeContext.InfoBarService.Success(SH.FormatServiceAchievementImportResult(result.Add, result.Update, result.Remove));
+            scopeContext.Messenger.Send(InfoBarMessage.Success(SH.FormatServiceAchievementImportResult(result.Add, result.Update, result.Remove)));
         }
 
         return true;

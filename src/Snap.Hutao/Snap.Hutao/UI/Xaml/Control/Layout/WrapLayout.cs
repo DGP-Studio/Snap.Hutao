@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using Windows.Foundation;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
 
@@ -24,7 +25,7 @@ internal sealed partial class WrapLayout : VirtualizingLayout
 
     protected override void OnItemsChangedCore(VirtualizingLayoutContext context, object source, NotifyCollectionChangedEventArgs args)
     {
-        WrapLayoutState state = (WrapLayoutState)context.LayoutState;
+        WrapLayoutState state = context.LayoutState.As<WrapLayoutState>();
 
         switch (args.Action)
         {
@@ -63,7 +64,7 @@ internal sealed partial class WrapLayout : VirtualizingLayout
 
         Size spacing = new(HorizontalSpacing, VerticalSpacing);
 
-        WrapLayoutState state = (WrapLayoutState)context.LayoutState;
+        WrapLayoutState state = context.LayoutState.As<WrapLayoutState>();
 
         if (spacing != state.Spacing || state.AvailableWidth != availableSize.Width)
         {
@@ -166,7 +167,7 @@ internal sealed partial class WrapLayout : VirtualizingLayout
     {
         if (context.ItemCount > 0)
         {
-            WrapLayoutState state = (WrapLayoutState)context.LayoutState;
+            WrapLayoutState state = context.LayoutState.As<WrapLayoutState>();
 
             for (int i = 0; i < context.ItemCount; ++i)
             {

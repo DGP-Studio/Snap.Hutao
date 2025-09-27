@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using System.Collections.Immutable;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -37,6 +38,6 @@ internal sealed partial class UIGFImportDialog : ContentDialog
 
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        selectedUids = UIGFUidSelection.GetSelectedUidArray((ListViewBase)sender);
+        selectedUids = UIGFUidSelection.GetSelectedUidArray(sender.As<ListViewBase>());
     }
 }

@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
-using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
@@ -25,7 +25,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
     static unsafe HotKeyOptions()
     {
-        HutaoNativeHotKeyAction.InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback.Create(&OnCallback));
+        HutaoNativeHotKeyAction.InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback.Create(&HandleShouldPreventSwitch));
     }
 
     public static bool IsInGameOnly
@@ -65,8 +65,9 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static BOOL OnCallback()
+    private static BOOL HandleShouldPreventSwitch()
     {
-        return IsInGameOnly && !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
+        // This callback should always be called by the internal wndproc, so we are on the main thread.
+        return IsInGameOnly && !GameLifeCycle.IsGameRunningRequiresMainThread();
     }
 }

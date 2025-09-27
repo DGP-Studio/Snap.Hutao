@@ -20,13 +20,6 @@ internal readonly struct ChannelOptions
 
     public readonly string? FilePath;
 
-    public ChannelOptions(ChannelType channel, SubChannelType subChannel, bool isOversea)
-    {
-        Channel = channel;
-        SubChannel = subChannel;
-        IsOversea = isOversea;
-    }
-
     public ChannelOptions(string? channel, string? subChannel, bool isOversea)
     {
         _ = Enum.TryParse(channel, out Channel);
@@ -38,6 +31,11 @@ internal readonly struct ChannelOptions
     {
         ErrorKind = errorKind;
         FilePath = filePath;
+    }
+
+    public static ChannelOptions GamePathLocked(string filePath)
+    {
+        return new(ChannelOptionsErrorKind.GamePathLocked, filePath);
     }
 
     public static ChannelOptions ConfigurationFileNotFound(string filePath)

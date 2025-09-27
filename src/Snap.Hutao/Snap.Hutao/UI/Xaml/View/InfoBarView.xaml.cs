@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -125,7 +126,7 @@ internal sealed partial class InfoBarView : UserControl
     {
         try
         {
-            InfoBars?.Remove((InfoBarOptions)sender.DataContext);
+            InfoBars?.Remove(sender.DataContext.As<InfoBarOptions>());
         }
         catch (COMException)
         {

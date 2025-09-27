@@ -1537,7 +1537,7 @@
     <value>请选择当前游戏路径对应的游戏服务器</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>正在修复配置文件</value>
+    <value>修复配置文件</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>选择的安装路径不存在且无法创建</value>
@@ -2133,8 +2133,8 @@
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
     <value>修复配置文件</value>
   </data>
-  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
-    <value>修复完成</value>
+  <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
+    <value>修复成功</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>尚未设置游戏目录</value>
@@ -4075,5 +4075,68 @@
   </data>
   <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
     <value>神之心</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
+    <value>在注入 DLL: '{0}' 时发生错误</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
+    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
+    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
+    <value>Better GI 已启动</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
+    <value>本地游戏配置文件损坏，请修复后重试</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
+    <value>生成配置文件失败</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
+    <value>游戏路径被锁定，请稍后再试</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
+    <value>游戏路径为空，请先设置游戏路径</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
+    <value>修复失败</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
+    <value>使用原粹树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
+    <value>使用原石领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
+    <value>使用脆弱树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
+    <value>使用浓缩树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
+    <value>视野与迷雾</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
+    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
+    <value>无法解锁帧率上限？</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
+    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
+    <value>注入选项</value>
+  </data>
+  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
+    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
+    <value>转换</value>
+  </data>
+  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
+    <value>当前游戏路径：'{0}'</value>
   </data>
 </root>

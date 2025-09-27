@@ -4,38 +4,25 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Factory.Picker;
-using Snap.Hutao.Service.Notification;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Bridge;
 
 internal sealed class BridgeShareContext
 {
-    public BridgeShareContext(CoreWebView2 coreWebView2, ITaskContext taskContext, HttpClient httpClient, IInfoBarService infoBarService, IClipboardProvider clipboardProvider, JsonSerializerOptions jsonSerializerOptions, IFileSystemPickerInteraction fileSystemPickerInteraction, BridgeShareSaveType shareSaveType)
-    {
-        HttpClient = httpClient;
-        TaskContext = taskContext;
-        InfoBarService = infoBarService;
-        ClipboardProvider = clipboardProvider;
-        CoreWebView2 = coreWebView2;
-        JsonSerializerOptions = jsonSerializerOptions;
-        FileSystemPickerInteraction = fileSystemPickerInteraction;
-        ShareSaveType = shareSaveType;
-    }
+    public required CoreWebView2 CoreWebView2 { get; init; }
 
-    public CoreWebView2 CoreWebView2 { get; }
+    public required ITaskContext TaskContext { get; init; }
 
-    public ITaskContext TaskContext { get; }
+    public required HttpClient HttpClient { get; init; }
 
-    public HttpClient HttpClient { get; }
+    public required IClipboardProvider ClipboardProvider { get; init; }
 
-    public IInfoBarService InfoBarService { get; }
+    public required JsonSerializerOptions JsonSerializerOptions { get; init; }
 
-    public IClipboardProvider ClipboardProvider { get; }
+    public required IFileSystemPickerInteraction FileSystemPickerInteraction { get; init; }
 
-    public JsonSerializerOptions JsonSerializerOptions { get; }
+    public required BridgeShareSaveType ShareSaveType { get; init; }
 
-    public IFileSystemPickerInteraction FileSystemPickerInteraction { get; }
-
-    public BridgeShareSaveType ShareSaveType { get; }
+    public required IMessenger Messenger { get; init; }
 }

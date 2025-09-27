@@ -83,7 +83,7 @@ internal static class HttpRequestMessageBuilderExtension
             {
                 if (showInfo)
                 {
-                    builder.ServiceProvider.GetRequiredService<IInfoBarService>().Error(messageBuilder.ToString());
+                    builder.ServiceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(messageBuilder.ToString()));
                 }
             }
         }

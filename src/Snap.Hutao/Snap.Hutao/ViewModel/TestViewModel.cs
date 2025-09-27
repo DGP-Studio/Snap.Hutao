@@ -15,6 +15,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
@@ -38,6 +39,7 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
@@ -47,9 +49,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IClipboardProvider clipboardProvider;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
 
@@ -68,67 +70,67 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.SuppressMetadataInitialization, value);
+        set => LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
     }
 
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideElevationRequirement, value);
+        set => LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
     }
 
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverrideUpdateVersionComparison, value);
+        set => LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+        set => LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
     }
 
     public bool OverrideHardDriveType
     {
         get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.OverridePhysicalDriverType, value);
+        set => LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
         get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
+        set => LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
     }
 
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        set => LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
     }
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
+        set => LocalSetting.Set(SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
     }
 
     public bool AlphaBuildUseFJPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
+        set => LocalSetting.Set(SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
     public bool TreatPredownloadAsMain
     {
         get => LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.TreatPredownloadAsMain, value);
+        set => LocalSetting.Set(SettingKeys.TreatPredownloadAsMain, value);
     }
 
     public bool EnableBetaGameInstall
     {
         get => LocalSetting.Get(SettingKeys.EnableBetaGameInstall, false);
-        set => LocalSetting.SetIfNot(IsViewUnloaded, SettingKeys.EnableBetaGameInstall, value);
+        set => LocalSetting.Set(SettingKeys.EnableBetaGameInstall, value);
     }
 
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
@@ -190,7 +192,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(accessToken, Announcement).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
                 await taskContext.SwitchToMainThreadAsync();
                 Announcement = new();
             }
@@ -218,7 +220,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(accessToken, GachaLogCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -244,7 +246,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(accessToken, GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -270,7 +272,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.CdnCompensationAsync(accessToken, CdnCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -296,7 +298,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             Response response = await hutaoAsAServiceClient.CdnDesignationAsync(accessToken, CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
-                infoBarService.Success(response.Message);
+                messenger.Send(InfoBarMessage.Success(response.Message));
             }
         }
     }
@@ -306,10 +308,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Send random infobar notification", "TestViewModel.Command"));
 
-        infoBarService.PrepareInfoBarAndShow(builder => builder
-            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
-            .SetTitle("Lorem ipsum dolor sit amet")
-            .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
+        messenger.Send(new InfoBarMessage
+        {
+            Severity = (InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1,
+            Title = "Lorem ipsum dolor sit amet",
+            Message = "Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt.",
+        });
     }
 
     [Command("CheckPathBelongsToSSDCommand")]
@@ -321,7 +325,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         if (isOk)
         {
             bool isSolidState = PhysicalDrive.DangerousGetIsSolidState(file);
-            infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
+            messenger.Send(InfoBarMessage.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive."));
         }
     }
 
@@ -356,7 +360,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             LaunchOptions launchOptions = scope.ServiceProvider.GetRequiredService<LaunchOptions>();
 
-            if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
+            if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } launchScheme)
             {
                 return;
             }
@@ -374,15 +378,17 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             if (gameBranch.PreDownload is null)
             {
-                infoBarService.Warning("PreDownload not available");
+                messenger.Send(InfoBarMessage.Warning("PreDownload not available"));
                 return;
             }
 
-            if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+            const string LockTrace = $"{nameof(TestViewModel)}.{nameof(ExtractGameBlocksAsync)}";
+            if (launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem) is not GameFileSystemErrorKind.None)
             {
                 return;
             }
 
+            ArgumentNullException.ThrowIfNull(gameFileSystem);
             using (gameFileSystem)
             {
                 if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
@@ -432,20 +438,17 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
                     if (localBuild is null || remoteBuild is null || patchBuild is null)
                     {
-                        infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                        messenger.Send(InfoBarMessage.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
                         return;
                     }
                 }
 
-                GamePackageOperationContext context = new(
-                    serviceProvider,
-                    GamePackageOperationKind.ExtractBlocks,
-                    gameFileSystem,
-                    ExtractGameAssetBundles(localBuild),
-                    ExtractGameAssetBundles(remoteBuild),
-                    ExtractGameAssetBundlesPatched(patchBuild),
-                    default,
-                    extractDirectory);
+                GamePackageOperationContext context = new(serviceProvider, GamePackageOperationKind.ExtractBlocks, gameFileSystem, extractDirectory)
+                {
+                    LocalBuild = ExtractGameAssetBundles(localBuild),
+                    RemoteBuild = ExtractGameAssetBundles(remoteBuild),
+                    PatchBuild = ExtractGameAssetBundlesPatched(patchBuild),
+                };
 
                 await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
             }
@@ -496,7 +499,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             if (branch is null)
             {
-                infoBarService.Warning("PreDownload not available");
+                messenger.Send(InfoBarMessage.Warning("PreDownload not available"));
                 return;
             }
 
@@ -530,20 +533,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch).ConfigureAwait(false);
                     if (build is null)
                     {
-                        infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                        messenger.Send(InfoBarMessage.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
                         return;
                     }
                 }
 
-                GamePackageOperationContext context = new(
-                    serviceProvider,
-                    GamePackageOperationKind.ExtractExecutable,
-                    gameFileSystem,
-                    default!,
-                    ExtractGameExecutable(build),
-                    default,
-                    default,
-                    default);
+                GamePackageOperationContext context = new(serviceProvider, GamePackageOperationKind.ExtractExecutable, gameFileSystem)
+                {
+                    RemoteBuild = ExtractGameExecutable(build),
+                };
 
                 await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
             }
@@ -576,13 +574,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         if (type is RedeemCodeType.None)
         {
-            infoBarService.Warning("Please select at least one type");
+            messenger.Send(InfoBarMessage.Warning("Please select at least one type"));
             return;
         }
 
         if (RedeemCodeGenerateOption.ServiceType is RedeemCodeTargetServiceType.None)
         {
-            infoBarService.Warning("Please select a service type");
+            messenger.Send(InfoBarMessage.Warning("Please select a service type"));
             return;
         }
 
@@ -610,7 +608,11 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     Copied to clipboard
                     """;
                 await clipboardProvider.SetTextAsync(string.Join(", ", generateResponse.Codes)).ConfigureAwait(false);
-                infoBarService.Success(message, 0);
+                messenger.Send(new InfoBarMessage
+                {
+                    Severity = InfoBarSeverity.Success,
+                    Message = message,
+                });
                 await taskContext.SwitchToMainThreadAsync();
                 RedeemCodeGenerateOption = new();
             }

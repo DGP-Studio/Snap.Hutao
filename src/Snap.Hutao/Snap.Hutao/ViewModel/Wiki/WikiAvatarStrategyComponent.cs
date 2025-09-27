@@ -16,8 +16,8 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed partial class WikiAvatarStrategyComponent
 {
     private readonly IAvatarStrategyService avatarStrategyService;
-    private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
+    private readonly IMessenger messenger;
 
     public bool IsBilibiliAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
 
@@ -49,14 +49,14 @@ internal sealed partial class WikiAvatarStrategyComponent
 
         if (strategy is null)
         {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelWikiAvatarStrategyNotFound));
             return;
         }
 
         Uri targetUri = strategy.ChineseStrategyUrl;
         if (string.IsNullOrEmpty(targetUri.OriginalString))
         {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelWikiAvatarStrategyNotFound));
             return;
         }
 
@@ -77,14 +77,14 @@ internal sealed partial class WikiAvatarStrategyComponent
 
         if (strategy is null)
         {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelWikiAvatarStrategyNotFound));
             return;
         }
 
         Uri targetUri = strategy.OverseaStrategyUrl;
         if (string.IsNullOrEmpty(targetUri.OriginalString))
         {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelWikiAvatarStrategyNotFound));
             return;
         }
 

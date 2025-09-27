@@ -8,7 +8,6 @@ using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.Process;
-using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
@@ -114,7 +113,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 if (await WaitWindowAsync<MainWindow>().ConfigureAwait(true) is not null)
                 {
                     INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
+                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(uid), true).ConfigureAwait(false);
                 }
 
                 return;
@@ -160,7 +159,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             // Transient, we need the scope to manage its lifetime
-            await scope.ServiceProvider.GetRequiredService<SentryIpAddressTraits>().ConfigureAsync().ConfigureAwait(false);
+            await scope.ServiceProvider.GetRequiredService<SentryIpAddressEnricher>().ConfigureAsync().ConfigureAwait(false);
         }
 
         // In guide
@@ -195,7 +194,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
             catch (Exception ex)
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex));
+                serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(new HutaoException(SH.CoreLifeCycleAppActivationNotifyIconCreateFailed, ex)));
             }
         }
 
@@ -206,7 +205,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         [
             serviceProvider.GetRequiredService<HotKeyOptions>().InitializeAsync().AsTask(),
             serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().AsTask(),
-            serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().AsTask(),
             serviceProvider.GetRequiredService<IMetadataService>().InitializeInternalAsync().AsTask(),
             serviceProvider.GetRequiredService<IQuartzService>().StartAsync()
         ]).ConfigureAwait(false);

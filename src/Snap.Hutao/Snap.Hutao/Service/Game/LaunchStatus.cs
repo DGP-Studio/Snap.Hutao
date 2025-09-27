@@ -5,13 +5,10 @@ namespace Snap.Hutao.Service.Game;
 
 internal sealed class LaunchStatus
 {
-    public LaunchStatus(LaunchPhase phase, string description)
+    public LaunchStatus(string description)
     {
-        Phase = phase;
         Description = description;
     }
-
-    public LaunchPhase Phase { get; }
 
     public string Description { get; }
 }

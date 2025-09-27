@@ -10,6 +10,7 @@ using Snap.Hutao.Core.Scripting;
 namespace Snap.Hutao.ViewModel.Scripting;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
 {

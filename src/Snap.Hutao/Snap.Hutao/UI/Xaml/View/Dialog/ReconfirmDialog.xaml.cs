@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -24,7 +25,7 @@ internal sealed partial class ReconfirmDialog : ContentDialog
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        ReconfirmDialog dialog = (ReconfirmDialog)sender;
+        ReconfirmDialog dialog = sender.As<ReconfirmDialog>();
         dialog.IsPrimaryButtonEnabled = string.Equals(dialog.Text, dialog.ConfirmText, StringComparison.Ordinal);
     }
 }

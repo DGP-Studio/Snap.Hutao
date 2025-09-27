@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
 
@@ -66,7 +67,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
 
     private void OnReorder()
     {
-        AdjustIndex((List<TEntity>)Items);
+        AdjustIndex(Unsafe.As<List<TEntity>>(Items));
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -118,7 +119,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
 
     private void OnReorder()
     {
-        AdjustIndex((List<TEntityAccess>)Items);
+        AdjustIndex(Unsafe.As<List<TEntityAccess>>(Items));
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

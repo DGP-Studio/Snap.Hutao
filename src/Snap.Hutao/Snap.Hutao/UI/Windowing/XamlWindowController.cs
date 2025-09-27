@@ -18,6 +18,7 @@ using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.UI.Shell;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -79,7 +80,7 @@ internal sealed class XamlWindowController
         // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
         EnablePlacementRestoration(window);
 
-        ((FrameworkElement)window.Content).Loading += OnWindowContentLoading;
+        window.Content.As<FrameworkElement>().Loading += OnWindowContentLoading;
 
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
@@ -116,7 +117,7 @@ internal sealed class XamlWindowController
 
     private static void EnablePlacementRestoration(Window window)
     {
-        IObjectReference objRefAppWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.As<IUnknownVftbl>(IAppWindowExperimentalMethods.IID);
+        IObjectReference objRefAppWindowExperimental = Unsafe.As<IWinRTObject>(window.AppWindow).NativeObject.As<IUnknownVftbl>(IAppWindowExperimentalMethods.IID);
         IAppWindowExperimentalMethods.set_PlacementRestorationBehavior(objRefAppWindowExperimental, PlacementRestorationBehavior.All);
 
         string windowName = TypeNameHelper.GetTypeDisplayName(window);
@@ -190,7 +191,7 @@ internal sealed class XamlWindowController
         (window as IXamlWindowClosedHandler)?.OnWindowClosed();
 
         // Dispose the service scope
-        ((IServiceScope)ServiceProvider).Dispose();
+        Unsafe.As<IServiceScope>(ServiceProvider).Dispose();
         window.UninitializeController();
     }
 

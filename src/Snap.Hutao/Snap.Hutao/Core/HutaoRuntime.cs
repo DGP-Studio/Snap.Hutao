@@ -11,7 +11,6 @@ using Snap.Hutao.Core.Setting;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -36,7 +35,7 @@ internal static class HutaoRuntime
 
     public static WebView2Version WebView2Version { get; } = InitializeWebView2();
 
-    public static bool IsProcessElevated { get; } = InitializeIsElevated();
+    public static bool IsProcessElevated { get; } = LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false) || Environment.IsPrivilegedProcess;
 
     // Requires main thread
     public static bool IsAppNotificationEnabled { get; } = AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled;
@@ -180,20 +179,6 @@ internal static class HutaoRuntime
         catch (FileNotFoundException)
         {
             return new(string.Empty, SH.CoreWebView2HelperVersionUndetected, false);
-        }
-    }
-
-    private static bool InitializeIsElevated()
-    {
-        if (LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false))
-        {
-            return true;
-        }
-
-        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-        {
-            WindowsPrincipal principal = new(identity);
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

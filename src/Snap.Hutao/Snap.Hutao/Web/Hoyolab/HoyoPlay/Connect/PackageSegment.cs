@@ -31,6 +31,6 @@ internal partial class PackageSegment
 
         IServiceProvider serviceProvider = Ioc.Default;
         await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(Url).ConfigureAwait(false);
-        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.WebGameResourcePathCopySucceed);
+        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Success(SH.WebGameResourcePathCopySucceed));
     }
 }

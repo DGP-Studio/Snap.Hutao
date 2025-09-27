@@ -30,10 +30,10 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             return;
         }
 
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
         if (await serviceProvider.GetRequiredService<IUserService>().GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 
@@ -50,7 +50,7 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             }
             catch (InvalidCastException)
             {
-                infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                messenger.Send(InfoBarMessage.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed));
                 await CoreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
             }
 
@@ -67,7 +67,7 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             }
             catch (InvalidCastException)
             {
-                infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                messenger.Send(InfoBarMessage.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed));
                 await CoreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
             }
         }

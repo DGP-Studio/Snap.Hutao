@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
@@ -170,7 +171,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         args.Handled = true;
         ArgumentNullException.ThrowIfNull(sender);
-        ((CoreWebView2)sender).Navigate(args.Uri);
+        sender.As<CoreWebView2>().Navigate(args.Uri);
     }
 
     private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
@@ -324,7 +325,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             {
                 try
                 {
-                    await WebView.EnsureCoreWebView2Async();
+                    CoreWebView2EnvironmentOptions options = new()
+                    {
+                        AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required",
+                    };
+                    CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+                    await WebView.EnsureCoreWebView2Async(environment);
                 }
                 catch (SEHException ex)
                 {

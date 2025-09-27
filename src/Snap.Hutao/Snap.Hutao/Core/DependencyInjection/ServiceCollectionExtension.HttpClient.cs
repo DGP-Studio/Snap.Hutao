@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Snap.Hutao.Core.DependencyInjection;
@@ -27,7 +28,7 @@ internal static partial class ServiceCollectionExtension
                     .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler())
                     .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
                     {
-                        SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                        SocketsHttpHandler typedHandler = Unsafe.As<SocketsHttpHandler>(handler);
                         typedHandler.UseProxy = true;
                         typedHandler.Proxy = HttpProxyUsingSystemProxy.Instance;
                     })
@@ -43,7 +44,7 @@ internal static partial class ServiceCollectionExtension
             })
             .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
             {
-                SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                SocketsHttpHandler typedHandler = Unsafe.As<SocketsHttpHandler>(handler);
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
                 typedHandler.MaxConnectionsPerServer = 8;
             });

@@ -33,8 +33,8 @@ internal sealed partial class MetadataService : IMetadataService
     private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
-    private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
+    private readonly IMessenger messenger;
 
     private FrozenSet<string>? fileNames;
     private volatile bool isInitialized;
@@ -190,7 +190,7 @@ internal sealed partial class MetadataService : IMetadataService
         if (checkResult is not { NoError: true })
         {
             string failedFiles = string.Join(",\r\n", checkResult.FailedFiles);
-            infoBarService.Error(SH.FormatServiceMetadataDownloadSourceFilesFailed(failedFiles));
+            messenger.Send(InfoBarMessage.Error(SH.FormatServiceMetadataDownloadSourceFilesFailed(failedFiles)));
             return false;
         }
 
@@ -230,7 +230,7 @@ internal sealed partial class MetadataService : IMetadataService
         }
         catch (Exception ex)
         {
-            infoBarService.Error(ex, SH.ServiceMetadataParseFailed);
+            messenger.Send(InfoBarMessage.Error(SH.ServiceMetadataParseFailed, ex));
             return default;
         }
     }

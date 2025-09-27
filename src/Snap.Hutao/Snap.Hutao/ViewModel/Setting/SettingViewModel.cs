@@ -20,9 +20,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public const string UIGFImportExport = nameof(UIGFImportExport);
 
     private readonly IShellLinkInterop shellLinkInterop;
-    private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
     private readonly WeakReference<Border> weakGachaLogBorder = new(default!);
@@ -78,23 +78,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
+        MakeSubViewModel([Geetest, Appearance, Storage, HotKey, Home, Game, GachaLog, WebView]);
+
         Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCacheDirectory);
         Storage.DataFolderView = new(taskContext, HutaoRuntime.DataDirectory);
 
         UpdateInfo = updateService.UpdateInfo;
 
         return ValueTask.FromResult(true);
-    }
-
-    protected override void UninitializeOverride()
-    {
-        Geetest.IsViewUnloaded = true;
-        Appearance.IsViewUnloaded = true;
-        Storage.IsViewUnloaded = true;
-        HotKey.IsViewUnloaded = true;
-        Home.IsViewUnloaded = true;
-        Game.IsViewUnloaded = true;
-        GachaLog.IsViewUnloaded = true;
     }
 
     [Command("CheckUpdateCommand")]
@@ -121,13 +112,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Create desktop shortcut for elevated launch", "SettingViewModel.Command"));
 
-        if (shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch())
-        {
-            infoBarService.Success(SH.ViewModelSettingActionComplete);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
-        }
+        _ = shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch()
+            ? messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingActionComplete))
+            : messenger.Send(InfoBarMessage.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed));
     }
 }

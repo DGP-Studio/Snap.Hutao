@@ -16,8 +16,8 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
 {
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     [ObservableProperty]
     public partial ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set; } = [];
@@ -44,7 +44,7 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
             }
             catch (Exception ex)
             {
-                infoBarService.Error(ex);
+                messenger.Send(InfoBarMessage.Error(ex));
             }
         }
     }
