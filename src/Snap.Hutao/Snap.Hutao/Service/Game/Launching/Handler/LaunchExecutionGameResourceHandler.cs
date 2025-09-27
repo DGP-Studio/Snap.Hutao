@@ -123,7 +123,9 @@ internal sealed class LaunchExecutionGameResourceHandler : AbstractLaunchExecuti
                 // We need to change the gamePath.
                 await context.TaskContext.SwitchToMainThreadAsync();
                 string executableName = context.TargetScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName;
-                context.FileSystem = context.LaunchOptions.UnsafeForceUpdateGamePath(Path.Combine(gameFolder, executableName), context.FileSystem);
+                string newGamePath = Path.Combine(gameFolder, executableName);
+                context.FileSystem = context.LaunchOptions.UnsafeForceUpdateGamePath(newGamePath, context.FileSystem);
+                context.ViewModel.OnConvertGamePathChanged(newGamePath);
             }
 
             PackageConverterDeprecationContext deprecationContext = new(httpClient, context.FileSystem, channelSdks.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault());

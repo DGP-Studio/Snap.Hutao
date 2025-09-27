@@ -39,7 +39,7 @@ internal sealed partial class LaunchSchemeFilteredGameAccountsView : ObservableO
     [ObservableProperty]
     public partial IAdvancedCollectionView<GameAccount>? View { get; private set; }
 
-    internal IProperty<bool> IsViewUnloaded { get; }
+    private IProperty<bool> IsViewUnloaded { get; }
 
     public async ValueTask SetAsync(LaunchScheme? value, bool external = true)
     {
