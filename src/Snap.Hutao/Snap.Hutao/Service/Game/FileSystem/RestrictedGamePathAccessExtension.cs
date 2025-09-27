@@ -33,9 +33,9 @@ internal static class RestrictedGamePathAccessExtension
     }
 
     // The return value is the final game path after synchronization
-    public static string PerformGamePathEntrySynchronization(this IRestrictedGamePathAccess access)
+    public static string PerformGamePathEntrySynchronization(this IRestrictedGamePathAccess access, string? gamePath = default)
     {
-        string? gamePath = access.GamePathEntry.Value?.Path;
+        gamePath ??= access.GamePathEntry.Value?.Path;
 
         // The game path is null or empty, this means no game path is selected
         if (string.IsNullOrEmpty(gamePath))
@@ -95,28 +95,10 @@ internal static class RestrictedGamePathAccessExtension
         return access.PerformGamePathEntrySynchronization();
     }
 
-    public static string UpdateGamePath(this IRestrictedGamePathAccess access, string gamePath)
-    {
-        const string LockTrace = $"{nameof(RestrictedGamePathAccessExtension)}.{nameof(UpdateGamePath)}";
-        if (!access.GamePathLock.TryWriterLock(LockTrace, out AsyncReaderWriterLock.Releaser releaser))
-        {
-            throw HutaoException.InvalidOperation($"Cannot update game path while it is being used. {access.GamePathLock}");
-        }
-
-        using (releaser)
-        {
-            access.GamePathEntry.Value = GamePathEntry.Create(gamePath);
-        }
-
-        // Synchronization takes write lock when game path changed,
-        // so we release the write lock before calling.
-        return access.PerformGamePathEntrySynchronization();
-    }
-
     public static IGameFileSystem UnsafeForceUpdateGamePath(this IRestrictedGamePathAccess access, string gamePath, IGameFileSystem old)
     {
         old.Dispose();
-        access.UpdateGamePath(gamePath);
+        access.PerformGamePathEntrySynchronization(gamePath);
         access.TryGetGameFileSystem($"{nameof(RestrictedGamePathAccessExtension)}.{nameof(UnsafeForceUpdateGamePath)}", out IGameFileSystem? newFileSystem);
         ArgumentNullException.ThrowIfNull(newFileSystem);
         return newFileSystem;

@@ -28,7 +28,7 @@ internal sealed partial class GamePathService : IGamePathService
         if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false) is (true, { } path))
         {
             await taskContext.SwitchToMainThreadAsync();
-            return new(true, launchOptions.UpdateGamePath(path));
+            return new(true, launchOptions.PerformGamePathEntrySynchronization(path));
         }
 
         return new(false, SH.ServiceGamePathLocateFailed);
