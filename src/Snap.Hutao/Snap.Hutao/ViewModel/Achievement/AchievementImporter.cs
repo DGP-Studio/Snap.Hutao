@@ -9,6 +9,7 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.ViewModel.Game;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -50,7 +51,13 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        if (await scopeContext.YaeService.GetAchievementAsync(context.LaunchGameViewModel).ConfigureAwait(false) is not { } uiaf)
+        EmbeddedYaeLaunchExecutionViewModel viewModel = context.ServiceProvider.GetRequiredService<EmbeddedYaeLaunchExecutionViewModel>();
+        if (!await viewModel.InitializeAsync().ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        if (await scopeContext.YaeService.GetAchievementAsync(viewModel).ConfigureAwait(false) is not { } uiaf)
         {
             scopeContext.Messenger.Send(InfoBarMessage.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ViewModelImportByEmbeddedYaeErrorMessage));
             return false;

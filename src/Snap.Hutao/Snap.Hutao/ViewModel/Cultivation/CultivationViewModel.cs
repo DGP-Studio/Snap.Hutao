@@ -257,9 +257,13 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            // Ensure target scheme
-            await launchGameViewModel.HandleGamePathEntryChangeAsync().ConfigureAwait(false);
-            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, launchGameViewModel);
+            EmbeddedYaeLaunchExecutionViewModel viewModel = serviceProvider.GetRequiredService<EmbeddedYaeLaunchExecutionViewModel>();
+            if (!await viewModel.InitializeAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
+            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, viewModel);
             await inventoryService.RefreshInventoryAsync(options).ConfigureAwait(false);
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);

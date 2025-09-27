@@ -24,8 +24,6 @@ internal sealed partial class AchievementViewModelScopeContext
 
     public partial AchievementImporter AchievementImporter { get; }
 
-    public partial LaunchGameViewModel LaunchGameViewModel { get; }
-
     public partial IAchievementService AchievementService { get; }
 
     public partial IClipboardProvider ClipboardProvider { get; }

@@ -154,7 +154,7 @@
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
                             ItemsSource="{Binding LaunchOptions.GamePathEntries.Value}"
-                            SelectedItem="{Binding LaunchOptions.GamePathEntry.Value, Mode=TwoWay}"/>
+                            SelectedItem="{Binding GamePathEntry.Value, Mode=TwoWay}"/>
                     </Border>
                     <cwc:SettingsCard
                         ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
@@ -198,7 +198,8 @@
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
                         IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
-                        Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
+                        Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"
+                        ToolTipService.ToolTip="{Binding DisplayGamePath.Value}"/>
                     <AppBarButton
                         Command="{Binding KillGameProcessCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE733;}"
