@@ -28,6 +28,11 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T> : IObservab
         set => source.Value = value;
     }
 
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        return source.GetDeferral();
+    }
+
     private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T> self, object? sender, PropertyChangedEventArgs e)
     {
         self.callback(self.source.Value);
@@ -59,6 +64,11 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : I
     {
         get => source.Value;
         set => source.Value = value;
+    }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        return source.GetDeferral();
     }
 
     private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T, TState> self, object? sender, PropertyChangedEventArgs e)

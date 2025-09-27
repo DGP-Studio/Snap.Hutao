@@ -73,6 +73,9 @@ internal sealed partial class LaunchGameShared
             ChannelOptionsErrorKind.GameContentCorrupted => InfoBarMessage.Warning(
                 SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
                 SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath)),
+            ChannelOptionsErrorKind.GamePathLocked => InfoBarMessage.Error(
+                SH.ViewModelGameConfigurationCreateFailedGamePathLocked,
+                options.FilePath ?? string.Empty),
             _ => default,
         };
 

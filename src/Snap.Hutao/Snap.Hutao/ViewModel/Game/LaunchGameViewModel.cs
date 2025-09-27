@@ -62,7 +62,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public IObservableProperty<NameValue<PlatformType>?> SelectedPlatformType { get => field ??= LaunchOptions.PlatformType.AsNameValue(LaunchOptions.PlatformTypes); }
 
-    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= LaunchOptions.GamePathEntry.SetWithCondition(IsViewUnloaded.Negate()); }
+    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= LaunchOptions.GamePathEntry.SetWithCondition(static (value, unloaded) => !unloaded.Value && value is not null, IsViewUnloaded); }
 
     public IReadOnlyObservableProperty<string> DisplayGamePath { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => SH.FormatViewModelLaunchGameDisplayGamePath(entry?.Path)); }
 
@@ -90,7 +90,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                LaunchScheme? currentScheme = LaunchOptions.GamePathEntry.Value is not null
+                LaunchScheme? currentScheme = GamePathEntry.Value is not null
                     ? Shared.GetCurrentLaunchSchemeFromConfigurationFile()
                     : default;
 

@@ -55,9 +55,9 @@ internal static class Property
         });
     }
 
-    public static IObservableProperty<T> SetWithCondition<T>(this IObservableProperty<T> source, IProperty<bool> condition)
+    public static IObservableProperty<T> SetWithCondition<T, TState>(this IObservableProperty<T> source, Func<T, TState, bool> condition, TState state)
     {
-        return new ObservablePropertyWithConditionalSetMethod<T>(source, condition);
+        return new ObservablePropertyWithConditionalSetMethod<T, TState>(source, condition, state);
     }
 
     public static IObservableProperty<T> WithValueChangedCallback<T>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)

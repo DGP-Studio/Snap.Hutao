@@ -13,6 +13,7 @@ internal sealed partial class PropertyNullableSelectionWrapper<T, TSource> : Obs
 {
     private readonly IProperty<TSource> source;
     private readonly Func<T?, TSource> valueSelector;
+    private bool deferring;
     private T? field;
 
     public PropertyNullableSelectionWrapper(IProperty<TSource> source, ImmutableArray<T> array, Func<T?, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)
@@ -28,10 +29,36 @@ internal sealed partial class PropertyNullableSelectionWrapper<T, TSource> : Obs
         get => @field;
         set
         {
-            if (SetProperty(ref @field, value))
+            if (Volatile.Read(ref deferring))
             {
+                @field = value;
                 source.Value = valueSelector(value);
             }
+            else
+            {
+                if (SetProperty(ref @field, value))
+                {
+                    source.Value = valueSelector(value);
+                }
+            }
         }
+    }
+
+    public INotifyPropertyChangedDeferral GetDeferral()
+    {
+        if (Interlocked.Exchange(ref deferring, true))
+        {
+            throw new InvalidOperationException("Already deferring");
+        }
+
+        return NotifyPropertyChangedDeferral.Create(this, static self =>
+        {
+            if (!Interlocked.Exchange(ref self.deferring, false))
+            {
+                throw new InvalidOperationException("Not deferring");
+            }
+
+            self.OnPropertyChanged(nameof(Value));
+        });
     }
 }
