@@ -4139,4 +4139,10 @@ Espaço disponível: {2}</value>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
     <value>当前游戏路径：'{0}'</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
+    <value>游戏资源操作已取消</value>
+  </data>
+  <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
+    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+  </data>
 </root>
