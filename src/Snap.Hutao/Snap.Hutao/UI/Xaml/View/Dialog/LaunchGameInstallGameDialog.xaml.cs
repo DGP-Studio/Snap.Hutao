@@ -121,7 +121,14 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        sender.As<LaunchGameInstallGameDialog>().IsParallelSupported = PhysicalDrive.GetIsSolidState(Unsafe.As<string>(args.NewValue)) ?? false;
+        LaunchGameInstallGameDialog dialog = sender.As<LaunchGameInstallGameDialog>();
+        bool? isSSD = PhysicalDrive.GetIsSolidState(Unsafe.As<string>(args.NewValue));
+        if (isSSD is null)
+        {
+            dialog.messenger.Send(InfoBarMessage.Error(SH.ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed));
+        }
+
+        dialog.IsParallelSupported = PhysicalDrive.GetIsSolidState(Unsafe.As<string>(args.NewValue)) ?? false;
     }
 
     private static void OnIsBetaGameInstallChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

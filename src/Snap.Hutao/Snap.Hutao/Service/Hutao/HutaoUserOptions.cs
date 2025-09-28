@@ -116,7 +116,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     {
         using (await operationLock.LockAsync(nameof(InitializeAsync)).ConfigureAwait(false))
         {
-            // TODO: Step1: remove password storage
             string username = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
             string refreshToken = LocalSetting.Get(SettingKeys.PassportRefreshToken, string.Empty);
 
