@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using Windows.Foundation;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Layout;
 
@@ -28,7 +29,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
     /// <inheritdoc/>
     protected override void OnItemsChangedCore(VirtualizingLayoutContext context, object source, NotifyCollectionChangedEventArgs args)
     {
-        UniformStaggeredLayoutState state = (UniformStaggeredLayoutState)context.LayoutState;
+        UniformStaggeredLayoutState state = context.LayoutState.As<UniformStaggeredLayoutState>();
 
         switch (args.Action)
         {
@@ -65,7 +66,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
             return new Size(availableSize.Width, 0);
         }
 
-        UniformStaggeredLayoutState state = (UniformStaggeredLayoutState)context.LayoutState;
+        UniformStaggeredLayoutState state = context.LayoutState.As<UniformStaggeredLayoutState>();
 
         double availableWidth = availableSize.Width;
         double availableHeight = availableSize.Height;
@@ -181,7 +182,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
             return finalSize;
         }
 
-        UniformStaggeredLayoutState state = (UniformStaggeredLayoutState)context.LayoutState;
+        UniformStaggeredLayoutState state = context.LayoutState.As<UniformStaggeredLayoutState>();
         int virtualColumnCount = (int)(finalSize.Width / state.ColumnWidth);
 
         // Cycle through each column and arrange the items that are within the realization bounds
@@ -245,11 +246,11 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
     private static void OnMinItemWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((UniformStaggeredLayout)d).InvalidateMeasure();
+        d.As<UniformStaggeredLayout>().InvalidateMeasure();
     }
 
     private static void OnSpacingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((UniformStaggeredLayout)d).InvalidateMeasure();
+        d.As<UniformStaggeredLayout>().InvalidateMeasure();
     }
 }

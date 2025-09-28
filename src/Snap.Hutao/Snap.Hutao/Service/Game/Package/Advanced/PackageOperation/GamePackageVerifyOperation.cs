@@ -10,7 +10,8 @@ internal sealed class GamePackageVerifyOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
-        SophonDecodedBuild localBuild = context.Operation.LocalBuild;
+        SophonDecodedBuild? localBuild = context.Operation.LocalBuild;
+        ArgumentNullException.ThrowIfNull(localBuild);
         await PrivateVerifyAndRepairAsync(context, localBuild, localBuild.UncompressedTotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
     }
 }

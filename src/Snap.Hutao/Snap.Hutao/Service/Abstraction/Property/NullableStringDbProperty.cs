@@ -36,17 +36,28 @@ internal sealed partial class NullableStringDbProperty : DbProperty<string?>
 
         set
         {
-            if (!SetProperty(ref field, value))
+            if (Volatile.Read(ref Deferring))
             {
-                return;
+                field = value;
+                SetValue(value);
             }
+            else
+            {
+                if (SetProperty(ref field, value))
+                {
+                    SetValue(value);
+                }
+            }
+        }
+    }
 
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-                appDbContext.Settings.AddAndSave(new(key, value));
-            }
+    protected override void SetValue(string? value)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
+            appDbContext.Settings.AddAndSave(new(key, value));
         }
     }
 }

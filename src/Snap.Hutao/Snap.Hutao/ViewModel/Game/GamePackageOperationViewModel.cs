@@ -13,10 +13,11 @@ using System.Diagnostics;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
-    private const string ZeroBytesPerSecondSpeed = "0 bytes/s";
+    private const string ZeroBytesPerSecondSpeed = "0 byte/s";
     private const string UnknownRemainingTime = "99:59:59";
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
@@ -44,7 +45,11 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
 
+    public bool IsFinished { get; private set => SetProperty(ref field, value); }
+
     public int DownloadedChunks { get; private set; }
+
+    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
 
     public string DownloadFileName { get; private set; } = default!;
 
@@ -54,17 +59,13 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public int InstalledChunks { get; private set; }
 
+    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
+
     public string InstallFileName { get; private set; } = default!;
 
     public string InstallSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
 
     public string InstallRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
-
-    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
-
-    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
-
-    public bool IsFinished { get; private set => SetProperty(ref field, value); }
 
     public void HandleProgressUpdate(GamePackageOperationReport status)
     {
@@ -83,22 +84,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
                 AbortProgress(abort);
                 break;
         }
-    }
-
-    internal void TestProgress()
-    {
-        Title = "HOMO";
-        DownloadedChunks = 114514;
-        DownloadSpeed = "11.45 MB/s";
-        DownloadFileName = "Hill";
-        DownloadRemainingTime = "11:45:14";
-        DownloadTotalChunks = 1919810;
-        InstalledChunks = 114514;
-        InstallFileName = "HomoHat";
-        InstallSpeed = "19.19 MB/s";
-        InstallRemainingTime = "19:19:810";
-        InstallTotalChunks = 191981;
-        RefreshUI();
     }
 
     private void UpdateProgress(GamePackageOperationReport.Update update)

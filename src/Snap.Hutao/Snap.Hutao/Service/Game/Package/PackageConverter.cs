@@ -8,6 +8,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Scheme;
@@ -32,7 +33,7 @@ internal sealed partial class PackageConverter : IPackageConverter
     private readonly ILogger<PackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterDeprecationContext context)
+    public async ValueTask EnsureDeprecatedFilesAndSDKAsync(PackageConverterDeprecationContext context)
     {
         // Just try to delete these files, always download from server when needed
         string gameDirectory = context.GameFileSystem.GetGameDirectory();
@@ -83,13 +84,13 @@ internal sealed partial class PackageConverter : IPackageConverter
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
         // TODO: 可能会存在大量相似代码，逻辑完成后再进行重构
-        ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.CurrentBranch);
-        ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.TargetBranch);
+        ArgumentNullException.ThrowIfNull(context.CurrentBranch);
+        ArgumentNullException.ThrowIfNull(context.TargetBranch);
 
         // Step 1
         context.Progress.Report(new(SH.UIXamlViewSpecializedSophonProgressDefault));
-        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.SophonChunksOnly.CurrentBranch, context.CurrentScheme).ConfigureAwait(false);
-        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.SophonChunksOnly.TargetBranch, context.TargetScheme).ConfigureAwait(false);
+        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.CurrentBranch, context.CurrentScheme).ConfigureAwait(false);
+        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.TargetBranch, context.TargetScheme).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(currentBuild);
         ArgumentNullException.ThrowIfNull(targetBuild);
 

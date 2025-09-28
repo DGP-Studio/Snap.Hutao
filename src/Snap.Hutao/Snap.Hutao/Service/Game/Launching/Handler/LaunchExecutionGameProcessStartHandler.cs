@@ -1,25 +1,20 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionGameProcessStartHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionGameProcessStartHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
-    {
-        return next();
-    }
-
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override async ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
         try
         {
             context.Process.Start();
-            context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-            context.Logger.LogInformation("Process started");
+            await context.TaskContext.SwitchToMainThreadAsync();
+            GameLifeCycle.IsGameRunningProperty.Value = true;
         }
         catch (Win32Exception ex)
         {
@@ -31,7 +26,6 @@ internal sealed class LaunchExecutionGameProcessStartHandler : ILaunchExecutionD
             throw;
         }
 
-        context.Progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
-        await next().ConfigureAwait(false);
+        context.Progress.Report(new(SH.ServiceGameLaunchPhaseProcessStarted));
     }
 }

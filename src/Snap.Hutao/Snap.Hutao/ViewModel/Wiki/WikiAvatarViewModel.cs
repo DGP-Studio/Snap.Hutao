@@ -25,6 +25,7 @@ using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.
 namespace Snap.Hutao.ViewModel.Wiki;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 {
@@ -33,8 +34,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ICultivationService cultivationService;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private WikiAvatarMetadataContext? metadataContext;
 
@@ -132,7 +133,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         CalculateBatchConsumption batchConsumption = OfflineCalculator.CalculateWikiAvatarConsumption(deltaOptions.Delta, avatar);
         if (batchConsumption.OverallConsume.IsEmpty)
         {
-            infoBarService.Warning(SH.ViewModelCultivationEntryAddNoConsumptionWarning);
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelCultivationEntryAddNoConsumptionWarning));
             return;
         }
 
@@ -148,18 +149,23 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 Strategy = deltaOptions.Strategy,
             };
 
-            _ = await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false) switch
+            InfoBarMessage? message = await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false) switch
             {
-                ConsumptionSaveResultKind.NoProject => infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
-                ConsumptionSaveResultKind.Skipped => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
-                ConsumptionSaveResultKind.NoItem => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
-                ConsumptionSaveResultKind.Added => infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+                ConsumptionSaveResultKind.NoProject => InfoBarMessage.Warning(SH.ViewModelCultivationEntryAddWarning),
+                ConsumptionSaveResultKind.Skipped => InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+                ConsumptionSaveResultKind.NoItem => InfoBarMessage.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+                ConsumptionSaveResultKind.Added => InfoBarMessage.Success(SH.ViewModelCultivationEntryAddSuccess),
                 _ => default,
             };
+
+            if (message is not null)
+            {
+                messenger.Send(message);
+            }
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
+            messenger.Send(InfoBarMessage.Error(SH.ViewModelCultivationAddWarning, ex));
         }
     }
 

@@ -51,5 +51,9 @@ internal struct IslandFunctionOffsets
     public uint MickeyWonderCombineEntryMethod;
     [JsonInclude]
     public uint MickeyWonderCombineEntryMethodPartner;
+    [JsonInclude]
+    public uint SetupResinList;
+    [JsonInclude]
+    public uint ResinListAdd;
 #pragma warning restore CS0649
 }

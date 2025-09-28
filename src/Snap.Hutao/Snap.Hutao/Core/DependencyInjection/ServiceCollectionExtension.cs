@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Json;
+using Snap.Hutao.Core.Text.Json;
 using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Win32;

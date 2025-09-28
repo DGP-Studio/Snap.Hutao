@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Game.Launching.Context;
+using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionGameIslandHandler : AbstractLaunchExecutionHandler
 {
     private readonly bool resume;
     private GameIslandInterop? interop;
@@ -17,60 +18,46 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
         this.resume = resume;
     }
 
-    public async ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    public override async ValueTask BeforeAsync(BeforeLaunchExecutionContext context)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
+        if (!HutaoRuntime.IsProcessElevated || !context.LaunchOptions.IsIslandEnabled.Value)
         {
-            interop = new(context, resume);
-            try
-            {
-                context.Progress.Report(new(LaunchPhase.IslandStaging, SH.ServiceGameLaunchPhaseUnlockingFps));
-                if (!await interop.PrepareAsync().ConfigureAwait(false))
-                {
-                    if (!string.IsNullOrEmpty(context.Result.ErrorMessage))
-                    {
-                        context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                    }
-                    else
-                    {
-                        HutaoException.Throw("Failed to download island feature configuration.");
-                    }
-
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                context.Result.ErrorMessage = ex.Message;
-                return false;
-            }
-
-            context.Progress.Report(default);
+            return;
         }
 
-        return await next().ConfigureAwait(false);
+        interop = new(resume);
+
+        if (!resume || await GameLifeCycle.IsGameRunningAsync(context.TaskContext).ConfigureAwait(false))
+        {
+            context.Progress.Report(new(SH.ServiceGameLaunchPhaseUnlockingFps));
+        }
+
+        await interop.BeforeAsync(context).ConfigureAwait(false);
+        context.Progress.Report(default);
     }
 
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled.Value)
+        if (!HutaoRuntime.IsProcessElevated || !context.LaunchOptions.IsIslandEnabled.Value)
         {
-            try
-            {
-                ArgumentNullException.ThrowIfNull(interop);
-                await TaskExtension.WhenAllOrAnyException(interop.WaitForExitAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
-                context.Result.ErrorMessage = ex.Message;
-                context.Process.Kill();
-            }
+            return ValueTask.CompletedTask;
         }
-        else
+
+        ExecuteCoreAsync(context).SafeForget();
+        return ValueTask.CompletedTask;
+    }
+
+    private async ValueTask ExecuteCoreAsync(LaunchExecutionContext context)
+    {
+        try
         {
-            await next().ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(interop);
+            await interop.WaitForExitAsync(context).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            context.Messenger.Send(InfoBarMessage.Error(ex));
+            context.Process.Kill();
         }
     }
 }

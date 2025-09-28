@@ -35,12 +35,13 @@ internal sealed partial class FeatureService : IFeatureService
     private async ValueTask<TFeature?> GetTaggedFeatureAsync<TFeature>(string tag, TimeSpan expiration)
         where TFeature : class
     {
-        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.{typeof(TFeature).Name}.{tag}", async entry =>
+        string featureName = typeof(TFeature).Name;
+        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.{featureName}.{tag}", async entry =>
         {
             entry.SetSlidingExpiration(expiration);
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory
                 .Create()
-                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"{typeof(TFeature).Name}_{tag}"))
+                .SetRequestUri(hutaoEndpointsFactory.Create().Feature($"{featureName}_{tag}"))
                 .Get();
 
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))

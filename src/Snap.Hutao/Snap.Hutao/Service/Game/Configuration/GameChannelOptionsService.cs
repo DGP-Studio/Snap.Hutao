@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.FileSystem;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
@@ -14,37 +15,46 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public ChannelOptions GetChannelOptions()
     {
-        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        const string LockTrace = $"{nameof(GameChannelOptionsService)}.{nameof(GetChannelOptions)}";
+        GameFileSystemErrorKind errorKind = launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem);
+        switch (errorKind)
         {
-            return ChannelOptions.GamePathNullOrEmpty();
+            case GameFileSystemErrorKind.GamePathNullOrEmpty:
+                return ChannelOptions.GamePathNullOrEmpty();
+            case GameFileSystemErrorKind.GamePathLocked:
+                return ChannelOptions.GamePathLocked(launchOptions.GamePathEntry.Value?.Path ?? string.Empty);
         }
 
+        ArgumentNullException.ThrowIfNull(gameFileSystem);
         using (gameFileSystem)
         {
             string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+
             if (!File.Exists(configFilePath))
             {
                 // Try restore the configuration file if it does not exist
                 // The configuration file may be deleted by an incompatible launcher(e.g., CN client but OS launcher and vice versa)
                 gameConfigurationFileService.Restore(configFilePath, gameFileSystem.IsExecutableOversea());
+
+                if (!File.Exists(configFilePath))
+                {
+                    return ChannelOptions.ConfigurationFileNotFound(configFilePath);
+                }
             }
 
-            if (!File.Exists(gameFileSystem.GetScriptVersionFilePath()))
+            string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
+
+            if (!File.Exists(scriptVersionFilePath))
             {
                 // Try to fix ScriptVersion by reading game_version from the configuration file
                 // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
-                if (!gameFileSystem.TryFixScriptVersion())
+                if (!GameScriptVersion.Patch(configFilePath, scriptVersionFilePath))
                 {
                     return ChannelOptions.GameContentCorrupted(gameFileSystem.GetGameDirectory());
                 }
             }
 
-            if (!File.Exists(configFilePath))
-            {
-                return ChannelOptions.ConfigurationFileNotFound(configFilePath);
-            }
-
-            return GameConfiguration.Read(configFilePath, gameFileSystem);
+            return GameConfiguration.Read(gameFileSystem);
         }
     }
 }

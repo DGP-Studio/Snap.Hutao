@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Metadata;
@@ -19,15 +18,16 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IRoleCombatService roleCombatService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     private RoleCombatMetadataContext? metadataContext;
 
@@ -61,7 +61,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
         }
         else
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
         }
 
         return true;
@@ -134,29 +134,25 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload role combat record", "RoleCombatViewModel.Command"));
 
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                HutaoRoleCombatClient roleCombatClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();
-                if (await roleCombatClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
-                {
-                    HutaoResponse response = await roleCombatClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-                    infoBarService.PrepareInfoBarAndShow(builder =>
-                    {
-                        builder
-                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-                            .SetMessage(response.GetLocalizationMessageOrMessage());
-                    });
-                }
-
-                // TODO: Handle no records
-            }
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
+            return;
         }
-        else
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            HutaoRoleCombatClient roleCombatClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();
+            if (await roleCombatClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
+            {
+                HutaoResponse response = await roleCombatClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+                messenger.Send(InfoBarMessage.Any(
+                    response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning,
+                    response.GetLocalizationMessageOrMessage()));
+            }
+
+            // TODO: Handle no records
         }
     }
 }

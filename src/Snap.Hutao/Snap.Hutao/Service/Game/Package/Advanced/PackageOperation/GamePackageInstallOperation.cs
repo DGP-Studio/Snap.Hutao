@@ -11,7 +11,8 @@ internal sealed class GamePackageInstallOperation : GamePackageOperation
 {
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {
-        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
+        SophonDecodedBuild? remoteBuild = context.Operation.RemoteBuild;
+        ArgumentNullException.ThrowIfNull(remoteBuild);
         int totalChunksCount = remoteBuild.TotalChunks;
         long totalBytes = remoteBuild.UncompressedTotalBytes;
 

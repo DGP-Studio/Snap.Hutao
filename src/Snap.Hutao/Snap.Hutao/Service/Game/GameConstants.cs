@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game;
 internal static class GameConstants
 {
     public const string ConfigFileName = "config.ini";
+    public const string GameVersion = "game_version";
     public const string PCGameSDKFilePath = @"YuanShen_Data\Plugins\PCGameSDK.dll";
     public const string YuanShenFileName = "YuanShen.exe";
     public const string YuanShenFileNameUpper = "YUANSHEN.EXE";

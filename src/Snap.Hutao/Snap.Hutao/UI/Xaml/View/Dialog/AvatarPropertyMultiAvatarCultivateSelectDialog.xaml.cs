@@ -6,6 +6,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using System.Collections.Immutable;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -24,6 +25,6 @@ internal sealed partial class AvatarPropertyMultiAvatarCultivateSelectDialog : C
 
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        SelectedAvatars = [.. ((ListViewBase)sender).SelectedItems.Cast<AvatarView>()];
+        SelectedAvatars = [.. sender.As<ListViewBase>().SelectedItems.Cast<AvatarView>()];
     }
 }

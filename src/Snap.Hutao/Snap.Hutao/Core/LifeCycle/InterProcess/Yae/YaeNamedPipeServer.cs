@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Yae.Achievement;
 using System.Buffers;
 using System.Collections.Immutable;
@@ -17,13 +17,14 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 {
     private const string PipeName = "YaeAchievementPipe";
 
-    private readonly ILogger<YaeNamedPipeServer> logger;
-    private readonly NamedPipeServerStream serverStream;
-    private readonly IProcess gameProcess;
-    private readonly TargetNativeConfiguration config;
-
     private readonly CancellationTokenSource disposeCts = new();
     private readonly AsyncLock disposeLock = new();
+
+    private readonly TargetNativeConfiguration config;
+    private readonly ITaskContext taskContext;
+    private readonly IProcess gameProcess;
+
+    private readonly NamedPipeServerStream serverStream;
 
     private volatile bool disposed;
 
@@ -31,7 +32,8 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
     {
         Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
 
-        logger = serviceProvider.GetRequiredService<ILogger<YaeNamedPipeServer>>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
         this.gameProcess = gameProcess;
         this.config = config;
 
@@ -64,14 +66,13 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
-            while (LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
+            while (await GameLifeCycle.IsGameRunningAsync(taskContext).ConfigureAwait(false))
             {
                 try
                 {
                     using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(disposeCts.Token, token))
                     {
                         await serverStream.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
-                        logger.LogInformation("Client connected.");
                         return GetDataArray(serverStream);
                     }
                 }
@@ -85,7 +86,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
+    private unsafe YaeData? HandleCommand(BinaryReader reader, BinaryWriter writer, TargetNativeConfiguration config)
     {
         YaeCommandKind kind = reader.Read<YaeCommandKind>();
 
@@ -108,7 +109,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
             case YaeCommandKind.RequestResumeThread:
                 {
-                    // DO NOTHING
+                    gameProcess.ResumeMainThread();
                     return default;
                 }
 

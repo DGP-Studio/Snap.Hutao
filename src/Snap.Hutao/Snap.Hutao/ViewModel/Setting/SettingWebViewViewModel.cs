@@ -8,6 +8,7 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {

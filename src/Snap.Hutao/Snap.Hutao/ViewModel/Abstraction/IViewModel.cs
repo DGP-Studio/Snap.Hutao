@@ -6,15 +6,13 @@ using Snap.Hutao.UI.Xaml;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-internal interface IViewModel : IPageScoped, IResurrectable
+internal interface IViewModel : IPageScoped, IResurrectable, IViewUnloadAware
 {
     CancellationToken CancellationToken { get; set; }
 
     SemaphoreSlim CriticalSection { get; }
 
     IDeferContentLoader? DeferContentLoader { get; set; }
-
-    bool IsViewUnloaded { get; set; }
 
     void Uninitialize();
 }

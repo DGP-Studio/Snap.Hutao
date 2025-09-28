@@ -8,12 +8,8 @@ namespace Snap.Hutao.Service.Game.Island;
 internal struct IslandEnvironment
 {
 #pragma warning disable CS0649
-    public uint Size;
-    public IslandState State;
-    public WIN32_ERROR LastError;
-    public uint Uid;
+    public IslandEnvironmentView View;
 #pragma warning restore CS0649
-
     public IslandFunctionOffsets FunctionOffsets;
 
     public BOOL EnableSetFieldOfView;
@@ -28,4 +24,8 @@ internal struct IslandEnvironment
     public BOOL DisableShowDamageText;
     public BOOL UsingTouchScreen;
     public BOOL RedirectCombineEntry;
+    public BOOL ResinListItemId000106Allowed;
+    public BOOL ResinListItemId000201Allowed;
+    public BOOL ResinListItemId107009Allowed;
+    public BOOL ResinListItemId220007Allowed;
 }

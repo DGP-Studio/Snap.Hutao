@@ -289,7 +289,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
     private void ItemOnPropertyChanged(object? item, PropertyChangedEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(item);
-        T typedItem = (T)item;
+        T typedItem = Unsafe.As<T>(item);
 
         if (!(filter?.Invoke(typedItem) ?? true) /* NotInView */ ||
             /* InView! */ SortDescriptions.All(sd => sd.PropertyName != e.PropertyName) /* NoSortProperty */)
@@ -456,7 +456,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
                 if (e.NewItems is [{ } newItem])
                 {
-                    HandleSourceItemAdded(e.NewStartingIndex, (T)newItem);
+                    HandleSourceItemAdded(e.NewStartingIndex, Unsafe.As<T>(newItem));
                 }
                 else
                 {
@@ -473,7 +473,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
                 if (e.OldItems is [{ } oldItem])
                 {
-                    HandleSourceItemRemoved(e.OldStartingIndex, (T)oldItem);
+                    HandleSourceItemRemoved(e.OldStartingIndex, Unsafe.As<T>(oldItem));
                 }
                 else
                 {

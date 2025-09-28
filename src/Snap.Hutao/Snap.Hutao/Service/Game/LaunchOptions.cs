@@ -1,15 +1,14 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Launching.Handler;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32;
 using System.Collections.Immutable;
@@ -18,27 +17,21 @@ namespace Snap.Hutao.Service.Game;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
-internal sealed partial class LaunchOptions : DbStoreOptions,
-    IRestrictedGamePathAccess,
-    IRecipient<LaunchExecutionProcessStatusChangedMessage>
+internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePathAccess
 {
-    private readonly ITaskContext taskContext;
-
-    public static bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
-
-    public static bool CanKillGameProcess { get => HutaoRuntime.IsProcessElevated && IsGameRunning; }
-
-    string IRestrictedGamePathAccess.GamePath { get => GamePath.Value; set => GamePath.Value = value; }
+    [field: MaybeNull]
+    public static IObservableProperty<bool> IsGameRunning { get => field ??= GameLifeCycle.IsGameRunningProperty; }
 
     [field: MaybeNull]
-    public IObservableProperty<string> GamePath { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty); }
+    public static IReadOnlyObservableProperty<bool> CanKillGameProcess { get => field ??= Property.Observe(IsGameRunning, value => HutaoRuntime.IsProcessElevated && value); }
 
-    ImmutableArray<GamePathEntry> IRestrictedGamePathAccess.GamePathEntries { get => GamePathEntries.Value; set => GamePathEntries.Value = value; }
+    public AsyncReaderWriterLock GamePathLock { get; } = new();
+
+    [field: MaybeNull]
+    public IObservableProperty<GamePathEntry?> GamePathEntry { get => field ??= CreateProperty(SettingEntry.GamePath, string.Empty).AsNullableSelection(GamePathEntries.Value, static entry => entry?.Path ?? string.Empty, StringComparer.OrdinalIgnoreCase).Debug("GamePathEntry"); }
 
     [field: MaybeNull]
     public IObservableProperty<ImmutableArray<GamePathEntry>> GamePathEntries { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.GamePathEntries, ImmutableArray<GamePathEntry>.Empty); }
-
-    public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     [field: MaybeNull]
     public IObservableProperty<bool> UsingHoyolabAccount { get => field ??= CreateProperty(SettingEntry.LaunchUsingHoyolabAccount, false); }
@@ -135,6 +128,18 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     public IObservableProperty<bool> RedirectCombineEntry { get => field ??= CreateProperty(SettingEntry.LaunchRedirectCombineEntry, false); }
 
     [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId000106Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId000106Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId000201Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId000201Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId107009Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId107009Allowed, true); }
+
+    [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId220007Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId220007Allowed, true); }
+
+    [field: MaybeNull]
     public IObservableProperty<ImmutableArray<AspectRatio>> AspectRatios { get => field ??= CreatePropertyForStructUsingJson(SettingEntry.AspectRatios, ImmutableArray<AspectRatio>.Empty); }
 
     public AspectRatio? SelectedAspectRatio
@@ -151,15 +156,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     [field: MaybeNull]
     public IObservableProperty<bool> UsingOverlay { get => field ??= CreateProperty(SettingEntry.LaunchUsingOverlay, false); }
-
-    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
-    {
-        taskContext.InvokeOnMainThread(() =>
-        {
-            OnPropertyChanged(nameof(IsGameRunning));
-            OnPropertyChanged(nameof(CanKillGameProcess));
-        });
-    }
 
     private static int InitializeTargetFpsWithScreenFps()
     {

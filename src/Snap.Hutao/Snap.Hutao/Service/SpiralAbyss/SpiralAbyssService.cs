@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -52,7 +51,7 @@ internal sealed partial class SpiralAbyssService : ISpiralAbyssService
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+            IMessenger messenger = scope.ServiceProvider.GetRequiredService<IMessenger>();
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
             IGameRecordClient gameRecordClient = gameRecordClientFactory.Create(userAndUid.IsOversea);
 
@@ -61,17 +60,17 @@ internal sealed partial class SpiralAbyssService : ISpiralAbyssService
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(infoResponse, infoBarService))
+            if (!ResponseValidator.TryValidate(infoResponse, messenger))
             {
                 return;
             }
 
-            await PrivateRefreshSpiralAbyssAsync(infoBarService, gameRecordClient, context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
-            await PrivateRefreshSpiralAbyssAsync(infoBarService, gameRecordClient, context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
+            await PrivateRefreshSpiralAbyssAsync(messenger, gameRecordClient, context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await PrivateRefreshSpiralAbyssAsync(messenger, gameRecordClient, context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask PrivateRefreshSpiralAbyssAsync(IInfoBarService infoBarService, IGameRecordClient gameRecordClient, SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
+    private async ValueTask PrivateRefreshSpiralAbyssAsync(IMessenger messenger, IGameRecordClient gameRecordClient, SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
     {
         if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
         {
@@ -82,7 +81,7 @@ internal sealed partial class SpiralAbyssService : ISpiralAbyssService
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(response, infoBarService, out Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss))
+        if (!ResponseValidator.TryValidate(response, messenger, out Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss))
         {
             return;
         }
