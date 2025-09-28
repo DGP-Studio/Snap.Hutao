@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Win32;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -20,7 +22,7 @@ internal static class ValueFileExtension
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            HutaoNative.Instance.ShowErrorMessage(ex.Message, ExceptionFormat.Format(ex));
             return new(false, null);
         }
     }
@@ -38,7 +40,7 @@ internal static class ValueFileExtension
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            HutaoNative.Instance.ShowErrorMessage(ex.Message, ExceptionFormat.Format(ex));
             return false;
         }
     }

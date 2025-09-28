@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Win32;
 
 namespace Snap.Hutao.Core.IO.Http.Loopback;
@@ -32,6 +33,19 @@ internal sealed partial class LoopbackSupport : ObservableObject
             IsLoopbackEnabled = false;
             hutaoContainerStringSid = string.Empty;
         }
+
+#pragma warning disable SA1116, SA1117
+        SentrySdk.ConfigureScope(static (scope, state) =>
+        {
+            Dictionary<string, object> loopback = new()
+            {
+                ["Enabled"] = state.Enabled,
+                ["Sid"] = state.Sid,
+            };
+
+            scope.Contexts["Loopback"] = loopback;
+        }, (Sid: hutaoContainerStringSid, Enabled: IsLoopbackEnabled));
+#pragma warning restore SA1116, SA1117
     }
 
     [ObservableProperty]

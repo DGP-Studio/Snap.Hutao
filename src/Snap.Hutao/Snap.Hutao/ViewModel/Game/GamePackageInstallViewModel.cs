@@ -120,7 +120,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
                     IHoyoPlayService hoyoPlayService = scope.ServiceProvider.GetRequiredService<IHoyoPlayService>();
 
-                    if (await hoyoPlayService.TryGetBranchesAsync(launchScheme) is not (true, { } branchesWrapper))
+                    if (await hoyoPlayService.TryGetBranchesAsync(launchScheme).ConfigureAwait(false) is not (true, { } branchesWrapper))
                     {
                         messenger.Send(InfoBarMessage.Error(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Branches")));
                         return;
@@ -128,7 +128,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
                     GameBranch branch = branchesWrapper.GameBranches.First(b => b.Game.Id == launchScheme.GameId);
 
-                    if (await hoyoPlayService.TryGetChannelSDKsAsync(launchScheme) is not (true, { } channelSDKsWrapper))
+                    if (await hoyoPlayService.TryGetChannelSDKsAsync(launchScheme).ConfigureAwait(false) is not (true, { } channelSDKsWrapper))
                     {
                         messenger.Send(InfoBarMessage.Error(SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed("Target Channel SDKs")));
                         return;

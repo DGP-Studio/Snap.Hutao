@@ -52,8 +52,8 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
         // For the moment, simply fall back to simple string deserialization and optimize this later,
         // if required.
         // If this is an absolute must, people can still derive from this class and override the method.
-        string json = httpContent is null ? string.Empty : await httpContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize(json, contentType, JsonSerializerOptions);
+        string? json = httpContent is null ? default : await httpContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+        return string.IsNullOrEmpty(json) ? default : JsonSerializer.Deserialize(json, contentType, JsonSerializerOptions);
     }
 
     private ByteArrayContent? SerializeUtf8(object? content, Type contentType)

@@ -21,6 +21,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -213,6 +214,23 @@ internal sealed partial class GamePackageService : IGamePackageService
                 }
                 catch (OperationCanceledException)
                 {
+                    return default;
+                }
+                catch (Exception ex)
+                {
+                    StringBuilder messageBuilder = new();
+                    if (HttpRequestExceptionHandling.FormatException(messageBuilder, ex, manifestDownloadUrl))
+                    {
+                        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(messageBuilder.ToString(), ex));
+                    }
+                    else
+                    {
+                        // IOException: The request was aborted.
+                        // + IOException: Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。.
+                        //   + SocketException | ConnectionReset: 远程主机强迫关闭了一个现有的连接。
+                        SentrySdk.CaptureException(ex);
+                    }
+
                     return default;
                 }
             }

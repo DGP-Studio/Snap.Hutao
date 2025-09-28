@@ -35,10 +35,7 @@ internal sealed partial class NavigationService : INavigationService
     [DisallowNull]
     private NavigationView? NavigationView
     {
-        get
-        {
-            return weakNavigationView.TryGetTarget(out NavigationView? navigationView) ? navigationView : null;
-        }
+        get => weakNavigationView.TryGetTarget(out NavigationView? navigationView) ? navigationView : null;
 
         set
         {
