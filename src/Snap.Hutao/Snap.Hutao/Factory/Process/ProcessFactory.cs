@@ -34,43 +34,6 @@ internal sealed class ProcessFactory
         return false;
     }
 
-    public static bool IsRunning(string processName, string mainWindowTitle)
-    {
-        int currentSessionId = global::System.Diagnostics.Process.GetCurrentProcess().SessionId;
-        global::System.Diagnostics.Process[] processes = global::System.Diagnostics.Process.GetProcessesByName(processName);
-
-        if (processes.Length <= 0)
-        {
-            return false;
-        }
-
-        foreach (ref readonly global::System.Diagnostics.Process process in processes.AsSpan())
-        {
-            try
-            {
-                if (process.SessionId != currentSessionId)
-                {
-                    continue;
-                }
-
-                if (string.Equals(process.MainWindowTitle, mainWindowTitle, StringComparison.OrdinalIgnoreCase))
-                {
-                    return true;
-                }
-
-                // Force access handle to check whether process has exited
-                _ = process.Handle;
-            }
-            catch (Exception ex)
-            {
-                SentrySdk.CaptureException(ex);
-                break;
-            }
-        }
-
-        return false;
-    }
-
     public static bool IsRunning(ReadOnlySpan<string> processNames, [NotNullWhen(true)] out IProcess? runningProcess)
     {
         int currentSessionId = global::System.Diagnostics.Process.GetCurrentProcess().SessionId;
@@ -92,7 +55,18 @@ internal sealed class ProcessFactory
                 }
 
                 // Force access handle to check whether process has exited
-                _ = process.Handle;
+                try
+                {
+                    _ = process.Handle;
+                }
+                catch (Exception ex)
+                {
+                    // Assume it's running if access is denied.
+                    if (!HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ACCESS_DENIED))
+                    {
+                        throw;
+                    }
+                }
 
                 runningProcess = new DiagnosticsProcess(process);
                 return true;

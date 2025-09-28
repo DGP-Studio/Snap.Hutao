@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
@@ -22,7 +23,25 @@ internal sealed partial class DiagnosticsProcess : IProcess
 
     public HWND MainWindowHandle { get => process.MainWindowHandle; }
 
-    public bool HasExited { get => process.HasExited; }
+    public bool HasExited
+    {
+        get
+        {
+            try
+            {
+                return process.HasExited;
+            }
+            catch (Exception ex)
+            {
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ACCESS_DENIED))
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+    }
 
     public int ExitCode { get => process.ExitCode; }
 

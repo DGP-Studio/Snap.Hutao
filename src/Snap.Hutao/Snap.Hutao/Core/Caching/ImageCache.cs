@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -26,10 +29,20 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         get => LazyInitializer.EnsureInitialized(ref field, static () =>
         {
-            string folder = HutaoRuntime.GetLocalCacheImageCacheDirectory();
-            Directory.CreateDirectory(Path.Combine(folder, "Light"));
-            Directory.CreateDirectory(Path.Combine(folder, "Dark"));
-            return folder;
+            try
+            {
+                string folder = HutaoRuntime.GetLocalCacheImageCacheDirectory();
+                Directory.CreateDirectory(Path.Combine(folder, "Light"));
+                Directory.CreateDirectory(Path.Combine(folder, "Dark"));
+                return folder;
+            }
+            catch (Exception ex)
+            {
+                // 0x80070570 ERROR_FILE_CORRUPT
+                HutaoNative.Instance.ShowErrorMessage(ex.Message, ExceptionFormat.Format(ex));
+                ProcessFactory.KillCurrent();
+                return string.Empty;
+            }
         });
     }
 
