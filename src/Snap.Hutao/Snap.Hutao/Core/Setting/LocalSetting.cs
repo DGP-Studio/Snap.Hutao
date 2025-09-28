@@ -1,6 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Factory.Process;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using Windows.Storage;
@@ -50,7 +54,22 @@ internal static class LocalSetting
     public static void Set<T>(string key, T value)
     {
         Debug.Assert(SupportedTypes.Contains(typeof(T)));
-        Container.Values[key] = value;
+
+        try
+        {
+            Container.Values[key] = value;
+        }
+        catch (Exception ex)
+        {
+            // 状态管理器无法写入设置
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_STATE_WRITE_SETTING_FAILED))
+            {
+                HutaoNative.Instance.ShowErrorMessage(ex.Message, ExceptionFormat.Format(ex));
+                ProcessFactory.KillCurrent();
+            }
+
+            throw;
+        }
     }
 
     public static void SetIf<T>(bool condition, string key, T value)

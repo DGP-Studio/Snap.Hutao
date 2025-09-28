@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Quartz;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Job;
 
@@ -77,6 +78,7 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
             }
             finally
             {
+                RuntimeHelpers.EnsureSufficientExecutionStack();
                 await scheduler.Shutdown(false).ConfigureAwait(false);
                 scheduler = default;
             }

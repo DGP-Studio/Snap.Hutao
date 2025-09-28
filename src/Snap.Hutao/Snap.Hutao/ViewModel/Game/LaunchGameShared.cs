@@ -90,8 +90,7 @@ internal sealed partial class LaunchGameShared
     public async ValueTask DefaultLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
     {
         // The game process can exist longer than the view model
-        // Force use root scope
-        using (IServiceScope scope = Ioc.Default.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DefaultLaunchExecutionInvoker invoker = new();
             try

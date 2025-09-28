@@ -28,7 +28,7 @@ internal sealed partial class ReadOnlyObservablePropertyDebug<T> : IReadOnlyObse
         get
         {
             T result = source.Value;
-            Debug.WriteLine($"ReadOnlyObservablePropertyDebug: {Name} get [{result}]");
+            Debug.WriteLine($"ReadOnlyObservablePropertyDebug: {Name} get [{result}]\r\n{Environment.StackTrace}");
             return result;
         }
     }

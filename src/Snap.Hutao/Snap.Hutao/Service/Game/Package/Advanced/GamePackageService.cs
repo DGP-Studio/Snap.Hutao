@@ -86,6 +86,17 @@ internal sealed partial class GamePackageService : IGamePackageService
                         await operation.ExecuteAsync(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
+                    catch (OperationCanceledException)
+                    {
+                        if (operationCts is { IsCancellationRequested: true })
+                        {
+                            serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Warning(SH.ServicePackageAdvancedExecuteOperationCanceledTitle));
+                            await window.CloseTask.ConfigureAwait(false);
+                            return false;
+                        }
+
+                        throw;
+                    }
                     catch (Exception ex)
                     {
                         if (ex is HttpRequestException httpRequestException)

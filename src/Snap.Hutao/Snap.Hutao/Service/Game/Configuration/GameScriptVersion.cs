@@ -48,7 +48,7 @@ internal static class GameScriptVersion
         }
         catch (IOException ex)
         {
-            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_NO_SUCH_DEVICE, WIN32_ERROR.ERROR_DEVICE_HARDWARE_ERROR]))
+            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_NO_SUCH_DEVICE, WIN32_ERROR.ERROR_DEVICE_HARDWARE_ERROR, WIN32_ERROR.ERROR_FILE_CORRUPT]))
             {
                 return false;
             }

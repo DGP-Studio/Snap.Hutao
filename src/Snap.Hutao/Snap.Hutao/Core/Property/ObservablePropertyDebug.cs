@@ -29,13 +29,13 @@ internal sealed partial class ObservablePropertyDebug<T> : IObservableProperty<T
         get
         {
             T result = source.Value;
-            Debug.WriteLine($"ObservablePropertyDebug: {Name} get [{result}]");
+            Debug.WriteLine($"ObservablePropertyDebug: {Name} get [{result}]\r\n{Environment.StackTrace}");
             return result;
         }
 
         set
         {
-            Debug.WriteLine($"ObservablePropertyDebug: {Name} set [{value}]");
+            Debug.WriteLine($"ObservablePropertyDebug: {Name} set [{value}]\r\n{Environment.StackTrace}");
             source.Value = value;
         }
     }

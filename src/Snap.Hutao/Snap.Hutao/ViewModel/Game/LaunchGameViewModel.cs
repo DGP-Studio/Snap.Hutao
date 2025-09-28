@@ -110,11 +110,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         return BlockDeferral<PackageConvertStatus>.CreateAsync<LaunchGamePackageConvertDialog>(serviceProvider, static (state, dialog) => dialog.State = state);
     }
 
-    void IViewModelSupportLaunchExecution.OnConvertGamePathChanged(string path)
-    {
-        GamePathEntry.Value = LaunchOptions.GamePathEntries.Value.SingleOrDefault(entry => string.Equals(entry.Path, path, StringComparison.OrdinalIgnoreCase));
-    }
-
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
         if (LaunchOptions.GamePathEntries.Value.IsDefaultOrEmpty)

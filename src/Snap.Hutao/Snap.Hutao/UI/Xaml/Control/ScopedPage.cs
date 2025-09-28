@@ -8,6 +8,8 @@ using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Content;
 using Snap.Hutao.ViewModel.Abstraction;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
@@ -113,7 +115,17 @@ internal partial class ScopedPage : Page
                 viewModel.Uninitialize();
             }
 
-            DataContext = default;
+            try
+            {
+                DataContext = default;
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult is not HRESULT.E_UNEXPECTED)
+                {
+                    throw;
+                }
+            }
         }
 
         viewCts.Dispose();

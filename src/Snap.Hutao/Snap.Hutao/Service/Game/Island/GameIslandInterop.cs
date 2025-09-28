@@ -36,7 +36,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     {
         if (!context.FileSystem.TryGetGameVersion(out string? gameVersion))
         {
-            throw HutaoException.NotSupported("获取本地游戏版本失败，无法获取注入配置信息");
+            throw HutaoException.NotSupported(SH.ServiceGameIslandFileSystemGetGameVersionFailed);
         }
 
         IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();

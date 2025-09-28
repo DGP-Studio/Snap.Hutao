@@ -15,7 +15,7 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
     private readonly IObservableProperty<T> target;
     private readonly ImmutableArray<NameValue<T>> array;
     private bool deferring;
-    private bool outside = true;
+    private bool isExternalSet = true;
 
     public PropertyNameValueWrapper(IObservableProperty<T> target, ImmutableArray<NameValue<T>> array)
     {
@@ -42,9 +42,9 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
             {
                 if (SetProperty(ref field, value) && value is not null)
                 {
-                    Interlocked.Exchange(ref outside, false);
+                    Interlocked.Exchange(ref isExternalSet, false);
                     target.Value = value.Value;
-                    Interlocked.Exchange(ref outside, true);
+                    Interlocked.Exchange(ref isExternalSet, true);
                 }
             }
         }
@@ -74,7 +74,7 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
 
     private static void OnWeakTargetValueChanged(PropertyNameValueWrapper<T> self, object? sender, PropertyChangedEventArgs e)
     {
-        if (Volatile.Read(ref self.outside))
+        if (Volatile.Read(ref self.isExternalSet))
         {
             self.Value = Selection.Initialize(self.array, self.target.Value);
         }
