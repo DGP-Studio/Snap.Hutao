@@ -664,12 +664,17 @@
                                             ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                             ItemsSource="{Binding Summary.Avatars}"
                                             SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
-                                        <TextBlock
+                                        <Border
                                             Grid.Row="1"
-                                            Margin="0,4"
-                                            HorizontalAlignment="Center"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{Binding FormattedTotalAvatarCount}"/>
+                                            Background="{ThemeResource ControlFillColorSecondaryBrush}"
+                                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                            BorderThickness="0,1,0,0">
+                                            <TextBlock
+                                                Margin="0,6"
+                                                HorizontalAlignment="Center"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Text="{Binding FormattedTotalAvatarCount}"/>
+                                        </Border>
                                     </Grid>
                                 </SplitView.Pane>
                                 <SplitView.Content>

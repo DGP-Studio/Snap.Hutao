@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
@@ -30,10 +31,9 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
-    private readonly WeakReference<ItemsRepeater> weakItemsRepeater = new(default!);
+    private readonly ExclusiveTokenProvider exclusiveTokenProvider = new();
 
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly LaunchGameViewModel launchGameViewModel;
     private readonly ICultivationService cultivationService;
     private readonly INavigationService navigationService;
     private readonly IInventoryService inventoryService;
@@ -43,7 +43,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IYaeService yaeService;
     private readonly IMessenger messenger;
 
-    private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
 
     public IAdvancedDbCollectionView<CultivateProject>? Projects
@@ -57,24 +56,26 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    public ImmutableArray<InventoryItemView> InventoryItems { get; set => SetProperty(ref field, value); } = [];
+    [ObservableProperty]
+    public partial ImmutableArray<InventoryItemView> InventoryItems { get; set; } = [];
 
-    public IAdvancedCollectionView<CultivateEntryView>? CultivateEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<CultivateEntryView>? CultivateEntries { get; set; }
 
-    public bool EntriesUpdating { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool EntriesUpdating { get; set; }
 
-    public bool IncompleteFirst { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IncompleteFirst { get; set; }
 
-    public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set; }
 
-    public ResinStatistics? ResinStatistics { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ResinStatistics? ResinStatistics { get; set; }
 
-    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
-
-    public void AttachXamlElement(ItemsRepeater itemsRepeater)
-    {
-        weakItemsRepeater.SetTarget(itemsRepeater);
-    }
+    [ObservableProperty]
+    public partial SearchData? SearchData { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
@@ -353,9 +354,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        await statisticsCts.CancelAsync().ConfigureAwait(false);
-        statisticsCts = new();
-        CancellationToken token = statisticsCts.Token;
+        CancellationToken token = exclusiveTokenProvider.GetNewToken();
         StatisticsCultivateItemCollection statistics;
         ResinStatistics resinStatistics;
         try
@@ -417,17 +416,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        int previousFilteredCount = CultivateEntries.Count;
-
         CultivateEntries.Filter = CultivateEntryViewFilter.Compile(SearchData, metadataContext);
         CultivateEntries.Refresh();
-        if (previousFilteredCount is 0)
-        {
-            // We need to invalidate the layout due to VirtualizingLayout cache
-            if (weakItemsRepeater.TryGetTarget(out ItemsRepeater? itemsRepeater))
-            {
-                itemsRepeater.InvalidateMeasure();
-            }
-        }
     }
 }
