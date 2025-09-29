@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IObservableProperty<NameValue<T>?>
+internal sealed partial class ObservablePropertyNameValueWrapper<T> : ObservableObject, IObservableProperty<NameValue<T>?>
     where T : notnull
 {
     private readonly IObservableProperty<T> target;
@@ -17,7 +17,7 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
     private bool deferring;
     private bool isExternalSet = true;
 
-    public PropertyNameValueWrapper(IObservableProperty<T> target, ImmutableArray<NameValue<T>> array)
+    public ObservablePropertyNameValueWrapper(IObservableProperty<T> target, ImmutableArray<NameValue<T>> array)
     {
         this.target = target;
         this.array = array;
@@ -72,7 +72,7 @@ internal sealed partial class PropertyNameValueWrapper<T> : ObservableObject, IO
         });
     }
 
-    private static void OnWeakTargetValueChanged(PropertyNameValueWrapper<T> self, object? sender, PropertyChangedEventArgs e)
+    private static void OnWeakTargetValueChanged(ObservablePropertyNameValueWrapper<T> self, object? sender, PropertyChangedEventArgs e)
     {
         if (Volatile.Read(ref self.isExternalSet))
         {

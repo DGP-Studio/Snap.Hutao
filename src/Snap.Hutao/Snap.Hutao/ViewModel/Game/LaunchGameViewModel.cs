@@ -68,6 +68,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public IReadOnlyObservableProperty<bool> GamePathEntryValid { get => field ??= Property.Observe(LaunchOptions.GamePathEntry, static entry => !string.IsNullOrEmpty(entry?.Path)).WithValueChangedCallback(static (v, vm) => vm.HandleGamePathEntryChangeAsync().SafeForget(), this); }
 
+    public IReadOnlyObservableProperty<bool> IsIslandConnected { get => GameLifeCycle.IsIslandConnected.AsReadOnly(); }
+
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data, CancellationToken token)
     {
         if (!await Initialization.Task.ConfigureAwait(false))

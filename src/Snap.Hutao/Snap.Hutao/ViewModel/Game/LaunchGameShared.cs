@@ -119,18 +119,18 @@ internal sealed partial class LaunchGameShared
             return;
         }
 
-        if (GetCurrentLaunchSchemeFromConfigurationFile(false) is null)
-        {
-            return;
-        }
-
-        if (AbstractLaunchExecutionInvoker.HasAnyInvoking())
-        {
-            return;
-        }
-
         try
         {
+            if (AbstractLaunchExecutionInvoker.Invoking())
+            {
+                return;
+            }
+
+            if (GetCurrentLaunchSchemeFromConfigurationFile(false) is null)
+            {
+                return;
+            }
+
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 try

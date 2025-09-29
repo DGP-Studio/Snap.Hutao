@@ -52,12 +52,22 @@ internal sealed class LaunchExecutionGameIslandHandler : AbstractLaunchExecution
         try
         {
             ArgumentNullException.ThrowIfNull(interop);
+
+            await context.TaskContext.SwitchToMainThreadAsync();
+            GameLifeCycle.IsIslandConnected.Value = true;
+
+            await context.TaskContext.SwitchToBackgroundAsync();
             await interop.WaitForExitAsync(context).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             context.Messenger.Send(InfoBarMessage.Error(ex));
             context.Process.Kill();
+        }
+        finally
+        {
+            await context.TaskContext.SwitchToMainThreadAsync();
+            GameLifeCycle.IsIslandConnected.Value = false;
         }
     }
 }

@@ -3,12 +3,12 @@
 
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class PropertyValueChangedCallbackWrapper<T> : IObservableProperty<T>
+internal sealed partial class ObservablePropertyValueChangedCallbackWrapper<T> : IObservableProperty<T>
 {
     private readonly IObservableProperty<T> source;
     private readonly Action<T> callback;
 
-    public PropertyValueChangedCallbackWrapper(IObservableProperty<T> source, Action<T> callback)
+    public ObservablePropertyValueChangedCallbackWrapper(IObservableProperty<T> source, Action<T> callback)
     {
         this.source = source;
         this.callback = callback;
@@ -33,7 +33,7 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T> : IObservab
         return source.GetDeferral();
     }
 
-    private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T> self, object? sender, PropertyChangedEventArgs e)
+    private static void OnWeakSourceValueChanged(ObservablePropertyValueChangedCallbackWrapper<T> self, object? sender, PropertyChangedEventArgs e)
     {
         self.callback(self.source.Value);
     }

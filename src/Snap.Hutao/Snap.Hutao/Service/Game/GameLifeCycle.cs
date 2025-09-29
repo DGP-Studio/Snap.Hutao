@@ -12,6 +12,8 @@ internal static class GameLifeCycle
 {
     public static IObservableProperty<bool> IsGameRunningProperty { get; } = Property.CreateObservable(PrivateIsGameRunning(out _));
 
+    public static IObservableProperty<bool> IsIslandConnected { get; } = Property.CreateObservable(false);
+
     public static async ValueTask SpinWaitGameExitAsync(ITaskContext taskContext)
     {
         await taskContext.SwitchToBackgroundAsync();

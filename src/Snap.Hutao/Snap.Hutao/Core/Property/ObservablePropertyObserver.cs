@@ -5,13 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Snap.Hutao.Core.Property;
 
-internal sealed partial class PropertyObserver<TSource, T> : ObservableObject, IReadOnlyObservableProperty<T>
+internal sealed partial class ObservablePropertyObserver<TSource, T> : ObservableObject, IReadOnlyObservableProperty<T>
 {
     private readonly IObservableProperty<TSource> source;
     private readonly Func<TSource, T> converter;
     private T field;
 
-    public PropertyObserver(IObservableProperty<TSource> source, Func<TSource, T> converter)
+    public ObservablePropertyObserver(IObservableProperty<TSource> source, Func<TSource, T> converter)
     {
         this.source = source;
         this.converter = converter;
@@ -26,7 +26,7 @@ internal sealed partial class PropertyObserver<TSource, T> : ObservableObject, I
         private set => SetProperty(ref @field, value);
     }
 
-    private static void OnWeakSourceValueChanged(PropertyObserver<TSource, T> self, object? sender, PropertyChangedEventArgs e)
+    private static void OnWeakSourceValueChanged(ObservablePropertyObserver<TSource, T> self, object? sender, PropertyChangedEventArgs e)
     {
         self.Value = self.converter(self.source.Value);
     }
