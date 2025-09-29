@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -39,6 +40,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private WikiAvatarMetadataContext? metadataContext;
 
+    public partial WikiAvatarStrategyComponent StrategyComponent { get; }
+
     public IAdvancedCollectionView<Avatar>? Avatars
     {
         get;
@@ -50,13 +53,14 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial BaseValueInfo? BaseValueInfo { get; set; }
 
-    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial SearchData? SearchData { get; set; }
 
-    public LinkMetadataContext? LinkContext { get; set => SetProperty(ref field, value); }
-
-    public partial WikiAvatarStrategyComponent StrategyComponent { get; }
+    [ObservableProperty]
+    public partial LinkMetadataContext? LinkContext { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
@@ -16,9 +17,11 @@ internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
 {
     private readonly ITaskContext taskContext;
 
-    public string? InputScript { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? InputScript { get; set; }
 
-    public string? OutputResult { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? OutputResult { get; set; }
 
     [Command("ExecuteScriptCommand")]
     private async Task ExecuteScriptAsync()

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DataTransfer;
@@ -36,11 +37,14 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public partial LoopbackSupport LoopbackSupport { get; }
 
-    public string? SearchText { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? SearchText { get; set; }
 
-    public List<AlgoliaHit>? SearchResults { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial List<AlgoliaHit>? SearchResults { get; set; }
 
-    public IPInformation? IPInformation { get; private set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IPInformation? IPInformation { get; private set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

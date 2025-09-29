@@ -23,6 +23,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public partial BackgroundImageOptions BackgroundImageOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameCultureInfoValue? SelectedCulture
     {
         get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
@@ -36,6 +37,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<DayOfWeek>? SelectedFirstDayOfWeek
     {
         get => field ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek.Value);
@@ -48,6 +50,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<BackdropType>? SelectedBackdropType
     {
         get => field ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType.Value);
@@ -60,6 +63,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<ElementTheme>? SelectedElementTheme
     {
         get => field ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme.Value);
@@ -73,6 +77,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<BackgroundImageType>? SelectedBackgroundImageType
     {
         get => field ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType.Value);
@@ -85,6 +90,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<LastWindowCloseBehavior>? SelectedLastWindowCloseBehavior
     {
         get => field ??= AppOptions.LastWindowCloseBehaviors.Single(t => t.Value == AppOptions.LastWindowCloseBehavior.Value);

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -30,7 +31,9 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    public Version? RemoteVersion { get; set => SetProperty(ref field, value, nameof(RemoteVersionText)); }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RemoteVersionText))]
+    public partial Version? RemoteVersion { get; set; }
 
     public string RemoteVersionText { get => SH.FormatViewModelGamePackageRemoteVersion(RemoteVersion); }
 

@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Content;
 using Snap.Hutao.ViewModel.Abstraction;
-using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control;

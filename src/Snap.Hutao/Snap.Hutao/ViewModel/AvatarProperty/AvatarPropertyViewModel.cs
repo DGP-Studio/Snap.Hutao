@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
@@ -41,14 +42,17 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     private SummaryFactoryMetadataContext? metadataContext;
 
-    public Summary? Summary { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial Summary? Summary { get; set; }
 
-    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial SearchData? SearchData { get; set; }
 
     public string FormattedTotalAvatarCount { get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0); }
 
     public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(static type => type.GetLocalizedDescription(SH.ResourceManager, CultureInfo.CurrentCulture) ?? string.Empty);
 
+    // TODO: Replace with IObservableProperty
     public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
     {
         get => field ??= Selection.Initialize(SortDescriptionKinds, UnsafeLocalSetting.Get(SettingKeys.AvatarPropertySortDescriptionKind, AvatarPropertySortDescriptionKind.Default));

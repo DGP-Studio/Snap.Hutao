@@ -13,7 +13,8 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel, IDispo
 {
     private bool initializing;
 
-    public bool IsInitialized { get; protected set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsInitialized { get; protected set; }
 
     public CancellationToken CancellationToken { get; set; }
 

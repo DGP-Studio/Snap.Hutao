@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Win32;
 
 namespace Snap.Hutao.Core.IO.Http.Loopback;

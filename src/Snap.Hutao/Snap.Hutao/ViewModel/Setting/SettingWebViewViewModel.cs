@@ -14,6 +14,7 @@ internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {
     public partial AppOptions AppOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<BridgeShareSaveType>? SelectedShareSaveType
     {
         get => field ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType.Value);
