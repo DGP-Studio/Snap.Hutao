@@ -7,7 +7,9 @@ internal sealed class DailyTaskNotifySuppressionChecker : INotifySuppressionChec
 {
     public bool ShouldNotify(INotifySuppressionContext context)
     {
-        return context.Entry is { DailyTaskNotify: true, DailyNote.IsExtraTaskRewardReceived: false };
+        bool result = context.Entry is { DailyTaskNotify: true, DailyNote.IsExtraTaskRewardReceived: false };
+        context.Entry.DailyTaskDotVisible = result;
+        return result;
     }
 
     public bool GetIsSuppressed(INotifySuppressionContext context)

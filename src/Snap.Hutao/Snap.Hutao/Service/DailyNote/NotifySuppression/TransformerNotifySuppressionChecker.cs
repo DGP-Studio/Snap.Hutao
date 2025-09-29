@@ -7,7 +7,9 @@ internal sealed class TransformerNotifySuppressionChecker : INotifySuppressionCh
 {
     public bool ShouldNotify(INotifySuppressionContext context)
     {
-        return context.Entry is { TransformerNotify: true, DailyNote.Transformer: { Obtained: true, RecoveryTime.Reached: true } };
+        bool result = context.Entry is { TransformerNotify: true, DailyNote.Transformer: { Obtained: true, RecoveryTime.Reached: true } };
+        context.Entry.TransformerDotVisible = result;
+        return result;
     }
 
     public bool GetIsSuppressed(INotifySuppressionContext context)

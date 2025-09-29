@@ -74,7 +74,7 @@
                 <shuxcc:CardBlock
                     Grid.Row="1"
                     Grid.Column="0"
-                    DotVisibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
+                    DotVisibility="{Binding ResinDotVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                     IconSquareLength="64"
                     ImageSource="{StaticResource UI_ItemIcon_106}"
                     Text="{Binding DailyNote.FormattedResin, FallbackValue={x:Null}}"/>
@@ -89,12 +89,12 @@
                     </Grid.RowDefinitions>
                     <shuxcc:CardBlock
                         Grid.Row="0"
-                        DotVisibility="{Binding HomeCoinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
+                        DotVisibility="{Binding HomeCoinDotVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_ItemIcon_204}"
                         Text="{Binding DailyNote.FormattedHomeCoin, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
-                        DotVisibility="{Binding DailyTaskNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
+                        DotVisibility="{Binding DailyTaskDotVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_MarkQuest_Events_Proce}"
                         Text="{Binding DailyNote.FormattedTask, FallbackValue={x:Null}}"/>
                 </Grid>
@@ -112,7 +112,7 @@
                         Text="{Binding DailyNote.FormattedResinDiscount, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
-                        DotVisibility="{Binding TransformerNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
+                        DotVisibility="{Binding TransformerDotVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_ItemIcon_220021}"
                         Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, FallbackValue={x:Null}}"/>
                 </Grid>

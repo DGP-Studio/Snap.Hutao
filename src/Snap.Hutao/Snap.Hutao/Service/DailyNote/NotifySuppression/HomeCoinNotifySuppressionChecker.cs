@@ -7,7 +7,9 @@ internal sealed class HomeCoinNotifySuppressionChecker : INotifySuppressionCheck
 {
     public bool ShouldNotify(INotifySuppressionContext context)
     {
-        return context.DailyNote.CurrentHomeCoin >= context.Entry.HomeCoinNotifyThreshold;
+        bool result = context.DailyNote.CurrentHomeCoin >= context.Entry.HomeCoinNotifyThreshold;
+        context.Entry.HomeCoinDotVisible = result;
+        return result;
     }
 
     public bool GetIsSuppressed(INotifySuppressionContext context)
