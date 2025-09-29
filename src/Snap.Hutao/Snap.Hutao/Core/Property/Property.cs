@@ -34,9 +34,14 @@ internal static class Property
         return new ObservableProperty<T>(value);
     }
 
+    public static IReadOnlyObservableProperty<T> AsReadOnly<T>(this IObservableProperty<T> property)
+    {
+        return new ObservablePropertyReadOnlyWrapper<T>(property);
+    }
+
     public static IReadOnlyObservableProperty<T> Observe<TSource, T>(IObservableProperty<TSource> source, Func<TSource, T> converter)
     {
-        return new PropertyObserver<TSource, T>(source, converter);
+        return new ObservablePropertyObserver<TSource, T>(source, converter);
     }
 
     public static IObservableProperty<TSource> Link<TSource, TTarget>(this IObservableProperty<TSource> source, IProperty<TTarget> target, [RequireStaticDelegate] Action<TSource, IProperty<TTarget>> callback)
@@ -62,7 +67,7 @@ internal static class Property
 
     public static IObservableProperty<T> WithValueChangedCallback<T>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T> callback)
     {
-        return new PropertyValueChangedCallbackWrapper<T>(source, callback);
+        return new ObservablePropertyValueChangedCallbackWrapper<T>(source, callback);
     }
 
     public static IObservableProperty<T> WithValueChangedCallback<T, TState>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T, TState> callback, TState state)
@@ -73,7 +78,7 @@ internal static class Property
     public static IObservableProperty<NameValue<T>?> AsNameValue<T>(this IObservableProperty<T> source, ImmutableArray<NameValue<T>> array)
         where T : notnull
     {
-        return new PropertyNameValueWrapper<T>(source, array);
+        return new ObservablePropertyNameValueWrapper<T>(source, array);
     }
 
     public static IObservableProperty<T?> AsNullableSelection<TSource, T>(this IProperty<TSource> source, ImmutableArray<T> array, Func<T?, TSource> valueSelector, IEqualityComparer<TSource> equalityComparer)

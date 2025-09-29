@@ -21,7 +21,7 @@ internal abstract class AbstractLaunchExecutionInvoker
 
     protected ImmutableArray<ILaunchExecutionHandler> Handlers { get; init; }
 
-    public static bool HasAnyInvoking()
+    public static bool Invoking()
     {
         return !Invokers.IsEmpty;
     }
@@ -39,7 +39,7 @@ internal abstract class AbstractLaunchExecutionInvoker
         finally
         {
             Invokers.TryRemove(this, out _);
-            if (!HasAnyInvoking())
+            if (!Invoking())
             {
                 await GameLifeCycle.SpinWaitGameExitAsync(taskContext).ConfigureAwait(false);
             }

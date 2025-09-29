@@ -550,54 +550,66 @@
             </PivotItem>
 
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandOptionsHeader}" IsEnabled="{shuxm:IsProcessElevated}">
-                <ScrollViewer>
-                    <StackPanel Margin="16" Spacing="16">
-                        <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                            <Grid Style="{ThemeResource AcrylicGridCardStyle}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid
-                                    Grid.Row="0"
-                                    Padding="16,8"
-                                    Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness="0,0,0,1"
-                                    RowSpacing="16">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionHeader}"/>
-                                        <TextBlock
-                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionDescription}"/>
-                                    </StackPanel>
-
-                                    <ToggleSwitch
-                                        Grid.Column="1"
-                                        MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
-                                        IsOn="{Binding LaunchOptions.IsIslandEnabled.Value, Mode=TwoWay}"
-                                        Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
-                                </Grid>
-                                <Border
-                                    Grid.Row="1"
-                                    Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness="0,0,0,1">
+                <StackPanel Margin="16" Spacing="16">
+                    <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid
+                                Grid.Row="0"
+                                Padding="16,8"
+                                Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                RowSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionHeader}"/>
                                     <TextBlock
-                                        Margin="6"
-                                        HorizontalAlignment="Center"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
-                                </Border>
+                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionDescription}"/>
+                                </StackPanel>
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                    IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
+                                    IsOn="{Binding LaunchOptions.IsIslandEnabled.Value, Mode=TwoWay}"
+                                    Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
+                            </Grid>
+                            <Border
+                                Grid.Row="1"
+                                Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    Margin="6"
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
+                            </Border>
+                            <Border
+                                Grid.Row="2"
+                                Background="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                Visibility="{Binding IsIslandConnected}">
+                                <TextBlock
+                                    Margin="6"
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandConnected}"/>
+                            </Border>
+                            <ScrollViewer Grid.Row="3">
                                 <ContentControl
-                                    Grid.Row="2"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
                                     IsEnabled="{Binding LaunchOptions.IsIslandEnabled.Value}">
@@ -877,10 +889,10 @@
                                         </Grid>
                                     </Border>
                                 </ContentControl>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </ScrollViewer>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </StackPanel>
             </PivotItem>
         </Pivot>
     </shuxc:StandardView>
