@@ -66,9 +66,15 @@ internal static class AvatarViewTextTemplating
     private static string FormatProperties(ImmutableArray<AvatarProperty> properties)
     {
         StringBuilder result = new();
-        foreach (ref readonly AvatarProperty property in properties.AsSpan())
+        foreach (AvatarProperty property in properties)
         {
-            result.Append("// [").Append(property.Name).Append(": ").Append(property.Value).Append(']').AppendLine();
+            result.Append("// [").Append(property.Name).Append(": ").Append(property.Value);
+            if (!string.IsNullOrEmpty(property.AddValue))
+            {
+                result.Append(" + ").Append(property.AddValue);
+            }
+
+            result.Append(']').AppendLine();
         }
 
         return result.ToString();
@@ -78,7 +84,7 @@ internal static class AvatarViewTextTemplating
     private static string FormatReliquaries(ImmutableArray<ReliquaryView> reliquaries)
     {
         StringBuilder result = new();
-        foreach (ref readonly ReliquaryView reliquary in reliquaries.AsSpan())
+        foreach (ReliquaryView reliquary in reliquaries)
         {
             NameValue<string>? mainProperty = reliquary.MainProperty;
             result.Append($"""
@@ -87,7 +93,7 @@ internal static class AvatarViewTextTemplating
                     """);
             result.Append("// ");
 
-            foreach (ref readonly ReliquaryComposedSubProperty subProperty in reliquary.ComposedSubProperties.AsSpan())
+            foreach (ReliquaryComposedSubProperty subProperty in reliquary.ComposedSubProperties)
             {
                 result.Append('[').Append(subProperty.Name).Append(": ").Append(subProperty.Value).Append(']');
             }
