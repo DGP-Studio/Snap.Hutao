@@ -25,19 +25,21 @@ internal sealed partial class DailyNoteNotificationOperation
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
-        if (!HutaoRuntime.IsAppNotificationEnabled)
-        {
-            return;
-        }
-
         if (entry.DailyNote is null)
         {
             return;
         }
 
+        // This must happen before checking IsAppNotificationEnabled.
+        // Always perform check to update dot visibility.
         NotifySuppressionInvoker.Check(entry, out List<DailyNoteNotifyInfo> notifyInfos);
 
         if (notifyInfos.Count <= 0)
+        {
+            return;
+        }
+
+        if (!HutaoRuntime.IsAppNotificationEnabled)
         {
             return;
         }

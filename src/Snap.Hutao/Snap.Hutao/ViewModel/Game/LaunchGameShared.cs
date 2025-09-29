@@ -121,6 +121,11 @@ internal sealed partial class LaunchGameShared
 
         try
         {
+            if (!await GameLifeCycle.IsGameRunningAsync(taskContext).ConfigureAwait(false))
+            {
+                return;
+            }
+
             if (AbstractLaunchExecutionInvoker.Invoking())
             {
                 return;
