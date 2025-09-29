@@ -159,11 +159,6 @@ internal sealed class ComboBoxDesktopAcrylicWorkaroundBehavior : BehaviorBase<Co
 
     private void OnPopupActualThemeChanged(FrameworkElement sender, object args)
     {
-        if (systemBackdropConfiguration is null)
-        {
-            return;
-        }
-
-        systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
+        systemBackdropConfiguration?.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
     }
 }

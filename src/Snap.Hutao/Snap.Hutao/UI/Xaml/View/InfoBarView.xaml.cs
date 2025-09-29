@@ -49,10 +49,7 @@ internal sealed partial class InfoBarView : UserControl
 
             if (infoBars.Count > 0)
             {
-                if (VisibilityRoot is not null)
-                {
-                    VisibilityRoot.Visibility = Visibility.Visible;
-                }
+                VisibilityRoot?.Visibility = Visibility.Visible;
             }
 
             if (args.Action is NotifyCollectionChangedAction.Add)

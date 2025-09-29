@@ -71,10 +71,7 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
         void WaitForLoad(object s, RoutedEventArgs eargs)
         {
-            if (AutoSuggestTextBox is not null)
-            {
-                AutoSuggestTextBox.Text = text;
-            }
+            AutoSuggestTextBox?.Text = text;
 
             AutoSuggestTextBoxLoaded -= WaitForLoad;
         }
