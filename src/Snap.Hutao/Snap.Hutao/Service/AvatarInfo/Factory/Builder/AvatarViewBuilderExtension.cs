@@ -149,18 +149,6 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
-    public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
-        where TBuilder : class, IAvatarViewBuilder
-    {
-        return builder.SetRefreshTimeFormat(refreshTime == default ? defaultValue : format(refreshTime.ToLocalTime()));
-    }
-
-    public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, string formattedRefreshTime)
-        where TBuilder : class, IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.FormattedRefreshTime = formattedRefreshTime);
-    }
-
     public static TBuilder SetWeapon<TBuilder>(this TBuilder builder, WeaponView? weapon)
         where TBuilder : class, IAvatarViewBuilder
     {
