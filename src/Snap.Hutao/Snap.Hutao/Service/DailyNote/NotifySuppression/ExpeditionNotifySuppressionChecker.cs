@@ -9,7 +9,9 @@ internal sealed class ExpeditionNotifySuppressionChecker : INotifySuppressionChe
 {
     public bool ShouldNotify(INotifySuppressionContext context)
     {
-        return context.Entry.ExpeditionNotify && context.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished);
+        bool result = context.Entry.ExpeditionNotify && context.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished);
+        context.Entry.ExpeditionDotVisible = result;
+        return result;
     }
 
     public bool GetIsSuppressed(INotifySuppressionContext context)
