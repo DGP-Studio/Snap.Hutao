@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
@@ -43,29 +44,37 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public partial AppOptions AppOptions { get; }
 
-    public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
+    [ObservableProperty]
+    public partial string Title { get; private set; } = SH.UIXamlViewSpecializedSophonProgressDefault;
 
-    public bool IsFinished { get; private set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsFinished { get; private set; }
 
     public int DownloadedChunks { get; private set; }
 
-    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
+    [ObservableProperty]
+    public partial int DownloadTotalChunks { get; private set; } = -1;
 
     public string DownloadFileName { get; private set; } = default!;
 
-    public string DownloadSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
+    [ObservableProperty]
+    public partial string DownloadSpeed { get; private set; } = ZeroBytesPerSecondSpeed;
 
-    public string DownloadRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
+    [ObservableProperty]
+    public partial string DownloadRemainingTime { get; private set; } = UnknownRemainingTime;
 
     public int InstalledChunks { get; private set; }
 
-    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
+    [ObservableProperty]
+    public partial int InstallTotalChunks { get; private set; } = -1;
 
     public string InstallFileName { get; private set; } = default!;
 
-    public string InstallSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
+    [ObservableProperty]
+    public partial string InstallSpeed { get; private set; } = ZeroBytesPerSecondSpeed;
 
-    public string InstallRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
+    [ObservableProperty]
+    public partial string InstallRemainingTime { get; private set; } = UnknownRemainingTime;
 
     public void HandleProgressUpdate(GamePackageOperationReport status)
     {

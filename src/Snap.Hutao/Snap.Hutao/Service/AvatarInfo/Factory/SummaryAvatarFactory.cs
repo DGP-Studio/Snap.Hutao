@@ -15,7 +15,6 @@ using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Globalization;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;

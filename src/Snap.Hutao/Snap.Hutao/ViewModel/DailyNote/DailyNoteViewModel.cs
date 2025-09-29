@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
@@ -47,9 +48,11 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 
-    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set; }
 
-    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

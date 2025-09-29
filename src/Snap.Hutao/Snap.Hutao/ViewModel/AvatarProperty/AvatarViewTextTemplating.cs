@@ -20,7 +20,7 @@ internal static class AvatarViewTextTemplating
         string weaponTemplate = avatar.Weapon is { } weapon
             ? $"""
                 // ---------------------
-                // {weapon.Name} [{weapon.Level}, ☆{weapon.Quality:D}, R{weapon.AffixLevelNumber}]
+                // {weapon.Name} [{weapon.Level}, ☆{weapon.Quality:D}, ❖{weapon.AffixLevelNumber}]
                 // {(weapon.MainProperty is null ? string.Empty : $"[{weapon.MainProperty.Name}: {weapon.MainProperty.Value}]")} {(weapon.SubProperty is null ? string.Empty : $"[{weapon.SubProperty.Name}: {weapon.SubProperty.Value}]")}
 
                 """
@@ -95,7 +95,7 @@ internal static class AvatarViewTextTemplating
 
             foreach (ReliquaryComposedSubProperty subProperty in reliquary.ComposedSubProperties)
             {
-                result.Append('[').Append(subProperty.Name).Append(": ").Append(subProperty.Value).Append(']');
+                result.Append('[').Append(subProperty.Name).Append(": ").Append(subProperty.Value).Append(' ').Append((char)('\u2775' + subProperty.EnhancedCount)).Append(']');
             }
 
             result.AppendLine();
@@ -108,11 +108,11 @@ internal static class AvatarViewTextTemplating
     {
         return type switch
         {
-            EquipType.EQUIP_BRACER => "🌷",
-            EquipType.EQUIP_NECKLACE => "🪶",
-            EquipType.EQUIP_SHOES => "⏳",
-            EquipType.EQUIP_RING => "🍷",
-            EquipType.EQUIP_DRESS => "👑",
+            EquipType.EQUIP_BRACER => "\ud83c\udf37",   // 🌷
+            EquipType.EQUIP_NECKLACE => "\ud83e\udeb6", // 🪶
+            EquipType.EQUIP_SHOES => "\u23f3",          // ⏳
+            EquipType.EQUIP_RING => "\ud83c\udf77",     // 🍷
+            EquipType.EQUIP_DRESS => "\ud83d\udc51",    // 👑
             _ => string.Empty,
         };
     }

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
@@ -39,6 +40,12 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private bool suppressCurrentItemChangedHandling;
     private GachaLogServiceMetadataContext? metadataContext;
 
+    public partial HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get; }
+
+    public partial WishCountdownViewModel WishCountdownViewModel { get; }
+
+    public partial HutaoCloudViewModel HutaoCloudViewModel { get; }
+
     public IAdvancedDbCollectionView<GachaArchive>? Archives
     {
         get;
@@ -62,13 +69,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    public bool IsAggressiveRefresh { get; set => SetProperty(ref field, value); }
-
-    public partial HutaoCloudViewModel HutaoCloudViewModel { get; }
-
-    public partial HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get; }
-
-    public partial WishCountdownViewModel WishCountdownViewModel { get; }
+    [ObservableProperty]
+    public partial bool IsAggressiveRefresh { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

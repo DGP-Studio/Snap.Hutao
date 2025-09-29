@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -49,9 +50,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial BaseValueInfo? BaseValueInfo { get; set; }
 
-    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial SearchData? SearchData { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

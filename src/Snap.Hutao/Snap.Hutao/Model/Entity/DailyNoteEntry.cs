@@ -101,19 +101,19 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
     {
         other.Update(DailyNote);
 
-        other.ResinNotifySuppressed = ResinNotifySuppressed;
-        other.OnPropertyChanged(nameof(ResinNotifySuppressed));
+        other.ResinDotVisible = ResinDotVisible;
+        other.OnPropertyChanged(nameof(ResinDotVisible));
 
-        other.HomeCoinNotifySuppressed = HomeCoinNotifySuppressed;
-        other.OnPropertyChanged(nameof(HomeCoinNotifySuppressed));
+        other.HomeCoinDotVisible = HomeCoinDotVisible;
+        other.OnPropertyChanged(nameof(HomeCoinDotVisible));
 
-        other.TransformerNotifySuppressed = TransformerNotifySuppressed;
-        other.OnPropertyChanged(nameof(TransformerNotifySuppressed));
+        other.TransformerDotVisible = TransformerDotVisible;
+        other.OnPropertyChanged(nameof(TransformerDotVisible));
 
-        other.DailyTaskNotifySuppressed = DailyTaskNotifySuppressed;
-        other.OnPropertyChanged(nameof(DailyTaskNotifySuppressed));
+        other.DailyTaskDotVisible = DailyTaskDotVisible;
+        other.OnPropertyChanged(nameof(DailyTaskDotVisible));
 
-        other.ExpeditionNotifySuppressed = ExpeditionNotifySuppressed;
-        other.OnPropertyChanged(nameof(ExpeditionNotifySuppressed));
+        other.ExpeditionDotVisible = ExpeditionDotVisible;
+        other.OnPropertyChanged(nameof(ExpeditionDotVisible));
     }
 }

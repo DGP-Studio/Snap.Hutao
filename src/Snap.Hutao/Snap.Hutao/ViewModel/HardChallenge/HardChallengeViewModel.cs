@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.HardChallenge;
 using Snap.Hutao.Service.Metadata;
@@ -38,7 +39,8 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
         }
     }
 
-    public ImmutableArray<AvatarView> BlingAvatars { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<AvatarView> BlingAvatars { get; set; }
 
     public void Receive(UserAndUidChangedMessage message)
     {

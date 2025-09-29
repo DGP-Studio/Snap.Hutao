@@ -3,8 +3,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.Property;
 using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Service.Abstraction.Property;

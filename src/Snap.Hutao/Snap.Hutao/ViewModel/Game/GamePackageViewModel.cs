@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
@@ -33,44 +34,17 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    public Version? LocalVersion
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                OnPropertyChanged(nameof(LocalVersionText));
-                OnPropertyChanged(nameof(IsUpdateAvailable));
-            }
-        }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(LocalVersionText), nameof(IsUpdateAvailable))]
+    public partial Version? LocalVersion { get; set; }
 
-    public Version? RemoteVersion
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                OnPropertyChanged(nameof(RemoteVersionText));
-                OnPropertyChanged(nameof(IsUpdateAvailable));
-            }
-        }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RemoteVersionText), nameof(IsUpdateAvailable))]
+    public partial Version? RemoteVersion { get; set; }
 
-    public Version? PreVersion
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                OnPropertyChanged(nameof(PreVersionText));
-                OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
-            }
-        }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PreVersionText), nameof(IsPredownloadButtonEnabled))]
+    public partial Version? PreVersion { get; set; }
 
     public string LocalVersionText { get => LocalVersion is null ? "Unknown" : SH.FormatViewModelGamePackageLocalVersion(LocalVersion); }
 

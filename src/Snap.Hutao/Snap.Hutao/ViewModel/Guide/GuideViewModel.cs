@@ -81,6 +81,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public partial StaticResourceOptions StaticResourceOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameCultureInfoValue? SelectedCulture
     {
         get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
@@ -94,6 +95,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<Region>? SelectedRegion
     {
         get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region.Value);

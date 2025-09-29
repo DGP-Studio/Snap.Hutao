@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Metadata;
@@ -31,7 +32,8 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
 
     private RoleCombatMetadataContext? metadataContext;
 
-    public IAdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set; }
 
     public partial HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get; }
 

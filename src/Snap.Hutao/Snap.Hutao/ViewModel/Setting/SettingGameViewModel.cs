@@ -19,6 +19,7 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 
     public partial AppOptions AppOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public int KiloBytesPerSecondLimit
     {
         get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value;

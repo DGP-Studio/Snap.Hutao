@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
@@ -55,7 +56,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public IAdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<AchievementView>? Achievements { get; set; }
 
     public IAdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
@@ -68,13 +70,17 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public string SearchText { get; set => SetProperty(ref field, value); } = string.Empty;
+    [ObservableProperty]
+    public partial string SearchText { get; set; } = string.Empty;
 
-    public bool IsUncompletedItemsFirst { get; set => SetProperty(ref field, value); } = true;
+    [ObservableProperty]
+    public partial bool IsUncompletedItemsFirst { get; set; } = true;
 
-    public bool FilterDailyQuestItems { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool FilterDailyQuestItems { get; set; }
 
-    public string? FinishDescription { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? FinishDescription { get; set; }
 
     [GeneratedRegex("\\d\\.\\d")]
     private static partial Regex VersionRegex { get; }
@@ -359,12 +365,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
     {
-        if (Achievements is null)
-        {
-            return;
-        }
-
-        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
+        Achievements?.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
     }
 
     [Command("SearchAchievementCommand")]
