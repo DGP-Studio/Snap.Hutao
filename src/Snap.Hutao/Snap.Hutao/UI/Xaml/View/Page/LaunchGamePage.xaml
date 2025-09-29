@@ -601,7 +601,7 @@
                                 Background="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="0,0,0,1"
-                                Visibility="{Binding IsIslandConnected}">
+                                Visibility="{Binding IsIslandConnected.Value}">
                                 <TextBlock
                                     Margin="6"
                                     HorizontalAlignment="Center"
