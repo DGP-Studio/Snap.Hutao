@@ -44,8 +44,6 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public uint FetterLevel { get; set; }
 
-    public string FormattedRefreshTime { get; set; } = default!;
-
     public ImmutableArray<bool> PromoteArray { get; set; }
 
     public AvatarId Id { get; set; }

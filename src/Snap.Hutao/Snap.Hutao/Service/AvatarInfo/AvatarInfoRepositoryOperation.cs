@@ -102,7 +102,6 @@ internal sealed partial class AvatarInfoRepositoryOperation
             entity.Info2 = info;
         }
 
-        entity.RefreshTime = DateTimeOffset.UtcNow;
         appDbContext.AvatarInfos.UpdateAndSave(entity);
     }
 
