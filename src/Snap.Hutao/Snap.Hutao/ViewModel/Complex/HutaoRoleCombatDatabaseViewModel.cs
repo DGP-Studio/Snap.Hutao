@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -9,6 +10,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Complex;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.ViewModel
 {
@@ -16,9 +18,11 @@ internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.Vie
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    public int RecordTotal { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial int RecordTotal { get; set; }
 
-    public ImmutableArray<AvatarView> AvatarAppearances { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<AvatarView> AvatarAppearances { get; set; }
 
     protected override async Task LoadAsync()
     {

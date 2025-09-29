@@ -21,14 +21,15 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel.Guide;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public uint State
     {
@@ -80,6 +81,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public partial StaticResourceOptions StaticResourceOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameCultureInfoValue? SelectedCulture
     {
         get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture.Value);
@@ -93,6 +95,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<Region>? SelectedRegion
     {
         get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region.Value);
@@ -200,7 +203,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             FileSystemPickerInteraction = fileSystemPickerInteraction,
             ContentDialogFactory = contentDialogFactory,
-            InfoBarService = infoBarService,
+            Messenger = messenger,
         };
 
         if (await operation.TryExecuteAsync().ConfigureAwait(false))
@@ -211,7 +214,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             }
             catch (COMException ex)
             {
-                infoBarService.Error(ex);
+                messenger.Send(InfoBarMessage.Error(ex));
             }
         }
     }

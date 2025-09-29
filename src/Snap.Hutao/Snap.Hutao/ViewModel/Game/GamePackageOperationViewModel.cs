@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
@@ -13,10 +14,11 @@ using System.Diagnostics;
 namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
-    private const string ZeroBytesPerSecondSpeed = "0 bytes/s";
+    private const string ZeroBytesPerSecondSpeed = "0 byte/s";
     private const string UnknownRemainingTime = "99:59:59";
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
@@ -42,29 +44,37 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public partial AppOptions AppOptions { get; }
 
-    public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
+    [ObservableProperty]
+    public partial string Title { get; private set; } = SH.UIXamlViewSpecializedSophonProgressDefault;
+
+    [ObservableProperty]
+    public partial bool IsFinished { get; private set; }
 
     public int DownloadedChunks { get; private set; }
 
+    [ObservableProperty]
+    public partial int DownloadTotalChunks { get; private set; } = -1;
+
     public string DownloadFileName { get; private set; } = default!;
 
-    public string DownloadSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
+    [ObservableProperty]
+    public partial string DownloadSpeed { get; private set; } = ZeroBytesPerSecondSpeed;
 
-    public string DownloadRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
+    [ObservableProperty]
+    public partial string DownloadRemainingTime { get; private set; } = UnknownRemainingTime;
 
     public int InstalledChunks { get; private set; }
 
+    [ObservableProperty]
+    public partial int InstallTotalChunks { get; private set; } = -1;
+
     public string InstallFileName { get; private set; } = default!;
 
-    public string InstallSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
+    [ObservableProperty]
+    public partial string InstallSpeed { get; private set; } = ZeroBytesPerSecondSpeed;
 
-    public string InstallRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
-
-    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
-
-    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
-
-    public bool IsFinished { get; private set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string InstallRemainingTime { get; private set; } = UnknownRemainingTime;
 
     public void HandleProgressUpdate(GamePackageOperationReport status)
     {
@@ -83,22 +93,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
                 AbortProgress(abort);
                 break;
         }
-    }
-
-    internal void TestProgress()
-    {
-        Title = "HOMO";
-        DownloadedChunks = 114514;
-        DownloadSpeed = "11.45 MB/s";
-        DownloadFileName = "Hill";
-        DownloadRemainingTime = "11:45:14";
-        DownloadTotalChunks = 1919810;
-        InstalledChunks = 114514;
-        InstallFileName = "HomoHat";
-        InstallSpeed = "19.19 MB/s";
-        InstallRemainingTime = "19:19:810";
-        InstallTotalChunks = 191981;
-        RefreshUI();
     }
 
     private void UpdateProgress(GamePackageOperationReport.Update update)

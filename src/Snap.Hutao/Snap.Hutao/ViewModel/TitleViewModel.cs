@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
@@ -14,16 +15,17 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
-[ConstructorGenerated]
-[Service(ServiceLifetime.Transient)]
 [SuppressMessage("", "SA1201")]
+[ConstructorGenerated]
+[BindableCustomPropertyProvider]
+[Service(ServiceLifetime.Transient)]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
     private readonly App app;
 
     public static string Title
@@ -36,7 +38,8 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    public bool IsMetadataInitialized { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsMetadataInitialized { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
@@ -73,7 +76,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         if (new DirectoryInfo(HutaoRuntime.DataDirectory).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
             SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("Data folder has reparse point", "TitleViewModel.Command"));
-            infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataDirectory));
+            messenger.Send(InfoBarMessage.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataDirectory)));
         }
     }
 

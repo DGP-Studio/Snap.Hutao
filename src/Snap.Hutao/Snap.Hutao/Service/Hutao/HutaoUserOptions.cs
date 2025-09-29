@@ -18,8 +18,8 @@ namespace Snap.Hutao.Service.Hutao;
 internal sealed partial class HutaoUserOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private readonly AsyncKeyedLock<string> operationLock = new();
     private readonly AsyncManualResetEvent loginEvent = new();
@@ -116,7 +116,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     {
         using (await operationLock.LockAsync(nameof(InitializeAsync)).ConfigureAwait(false))
         {
-            // TODO: Step1: remove password storage
             string username = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
             string refreshToken = LocalSetting.Get(SettingKeys.PassportRefreshToken, string.Empty);
 
@@ -169,7 +168,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
                 if (!resuming)
                 {
-                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                    messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessageOrMessage()));
                 }
 
                 await AcceptAuthTokenAsync(username, tokenSet, token).ConfigureAwait(false);
@@ -196,7 +195,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessageOrMessage()));
                 await AcceptAuthTokenAsync(username, tokenSet, token).ConfigureAwait(false);
             }
         }
@@ -217,7 +216,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessageOrMessage()));
                 await AcceptAuthTokenAsync(newUserName, tokenSet, token).ConfigureAwait(false);
             }
         }
@@ -238,7 +237,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessageOrMessage()));
                 await AcceptAuthTokenAsync(username, tokenSet, token).ConfigureAwait(false);
             }
         }
@@ -315,7 +314,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 }
 
                 await LogoutOrUnregisterAsync().ConfigureAwait(false);
-                infoBarService.Information(unregisterResponse.GetLocalizationMessageOrMessage());
+                messenger.Send(InfoBarMessage.Information(unregisterResponse.GetLocalizationMessageOrMessage()));
             }
         }
     }
@@ -358,7 +357,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                messenger.Send(InfoBarMessage.Information(response.GetLocalizationMessageOrMessage()));
                 if (!string.IsNullOrEmpty(accessToken))
                 {
                     await PrivateRefreshUserInfoAsync(accessToken, token).ConfigureAwait(false);

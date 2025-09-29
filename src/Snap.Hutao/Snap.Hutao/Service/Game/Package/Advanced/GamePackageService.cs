@@ -7,6 +7,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Game.FileSystem;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 using Snap.Hutao.Service.Notification;
@@ -20,6 +21,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -85,6 +87,17 @@ internal sealed partial class GamePackageService : IGamePackageService
                         await operation.ExecuteAsync(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
+                    catch (OperationCanceledException)
+                    {
+                        if (operationCts is { IsCancellationRequested: true })
+                        {
+                            serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Warning(SH.ServicePackageAdvancedExecuteOperationCanceledTitle));
+                            await window.CloseTask.ConfigureAwait(false);
+                            return false;
+                        }
+
+                        throw;
+                    }
                     catch (Exception ex)
                     {
                         if (ex is HttpRequestException httpRequestException)
@@ -95,7 +108,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                             }
                         }
 
-                        serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
+                        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(SH.ServicePackageAdvancedExecuteOperationFailedTitle, ex));
                         result = false;
                     }
                     finally
@@ -201,6 +214,23 @@ internal sealed partial class GamePackageService : IGamePackageService
                 }
                 catch (OperationCanceledException)
                 {
+                    return default;
+                }
+                catch (Exception ex)
+                {
+                    StringBuilder messageBuilder = new();
+                    if (HttpRequestExceptionHandling.FormatException(messageBuilder, ex, manifestDownloadUrl))
+                    {
+                        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Error(messageBuilder.ToString(), ex));
+                    }
+                    else
+                    {
+                        // IOException: The request was aborted.
+                        // + IOException: Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。.
+                        //   + SocketException | ConnectionReset: 远程主机强迫关闭了一个现有的连接。
+                        SentrySdk.CaptureException(ex);
+                    }
+
                     return default;
                 }
             }

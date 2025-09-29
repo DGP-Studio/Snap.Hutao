@@ -67,16 +67,25 @@ internal readonly struct TypedWishSummaryBuilderContext
 
     public async ValueTask<HutaoResponse<GachaDistribution>?> GetGachaDistributionAsync(CancellationToken token = default)
     {
-        using (IServiceScope scope = ServiceProvider.CreateScope())
+        try
         {
-            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
-            if (await hutaoUserOptions.GetIsHutaoCloudAllowedAsync(token).ConfigureAwait(false) is not (true, { } accessToken))
+            using (IServiceScope scope = ServiceProvider.CreateScope())
             {
-                return default;
-            }
+                HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
+                if (await hutaoUserOptions.GetIsHutaoCloudAllowedAsync(token).ConfigureAwait(false) is not (true, { } accessToken))
+                {
+                    return default;
+                }
 
-            HomaGachaLogClient client = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            return await client.GetGachaDistributionAsync(accessToken, DistributionType, token).ConfigureAwait(false);
+                HomaGachaLogClient client = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
+                return await client.GetGachaDistributionAsync(accessToken, DistributionType, token).ConfigureAwait(false);
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // Cannot access a disposed object.
+            // Object name: 'IServiceProvider'.
+            return default;
         }
     }
 }

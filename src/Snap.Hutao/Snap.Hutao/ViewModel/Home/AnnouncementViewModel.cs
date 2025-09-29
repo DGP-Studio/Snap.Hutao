@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.Logging;
@@ -24,6 +25,7 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.ViewModel.Home;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
@@ -34,15 +36,20 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    public AnnouncementWrapper? Announcement { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AnnouncementWrapper? Announcement { get; set; }
 
-    public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get; set; }
 
-    public string GreetingText { get; set => SetProperty(ref field, value); } = SH.ViewPageHomeGreetingTextDefault;
+    [ObservableProperty]
+    public partial string GreetingText { get; set; } = SH.ViewPageHomeGreetingTextDefault;
 
-    public ImmutableArray<CodeWrapper> RedeemCodes { get; set => SetProperty(ref field, value); } = [];
+    [ObservableProperty]
+    public partial ImmutableArray<CodeWrapper> RedeemCodes { get; set; } = [];
 
-    public List<CardReference>? Cards { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial List<CardReference>? Cards { get; set; }
 
     [GeneratedRegex("act_id=(.*?)&")]
     private static partial Regex ActIdExtractor { get; }
@@ -158,7 +165,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         }
 
         await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(code).ConfigureAwait(false);
-        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed);
+        serviceProvider.GetRequiredService<IMessenger>().Send(InfoBarMessage.Success(SH.ViewPageAnnouncementRedeemCodeCopySucceed));
     }
 
     private void UpdateGreetingText()

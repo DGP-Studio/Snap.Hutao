@@ -14,11 +14,12 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {
-    private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
+    private readonly IMessenger messenger;
 
     public partial AppOptions AppOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public int KiloBytesPerSecondLimit
     {
         get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value;
@@ -30,33 +31,31 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete game web cache", "SettingGameViewModel.Command"));
 
-        string gamePath = launchOptions.GamePath.Value;
+        string? gamePath = launchOptions.GamePathEntry.Value?.Path;
 
         if (string.IsNullOrEmpty(gamePath))
         {
+            // TODO: show message
             return;
         }
 
         string cacheFilePath = GachaLogQueryWebCacheProvider.GetCacheFile(gamePath);
         string? cacheFolder = Path.GetDirectoryName(cacheFilePath);
 
-        if (Directory.Exists(cacheFolder))
+        if (!Directory.Exists(cacheFolder))
         {
-            try
-            {
-                Directory.Delete(cacheFolder, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                infoBarService.Warning(SH.ViewModelSettingClearWebCacheFail);
-                return;
-            }
-
-            infoBarService.Success(SH.ViewModelSettingClearWebCacheSuccess);
+            messenger.Send(InfoBarMessage.Warning(SH.FormatViewModelSettingClearWebCachePathInvalid(cacheFolder)));
+            return;
         }
-        else
+
+        try
         {
-            infoBarService.Warning(SH.FormatViewModelSettingClearWebCachePathInvalid(cacheFolder));
+            Directory.Delete(cacheFolder, true);
+            messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingClearWebCacheSuccess));
+        }
+        catch (UnauthorizedAccessException)
+        {
+            messenger.Send(InfoBarMessage.Warning(SH.ViewModelSettingClearWebCacheFail));
         }
     }
 }

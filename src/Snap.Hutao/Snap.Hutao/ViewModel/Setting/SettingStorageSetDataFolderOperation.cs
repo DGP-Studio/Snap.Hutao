@@ -18,7 +18,7 @@ internal sealed class SettingStorageSetDataFolderOperation
 
     public required IContentDialogFactory ContentDialogFactory { private get; init; }
 
-    public required IInfoBarService InfoBarService { private get; init; }
+    public required IMessenger Messenger { get; init; }
 
     internal async ValueTask<bool> TryExecuteAsync()
     {
@@ -74,7 +74,7 @@ internal sealed class SettingStorageSetDataFolderOperation
         }
         catch (Exception ex)
         {
-            InfoBarService.Error(ex);
+            Messenger.Send(InfoBarMessage.Error(ex));
             return false;
         }
 

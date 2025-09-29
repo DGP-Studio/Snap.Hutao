@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
@@ -24,6 +25,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.DailyNote;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
@@ -32,9 +34,9 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IDailyNoteService dailyNoteService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly IMessenger messenger;
 
     private DailyNoteMetadataContext? metadataContext;
 
@@ -46,9 +48,11 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 
-    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set; }
 
-    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
@@ -72,7 +76,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         }
         catch (HutaoException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
 
         return false;
@@ -85,7 +89,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
             return;
         }
 
@@ -116,7 +120,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         if (entry is not null)
         {
             await navigationService
-                .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(entry.Uid), true)
+                .NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(entry.Uid), true)
                 .ConfigureAwait(false);
         }
     }
@@ -163,7 +167,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             DailyNoteOptions.WebhookUrl.Value = url;
-            infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
+            messenger.Send(InfoBarMessage.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete));
         }
     }
 }

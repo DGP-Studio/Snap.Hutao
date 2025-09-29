@@ -7,7 +7,9 @@ internal sealed class ResinNotifySuppressionChecker : INotifySuppressionChecker
 {
     public bool ShouldNotify(INotifySuppressionContext context)
     {
-        return context.DailyNote.CurrentResin >= context.Entry.ResinNotifyThreshold;
+        bool result = context.DailyNote.CurrentResin >= context.Entry.ResinNotifyThreshold;
+        context.Entry.ResinDotVisible = result;
+        return result;
     }
 
     public bool GetIsSuppressed(INotifySuppressionContext context)

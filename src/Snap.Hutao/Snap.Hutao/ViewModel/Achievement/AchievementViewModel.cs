@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
@@ -27,6 +28,7 @@ using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.Achievemen
 namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient, IDisposable
 {
@@ -54,7 +56,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public IAdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<AchievementView>? Achievements { get; set; }
 
     public IAdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
@@ -67,13 +70,17 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public string SearchText { get; set => SetProperty(ref field, value); } = string.Empty;
+    [ObservableProperty]
+    public partial string SearchText { get; set; } = string.Empty;
 
-    public bool IsUncompletedItemsFirst { get; set => SetProperty(ref field, value); } = true;
+    [ObservableProperty]
+    public partial bool IsUncompletedItemsFirst { get; set; } = true;
 
-    public bool FilterDailyQuestItems { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool FilterDailyQuestItems { get; set; }
 
-    public string? FinishDescription { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? FinishDescription { get; set; }
 
     [GeneratedRegex("\\d\\.\\d")]
     private static partial Regex VersionRegex { get; }
@@ -167,13 +174,15 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        _ = await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.Create(name)).ConfigureAwait(false) switch
+        InfoBarMessage message = await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.Create(name)).ConfigureAwait(false) switch
         {
-            ArchiveAddResultKind.Added => scopeContext.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name)),
-            ArchiveAddResultKind.InvalidName => scopeContext.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName),
-            ArchiveAddResultKind.AlreadyExists => scopeContext.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
+            ArchiveAddResultKind.Added => InfoBarMessage.Success(SH.FormatViewModelAchievementArchiveAdded(name)),
+            ArchiveAddResultKind.InvalidName => InfoBarMessage.Warning(SH.ViewModelAchievementArchiveInvalidName),
+            ArchiveAddResultKind.AlreadyExists => InfoBarMessage.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
             _ => throw HutaoException.NotSupported(),
         };
+
+        scopeContext.Messenger.Send(message);
     }
 
     [Command("RemoveArchiveCommand")]
@@ -234,9 +243,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         UIAF uiaf = await scopeContext.AchievementService.ExportToUIAFAsync(Archives.CurrentItem).ConfigureAwait(false);
 
-        _ = await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false)
-            ? scopeContext.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage)
-            : scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+        InfoBarMessage message = await file.SerializeToJsonNoThrowAsync(uiaf, scopeContext.JsonSerializerOptions).ConfigureAwait(false)
+            ? InfoBarMessage.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage)
+            : InfoBarMessage.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+
+        scopeContext.Messenger.Send(message);
     }
 
     [Command("ImportUIAFFromEmbeddedYaeCommand")]
@@ -316,7 +327,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
         catch (HutaoException ex)
         {
-            scopeContext.InfoBarService.Error(ex);
+            scopeContext.Messenger.Send(InfoBarMessage.Error(ex));
             view = default;
             return false;
         }
@@ -354,12 +365,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
     {
-        if (Achievements is null)
-        {
-            return;
-        }
-
-        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
+        Achievements?.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
     }
 
     [Command("SearchAchievementCommand")]
@@ -440,11 +446,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         try
         {
             await scopeContext.ClipboardProvider.SetTextAsync(achievement.Inner.Id.ToString()).ConfigureAwait(false);
-            scopeContext.InfoBarService.Success(SH.ViewModelAchievementCopyAchievementIdSuccess);
+            scopeContext.Messenger.Send(InfoBarMessage.Success(SH.ViewModelAchievementCopyAchievementIdSuccess));
         }
         catch (COMException ex)
         {
-            scopeContext.InfoBarService.Error(ex);
+            scopeContext.Messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 

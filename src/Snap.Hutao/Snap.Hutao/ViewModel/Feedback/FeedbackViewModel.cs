@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DataTransfer;
@@ -18,16 +19,17 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Feedback;
 
-[Service(ServiceLifetime.Scoped)]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
     private readonly IServiceProvider serviceProvider;
-    private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     public static HttpProxyUsingSystemProxy DynamicHttpProxy { get => HttpProxyUsingSystemProxy.Instance; }
 
@@ -35,11 +37,14 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public partial LoopbackSupport LoopbackSupport { get; }
 
-    public string? SearchText { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? SearchText { get; set; }
 
-    public List<AlgoliaHit>? SearchResults { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial List<AlgoliaHit>? SearchResults { get; set; }
 
-    public IPInformation? IPInformation { get; private set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IPInformation? IPInformation { get; private set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
@@ -48,7 +53,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
             Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync(token).ConfigureAwait(false);
-            ResponseValidator.TryValidate(resp, infoBarService, out info);
+            ResponseValidator.TryValidate(resp, messenger, out info);
         }
 
         info ??= IPInformation.Default;
@@ -114,11 +119,11 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         try
         {
             await clipboardProvider.SetTextAsync(HutaoRuntime.DeviceId).ConfigureAwait(false);
-            infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+            messenger.Send(InfoBarMessage.Success(SH.ViewModelSettingCopyDeviceIdSuccess));
         }
         catch (COMException ex)
         {
-            infoBarService.Error(ex);
+            messenger.Send(InfoBarMessage.Error(ex));
         }
     }
 

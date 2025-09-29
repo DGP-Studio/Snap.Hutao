@@ -2,33 +2,35 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Game.Launching.Context;
 using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionOverlayHandler : AbstractLaunchExecutionHandler
 {
-    public ValueTask<bool> BeforeExecutionAsync(LaunchExecutionContext context, BeforeExecutionDelegate next)
+    private LaunchExecutionOverlayWindow? window;
+
+    public override async ValueTask ExecuteAsync(LaunchExecutionContext context)
     {
-        return next();
+        if (!HutaoRuntime.IsProcessElevated || !context.LaunchOptions.UsingOverlay.Value)
+        {
+            return;
+        }
+
+        await context.TaskContext.SwitchToMainThreadAsync();
+        window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
     }
 
-    public async ValueTask ExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
+    public override async ValueTask AfterAsync(AfterLaunchExecutionContext context)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay.Value)
+        if (window is null)
         {
-            await context.TaskContext.SwitchToMainThreadAsync();
-            LaunchExecutionOverlayWindow window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
-
-            await next().ConfigureAwait(false);
-
-            await context.TaskContext.SwitchToMainThreadAsync();
-            window.PreventClose = false;
-            window.Close();
+            return;
         }
-        else
-        {
-            await next().ConfigureAwait(false);
-        }
+
+        await context.TaskContext.SwitchToMainThreadAsync();
+        window.PreventClose = false;
+        window.Close();
     }
 }

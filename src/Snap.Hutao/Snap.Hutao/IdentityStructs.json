@@ -1,246 +1,162 @@
 ﻿[
   {
     "Name": "AchievementGoalId",
-    "Documentation": "成就分类 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "成就分类 Id"
   },
   {
     "Name": "AchievementId",
-    "Documentation": "成就 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "成就 Id"
   },
   {
     "Name": "AvatarId",
-    "Documentation": "角色 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "角色 Id"
   },
   {
     "Name": "ChapterId",
-    "Documentation": "章节 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "章节 Id"
   },
   {
     "Name": "ChapterGroupId",
-    "Documentation": "章节分组 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "章节分组 Id"
   },
   {
     "Name": "CombineId",
-    "Documentation": "合成配方 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "合成配方 Id"
   },
   {
     "Name": "CostumeId",
-    "Documentation": "角色装扮 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "角色装扮 Id"
   },
   {
     "Name": "EquipAffixId",
-    "Documentation": "装备属性 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "装备属性 Id"
   },
   {
     "Name": "ExtendedEquipAffixId",
-    "Documentation": "装备属性 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "装备属性 Id"
   },
   {
     "Name": "FetterLevel",
-    "Documentation": "好感等级 1 - 10",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "好感等级 1 - 10"
   },
   {
     "Name": "FurnitureId",
-    "Documentation": "家具 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "家具 Id"
   },
   {
     "Name": "FurnitureMakeId",
-    "Documentation": "家具配方 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "家具配方 Id"
   },
   {
     "Name": "FurnitureSuiteId",
-    "Documentation": "家具套装 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "家具套装 Id"
   },
   {
     "Name": "FurnitureTypeId",
-    "Documentation": "家具分类 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "家具分类 Id"
   },
   {
     "Name": "HardChallengeScheduleId",
-    "Documentation": "幽境危战 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "幽境危战 Id"
   },
   {
     "Name": "HyperLinkNameId",
-    "Documentation": "超链接名称 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "超链接名称 Id"
   },
   {
     "Name": "Level",
-    "Documentation": "等级 1 - 90",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "等级 1 - 90"
   },
   {
     "Name": "MaterialId",
-    "Documentation": "材料 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "材料 Id"
   },
   {
     "Name": "MonsterDescribeId",
-    "Documentation": "怪物描述 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "怪物描述 Id"
   },
   {
     "Name": "MonsterId",
-    "Documentation": "怪物 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "怪物 Id"
   },
   {
     "Name": "NameCardId",
-    "Documentation": "名片 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "名片 Id"
   },
   {
     "Name": "ProfilePictureId",
-    "Documentation": "角色头像 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "角色头像 Id"
   },
   {
     "Name": "PromoteId",
-    "Documentation": "角色突破提升 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "角色突破提升 Id"
   },
   {
     "Name": "PromoteLevel",
-    "Documentation": "突破等级 0 - 6",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "突破等级 0 - 6"
   },
   {
     "Name": "QuestId",
-    "Documentation": "任务 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "任务 Id"
   },
   {
     "Name": "ReliquaryLevel",
-    "Documentation": "圣遗物等级 1 - 21",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "圣遗物等级 1 - 21"
   },
   {
     "Name": "ReliquarySubAffixId",
-    "Documentation": "圣遗物副词条 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "圣遗物副词条 Id"
   },
   {
     "Name": "ReliquaryId",
-    "Documentation": "圣遗物 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "圣遗物 Id"
   },
   {
     "Name": "ReliquaryMainAffixId",
-    "Documentation": "圣遗物主属性 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "圣遗物主属性 Id"
   },
   {
     "Name": "ReliquarySetId",
-    "Documentation": "圣遗物套装 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "圣遗物套装 Id"
   },
   {
     "Name": "RoleCombatScheduleId",
-    "Documentation": "剧诗计划 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "剧诗计划 Id"
   },
   {
     "Name": "SkillGroupId",
-    "Documentation": "技能组 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "技能组 Id"
   },
   {
     "Name": "SkillId",
-    "Documentation": "技能 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "技能 Id"
   },
   {
     "Name": "SkillLevel",
-    "Documentation": "技能等级 1 - 15",
-    "Equatable": true,
-    "EqualityOperators": true,
-    "AdditionOperators": true,
-    "IncrementOperators": true,
-    "SubtractionOperators": true,
-    "DecrementOperators": true
+    "Documentation": "技能等级 1 - 15"
   },
   {
     "Name": "TowerLevelId",
-    "Documentation": "深渊间 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "深渊间 Id"
   },
   {
     "Name": "TowerLevelGroupId",
-    "Documentation": "深渊间分组 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "深渊间分组 Id"
   },
   {
     "Name": "TowerFloorId",
-    "Documentation": "深渊层 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "深渊层 Id"
   },
   {
     "Name": "TowerScheduleId",
-    "Documentation": "深渊计划 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "深渊计划 Id"
   },
   {
     "Name": "WeaponAffixLevel",
-    "Documentation": "武器精炼等级 0 - 4",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "武器精炼等级 0 - 4"
   },
   {
     "Name": "WeaponId",
-    "Documentation": "武器 Id",
-    "Equatable": true,
-    "EqualityOperators": true
+    "Documentation": "武器 Id"
   }
 ]

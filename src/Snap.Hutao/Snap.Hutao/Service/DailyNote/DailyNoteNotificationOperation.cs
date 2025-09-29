@@ -19,26 +19,27 @@ internal sealed partial class DailyNoteNotificationOperation
 {
     private const string ToastAttributionUnknown = "Unknown UID";
 
-    private readonly IGameService gameService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
+    private readonly IMessenger messenger;
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
-        if (!HutaoRuntime.IsAppNotificationEnabled)
-        {
-            return;
-        }
-
         if (entry.DailyNote is null)
         {
             return;
         }
 
+        // This must happen before checking IsAppNotificationEnabled.
+        // Always perform check to update dot visibility.
         NotifySuppressionInvoker.Check(entry, out List<DailyNoteNotifyInfo> notifyInfos);
 
         if (notifyInfos.Count <= 0)
+        {
+            return;
+        }
+
+        if (!HutaoRuntime.IsAppNotificationEnabled)
         {
             return;
         }
@@ -101,7 +102,7 @@ internal sealed partial class DailyNoteNotificationOperation
             throw;
         }
 
-        if (options.IsSilentWhenPlayingGame.Value && gameService.IsGameRunning())
+        if (options.IsSilentWhenPlayingGame.Value && await GameLifeCycle.IsGameRunningAsync(taskContext).ConfigureAwait(false))
         {
             notification.SuppressDisplay = true;
         }
@@ -114,7 +115,7 @@ internal sealed partial class DailyNoteNotificationOperation
         catch (Exception ex)
         {
             ExceptionAttachment.SetAttachment(ex, "RawXml", rawXml);
-            infoBarService.Error(ex, SH.ServiceDailyNoteNotificationSendExceptionTitle);
+            messenger.Send(InfoBarMessage.Error(SH.ServiceDailyNoteNotificationSendExceptionTitle, ex));
         }
     }
 }

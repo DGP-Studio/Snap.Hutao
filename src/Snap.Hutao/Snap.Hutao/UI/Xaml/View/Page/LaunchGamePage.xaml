@@ -16,7 +16,6 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -29,17 +28,6 @@
 
     <Page.Resources>
         <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
-
-        <DataTemplate x:Key="GameResourceTemplate">
-            <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                    <shuxvs:LaunchGameResourceExpander
-                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                        DataContext="{Binding Mode=OneWay}"
-                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
-                </Border>
-            </Border>
-        </DataTemplate>
 
         <DataTemplate x:Key="GameAccountListTemplate" x:DataType="shme:GameAccount">
             <Grid>
@@ -137,7 +125,7 @@
         </shvg:AspectRatioComboBoxTemplateSelector>
     </Page.Resources>
 
-    <shuxc:StandardView ShowCondition="{Binding GamePathSelectedAndValid, Mode=OneWay}" Style="{ThemeResource DefaultStandardViewStyle}">
+    <shuxc:StandardView ShowCondition="{Binding GamePathEntryValid.Value, Mode=OneWay}" Style="{ThemeResource DefaultStandardViewStyle}">
         <shuxc:StandardView.EmptyContent>
             <Border
                 Margin="128,0"
@@ -162,16 +150,16 @@
                         HorizontalAlignment="Center"
                         Foreground="{ThemeResource SystemErrorTextColor}"
                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePathHint}"/>
-                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
+                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding LaunchOptions.GamePathEntries.Value.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
-                            ItemsSource="{Binding GamePathEntries}"
-                            SelectedItem="{Binding SelectedGamePathEntry, Mode=TwoWay}"/>
+                            ItemsSource="{Binding LaunchOptions.GamePathEntries.Value}"
+                            SelectedItem="{Binding GamePathEntry.Value, Mode=TwoWay}"/>
                     </Border>
                     <cwc:SettingsCard
                         ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
                         ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                        Command="{Binding SetGamePathCommand}"
+                        Command="{Binding PickGamePathCommand}"
                         Header="{shuxm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE7FC;}"
                         IsClickEnabled="True">
@@ -209,17 +197,18 @@
                     <AppBarButton
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
-                        IsEnabled="{Binding CanResetGamePathEntry}"
-                        Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
+                        Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"
+                        ToolTipService.ToolTip="{Binding DisplayGamePath.Value}"/>
                     <AppBarButton
                         Command="{Binding KillGameProcessCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE733;}"
-                        IsEnabled="{Binding LaunchOptions.CanKillGameProcess}"
+                        IsEnabled="{Binding LaunchOptions.CanKillGameProcess.Value}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameKillGameProcessAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
-                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
                 </CommandBar>
             </Pivot.RightHeader>
@@ -228,7 +217,7 @@
                 <ScrollViewer>
                     <StackPanel Margin="16" Spacing="16">
                         <!--  需要管理员权限的操作  -->
-                        <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                                 <Grid
                                     Margin="16"
@@ -296,7 +285,7 @@
                                                         Margin="4,8"
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Top"
-                                                        ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
+                                                        ToolTipService.ToolTip="{Binding GamePackageViewModel.PreVersionText}"
                                                         Visibility="{Binding GamePackageViewModel.IsPredownloadButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <FontIcon
                                                             FontSize="16"
@@ -335,13 +324,17 @@
                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                             HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AB;}">
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                                <Button
+                                                    Command="{Binding ConvertCommand}"
+                                                    Content="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchSchemeAction}"
+                                                    Style="{ThemeResource SettingButtonStyle}"/>
                                                 <shuxc:SizeRestrictedContentControl>
                                                     <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
                                                         EnableMemberPath="IsNotCompatOnly"
-                                                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                                                        IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
                                                         ItemsSource="{Binding KnownSchemes}"
-                                                        SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
+                                                        SelectedItem="{Binding TargetSchemeFilteredGameAccountsView.Scheme, Mode=TwoWay}"
                                                         Style="{StaticResource DefaultComboBoxStyle}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </StackPanel>
@@ -354,7 +347,7 @@
                                                 Header="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHeader}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xEB91;}"
                                                 IsExpanded="True">
-                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay.Value, Mode=TwoWay}"/>
+                                                <ToggleSwitch IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}" IsOn="{Binding LaunchOptions.UsingOverlay.Value, Mode=TwoWay}"/>
                                                 <cwc:SettingsExpander.Items>
                                                     <cwc:SettingsCard
                                                         Padding="{ThemeResource SettingsCardAlignSettingsExpanderPadding}"
@@ -375,241 +368,6 @@
                                                 </cwc:SettingsExpander.Items>
                                             </cwc:SettingsExpander>
                                         </ScrollViewer>
-
-                                        <!--  注入  -->
-                                        <Grid Style="{ThemeResource GridCardStyle}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid
-                                                Grid.Row="0"
-                                                Padding="16,8"
-                                                Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness="0,0,0,1"
-                                                RowSpacing="16">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionHeader}"/>
-                                                    <TextBlock
-                                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionDescription}"/>
-                                                </StackPanel>
-
-                                                <ToggleSwitch
-                                                    Grid.Column="1"
-                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                    IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
-                                                    IsOn="{Binding LaunchOptions.IsIslandEnabled.Value, Mode=TwoWay}"
-                                                    Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
-                                            </Grid>
-                                            <Border
-                                                Grid.Row="1"
-                                                Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness="0,0,0,1">
-                                                <TextBlock
-                                                    Margin="6"
-                                                    HorizontalAlignment="Center"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
-                                            </Border>
-                                            <ContentControl
-                                                Grid.Row="2"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch"
-                                                IsEnabled="{Binding LaunchOptions.IsIslandEnabled.Value}">
-                                                <Border
-                                                    Padding="16"
-                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                    BorderThickness="0,0,0,1">
-                                                    <Grid ColumnSpacing="16" RowSpacing="16">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition/>
-                                                            <ColumnDefinition/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="auto"/>
-                                                            <RowDefinition Height="auto"/>
-                                                            <RowDefinition Height="auto"/>
-                                                            <RowDefinition Height="auto"/>
-                                                        </Grid.RowDefinitions>
-                                                        <ToggleSwitch
-                                                            Grid.Row="0"
-                                                            Grid.Column="0"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHotSwitchHeader}"
-                                                            IsOn="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                        <NumberBox
-                                                            Grid.Row="0"
-                                                            Grid.Column="1"
-                                                            Padding="10,8,6,6"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value}"
-                                                            LargeChange="10"
-                                                            Maximum="100"
-                                                            Minimum="0"
-                                                            SmallChange="1"
-                                                            SpinButtonPlacementMode="Inline"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
-                                                            Value="{Binding LaunchOptions.TargetFov.Value, Mode=TwoWay}"/>
-                                                        <ToggleSwitch
-                                                            Grid.Row="0"
-                                                            Grid.Column="2"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
-                                                            IsOn="{Binding LaunchOptions.DisableFog.Value, Mode=TwoWay}"
-                                                            OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
-                                                            OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"/>
-
-                                                        <ToggleSwitch
-                                                            Grid.Row="1"
-                                                            Grid.Column="0"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
-                                                            IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                        <NumberBox
-                                                            Grid.Row="1"
-                                                            Grid.Column="1"
-                                                            Padding="10,8,6,6"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value}"
-                                                            Maximum="720"
-                                                            Minimum="-1"
-                                                            SpinButtonPlacementMode="Inline"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
-                                                            Value="{Binding LaunchOptions.TargetFps.Value, Mode=TwoWay}"/>
-                                                        <ToggleSwitch
-                                                            Grid.Row="1"
-                                                            Grid.Column="2"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
-                                                            IsOn="{Binding LaunchOptions.FixLowFovScene.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneDescription}"/>
-
-                                                        <ToggleSwitch
-                                                            x:Name="HideQuestBannerToggleSwitch"
-                                                            Grid.Row="2"
-                                                            Grid.Column="0"
-                                                            IsOn="{Binding LaunchOptions.HideQuestBanner.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}">
-                                                            <mxi:Interaction.Behaviors>
-                                                                <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
-                                                            </mxi:Interaction.Behaviors>
-                                                            <ToggleSwitch.Header>
-                                                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                                                    <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"/>
-                                                                    <Button Padding="1,1,0.5,0.5" VerticalAlignment="Center">
-                                                                        <mxi:Interaction.Behaviors>
-                                                                            <mxi:EventTriggerBehavior EventName="Click">
-                                                                                <mxi:EventTriggerBehavior.Actions>
-                                                                                    <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind HideQuestBannerTeachingTip}"/>
-                                                                                </mxi:EventTriggerBehavior.Actions>
-                                                                            </mxi:EventTriggerBehavior>
-                                                                        </mxi:Interaction.Behaviors>
-                                                                        <FontIcon
-                                                                            FontSize="12"
-                                                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                                            Glyph="&#xE946;"/>
-                                                                    </Button>
-                                                                </StackPanel>
-                                                            </ToggleSwitch.Header>
-                                                        </ToggleSwitch>
-
-                                                        <TeachingTip
-                                                            x:Name="HideQuestBannerTeachingTip"
-                                                            Title="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
-                                                            Grid.Row="2"
-                                                            Grid.Column="0"
-                                                            IsLightDismissEnabled="True"
-                                                            Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchDescription}"
-                                                            Target="{x:Bind HideQuestBannerToggleSwitch}">
-                                                            <TeachingTip.HeroContent>
-                                                                <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandHideQuestBanner.png"/>
-                                                            </TeachingTip.HeroContent>
-                                                        </TeachingTip>
-                                                        <ToggleSwitch
-                                                            Grid.Row="2"
-                                                            Grid.Column="1"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
-                                                            IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
-                                                        <ToggleSwitch
-                                                            Grid.Row="2"
-                                                            Grid.Column="2"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}"
-                                                            IsOn="{Binding LaunchOptions.DisableEventCameraMove.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-
-                                                        <ToggleSwitch
-                                                            Grid.Row="3"
-                                                            Grid.Column="0"
-                                                            Header="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}"
-                                                            IsOn="{Binding LaunchOptions.DisableShowDamageText.Value, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                        <ToggleSwitch
-                                                            x:Name="RedirectCombineEntryToggleSwitch"
-                                                            Grid.Row="3"
-                                                            Grid.Column="1"
-                                                            IsOn="{Binding LaunchOptions.RedirectCombineEntry.Value, Mode=TwoWay}"
-                                                            Style="{ThemeResource DefaultToggleSwitchStyle}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}">
-                                                            <mxi:Interaction.Behaviors>
-                                                                <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
-                                                            </mxi:Interaction.Behaviors>
-                                                            <ToggleSwitch.Header>
-                                                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                                                    <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"/>
-                                                                    <Button
-                                                                        Padding="1,1,0.5,0.5"
-                                                                        HorizontalAlignment="Right"
-                                                                        VerticalAlignment="Center">
-                                                                        <mxi:Interaction.Behaviors>
-                                                                            <mxi:EventTriggerBehavior EventName="Click">
-                                                                                <mxi:EventTriggerBehavior.Actions>
-                                                                                    <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind RedirectCombineEntryTeachingTip}"/>
-                                                                                </mxi:EventTriggerBehavior.Actions>
-                                                                            </mxi:EventTriggerBehavior>
-                                                                        </mxi:Interaction.Behaviors>
-                                                                        <FontIcon
-                                                                            FontSize="12"
-                                                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                                            Glyph="&#xE946;"/>
-                                                                    </Button>
-                                                                </StackPanel>
-                                                            </ToggleSwitch.Header>
-                                                        </ToggleSwitch>
-
-                                                        <TeachingTip
-                                                            x:Name="RedirectCombineEntryTeachingTip"
-                                                            Title="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
-                                                            Grid.Row="3"
-                                                            Grid.Column="1"
-                                                            IsLightDismissEnabled="True"
-                                                            Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"
-                                                            Target="{x:Bind RedirectCombineEntryToggleSwitch}">
-                                                            <TeachingTip.HeroContent>
-                                                                <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandRedirectCombineEntry.gif"/>
-                                                            </TeachingTip.HeroContent>
-                                                        </TeachingTip>
-                                                        <ToggleSwitch
-                                                            Grid.Row="3"
-                                                            Grid.Column="2"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandUsingTouchScreenHeader}"
-                                                            IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
-                                                            IsOn="{Binding LaunchOptions.UsingTouchScreen.Value, Mode=TwoWay}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </ContentControl>
-                                        </Grid>
                                     </StackPanel>
                                 </Grid>
                                 <Border
@@ -646,15 +404,15 @@
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
                                         IsClickEnabled="True"
                                         IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolNegationConverter}}"/>
-                                    <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding GameAccountsView.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                    <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding TargetSchemeFilteredGameAccountsView.View.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{shuxm:IsProcessNotElevated}"
                                             CanReorderItems="{shuxm:IsProcessNotElevated}"
                                             IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount.Value, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
-                                            ItemsSource="{Binding GameAccountsView}"
-                                            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}">
+                                            ItemsSource="{Binding TargetSchemeFilteredGameAccountsView.View}"
+                                            SelectedItem="{Binding TargetSchemeFilteredGameAccountsView.View.CurrentItem, Mode=TwoWay}">
                                             <ListView.Header>
                                                 <InfoBar
                                                     Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"
@@ -706,7 +464,7 @@
                                                                 DisplayMemberPath="Name"
                                                                 IsEnabled="{Binding LaunchOptions.IsPlatformTypeEnabled.Value}"
                                                                 ItemsSource="{Binding LaunchOptions.PlatformTypes}"
-                                                                SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"/>
+                                                                SelectedItem="{Binding SelectedPlatformType.Value, Mode=TwoWay}"/>
                                                         </shuxc:SizeRestrictedContentControl>
                                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsPlatformTypeEnabled.Value, Mode=TwoWay}"/>
                                                     </StackPanel>
@@ -779,12 +537,6 @@
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingBetterGenshinImpactAutomation.Value, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
-                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameDiscordActivityHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE8CF;}">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.SetDiscordActivityWhenPlaying.Value, Mode=TwoWay}"/>
-                                    </cwc:SettingsCard>
-                                    <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGamePlayTimeHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xEC92;}">
@@ -795,6 +547,352 @@
                         </Border>
                     </StackPanel>
                 </ScrollViewer>
+            </PivotItem>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandOptionsHeader}" IsEnabled="{shuxm:IsProcessElevated}">
+                <StackPanel Margin="16" Spacing="16">
+                    <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid
+                                Grid.Row="0"
+                                Padding="16,8"
+                                Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                RowSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionHeader}"/>
+                                    <TextBlock
+                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameInjectionDescription}"/>
+                                </StackPanel>
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                    IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
+                                    IsOn="{Binding LaunchOptions.IsIslandEnabled.Value, Mode=TwoWay}"
+                                    Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
+                            </Grid>
+                            <Border
+                                Grid.Row="1"
+                                Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    Margin="6"
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
+                            </Border>
+                            <Border
+                                Grid.Row="2"
+                                Background="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                Visibility="{Binding IsIslandConnected.Value}">
+                                <TextBlock
+                                    Margin="6"
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandConnected}"/>
+                            </Border>
+                            <ScrollViewer Grid.Row="3">
+                                <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    IsEnabled="{Binding LaunchOptions.IsIslandEnabled.Value}">
+                                    <Border
+                                        Padding="16"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,0,1">
+                                        <Grid ColumnSpacing="16" RowSpacing="16">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ToggleSwitch
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHotSwitchHeader}"
+                                                IsOn="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value, Mode=TwoWay}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                            <NumberBox
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Padding="10,8,6,6"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
+                                                IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled.Value}"
+                                                LargeChange="10"
+                                                Maximum="100"
+                                                Minimum="0"
+                                                SmallChange="1"
+                                                SpinButtonPlacementMode="Inline"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
+                                                Value="{Binding LaunchOptions.TargetFov.Value, Mode=TwoWay}"/>
+                                            <ToggleSwitch
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
+                                                IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
+                                                IsOn="{Binding LaunchOptions.DisableFog.Value, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"/>
+
+                                            <ToggleSwitch
+                                                x:Name="TargetFpsToggleSwitch"
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value, Mode=TwoWay}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                                <ToggleSwitch.Header>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"/>
+                                                        <Button Padding="1,1,0.5,0.5" VerticalAlignment="Center">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind TargetFpsTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="12"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </ToggleSwitch.Header>
+                                            </ToggleSwitch>
+                                            <TeachingTip
+                                                x:Name="TargetFpsTeachingTip"
+                                                Title="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsTeachingTipTitle}"
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                IsLightDismissEnabled="True"
+                                                Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsTeachingTipSubtitle}"
+                                                Target="{x:Bind TargetFpsToggleSwitch}"/>
+
+                                            <NumberBox
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Padding="10,8,6,6"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}"
+                                                IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled.Value}"
+                                                Maximum="720"
+                                                Minimum="-1"
+                                                SpinButtonPlacementMode="Inline"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
+                                                Value="{Binding LaunchOptions.TargetFps.Value, Mode=TwoWay}"/>
+                                            <ToggleSwitch
+                                                x:Name="FixLowFovSceneToggleSwitch"
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
+                                                IsOn="{Binding LaunchOptions.FixLowFovScene.Value, Mode=TwoWay}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneDescription}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                                <ToggleSwitch.Header>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}"/>
+                                                        <Button Padding="1,1,0.5,0.5" VerticalAlignment="Center">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind FixLowFovTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="12"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </ToggleSwitch.Header>
+                                            </ToggleSwitch>
+                                            <TeachingTip
+                                                x:Name="FixLowFovTeachingTip"
+                                                Title="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneTeachingTipTitle}"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                IsLightDismissEnabled="True"
+                                                Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle}"
+                                                Target="{x:Bind FixLowFovSceneToggleSwitch}"/>
+
+                                            <ToggleSwitch
+                                                x:Name="HideQuestBannerToggleSwitch"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                IsOn="{Binding LaunchOptions.HideQuestBanner.Value, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                                <ToggleSwitch.Header>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"/>
+                                                        <Button Padding="1,1,0.5,0.5" VerticalAlignment="Center">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind HideQuestBannerTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="12"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </ToggleSwitch.Header>
+                                            </ToggleSwitch>
+                                            <TeachingTip
+                                                x:Name="HideQuestBannerTeachingTip"
+                                                Title="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                IsLightDismissEnabled="True"
+                                                Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchDescription}"
+                                                Target="{x:Bind HideQuestBannerToggleSwitch}">
+                                                <TeachingTip.HeroContent>
+                                                    <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandHideQuestBanner.png"/>
+                                                </TeachingTip.HeroContent>
+                                            </TeachingTip>
+                                            <ToggleSwitch
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
+                                                IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress.Value, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
+                                            <ToggleSwitch
+                                                Grid.Row="2"
+                                                Grid.Column="2"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}"
+                                                IsOn="{Binding LaunchOptions.DisableEventCameraMove.Value, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+
+                                            <ToggleSwitch
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Header="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}"
+                                                IsOn="{Binding LaunchOptions.DisableShowDamageText.Value, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                            <ToggleSwitch
+                                                x:Name="RedirectCombineEntryToggleSwitch"
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                IsOn="{Binding LaunchOptions.RedirectCombineEntry.Value, Mode=TwoWay}"
+                                                Style="{ThemeResource DefaultToggleSwitchStyle}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}">
+                                                <mxi:Interaction.Behaviors>
+                                                    <shuxb:ToggleSwitchHeaderHitTestVisibleBehavior/>
+                                                </mxi:Interaction.Behaviors>
+                                                <ToggleSwitch.Header>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"/>
+                                                        <Button
+                                                            Padding="1,1,0.5,0.5"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <mxi:EventTriggerBehavior EventName="Click">
+                                                                    <mxi:EventTriggerBehavior.Actions>
+                                                                        <shuxba:ShowTeachingTipAction TeachingTip="{x:Bind RedirectCombineEntryTeachingTip}"/>
+                                                                    </mxi:EventTriggerBehavior.Actions>
+                                                                </mxi:EventTriggerBehavior>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <FontIcon
+                                                                FontSize="12"
+                                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                                Glyph="&#xE946;"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </ToggleSwitch.Header>
+                                            </ToggleSwitch>
+                                            <TeachingTip
+                                                x:Name="RedirectCombineEntryTeachingTip"
+                                                Title="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                IsLightDismissEnabled="True"
+                                                Subtitle="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"
+                                                Target="{x:Bind RedirectCombineEntryToggleSwitch}">
+                                                <TeachingTip.HeroContent>
+                                                    <Image Source="ms-appx:///Resource/TeachingTip/LaunchGameIslandRedirectCombineEntry.gif"/>
+                                                </TeachingTip.HeroContent>
+                                            </TeachingTip>
+                                            <ToggleSwitch
+                                                Grid.Row="3"
+                                                Grid.Column="2"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandUsingTouchScreenHeader}"
+                                                IsEnabled="{Binding LaunchOptions.IsGameRunning.Value, Converter={StaticResource BoolNegationConverter}}"
+                                                IsOn="{Binding LaunchOptions.UsingTouchScreen.Value, Mode=TwoWay}"/>
+
+                                            <ToggleSwitch
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader}"
+                                                IsOn="{Binding LaunchOptions.ResinListItemId000106Allowed.Value, Mode=TwoWay}"/>
+                                            <ToggleSwitch
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader}"
+                                                IsOn="{Binding LaunchOptions.ResinListItemId000201Allowed.Value, Mode=TwoWay}"/>
+                                            <ToggleSwitch
+                                                Grid.Row="4"
+                                                Grid.Column="2"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader}"
+                                                IsOn="{Binding LaunchOptions.ResinListItemId107009Allowed.Value, Mode=TwoWay}"/>
+
+                                            <ToggleSwitch
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader}"
+                                                IsOn="{Binding LaunchOptions.ResinListItemId220007Allowed.Value, Mode=TwoWay}"/>
+                                        </Grid>
+                                    </Border>
+                                </ContentControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </StackPanel>
             </PivotItem>
         </Pivot>
     </shuxc:StandardView>

@@ -10,6 +10,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Overlay;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class OverlayViewModel : Abstraction.ViewModel
 {

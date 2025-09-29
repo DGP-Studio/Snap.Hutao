@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shhuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -170,13 +171,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="CultivateEntryTemplate" x:DataType="shvcu:CultivateEntryView">
-                <ItemContainer Margin="0,0,0,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                    <ItemContainer.Resources>
-                        <!--  ReSharper disable Xaml.RedundantResource  -->
-                        <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
-                        <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
-                        <!--  ReSharper restore Xaml.RedundantResource  -->
-                    </ItemContainer.Resources>
+                <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -228,33 +223,62 @@
                                 ItemsSource="{Binding Items}"/>
                         </ScrollViewer>
                     </Grid>
-                </ItemContainer>
+                </Border>
             </DataTemplate>
 
             <DataTemplate x:Key="StatisticsItemTemplate" x:DataType="shvcu:StatisticsCultivateItem">
-                <ItemContainer Margin="0,0,0,16">
-                    <ItemContainer.Resources>
-                        <!--  ReSharper disable Xaml.RedundantResource  -->
-                        <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
-                        <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
-                        <!--  ReSharper restore Xaml.RedundantResource  -->
-                    </ItemContainer.Resources>
-                    <shuxcc:HorizontalCard Background="{Binding IsToday, Converter={ThemeResource BoolToStatisticsBrushSelector}}">
+                <shuxcc:HorizontalCard Background="{Binding IsToday, Converter={ThemeResource BoolToStatisticsBrushSelector}}">
+                    <shuxcc:HorizontalCard.Left>
+                        <Grid Grid.Column="0">
+                            <shuxc:ItemIcon
+                                Width="40"
+                                Height="40"
+                                Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}"
+                                Quality="{Binding Inner.RankLevel}"/>
+                            <FontIcon
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="24"
+                                Glyph="&#xE73E;"
+                                Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </shuxcc:HorizontalCard.Left>
+                    <shuxcc:HorizontalCard.Right>
+                        <Grid Margin="16,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding Inner.Name}"
+                                TextTrimming="CharacterEllipsis"/>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="0,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding FormattedCount}"/>
+                        </Grid>
+                    </shuxcc:HorizontalCard.Right>
+                </shuxcc:HorizontalCard>
+            </DataTemplate>
+
+            <DataTemplate x:Key="InventoryItemTemplate" x:DataType="shvcu:InventoryItemView">
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    BorderThickness="0">
+                    <shuxcc:HorizontalCard Width="300">
                         <shuxcc:HorizontalCard.Left>
-                            <Grid Grid.Column="0">
-                                <shuxc:ItemIcon
-                                    Width="40"
-                                    Height="40"
-                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                                    Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}"
-                                    Quality="{Binding Inner.RankLevel}"/>
-                                <FontIcon
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="24"
-                                    Glyph="&#xE73E;"
-                                    Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            </Grid>
+                            <shuxc:ItemIcon
+                                Width="40"
+                                Height="40"
+                                Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                Quality="{Binding Inner.RankLevel}"/>
                         </shuxcc:HorizontalCard.Left>
                         <shuxcc:HorizontalCard.Right>
                             <Grid Margin="16,0">
@@ -268,31 +292,10 @@
                                     VerticalAlignment="Center"
                                     Text="{Binding Inner.Name}"
                                     TextTrimming="CharacterEllipsis"/>
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="0,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding FormattedCount}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Count, Mode=OneWay}"/>
                             </Grid>
                         </shuxcc:HorizontalCard.Right>
                     </shuxcc:HorizontalCard>
-                </ItemContainer>
-            </DataTemplate>
-
-            <DataTemplate x:Key="InventoryItemTemplate" x:DataType="shvcu:InventoryItemView">
-                <Button
-                    Padding="0"
-                    Background="Transparent"
-                    BorderBrush="{x:Null}"
-                    BorderThickness="0">
-                    <shuxcc:VerticalCard Width="82">
-                        <shuxcc:VerticalCard.Top>
-                            <shuxc:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
-                        </shuxcc:VerticalCard.Top>
-                        <shuxcc:VerticalCard.Bottom>
-                            <TextBlock Text="{Binding Count, Mode=OneWay}"/>
-                        </shuxcc:VerticalCard.Bottom>
-                    </shuxcc:VerticalCard>
                     <Button.Flyout>
                         <Flyout>
                             <Grid>
@@ -562,19 +565,17 @@
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}" Tag="Entry">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                                        <ItemsRepeater
-                                            x:Name="CultivateEntryItemsRepeater"
-                                            Margin="16,16,16,0"
-                                            ItemTemplate="{StaticResource CultivateEntryTemplate}"
-                                            ItemsSource="{Binding CultivateEntries}">
-                                            <ItemsRepeater.Layout>
-                                                <shuxcl:UniformStaggeredLayout
-                                                    MinColumnSpacing="12"
-                                                    MinItemWidth="300"
-                                                    MinRowSpacing="-4"/>
-                                            </ItemsRepeater.Layout>
-                                        </ItemsRepeater>
+                                    <ScrollViewer Padding="16" HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsControl ItemTemplate="{StaticResource CultivateEntryTemplate}" ItemsSource="{Binding CultivateEntries}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <shhuxcp:UniformStaggeredPanel
+                                                        ColumnSpacing="12"
+                                                        MinItemWidth="320"
+                                                        RowSpacing="12"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
                                     </ScrollViewer>
                                 </Border>
                             </Border>
@@ -582,20 +583,17 @@
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}" Tag="Statistics">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <ScrollViewer Padding="16,0" HorizontalScrollBarVisibility="Disabled">
-                                        <ItemsRepeater
-                                            Margin="0,16,0,0"
-                                            ItemTemplate="{StaticResource StatisticsItemTemplate}"
-                                            ItemsSource="{Binding StatisticsItems}">
-                                            <ItemsRepeater.Layout>
-                                                <UniformGridLayout
-                                                    ItemsJustification="Start"
-                                                    ItemsStretch="Fill"
-                                                    MinColumnSpacing="12"
-                                                    MinItemWidth="240"
-                                                    MinRowSpacing="-4"/>
-                                            </ItemsRepeater.Layout>
-                                        </ItemsRepeater>
+                                    <ScrollViewer Padding="16" HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsControl ItemTemplate="{StaticResource StatisticsItemTemplate}" ItemsSource="{Binding StatisticsItems}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <shhuxcp:UniformPanel
+                                                        ColumnSpacing="12"
+                                                        MinItemWidth="240"
+                                                        RowSpacing="12"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
                                     </ScrollViewer>
                                 </Border>
                             </Border>
@@ -607,11 +605,18 @@
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <GridView
-                            Padding="16,16,4,4"
-                            ItemContainerStyle="{ThemeResource LargeGridViewItemStyle}"
+                            Padding="16,16,10,10"
                             ItemTemplate="{StaticResource InventoryItemTemplate}"
                             ItemsSource="{Binding InventoryItems}"
-                            SelectionMode="None"/>
+                            SelectionMode="None">
+                            <GridView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="0,0,6,6"/>
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                        </GridView>
+
                     </Border>
                 </Border>
             </PivotItem>

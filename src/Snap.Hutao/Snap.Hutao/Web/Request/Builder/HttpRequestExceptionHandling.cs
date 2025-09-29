@@ -115,6 +115,8 @@ internal static class HttpRequestExceptionHandling
                                 return NetworkError.ERR_CONNECTION_ACCESS_DENIED;
                             case SocketError.AddressAlreadyInUse:
                                 return NetworkError.ERR_CONNECTION_ADDRESS_ALREADY_IN_USE;
+                            case SocketError.AddressNotAvailable:
+                                return NetworkError.ERR_CONNECTION_ADDRESS_NOT_AVAILABLE;
                             case SocketError.ConnectionAborted:
                                 return NetworkError.ERR_CONNECTION_ABORTED;
                             case SocketError.ConnectionRefused:
@@ -287,7 +289,7 @@ internal static class HttpRequestExceptionHandling
     private static bool TryHandleGenericApiRequest(StringBuilder messageBuilder, HttpRequestMessageBuilder builder, Exception ex, Uri? uri)
     {
         IInfrastructureEndpoints endpoints = builder.ServiceProvider.GetRequiredService<IHutaoEndpointsFactory>().Create();
-        if (uri is not null && string.Equals(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped), endpoints.Root))
+        if (uri is not null && string.Equals(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped), endpoints.Root, StringComparison.OrdinalIgnoreCase))
         {
             if (ex is HttpRequestException { StatusCode: (HttpStatusCode)418 or HttpStatusCode.UnavailableForLegalReasons })
             {

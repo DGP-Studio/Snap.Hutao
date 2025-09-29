@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -130,6 +129,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
             .Create(userAndUid.IsOversea);
 
+        // request the index first
+        await gameRecordClient.GetPlayerInfoAsync(userAndUid, token).ConfigureAwait(false);
         return await gameRecordClient.GetDailyNoteAsync(userAndUid, token).ConfigureAwait(false);
     }
 

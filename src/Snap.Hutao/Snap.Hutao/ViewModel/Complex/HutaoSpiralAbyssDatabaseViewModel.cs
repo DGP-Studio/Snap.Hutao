@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -10,6 +11,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Complex;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.ViewModel
 {
@@ -17,21 +19,29 @@ internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.Vi
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    public ImmutableArray<AvatarRankView> AvatarUsageRanks { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<AvatarRankView> AvatarUsageRanks { get; set; }
 
-    public AvatarRankView? SelectedAvatarUsageRank { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AvatarRankView? SelectedAvatarUsageRank { get; set; }
 
-    public ImmutableArray<AvatarRankView> AvatarAppearanceRanks { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<AvatarRankView> AvatarAppearanceRanks { get; set; }
 
-    public AvatarRankView? SelectedAvatarAppearanceRank { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AvatarRankView? SelectedAvatarAppearanceRank { get; set; }
 
-    public ImmutableArray<AvatarConstellationInfoView> AvatarConstellationInfos { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<AvatarConstellationInfoView> AvatarConstellationInfos { get; set; }
 
-    public ImmutableArray<TeamAppearanceView> TeamAppearances { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ImmutableArray<TeamAppearanceView> TeamAppearances { get; set; }
 
-    public TeamAppearanceView? SelectedTeamAppearance { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial TeamAppearanceView? SelectedTeamAppearance { get; set; }
 
-    public Overview? Overview { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial Overview? Overview { get; set; }
 
     protected override async Task LoadAsync()
     {

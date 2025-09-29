@@ -19,6 +19,7 @@ internal sealed class AvatarInfo
     [MaybeNull]
     public DetailedCharacter Info2 { get; set; } = default!;
 
+    [Obsolete]
     public DateTimeOffset RefreshTime { get; set; }
 
     public static AvatarInfo From(string uid, DetailedCharacter info)

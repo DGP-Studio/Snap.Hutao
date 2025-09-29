@@ -33,10 +33,7 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
             return;
         }
 
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.IsOpen = false;
-        }
+        AssociatedObject?.IsOpen = false;
     }
 
     private void OnInfoBarClosed(InfoBar infoBar, InfoBarClosedEventArgs args)

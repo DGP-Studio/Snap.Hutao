@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
@@ -26,23 +27,22 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 [SuppressMessage("", "CA1001")]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
-    private readonly WeakReference<ItemsRepeater> weakItemsRepeater = new(default!);
+    private readonly ExclusiveTokenProvider exclusiveTokenProvider = new();
 
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly LaunchGameViewModel launchGameViewModel;
     private readonly ICultivationService cultivationService;
     private readonly INavigationService navigationService;
     private readonly IInventoryService inventoryService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IYaeService yaeService;
+    private readonly IMessenger messenger;
 
-    private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
 
     public IAdvancedDbCollectionView<CultivateProject>? Projects
@@ -56,24 +56,26 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    public ImmutableArray<InventoryItemView> InventoryItems { get; set => SetProperty(ref field, value); } = [];
+    [ObservableProperty]
+    public partial ImmutableArray<InventoryItemView> InventoryItems { get; set; } = [];
 
-    public IAdvancedCollectionView<CultivateEntryView>? CultivateEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<CultivateEntryView>? CultivateEntries { get; set; }
 
-    public bool EntriesUpdating { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool EntriesUpdating { get; set; }
 
-    public bool IncompleteFirst { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IncompleteFirst { get; set; }
 
-    public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set; }
 
-    public ResinStatistics? ResinStatistics { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ResinStatistics? ResinStatistics { get; set; }
 
-    public SearchData? SearchData { get; set => SetProperty(ref field, value); }
-
-    public void AttachXamlElement(ItemsRepeater itemsRepeater)
-    {
-        weakItemsRepeater.SetTarget(itemsRepeater);
-    }
+    [ObservableProperty]
+    public partial SearchData? SearchData { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
@@ -131,20 +133,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        switch (await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false))
+        InfoBarMessage message = await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false) switch
         {
-            case ProjectAddResultKind.Added:
-                infoBarService.Success(SH.ViewModelCultivationProjectAdded);
-                break;
-            case ProjectAddResultKind.InvalidName:
-                infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
-                break;
-            case ProjectAddResultKind.AlreadyExists:
-                infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
-                break;
-            default:
-                throw HutaoException.NotSupported();
-        }
+            ProjectAddResultKind.Added => InfoBarMessage.Success(SH.ViewModelCultivationProjectAdded),
+            ProjectAddResultKind.InvalidName => InfoBarMessage.Information(SH.ViewModelCultivationProjectInvalidName),
+            ProjectAddResultKind.AlreadyExists => InfoBarMessage.Information(SH.ViewModelCultivationProjectAlreadyExists),
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        messenger.Send(message);
     }
 
     [Command("RemoveProjectCommand")]
@@ -261,7 +258,13 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, launchGameViewModel);
+            EmbeddedYaeLaunchExecutionViewModel viewModel = serviceProvider.GetRequiredService<EmbeddedYaeLaunchExecutionViewModel>();
+            if (!await viewModel.InitializeAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
+            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, viewModel);
             await inventoryService.RefreshInventoryAsync(options).ConfigureAwait(false);
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);
@@ -351,9 +354,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        await statisticsCts.CancelAsync().ConfigureAwait(false);
-        statisticsCts = new();
-        CancellationToken token = statisticsCts.Token;
+        CancellationToken token = exclusiveTokenProvider.GetNewToken();
         StatisticsCultivateItemCollection statistics;
         ResinStatistics resinStatistics;
         try
@@ -415,17 +416,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        int previousFilteredCount = CultivateEntries.Count;
-
         CultivateEntries.Filter = CultivateEntryViewFilter.Compile(SearchData, metadataContext);
         CultivateEntries.Refresh();
-        if (previousFilteredCount is 0)
-        {
-            // We need to invalidate the layout due to VirtualizingLayout cache
-            if (weakItemsRepeater.TryGetTarget(out ItemsRepeater? itemsRepeater))
-            {
-                itemsRepeater.InvalidateMeasure();
-            }
-        }
     }
 }

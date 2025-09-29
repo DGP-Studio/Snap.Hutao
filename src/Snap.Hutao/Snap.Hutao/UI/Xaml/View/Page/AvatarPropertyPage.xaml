@@ -193,7 +193,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <shuxci:CachedImage
                         Grid.Column="0"
@@ -212,18 +211,6 @@
                             Opacity="0.7"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding Level}"
-                            TextWrapping="NoWrap"/>
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        Opacity="0.7"
-                        Visibility="{Binding ElementName=RefreshTimeToggle, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            FontSize="11"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding FormattedRefreshTime}"
                             TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Grid>
@@ -575,11 +562,6 @@
                                         SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
                                         Style="{ThemeResource DefaultComboBoxStyle}"/>
                                 </shuxc:SizeRestrictedContentControl>
-                                <ToggleButton
-                                    x:Name="RefreshTimeToggle"
-                                    Margin="8,8,0,0"
-                                    Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"
-                                    Visibility="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
                             </StackPanel>
                         </CommandBar.Content>
                         <AppBarElementContainer>
@@ -649,7 +631,7 @@
                             <SplitView
                                 DisplayMode="Inline"
                                 IsPaneOpen="True"
-                                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
+                                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
                                 PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <Grid>
@@ -664,12 +646,17 @@
                                             ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                             ItemsSource="{Binding Summary.Avatars}"
                                             SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
-                                        <TextBlock
+                                        <Border
                                             Grid.Row="1"
-                                            Margin="0,4"
-                                            HorizontalAlignment="Center"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{Binding FormattedTotalAvatarCount}"/>
+                                            Background="{ThemeResource ControlFillColorSecondaryBrush}"
+                                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                            BorderThickness="0,1,0,0">
+                                            <TextBlock
+                                                Margin="0,6"
+                                                HorizontalAlignment="Center"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Text="{Binding FormattedTotalAvatarCount}"/>
+                                        </Border>
                                     </Grid>
                                 </SplitView.Pane>
                                 <SplitView.Content>

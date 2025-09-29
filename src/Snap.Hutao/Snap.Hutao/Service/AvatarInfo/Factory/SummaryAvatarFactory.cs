@@ -15,7 +15,6 @@ using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
-using System.Globalization;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
@@ -25,7 +24,6 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 internal sealed class SummaryAvatarFactory
 {
     private readonly DetailedCharacter character;
-    private readonly DateTimeOffset refreshTime;
     private readonly SummaryFactoryMetadataContext context;
 
     public SummaryAvatarFactory(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
@@ -34,7 +32,6 @@ internal sealed class SummaryAvatarFactory
 
         this.context = context;
         character = avatarInfo.Info2;
-        refreshTime = avatarInfo.RefreshTime;
     }
 
     public static AvatarView Create(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
@@ -69,7 +66,6 @@ internal sealed class SummaryAvatarFactory
             .SetWeapon(CreateWeapon(character.Weapon))
             .SetRecommendedProperties(character.RecommendRelicProperty.RecommendProperties)
             .SetReliquaries(character.Relics.SelectAsArray(static (relic, context) => SummaryReliquaryFactory.Create(context, relic), context))
-            .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
             .SetPromoteLevel(character.Base.PromoteLevel)
             .View;

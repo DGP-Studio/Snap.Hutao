@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
@@ -24,18 +23,19 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
-    private readonly ISpiralAbyssService spiralAbyssService;
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly ISpiralAbyssService spiralAbyssService;
     private readonly INavigationService navigationService;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly IMessenger messenger;
 
     private SpiralAbyssMetadataContext? metadataContext;
 
@@ -78,7 +78,7 @@ internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRec
         }
         else
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
         }
 
         return true;
@@ -156,54 +156,50 @@ internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRec
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload spiral abyss record", "SpiralAbyssRecordViewModel.Command"));
 
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            if (!hutaoUserOptions.IsLoggedIn)
+            messenger.Send(InfoBarMessage.Warning(SH.MustSelectUserAndUid));
+            return;
+        }
+
+        if (!hutaoUserOptions.IsLoggedIn)
+        {
+            SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>(serviceProvider)
+                .ConfigureAwait(false);
+
+            ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
+
+            switch (result)
             {
-                SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
-                    .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>(serviceProvider)
-                    .ConfigureAwait(false);
+                case ContentDialogResult.Primary:
+                    await navigationService.NavigateAsync<HutaoPassportPage>(NavigationExtraData.Default, true).ConfigureAwait(false);
+                    return;
 
-                ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
+                case ContentDialogResult.Secondary:
+                    break;
 
-                switch (result)
-                {
-                    case ContentDialogResult.Primary:
-                        await navigationService.NavigateAsync<HutaoPassportPage>(NavigationExtraData.Default, true).ConfigureAwait(false);
-                        return;
-
-                    case ContentDialogResult.Secondary:
-                        break;
-
-                    case ContentDialogResult.None:
-                        return;
-                }
-            }
-
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
-                if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
-                {
-                    HutaoResponse response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-                    if (response is ILocalizableResponse localizableResponse)
-                    {
-                        infoBarService.PrepareInfoBarAndShow(builder =>
-                        {
-                            builder
-                                .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-                                .SetMessage(localizableResponse.GetLocalizationMessage());
-                        });
-                    }
-                }
-
-                // TODO: Handle no records
+                case ContentDialogResult.None:
+                    return;
             }
         }
-        else
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
+            HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
+            {
+                HutaoResponse response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+                if (response is ILocalizableResponse localizableResponse)
+                {
+                    messenger.Send(InfoBarMessage.Any(
+                        response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning,
+                        localizableResponse.GetLocalizationMessage()));
+                }
+            }
+
+            // TODO: Handle no records
         }
     }
 }

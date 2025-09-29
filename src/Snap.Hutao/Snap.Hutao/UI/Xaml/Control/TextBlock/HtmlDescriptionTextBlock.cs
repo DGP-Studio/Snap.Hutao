@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Windows.UI;
+using WinRT;
 using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
@@ -44,16 +45,16 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        MUXCTextBlock textBlock = (MUXCTextBlock)((HtmlDescriptionTextBlock)d).Content;
-        ReadOnlySpan<char> description = (string)e.NewValue;
+        MUXCTextBlock textBlock = d.As<HtmlDescriptionTextBlock>().Content.As<MUXCTextBlock>();
+        ReadOnlySpan<char> description = e.NewValue.As<string>();
 
         UpdateDescription(textBlock, description);
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        MUXCTextBlock textBlock = (MUXCTextBlock)((HtmlDescriptionTextBlock)d).Content;
-        textBlock.Style = (Style)e.NewValue;
+        MUXCTextBlock textBlock = d.As<HtmlDescriptionTextBlock>().Content.As<MUXCTextBlock>();
+        textBlock.Style = e.NewValue.As<Style>();
     }
 
     private static void UpdateDescription(MUXCTextBlock textBlock, in ReadOnlySpan<char> description)
@@ -173,6 +174,6 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((MUXCTextBlock)Content, Description);
+        UpdateDescription(Content.As<MUXCTextBlock>(), Description);
     }
 }

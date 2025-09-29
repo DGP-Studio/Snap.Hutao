@@ -21,4 +21,10 @@ internal static class Selection
     {
         return options.SingleOrDefault(option => option.Value.Equals(current));
     }
+
+    public static TAny? Initialize<TAny, T>(ImmutableArray<TAny> options, T current, Func<TAny, T> valueSelector, IEqualityComparer<T> comparer)
+        where T : notnull
+    {
+        return options.SingleOrDefault(option => comparer.Equals(valueSelector(option), current));
+    }
 }

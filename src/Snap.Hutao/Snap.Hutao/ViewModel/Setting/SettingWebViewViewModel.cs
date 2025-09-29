@@ -8,11 +8,13 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {
     public partial AppOptions AppOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<BridgeShareSaveType>? SelectedShareSaveType
     {
         get => field ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType.Value);

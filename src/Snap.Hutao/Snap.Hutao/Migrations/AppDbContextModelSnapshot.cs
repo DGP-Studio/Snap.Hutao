@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -231,16 +231,25 @@ namespace Snap.Hutao.Migrations
                     b.Property<string>("DailyNote")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("DailyTaskDotVisible")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("DailyTaskNotify")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("DailyTaskNotifySuppressed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("ExpeditionDotVisible")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("ExpeditionNotify")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("ExpeditionNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HomeCoinDotVisible")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("HomeCoinNotifySuppressed")
@@ -252,10 +261,16 @@ namespace Snap.Hutao.Migrations
                     b.Property<DateTimeOffset>("RefreshTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ResinDotVisible")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("ResinNotifySuppressed")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ResinNotifyThreshold")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("TransformerDotVisible")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("TransformerNotify")

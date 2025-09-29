@@ -12,6 +12,12 @@ internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
 
+    public LaunchGameAccountNameDialog(IServiceProvider serviceProvider, string originalName)
+        : this(serviceProvider)
+    {
+        Text = originalName;
+    }
+
     public async ValueTask<ValueResult<bool, string?>> GetInputNameAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);

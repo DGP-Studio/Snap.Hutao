@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 {
@@ -18,6 +19,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 
     public partial RuntimeOptions RuntimeOptions { get; }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<Region>? SelectedRegion
     {
         get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region.Value);
@@ -30,6 +32,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
         }
     }
 
+    // TODO: Replace with IObservableProperty
     public NameValue<TimeSpan>? SelectedCalendarServerTimeZoneOffset
     {
         get => field ??= Selection.Initialize(AppOptions.LazyCalendarServerTimeZoneOffsets, AppOptions.CalendarServerTimeZoneOffset.Value);

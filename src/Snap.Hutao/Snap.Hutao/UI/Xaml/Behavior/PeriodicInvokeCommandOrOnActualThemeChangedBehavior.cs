@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Input;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
@@ -82,6 +83,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     }
                 }
 
+                RuntimeHelpers.EnsureSufficientExecutionStack();
                 await taskContext.InvokeOnMainThreadAsync(TryExecuteCommand).ConfigureAwait(false);
 
                 actualThemeChangedCts.Dispose();

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
@@ -11,8 +12,9 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[Service(ServiceLifetime.Scoped)]
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
+[Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 {
     private readonly IMetadataService metadataService;
@@ -39,7 +41,8 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial BaseValueInfo? BaseValueInfo { get; set; }
 
     protected override async ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {

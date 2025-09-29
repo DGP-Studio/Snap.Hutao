@@ -99,7 +99,7 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
     /// <param name="callback">callback</param>
     public static void Register(Func<bool> callback)
     {
-        // Create a unreachable object that remembers the callback function and target object.
+        // Create an unreachable object that remembers the callback function and target object.
         _ = new Gen2GcCallback(callback);
     }
 
