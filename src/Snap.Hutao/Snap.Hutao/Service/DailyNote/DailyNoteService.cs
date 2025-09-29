@@ -129,6 +129,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
             .Create(userAndUid.IsOversea);
 
+        // request the index first
+        await gameRecordClient.GetPlayerInfoAsync(userAndUid, token).ConfigureAwait(false);
         return await gameRecordClient.GetDailyNoteAsync(userAndUid, token).ConfigureAwait(false);
     }
 
