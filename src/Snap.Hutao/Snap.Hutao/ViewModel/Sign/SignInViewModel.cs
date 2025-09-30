@@ -48,7 +48,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
     public void Receive(UserAndUidChangedMessage message)
     {
-        if (updating)
+        if (Volatile.Read(ref updating))
         {
             return;
         }
@@ -141,15 +141,18 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 }
             }
 
-            int index = info.TotalSignDay - 1;
-            Award award = reward.Awards[index];
-            if (postSign)
+            if (postSign || postResign)
             {
-                messenger.Send(InfoBarMessage.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count)));
-            }
-            else if (postResign)
-            {
-                messenger.Send(InfoBarMessage.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count)));
+                Award award = reward.Awards[Math.Clamp(info.TotalSignDay - 1, 0, reward.Awards.Length - 1)];
+
+                if (postSign)
+                {
+                    messenger.Send(InfoBarMessage.Success(SH.FormatServiceSignInSuccessReward(award.Name, award.Count)));
+                }
+                else if (postResign)
+                {
+                    messenger.Send(InfoBarMessage.Success(SH.FormatServiceReSignInSuccessReward(award.Name, award.Count)));
+                }
             }
 
             ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.Create);

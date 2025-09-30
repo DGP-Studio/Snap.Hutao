@@ -54,7 +54,7 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
         }
         catch (IOException ex)
         {
-            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
+            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_PATH_NOT_FOUND, WIN32_ERROR.ERROR_NO_SUCH_DEVICE]))
             {
                 return;
             }

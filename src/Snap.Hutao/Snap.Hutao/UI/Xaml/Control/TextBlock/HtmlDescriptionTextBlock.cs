@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.UI.Xaml.Control.Theme;
+using System.Runtime.CompilerServices;
 using Windows.UI;
 using WinRT;
 using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
@@ -46,7 +47,7 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         MUXCTextBlock textBlock = d.As<HtmlDescriptionTextBlock>().Content.As<MUXCTextBlock>();
-        ReadOnlySpan<char> description = e.NewValue.As<string>();
+        ReadOnlySpan<char> description = Unsafe.As<string>(e.NewValue);
 
         UpdateDescription(textBlock, description);
     }
@@ -54,7 +55,7 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         MUXCTextBlock textBlock = d.As<HtmlDescriptionTextBlock>().Content.As<MUXCTextBlock>();
-        textBlock.Style = e.NewValue.As<Style>();
+        textBlock.Style = Unsafe.As<Style>(e.NewValue);
     }
 
     private static void UpdateDescription(MUXCTextBlock textBlock, in ReadOnlySpan<char> description)

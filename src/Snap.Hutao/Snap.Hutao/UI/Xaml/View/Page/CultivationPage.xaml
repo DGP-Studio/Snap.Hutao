@@ -566,16 +566,17 @@
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                     <ScrollViewer Padding="16" HorizontalScrollBarVisibility="Disabled">
-                                        <ItemsControl ItemTemplate="{StaticResource CultivateEntryTemplate}" ItemsSource="{Binding CultivateEntries}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <shhuxcp:UniformStaggeredPanel
-                                                        ColumnSpacing="12"
-                                                        MinItemWidth="320"
-                                                        RowSpacing="12"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
+                                        <ItemsRepeater ItemTemplate="{StaticResource CultivateEntryTemplate}" ItemsSource="{Binding CultivateEntries}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:InvalidateMeasureOnCollectionResetBehavior ItemsSource="{Binding CultivateEntries}"/>
+                                            </mxi:Interaction.Behaviors>
+                                            <ItemsRepeater.Layout>
+                                                <shuxcl:UniformStaggeredLayout
+                                                    MinColumnSpacing="12"
+                                                    MinItemWidth="300"
+                                                    MinRowSpacing="12"/>
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
                                     </ScrollViewer>
                                 </Border>
                             </Border>

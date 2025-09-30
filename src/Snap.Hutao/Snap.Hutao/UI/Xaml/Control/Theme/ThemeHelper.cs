@@ -4,6 +4,7 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.ExceptionService;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
@@ -57,7 +58,7 @@ internal static class ThemeHelper
         {
             ElementTheme.Light => ApplicationTheme.Light,
             ElementTheme.Dark => ApplicationTheme.Dark,
-            _ => ((App)Application.Current).RequestedTheme,
+            _ => Application.Current.RequestedTheme,
         };
     }
 
@@ -78,7 +79,7 @@ internal static class ThemeHelper
 
     public static bool IsDarkMode(ElementTheme elementTheme)
     {
-        ApplicationTheme appTheme = ((App)Application.Current).RequestedTheme;
+        ApplicationTheme appTheme = Application.Current.RequestedTheme;
         return IsDarkMode(elementTheme, appTheme);
     }
 

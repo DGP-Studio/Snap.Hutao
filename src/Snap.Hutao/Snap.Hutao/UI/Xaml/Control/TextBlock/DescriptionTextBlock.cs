@@ -13,6 +13,7 @@ using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.ViewModel.Wiki;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
@@ -49,7 +50,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     {
         DescriptionTextBlock descriptionTextBlock = d.As<DescriptionTextBlock>();
         TextBlockType textBlock = descriptionTextBlock.Content.As<TextBlockType>();
-        descriptionTextBlock.UpdateDescription(textBlock, e.NewValue.As<string>());
+        descriptionTextBlock.UpdateDescription(textBlock, Unsafe.As<string>(e.NewValue));
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
