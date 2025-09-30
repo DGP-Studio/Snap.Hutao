@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
@@ -43,7 +44,7 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
 
     public object? Execute(object sender, object parameter)
     {
-        ShowAt(((FrameworkElement)sender).XamlRoot);
+        ShowAt(sender.As<FrameworkElement>().XamlRoot);
         return default;
     }
 

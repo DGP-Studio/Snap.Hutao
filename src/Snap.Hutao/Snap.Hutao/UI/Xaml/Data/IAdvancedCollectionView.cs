@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.UI.Xaml.Data;
 
@@ -29,28 +30,28 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
     object IList<object>.this[int index]
     {
         get => this[index];
-        set => this[index] = (T)value;
+        set => this[index] = Unsafe.As<T>(value);
     }
 
     new T this[int index] { get; set; }
 
     void ICollection<object>.Add(object item)
     {
-        Add((T)item);
+        Add(Unsafe.As<T>(item));
     }
 
     void Add(T item);
 
     bool ICollection<object>.Contains(object item)
     {
-        return Contains((T)item);
+        return Contains(Unsafe.As<T>(item));
     }
 
     bool Contains(T item);
 
     void ICollection<object>.CopyTo(object[] array, int arrayIndex)
     {
-        CopyTo((T[])array, arrayIndex);
+        CopyTo(Unsafe.As<T[]>(array), arrayIndex);
     }
 
     void CopyTo(T[] array, int arrayIndex);
@@ -80,14 +81,14 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
 
     void IList<object>.Insert(int index, object item)
     {
-        Insert(index, (T)item);
+        Insert(index, Unsafe.As<T>(item));
     }
 
     void Insert(int index, T item);
 
     bool ICollectionView.MoveCurrentTo(object item)
     {
-        return MoveCurrentTo((T)item);
+        return MoveCurrentTo(Unsafe.As<T>(item));
     }
 
     bool MoveCurrentTo(T? item);
@@ -100,7 +101,7 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
 
     bool ICollection<object>.Remove(object item)
     {
-        return Remove((T)item);
+        return Remove(Unsafe.As<T>(item));
     }
 
     bool Remove(T item);

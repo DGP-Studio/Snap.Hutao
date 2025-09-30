@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
@@ -32,7 +33,7 @@ internal sealed partial class SophonProgressBar : UserControl, INotifyPropertyCh
 
     private static void OnChunksChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        SophonProgressBar sender = (SophonProgressBar)d;
+        SophonProgressBar sender = d.As<SophonProgressBar>();
         sender.OnPropertyChanged(nameof(ProgressValue));
         sender.OnPropertyChanged(nameof(ProgressPercentFormatted));
         sender.OnPropertyChanged(nameof(ProgressFormatted));
