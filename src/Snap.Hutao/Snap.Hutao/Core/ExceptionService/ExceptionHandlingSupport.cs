@@ -65,7 +65,13 @@ internal sealed partial class ExceptionHandlingSupport
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
         exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
 
-        SentryId id = SentrySdk.CaptureException(e.Exception);
+        SentryId id = SentrySdk.CaptureException(e.Exception, scope =>
+        {
+            if (ExceptionAttachment.TryGetAttachment(e.Exception, out SentryAttachment? attachment))
+            {
+                scope.AddAttachment(attachment);
+            }
+        });
         SentrySdk.Flush();
 
         // Handled has to be set to true, the control flow is returned after post

@@ -17,6 +17,7 @@ using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -56,7 +57,7 @@ internal sealed partial class MetadataService : IMetadataService
 
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            isInitialized = await DownloadMetadataDescriptionFileAndCheckAsync(token).ConfigureAwait(false);
+            isInitialized = await DownloadMetadataDescriptionFileAndValidateAsync(token).ConfigureAwait(false);
             initializeCompletionSource.TrySetResult();
         }
     }
@@ -70,7 +71,7 @@ internal sealed partial class MetadataService : IMetadataService
         if (MemoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);
-            return (ImmutableArray<T>)value;
+            return Unsafe.Unbox<ImmutableArray<T>>(value);
         }
 
         return strategy.IsScattered
@@ -78,7 +79,42 @@ internal sealed partial class MetadataService : IMetadataService
             : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
     }
 
-    private async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
+    private static async ValueTask<bool> ValidateMetadataSourceFileAsync(MetadataDownloadContext context, string fileFullPath, string fileName, string metaHash, CancellationToken token)
+    {
+        if (!File.Exists(fileFullPath))
+        {
+            context.SetResult(fileName, false);
+            return false;
+        }
+
+        string fileHash;
+        try
+        {
+            fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+        }
+        catch (IOException ex)
+        {
+            if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL, WIN32_ERROR.ERROR_SHARING_VIOLATION]))
+            {
+                context.SetResult(fileName, false);
+                return false;
+            }
+
+            // Exception will be caught in the caller. And the result will be set to false.
+            throw;
+        }
+
+        if (!string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
+        {
+            context.SetResult(fileName, false);
+            return false;
+        }
+
+        context.SetResult(fileName, true);
+        return true;
+    }
+
+    private async ValueTask DownloadMetadataSourceFileAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
         using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
         {
@@ -171,7 +207,7 @@ internal sealed partial class MetadataService : IMetadataService
         return MemoryCache.Set(cacheKey, results.ToImmutable());
     }
 
-    private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
+    private async ValueTask<bool> DownloadMetadataDescriptionFileAndValidateAsync(CancellationToken token)
     {
 #if DEBUG
         if (Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.SuppressMetadataInitialization, false))
@@ -186,16 +222,16 @@ internal sealed partial class MetadataService : IMetadataService
             return false;
         }
 
-        MetadataCheckResult checkResult = await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
-        if (checkResult is not { NoError: true })
+        MetadataValidateResult validateResult = await ValidateOrDownloadMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
+        if (validateResult is not { NoError: true })
         {
-            string failedFiles = string.Join(",\r\n", checkResult.FailedFiles);
+            string failedFiles = string.Join(",\r\n", validateResult.FailedFiles);
             messenger.Send(InfoBarMessage.Error(SH.FormatServiceMetadataDownloadSourceFilesFailed(failedFiles)));
             return false;
         }
 
-        fileNames = checkResult.SucceedFiles.ToFrozenSet();
-        return checkResult.NoError;
+        fileNames = validateResult.SucceedFiles.ToFrozenSet();
+        return validateResult.NoError;
     }
 
     private async ValueTask<MetadataTemplate?> GetMetadataTemplateAsync()
@@ -236,7 +272,7 @@ internal sealed partial class MetadataService : IMetadataService
     }
 
     [SuppressMessage("", "SH003")]
-    private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
+    private async ValueTask<MetadataValidateResult> ValidateOrDownloadMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
         MetadataDownloadContext context = new(metadataOptions, template);
 
@@ -253,33 +289,13 @@ internal sealed partial class MetadataService : IMetadataService
                     Directory.CreateDirectory(directory);
                 }
 
-                if (File.Exists(fileFullPath))
+                if (await ValidateMetadataSourceFileAsync(context, fileFullPath, fileName, metaHash, token).ConfigureAwait(false))
                 {
-                    string fileHash;
-                    try
-                    {
-                        fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
-                    }
-                    catch (IOException ex)
-                    {
-                        if (HutaoNative.IsWin32(ex.HResult, [WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL, WIN32_ERROR.ERROR_SHARING_VIOLATION]))
-                        {
-                            context.SetResult(fileName, false);
-                            return;
-                        }
-
-                        throw;
-                    }
-
-                    if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
-                    {
-                        context.SetResult(fileName, true);
-                        return;
-                    }
+                    return;
                 }
 
-                await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
-                context.SetResult(fileName, true);
+                await DownloadMetadataSourceFileAsync(context, fileFullName, token).ConfigureAwait(true);
+                await ValidateMetadataSourceFileAsync(context, fileFullPath, fileName, metaHash, token).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -314,7 +330,7 @@ internal sealed partial class MetadataService : IMetadataService
             }
         }
 
-        public MetadataCheckResult ToResult()
+        public MetadataValidateResult ToResult()
         {
             lock (syncRoot)
             {
@@ -323,11 +339,11 @@ internal sealed partial class MetadataService : IMetadataService
         }
     }
 
-    private sealed class MetadataCheckResult
+    private sealed class MetadataValidateResult
     {
         private readonly ImmutableDictionary<string, bool> results;
 
-        public MetadataCheckResult(IEnumerable<KeyValuePair<string, bool>> results)
+        public MetadataValidateResult(IEnumerable<KeyValuePair<string, bool>> results)
         {
             this.results = results.ToImmutableDictionary();
         }
