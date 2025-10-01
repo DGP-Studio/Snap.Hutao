@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Control.Theme;
@@ -28,6 +29,8 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
 
     public partial AppOptions AppOptions { get; }
 
+    private IObservableProperty<BackgroundImageType>? BackgroundImageTypeCallback { get; set; }
+
     public override void Dispose()
     {
         using (CriticalSection.Enter())
@@ -46,21 +49,8 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
 
     protected override ValueTask<bool> LoadOverrideAsync(CancellationToken token)
     {
-        AppOptions.PropertyChanged += OnAppOptionsPropertyChanged;
+        BackgroundImageTypeCallback = AppOptions.BackgroundImageType.WithValueChangedCallback(static (type, vm) => vm.PrivateUpdateBackgroundAsync(false).SafeForget(), this);
         return ValueTask.FromResult(true);
-    }
-
-    protected override void UninitializeOverride()
-    {
-        AppOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
-    }
-
-    private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName is nameof(AppOptions.BackgroundImageType))
-        {
-            PrivateUpdateBackgroundAsync(false).SafeForget();
-        }
     }
 
     [Command("UpdateBackgroundCommand")]

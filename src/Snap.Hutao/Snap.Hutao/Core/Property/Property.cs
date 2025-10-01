@@ -46,7 +46,7 @@ internal static class Property
 
     public static IObservableProperty<TSource> Link<TSource, TTarget>(this IObservableProperty<TSource> source, IProperty<TTarget> target, [RequireStaticDelegate] Action<TSource, IProperty<TTarget>> callback)
     {
-        return new PropertyValueChangedCallbackWrapper<TSource, IProperty<TTarget>>(source, callback, target);
+        return new ObservablePropertyValueChangedCallbackWrapper<TSource, IProperty<TTarget>>(source, callback, target);
     }
 
     public static IObservableProperty<bool> AlsoSetFalseWhenFalse(this IObservableProperty<bool> source, IProperty<bool> target)
@@ -72,7 +72,7 @@ internal static class Property
 
     public static IObservableProperty<T> WithValueChangedCallback<T, TState>(this IObservableProperty<T> source, [RequireStaticDelegate] Action<T, TState> callback, TState state)
     {
-        return new PropertyValueChangedCallbackWrapper<T, TState>(source, callback, state);
+        return new ObservablePropertyValueChangedCallbackWrapper<T, TState>(source, callback, state);
     }
 
     public static IObservableProperty<NameValue<T>?> AsNameValue<T>(this IObservableProperty<T> source, ImmutableArray<NameValue<T>> array)

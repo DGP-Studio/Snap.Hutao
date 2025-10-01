@@ -39,13 +39,13 @@ internal sealed partial class ObservablePropertyValueChangedCallbackWrapper<T> :
     }
 }
 
-internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : IObservableProperty<T>
+internal sealed partial class ObservablePropertyValueChangedCallbackWrapper<T, TState> : IObservableProperty<T>
 {
     private readonly IObservableProperty<T> source;
     private readonly Action<T, TState> callback;
     private readonly TState state;
 
-    public PropertyValueChangedCallbackWrapper(IObservableProperty<T> source, Action<T, TState> callback, TState state)
+    public ObservablePropertyValueChangedCallbackWrapper(IObservableProperty<T> source, Action<T, TState> callback, TState state)
     {
         this.source = source;
         this.callback = callback;
@@ -71,7 +71,7 @@ internal sealed partial class PropertyValueChangedCallbackWrapper<T, TState> : I
         return source.GetDeferral();
     }
 
-    private static void OnWeakSourceValueChanged(PropertyValueChangedCallbackWrapper<T, TState> self, object? sender, PropertyChangedEventArgs e)
+    private static void OnWeakSourceValueChanged(ObservablePropertyValueChangedCallbackWrapper<T, TState> self, object? sender, PropertyChangedEventArgs e)
     {
         self.callback(self.source.Value, self.state);
     }

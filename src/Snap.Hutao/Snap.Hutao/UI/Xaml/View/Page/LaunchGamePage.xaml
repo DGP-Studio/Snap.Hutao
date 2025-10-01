@@ -41,6 +41,10 @@
                     Margin="0,16"
                     VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
+                    <TextBlock
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountExpired}"
+                        Visibility="{Binding IsExpired, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </StackPanel>
                 <StackPanel
                     x:Name="ButtonPanel"

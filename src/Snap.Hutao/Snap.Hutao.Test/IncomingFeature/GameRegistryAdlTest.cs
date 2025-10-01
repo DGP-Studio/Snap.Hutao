@@ -16,22 +16,23 @@ public class GameRegistryAdlTest
     // MiHoYo.SDK.DeviceInfoManager$$GetMacAddress
     private static string GetMacAddress()
     {
-        var address = "";
-        foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces())
+        string address = "";
+        foreach (NetworkInterface networkInterface in NetworkInterface.GetAllNetworkInterfaces())
         {
             address = networkInterface.GetPhysicalAddress().ToString();
-            if (networkInterface.Description == "en0" || address != "")
+            if (networkInterface.Description is "en0" || address != "")
             {
                 return address;
             }
         }
+
         return address;
     }
 
     // MiHoYo.SDK.DataStorageManager$$GetEncodeValue
     private static string GetEncodeValue()
     {
-        var mac = GetMacAddress();
+        string mac = GetMacAddress();
         return mac == "" || mac.Length < 8 ? "FFFFFFFFFFFF" : mac[..8];
     }
 

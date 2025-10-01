@@ -31,21 +31,30 @@ internal sealed partial class GameAccount : ObservableObject,
     /// </summary>
     public string MihoyoSDK { get; set; } = default!;
 
+    public string? Mid { get; set; }
+
+    public string? MacAddress { get; set; }
+
     public int Index { get; set; }
 
-    public static GameAccount Create(string name, string sdk, SchemeType type)
+    [NotMapped]
+    public bool IsExpired { get; set; }
+
+    public static GameAccount Create(SchemeType type, string name, string sdk, string? mid, string? mac)
     {
         return new()
         {
+            Type = type,
             Name = name,
             MihoyoSDK = sdk,
-            Type = type,
+            MacAddress = mac,
+            Mid = mid,
         };
     }
 
     public void UpdateName(string name)
     {
         Name = name;
-        OnPropertyChanged($"{nameof(Name)}");
+        OnPropertyChanged(nameof(Name));
     }
 }
