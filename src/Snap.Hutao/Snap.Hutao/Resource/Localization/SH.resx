@@ -4163,4 +4163,7 @@
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
     <value>检测到多个账号的登陆信息，请在游戏登陆界面删除多余的账号并进入游戏后重试</value>
   </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>使用须臾树脂领取奖励</value>
+  </data>
 </root>

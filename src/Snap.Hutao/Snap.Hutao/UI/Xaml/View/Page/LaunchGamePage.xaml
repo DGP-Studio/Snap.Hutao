@@ -890,6 +890,11 @@
                                         <ToggleSwitch
                                             Grid.Row="5"
                                             Grid.Column="0"
+                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader}"
+                                            IsOn="{Binding LaunchOptions.ResinListItemId107012Allowed.Value, Mode=TwoWay}"/>
+                                        <ToggleSwitch
+                                            Grid.Row="5"
+                                            Grid.Column="1"
                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader}"
                                             IsOn="{Binding LaunchOptions.ResinListItemId220007Allowed.Value, Mode=TwoWay}"/>
                                     </Grid>
