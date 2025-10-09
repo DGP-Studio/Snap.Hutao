@@ -4166,4 +4166,7 @@
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
     <value>複数アカウントのログイン情報を検出しました。ゲームのログイン画面で不要なアカウントを削除し、ゲームを再起動後に再度お試しください</value>
   </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>使用须臾树脂领取奖励</value>
+  </data>
 </root>
