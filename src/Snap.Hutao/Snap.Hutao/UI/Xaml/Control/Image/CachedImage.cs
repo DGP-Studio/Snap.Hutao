@@ -208,7 +208,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
             target.Visibility = Visibility.Visible;
 
             BitmapImage source = new();
+
+            // https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-animations-and-media#right-sized-decoding
+            // UriSource should be set after the Image is connected to live XAML tree
             target.Source = source;
+            source.DecodePixelType = DecodePixelType.Logical;
             source.UriSource = uri;
         }
     }
