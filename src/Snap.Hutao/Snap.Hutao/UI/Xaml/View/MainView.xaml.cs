@@ -31,6 +31,7 @@ internal sealed partial class MainView : UserControl, IDataContextInitialized
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        UserView.DataContext<UserViewModel>()?.IsViewUnloaded.Value = true;
         this.DataContext<MainViewModel>()?.Uninitialize();
     }
 }

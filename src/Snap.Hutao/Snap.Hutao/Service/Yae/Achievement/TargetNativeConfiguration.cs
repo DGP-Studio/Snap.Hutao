@@ -15,6 +15,14 @@ internal sealed class TargetNativeConfiguration
 
     public required uint UpdateNormalProperty { get; init; }
 
+    public required uint NewString { get; init; }
+
+    public required uint FindGameObject { get; init; }
+
+    public required uint EventSystemUpdate { get; init; }
+
+    public required uint SimulatePointerClick { get; init; }
+
     public static TargetNativeConfiguration Create(NativeConfiguration config, bool isOversea)
     {
         MethodRva methodRva = isOversea ? config.MethodRva.Oversea : config.MethodRva.Chinese;
@@ -23,9 +31,15 @@ internal sealed class TargetNativeConfiguration
         {
             StoreCmdId = config.StoreCmdId,
             AchievementCmdId = config.AchievementCmdId,
+
+            // Method RVAs
             DoCmd = methodRva.DoCmd,
             ToUInt16 = methodRva.ToUInt16,
             UpdateNormalProperty = methodRva.UpdateNormalProperty,
+            NewString = methodRva.NewString,
+            FindGameObject = methodRva.FindGameObject,
+            EventSystemUpdate = methodRva.EventSystemUpdate,
+            SimulatePointerClick = methodRva.SimulatePointerClick,
         };
     }
 }

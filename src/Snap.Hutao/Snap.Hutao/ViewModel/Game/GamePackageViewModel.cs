@@ -136,7 +136,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             ? (branch.PreDownload ?? branch.Main, default)
             : (branch.Main, branch.PreDownload);
 
-        (RemoteVersion, PreVersion) = (new(remote.Tag), pre is { Tag: { } tag } ? new(tag) : default);
+        (RemoteVersion, PreVersion) = (new(remote.Tag), pre is { Tag: { } preTag } ? new(preTag) : default);
 
         const string LockTrace = $"{nameof(GamePackageViewModel)}.{nameof(LoadOverrideAsync)}";
         if (launchOptions.TryGetGameFileSystem(LockTrace, out IGameFileSystem? gameFileSystem) is not GameFileSystemErrorKind.None)

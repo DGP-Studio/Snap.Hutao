@@ -18,6 +18,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>,

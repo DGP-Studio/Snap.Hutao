@@ -7,16 +7,21 @@ namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementRegex
 {
+
     /// <inheritdoc cref="SHRegex.ServiceAnnouncementMatchValidDescriptions"/>
+    [Obsolete]
     public static readonly Regex ValidDescriptionsRegex = new(SHRegex.ServiceAnnouncementMatchValidDescriptions, RegexOptions.Compiled);
 
     /// <inheritdoc cref="SHRegex.ServiceAnnouncementMatchVersionUpdateTitle"/>
+    [Obsolete]
     public static readonly Regex VersionUpdateTitleRegex = new(SHRegex.ServiceAnnouncementMatchVersionUpdateTitle, RegexOptions.Compiled);
 
     /// <inheritdoc cref="SHRegex.ServiceAnnouncementMatchVersionUpdatePreviewTitle"/>
+    [Obsolete]
     public static readonly Regex VersionUpdatePreviewTitleRegex = new(SHRegex.ServiceAnnouncementMatchVersionUpdatePreviewTitle, RegexOptions.Compiled);
 
     /// <inheritdoc cref="SHRegex.ServiceAnnouncementMatchVersionUpdatePreviewTime"/>
+    [Obsolete]
     public static readonly Regex VersionUpdatePreviewTimeRegex = new(SHRegex.ServiceAnnouncementMatchVersionUpdatePreviewTime, RegexOptions.Compiled);
 
     [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(?:<span .*?>)?(.*?)(?:</span>)?&lt;/t&gt;", RegexOptions.Multiline)]

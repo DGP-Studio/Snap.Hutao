@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
@@ -15,6 +16,8 @@ internal abstract partial class ViewModelSlim : ObservableObject
 {
     [ObservableProperty]
     public partial bool IsInitialized { get; set; }
+
+    public IProperty<bool> IsViewUnloaded { get => field ??= Property.Create(false); }
 
     protected partial IServiceProvider ServiceProvider { get; }
 

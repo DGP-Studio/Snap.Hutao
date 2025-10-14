@@ -17,7 +17,6 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     private readonly IAchievementRepository achievementRepository;
     private readonly ITaskContext taskContext;
 
-    /// <inheritdoc/>
     public async ValueTask<ImmutableArray<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -27,7 +26,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     private ImmutableArray<AchievementStatistics> SynchronizedGetAchievementStatistics(AchievementServiceMetadataContext context)
     {
         ImmutableArray<AchievementStatistics>.Builder results = ImmutableArray.CreateBuilder<AchievementStatistics>();
-        foreach (ref readonly AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray().AsSpan())
+        foreach (AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray())
         {
             int finishedCount = achievementRepository.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;

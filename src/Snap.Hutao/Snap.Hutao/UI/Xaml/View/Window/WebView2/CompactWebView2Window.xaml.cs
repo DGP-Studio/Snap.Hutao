@@ -273,6 +273,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
 
+        if (coreWebView2 is null)
+        {
+            return;
+        }
+
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
             _ = taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));

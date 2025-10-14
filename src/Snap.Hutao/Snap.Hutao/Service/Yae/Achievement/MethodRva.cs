@@ -13,4 +13,16 @@ internal sealed class MethodRva
 
     [JsonPropertyName("updateNormalProp")]
     public required uint UpdateNormalProperty { get; init; }
+
+    [JsonPropertyName("newString")]
+    public required uint NewString { get; init; }
+
+    [JsonPropertyName("findGameObject")]
+    public required uint FindGameObject { get; init; }
+
+    [JsonPropertyName("eventSystemUpdate")]
+    public required uint EventSystemUpdate { get; init; }
+
+    [JsonPropertyName("simulatePointerClick")]
+    public required uint SimulatePointerClick { get; init; }
 }

@@ -19,22 +19,20 @@ namespace Snap.Hutao.Service.Achievement;
 [Service(ServiceLifetime.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
-    private readonly AsyncLock archivesLock = new();
     private readonly ConcurrentDictionary<Guid, Lock> viewCollectionLocks = [];
     private readonly ConcurrentDictionary<Guid, IAdvancedCollectionView<AchievementView>> viewCollectionCache = [];
+    private readonly AsyncLockValue<IAdvancedDbCollectionView<AchievementArchive>> archives = new();
 
-    private readonly AchievementRepositoryOperation achievementDbBulkOperation;
+    private readonly AchievementRepositoryOperation achievementRepositoryOperation;
     private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private IAdvancedDbCollectionView<AchievementArchive>? archives;
-
     public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchiveCollectionAsync(CancellationToken token = default)
     {
-        using (await archivesLock.LockAsync().ConfigureAwait(false))
+        using (await archives.LockAsync().ConfigureAwait(false))
         {
-            return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            return archives.Value ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
         }
     }
 
@@ -70,34 +68,41 @@ internal sealed partial class AchievementService : IAchievementService
     {
         if (string.IsNullOrWhiteSpace(newArchive.Name))
         {
-            return ArchiveAddResultKind.InvalidName;
+            return ArchiveAddResultKind.ArchiveNameInvalid;
         }
 
-        if (archives is null)
+        using (await archives.LockAsync().ConfigureAwait(false))
         {
-            return ArchiveAddResultKind.ArchivesNotInitialized;
+            if (this.archives.Value is not { } archives)
+            {
+                return ArchiveAddResultKind.ArchivesNotInitialized;
+            }
+
+            string archiveName = newArchive.Name;
+            if (archives.Source.Any(a => a.Name == archiveName))
+            {
+                return ArchiveAddResultKind.ArchiveAlreadyExists;
+            }
+
+            await taskContext.SwitchToMainThreadAsync();
+            archives.Add(newArchive);
+            archives.MoveCurrentTo(newArchive); // Set current will insert archive to db
+
+            return ArchiveAddResultKind.Added;
         }
-
-        string archiveName = newArchive.Name;
-        if (archives.Source.Any(a => a.Name == archiveName))
-        {
-            return ArchiveAddResultKind.AlreadyExists;
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        archives.Add(newArchive);
-        archives.MoveCurrentTo(newArchive); // Set current will insert archive to db
-
-        return ArchiveAddResultKind.Added;
     }
 
     public async ValueTask RemoveArchiveAsync(AchievementArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archives);
+        using (await archives.LockAsync().ConfigureAwait(false))
+        {
+            IAdvancedCollectionView<AchievementArchive>? archives = this.archives.Value;
+            ArgumentNullException.ThrowIfNull(archives);
 
-        await taskContext.SwitchToMainThreadAsync();
-        archives.Remove(archive);
-        archives.MoveCurrentToFirst();
+            await taskContext.SwitchToMainThreadAsync();
+            archives.Remove(archive);
+            archives.MoveCurrentToFirst();
+        }
 
         viewCollectionCache.TryRemove(archive.InnerId, out _);
 
@@ -119,21 +124,21 @@ internal sealed partial class AchievementService : IAchievementService
             case ImportStrategyKind.AggressiveMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, true);
+                    return achievementRepositoryOperation.Merge(archiveId, orderedUIAF, true);
                 }
 
             case ImportStrategyKind.LazyMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, false);
+                    return achievementRepositoryOperation.Merge(archiveId, orderedUIAF, false);
                 }
 
             case ImportStrategyKind.Overwrite:
                 {
-                    IEnumerable<EntityAchievement> orderedUIAF = array
+                    IOrderedEnumerable<EntityAchievement> orderedUIAF = array
                         .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
                         .OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Overwrite(archiveId, orderedUIAF);
+                    return achievementRepositoryOperation.Overwrite(archiveId, orderedUIAF);
                 }
 
             default:

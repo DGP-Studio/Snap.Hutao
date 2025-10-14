@@ -25,7 +25,6 @@ internal static class AvatarLevelExperience
 
     public static int CalculateTotalExperience(int currentLevel, int targetLevel)
     {
-        // Generally, these conditions should not be reached, but they are here for span safety.
         if (currentLevel >= targetLevel || targetLevel > 90 || currentLevel < 1)
         {
             return 0;

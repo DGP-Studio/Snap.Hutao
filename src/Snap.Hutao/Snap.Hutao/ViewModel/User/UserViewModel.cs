@@ -9,6 +9,7 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
@@ -28,6 +29,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 namespace Snap.Hutao.ViewModel.User;
 
 [ConstructorGenerated]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
@@ -45,6 +47,8 @@ internal sealed partial class UserViewModel : ObservableObject
     public partial AdvancedDbCollectionView<User, EntityUser>? Users { get; set; }
 
     public ImmutableArray<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = ImmutableCollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
+
+    public IProperty<bool> IsViewUnloaded { get; } = Property.Create(false);
 
     internal void HandleUserOptionResult(UserOptionResultKind optionResultKind, string? uid)
     {

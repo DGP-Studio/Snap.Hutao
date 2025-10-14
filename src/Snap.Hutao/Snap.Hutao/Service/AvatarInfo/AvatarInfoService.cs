@@ -34,7 +34,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
                 {
                     ImmutableArray<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(userAndUid.Uid.Value);
                     Summary summary = await PrivateGetSummaryAsync(context, list, token).ConfigureAwait(false);
-                    return summary.Avatars.Count == 0 ? null : summary;
+                    return summary.Avatars is [] ? null : summary;
                 }
         }
     }
