@@ -30,27 +30,27 @@ internal sealed partial class SignInService : ISignInService
                 .Create(userAndUid.IsOversea);
 
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? result))
+            if (ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? result))
             {
-                string message = resultResponse.Message;
+                return true;
+            }
 
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.AlreadySignedIn)
-                {
-                    messenger.Send(InfoBarMessage.Success(message));
-                    return false;
-                }
+            string message = resultResponse.Message;
 
-                if (string.IsNullOrEmpty(message))
-                {
-                    message = $"RiskCode: {result?.RiskCode}";
-                }
-
-                messenger.Send(InfoBarMessage.Error(SH.FormatServiceSignInClaimRewardFailed(message)));
-                await FallbackToWebView2SignInAsync().ConfigureAwait(false);
+            if (resultResponse.ReturnCode is (int)KnownReturnCode.AlreadySignedIn)
+            {
+                messenger.Send(InfoBarMessage.Success(message));
                 return false;
             }
 
-            return true;
+            if (string.IsNullOrEmpty(message))
+            {
+                message = $"RiskCode: {result?.RiskCode}";
+            }
+
+            messenger.Send(InfoBarMessage.Error(SH.FormatServiceSignInClaimRewardFailed(message)));
+            await FallbackToWebView2SignInAsync().ConfigureAwait(false);
+            return false;
         }
     }
 
@@ -63,34 +63,34 @@ internal sealed partial class SignInService : ISignInService
                 .Create(userAndUid.IsOversea);
 
             Response<SignInResult> resultResponse = await signInClient.ReSignAsync(userAndUid, token).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? signInResult))
+            if (ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? signInResult))
             {
-                string message = resultResponse.Message;
+                return true;
+            }
 
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.PleaseSignInFirst or (int)KnownReturnCode.NoAvailableResignDate)
-                {
-                    messenger.Send(InfoBarMessage.Error(message));
-                    return false;
-                }
+            string message = resultResponse.Message;
 
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.NotEnoughCoin)
-                {
-                    message = SH.ViewModelSignInReSignInNotEnoughCoinMessage;
-                    messenger.Send(InfoBarMessage.Error(message));
-                    return false;
-                }
-
-                if (string.IsNullOrEmpty(message))
-                {
-                    message = $"RiskCode: {signInResult?.RiskCode}";
-                }
-
-                messenger.Send(InfoBarMessage.Error(SH.FormatServiceReSignInClaimRewardFailed(message)));
-                await FallbackToWebView2SignInAsync().ConfigureAwait(false);
+            if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.PleaseSignInFirst or (int)KnownReturnCode.NoAvailableResignDate)
+            {
+                messenger.Send(InfoBarMessage.Error(message));
                 return false;
             }
 
-            return true;
+            if (resultResponse.ReturnCode is (int)KnownReturnCode.NotEnoughCoin)
+            {
+                message = SH.ViewModelSignInReSignInNotEnoughCoinMessage;
+                messenger.Send(InfoBarMessage.Error(message));
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(message))
+            {
+                message = $"RiskCode: {signInResult?.RiskCode}";
+            }
+
+            messenger.Send(InfoBarMessage.Error(SH.FormatServiceReSignInClaimRewardFailed(message)));
+            await FallbackToWebView2SignInAsync().ConfigureAwait(false);
+            return false;
         }
     }
 

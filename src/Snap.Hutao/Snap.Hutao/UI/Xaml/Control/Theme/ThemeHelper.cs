@@ -4,7 +4,6 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.ExceptionService;
-using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
