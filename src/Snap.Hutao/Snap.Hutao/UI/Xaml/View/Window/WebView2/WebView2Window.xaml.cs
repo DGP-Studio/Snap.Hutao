@@ -23,7 +23,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
-    private readonly SemaphoreSlim scopeLock = new(1, 1);
+    private readonly SemaphoreSlim webview2LoadLock = new(1, 1);
 
     private readonly IWebView2ContentProvider contentProvider;
     private readonly WindowId parentWindowId;
@@ -79,9 +79,9 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (scopeLock.Wait(TimeSpan.Zero))
+        if (webview2LoadLock.Wait(TimeSpan.Zero))
         {
-            scopeLock.Release();
+            webview2LoadLock.Release();
             cancel = false;
             return;
         }
@@ -95,9 +95,11 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         WindowUtilities.SetWindowIsEnabled(parentHwnd, true);
         WindowUtilities.SwitchToWindow(parentHwnd);
 
-        scopeLock.Wait();
-        scopeLock.Release();
-        scopeLock.Dispose();
+        using (webview2LoadLock)
+        {
+            webview2LoadLock.Wait();
+            webview2LoadLock.Release();
+        }
     }
 
     [Command("GoBackCommand")]
@@ -143,7 +145,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            await scopeLock.WaitAsync().ConfigureAwait(true);
+            await webview2LoadLock.WaitAsync().ConfigureAwait(true);
 
             try
             {
@@ -173,7 +175,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
             }
             finally
             {
-                scopeLock.Release();
+                webview2LoadLock.Release();
             }
         }
     }
