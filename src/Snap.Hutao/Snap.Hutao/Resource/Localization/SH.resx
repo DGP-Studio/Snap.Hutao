@@ -174,6 +174,15 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
     <value>退出</value>
   </data>
@@ -185,15 +194,6 @@
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>窗口</value>
-  </data>
-  <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
-  </data>
-  <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
-  </data>
-  <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>跟随系统</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
@@ -314,6 +314,14 @@
     <value>纳塔</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
+    <value>挪德卡莱</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
+    <value>寰宇劫灭</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
     <value>游侠</value>
     <comment>Need EXACT same string in game</comment>
@@ -410,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>困难模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>月谕模式</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>普通模式</value>
@@ -976,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名称为 {0} 的账号已存在</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>检测到多个账号的登陆信息，请在游戏登陆界面删除多余的账号并进入游戏后重试</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>未检测到登陆信息，请进入游戏后重试</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>此设备的 MAC 地址发生变化，请重新登录游戏后再尝试</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
   </data>
@@ -988,6 +1008,27 @@
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
     <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
   </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
+  </data>
+  <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
+    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
+    <value>在注入 DLL: '{0}' 时发生错误</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
+    <value>Better GI 已启动</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
+    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
+    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
+    <value>本地游戏配置文件损坏，请修复后重试</value>
+  </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>游戏进程运行中</value>
   </data>
@@ -997,14 +1038,8 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>下载游戏资源索引失败: {0}</value>
   </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
-  </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
-  </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>结束进程失败</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>游戏进程已退出</value>
@@ -1020,6 +1055,18 @@
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>等待游戏进程退出</value>
+  </data>
+  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
+    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入失败，可能是由于 Windows Defender 应用和浏览器控制 &gt; 智能应用控制策略阻止了操作，请尝试关闭。</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>选择游戏本体</value>
@@ -1137,6 +1184,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>你的胡桃版本过低，请尽快升级</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
+    <value>游戏资源操作已取消</value>
+  </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>游戏资源操作失败</value>
   </data>
@@ -1184,6 +1234,9 @@
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae 错误</value>
+  </data>
+  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
+    <value>获取游戏版本失败</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
     <value>正在等待游戏数据</value>
@@ -1548,6 +1601,9 @@
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
     <value>选择的安装路径无效</value>
   </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
+    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+  </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>未选择语音包</value>
   </data>
@@ -1646,6 +1702,9 @@
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
     <value>崩溃发生前您执行了哪些操作？</value>
+  </data>
+  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
+    <value>调用堆栈</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>反馈中心</value>
@@ -1773,15 +1832,6 @@
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
     <value>复制成就 ID 成功</value>
   </data>
-  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>前往米游社搜索</value>
-  </data>
-  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>前往HoYoLAB搜索</value>
-  </data>
-  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 成就</value>
-  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF 文件</value>
   </data>
@@ -1796,6 +1846,15 @@
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>确定要删除存档 {0} 吗？</value>
+  </data>
+  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
+    <value>前往HoYoLAB搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
+    <value>前往米游社搜索</value>
+  </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} 成就</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>导出 UIAF JSON 文件到指定路径</value>
@@ -2022,6 +2081,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>导入 UIGF JSON 文件</value>
   </data>
+  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
+    <value>生成配置文件失败</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
+    <value>游戏路径被锁定，请稍后再试</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
+    <value>游戏路径为空，请先设置游戏路径</value>
+  </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>获取游戏版本配置失败</value>
   </data>
@@ -2127,11 +2195,17 @@
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
     <value>无效的游戏路径，请检查硬件连接</value>
   </data>
+  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
+    <value>当前游戏路径：'{0}'</value>
+  </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
     <value>修复配置文件</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
+    <value>修复失败</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
     <value>修复成功</value>
@@ -2165,6 +2239,12 @@
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>第 {0} 幕</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>第 {0} 幕 圣牌 {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value> 圣牌挑战 {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -2256,9 +2336,6 @@
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>导入失败</value>
   </data>
-  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>导入中</value>
-  </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>导入的 UIGF 文件中不包含祈愿数据</value>
   </data>
@@ -2267,6 +2344,9 @@
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
     <value>导入成功</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>导入中</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用户 [{0}] 添加成功</value>
@@ -2634,8 +2714,23 @@
   <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
     <value>五星武器</value>
   </data>
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
+    <value>角色</value>
+  </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
     <value>计时</value>
+  </data>
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
+    <value>历史</value>
+  </data>
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
+    <value>总览</value>
+  </data>
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
+    <value>全球祈愿统计</value>
+  </data>
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
+    <value>武器</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
     <value>四星角色</value>
@@ -2672,21 +2767,6 @@
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>删除当前存档</value>
-  </data>
-  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>角色</value>
-  </data>
-  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>历史</value>
-  </data>
-  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>总览</value>
-  </data>
-  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>全球祈愿统计</value>
-  </data>
-  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
-    <value>武器</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
     <value>战斗用时</value>
@@ -2907,6 +2987,12 @@
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>特殊界面修正</value>
   </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
+    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
+    <value>视野与迷雾</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>地图横幅冷开关</value>
   </data>
@@ -2925,11 +3011,32 @@
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
   </data>
+  <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
+    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
+    <value>注入选项</value>
+  </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
     <value>重定向合成</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
+    <value>使用浓缩树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
+    <value>使用脆弱树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
+    <value>使用原粹树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
+    <value>使用原石领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>使用须臾树脂领取奖励</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>使用触摸输入</value>
@@ -3003,11 +3110,17 @@
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
     <value>选择游戏路径</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>在下方列表中选中以切换到该路径</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
     <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>检测</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>MAC 地址不匹配，可能需要在游戏中重新登陆</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>检测账号</value>
@@ -3017,6 +3130,9 @@
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
     <value>重命名</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
+    <value>转换</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
@@ -3041,6 +3157,12 @@
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
     <value>帧率热开关</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
+    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
+    <value>无法解锁帧率上限？</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>将鼠标悬停在功能开关/文本框上查看详细说明</value>
@@ -3300,14 +3422,14 @@
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>实时便笺</value>
   </data>
-  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
-  </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>启动游戏</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>签到</value>
+  </data>
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>祈愿记录</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>隐藏</value>
@@ -3501,11 +3623,11 @@
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
   </data>
-  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>Webview2 运行时</value>
-  </data>
   <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
     <value>WebView</value>
+  </data>
+  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
+    <value>Webview2 运行时</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -3539,6 +3661,9 @@
   </data>
   <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
     <value>料理</value>
+  </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神之心</value>
   </data>
   <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
     <value>日语 CV</value>
@@ -3576,14 +3701,17 @@
   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
     <value>搭配角色</value>
   </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>游迹</value>
+  </data>
+  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
+    <value>神之眼</value>
+  </data>
   <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
     <value>搭配武器</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
     <value>添加到养成计划</value>
-  </data>
-  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
-    <value>掉落物品</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
     <value>突破后</value>
@@ -3593,6 +3721,9 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
+  </data>
+  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
+    <value>掉落物品</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
     <value>周期</value>
@@ -3795,6 +3926,9 @@
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
     <value>紧凑网页窗口（仅管理员）</value>
   </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
   </data>
@@ -3891,6 +4025,9 @@
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>尚未解锁洞天</value>
   </data>
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今天</value>
   </data>
@@ -3900,14 +4037,11 @@
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>后天</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 天</value>
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
+    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹树脂已完全恢复</value>
-  </data>
-  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 后重置</value>
@@ -4040,130 +4174,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
-  </data>
-  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>为了防止注入功能被滥用，需要使用 米游社/HoYoLAB 账号登录并选中一个账号与角色</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>结束进程失败</value>
-  </data>
-  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>寰宇劫灭</value>
-    <comment>Need EXACT same string in game</comment>
-  </data>
-  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>挪德卡莱</value>
-    <comment>Need EXACT same string in game</comment>
-  </data>
-  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>调用堆栈</value>
-  </data>
-  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神之眼</value>
-  </data>
-  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>获取游戏版本失败</value>
-  </data>
-  <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>在下方列表中选中以切换到该路径</value>
-  </data>
-  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>游迹</value>
-  </data>
-  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神之心</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
-  </data>
-  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
-  </data>
-  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
-  </data>
-  <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
-  </data>
-  <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
-  </data>
-  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
-  </data>
-  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
-  </data>
-  <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
-  </data>
-  <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
-  </data>
-  <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
-    <value>MAC 地址不匹配，可能需要在游戏中重新登陆</value>
-  </data>
-  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
-    <value>此设备的 MAC 地址发生变化，请重新登录游戏后再尝试</value>
-  </data>
-  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
-    <value>未检测到登陆信息，请进入游戏后重试</value>
-  </data>
-  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
-    <value>检测到多个账号的登陆信息，请在游戏登陆界面删除多余的账号并进入游戏后重试</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
-    <value>使用须臾树脂领取奖励</value>
   </data>
 </root>

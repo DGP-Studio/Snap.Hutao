@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Values xmlns="urn:tom-englert.de/Configuration/1/0">
+  <Value Key="NeutralResourcesLanguage">zh-Hans</Value>
+  <Value Key="SortFileContentOnSave">True</Value>
+  <Value Key="ResXSortingComparison">Ordinal</Value>
+</Values>

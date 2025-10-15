@@ -22,7 +22,7 @@ internal sealed class RoleCombatAvatar
     public required ElementName Element { get; init; }
 
     [JsonPropertyName("image")]
-    public required string Image { get; init; }
+    public required Uri Image { get; init; }
 
     [JsonPropertyName("level")]
     public required Level Level { get; init; }

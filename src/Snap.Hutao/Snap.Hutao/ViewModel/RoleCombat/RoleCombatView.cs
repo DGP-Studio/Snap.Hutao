@@ -80,7 +80,20 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string? FormattedHeraldry { get; }
 
-    public string? MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default; }
+    public string? MaxRound
+    {
+        get
+        {
+            if (Stat is null)
+            {
+                return default;
+            }
+
+            return Stat.TarotFinishedCount > 0
+                ? SH.FormatViewModelRoleCombatRoundAndTarot(Stat.MaxRoundId, Stat.TarotFinishedCount)
+                : SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId);
+        }
+    }
 
     public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
