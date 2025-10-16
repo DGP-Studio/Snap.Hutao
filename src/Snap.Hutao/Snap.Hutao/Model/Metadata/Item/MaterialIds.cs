@@ -10,6 +10,21 @@ namespace Snap.Hutao.Model.Metadata.Item;
 
 internal static class MaterialIds
 {
+    public const uint Mora = 202U;                       // 摩拉
+    public const uint WanderersAdvice = 104001U;         // 流浪者的经验
+    public const uint AdventurersExperience = 104002U;   // 冒险家的经验
+    public const uint HeroesWit = 104003U;               // 大英雄的经验
+    public const uint MysticEnhancementOre = 104013U;    // 精锻用魔矿
+    public const uint AgnidusAgateSliver = 104111U;      // 燃愿玛瑙碎屑
+    public const uint VarunadaLazuriteSliver = 104121U;  // 涤净青金碎屑
+    public const uint NagadusEmeraldSliver = 104131U;    // 生长碧翡碎屑
+    public const uint VajradaAmethystSliver = 104141U;   // 最胜紫晶碎屑
+    public const uint VayudaTurquoiseSliver = 104151U;   // 自在松石碎屑
+    public const uint ShivadaJadeSliver = 104161U;       // 哀叙冰玉碎屑
+    public const uint PrithivaTopazSliver = 104171U;     // 坚牢黄玉碎屑
+    public const uint MasterlessStellaFortuna = 104300U; // 无主的命星
+    public const uint CrownOfInsight = 104319U;          // 智识之冕
+
     private static readonly ImmutableArray<RotationalMaterialIdEntry> Entries =
     [
         new(DaysOfWeek.MondayAndThursday, 104301U, 104302U, 104303U), // 「自由」

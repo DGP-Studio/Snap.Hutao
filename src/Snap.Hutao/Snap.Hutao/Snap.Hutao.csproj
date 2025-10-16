@@ -89,7 +89,6 @@
     <AdditionalFiles Include="Resource\Localization\SH.tr.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.vi.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
-    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <!-- Assets Files -->

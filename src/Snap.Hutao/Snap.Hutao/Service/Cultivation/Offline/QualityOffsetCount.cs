@@ -16,9 +16,24 @@ internal readonly struct QualityOffsetCount : IDeconstruct<uint, uint>
         Count = count;
     }
 
+    public static implicit operator QualityOffsetCount((uint Offset, uint Count) tuple)
+    {
+        return new(tuple.Offset, tuple.Count);
+    }
+
     public void Deconstruct(out uint qualityOffset, out uint count)
     {
         qualityOffset = QualityOffset;
         count = Count;
+    }
+
+    public (uint FinalId, uint Count) Positive(uint baseId)
+    {
+        return (baseId + QualityOffset, Count);
+    }
+
+    public (uint FinalId, uint Count) Negative(uint baseId)
+    {
+        return (baseId - QualityOffset, Count);
     }
 }
