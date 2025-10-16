@@ -47,9 +47,6 @@
                Stretch="UniformToFill"
                UseLayoutRounding="False" />
 
-        <shuxv:InfoBarView Margin="0,44,0,0"
-                           VerticalAlignment="Stretch" />
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -177,5 +174,8 @@
                        ContentTransitions="{StaticResource NavigationThemeTransitions}" />
             </NavigationView>
         </Grid>
+        
+        <shuxv:InfoBarView Margin="0,44,0,0"
+                           VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>
