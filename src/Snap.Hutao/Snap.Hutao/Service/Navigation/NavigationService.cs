@@ -19,6 +19,7 @@ internal sealed partial class NavigationService : INavigationService
 
     private readonly WeakReference<NavigationView> weakNavigationView = new(default!);
     private readonly WeakReference<Frame> weakFrame = new(default!);
+    private readonly WeakReference<TitleBar> weakTitleBar = new(default!);
 
     public bool IsXamlElementAttached { get => weakNavigationView.TryGetTarget(out _); }
 
@@ -43,7 +44,6 @@ internal sealed partial class NavigationService : INavigationService
             if (weakNavigationView.TryGetTarget(out NavigationView? oldValue))
             {
                 oldValue.ItemInvoked -= OnItemInvoked;
-                oldValue.BackRequested -= OnBackRequested;
                 oldValue.PaneClosed -= OnPaneStateChanged;
                 oldValue.PaneOpened -= OnPaneStateChanged;
                 oldValue.Unloaded -= OnUnloaded;
@@ -54,10 +54,31 @@ internal sealed partial class NavigationService : INavigationService
             if (weakNavigationView.TryGetTarget(out NavigationView? newValue))
             {
                 newValue.ItemInvoked += OnItemInvoked;
-                newValue.BackRequested += OnBackRequested;
                 newValue.PaneClosed += OnPaneStateChanged;
                 newValue.PaneOpened += OnPaneStateChanged;
                 newValue.Unloaded += OnUnloaded;
+            }
+        }
+    }
+
+    [DisallowNull]
+    private TitleBar? TitleBar
+    {
+        get => weakTitleBar.TryGetTarget(out TitleBar? titleBar) ? titleBar : null;
+
+        set
+        {
+            // remove old listener
+            if (weakTitleBar.TryGetTarget(out TitleBar? oldValue))
+            {
+                oldValue.BackRequested -= OnBackRequested;
+            }
+
+            weakTitleBar.SetTarget(value);
+
+            if (weakTitleBar.TryGetTarget(out TitleBar? newValue))
+            {
+                newValue.BackRequested += OnBackRequested;
             }
         }
     }
@@ -125,11 +146,12 @@ internal sealed partial class NavigationService : INavigationService
         return result;
     }
 
-    public void AttachXamlElement(NavigationView navigationView, Frame frame)
+    public void AttachXamlElement(NavigationView navigationView, Frame frame, TitleBar titleBar)
     {
         navigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
         NavigationView = navigationView;
         weakFrame.SetTarget(frame);
+        TitleBar = titleBar;
     }
 
     public void GoBack()
@@ -204,7 +226,7 @@ internal sealed partial class NavigationService : INavigationService
         }
     }
 
-    private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+    private void OnBackRequested(TitleBar sender, object args)
     {
         if (weakFrame.TryGetTarget(out Frame? frame) && frame is { CanGoBack: true })
         {

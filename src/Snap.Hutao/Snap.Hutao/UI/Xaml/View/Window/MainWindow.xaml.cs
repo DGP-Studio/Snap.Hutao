@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
@@ -10,7 +9,6 @@ using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel;
-using System.Collections.Immutable;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -18,7 +16,6 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler,
-    IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowHasInitSize
 {
     private readonly LastWindowCloseBehaviorTraits closeBehaviorTraits;
@@ -37,15 +34,16 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
         IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
-        TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
+
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.ButtonBackgroundColor = Windows.UI.Color.FromArgb(0, 0, 0, 0);
+        AppWindow.TitleBar.ButtonInactiveBackgroundColor = Windows.UI.Color.FromArgb(0, 0, 0, 0);
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
+
         closeBehaviorTraits = scope.ServiceProvider.GetRequiredService<LastWindowCloseBehaviorTraits>();
         app = scope.ServiceProvider.GetRequiredService<App>();
     }
-
-    public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
-
-    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
 
@@ -57,8 +55,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        // Wait for title view to be initialized (show update content webview window)
-        if (TitleView.IsLoaded && (TitleView.DataContext is ViewModel.Abstraction.ViewModel { IsInitialized: false }))
+         //Wait for view to be initialized (show update content webview window)
+        if (MainView.IsLoaded && (MainView.DataContext is ViewModel.Abstraction.ViewModel { IsInitialized: false }))
         {
             cancel = true;
             return;

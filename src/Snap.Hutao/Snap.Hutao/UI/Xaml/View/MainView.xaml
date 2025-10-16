@@ -22,7 +22,7 @@
 
     <UserControl.Resources>
         <!--  ReSharper disable Xaml.RedundantResource  -->
-        <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
+        <!--<Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>-->
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
@@ -31,120 +31,162 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType.Value, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
-            <Border.OpacityTransition>
-                <ScalarTransition Duration="0:0:1"/>
-            </Border.OpacityTransition>
-        </Border>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TitleBar x:Name="TitleBar"
+                  x:FieldModifier="Public"
+                  Title="{Binding Title}"
+                  IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
+                  IsPaneToggleButtonVisible="True"
+                  PaneToggleRequested="TitleBar_PaneToggleRequested">
+            <TitleBar.RightHeader>
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="0,0,6,0"
+                    Orientation="Horizontal"
+                    Spacing="6">
 
-        <Image
-            x:Name="BackgroundImagePresenter"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Opacity="0"
-            Stretch="UniformToFill"
-            UseLayoutRounding="False"/>
+                    <Button
+                        Padding="6"
+                        Command="{Binding InvertAppThemeCommand}"
+                        Content="[Dev] Invert Theme"
+                        Style="{ThemeResource SettingButtonStyle}"
+                        Visibility="{Binding IsDebug}"/>
 
-        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-        <NavigationView
-            x:Name="NavView"
-            Margin="0,0,0,0"
-            shuxc:NavigationViewHelper.PaneCornerRadius="0"
-            CompactPaneLength="45"
-            IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
-            IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
-            IsPaneOpen="True"
-            OpenPaneLength="205"
-            PaneDisplayMode="Left"
-            UseLayoutRounding="False">
+                    <Border
+                        Height="33"
+                        Padding="6"
+                        Visibility="{Binding IsMetadataInitialized, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <ProgressRing Width="12" Height="12"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{shuxm:ResourceString Name=ViewTitleMetadataInitializing}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </TitleBar.RightHeader>
+        </TitleBar>
+        <Grid Grid.Row="1">
+            <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType.Value, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+                <Border.OpacityTransition>
+                    <ScalarTransition Duration="0:0:1"/>
+                </Border.OpacityTransition>
+            </Border>
 
-            <NavigationView.MenuItems>
-                <NavigationViewItem
+            <Image
+                x:Name="BackgroundImagePresenter"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Opacity="0"
+                Stretch="UniformToFill"
+                UseLayoutRounding="False"/>
+
+            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+            <NavigationView
+                x:Name="NavView"
+                Margin="0,0,0,0"
+                shuxc:NavigationViewHelper.PaneCornerRadius="0"
+                CompactPaneLength="45"
+                IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
+                IsPaneOpen="True"
+                OpenPaneLength="205"
+                PaneDisplayMode="Auto"
+                UseLayoutRounding="False"
+                IsBackButtonVisible="Collapsed"
+                IsPaneToggleButtonVisible="False">
+
+                <NavigationView.MenuItems>
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AnnouncementPage"
                     Content="{shuxm:ResourceString Name=ViewAnnouncementHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:HutaoPassportPage"
                     Content="{shuxm:ResourceString Name=ViewHutaoPassportHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Passport.png}"/>
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:FeedbackPage"
                     Content="{shuxm:ResourceString Name=ViewFeedbackHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
 
-                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewToolHeader}"/>
+                    <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewToolHeader}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:LaunchGamePage"
                     Content="{shuxm:ResourceString Name=ViewLaunchGameHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/LaunchGame.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:GachaLogPage"
                     Content="{shuxm:ResourceString Name=ViewGachaLogHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AchievementPage"
                     Content="{shuxm:ResourceString Name=ViewAchievementHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:DailyNotePage"
                     Content="{shuxm:ResourceString Name=ViewDailyNoteHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AvatarPropertyPage"
                     Content="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:CultivationPage"
                     Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
 
-                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewPeriodHeader}"/>
+                    <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewPeriodHeader}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:SpiralAbyssRecordPage"
                     Content="{shuxm:ResourceString Name=ViewSpiralAbyssHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:RoleCombatPage"
                     Content="{shuxm:ResourceString Name=ViewRoleCombatHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/RoleCombat.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:HardChallengePage"
                     Content="{shuxm:ResourceString Name=ViewHardChallengeHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/HardChallenge.png}"/>
 
-                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewDataHeader}"/>
+                    <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewDataHeader}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiAvatarPage"
                     Content="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>
 
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiWeaponPage"
                     Content="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"/>
-                <NavigationViewItem
+                    <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiMonsterPage"
                     Content="{shuxm:ResourceString Name=ViewWikiMonsterHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"/>
-            </NavigationView.MenuItems>
+                </NavigationView.MenuItems>
 
-            <NavigationView.PaneFooter>
-                <shuxv:UserView x:Name="UserView"/>
-            </NavigationView.PaneFooter>
+                <NavigationView.PaneFooter>
+                    <shuxv:UserView x:Name="UserView"/>
+                </NavigationView.PaneFooter>
 
-            <Frame x:Name="ContentFrame" ContentTransitions="{StaticResource NavigationThemeTransitions}"/>
-        </NavigationView>
+                <Frame x:Name="ContentFrame" ContentTransitions="{StaticResource NavigationThemeTransitions}"/>
+            </NavigationView>
 
-        <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>
+            <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>
+        </Grid>
     </Grid>
 </UserControl>

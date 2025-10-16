@@ -9,5 +9,5 @@ internal interface INavigationInitialization
 {
     bool IsXamlElementAttached { get; }
 
-    void AttachXamlElement(NavigationView navigationView, Frame frame);
+    void AttachXamlElement(NavigationView navigationView, Frame frame, TitleBar titleBar);
 }

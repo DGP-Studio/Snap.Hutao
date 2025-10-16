@@ -25,7 +25,7 @@ internal sealed partial class MainView : UserControl, IDataContextInitialized
         this.DataContext<MainViewModel>()?.AttachXamlElement(BackgroundImagePresenter);
 
         INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-        navigationService.AttachXamlElement(NavView, ContentFrame);
+        navigationService.AttachXamlElement(NavView, ContentFrame, TitleBar);
         navigationService.Navigate<AnnouncementPage>(NavigationExtraData.Default, true);
     }
 
@@ -33,5 +33,10 @@ internal sealed partial class MainView : UserControl, IDataContextInitialized
     {
         UserView.DataContext<UserViewModel>()?.IsViewUnloaded.Value = true;
         this.DataContext<MainViewModel>()?.Uninitialize();
+    }
+
+    private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
+    {
+        NavView.IsPaneOpen = !NavView.IsPaneOpen;
     }
 }
