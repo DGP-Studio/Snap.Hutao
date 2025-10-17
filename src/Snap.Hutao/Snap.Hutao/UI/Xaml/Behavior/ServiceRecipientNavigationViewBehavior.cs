@@ -20,6 +20,8 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
     IRecipient<NavigationGoBackMessage>,
     IRecipient<NavigationPaneToggleMessage>
 {
+    private IServiceProvider? serviceProvider;
+
     public void Receive(NavigationNavigateMessage message)
     {
         if (AssociatedObject is not { } navigationView)
@@ -62,6 +64,7 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
 
         if (AssociatedObject.XamlRoot.XamlContext()?.ServiceProvider is { } serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
             messenger.Register<NavigationNavigateMessage>(this);
             messenger.Register<NavigationGoBackMessage>(this);
@@ -77,7 +80,7 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
 
     protected override bool Uninitialize()
     {
-        if (AssociatedObject.XamlRoot.XamlContext()?.ServiceProvider is { } serviceProvider)
+        if (serviceProvider is not null)
         {
             IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
             messenger.UnregisterAll(this);
