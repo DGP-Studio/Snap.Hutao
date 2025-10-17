@@ -3,8 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel;
 using Snap.Hutao.ViewModel.User;
 
@@ -21,16 +19,11 @@ internal sealed partial class MainView : UserControl, IDataContextInitialized
     public void OnDataContextInitialized(IServiceProvider serviceProvider)
     {
         UserView.InitializeDataContext<UserViewModel>(serviceProvider);
-
-        this.DataContext<MainViewModel>()?.AttachXamlElement(BackgroundImagePresenter);
-
-        INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-        navigationService.AttachXamlElement(NavView, ContentFrame);
-        navigationService.Navigate<AnnouncementPage>(NavigationExtraData.Default, true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        Unloaded -= OnUnloaded;
         UserView.DataContext<UserViewModel>()?.IsViewUnloaded.Value = true;
         this.DataContext<MainViewModel>()?.Uninitialize();
     }

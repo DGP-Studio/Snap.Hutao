@@ -9,10 +9,5 @@
 
     <Grid>
         <shuxv:MainView x:Name="MainView"/>
-
-        <shuxv:TitleView
-            x:Name="TitleView"
-            Height="44"
-            Margin="44,0,0,0"/>
     </Grid>
 </Window>

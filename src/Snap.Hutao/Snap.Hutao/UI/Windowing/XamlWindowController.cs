@@ -65,6 +65,7 @@ internal sealed class XamlWindowController
             UpdateTitleButtonColor(default!, default!);
             xamlWindow.TitleBarCaptionAccess.ActualThemeChanged += UpdateTitleButtonColor;
 
+            // TODO: Remove once we use TitleBar in all windows.
             XamlWindowRegionRects.Update(window);
             xamlWindow.TitleBarCaptionAccess.SizeChanged += OnWindowSizeChanged;
         }

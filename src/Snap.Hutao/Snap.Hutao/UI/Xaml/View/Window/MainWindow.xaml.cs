@@ -37,17 +37,18 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
         IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
-        TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
+
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
+
         closeBehaviorTraits = scope.ServiceProvider.GetRequiredService<LastWindowCloseBehaviorTraits>();
         app = scope.ServiceProvider.GetRequiredService<App>();
     }
 
-    public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
-
-    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
-
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
+
+    public FrameworkElement TitleBarCaptionAccess { get => MainView.TitleBar; }
+
+    public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public void OnWindowClosing(out bool cancel)
     {
@@ -57,8 +58,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        // Wait for title view to be initialized (show update content webview window)
-        if (TitleView.IsLoaded && (TitleView.DataContext is ViewModel.Abstraction.ViewModel { IsInitialized: false }))
+         //Wait for view to be initialized (show update content webview window)
+        if (MainView.IsLoaded && (MainView.DataContext is ViewModel.Abstraction.ViewModel { IsInitialized: false }))
         {
             cancel = true;
             return;
