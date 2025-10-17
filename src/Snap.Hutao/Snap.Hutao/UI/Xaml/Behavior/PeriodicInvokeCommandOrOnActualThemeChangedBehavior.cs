@@ -66,7 +66,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     break;
                 }
 
-                ITaskContext taskContext = TaskContext.GetForDispatcherQueue(AssociatedObject.DispatcherQueue);
+                ITaskContext taskContext = TaskContext.GetForDependencyObject(AssociatedObject);
                 await taskContext.SwitchToBackgroundAsync();
                 try
                 {

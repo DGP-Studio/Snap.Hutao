@@ -38,8 +38,6 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
         IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
 
-        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
 
         closeBehaviorTraits = scope.ServiceProvider.GetRequiredService<LastWindowCloseBehaviorTraits>();
@@ -47,7 +45,9 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
+
     public FrameworkElement TitleBarCaptionAccess { get => MainView.TitleBar; }
+
     public ImmutableArray<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public void OnWindowClosing(out bool cancel)

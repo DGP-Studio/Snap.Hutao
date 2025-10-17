@@ -9,7 +9,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Process;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
@@ -158,7 +157,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private async Task TakeScreenshotAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Take Window screenshot", "NotifyIconViewModel.Command"));
-        INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
 
         if (currentXamlWindowReference.Window is null)
         {
@@ -174,7 +172,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
         string directory = Path.Combine(HutaoRuntime.GetDataScreenshotDirectory(), CultureInfo.CurrentCulture.Name);
         Directory.CreateDirectory(directory);
-        string filename = $"{navigationService.CurrentPageType?.Name ?? "None"}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
+        string filename = $"Screenshot_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
         using (FileStream fileStream = File.Create(Path.Combine(directory, filename)))
         {
             BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream.AsRandomAccessStream());
