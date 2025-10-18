@@ -9,18 +9,17 @@ namespace Snap.Hutao.UI.Xaml.Behavior;
 
 internal sealed class ServiceRecipientTitleBarBehavior : BehaviorBase<TitleBar>
 {
-    protected override bool Initialize()
+    protected override void OnAssociatedObjectLoaded()
     {
         AssociatedObject.BackRequested += OnBackRequested;
         AssociatedObject.PaneToggleRequested += OnPaneToggleRequested;
-        return true;
     }
 
     protected override bool Uninitialize()
     {
         AssociatedObject.BackRequested -= OnBackRequested;
         AssociatedObject.PaneToggleRequested -= OnPaneToggleRequested;
-        return true;
+        return base.Uninitialize();
     }
 
     private static void OnBackRequested(TitleBar sender, object args)

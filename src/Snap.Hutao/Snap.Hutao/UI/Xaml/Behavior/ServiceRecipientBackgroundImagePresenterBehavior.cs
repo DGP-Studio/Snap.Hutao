@@ -47,7 +47,7 @@ internal sealed partial class ServiceRecipientBackgroundImagePresenterBehavior :
     protected override bool Uninitialize()
     {
         unloadCts.Cancel();
-        return true;
+        return base.Uninitialize();
     }
 
     [Command("UpdateBackgroundCommand")]

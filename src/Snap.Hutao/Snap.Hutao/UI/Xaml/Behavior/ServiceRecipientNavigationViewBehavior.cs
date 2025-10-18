@@ -20,7 +20,7 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
     IRecipient<NavigationGoBackMessage>,
     IRecipient<NavigationPaneToggleMessage>
 {
-    private IServiceProvider? serviceProvider;
+    private IMessenger? messenger;
 
     public void Receive(NavigationNavigateMessage message)
     {
@@ -64,8 +64,7 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
 
         if (AssociatedObject.XamlRoot.XamlContext()?.ServiceProvider is { } serviceProvider)
         {
-            this.serviceProvider = serviceProvider;
-            IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
+            messenger = serviceProvider.GetRequiredService<IMessenger>();
             messenger.Register<NavigationNavigateMessage>(this);
             messenger.Register<NavigationGoBackMessage>(this);
             messenger.Register<NavigationPaneToggleMessage>(this);
@@ -80,16 +79,10 @@ internal sealed class ServiceRecipientNavigationViewBehavior : BehaviorBase<Navi
 
     protected override bool Uninitialize()
     {
-        if (serviceProvider is not null)
-        {
-            IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
-            messenger.UnregisterAll(this);
-        }
-
+        messenger?.UnregisterAll(this);
         AssociatedObject.PaneOpened -= OnPaneStateChanged;
         AssociatedObject.PaneClosed -= OnPaneStateChanged;
-
-        return true;
+        return base.Uninitialize();
     }
 
     private static IEnumerable<NavigationViewItem> EnumerateMenuItems(IList<object> items)
