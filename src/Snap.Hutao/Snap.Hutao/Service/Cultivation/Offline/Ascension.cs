@@ -20,6 +20,11 @@ internal static class Ascension
 
     public static ImmutableArray<int> GetRequiredLevels(ImmutableArray<int> levels, int currentLevel, int targetLevel, int currentPromoteLevel)
     {
+        if (currentLevel > targetLevel)
+        {
+            return [];
+        }
+
         return levels[LowerBound(levels, currentLevel, currentPromoteLevel)..UpperBound(levels, targetLevel)];
     }
 
