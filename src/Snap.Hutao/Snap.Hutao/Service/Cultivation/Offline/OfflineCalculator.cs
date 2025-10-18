@@ -65,6 +65,18 @@ internal static class OfflineCalculator
     {
         Dictionary<uint, uint> itemCounts = [];
 
+        // 计算 95 级上限突破
+        if (delta is { AvatarLevelCurrent: <= 90, AvatarLevelTarget: >= 95U })
+        {
+            AddOrUpdateItem(itemCounts, MaterialIds.MasterlessStellaFortuna, 1U);
+        }
+
+        // 计算 100 级上限突破
+        if (delta is { AvatarLevelCurrent: <= 95, AvatarLevelTarget: >= 100U })
+        {
+            AddOrUpdateItem(itemCounts, MaterialIds.MasterlessStellaFortuna, 2U);
+        }
+
         // 计算角色经验
         if (delta.AvatarLevelCurrent < delta.AvatarLevelTarget)
         {

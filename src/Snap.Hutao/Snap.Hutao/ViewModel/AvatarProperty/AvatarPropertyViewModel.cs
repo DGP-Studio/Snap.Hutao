@@ -25,6 +25,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -79,19 +80,20 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         // 1. We need to wait for the view initialization (mainly for metadata context).
         // 2. We need to refresh summary data. otherwise, the view can be un-synced.
         Initialization.Task.ContinueWith(
-            init =>
+            static (init, state) =>
             {
                 if (!init.Result)
                 {
                     return;
                 }
 
+                (UserAndUid userAndUid, WeakReference<AvatarPropertyViewModel> weakThis) = Unsafe.Unbox<(UserAndUid, WeakReference<AvatarPropertyViewModel>)>(state!);
                 if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewUnloaded.Value)
                 {
-                    using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(token, viewModel.CancellationToken);
-                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, linkedCts.Token).SafeForget();
+                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, viewModel.CancellationToken).SafeForget();
                 }
             },
+            (userAndUid, weakThis),
             token,
             TaskContinuationOptions.None,
             TaskScheduler.Current);

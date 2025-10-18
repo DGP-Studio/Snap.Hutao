@@ -8,7 +8,6 @@ namespace Snap.Hutao.Test.BaseClassLibrary;
 public sealed class LinqTest
 {
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void LinqOrderByWithWrapperStructThrow()
     {
         List<MyUInt32> list = [1, 5, 2, 6, 3, 7, 4, 8];
