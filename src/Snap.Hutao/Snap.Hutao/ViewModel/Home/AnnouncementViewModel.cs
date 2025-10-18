@@ -141,13 +141,17 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 .CreateFor(userAndUid);
 
             Response<CodeListWrapper> codeListResponse = await miyoliveClient.RefreshCodeAsync(actId, token).ConfigureAwait(false);
-
             if (!ResponseValidator.TryValidateWithoutUINotification(codeListResponse, out CodeListWrapper? wrapper))
             {
                 return;
             }
 
             ImmutableArray<CodeWrapper> wrappers = wrapper.CodeList.SelectAsArray(static wrapper => wrapper.WithTitle(wrapper.Title.DecodeHtml()));
+            wrappers = [.. wrappers.Where(static wrapper => !string.IsNullOrEmpty(wrapper.Code))];
+            if (wrappers.IsEmpty)
+            {
+                return;
+            }
 
             await taskContext.SwitchToMainThreadAsync();
             RedeemCodes = wrappers;

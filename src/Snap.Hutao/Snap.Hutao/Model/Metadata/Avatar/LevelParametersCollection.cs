@@ -51,6 +51,7 @@ file sealed class Converter<TLevel, TParameter> : JsonConverter<LevelParametersC
 {
     public override LevelParametersCollection<TLevel, TParameter> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
+        // NullReferenceException inside System.Text.Json
         return new(JsonSerializer.Deserialize<ImmutableArray<LevelParameters<TLevel, TParameter>>>(ref reader, options));
     }
 

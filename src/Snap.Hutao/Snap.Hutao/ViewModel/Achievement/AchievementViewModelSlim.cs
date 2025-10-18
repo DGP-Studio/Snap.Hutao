@@ -10,8 +10,9 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated(CallBaseConstructor = true)]
+[BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
+[ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
     [ObservableProperty]

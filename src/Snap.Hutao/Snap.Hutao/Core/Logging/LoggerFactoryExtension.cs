@@ -29,6 +29,7 @@ internal static class LoggerFactoryExtension
 
             options.AutoSessionTracking = true;
             options.IsGlobalModeEnabled = true;
+            options.EnableBackpressureHandling = true;
             options.Release = $"{HutaoRuntime.Version}";
             options.Environment = GetBuildEnvironment();
 

@@ -123,6 +123,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->ResinListItemId000106Allowed = options.ResinListItemId000106Allowed.Value;
         pIslandEnvironment->ResinListItemId000201Allowed = options.ResinListItemId000201Allowed.Value;
         pIslandEnvironment->ResinListItemId107009Allowed = options.ResinListItemId107009Allowed.Value;
+        pIslandEnvironment->ResinListItemId107012Allowed = options.ResinListItemId107012Allowed.Value;
         pIslandEnvironment->ResinListItemId220007Allowed = options.ResinListItemId220007Allowed.Value;
 
         return pIslandEnvironment->View;

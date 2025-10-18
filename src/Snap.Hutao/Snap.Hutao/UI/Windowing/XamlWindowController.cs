@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Content;
@@ -36,7 +37,6 @@ internal sealed class XamlWindowController
     private readonly Type windowType;
     private readonly Window window;
     private readonly bool hasCustomSystemBackdrop;
-    private readonly AppOptions appOptions;
 
     private readonly XamlWindowSubclass subclass;
     private readonly XamlWindowNonRude nonRude;
@@ -45,10 +45,8 @@ internal sealed class XamlWindowController
     {
         windowType = window.GetType();
         this.window = window;
-        Debug.Assert(serviceProvider is IServiceScope scope && ReferenceEquals(serviceProvider, scope));
+        Debug.Assert(serviceProvider is IServiceScope);
         ServiceProvider = serviceProvider;
-
-        appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         // Subclassing and NonRudeHWND are standard infrastructure.
         subclass = new(window);
@@ -67,6 +65,7 @@ internal sealed class XamlWindowController
             UpdateTitleButtonColor(default!, default!);
             xamlWindow.TitleBarCaptionAccess.ActualThemeChanged += UpdateTitleButtonColor;
 
+            // TODO: Remove once we use TitleBar in all windows.
             XamlWindowRegionRects.Update(window);
             xamlWindow.TitleBarCaptionAccess.SizeChanged += OnWindowSizeChanged;
         }
@@ -88,9 +87,9 @@ internal sealed class XamlWindowController
         hasCustomSystemBackdrop = window.SystemBackdrop is not null;
 
         // SystemBackdrop
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
         UpdateSystemBackdrop(appOptions.BackdropType.Value);
-
-        appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
+        BackdropTypeCallback = appOptions.BackdropType.WithValueChangedCallback(static (value, controller) => controller.UpdateSystemBackdrop(value), this);
 
         subclass.Initialize();
         window.Closed += OnWindowClosed;
@@ -99,6 +98,8 @@ internal sealed class XamlWindowController
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal IServiceProvider ServiceProvider { get; }
+
+    private IObservableProperty<BackdropType>? BackdropTypeCallback { get; }
 
     public bool TrySetTaskbarProgress(TBPFLAG state, ulong value, ulong maximum)
     {
@@ -177,7 +178,6 @@ internal sealed class XamlWindowController
 
         // Detach events
         window.Closed -= OnWindowClosed;
-        appOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
         if (window is IXamlWindowExtendContentIntoTitleBar xamlWindow)
         {
             xamlWindow.TitleBarCaptionAccess.ActualThemeChanged -= UpdateTitleButtonColor;
@@ -193,20 +193,6 @@ internal sealed class XamlWindowController
         // Dispose the service scope
         Unsafe.As<IServiceScope>(ServiceProvider).Dispose();
         window.UninitializeController();
-    }
-
-    private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (sender is not AppOptions options)
-        {
-            return;
-        }
-
-        _ = e.PropertyName switch
-        {
-            nameof(AppOptions.BackdropType) => UpdateSystemBackdrop(options.BackdropType.Value),
-            _ => false,
-        };
     }
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)

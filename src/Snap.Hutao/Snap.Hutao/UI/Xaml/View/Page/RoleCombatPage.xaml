@@ -472,20 +472,38 @@
                                                                 Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
                                                                 BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                                                                 Header="{shuxm:ResourceString Name=ViewPageRoleCombatMedalRound}">
-                                                                <ItemsControl ItemsSource="{Binding Stat.GetMedalRoundList}">
+                                                                <ItemsControl ItemsSource="{Binding Rounds}">
                                                                     <ItemsControl.ItemTemplate>
-                                                                        <DataTemplate x:DataType="x:Int32">
+                                                                        <DataTemplate x:DataType="shvr:RoundView">
                                                                             <Grid>
-                                                                                <BitmapIcon
-                                                                                    Width="20"
-                                                                                    ShowAsMonochrome="False"
-                                                                                    UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
-                                                                                    Visibility="{Binding Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                                                                <BitmapIcon
-                                                                                    Width="20"
-                                                                                    Foreground="#FF808080"
-                                                                                    UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
-                                                                                    Visibility="{Binding Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                                                                                <Grid Visibility="{Binding IsTarot, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        Height="20"
+                                                                                        ShowAsMonochrome="False"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_RoleCombat_Reward_Tarot_04.png"
+                                                                                        Visibility="{Binding IsGetMedal, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        Height="20"
+                                                                                        Foreground="#FF808080"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_RoleCombat_Reward_Tarot_05.png"
+                                                                                        Visibility="{Binding IsGetMedal, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                                                                                </Grid>
+                                                                                <Grid Visibility="{Binding IsTarot, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        Height="20"
+                                                                                        ShowAsMonochrome="False"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
+                                                                                        Visibility="{Binding IsGetMedal, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        Height="20"
+                                                                                        Foreground="#FF808080"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
+                                                                                        Visibility="{Binding IsGetMedal, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                                                                                </Grid>
                                                                             </Grid>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>

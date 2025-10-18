@@ -12,8 +12,11 @@ internal sealed class RoundView
     {
         FinishTime = DateTimeOffset.FromUnixTimeSeconds(data.FinishTime).ToOffset(offset);
 
-        RoundId = SH.FormatViewModelRoleCombatRound(data.RoundId);
+        RoundId = data.IsTarot
+            ? SH.FormatViewModelRoleCombatTarot(data.TarotSerialNumber.ToRoman())
+            : SH.FormatViewModelRoleCombatRound(data.RoundId);
         IsGetMedal = data.IsGetMedal;
+        IsTarot = data.IsTarot;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
         Enemies = data.Enemies.SelectAsArray(EnemyView.Create);
         Avatars = data.Avatars.SelectAsArray(AvatarView.Create, context);
@@ -25,6 +28,8 @@ internal sealed class RoundView
     public string RoundId { get; }
 
     public bool IsGetMedal { get; }
+
+    public bool IsTarot { get; }
 
     public string FinishTimeString { get; }
 

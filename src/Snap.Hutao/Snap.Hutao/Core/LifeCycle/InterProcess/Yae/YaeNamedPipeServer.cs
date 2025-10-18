@@ -104,6 +104,10 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                     writer.Write(config.DoCmd);
                     writer.Write(config.ToUInt16);
                     writer.Write(config.UpdateNormalProperty);
+                    writer.Write(config.NewString);
+                    writer.Write(config.FindGameObject);
+                    writer.Write(config.EventSystemUpdate);
+                    writer.Write(config.SimulatePointerClick);
                     return default;
                 }
 

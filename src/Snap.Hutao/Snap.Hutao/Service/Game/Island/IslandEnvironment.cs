@@ -27,5 +27,6 @@ internal struct IslandEnvironment
     public BOOL ResinListItemId000106Allowed;
     public BOOL ResinListItemId000201Allowed;
     public BOOL ResinListItemId107009Allowed;
+    public BOOL ResinListItemId107012Allowed;
     public BOOL ResinListItemId220007Allowed;
 }

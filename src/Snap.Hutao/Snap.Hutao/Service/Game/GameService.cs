@@ -33,7 +33,7 @@ internal sealed partial class GameService : IGameService
         return gameChannelOptionsService.GetChannelOptions();
     }
 
-    public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<Task<ValueResult<bool, string?>>> providerNameCallback)
+    public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback)
     {
         return gameInRegistryAccountService.DetectCurrentGameAccountAsync(scheme, providerNameCallback);
     }

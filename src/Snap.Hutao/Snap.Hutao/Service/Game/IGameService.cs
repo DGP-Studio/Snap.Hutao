@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Game;
 
 internal interface IGameService
 {
-    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<Task<ValueResult<bool, string?>>> providerNameCallback);
+    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask<ValueResult<bool, string>> GetGamePathAsync();
 

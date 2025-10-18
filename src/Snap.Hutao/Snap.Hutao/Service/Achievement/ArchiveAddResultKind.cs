@@ -7,6 +7,6 @@ internal enum ArchiveAddResultKind
 {
     Added,
     ArchivesNotInitialized,
-    InvalidName,
-    AlreadyExists,
+    ArchiveNameInvalid,
+    ArchiveAlreadyExists,
 }

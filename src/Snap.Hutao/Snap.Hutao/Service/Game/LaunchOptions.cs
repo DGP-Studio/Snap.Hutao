@@ -137,6 +137,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePat
     public IObservableProperty<bool> ResinListItemId107009Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId107009Allowed, true); }
 
     [field: MaybeNull]
+    public IObservableProperty<bool> ResinListItemId107012Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId107012Allowed, true); }
+
+
+    [field: MaybeNull]
     public IObservableProperty<bool> ResinListItemId220007Allowed { get => field ??= CreateProperty(SettingEntry.LaunchResinListItemId220007Allowed, true); }
 
     [field: MaybeNull]

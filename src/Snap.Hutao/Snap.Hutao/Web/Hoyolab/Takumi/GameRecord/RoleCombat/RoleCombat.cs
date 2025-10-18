@@ -15,4 +15,7 @@ internal sealed class RoleCombat
 
     [JsonPropertyName("links")]
     public required RoleCombatLinks Links { get; init; }
+
+    [JsonPropertyName("tarot_card_state")]
+    public TarotCardState? TarotCardState { get; set; }
 }

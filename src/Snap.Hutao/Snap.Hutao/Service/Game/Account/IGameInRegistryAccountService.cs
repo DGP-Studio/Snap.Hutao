@@ -11,7 +11,7 @@ internal interface IGameInRegistryAccountService
 {
     GameAccount? DetectCurrentGameAccount(SchemeType schemeType);
 
-    ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType, Func<Task<ValueResult<bool, string?>>> providerNameCallback);
+    ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback);
 
     ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync();
 

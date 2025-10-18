@@ -138,28 +138,31 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (webview2LoadLock.Wait(TimeSpan.Zero))
+        // WebView2 is still loading
+        if (!webview2LoadLock.Wait(TimeSpan.Zero))
         {
-            webview2LoadLock.Release();
-            cancel = false;
-
-            LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
-
-            InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-            InputLowLevelKeyboardSource.Uninitialize();
-
-            InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
-
+            cancel = true;
             return;
         }
 
-        cancel = true;
+        cancel = false;
+
+        LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
+
+        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Uninitialize();
+
+        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
+        webview2LoadLock.Release();
     }
 
     public void OnWindowClosed()
     {
-        webview2LoadLock.Wait();
-        webview2LoadLock.Dispose();
+        using (webview2LoadLock)
+        {
+            webview2LoadLock.Wait();
+            webview2LoadLock.Release();
+        }
     }
 
     private static void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
@@ -272,6 +275,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
 
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+
+        if (coreWebView2 is null)
+        {
+            return;
+        }
 
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {

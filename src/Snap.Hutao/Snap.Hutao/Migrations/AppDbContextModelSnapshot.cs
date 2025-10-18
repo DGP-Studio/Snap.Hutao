@@ -351,6 +351,12 @@ namespace Snap.Hutao.Migrations
                     b.Property<int>("Index")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("MacAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mid")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("MihoyoSDK")
                         .IsRequired()
                         .HasColumnType("TEXT");

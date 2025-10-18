@@ -21,8 +21,7 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
         }
     }
 
-    [SuppressMessage("", "SH003")]
-    private async Task PrivateDelayAsync()
+    private async ValueTask PrivateDelayAsync()
     {
         try
         {

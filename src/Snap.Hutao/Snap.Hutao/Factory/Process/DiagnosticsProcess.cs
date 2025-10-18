@@ -36,6 +36,15 @@ internal sealed partial class DiagnosticsProcess : IProcess
                 // No process is associated with this object.
                 return true;
             }
+            catch (Win32Exception win32Ex)
+            {
+                if (HutaoNative.IsWin32(win32Ex.NativeErrorCode, WIN32_ERROR.ERROR_ACCESS_DENIED))
+                {
+                    return false;
+                }
+
+                throw;
+            }
             catch (Exception ex)
             {
                 if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ACCESS_DENIED))

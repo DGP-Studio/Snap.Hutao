@@ -177,8 +177,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         InfoBarMessage message = await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.Create(name)).ConfigureAwait(false) switch
         {
             ArchiveAddResultKind.Added => InfoBarMessage.Success(SH.FormatViewModelAchievementArchiveAdded(name)),
-            ArchiveAddResultKind.InvalidName => InfoBarMessage.Warning(SH.ViewModelAchievementArchiveInvalidName),
-            ArchiveAddResultKind.AlreadyExists => InfoBarMessage.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
+            ArchiveAddResultKind.ArchiveNameInvalid => InfoBarMessage.Warning(SH.ViewModelAchievementArchiveInvalidName),
+            ArchiveAddResultKind.ArchiveAlreadyExists => InfoBarMessage.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name)),
             _ => throw HutaoException.NotSupported(),
         };
 

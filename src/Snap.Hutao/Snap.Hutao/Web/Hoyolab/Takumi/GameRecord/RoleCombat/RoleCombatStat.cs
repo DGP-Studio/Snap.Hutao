@@ -31,4 +31,7 @@ internal sealed class RoleCombatStat
 
     [JsonPropertyName("rent_cnt")]
     public required int RentCount { get; init; }
+
+    [JsonPropertyName("tarot_finished_cnt")]
+    public int TarotFinishedCount { get; set; }
 }

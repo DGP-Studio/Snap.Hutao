@@ -210,13 +210,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 return;
             }
 
-            GameAccount? currentAccount = await gameService.DetectGameAccountAsync(TargetSchemeFilteredGameAccountsView.Scheme, async () =>
+            GameAccount? currentAccount = await gameService.DetectGameAccountAsync(TargetSchemeFilteredGameAccountsView.Scheme, async (suggestedName) =>
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     LaunchGameAccountNameDialog dialog = await scope.ServiceProvider
                         .GetRequiredService<IContentDialogFactory>()
-                        .CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider)
+                        .CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider, suggestedName)
                         .ConfigureAwait(false);
                     return await dialog.GetInputNameAsync().ConfigureAwait(false);
                 }

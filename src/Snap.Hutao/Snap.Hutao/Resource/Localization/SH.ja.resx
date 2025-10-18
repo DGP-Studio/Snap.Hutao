@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -174,6 +174,15 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] をホットキー [{1}] に登録できませんでした</value>
   </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>システム設定に従う</value>
+  </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
     <value>閉じる</value>
   </data>
@@ -185,15 +194,6 @@
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>ウィンドウ</value>
-  </data>
-  <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>ダーク</value>
-  </data>
-  <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>ライト</value>
-  </data>
-  <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>システム設定に従う</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>胡桃へようこそ</value>
@@ -312,6 +312,14 @@
   </data>
   <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
     <value>ナタ</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
+    <value>ナド・クライ</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
+    <value>宇宙の劫災</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
@@ -988,6 +996,27 @@
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
     <value>注入の配置情報の取得に失敗しました、現在のゲームバージョンはサポートされていません</value>
   </data>
+  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
+    <value>注入機能の悪用を防ぐため、米游社/HoYoLAB アカウントでログインし、アカウント及びキャラクターを選択する必要があります</value>
+  </data>
+  <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
+    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
+    <value>在注入 DLL: '{0}' 时发生错误</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
+    <value>Better GI 已启动</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
+    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
+    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
+    <value>本地游戏配置文件损坏，请修复后重试</value>
+  </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>ゲームは実行中です</value>
   </data>
@@ -997,14 +1026,8 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>ゲームリソースのインデックスのダウンロードに失敗しました: {0}</value>
   </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>Embedded Yae を使う前に、胡桃を管理者権限で実行する必要があります</value>
-  </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
-    <value>注入に失敗しました。Windows Defender のアプリとブラウザー コントロール &gt; スマート アプリ コントロールポリシーが操作をブロックしている可能性があるので、無効化をお試しください</value>
-  </data>
-  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>Embedded Yae を使う前に、関連するリスクを理解し「ゲームランチャー」ページで注入機能を有効にする必要があります</value>
+  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
+    <value>プロセスの終了に失敗しました</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>ゲームプロセスが終了しました</value>
@@ -1020,6 +1043,18 @@
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>プロセスが終了するまで待機中</value>
+  </data>
+  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
+    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>Embedded Yae を使う前に、胡桃を管理者権限で実行する必要があります</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeErrorSystemIntegrityPolicyViolation" xml:space="preserve">
+    <value>注入に失敗しました。Windows Defender のアプリとブラウザー コントロール &gt; スマート アプリ コントロールポリシーが操作をブロックしている可能性があるので、無効化をお試しください</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>Embedded Yae を使う前に、関連するリスクを理解し「ゲームランチャー」ページで注入機能を有効にする必要があります</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>ゲーム本体を選択する</value>
@@ -1138,6 +1173,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>あなたの胡桃バージョンは古すぎて、できるだけ早く更新してください！</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
+    <value>游戏资源操作已取消</value>
+  </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>ゲームリソースの操作に失敗しました</value>
   </data>
@@ -1185,6 +1223,9 @@
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae エラー</value>
+  </data>
+  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
+    <value>ゲームバージョンの取得に失敗しました</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
     <value>ゲームデータを待機中</value>
@@ -1549,6 +1590,9 @@
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
     <value>選択されたパスは無効です</value>
   </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
+    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+  </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>音声拡張パックが選択されていません</value>
   </data>
@@ -1647,6 +1691,9 @@
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
     <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
+  </data>
+  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
+    <value>コールスタック</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>通報·意見 ｾﾝﾀｰ</value>
@@ -1774,15 +1821,6 @@
   <data name="ViewModelAchievementCopyAchievementIdSuccess" xml:space="preserve">
     <value>実績 ID をコピーしました</value>
   </data>
-  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
-    <value>米游社へ検索</value>
-  </data>
-  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
-    <value>HoYoLAB へ検索</value>
-  </data>
-  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
-    <value>{0} 実績</value>
-  </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
   </data>
@@ -1797,6 +1835,15 @@
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>{0} を削除してもよろしいでしょうか？</value>
+  </data>
+  <data name="ViewModelAchievementSearchInHoYoLAB" xml:space="preserve">
+    <value>HoYoLAB へ検索</value>
+  </data>
+  <data name="ViewModelAchievementSearchInMiyoushe" xml:space="preserve">
+    <value>米游社へ検索</value>
+  </data>
+  <data name="ViewModelAchievementSearchQuery" xml:space="preserve">
+    <value>{0} 実績</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>UIAF JSON ファイルを指定した場所へエクスポート</value>
@@ -2023,6 +2070,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>UIGF JSON ファイルをインポート</value>
   </data>
+  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
+    <value>生成配置文件失败</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
+    <value>游戏路径被锁定，请稍后再试</value>
+  </data>
+  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
+    <value>游戏路径为空，请先设置游戏路径</value>
+  </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>ゲームバージョン設定の取得に失敗しました</value>
   </data>
@@ -2128,11 +2184,17 @@
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
     <value>無効なゲームパスです、ハードウェア接続を確認してください</value>
   </data>
+  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
+    <value>当前游戏路径：'{0}'</value>
+  </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
     <value>設定ファイルの修復</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
+    <value>修复失败</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
     <value>修复成功</value>
@@ -2257,9 +2319,6 @@
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>インポート失敗</value>
   </data>
-  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>インポート中</value>
-  </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>インポートされた UIGFファイルには、祈願データが含まれていません。</value>
   </data>
@@ -2268,6 +2327,9 @@
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
     <value>インポート成功</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>インポート中</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>ユーザー [{0}] を正常に追加しました</value>
@@ -2635,8 +2697,23 @@
   <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
     <value>星5武器</value>
   </data>
+  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
+    <value>キャラクター</value>
+  </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
     <value>タイマー</value>
+  </data>
+  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
+    <value>一覧</value>
+  </data>
+  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
+    <value>グローバル祈願統計</value>
+  </data>
+  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
+    <value>武器</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
     <value>星4キャラクター</value>
@@ -2674,21 +2751,6 @@
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>現在のアーカイブを削除する</value>
-  </data>
-  <data name="ViewPageGachaLogPivotAvatar" xml:space="preserve">
-    <value>キャラクター</value>
-  </data>
-  <data name="ViewPageGachaLogPivotHistory" xml:space="preserve">
-    <value>履歴</value>
-  </data>
-  <data name="ViewPageGachaLogPivotOverview" xml:space="preserve">
-    <value>一覧</value>
-  </data>
-  <data name="ViewPageGachaLogPivotStatistics" xml:space="preserve">
-    <value>グローバル祈願統計</value>
-  </data>
-  <data name="ViewPageGachaLogPivotWeapon" xml:space="preserve">
-    <value>武器</value>
   </data>
   <data name="ViewPageHardChallengeTime" xml:space="preserve">
     <value>戦闘時間</value>
@@ -2909,6 +2971,12 @@
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>特殊シーンの補正</value>
   </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
+    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
+    <value>视野与迷雾</value>
+  </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>地図バナーコールドスイッチ</value>
   </data>
@@ -2927,11 +2995,29 @@
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
   </data>
+  <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
+    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
+    <value>注入选项</value>
+  </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>アイテム詳細で「合成可能数」をクリックした時、マップではなく「合成台」を直接に開きます</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
     <value>合成リダイレクト</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
+    <value>使用浓缩树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
+    <value>使用脆弱树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
+    <value>使用原粹树脂领取奖励</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
+    <value>使用原石领取奖励</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>タッチ入力を使用</value>
@@ -3005,6 +3091,9 @@
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
     <value>ゲームのパスを選択</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
+    <value>下のリストで項目を選択して、そのパスに切り替えます</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
     <value>ゲーム内でアカウントを切り替える場合、ネットワーク環境が変わった後に手動で再検出する必要があります。</value>
   </data>
@@ -3019,6 +3108,9 @@
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
     <value>リネーム</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
+    <value>转换</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>ゲームサーバーを切り替える(天空島/世界樹/グローバル)</value>
@@ -3043,6 +3135,12 @@
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
     <value>FPS ホットスイッチ</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
+    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
+    <value>无法解锁帧率上限？</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>マウスカーソルを機能スイッチ/テキストボックスに合わせると詳細が表示されます</value>
@@ -3302,14 +3400,14 @@
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
   </data>
-  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈願履歴</value>
-  </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>ゲーム起動</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>ログイン</value>
+  </data>
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>祈願履歴</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>非表示</value>
@@ -3503,11 +3601,11 @@
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽選の祈願アイテム</value>
   </data>
-  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>Webview2 ランタイム</value>
-  </data>
   <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
     <value>WebView</value>
+  </data>
+  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
+    <value>Webview2 ランタイム</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>後半</value>
@@ -3541,6 +3639,9 @@
   </data>
   <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
     <value>料理</value>
+  </data>
+  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
+    <value>神の心</value>
   </data>
   <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
     <value>日本語CV</value>
@@ -3578,14 +3679,17 @@
   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
     <value>おすすめキャラクター</value>
   </data>
+  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
+    <value>軌跡</value>
+  </data>
+  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
+    <value>神の目</value>
+  </data>
   <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
     <value>おすすめ武器</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
     <value>育成計画に追加</value>
-  </data>
-  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
-    <value>ドロップアイテム</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
     <value>突破後</value>
@@ -3595,6 +3699,9 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
+  </data>
+  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
+    <value>ドロップアイテム</value>
   </data>
   <data name="ViewPeriodHeader" xml:space="preserve">
     <value>周期</value>
@@ -3797,6 +3904,9 @@
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
     <value>コンパクトウェブ (管理者のみ)</value>
   </data>
+  <data name="ViewWindowExceptionClose" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>フィードバックの方法はフィードバックセンター内から、開発者に連絡をとってください。</value>
   </data>
@@ -3893,6 +4003,9 @@
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>塵歌壺が未解放です</value>
   </data>
+  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
+    <value>{0} 日</value>
+  </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今日</value>
   </data>
@@ -3902,14 +4015,11 @@
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
     <value>明後日</value>
   </data>
-  <data name="WebDailyNoteRecoveryTimeDay" xml:space="preserve">
-    <value>{0} 日</value>
+  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
+    <value>{0} {1:HH:mm} 後にすべて回復</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>天然樹脂は完全に回復しました</value>
-  </data>
-  <data name="WebDailyNoteResinRecovery" xml:space="preserve">
-    <value>{0} {1:HH:mm} 後にすべて回復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 後にリセット</value>
@@ -4042,115 +4152,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>
-  </data>
-  <data name="ServiceGameIslandFeatureRequiresHoyolabAccount" xml:space="preserve">
-    <value>注入機能の悪用を防ぐため、米游社/HoYoLAB アカウントでログインし、アカウント及びキャラクターを選択する必要があります</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionGameRunningKillFailed" xml:space="preserve">
-    <value>プロセスの終了に失敗しました</value>
-  </data>
-  <data name="ModelIntrinsicAssociationTypeOmniScourge" xml:space="preserve">
-    <value>宇宙の劫災</value>
-    <comment>Need EXACT same string in game</comment>
-  </data>
-  <data name="ModelIntrinsicAssociationTypeNodkrai" xml:space="preserve">
-    <value>ナド・クライ</value>
-    <comment>Need EXACT same string in game</comment>
-  </data>
-  <data name="ViewExceptionWindowStacktraceHeader" xml:space="preserve">
-    <value>コールスタック</value>
-  </data>
-  <data name="ViewPageWiKiAvatarVisionTitle" xml:space="preserve">
-    <value>神の目</value>
-  </data>
-  <data name="ServiceYaeGetGameVersionFailed" xml:space="preserve">
-    <value>ゲームバージョンの取得に失敗しました</value>
-  </data>
-  <data name="ViewWindowExceptionClose" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="ViewPageLaunchGameSelectGamePathHint" xml:space="preserve">
-    <value>下のリストで項目を選択して、そのパスに切り替えます</value>
-  </data>
-  <data name="ViewPageWiKiAvatarTraceEffectHeader" xml:space="preserve">
-    <value>軌跡</value>
-  </data>
-  <data name="ViewPageWiKiAvatarGnosisTitle" xml:space="preserve">
-    <value>神の心</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
-  </data>
-  <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
-  </data>
-  <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
-  </data>
-  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
-  </data>
-  <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
-  </data>
-  <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
-  </data>
-  <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
-  </data>
-  <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
-  </data>
-  <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
-  </data>
-  <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
-  </data>
-  <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
-  </data>
-  <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
-  </data>
-  <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
   </data>
 </root>

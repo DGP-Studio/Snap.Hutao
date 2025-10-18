@@ -19,4 +19,7 @@ internal enum RoleCombatDifficultyLevel
 
     [LocalizationKey(nameof(SH.ModelIntrinsicRoleCombatDifficultyLevelVisionary))]
     Visionary = 4,
+
+    [LocalizationKey(nameof(SH.ModelIntrinsicRoleCombatDifficultyLevelLunar))]
+    Lunar = 5,
 }

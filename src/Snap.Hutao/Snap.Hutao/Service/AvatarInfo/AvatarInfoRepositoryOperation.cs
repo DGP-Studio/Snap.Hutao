@@ -108,7 +108,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
     private void EnsureItemsAvatarIdUnique(ImmutableArray<EntityAvatarInfo> dbInfos, string uid, out FrozenDictionary<AvatarId, EntityAvatarInfo> dbInfoMap)
     {
         Dictionary<AvatarId, EntityAvatarInfo> infoMap = [];
-        foreach (ref readonly EntityAvatarInfo info in dbInfos.AsSpan())
+        foreach (EntityAvatarInfo info in dbInfos)
         {
             if (info.Info2 is null || !infoMap.TryAdd(info.Info2.Base.Id, info))
             {

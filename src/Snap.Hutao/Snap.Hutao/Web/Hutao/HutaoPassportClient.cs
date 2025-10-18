@@ -51,12 +51,12 @@ internal sealed partial class HutaoPassportClient
 
         if (requestType.HasFlag(VerifyCodeRequestType.ResetUserName))
         {
-            data["IsResetUsername"] = true;
+            data["IsResetUserName"] = true;
         }
 
         if (requestType.HasFlag(VerifyCodeRequestType.ResetUserNameNew))
         {
-            data["IsResetUsernameNew"] = true;
+            data["IsResetUserNameNew"] = true;
         }
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

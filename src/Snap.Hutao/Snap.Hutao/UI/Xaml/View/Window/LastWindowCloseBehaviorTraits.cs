@@ -22,7 +22,7 @@ internal sealed partial class LastWindowCloseBehaviorTraits
             .CreateInstanceAsync<LastWindowCloseBehaviorConfigurationDialog>(serviceProvider)
             .ConfigureAwait(false);
 
-        if (await dialog.GetLastWindowCloseBehaviorAsync().ConfigureAwait(false) is not (true, { } behavior))
+        if (await dialog.GetLastWindowCloseBehaviorAsync().ConfigureAwait(false) is not (true, var behavior))
         {
             return;
         }

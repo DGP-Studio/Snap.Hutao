@@ -20,7 +20,7 @@ internal static class GameServiceExtension
         }
     }
 
-    public static ValueTask<GameAccount?> DetectGameAccountAsync(this IGameService gameService, LaunchScheme scheme, Func<Task<ValueResult<bool, string?>>> providerNameCallback)
+    public static ValueTask<GameAccount?> DetectGameAccountAsync(this IGameService gameService, LaunchScheme scheme, Func<string, Task<ValueResult<bool, string?>>> providerNameCallback)
     {
         return gameService.DetectGameAccountAsync(scheme.GetSchemeType(), providerNameCallback);
     }

@@ -62,6 +62,7 @@ internal sealed partial class SettingEntry
     public const string LaunchResinListItemId000106Allowed = "Launch.ResinListItemId000106Allowed";
     public const string LaunchResinListItemId000201Allowed = "Launch.ResinListItemId000201Allowed";
     public const string LaunchResinListItemId107009Allowed = "Launch.ResinListItemId107009Allowed";
+    public const string LaunchResinListItemId107012Allowed = "Launch.ResinListItemId107012Allowed";
     public const string LaunchResinListItemId220007Allowed = "Launch.ResinListItemId220007Allowed";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";

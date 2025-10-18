@@ -34,4 +34,10 @@ internal sealed class RoleCombatRoundData
 
     [JsonPropertyName("splendour_buff")]
     public required RoleCombatSplendourBuffWrapper SplendourBuff { get; init; }
+
+    [JsonPropertyName("is_tarot")]
+    public bool IsTarot { get; init; }
+
+    [JsonPropertyName("tarot_serial_no")]
+    public int TarotSerialNumber { get; init; }
 }
