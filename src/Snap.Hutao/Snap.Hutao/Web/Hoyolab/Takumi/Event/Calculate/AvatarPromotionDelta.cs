@@ -1,38 +1,51 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Property;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-internal sealed class AvatarPromotionDelta
+[BindableCustomPropertyProvider]
+internal sealed partial class AvatarPromotionDelta : ObservableObject
 {
+    [ObservableProperty]
     [JsonPropertyName("avatar_id")]
-    public AvatarId AvatarId { get; set; }
+    public partial AvatarId AvatarId { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("avatar_level_current")]
-    public uint AvatarLevelCurrent { get; set; }
+    public partial uint AvatarLevelCurrent { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("avatar_level_target")]
-    public uint AvatarLevelTarget { get; set; }
+    public partial uint AvatarLevelTarget { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("element_attr_id")]
-    public ElementAttributeId ElementAttrId { get; set; }
+    public partial ElementAttributeId ElementAttrId { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("skill_list")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public ImmutableArray<PromotionDelta> SkillList { get; set; }
+    public partial ImmutableArray<PromotionDelta> SkillList { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("weapon")]
-    public PromotionDelta? Weapon { get; set; }
+    public partial PromotionDelta? Weapon { get; set; }
 
+    [ObservableProperty]
     [JsonPropertyName("from_user_sync")]
-    public bool FromUserSync { get; set; } = true;
+    public partial bool FromUserSync { get; set; } = true;
 
+    [ObservableProperty]
     [JsonPropertyName("avatar_promote_level")]
-    public uint AvatarPromoteLevel { get; set; }
+    public partial uint AvatarPromoteLevel { get; set; }
+
+    internal IProperty<bool> IsViewUnloaded { get; } = Property.Create(false);
 
     public static AvatarPromotionDelta CreateForBaseline()
     {
