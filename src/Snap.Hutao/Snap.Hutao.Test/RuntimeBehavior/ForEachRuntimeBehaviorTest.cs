@@ -9,12 +9,7 @@ public sealed class ForEachRuntimeBehaviorTest
     [TestMethod]
     public void ListOfStringCanEnumerateAsReadOnlySpanOfChar()
     {
-        List<string> strings =
-#if NET8_0_OR_GREATER
-            ["a", "b", "c"];
-#else
-            new() { "a", "b", "c" };
-#endif
+        List<string> strings = ["a", "b", "c"];
         int count = 0;
         foreach (ReadOnlySpan<char> chars in strings)
         {

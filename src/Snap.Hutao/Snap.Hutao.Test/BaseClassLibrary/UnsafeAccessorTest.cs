@@ -18,13 +18,14 @@ public class UnsafeAccessorTest
     public void BehaviorTest()
     {
         DateTimeOffset dto = new(2000, 2, 3, 4, 5, 6, TimeSpan.FromHours(7));
-        Assert.AreEqual(RefValueGetFieldRef(ref dto), 420);
-        Assert.ThrowsException<MissingFieldException>(() => RefValueGetFieldRefReadonly(ref dto));
+        Assert.AreEqual(420, RefValueGetFieldRef(ref dto));
+        Assert.AreEqual(420, RefValueGetFieldRefReadonly(ref dto));
     }
 
     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_TestProperty")]
     private static extern int InternalGetInterfaceProperty(ITestInterface instance);
 
+    // private readonly int _offsetMinutes;
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_offsetMinutes")]
     private static extern ref short RefValueGetFieldRef(ref DateTimeOffset dto);
 

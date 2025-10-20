@@ -12,13 +12,7 @@ public sealed class UnsafeRuntimeBehaviorTest
     [TestMethod]
     public unsafe void UInt32AllSetIsUInt32MaxValue()
     {
-        byte[] bytes =
-#if NET8_0_OR_GREATER
-            [0xFF, 0xFF, 0xFF, 0xFF];
-#else
-            { 0xFF, 0xFF, 0xFF, 0xFF, };
-#endif
-
+        byte[] bytes = [0xFF, 0xFF, 0xFF, 0xFF];
         fixed (byte* pBytes = bytes)
         {
             Assert.AreEqual(uint.MaxValue, *(uint*)pBytes);

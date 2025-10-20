@@ -45,11 +45,14 @@ public sealed class JsonSerializeTest
     }
 
     [TestMethod]
-    [ExpectedException(typeof(JsonException))]
     public void EmptyStringCannotSerializeAsNumber()
     {
-        SampleStringReadWriteNumberPropertyClass sample = JsonSerializer.Deserialize<SampleStringReadWriteNumberPropertyClass>(SampleEmptyStringObjectJson)!;
-        Assert.AreEqual(0, sample.A);
+        SampleStringReadWriteNumberPropertyClass sample = default!;
+        Assert.Throws<JsonException>(() =>
+        {
+            sample = JsonSerializer.Deserialize<SampleStringReadWriteNumberPropertyClass>(SampleEmptyStringObjectJson)!;
+            Assert.AreEqual(0, sample.A);
+        });
     }
 
     [TestMethod]
