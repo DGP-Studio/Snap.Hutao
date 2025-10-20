@@ -71,7 +71,7 @@ internal sealed partial class ServiceRecipientBackgroundImagePresenterBehavior :
             token.ThrowIfCancellationRequested();
             (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(forceRefresh ? default : previousBackgroundImage, token).ConfigureAwait(false);
 
-            if (shouldRefresh)
+            if (shouldRefresh || forceRefresh)
             {
                 previousBackgroundImage = backgroundImage;
                 await taskContext.SwitchToMainThreadAsync();
@@ -98,11 +98,11 @@ internal sealed partial class ServiceRecipientBackgroundImagePresenterBehavior :
                     token.ThrowIfCancellationRequested();
                     backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
 
-                    double targetOpacity = backgroundImage is not null
-                        ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
+                    double targetOpacity = backgroundImage is null
+                        ? 0
+                        : ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
                             ? 1 - backgroundImage.Luminance
-                            : backgroundImage.Luminance
-                        : 0;
+                            : backgroundImage.Luminance;
 
                     await AnimationBuilder
                         .Create()

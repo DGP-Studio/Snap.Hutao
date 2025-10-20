@@ -22,20 +22,20 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
-    public Lazy<ImmutableArray<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(() =>
+    public Lazy<ImmutableArray<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(static () =>
     [
         new(SH.CoreWindowThemeLight, Microsoft.UI.Xaml.ElementTheme.Light),
         new(SH.CoreWindowThemeDark, Microsoft.UI.Xaml.ElementTheme.Dark),
         new(SH.CoreWindowThemeSystem, Microsoft.UI.Xaml.ElementTheme.Default),
     ]);
 
-    public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(() =>
+    public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(static () =>
     {
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
         return KnownRegions.Value;
     });
 
-    public Lazy<ImmutableArray<NameValue<TimeSpan>>> LazyCalendarServerTimeZoneOffsets { get; } = new(() =>
+    public Lazy<ImmutableArray<NameValue<TimeSpan>>> LazyCalendarServerTimeZoneOffsets { get; } = new(static () =>
     {
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
         return KnownServerRegionTimeZones.Value;

@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Service;
 
@@ -13,6 +14,7 @@ internal static class KnownServerRegionTimeZones
     {
         get
         {
+            Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
             return !field.IsDefault ? field : field =
             [
                 new(SH.ServiceAppOptionsCalendarServerTimeZoneCommon, ServerRegionTimeZone.CommonOffset),

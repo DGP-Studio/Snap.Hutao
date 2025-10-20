@@ -23,7 +23,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
 
     public CultureInfo SystemCulture { get; set; } = default!;
 
-    public string LocaleName { get => CultureOptionsExtension.GetLocaleName(CurrentCulture.Value); }
+    public string LocaleName { get => LocaleNames.GetLocaleName(CurrentCulture.Value); }
 
     [field: AllowNull]
     [field: MaybeNull]

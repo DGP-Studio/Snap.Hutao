@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Factory.Process;
@@ -38,16 +37,7 @@ internal sealed partial class DiagnosticsProcess : IProcess
             }
             catch (Win32Exception win32Ex)
             {
-                if (HutaoNative.IsWin32(win32Ex.NativeErrorCode, WIN32_ERROR.ERROR_ACCESS_DENIED))
-                {
-                    return false;
-                }
-
-                throw;
-            }
-            catch (Exception ex)
-            {
-                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ACCESS_DENIED))
+                if ((WIN32_ERROR)win32Ex.NativeErrorCode == WIN32_ERROR.ERROR_ACCESS_DENIED)
                 {
                     return false;
                 }

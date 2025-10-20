@@ -89,7 +89,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                 NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
                 string? queryLanguageCode = query["lang"];
 
-                if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+                if (!LocaleNames.LanguageCodeFitsCurrentLocale(queryLanguageCode, cultureOptions.LocaleName))
                 {
                     string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
                     return new(false, GachaLogQuery.Invalid(message));

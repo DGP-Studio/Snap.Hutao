@@ -167,17 +167,17 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Start operation", "GamePackageViewModel.Command", [("operation", operation ?? "<null>")]));
 
-        if (!Enum.TryParse(operation, out GamePackageOperationKind operationKind))
-        {
-            return;
-        }
-
         if (!IsInitialized)
         {
             return;
         }
 
-        if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } launchScheme)
+        if (!Enum.TryParse(operation, out GamePackageOperationKind operationKind))
+        {
+            return;
+        }
+
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigurationFile() is not { } currentScheme)
         {
             return;
         }
@@ -191,53 +191,19 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         ArgumentNullException.ThrowIfNull(gameFileSystem);
         using (gameFileSystem)
         {
-            ArgumentNullException.ThrowIfNull(LocalVersion);
-
-            GameBranch? branch = await GetCurrentGameBranchAsync(launchScheme).ConfigureAwait(false);
-            if (branch is null)
+            if (await GetCurrentGameBranchAsync(currentScheme).ConfigureAwait(false) is not { } branch)
             {
                 return;
             }
 
-            SophonDecodedBuild? localBuild;
-            SophonDecodedBuild? remoteBuild;
-            SophonDecodedPatchBuild? patchBuild;
-
-            ContentDialog fetchManifestDialog = await contentDialogFactory
-                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
-                .ConfigureAwait(false);
-            using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
-            {
-                try
-                {
-                    BranchWrapper localBranch = operationKind is GamePackageOperationKind.Verify && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
-                        ? branch.PreDownload?.GetTaggedCopy(LocalVersion.ToString()) ?? branch.Main.GetTaggedCopy(LocalVersion.ToString())
-                        : branch.Main.GetTaggedCopy(LocalVersion.ToString());
-                    localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
-
-                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
-                        ? branch.PreDownload ?? branch.Main
-                        : operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
-                    remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
-
-                    patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
-
-                    ArgumentNullException.ThrowIfNull(localBuild);
-                    ArgumentNullException.ThrowIfNull(remoteBuild);
-                }
-                catch (Exception ex)
-                {
-                    messenger.Send(InfoBarMessage.Error(ex));
-                    return;
-                }
-            }
-
+            SophonDecodedBuilds? builds = await GetSophonDecodedBuildsAsync(operationKind, branch, gameFileSystem).ConfigureAwait(false);
+            GameChannelSDK? sdk = await GetCurrentGameChannelSDKAsync(currentScheme).ConfigureAwait(false);
             GamePackageOperationContext context = new(serviceProvider, operationKind, gameFileSystem)
             {
-                LocalBuild = localBuild,
-                RemoteBuild = remoteBuild,
-                PatchBuild = patchBuild,
-                GameChannelSDK = await GetCurrentGameChannelSDKAsync(launchScheme).ConfigureAwait(false),
+                LocalBuild = builds?.LocalBuild,
+                RemoteBuild = builds?.RemoteBuild,
+                PatchBuild = builds?.PatchBuild,
+                GameChannelSDK = sdk,
             };
 
             if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
@@ -255,13 +221,57 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 break;
             case GamePackageOperationKind.Update:
                 LocalVersion = RemoteVersion;
-                OnPropertyChanged(nameof(IsUpdateAvailable));
                 break;
             case GamePackageOperationKind.Predownload:
                 OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
                 OnPropertyChanged(nameof(IsPredownloadFinished));
                 break;
         }
+    }
+
+    private async ValueTask<SophonDecodedBuilds?> GetSophonDecodedBuildsAsync(GamePackageOperationKind operationKind, GameBranch branch, IGameFileSystem gameFileSystem)
+    {
+        ArgumentNullException.ThrowIfNull(LocalVersion);
+
+        SophonDecodedBuild? localBuild;
+        SophonDecodedBuild? remoteBuild;
+        SophonDecodedPatchBuild? patchBuild;
+
+        ContentDialog fetchManifestDialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+            .ConfigureAwait(false);
+        using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
+        {
+            try
+            {
+                BranchWrapper localBranch = operationKind is GamePackageOperationKind.Verify && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                    ? branch.PreDownload?.GetTaggedCopy(LocalVersion.ToString()) ?? branch.Main.GetTaggedCopy(LocalVersion.ToString())
+                    : branch.Main.GetTaggedCopy(LocalVersion.ToString());
+                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
+
+                BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Update && LocalSetting.Get(SettingKeys.TreatPredownloadAsMain, false)
+                    ? branch.PreDownload ?? branch.Main
+                    : operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
+                remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
+                patchBuild = await gamePackageService.DecodeDiffManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+
+                ArgumentNullException.ThrowIfNull(localBuild);
+                ArgumentNullException.ThrowIfNull(remoteBuild);
+            }
+            catch (Exception ex)
+            {
+                messenger.Send(InfoBarMessage.Error(ex));
+                return default;
+            }
+        }
+
+        return new()
+        {
+            LocalBuild = localBuild,
+            RemoteBuild = remoteBuild,
+            PatchBuild = patchBuild,
+        };
     }
 
     private async ValueTask<GameBranch?> GetCurrentGameBranchAsync(LaunchScheme launchScheme)
@@ -289,5 +299,14 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         // Channel sdk can be null
         return channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
+    }
+
+    private sealed class SophonDecodedBuilds
+    {
+        public required SophonDecodedBuild? LocalBuild { get; init; }
+
+        public required SophonDecodedBuild? RemoteBuild { get; init; }
+
+        public required SophonDecodedPatchBuild? PatchBuild { get; init; }
     }
 }

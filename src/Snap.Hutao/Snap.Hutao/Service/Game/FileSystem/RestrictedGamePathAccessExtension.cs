@@ -30,7 +30,7 @@ internal static class RestrictedGamePathAccessExtension
         }
 
         fileSystem = GameFileSystem.Create(gamePath, releaser);
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Error: None", "TryGetGameFileSystem"));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug($"[{trace}] Succeed", "TryGetGameFileSystem"));
         return GameFileSystemErrorKind.None;
     }
 

@@ -36,7 +36,7 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderManualInputInvalid));
         }
 
-        if (!query.TryGetSingleValue("lang", out string? queryLanguageCode) || !cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+        if (!query.TryGetSingleValue("lang", out string? queryLanguageCode) || !LocaleNames.LanguageCodeFitsCurrentLocale(queryLanguageCode, cultureOptions.LocaleName))
         {
             string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
             return new(false, GachaLogQuery.Invalid(message));
