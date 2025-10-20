@@ -17,18 +17,13 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 
 internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotifyPropertyChanged
 {
-    private readonly SentryId id;
+    private readonly SentryId associatedEventId;
 
-    public ExceptionWindow(CapturedException capturedException)
-        : this(capturedException.Id, capturedException.Exception)
-    {
-    }
-
-    public ExceptionWindow(SentryId id, Exception ex)
+    public ExceptionWindow(SentryId associatedEventId, Exception ex)
     {
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
-        this.id = id;
+        this.associatedEventId = associatedEventId;
         Exception = ex.ToString();
 
         AppWindow.Title = "Snap Hutao Exception Report";
@@ -49,7 +44,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public string TraceId { get => $"trace.id: {id}"; }
+    public string TraceId { get => $"trace.id: {associatedEventId}"; }
 
     public string Exception { get; }
 
@@ -75,8 +70,8 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
         Bindings.Update();
         if (!string.IsNullOrWhiteSpace(Comment))
         {
-            string email = await Ioc.Default.GetRequiredService<HutaoUserOptions>().GetActualUserNameAsync().ConfigureAwait(true) ?? "Anonymous";
-            SentrySdk.CaptureFeedback(Comment, email);
+            string? email = await Ioc.Default.GetRequiredService<HutaoUserOptions>().GetActualUserNameAsync().ConfigureAwait(true);
+            SentrySdk.CaptureFeedback(Comment, contactEmail: email, associatedEventId: associatedEventId);
         }
 
         await SentrySdk.FlushAsync().ConfigureAwait(true);
