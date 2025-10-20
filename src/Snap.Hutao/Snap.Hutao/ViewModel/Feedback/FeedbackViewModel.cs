@@ -90,7 +90,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
             return;
         }
 
-        string language = cultureOptions.GetLanguageCodeForDocumentationSearch();
+        string language = LocaleNames.GetLanguageCodeForDocumentationSearchFromLocaleName(cultureOptions.LocaleName);
         AlgoliaResponse? response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

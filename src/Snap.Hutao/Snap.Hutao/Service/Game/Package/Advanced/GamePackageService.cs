@@ -67,6 +67,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             await taskContext.SwitchToMainThreadAsync();
 
+            // TODO: Move window creation out of this service.
             GamePackageOperationWindow window = scope.ServiceProvider.GetRequiredService<GamePackageOperationWindow>();
             IProgress<GamePackageOperationReport> progress = scope.ServiceProvider
                 .GetRequiredService<IProgressFactory>()

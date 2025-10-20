@@ -15,8 +15,6 @@ internal static class KnownRegions
         get
         {
             Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
-
-            // This array must be lazy-loaded because it depends on the localization.
             return !field.IsDefault ? field : field =
             [
                 new(SH.WebHoyolabRegionCNGF01, Region.CNGF01),

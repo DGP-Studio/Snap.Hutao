@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Globalization;
+
 namespace Snap.Hutao.Service;
 
 internal static class LocaleNames
@@ -82,5 +84,30 @@ internal static class LocaleNames
             CHS => "zh-cn",
             _ => "en-us",
         };
+    }
+
+    public static string GetLocaleName(CultureInfo cultureInfo)
+    {
+        while (true)
+        {
+            if (TryGetLocaleNameFromLanguageName(cultureInfo.Name, out string? localeName))
+            {
+                return localeName;
+            }
+
+            cultureInfo = cultureInfo.Parent;
+        }
+    }
+
+    public static bool LanguageCodeFitsCurrentLocale(string? languageCode, string localeName)
+    {
+        if (string.IsNullOrEmpty(languageCode))
+        {
+            return false;
+        }
+
+        // We want to make sure code fits in 1 of 15 metadata locales
+        CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageCode);
+        return string.Equals(GetLocaleName(cultureInfo), localeName, StringComparison.Ordinal);
     }
 }

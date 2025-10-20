@@ -6,6 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
@@ -65,9 +66,11 @@ internal sealed class XamlWindowController
             UpdateTitleButtonColor(default!, default!);
             xamlWindow.TitleBarCaptionAccess.ActualThemeChanged += UpdateTitleButtonColor;
 
-            // TODO: Remove once we use TitleBar in all windows.
-            XamlWindowRegionRects.Update(window);
-            xamlWindow.TitleBarCaptionAccess.SizeChanged += OnWindowSizeChanged;
+            if (xamlWindow.TitleBarCaptionAccess is not TitleBar)
+            {
+                XamlWindowRegionRects.Update(window);
+                xamlWindow.TitleBarCaptionAccess.SizeChanged += OnWindowSizeChanged;
+            }
         }
 
         // Size stuff

@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Windows.Foundation;
@@ -22,11 +21,6 @@ internal static class XamlWindowRegionRects
 
         // E_UNEXPECTED will be thrown if the Content is not loaded.
         if (!xamlWindow.TitleBarCaptionAccess.IsLoaded)
-        {
-            return;
-        }
-
-        if (xamlWindow.TitleBarCaptionAccess is TitleBar)
         {
             return;
         }
