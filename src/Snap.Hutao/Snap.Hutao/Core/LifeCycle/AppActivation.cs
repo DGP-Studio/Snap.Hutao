@@ -38,7 +38,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private const string CategoryAchievement = "ACHIEVEMENT";
     private const string UrlActionImport = "/IMPORT";
 
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
@@ -105,23 +104,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     public async ValueTask HandleLaunchGameActionAsync(string? uid = null)
     {
         await taskContext.SwitchToMainThreadAsync();
-
-        switch (currentXamlWindowReference.Window)
+        if (await WaitWindowAsync<MainWindow>().ConfigureAwait(true) is not null)
         {
-            case null:
-            case MainWindow:
-                if (await WaitWindowAsync<MainWindow>().ConfigureAwait(true) is not null)
-                {
-                    INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-                    await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(uid), true).ConfigureAwait(false);
-                }
-
-                return;
-
-            default:
-                Debugger.Break(); // Should never happen
-                ProcessFactory.KillCurrent();
-                return;
+            INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
+            await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameExtraData.CreateForUid(uid), true).ConfigureAwait(false);
         }
     }
 
@@ -313,7 +299,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentXamlWindowReference.Window is not { } window)
+        ICurrentXamlWindowReference<TWindow> windowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference<TWindow>>();
+        if (windowReference.Window is not { } window)
         {
             try
             {
@@ -329,7 +316,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 throw;
             }
 
-            currentXamlWindowReference.Window = window;
+            windowReference.Window = window;
         }
 
         window.SwitchTo();

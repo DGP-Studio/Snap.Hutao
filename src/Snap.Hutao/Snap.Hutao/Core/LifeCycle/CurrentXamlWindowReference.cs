@@ -22,3 +22,22 @@ internal sealed class CurrentXamlWindowReference : ICurrentXamlWindowReference
         set => reference.SetTarget(value!);
     }
 }
+
+[Service(ServiceLifetime.Singleton, typeof(ICurrentXamlWindowReference<>))]
+internal sealed class CurrentXamlWindowReference<TWindow> : ICurrentXamlWindowReference<TWindow>
+    where TWindow : Window
+{
+    private readonly WeakReference<TWindow> reference = new(default!);
+
+    [DisallowNull]
+    public TWindow? Window
+    {
+        get
+        {
+            reference.TryGetTarget(out TWindow? window);
+            return window;
+        }
+
+        set => reference.SetTarget(value);
+    }
+}
