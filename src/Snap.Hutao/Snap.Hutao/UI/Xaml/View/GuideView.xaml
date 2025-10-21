@@ -10,6 +10,7 @@
     xmlns:shm="using:Snap.Hutao.Model"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxce="using:Snap.Hutao.UI.Xaml.Control.Effect"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
     d:DataContext="{d:DesignInstance shvg:GuideViewModel}"
@@ -124,24 +125,35 @@
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <GridView
+                    <shuxce:TextMorphEffect
                         Grid.Row="0"
+                        BlurAmount="5"
+                        Delimiter="+"
+                        EffectFontSize="36"
+                        EffectHorizontalAlignment="Center"
+                        EffectVerticalAlignment="Center"
+                        Text="{Binding AllCulturesWelcomeText}"/>
+                    <Border
+                        Grid.Row="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        ItemTemplate="{StaticResource LanguageTemplate}"
-                        ItemsSource="{Binding CultureOptions.Cultures}"
-                        SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
-                        SelectionMode="Single"/>
-                    <StackPanel
-                        Grid.Row="1"
-                        Orientation="Horizontal"
-                        Spacing="16"/>
+                        Style="{ThemeResource BorderShimmerStyle}">
+                        <GridView
+                            Padding="0,0,-12,-12"
+                            ItemContainerStyle="{ThemeResource LargeGridViewItemStyle}"
+                            ItemTemplate="{StaticResource LanguageTemplate}"
+                            ItemsSource="{Binding CultureOptions.Cultures}"
+                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
+                            SelectionMode="Single"/>
+                    </Border>
+
                     <StackPanel
                         Grid.Row="2"
+                        Margin="16"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="8">
