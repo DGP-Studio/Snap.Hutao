@@ -6,10 +6,12 @@ namespace Snap.Hutao.Test.RuntimeBehavior;
 public sealed class EnumRuntimeBehaviorTest
 {
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
     public void EnumParseCanNotHandleEmptyString()
     {
-        Enum.Parse<EnumA>(string.Empty);
+        Assert.Throws<ArgumentException>(() =>
+        {
+            Enum.Parse<EnumA>(string.Empty);
+        });
     }
 
     [TestMethod]

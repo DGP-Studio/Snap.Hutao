@@ -11,7 +11,12 @@ public sealed class LinqTest
     public void LinqOrderByWithWrapperStructThrow()
     {
         List<MyUInt32> list = [1, 5, 2, 6, 3, 7, 4, 8];
-        string result = string.Join(", ", list.OrderBy(i => i).Select(i => i.Value));
+        string result = default!;
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            result = string.Join(", ", list.OrderBy(i => i).Select(i => i.Value));
+        });
+
         Console.WriteLine(result);
     }
 

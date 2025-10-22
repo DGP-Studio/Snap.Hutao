@@ -31,6 +31,11 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
+    public static string AllCulturesWelcomeText
+    {
+        get => string.Join('+', CultureOptions.Cultures.Select(c => SH.GetString("GuideWindowTitle", c.Value)));
+    }
+
     public uint State
     {
         get

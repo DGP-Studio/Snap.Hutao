@@ -29,8 +29,6 @@ internal static class HutaoRuntime
 
     public static string FamilyName { get; } = Package.Current.Id.FamilyName;
 
-    public static string FullName { get; } = Package.Current.Id.FullName;
-
     public static string DeviceId { get; } = InitializeDeviceId();
 
     public static WebView2Version WebView2Version { get; } = InitializeWebView2();
@@ -39,8 +37,6 @@ internal static class HutaoRuntime
 
     // Requires main thread
     public static bool IsAppNotificationEnabled { get; } = AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled;
-
-    public static DateTimeOffset LaunchTime { get; } = DateTimeOffset.UtcNow;
 
     public static string? GetDisplayName()
     {

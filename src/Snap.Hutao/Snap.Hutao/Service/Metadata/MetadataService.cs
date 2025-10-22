@@ -75,8 +75,8 @@ internal sealed partial class MetadataService : IMetadataService
         }
 
         return strategy.IsScattered
-            ? await FromCacheOrScatteredFile<T>(strategy, cacheKey, token).ConfigureAwait(false)
-            : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
+            ? await FromCacheOrScatteredFileAsync<T>(strategy, cacheKey, token).ConfigureAwait(false)
+            : await FromCacheOrSingleFileAsync<T>(strategy, cacheKey, token).ConfigureAwait(false);
     }
 
     private static async ValueTask<bool> ValidateMetadataSourceFileAsync(MetadataDownloadContext context, string fileFullPath, string fileName, string metaHash, CancellationToken token)
@@ -144,7 +144,7 @@ internal sealed partial class MetadataService : IMetadataService
         }
     }
 
-    private async ValueTask<ImmutableArray<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+    private async ValueTask<ImmutableArray<T>> FromCacheOrSingleFileAsync<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
         where T : class
     {
         string path = metadataOptions.GetLocalizedLocalPath($"{strategy.Name}.json");
@@ -169,7 +169,7 @@ internal sealed partial class MetadataService : IMetadataService
         }
     }
 
-    private async ValueTask<ImmutableArray<T>> FromCacheOrScatteredFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+    private async ValueTask<ImmutableArray<T>> FromCacheOrScatteredFileAsync<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
         where T : class
     {
         string path = metadataOptions.GetLocalizedLocalPath(strategy.Name);
@@ -326,7 +326,7 @@ internal sealed partial class MetadataService : IMetadataService
         {
             lock (syncRoot)
             {
-                results.TryAdd(fileName, result);
+                results[fileName] = result;
             }
         }
 

@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/VerticalCard.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Effect/TextMorphEffect.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Image/CachedImage.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Panel/DataTable/DataColumn.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TextBlock/LinkPresenter.xaml"/>

@@ -12,6 +12,7 @@ using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
+using System.Diagnostics;
 
 namespace Snap.Hutao;
 
@@ -61,6 +62,8 @@ public sealed partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        DebugPatchXamlDiagnosticsRemoveRootObjectFromLVT();
+
         try
         {
             // Important: You must call AppNotificationManager::Default().Register
@@ -93,6 +96,28 @@ public sealed partial class App : Application
             SentrySdk.Flush();
 
             ProcessFactory.KillCurrent();
+        }
+    }
+
+    [Conditional("DEBUG")]
+    private static void DebugPatchXamlDiagnosticsRemoveRootObjectFromLVT()
+    {
+        // Extremely dangerous patch to workaround XamlDiagnostics::RemoveRootObjectFromLVT crashing when
+        // Window is closed during debugging. at LiveVisualTree.cpp line 423
+        // -> if (m_visualTreeCallback && SUCCEEDED(m_visualTreeCallback.As(&xamlRootCallback)))
+        // We simply fail this check to skip the rest if block.
+        // As a result, Visual Studio Live Visual Tree can leave a DesktopWindowXamlSource without child.
+        // But the RuntimeObject is actually closed properly.
+
+        // If no debugger is attached, do not patch. There will be no diagnostics LVT.
+        if (Debugger.IsAttached)
+        {
+            // Should be 78 xx (js near)
+            Win32.MemoryUtilities.Patch("Microsoft.ui.xaml.dll", 0x008E2096, 2, static codes =>
+            {
+                // Rewrite to jmp
+                codes[0] = 0xEB;
+            });
         }
     }
 }

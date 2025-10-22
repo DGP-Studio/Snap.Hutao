@@ -1,0 +1,19 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mgcux="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:shuxce="using:Snap.Hutao.UI.Xaml.Control.Effect">
+
+    <Style BasedOn="{StaticResource DefaultTextMorphEffectStyle}" TargetType="shuxce:TextMorphEffect"/>
+
+    <Style x:Key="DefaultTextMorphEffectStyle" TargetType="shuxce:TextMorphEffect">
+        <Setter Property="ColorBrush" Value="{ThemeResource SystemBaseMediumHighColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxce:TextMorphEffect">
+                    <mgcux:CanvasControl x:Name="PART_Canvas"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
