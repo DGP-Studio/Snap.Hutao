@@ -4,7 +4,8 @@
 namespace Snap.Hutao.Factory.ContentDialog;
 
 [SuppressMessage("", "SH003")]
-internal interface IContentDialogQueue
+internal interface IContentDialogQueue<TWindow>
+    where TWindow : Microsoft.UI.Xaml.Window
 {
     bool IsDialogShowing { get; }
 

@@ -44,8 +44,8 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
@@ -173,7 +173,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Resize MainWindow", "TestViewModel.Command"));
 
-        if (currentXamlWindowReference.Window is MainWindow mainWindow)
+        if (mainWindowReference.Window is { } mainWindow)
         {
             double scale = mainWindow.GetRasterizationScale();
             mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));

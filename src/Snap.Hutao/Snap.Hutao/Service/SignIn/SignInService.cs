@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
@@ -16,7 +17,7 @@ namespace Snap.Hutao.Service.SignIn;
 [Service(ServiceLifetime.Singleton, typeof(ISignInService))]
 internal sealed partial class SignInService : ISignInService
 {
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
@@ -98,7 +99,7 @@ internal sealed partial class SignInService : ISignInService
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
+        if (mainWindowReference.GetXamlRoot() is not { } xamlRoot)
         {
             return;
         }

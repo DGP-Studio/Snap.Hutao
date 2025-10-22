@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window;
 using System.Collections.Specialized;
 using System.Web;
 
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Service(ServiceLifetime.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.ManualInput)]
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly CultureOptions cultureOptions;
 

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
@@ -19,7 +20,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty<string>("NewVerifyCode")]
 internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IMessenger messenger;
 

@@ -16,6 +16,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Service.Yae.PlayerStore;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.User;
 using System.Diagnostics;
@@ -26,7 +27,7 @@ namespace Snap.Hutao.Service.Yae;
 [Service(ServiceLifetime.Singleton, typeof(IYaeService))]
 internal sealed partial class YaeService : IYaeService
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IFeatureService featureService;
     private readonly IUserService userService;

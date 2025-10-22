@@ -9,6 +9,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
@@ -87,11 +88,11 @@ internal sealed partial class UpdateService : IUpdateService
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            ICurrentXamlWindowReference currentXamlWindowReference = scope.ServiceProvider.GetRequiredService<ICurrentXamlWindowReference>();
-            IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
+            ICurrentXamlWindowReference<MainWindow> mainWindowReference = scope.ServiceProvider.GetRequiredService<ICurrentXamlWindowReference<MainWindow>>();
+            IContentDialogFactory<MainWindow> contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory<MainWindow>>();
             IMessenger messenger = scope.ServiceProvider.GetRequiredService<IMessenger>();
 
-            if (currentXamlWindowReference.Window is null)
+            if (mainWindowReference.Window is null)
             {
                 return;
             }

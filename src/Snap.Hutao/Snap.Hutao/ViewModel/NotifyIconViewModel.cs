@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core;
@@ -25,9 +24,8 @@ namespace Snap.Hutao.ViewModel;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
-    [FromKeyed(typeof(CompactWebView2Window))]
-    private readonly ICurrentXamlWindowReference currentCompactWebView2WindowReference;
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly ICurrentXamlWindowReference<CompactWebView2Window> compactWebView2WindowReference;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly App app;
 
@@ -79,10 +77,10 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
 
-        if (currentCompactWebView2WindowReference.Window is not { } window)
+        if (compactWebView2WindowReference.Window is not { } window)
         {
             window = serviceProvider.GetRequiredService<CompactWebView2Window>();
-            currentCompactWebView2WindowReference.Window = window;
+            compactWebView2WindowReference.Window = window;
         }
 
         window.AppWindow.Show();
@@ -93,39 +91,24 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Show window", "NotifyIconViewModel.Command"));
 
-        switch (currentXamlWindowReference.Window)
+        if (mainWindowReference.Window is { } mainWindow)
         {
-            case MainWindow mainWindow:
-                {
-                    // While window is closing, currentXamlWindowReference can still retrieve the window,
-                    // just ignore it
-                    if (mainWindow.AppWindow is not null)
-                    {
-                        // MainWindow is activated, bring to foreground
-                        mainWindow.SwitchTo();
-                        mainWindow.AppWindow.MoveInZOrderAtTop();
-                    }
-
-                    return;
-                }
-
-            case null:
-                {
-                    // MainWindow is closed, show it
-                    MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-                    currentXamlWindowReference.Window = mainWindow;
-                    mainWindow.SwitchTo();
-                    mainWindow.AppWindow.MoveInZOrderAtTop();
-                    return;
-                }
-
-            default:
-                {
-                    Window otherWindow = currentXamlWindowReference.Window;
-                    otherWindow.SwitchTo();
-                    otherWindow.AppWindow.MoveInZOrderAtTop();
-                    return;
-                }
+            // While window is closing, currentXamlWindowReference can still retrieve the window,
+            // just ignore it
+            if (mainWindow.AppWindow is not null)
+            {
+                // MainWindow is activated, bring to foreground
+                mainWindow.SwitchTo();
+                mainWindow.AppWindow.MoveInZOrderAtTop();
+            }
+        }
+        else
+        {
+            // MainWindow is closed, show it
+            mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            mainWindowReference.Window = mainWindow;
+            mainWindow.SwitchTo();
+            mainWindow.AppWindow.MoveInZOrderAtTop();
         }
     }
 
@@ -158,13 +141,13 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Take Window screenshot", "NotifyIconViewModel.Command"));
 
-        if (currentXamlWindowReference.Window is null)
+        if (mainWindowReference.Window is null)
         {
             return;
         }
 
         RenderTargetBitmap renderTargetBitmap = new();
-        await renderTargetBitmap.RenderAsync(currentXamlWindowReference.Window.Content);
+        await renderTargetBitmap.RenderAsync(mainWindowReference.Window.Content);
 
         IBuffer pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
         int width = renderTargetBitmap.PixelWidth;

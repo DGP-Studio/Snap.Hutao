@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
@@ -25,8 +24,8 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private readonly Lock syncRoot = new();
 
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly IServiceProvider serviceProvider;
@@ -44,8 +43,8 @@ internal sealed partial class NotifyIconController : IDisposable
             throw new InvalidOperationException("NotifyIconController is already constructed.");
         }
 
-        currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+        mainWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference<MainWindow>>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory<MainWindow>>();
         this.serviceProvider = serviceProvider;
         lazyMenu = new(() => new(serviceProvider));
 
@@ -177,32 +176,23 @@ internal sealed partial class NotifyIconController : IDisposable
             return;
         }
 
-        switch (currentXamlWindowReference.Window)
+        if (mainWindowReference.Window is { } mainWindow)
         {
-            case null:
-                {
-                    // MainWindow is closed, show it
-                    MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-                    currentXamlWindowReference.Window = mainWindow;
-                    mainWindow.SwitchTo();
-                    mainWindow.AppWindow.MoveInZOrderAtTop();
-                    return;
-                }
-
-            default:
-                {
-                    Window window = currentXamlWindowReference.Window;
-
-                    // While window is closing, currentXamlWindowReference can still retrieve the window,
-                    // just ignore it
-                    if (window.AppWindow is not null)
-                    {
-                        window.SwitchTo();
-                        window.AppWindow.MoveInZOrderAtTop();
-                    }
-
-                    return;
-                }
+            // While window is closing, currentXamlWindowReference can still retrieve the window,
+            // just ignore it
+            if (mainWindow.AppWindow is not null)
+            {
+                mainWindow.SwitchTo();
+                mainWindow.AppWindow.MoveInZOrderAtTop();
+            }
+        }
+        else
+        {
+            // MainWindow is closed, show it
+            mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            mainWindowReference.Window = mainWindow;
+            mainWindow.SwitchTo();
+            mainWindow.AppWindow.MoveInZOrderAtTop();
         }
     }
 }

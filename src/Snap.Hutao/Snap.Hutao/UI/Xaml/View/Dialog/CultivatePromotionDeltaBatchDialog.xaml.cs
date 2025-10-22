@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -13,7 +14,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty<AvatarPromotionDelta>("PromotionDelta", NotNull = true, CreateDefaultValueCallbackName = nameof(CreatePromotionDeltaDefaultValue))]
 internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaBaselineAsync()
     {

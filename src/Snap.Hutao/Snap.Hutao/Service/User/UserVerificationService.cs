@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Passport;
 
 namespace Snap.Hutao.Service.User;
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Service.User;
 [Service(ServiceLifetime.Transient, typeof(IUserVerificationService))]
 internal sealed partial class UserVerificationService : IUserVerificationService
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
 

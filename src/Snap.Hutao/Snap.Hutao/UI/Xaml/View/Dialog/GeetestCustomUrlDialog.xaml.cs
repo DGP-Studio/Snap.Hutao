@@ -4,20 +4,19 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [DependencyProperty<string>("Text")]
+[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class GeetestCustomUrlDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
-    public GeetestCustomUrlDialog(IServiceProvider serviceProvider)
+    partial void PostConstruct(IServiceProvider serviceProvider)
     {
-        InitializeComponent();
-
         Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl.Value;
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
     }
 
     public async ValueTask<ValueResult<bool, string>> GetUrlAsync()

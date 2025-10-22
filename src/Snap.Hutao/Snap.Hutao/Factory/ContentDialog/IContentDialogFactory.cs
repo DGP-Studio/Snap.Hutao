@@ -6,7 +6,8 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
-internal interface IContentDialogFactory
+internal interface IContentDialogFactory<TWindow>
+    where TWindow : Microsoft.UI.Xaml.Window
 {
     bool IsDialogShowing { get; }
 

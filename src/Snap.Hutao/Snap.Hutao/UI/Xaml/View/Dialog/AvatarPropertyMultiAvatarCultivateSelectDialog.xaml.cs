@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using System.Collections.Immutable;
 using WinRT;
@@ -14,7 +15,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class AvatarPropertyMultiAvatarCultivateSelectDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public ImmutableArray<AvatarView> SelectedAvatars { get; private set; } = [];
 

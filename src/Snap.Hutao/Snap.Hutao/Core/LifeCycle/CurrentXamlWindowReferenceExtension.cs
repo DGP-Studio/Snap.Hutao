@@ -4,24 +4,29 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.Win32.Foundation;
+using WinRT;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
 internal static class CurrentXamlWindowReferenceExtension
 {
-    public static XamlRoot? GetXamlRoot(this ICurrentXamlWindowReference reference)
+    public static XamlRoot? GetXamlRoot<TWindow>(this ICurrentXamlWindowReference<TWindow> reference)
+        where TWindow : Window
     {
         return reference.Window?.Content?.XamlRoot;
     }
 
-    public static HWND GetWindowHandle(this ICurrentXamlWindowReference reference)
+    public static HWND GetWindowHandle<TWindow>(this ICurrentXamlWindowReference<TWindow> reference)
+        where TWindow : Window
     {
         return reference.Window.GetWindowHandle();
     }
 
-    public static ElementTheme GetRequestedTheme(this ICurrentXamlWindowReference reference)
+    public static ElementTheme GetRequestedTheme<TWindow>(this ICurrentXamlWindowReference<TWindow> reference)
+        where TWindow : Window
     {
-        ArgumentNullException.ThrowIfNull(reference.Window);
-        return ((FrameworkElement)reference.Window.Content).RequestedTheme;
+        TWindow? window = reference.Window;
+        ArgumentNullException.ThrowIfNull(window);
+        return window.Content.As<FrameworkElement>().RequestedTheme;
     }
 }

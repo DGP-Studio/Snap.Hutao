@@ -5,19 +5,19 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
+using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [DependencyProperty<UIAF>("UIAF")]
+[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class AchievementImportDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public AchievementImportDialog(IServiceProvider serviceProvider, UIAF uiaf)
+        : this(serviceProvider)
     {
-        InitializeComponent();
-
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         UIAF = uiaf;
     }
 

@@ -32,20 +32,16 @@ using AppWindowTitleBar = Microsoft.UI.Windowing.AppWindowTitleBar;
 namespace Snap.Hutao.UI.Windowing;
 
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "SA1204")]
-internal sealed class XamlWindowController
+internal abstract class XamlWindowController
 {
-    private readonly Type windowType;
-    private readonly Window window;
     private readonly bool hasCustomSystemBackdrop;
 
     private readonly XamlWindowSubclass subclass;
     private readonly XamlWindowNonRude nonRude;
 
-    public XamlWindowController(Window window, IServiceProvider serviceProvider)
+    protected XamlWindowController(Window window, IServiceProvider serviceProvider)
     {
-        windowType = window.GetType();
-        this.window = window;
+        this.Window = window;
         Debug.Assert(serviceProvider is IServiceScope);
         ServiceProvider = serviceProvider;
 
@@ -102,6 +98,8 @@ internal sealed class XamlWindowController
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal IServiceProvider ServiceProvider { get; }
 
+    protected Window Window { get; }
+
     private IObservableProperty<BackdropType>? BackdropTypeCallback { get; }
 
     public bool TrySetTaskbarProgress(TBPFLAG state, ulong value, ulong maximum)
@@ -139,49 +137,11 @@ internal sealed class XamlWindowController
         };
     }
 
-    private void OnWindowClosed(object sender, WindowEventArgs args)
+    protected virtual void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateDebug("WindowClosing", "XamlWindowController", [("type", TypeNameHelper.GetTypeDisplayName(window, false))]));
-
-        if (args.Handled)
-        {
-            return;
-        }
-
-        if (window is IXamlWindowClosedHandler handler)
-        {
-            handler.OnWindowClosing(out bool cancel);
-            if (cancel)
-            {
-                args.Handled = true;
-                return;
-            }
-        }
-
-        if (!XamlApplicationLifetime.Exiting)
-        {
-            IServiceProviderIsKeyedService isKeyedService = ServiceProvider.GetRequiredService<IServiceProviderIsKeyedService>();
-            ICurrentXamlWindowReference currentXamlWindowReference = isKeyedService.IsKeyedService(typeof(ICurrentXamlWindowReference), windowType)
-                ? ServiceProvider.GetRequiredKeyedService<ICurrentXamlWindowReference>(windowType)
-                : ServiceProvider.GetRequiredService<ICurrentXamlWindowReference>();
-
-            if (currentXamlWindowReference.Window == window)
-            {
-                // Only a CurrentWindow can show dialogs
-                // Some users might try to close the window while a dialog is showing
-                if (ServiceProvider.GetRequiredService<IContentDialogFactory>().IsDialogShowing)
-                {
-                    args.Handled = true;
-                    return;
-                }
-
-                currentXamlWindowReference.Window = default!;
-            }
-        }
-
         // Detach events
-        window.Closed -= OnWindowClosed;
-        if (window is IXamlWindowExtendContentIntoTitleBar xamlWindow)
+        Window.Closed -= OnWindowClosed;
+        if (Window is IXamlWindowExtendContentIntoTitleBar xamlWindow)
         {
             xamlWindow.TitleBarCaptionAccess.ActualThemeChanged -= UpdateTitleButtonColor;
             xamlWindow.TitleBarCaptionAccess.SizeChanged -= OnWindowSizeChanged;
@@ -191,11 +151,11 @@ internal sealed class XamlWindowController
         subclass.Dispose();
         nonRude.Dispose();
 
-        (window as IXamlWindowClosedHandler)?.OnWindowClosed();
+        (Window as IXamlWindowClosedHandler)?.OnWindowClosed();
 
         // Dispose the service scope
         Unsafe.As<IServiceScope>(ServiceProvider).Dispose();
-        window.UninitializeController();
+        Window.UninitializeController();
     }
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
@@ -205,7 +165,7 @@ internal sealed class XamlWindowController
             return true;
         }
 
-        window.SystemBackdrop = backdropType switch
+        Window.SystemBackdrop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
@@ -219,12 +179,12 @@ internal sealed class XamlWindowController
 
     private void UpdateTitleButtonColor(FrameworkElement discardElement, object e)
     {
-        if (window is not IXamlWindowExtendContentIntoTitleBar xamlWindow)
+        if (Window is not IXamlWindowExtendContentIntoTitleBar xamlWindow)
         {
             return;
         }
 
-        AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
+        AppWindowTitleBar appTitleBar = Window.AppWindow.TitleBar;
 
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -250,6 +210,55 @@ internal sealed class XamlWindowController
 
     private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        XamlWindowRegionRects.Update(window);
+        XamlWindowRegionRects.Update(Window);
+    }
+}
+
+internal sealed class XamlWindowController<TWindow> : XamlWindowController
+    where TWindow : Window
+{
+    public XamlWindowController(TWindow window, IServiceProvider serviceProvider)
+        : base(window, serviceProvider)
+    {
+    }
+
+    protected override void OnWindowClosed(object sender, WindowEventArgs args)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateDebug("WindowClosing", "XamlWindowController", [("type", TypeNameHelper.GetTypeDisplayName(Window, false))]));
+
+        if (args.Handled)
+        {
+            return;
+        }
+
+        if (Window is IXamlWindowClosedHandler handler)
+        {
+            handler.OnWindowClosing(out bool cancel);
+            if (cancel)
+            {
+                args.Handled = true;
+                return;
+            }
+        }
+
+        if (!XamlApplicationLifetime.Exiting)
+        {
+            ICurrentXamlWindowReference<TWindow> currentXamlWindowReference = ServiceProvider.GetRequiredService<ICurrentXamlWindowReference<TWindow>>();
+
+            if (currentXamlWindowReference.Window == Window)
+            {
+                // Only a CurrentWindow can show dialogs
+                // Some users might try to close the window while a dialog is showing
+                if (ServiceProvider.GetRequiredService<IContentDialogFactory<TWindow>>().IsDialogShowing)
+                {
+                    args.Handled = true;
+                    return;
+                }
+
+                currentXamlWindowReference.Window = default;
+            }
+        }
+
+        base.OnWindowClosed(sender, args);
     }
 }

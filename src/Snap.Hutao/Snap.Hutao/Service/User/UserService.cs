@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -20,10 +21,10 @@ namespace Snap.Hutao.Service.User;
 [Service(ServiceLifetime.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService
 {
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IUserInitializationService userInitializationService;
     private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserRepository userRepository;
 

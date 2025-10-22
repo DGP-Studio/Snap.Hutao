@@ -5,22 +5,21 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<ICalculableAvatar>("Avatar")]
 [DependencyProperty<ICalculableWeapon>("Weapon")]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
+        : this(serviceProvider)
     {
-        InitializeComponent();
-
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-
         Avatar = options.Avatar;
         Weapon = options.Weapon;
     }

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -10,7 +11,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty<string>("Text")]
 internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public async ValueTask<ValueResult<bool, string>> GetInputAsync()
     {

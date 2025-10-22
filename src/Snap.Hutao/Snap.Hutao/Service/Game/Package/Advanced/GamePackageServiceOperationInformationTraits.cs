@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game.Package.Advanced.Model;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 using System.IO;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageServiceOperationInformationTraits
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     public async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndPrepareAsync(GamePackageOperationContext context)
     {

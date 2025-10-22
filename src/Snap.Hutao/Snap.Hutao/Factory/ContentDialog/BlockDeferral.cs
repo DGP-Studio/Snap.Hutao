@@ -6,7 +6,7 @@ using Snap.Hutao.Factory.Progress;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
-internal sealed class BlockDeferral : IDisposable
+internal sealed partial class BlockDeferral : IDisposable
 {
     private readonly Microsoft.UI.Xaml.Controls.ContentDialog contentDialog;
 
@@ -30,7 +30,7 @@ internal sealed class BlockDeferral : IDisposable
 }
 
 [SuppressMessage("", "SA1402")]
-internal sealed class BlockDeferral<T> : IDisposable
+internal sealed partial class BlockDeferral<T> : IDisposable
 {
     private readonly IServiceScope serviceScope;
     private readonly BlockDeferral blockDeferral;
@@ -44,11 +44,12 @@ internal sealed class BlockDeferral<T> : IDisposable
 
     public IProgress<T> Progress { get; }
 
-    public static async ValueTask<BlockDeferral<T>> CreateAsync<TContentDialog>(IServiceProvider serviceProvider, [RequireStaticDelegate] Action<T, TContentDialog> progressHandler)
+    public static async ValueTask<BlockDeferral<T>> CreateAsync<TWindow, TContentDialog>(IServiceProvider serviceProvider, [RequireStaticDelegate] Action<T, TContentDialog> progressHandler)
+        where TWindow : Microsoft.UI.Xaml.Window
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         IServiceScope scope = serviceProvider.CreateScope();
-        IContentDialogFactory dialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
+        IContentDialogFactory<TWindow> dialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory<TWindow>>();
         TContentDialog dialog = await dialogFactory.CreateInstanceAsync<TContentDialog>(scope.ServiceProvider).ConfigureAwait(false);
         BlockDeferral dialogScope = await dialogFactory.BlockAsync(dialog).ConfigureAwait(false);
 

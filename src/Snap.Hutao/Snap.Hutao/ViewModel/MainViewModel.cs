@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control.Theme;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.IO;
 
@@ -23,7 +24,7 @@ namespace Snap.Hutao.ViewModel;
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
 {
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
     private readonly IMetadataService metadataService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
@@ -79,7 +80,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
         if (LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false) || XamlApplicationLifetime.IsFirstRunAfterUpdate)
         {
             // Check if the window showed, only set to false if it is shown
-            if (ShowWebView2WindowAction.TryShow<UpdateLogContentProvider>(currentXamlWindowReference.GetXamlRoot()) is not null)
+            if (ShowWebView2WindowAction.TryShow<UpdateLogContentProvider>(mainWindowReference.GetXamlRoot()) is not null)
             {
                 SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Show update log window", "MainViewModel.Command"));
                 XamlApplicationLifetime.IsFirstRunAfterUpdate = false;

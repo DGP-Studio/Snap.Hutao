@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -16,7 +17,7 @@ namespace Snap.Hutao.Service.Geetest;
 [Service(ServiceLifetime.Transient, typeof(IGeetestService))]
 internal sealed partial class GeetestService : IGeetestService
 {
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
     private readonly CustomGeetestClient customGeetestClient;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly ITaskContext taskContext;
@@ -105,7 +106,7 @@ internal sealed partial class GeetestService : IGeetestService
 
         await taskContext.SwitchToMainThreadAsync();
         token.ThrowIfCancellationRequested();
-        if (currentXamlWindowReference.GetXamlRoot() is { } xamlRoot)
+        if (mainWindowReference.GetXamlRoot() is { } xamlRoot)
         {
             GeetestWebView2ContentProvider contentProvider = new(gt, challenge, isOversea);
             ShowWebView2WindowAction.Show(contentProvider, xamlRoot);

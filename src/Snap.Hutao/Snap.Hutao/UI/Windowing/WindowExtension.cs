@@ -16,7 +16,7 @@ internal static class WindowExtension
     public static void InitializeController<TWindow>(this TWindow window, IServiceProvider serviceProvider)
         where TWindow : Window
     {
-        XamlWindowController windowController = new(window, serviceProvider);
+        XamlWindowController<TWindow> windowController = new(window, serviceProvider);
         WindowControllers.Add(window, windowController);
     }
 

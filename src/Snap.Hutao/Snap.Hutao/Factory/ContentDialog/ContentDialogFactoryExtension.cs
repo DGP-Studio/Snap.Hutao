@@ -7,7 +7,8 @@ namespace Snap.Hutao.Factory.ContentDialog;
 
 internal static class ContentDialogFactoryExtension
 {
-    public static async ValueTask<BlockDeferral> BlockAsync(this IContentDialogFactory contentDialogFactory, Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
+    public static async ValueTask<BlockDeferral> BlockAsync<TWindow>(this IContentDialogFactory<TWindow> contentDialogFactory, Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
+        where TWindow : Window
     {
         ValueContentDialogTask dialogTask = contentDialogFactory.EnqueueAndShowAsync(contentDialog);
         await dialogTask.QueueTask.ConfigureAwait(false);

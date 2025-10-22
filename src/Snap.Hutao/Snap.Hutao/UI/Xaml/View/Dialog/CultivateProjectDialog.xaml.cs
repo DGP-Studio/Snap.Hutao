@@ -6,6 +6,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Xaml.View.Window;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -16,7 +17,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty<bool>("IsUidAttached", NotNull = true)]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
 
     [SuppressMessage("", "SA1201")]
     [SuppressMessage("", "CA1822")]

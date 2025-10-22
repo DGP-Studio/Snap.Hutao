@@ -18,6 +18,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -33,8 +34,8 @@ namespace Snap.Hutao.ViewModel.User;
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly ICurrentXamlWindowReference<MainWindow> mainWindowReference;
+    private readonly IContentDialogFactory<MainWindow> contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
@@ -140,7 +141,7 @@ internal sealed partial class UserViewModel : ObservableObject
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Third Party"), ("kind", kind.ToString())]));
 
         await taskContext.SwitchToMainThreadAsync();
-        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
+        if (mainWindowReference.GetXamlRoot() is not { } xamlRoot)
         {
             return;
         }
