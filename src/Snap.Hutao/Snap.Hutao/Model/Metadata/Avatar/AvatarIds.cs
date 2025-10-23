@@ -150,7 +150,7 @@ internal static class AvatarIds
         Mavuika,
     ];
 
-    public static readonly FrozenSet<AvatarId> MasterAvatars =
+    private static readonly FrozenSet<AvatarId> MasterAvatars =
     [
         PlayerBoy,
         PlayerGirl,
