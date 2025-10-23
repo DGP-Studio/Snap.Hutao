@@ -22,9 +22,9 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache memoryCache;
 
-    public ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag)
+    public ValueTask<IslandFeature2?> GetIslandFeatureAsync(string tag)
     {
-        return GetTaggedFeatureAsync<IslandFeature>(tag, TimeSpan.FromMinutes(5));
+        return GetTaggedFeatureAsync<IslandFeature2>(tag, TimeSpan.FromMinutes(5));
     }
 
     public ValueTask<AchievementFieldId?> GetAchievementFieldIdAsync(string tag)

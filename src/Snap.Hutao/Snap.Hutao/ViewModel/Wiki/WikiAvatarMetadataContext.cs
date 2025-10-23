@@ -14,7 +14,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.ViewModel.Wiki;
 
 internal sealed class WikiAvatarMetadataContext : IMetadataContext,
-    IMetadataDictionaryLevelAvaterGrowCurveSource,
+    IMetadataDictionaryLevelAvatarGrowCurveSource,
     IMetadataDictionaryIdDictionaryLevelAvatarPromoteSource,
     IMetadataDictionaryIdMaterialSource,
     IMetadataDictionaryIdHyperLinkNameSource,

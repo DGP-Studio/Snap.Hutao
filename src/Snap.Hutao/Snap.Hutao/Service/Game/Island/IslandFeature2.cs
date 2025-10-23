@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Island;
 
-internal sealed class IslandFeature
+internal sealed class IslandFeature2
 {
     public required IslandFunctionOffsets Oversea { get; set; }
 
