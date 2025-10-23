@@ -23,13 +23,7 @@ internal struct IslandFunctionOffsets
     public uint MickeyWonderMethodPartner2;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint OnBundleDownloadCheckFinishNext;
-    [JsonInclude]
-    [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint GetComponentByName;
-    [JsonInclude]
-    [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint GetText;
+    public uint SetLastUid;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
     public uint SetFieldOfView;
@@ -80,15 +74,15 @@ internal struct IslandFunctionOffsets
     public uint SetupResinList;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint ResinListFieldOffset;
+    public uint ResinList;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint ResinListRemove;
+    public uint ResinListGetCount;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
     public uint ResinListGetItem;
     [JsonInclude]
     [JsonConverter(typeof(HexNumberConverter<uint>))]
-    public uint ResinListGetCount;
+    public uint ResinListRemove;
 #pragma warning restore CS0649
 }
