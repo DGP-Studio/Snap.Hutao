@@ -4022,6 +4022,12 @@
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>预计 {0} {1:HH:mm} 达到存储上限</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>洞天宝钱已达存储上限</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>将于 {0:MM.dd HH:mm} 达到存储上限</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>尚未解锁洞天</value>
   </data>
@@ -4042,6 +4048,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹树脂已完全恢复</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>将于 {0:MM.dd HH:mm} 全部恢复</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 后重置</value>
