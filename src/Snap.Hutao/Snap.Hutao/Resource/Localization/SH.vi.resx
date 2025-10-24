@@ -3527,6 +3527,12 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Đặt cùng một phím tắt cho các chức năng khác nhau có thể gây ra kết quả không mong muốn và cần thêm thao tác hoặc khởi động lại ứng dụng để khôi phục chức năng bình thường.</value>
   </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>触屏输入检测</value>
+  </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Sau khi thay thế thanh tác vụ tiêu chuẩn bằng công cụ tùy chỉnh hệ thống, việc kích hoạt biểu tượng khu vực thông báo có thể gây ra: không thể tương tác với biểu tượng, không thể tạo biểu tượng đúng cách, Explorer bị treo sau khi khởi động lại hoặc ứng dụng bị treo khi khởi chạy</value>
   </data>
