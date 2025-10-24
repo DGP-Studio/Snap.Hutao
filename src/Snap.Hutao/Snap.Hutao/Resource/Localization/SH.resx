@@ -2244,7 +2244,7 @@
     <value>第 {0} 幕 圣牌 {1}</value>
   </data>
   <data name="ViewModelRoleCombatTarot" xml:space="preserve">
-    <value> 圣牌挑战 {0}</value>
+    <value>圣牌挑战 {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
