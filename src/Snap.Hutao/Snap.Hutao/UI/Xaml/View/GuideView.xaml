@@ -132,6 +132,7 @@
                     <shuxce:TextMorphEffect
                         Grid.Row="0"
                         BlurAmount="5"
+                        ColorBrush="{ThemeResource TextFillColorPrimary}"
                         Delimiter="+"
                         EffectFontSize="36"
                         EffectHorizontalAlignment="Center"

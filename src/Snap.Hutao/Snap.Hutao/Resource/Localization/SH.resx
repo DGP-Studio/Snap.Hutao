@@ -988,10 +988,10 @@
     <value>名称为 {0} 的账号已存在</value>
   </data>
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
-    <value>检测到多个账号的登陆信息，请在游戏登陆界面删除多余的账号并进入游戏后重试</value>
+    <value>检测到多个账号的登录信息，请在游戏登录界面删除多余的账号并进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
-    <value>未检测到登陆信息，请进入游戏后重试</value>
+    <value>未检测到登录信息，请进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
     <value>此设备的 MAC 地址发生变化，请重新登录游戏后再尝试</value>
@@ -1018,7 +1018,7 @@
     <value>在注入 DLL: '{0}' 时发生错误</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI 已启动</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
     <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
@@ -2937,7 +2937,7 @@
     <value>启动参数</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+    <value>在游戏启动后尝试启动并使用 BetterGI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>自动化任务</value>
@@ -3120,7 +3120,7 @@
     <value>检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
-    <value>MAC 地址不匹配，可能需要在游戏中重新登陆</value>
+    <value>MAC 地址不匹配，可能需要在游戏中重新登录</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>检测账号</value>
