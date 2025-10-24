@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Сложный режим</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Лунный режим</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Обычный режим</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Аккаунт с именем {0} уже существует</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Обнаружена информация для входа нескольких учётных записей. Удалите лишние учётные записи на экране входа в игру и повторите попытку после входа в игру</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Информация для входа не обнаружена. Повторите попытку после входа в игру</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>MAC-адрес этого устройства изменился. Повторите попытку после повторного входа в игру</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Обнаружено несколько совпадающих учетных записей. Удалите повторяющиеся учетные записи</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Чтобы предотвратить злоупотребление функцией инъекции, необходимо войти в систему с учетной записью miHoYo/HoYoLAB и выбрать учетную запись и персонажа</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Не удалось получить локальную версию игры, невозможно получить информацию о конфигурации внедрения</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>Произошла ошибка при внедрении DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI запущен</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Протокол запуска не зарегистрирован. Убедитесь, что BetterGI установлен и запускался хотя бы один раз</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>При запуске BetterGI возникла проблема: главное окно игры не найдено</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>Локальный файл конфигурации игры повреждён. Выполните восстановление и повторите попытку</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Процесс игры запущен</value>
@@ -1045,7 +1057,7 @@
     <value>Ожидание закрытия процесса игры</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Целевой сервер соответствует текущим локальным ресурсам игры, преобразование не требуется</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Перед использованием Embedded Yae, Snap Hutao должна быть запущена с правами администратора</value>
@@ -1171,7 +1183,7 @@
     <value>Ваша версия Snap Hutao устарела. Пожалуйста, обновите приложение</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Операция с ресурсами игры отменена</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Не удалось выполнить операцию с игровыми ресурсами</value>
@@ -1588,7 +1600,7 @@
     <value>Выбранный путь установки недействителен</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Произошла неизвестная ошибка при определении типа диска, на котором находится путь. Загрузка и запись данных будут ограничены. Если вы уверены, что это устройство является твердотельным накопителем, свяжитесь с нами.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Пакет голоса не выбран</value>
@@ -2068,13 +2080,13 @@
     <value>Импорт данных из UIGF Json файла</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Не удалось создать файл конфигурации</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Путь к игре заблокирован. Повторите попытку позже</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Путь к игре не указан. Сначала установите путь к игре</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Не удалось получить конфигурацию версии игры</value>
@@ -2182,7 +2194,7 @@
     <value>Неверный путь к игре, проверьте подключение оборудования</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Текущий путь к игре: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Не удалось переключить сервер</value>
@@ -2191,10 +2203,10 @@
     <value>Восстановление файла конфигурации</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Ремонт не выполнен</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Ремонт выполнен успешно</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Игровой каталог не задан</value>
@@ -2225,6 +2237,12 @@
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>Действие {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>Акт {0} Аркана {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Испытание Арканы {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Действие завершено</value>
@@ -2917,7 +2935,7 @@
     <value>Аргументы запуска</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>Попытка запуска и использования Better GI для автоматизации задач после запуска игры</value>
+    <value>Попытаться запустить и использовать BetterGI для автоматизации задач после запуска игры</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Автоматизированные задачи</value>
@@ -2968,10 +2986,16 @@
     <value>Исправление особых интерфейсов</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>После включения функции «Регулировка обзора» отображение тумана во всех сценах будет соответствовать состоянию переключателя «Удалить туман».
+
+⚠️ Если одновременно включена опция «Исправление специальных интерфейсов», то при исходном обзоре ≤ 30 рендеринг тумана будет принудительно отключен.
+
+Это позволит видеть нормально интерфейсы, такие как желания/путешествия/персонажи, но при входе в некоторые сюжетные сцены туман также будет принудительно отключен.
+
+❗ Это не является ошибкой программы, поэтому не отправляйте нам отчёты об ошибках.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Обзор и туман</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Холодный переключатель скрытия баннера карты</value>
@@ -2992,10 +3016,10 @@
     <value>Внедрение</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Подключено к игре, изменения настроек будут динамически отражаться в игре</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Опции внедрения</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>При нажатии на количество для крафта в деталях предмета открывается страница крафта вместо карты</value>
@@ -3004,16 +3028,19 @@
     <value>Перенаправление крафта</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Получить награды за Сгущённую смолу</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Получить награды за Хрупкую смолу</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Получить награды за Оригинальную смолу</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Получить награды за Предвестники</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Получить награды за Мимолётную смолу</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Использовать сенсорный ввод</value>
@@ -3096,6 +3123,9 @@
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Проверка</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>MAC-адрес не совпадает, возможно, потребуется повторно войти в игре</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Найти аккаунт</value>
   </data>
@@ -3106,7 +3136,7 @@
     <value>Переименовать</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Преобразовать</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切换游戏服务器（国服/渠道服/国际服）</value>
@@ -3133,10 +3163,10 @@
     <value>Горячее переключение частоты кадров</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Если после включения этой функции частота кадров не может превышать 60/частоту кадров монитора, но другие функции работают нормально, то это точно не ошибка ПО, не сообщайте нам об этом. Самостоятельно проверьте, не включены ли (включая, но не ограничиваясь) вертикальная синхронизация, ограничение максимальной частоты кадров, интеллектуальная интерполяция кадров и т.д. в настройках игры/драйвера видеокарты/монитора.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Не удаётся разблокировать ограничение частоты кадров?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Наведите курсор мыши на переключатель функций/текстовое поле, чтобы просмотреть подробности</value>
@@ -3500,6 +3530,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Назначение одного и того же сочетания клавиш для разных функций может привести к неожиданным результатам, и для восстановления нормальной работы потребуется выполнить дополнительные действия или перезапустить приложение.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>При обнаружении интегрированного сенсорного устройства и включённой функции внедрения принудительно включать режим сенсорного взаимодействия при запуске игры; при отсутствии обнаружения принудительно отключать.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Обнаружение сенсорного ввода</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>После замены стандартной панели задач инструментом настройки системы включение значков в области уведомлений может привести к: невозможности взаимодействия с значками, неправильному созданию значков, сбою проводника после перезапуска или сбою приложения при запуске</value>
@@ -3996,6 +4032,12 @@
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Будет заполнен через {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Сокровищница обители достигла предела хранения</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>Будет заполнен через {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Serenitea Pot not Unlocked</value>
   </data>
@@ -4016,6 +4058,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Смола заполнена</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>Будет пополнен через {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Сброс через {0:c}</value>
@@ -4129,7 +4174,7 @@
     <value>Сервер Snap Hutao находится на техническом обслуживании</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>Проверка не удалась. Пожалуйста, проверьте вручную или перейдите на страницу  &lt;текст&gt;miHoYo BBS&lt;/текст&gt; - Записи</value>
+    <value>Проверка не удалась. Пожалуйста, проверьте вручную или перейдите на страницу  &lt;текст>miHoYo BBS&lt;/текст> - Записи</value>
   </data>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
     <value>Возникла проблема при запросе {0}</value>
