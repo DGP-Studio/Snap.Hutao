@@ -3024,19 +3024,19 @@ Space Available: {2}</value>
     <value>Crafting Redirect</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Claim Rewards with Condensed Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Claim Rewards with Fragile Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Claim Rewards with Original Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Claim Rewards with Primogem</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
-    <value>使用须臾树脂领取奖励</value>
+    <value>Claim Rewards with Transient Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Use Touch Input</value>
@@ -3132,7 +3132,7 @@ Space Available: {2}</value>
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Conversion</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>Switch game server (CN/Bilibili/Global)</value>
@@ -3159,10 +3159,10 @@ Space Available: {2}</value>
     <value>Frame Rate Hot Switch</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>If the frame rate cannot exceed 60/monitor frame rate after enabling this feature but other functions are normal, then this is definitely not a software BUG, do not report it to us. Please check whether (including but not limited to) vertical sync, maximum frame rate limit, smart frame interpolation, and other functions are not disabled in the game settings/graphics driver settings/monitor settings.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Unable to Unlock Frame Rate Limit?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Hover the mouse over the feature switch/text box to see details</value>
@@ -3528,10 +3528,10 @@ Space Available: {2}</value>
     <value>Setting the same shortcut key for different functions may cause unexpected results, and additional operations or restarting the application are required to restore normal function.</value>
   </data>
   <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
-    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+    <value>When an integrated touch device is detected and injection functionality is enabled, force enable touch screen interaction mode when launching the game; when not detected, force disable.</value>
   </data>
   <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
-    <value>触屏输入检测</value>
+    <value>Touchscreen Input Detection</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>"After replacing the standard taskbar with a system customization tool, enabling notification area icons may cause: inability to interact with icons, failure to create icons properly, Explorer crashes after restart, or application crashes upon launch.</value>
@@ -4029,10 +4029,10 @@ Space Available: {2}</value>
     <value>Full in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
-    <value>洞天宝钱已达存储上限</value>
+    <value>Realm Currency has reached the storage limit</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
-    <value>将于 {0:MM.dd HH:mm} 达到存储上限</value>
+    <value>Full in {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Serenitea Pot not Unlocked</value>
@@ -4056,7 +4056,7 @@ Space Available: {2}</value>
     <value>Original Resin is Full</value>
   </data>
   <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
-    <value>将于 {0:MM.dd HH:mm} 全部恢复</value>
+    <value>Replenished at {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Reset after {0:c}</value>
