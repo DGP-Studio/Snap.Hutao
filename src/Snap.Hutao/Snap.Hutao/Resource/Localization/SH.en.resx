@@ -994,7 +994,7 @@
     <value>未检测到登陆信息，请进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
-    <value>此设备的 MAC 地址发生变化，请重新登录游戏后再尝试</value>
+    <value>The MAC address of this device has changed. Please log in to the game again and try</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
@@ -1012,22 +1012,22 @@
     <value>To prevent abuse of the injection feature, you need to log in with a miHoYo/HoYoLAB account and select an account and a character</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Failed to get local game version, unable to obtain injection configuration information</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>An error occurred while injecting DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI launched</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>The launch protocol is not registered. Please ensure BetterGI is installed and has been launched at least once.</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>Encountered an issue when launching BetterGI: Game main window not found</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>Local game configuration file is corrupted, please repair and try again</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Game in process</value>
@@ -1057,7 +1057,7 @@
     <value>Waiting for the game process to close…</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>The target server matches the current local game resources, no conversion needed</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Snap Hutao should be run in administrator privilege before using Embedded Yae</value>
@@ -1185,7 +1185,7 @@ Space Available: {2}</value>
     <value>Your Snap Hutao is outdated. Please update as soon as possible.</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Game resource operation canceled</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Game resource operation failed</value>
@@ -1602,7 +1602,7 @@ Space Available: {2}</value>
     <value>The selected installation path is invalid</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>An unknown error occurred while detecting the drive type of the installation path. Data download and writing will be restricted. If you are certain this device is an SSD, please contact us.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>No voice pack selected</value>
@@ -2082,13 +2082,13 @@ Space Available: {2}</value>
     <value>Import UIGF JSON file</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Failed to generate configuration file</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>The game path is locked, please try again later</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Game path is empty. Please set the game path first.</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Failed to get game version configuration</value>
@@ -2196,7 +2196,7 @@ Space Available: {2}</value>
     <value>Invalid game path, please check the hardware connection</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Current game path: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
@@ -2205,10 +2205,10 @@ Space Available: {2}</value>
     <value>Fix Configuration File</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Repair failed</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Repair successful</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Game directory not set</value>
@@ -2988,10 +2988,10 @@ Space Available: {2}</value>
     <value>Special Interface Fix</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>When "Adjust Field of View" is enabled, the fog display in all scenes will follow the state of the "Remove Fog" toggle. If "Special Interface Fix" is also enabled, fog rendering will be forcibly disabled when the original field of view is less than or equal to 30. This allows you to see normal interfaces such as Wishes/Battle Pass/Characters, but fog will also be forcibly disabled when entering certain story scenes. This is not a software BUG, do not report it to us.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Vision and Fog</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Map Banner Cold Switch</value>
@@ -3012,10 +3012,10 @@ Space Available: {2}</value>
     <value>Injection</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Connected to the game, changes to settings will be dynamically reflected in the game</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Injection Options</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Click the craftable quantity in the item details to open the crafting page directly instead of the map</value>
