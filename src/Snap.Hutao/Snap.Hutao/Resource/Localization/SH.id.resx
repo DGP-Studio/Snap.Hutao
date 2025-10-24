@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Mode Sulit</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Mode Lunar</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Mode Normal</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Akun dengan nama {0} sudah ada</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Terdeteksi informasi login dari beberapa akun, hapus akun berlebih di antarmuka login game dan coba lagi setelah masuk ke game</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Tidak terdeteksi informasi login, coba lagi setelah masuk ke game</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>Alamat MAC perangkat ini telah berubah, silakan masuk kembali ke game dan coba lagi</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Terdeteksi beberapa akun yang mirip, harap hapus akun ganda</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Untuk mencegah penyalahgunaan fitur injeksi, Anda perlu masuk dengan akun miHoYo/HoYoLAB dan memilih akun serta karakter</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Gagal mendapatkan versi game lokal, tidak dapat memperoleh informasi konfigurasi suntikan</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>Terjadi kesalahan saat menyuntikkan DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI Telah Dimulai</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Protokol peluncuran belum terdaftar. Pastikan BetterGI telah diinstal dan dijalankan setidaknya sekali</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>Masalah saat meluncurkan BetterGI: Jendela utama game tidak ditemukan</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>File konfigurasi game lokal rusak, perbaiki dan coba lagi</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Proses game sedang berjalan</value>
@@ -1045,7 +1057,7 @@
     <value>Menunggu proses game tertutup...</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Server target cocok dengan sumber daya game lokal saat ini, tidak perlu konversi</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Snap Hutao harus dijalankan dalam hak istimewa administrator sebelum menggunakan Embedded Yae</value>
@@ -1173,7 +1185,7 @@ Ruang Tersedia: {2}</value>
     <value>Versi Snap Hutao Anda terlalu rendah. Harap perbarui secepat mungkin.</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Operasi Sumber Daya Game Dibatalkan</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Operasi sumber daya game gagal</value>
@@ -1578,7 +1590,7 @@ Ruang Tersedia: {2}</value>
     <value>Pilih server game yang sesuai dengan jalur game saat ini</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Perbaiki File Konfigurasi</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>Path instalasi yang dipilih tidak ada dan tidak dapat dibuat</value>
@@ -1590,7 +1602,7 @@ Ruang Tersedia: {2}</value>
     <value>Path instalasi yang dipilih tidak valid</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Terjadi kesalahan yang tidak diketahui saat mendeteksi jenis drive tempat jalur berada, unduhan dan penulisan data akan dibatasi. Jika Anda yakin perangkat ini adalah SSD, hubungi kami.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Paket suara tidak dipilih</value>
@@ -2070,13 +2082,13 @@ Ruang Tersedia: {2}</value>
     <value>Impor berkas Json UIGF</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Gagal membuat file konfigurasi</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Jalur game terkunci, coba lagi nanti</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Jalur game kosong, atur jalur game terlebih dahulu</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Gagal mendapatkan konfigurasi versi game</value>
@@ -2184,7 +2196,7 @@ Ruang Tersedia: {2}</value>
     <value>Path game tidak valid, periksa koneksi perangkat keras</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Jalur game saat ini: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
@@ -2193,10 +2205,10 @@ Ruang Tersedia: {2}</value>
     <value>Perbaiki File Konfigurasi</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Perbaikan Gagal</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Perbaikan Berhasil</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Direktori permainan belum diatur</value>
@@ -2227,6 +2239,12 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>Babak {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>Bab {0} Arcanum {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Tantangan Arcana {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Tindakan selesai</value>
@@ -2970,10 +2988,10 @@ Ruang Tersedia: {2}</value>
     <value>Perbaikan Antarmuka Khusus</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>Setelah mengaktifkan "Sesuaikan Penglihatan", tampilan kabut di semua adegan akan mengikuti status sakelar "Hapus Kabut". Jika "Koreksi Antarmuka Khusus" juga diaktifkan, rendering kabut akan dinonaktifkan secara paksa ketika penglihatan asli kurang dari atau sama dengan 30. Ini akan memungkinkan Anda melihat antarmuka Doa/Buku Perjalanan/Karakter yang normal, tetapi juga akan menonaktifkan kabut secara paksa saat memasuki beberapa alur cerita. Ini bukan BUG perangkat lunak, jangan laporkan kepada kami.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Penglihatan dan Kabut</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Sakelar Dingin Spanduk Peta</value>
@@ -2994,10 +3012,10 @@ Ruang Tersedia: {2}</value>
     <value>Injekt</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Terhubung ke game, perubahan pengaturan akan tercermin secara dinamis dalam game</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Opsi Suntikan</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Klik jumlah yang dapat disintesis di detail item untuk langsung membuka halaman sintesis alih-alih peta</value>
@@ -3006,16 +3024,19 @@ Ruang Tersedia: {2}</value>
     <value>Alihkan ke sintesis</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Klaim Hadiah dengan Condensed Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Klaim Hadiah dengan Fragile Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Klaim Hadiah dengan Original Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Klaim Hadiah dengan Primogem</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Klaim Hadiah dengan Transient Resin</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Gunakan Input Sentuh</value>
@@ -3098,6 +3119,9 @@ Ruang Tersedia: {2}</value>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Deteksi</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>Alamat MAC tidak cocok, mungkin perlu masuk kembali di game</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Deteksi Akun</value>
   </data>
@@ -3108,7 +3132,7 @@ Ruang Tersedia: {2}</value>
     <value>Ubah nama</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Konversi</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>Alihkan server Game (CN/BiliBili/Global)</value>
@@ -3135,10 +3159,10 @@ Ruang Tersedia: {2}</value>
     <value>Sakelar Panas Laju Bingkai</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Jika frame rate tidak dapat melebihi 60/frame rate monitor setelah mengaktifkan fitur ini tetapi fungsi lainnya normal, maka ini pasti bukan BUG perangkat lunak, jangan laporkan kepada kami. Periksa sendiri apakah di pengaturan game/pengaturan driver kartu grafis/pengaturan monitor belum dimatikan (termasuk tetapi tidak terbatas pada) sinkronisasi vertikal, batas frame rate maksimum, fitur interpolasi frame pintar, dll.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Tidak Dapat Membuka Batas Frame Rate?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Arahkan mouse ke sakelar fitur/kotak teks untuk melihat detail</value>
@@ -3502,6 +3526,12 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Menyetel pintasan yang sama untuk fungsi yang berbeda dapat menyebabkan hasil yang tidak terduga, dan diperlukan tindakan tambahan atau memulai ulang aplikasi untuk memulihkan fungsi normal.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>Ketika perangkat sentuh terintegrasi terdeteksi dan fungsionalitas suntikan diaktifkan, paksa aktifkan mode interaksi layar sentuh saat meluncurkan game; ketika tidak terdeteksi, paksa nonaktifkan.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Deteksi Input Layar Sentuh</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Mengaktifkan ikon area notifikasi setelah mengganti taskbar standar sistem dengan alat kustomisasi sistem dapat menyebabkan: ketidakmampuan untuk berinteraksi dengan ikon, kegagalan membuat ikon dengan benar, Explorer crash setelah restart, atau aplikasi crash saat diluncurkan</value>
@@ -3998,6 +4028,12 @@ Ruang Tersedia: {2}</value>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Akan penuh dalam {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Realm Currency telah mencapai batas penyimpanan</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>Akan penuh dalam {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Serenitea Pot belum Terbuka</value>
   </data>
@@ -4018,6 +4054,9 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Original Resin telah penuh</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>Akan diisi ulang pada {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Reset setelah {0:c}</value>
