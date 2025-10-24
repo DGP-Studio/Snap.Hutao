@@ -3527,6 +3527,12 @@
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用程式才能恢復正常</value>
   </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>触屏输入检测</value>
+  </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>使用系統美化工具取代系統標準工作列後啟用通知區域圖示可能會導致：無法與圖示互動/無法正常建立圖示/重新啟動工作管理員後崩潰/啟動程序後崩潰</value>
   </data>
