@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Zor Mod</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Ay Modu</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Normal Mod</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>{0} adlı hesap zaten var</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Birden fazla hesabın giriş bilgileri tespit edildi, lütfen oyun giriş ekranında fazla hesapları silin ve oyuna girdikten sonra tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Giriş bilgisi tespit edilmedi, lütfen oyuna girdikten sonra tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>Bu cihazın MAC adresi değişti, lütfen oyuna yeniden giriş yapın ve tekrar deneyin</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Birden fazla eşleşen hesap bulundu, lütfen yinelenen hesapları silin</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Enjeksiyon özelliğinin kötüye kullanımını önlemek için, bir miHoYo/HoYoLAB hesabı ile giriş yapmanız ve bir hesap ile bir karakter seçmeniz gerekmektedir</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Yerel oyun sürümü alınamadı, enjeksiyon yapılandırma bilgileri alınamıyor</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>DLL enjekte edilirken hata oluştu: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI başlatıldı</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Başlatma protokolü kayıtlı değil. Lütfen BetterGI'nın kurulu olduğundan ve en az bir kez çalıştırıldığından emin olun</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>BetterGI başlatılırken sorun oluştu: oyun ana penceresi bulunamadı</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>Yerel oyun yapılandırma dosyası bozuk, lütfen onardıktan sonra tekrar deneyin</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Oyun çalışıyor</value>
@@ -1045,7 +1057,7 @@
     <value>Oyun sürecinin çıkması bekleniyor</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Hedef sunucu mevcut yerel oyun kaynaklarıyla eşleşiyor, dönüştürmeye gerek yok</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Embedded Yae'yi kullanmadan önce, Snap Hutao'nun yönetici ayrıcalıklarıyla çalıştırılması gerekir</value>
@@ -1116,7 +1128,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Yedek: {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRename" xml:space="preserve">
-    <value>Yeniden adlandır: {0} -&gt; {1}</value>
+    <value>Yeniden adlandır: {0} -> {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestore" xml:space="preserve">
     <value>Değiştir: {0}</value>
@@ -1173,7 +1185,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Snap Hutao sürümünüz eski, lütfen en kısa sürede güncelleyin</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Oyun kaynağı işlemi iptal edildi</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Oyun kaynağı işlemi başarısız oldu</value>
@@ -1578,7 +1590,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Lütfen mevcut oyun yoluyla eşleşen oyun sunucusunu seçin</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Yapılandırma Dosyasını Onar</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>Seçilen kurulum yolu mevcut değil ve oluşturulamıyor</value>
@@ -1590,7 +1602,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Seçilen kurulum yolu geçersiz</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Yolun bulunduğu sürücünün türü tespit edilirken bilinmeyen bir hata oluştu, veri indirme ve yazma işlemleri kısıtlanacaktır. Bu cihazın bir SSD olduğundan eminseniz, lütfen bizimle iletişime geçin.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Ses paketi seçilmedi</value>
@@ -2070,13 +2082,13 @@ Kullanılabilir Alan: {2}</value>
     <value>UIGF JSON dosyasını içe aktar</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Yapılandırma dosyası oluşturma başarısız</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Oyun yolu kilitli, lütfen daha sonra tekrar deneyin</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Oyun yolu boş, lütfen önce oyun yolunu ayarlayın</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Oyun sürüm yapılandırması alınamadı</value>
@@ -2184,7 +2196,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Geçersiz oyun yolu, lütfen donanım bağlantısını kontrol edin</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Mevcut oyun yolu: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Sunucu değiştirme başarısız</value>
@@ -2193,10 +2205,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Yapılandırma Dosyasını Onar</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Onarım Başarısız</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Onarım Başarılı</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Oyun dizini henüz ayarlanmadı</value>
@@ -2227,6 +2239,12 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>{0}. Perde</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>{0}. Perde {1}. Tarot</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Arcana Mücadelesi {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>İşlem tamamlandı</value>
@@ -2919,7 +2937,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Başlatma Parametreleri</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>Oyun başlatıldıktan sonra otomatik görevler için Better GI'yi başlatmayı ve kullanmayı dene</value>
+    <value>Oyun başlatıldıktan sonra BetterGI'ı başlatmayı ve otomatik görevler için kullanmayı dene</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Otomatik Görevler</value>
@@ -2970,10 +2988,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Özel Arayüz Düzeltmesi</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>"Görüşü Ayarla" etkinleştirildiğinde, tüm sahnelerdeki sis görüntüsü "Sisi Kaldır" anahtarının durumunu takip edecektir. Eğer "Özel Arayüz Düzeltmesi" de etkinleştirilmişse, orijinal görüş 30 veya daha az olduğunda sis oluşturma zorunlu olarak devre dışı bırakılacaktır. Bu, normal Dilek/Gezi Günlüğü/Karakter vb. arayüzlerini görmenizi sağlayacak, ancak bazı hikayelere girildiğinde de sisi zorunlu olarak devre dışı bırakacaktır. Bu bir yazılım HATASI değildir, bize bildirmeyin.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Görüş ve Sis</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Harita Başlığı Soğuk Anahtarı</value>
@@ -2994,10 +3012,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Enjeksiyon</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Oyuna bağlandı, ayar değişiklikleri oyuna dinamik olarak yansıtılacak</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Enjeksiyon Seçenekleri</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Eşya detaylarında sentezlenebilir miktara tıklandığında harita yerine doğrudan sentez sayfasını aç</value>
@@ -3006,16 +3024,19 @@ Kullanılabilir Alan: {2}</value>
     <value>Sentezi Yönlendir</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Ödülleri Yoğunlaştırılmış Reçine ile Topla</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Ödülleri Kırılgan Reçine ile Topla</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Ödülleri Orijinal Reçine ile Topla</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Ödülleri Primogem ile Topla</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Ödülleri Geçici Reçine ile Topla</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Dokunmatik giriş kullan</value>
@@ -3098,6 +3119,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Algıla</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>MAC adresi eşleşmiyor, oyunda yeniden giriş yapmanız gerekebilir</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Hesabı Algıla</value>
   </data>
@@ -3108,7 +3132,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Yeniden Adlandır</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Dönüştür</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>Oyun sunucusunu değiştir (Çin / Bilibili / Global)</value>
@@ -3135,10 +3159,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Kare Hızı Hızlı Geçişi</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Bu özellik etkinleştirildikten sonra kare hızı 60/ekran kare hızını aşamıyorsa ancak diğer özellikler normal çalışıyorsa, bu kesinlikle bir yazılım HATASI değildir, bize bildirmeyin. Lütfen oyun ayarlarında/ekran kartı sürücü ayarlarında/ekran ayarlarında dikey senkronizasyon, maksimum kare hızı sınırı, akıllı kare ekleme gibi özelliklerin kapatılmadığını kendiniz kontrol edin.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Kare Hızı Üst Sınırı Kaldırılamıyor?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Ayrıntıları görmek için fareyi özellik anahtarının/metin kutusunun üzerine getirin</value>
@@ -3502,6 +3526,12 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Farklı işlevler için aynı kısayol tuşunu ayarlamak beklenmedik sonuçlara yol açabilir ve normal işlevi geri yüklemek için ek işlemler veya uygulamanın yeniden başlatılması gerekebilir.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>Entegre dokunmatik cihaz tespit edildiğinde ve enjeksiyon işlevi etkinleştirildiğinde, oyun başlatılırken dokunmatik ekran etkileşim modunu zorunlu olarak etkinleştir; tespit edilmediğinde zorunlu olarak devre dışı bırak</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Dokunmatik Giriş Tespiti</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Sistem standart görev çubuğunu sistem özelleştirme aracıyla değiştirdikten sonra bildirim alanı simgelerini etkinleştirmek şunlara neden olabilir: simgelerle etkileşim kuramama, simgeleri düzgün oluşturamama, yeniden başlatıldıktan sonra Explorer'ın çökmesi veya uygulamanın başlatılması sırasında çökme</value>
@@ -3998,6 +4028,12 @@ Kullanılabilir Alan: {2}</value>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>{0} {1:HH:mm} tahmini depolama sınırına ulaşılacak</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Sera Parası depolama sınırına ulaştı</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>{0:dd.MM HH:mm} tarihinde depolama sınırına ulaşacak</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Açık Dünya Yerleşkesi henüz açılmadı</value>
   </data>
@@ -4018,6 +4054,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Orijinal Reçine tamamen doldu</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>{0:dd.MM HH:mm} tarihinde tamamen dolacak</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} sonra sıfırla</value>

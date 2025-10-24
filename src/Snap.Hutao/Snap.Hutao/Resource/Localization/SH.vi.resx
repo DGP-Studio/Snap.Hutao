@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Chế độ khó</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Chế độ Nguyệt Dụ</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Chế độ bình thường</value>
@@ -951,7 +954,7 @@
     <value>Không thể lấy lịch sử cầu nguyện trên cloud</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>Yêu cầu xác thực &lt;0&gt; thất bại</value>
+    <value>Yêu cầu xác thực &lt;0> thất bại</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>Đường dẫn trò chơi Genshin Impact chưa được thiết lập hoặc thiết lập không đúng</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Tài khoản có tên {0} đã tồn tại</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Phát hiện thông tin đăng nhập của nhiều tài khoản, vui lòng xóa tài khoản dư thừa trong giao diện đăng nhập trò chơi và thử lại sau khi vào trò chơi</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Không phát hiện thông tin đăng nhập, vui lòng thử lại sau khi vào trò chơi</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>Địa chỉ MAC của thiết bị này đã thay đổi, vui lòng đăng nhập lại trò chơi rồi thử lại</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Tồn tại nhiều tài khoản phù hợp, vui lòng xóa các tài khoản trùng lặp</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Để ngăn chặn việc lạm dụng tính năng tiêm, bạn cần đăng nhập bằng tài khoản miHoYo/HoYoLAB và chọn một tài khoản và nhân vật</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Không thể lấy phiên bản trò chơi cục bộ, không thể lấy thông tin cấu hình tiêm</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>Đã xảy ra lỗi khi tiêm DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI đã khởi động</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Giao thức khởi động chưa được đăng ký, hãy đảm bảo BetterGI đã được cài đặt và chạy ít nhất một lần</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>Gặp sự cố khi khởi động BetterGI: Không tìm thấy cửa sổ chính trò chơi</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>Tệp cấu hình trò chơi cục bộ bị hỏng, vui lòng sửa chữa và thử lại</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Trò chơi đang chạy</value>
@@ -1045,7 +1057,7 @@
     <value>Đang đợi tiến trình trò chơi đóng...</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Máy chủ mục tiêu khớp với tài nguyên trò chơi hiện tại, không cần chuyển đổi</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Trước khi sử dụng Embedded Yae, Snap Hutao cần được chạy với quyền quản trị viên</value>
@@ -1173,7 +1185,7 @@ Dung lượng còn trống: {2}</value>
     <value>Phiên bản Snap Hutao của bạn đã quá cũ, vui lòng cập nhật càng sớm càng tốt</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Thao tác tài nguyên trò chơi đã bị hủy</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Thao tác tài nguyên trò chơi thất bại</value>
@@ -1578,7 +1590,7 @@ Dung lượng còn trống: {2}</value>
     <value>Vui lòng chọn máy chủ trò chơi tương ứng với đường dẫn trò chơi hiện tại</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Sửa chữa tệp cấu hình</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>Đường dẫn cài đặt đã chọn không tồn tại và không thể tạo</value>
@@ -1590,7 +1602,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đường dẫn cài đặt đã chọn không hợp lệ</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Đã xảy ra lỗi không xác định khi phát hiện loại ổ đĩa chứa đường dẫn, việc tải xuống và ghi dữ liệu sẽ bị hạn chế. Nếu bạn chắc chắn thiết bị này là ổ cứng thể rắn, vui lòng liên hệ với chúng tôi.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Chưa chọn gói ngôn ngữ thoại</value>
@@ -2070,13 +2082,13 @@ Dung lượng còn trống: {2}</value>
     <value>Nhập tệp JSON UIGF</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Tạo tệp cấu hình thất bại</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Đường dẫn trò chơi bị khóa, vui lòng thử lại sau</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Đường dẫn trò chơi trống, vui lòng thiết lập đường dẫn trò chơi trước</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Không thể lấy cấu hình phiên bản trò chơi</value>
@@ -2184,7 +2196,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đường dẫn trò chơi không hợp lệ, vui lòng kiểm tra kết nối phần cứng</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Đường dẫn trò chơi hiện tại: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Chuyển đổi máy chủ thất bại</value>
@@ -2193,10 +2205,10 @@ Dung lượng còn trống: {2}</value>
     <value>Sửa tập tin cấu hình</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Sửa chữa thất bại</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Sửa chữa thành công</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Chưa thiết lập thư mục trò chơi</value>
@@ -2227,6 +2239,12 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>Màn {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>Màn {0} Thánh Bài {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Thử thách Arcana {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Thao tác hoàn thành</value>
@@ -2919,7 +2937,7 @@ Dung lượng còn trống: {2}</value>
     <value>Tham số khởi chạy</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>Tự động khởi động Better GI cho các tác vụ tự động hóa sau khi trò chơi được khởi chạy</value>
+    <value>Sau khi trò chơi khởi động, thử khởi động và sử dụng BetterGI để thực hiện nhiệm vụ tự động</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Tác vụ tự động</value>
@@ -2970,10 +2988,10 @@ Dung lượng còn trống: {2}</value>
     <value>Sửa giao diện đặc biệt</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>Sau khi bật "Điều chỉnh tầm nhìn", việc hiển thị sương mù trong tất cả cảnh sẽ tuân theo trạng thái của công tắc "Loại bỏ sương mù". Nếu đồng thời bật "Sửa lỗi giao diện đặc biệt", việc kết xuất sương mù sẽ bị buộc tắt khi tầm nhìn gốc nhỏ hơn hoặc bằng 30. Điều này sẽ cho phép bạn nhìn thấy giao diện Cầu Nguyện/Kỷ Hành/Nhân Vật bình thường, nhưng cũng sẽ buộc tắt sương mù khi vào một số đoạn cốt truyện. Đây không phải là lỗi phần mềm, đừng phản hồi với chúng tôi.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Tầm nhìn và Sương mù</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Công Tắc Nguội Ẩn Biểu Ngữ Bản Đồ</value>
@@ -2994,10 +3012,10 @@ Dung lượng còn trống: {2}</value>
     <value>Tiêm</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Đã kết nối với trò chơi, thay đổi cài đặt sẽ phản ánh động vào trò chơi</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Tùy chọn tiêm</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Nhấp vào số lượng có thể tổng hợp trong chi tiết vật phẩm để mở trực tiếp trang tổng hợp thay vì bản đồ</value>
@@ -3006,16 +3024,19 @@ Dung lượng còn trống: {2}</value>
     <value>Chuyển hướng tổng hợp</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Nhận phần thưởng bằng Nhựa Cây Cô Đặc</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Nhận phần thưởng bằng Nhựa Cây Dễ Vỡ</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Nhận phần thưởng bằng Nguyên Túy Nhựa Cây</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Nhận phần thưởng bằng Nguyên Thạch</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Nhận phần thưởng bằng Nhựa Cây Thoáng Qua</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Sử dụng đầu vào cảm ứng</value>
@@ -3098,6 +3119,9 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Dò</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>Địa chỉ MAC không khớp, có thể cần đăng nhập lại trong trò chơi</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Dò tài khoản</value>
   </data>
@@ -3108,7 +3132,7 @@ Dung lượng còn trống: {2}</value>
     <value>Đổi tên</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Chuyển đổi</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切换游戏服务器（国服/渠道服/国际服）</value>
@@ -3135,10 +3159,10 @@ Dung lượng còn trống: {2}</value>
     <value>Chuyển đổi tốc độ khung hình nóng</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Nếu sau khi bật tính năng này, tốc độ khung hình không thể vượt quá 60/tốc độ khung hình màn hình nhưng các tính năng khác hoạt động bình thường, thì đây chắc chắn không phải là lỗi phần mềm, đừng phản hồi với chúng tôi. Vui lòng tự kiểm tra xem trong cài đặt trò chơi/cài đặt trình điều khiển card đồ họa/cài đặt màn hình có chưa tắt (bao gồm nhưng không giới hạn) đồng bộ dọc, giới hạn tốc độ khung hình tối đa, chèn khung hình thông minh và các tính năng khác hay không.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Không thể mở khóa giới hạn tốc độ khung hình?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Di chuột qua công tắc tính năng/hộp văn bản để xem chi tiết</value>
@@ -3502,6 +3526,12 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Đặt cùng một phím tắt cho các chức năng khác nhau có thể gây ra kết quả không mong muốn và cần thêm thao tác hoặc khởi động lại ứng dụng để khôi phục chức năng bình thường.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>Khi phát hiện thiết bị cảm ứng tích hợp và tính năng tiêm được bật, buộc bật chế độ tương tác màn hình cảm ứng khi khởi động trò chơi; khi không phát hiện, buộc tắt</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Phát hiện đầu vào cảm ứng</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Sau khi thay thế thanh tác vụ tiêu chuẩn bằng công cụ tùy chỉnh hệ thống, việc kích hoạt biểu tượng khu vực thông báo có thể gây ra: không thể tương tác với biểu tượng, không thể tạo biểu tượng đúng cách, Explorer bị treo sau khi khởi động lại hoặc ứng dụng bị treo khi khởi chạy</value>
@@ -3998,6 +4028,12 @@ Dung lượng còn trống: {2}</value>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Dự kiến đạt giới hạn lưu trữ lúc {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Bảo Tiền Động Thiên đã đạt giới hạn lưu trữ</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>Sẽ đạt giới hạn lưu trữ vào {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Chưa mở khóa động thiên</value>
   </data>
@@ -4018,6 +4054,9 @@ Dung lượng còn trống: {2}</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Nguyên Thủy Nhựa đã hồi phục hoàn toàn</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>Sẽ được hồi phục hoàn toàn vào {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Đặt lại sau {0:c}</value>
