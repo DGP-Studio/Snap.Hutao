@@ -988,10 +988,10 @@
     <value>Account {0} already exists</value>
   </data>
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
-    <value>检测到多个账号的登录信息，请在游戏登录界面删除多余的账号并进入游戏后重试</value>
+    <value>Multiple account login information detected. Please delete the extra accounts on the game login screen and try again after entering the game.</value>
   </data>
   <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
-    <value>未检测到登录信息，请进入游戏后重试</value>
+    <value>No login information detected. Please try again after entering the game.</value>
   </data>
   <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
     <value>The MAC address of this device has changed. Please log in to the game again and try</value>
@@ -1018,7 +1018,7 @@
     <value>An error occurred while injecting DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>BetterGI 已启动</value>
+    <value>BetterGI launched</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
     <value>The launch protocol is not registered. Please ensure BetterGI is installed and has been launched at least once.</value>
@@ -2244,7 +2244,7 @@ Space Available: {2}</value>
     <value>Act {0} Arcanum {1}</value>
   </data>
   <data name="ViewModelRoleCombatTarot" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>圣牌挑战 {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operation completed</value>
@@ -2937,7 +2937,7 @@ Space Available: {2}</value>
     <value>Launch Parameters</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 BetterGI 进行自动化任务</value>
+    <value>Auto start BetterGI for automation tasks after game launched</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Automated Tasks</value>
@@ -3120,7 +3120,7 @@ Space Available: {2}</value>
     <value>Detect</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
-    <value>MAC 地址不匹配，可能需要在游戏中重新登录</value>
+    <value>MAC address does not match, you may need to log in again in the game</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Detect Account</value>
