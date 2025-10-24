@@ -24,11 +24,12 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         SophonDecodedBuild? localBuild = context.LocalBuild;
         SophonDecodedBuild? remoteBuild = context.RemoteBuild;
 
-        ArgumentNullException.ThrowIfNull(localBuild);
+        // LocalBuild can be null when perform install operation
         ArgumentNullException.ThrowIfNull(remoteBuild);
 
         if (context.Kind is GamePackageOperationKind.Verify)
         {
+            ArgumentNullException.ThrowIfNull(localBuild);
             return new(0, localBuild.TotalChunks, 0, localBuild.UncompressedTotalBytes, default);
         }
 
@@ -126,8 +127,9 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         };
     }
 
-    private static IEnumerable<SophonAssetOperation> GetDiffOperations(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild)
+    private static IEnumerable<SophonAssetOperation> GetDiffOperations(SophonDecodedBuild? localDecodedBuild, SophonDecodedBuild remoteDecodedBuild)
     {
+        ArgumentNullException.ThrowIfNull(localDecodedBuild);
         foreach ((SophonDecodedManifest localManifest, SophonDecodedManifest remoteManifest) in localDecodedBuild.Manifests.Zip(remoteDecodedBuild.Manifests))
         {
             foreach (AssetProperty remoteAsset in remoteManifest.Data.Assets)

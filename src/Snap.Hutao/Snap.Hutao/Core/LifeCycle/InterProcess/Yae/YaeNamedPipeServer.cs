@@ -102,12 +102,15 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             case YaeCommandKind.RequestRva:
                 {
                     writer.Write(config.DoCmd);
-                    writer.Write(config.ToUInt16);
                     writer.Write(config.UpdateNormalProperty);
                     writer.Write(config.NewString);
                     writer.Write(config.FindGameObject);
                     writer.Write(config.EventSystemUpdate);
                     writer.Write(config.SimulatePointerClick);
+                    writer.Write(config.ToInt32);
+                    writer.Write(config.TcpStatePtr);
+                    writer.Write(config.SharedInfoPtr);
+                    writer.Write(config.Decompress);
                     return default;
                 }
 

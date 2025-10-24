@@ -118,6 +118,12 @@ internal static class AvatarIds
     public static readonly AvatarId Skirk = 10000114;
     public static readonly AvatarId Dahlia = 10000115;
     public static readonly AvatarId Ineffa = 10000116;
+    public static readonly AvatarId MannequinBoy = 10000117;
+    public static readonly AvatarId MannequinGirl = 10000118;
+    public static readonly AvatarId Lauma = 10000119;
+    public static readonly AvatarId Flins = 10000120;
+    public static readonly AvatarId Aino = 10000121;
+    public static readonly AvatarId Nefer = 10000122;
 
     private static readonly FrozenSet<AvatarId> StandardWishIds =
     [
@@ -144,6 +150,14 @@ internal static class AvatarIds
         Mavuika,
     ];
 
+    private static readonly FrozenSet<AvatarId> MasterAvatars =
+    [
+        PlayerBoy,
+        PlayerGirl,
+        MannequinBoy,
+        MannequinGirl,
+    ];
+
     public static bool IsStandardWish(AvatarId avatarId)
     {
         return StandardWishIds.Contains(avatarId);
@@ -156,7 +170,7 @@ internal static class AvatarIds
 
     public static bool IsPlayer(AvatarId avatarId)
     {
-        return avatarId == PlayerBoy || avatarId == PlayerGirl;
+        return MasterAvatars.Contains(avatarId);
     }
 
     public static ImmutableDictionary<AvatarId, Avatar> WithPlayers(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
@@ -170,7 +184,7 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerBoy",
             SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
-            Id = default,
+            Id = PlayerBoy,
             PromoteId = default,
             Sort = default,
             Body = default,
@@ -191,7 +205,49 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerGirl",
             SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
-            Id = default,
+            Id = PlayerGirl,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
+        });
+        builder.Add(MannequinBoy, new()
+        {
+            Name = "奇偶·男性",
+            Icon = "UI_AvatarIcon_MannequinBoy",
+            SideIcon = "UI_AvatarIcon_Side_MannequinBoy",
+            Quality = Intrinsic.QualityType.QUALITY_ORANGE_SP,
+            Id = MannequinBoy,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
+        });
+        builder.Add(MannequinGirl, new()
+        {
+            Name = "奇偶·女性",
+            Icon = "UI_AvatarIcon_MannequinGirl",
+            SideIcon = "UI_AvatarIcon_Side_MannequinGirl",
+            Quality = Intrinsic.QualityType.QUALITY_ORANGE_SP,
+            Id = MannequinGirl,
             PromoteId = default,
             Sort = default,
             Body = default,

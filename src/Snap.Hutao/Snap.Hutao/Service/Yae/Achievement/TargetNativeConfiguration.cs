@@ -11,8 +11,6 @@ internal sealed class TargetNativeConfiguration
 
     public required uint DoCmd { get; init; }
 
-    public required uint ToUInt16 { get; init; }
-
     public required uint UpdateNormalProperty { get; init; }
 
     public required uint NewString { get; init; }
@@ -22,6 +20,14 @@ internal sealed class TargetNativeConfiguration
     public required uint EventSystemUpdate { get; init; }
 
     public required uint SimulatePointerClick { get; init; }
+
+    public required uint ToInt32 { get; init; }
+
+    public required uint TcpStatePtr { get; init; }
+
+    public required uint SharedInfoPtr { get; init; }
+
+    public required uint Decompress { get; init; }
 
     public static TargetNativeConfiguration Create(NativeConfiguration config, bool isOversea)
     {
@@ -34,12 +40,15 @@ internal sealed class TargetNativeConfiguration
 
             // Method RVAs
             DoCmd = methodRva.DoCmd,
-            ToUInt16 = methodRva.ToUInt16,
             UpdateNormalProperty = methodRva.UpdateNormalProperty,
             NewString = methodRva.NewString,
             FindGameObject = methodRva.FindGameObject,
             EventSystemUpdate = methodRva.EventSystemUpdate,
             SimulatePointerClick = methodRva.SimulatePointerClick,
+            ToInt32 = methodRva.ToInt32,
+            TcpStatePtr = methodRva.TcpStatePtr,
+            SharedInfoPtr = methodRva.SharedInfoPtr,
+            Decompress = methodRva.Decompress,
         };
     }
 }

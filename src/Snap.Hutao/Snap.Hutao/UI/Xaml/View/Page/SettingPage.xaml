@@ -717,6 +717,12 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE74D;}"
                                     IsClickEnabled="True"/>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingLaunchForceUsingTouchScreenDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingLaunchForceUsingTouchScreenHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEDA4;}">
+                                    <ToggleSwitch IsOn="{Binding ForceUsingTouchScreenWhenIntegratedTouchPresent, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEBD3;}">
@@ -728,7 +734,7 @@
                                             MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                             VerticalAlignment="Center"
                                             AcceptsExpression="False"
-                                            Value="{Binding KiloBytesPerSecondLimit, Mode=TwoWay}"/>
+                                            Value="{Binding AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value, Mode=TwoWay}"/>
                                         <TextBlock VerticalAlignment="Center" Text="KB/s (1MB = 1024KB)"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>โหมดยาก</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>โหมดจันทรา</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>โหมดปกติ</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>บัญชีชื่อ {0} มีอยู่แล้ว</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>ตรวจพบข้อมูลการเข้าสู่ระบบของหลายบัญชี โปรดลบบัญชีส่วนเกินในอินเทอร์เฟซการเข้าสู่ระบบเกมและเข้าสู่เกมแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>ไม่พบข้อมูลการเข้าสู่ระบบ โปรดเข้าสู่เกมแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>ที่อยู่ MAC ของอุปกรณ์นี้เปลี่ยนแปลง โปรดเข้าสู่ระบบเกมอีกครั้งแล้วลองอีกครั้ง</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>พบหลายบัญชีที่ตรงกัน โปรดลบบัญชีที่ซ้ำกัน</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>เพื่อป้องกันการใช้งานฟีเจอร์การฉีดในทางที่ผิด จำเป็นต้องเข้าสู่ระบบด้วยบัญชี miHoYo/HoYoLAB และเลือกบัญชีกับตัวละคร</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>ไม่สามารถรับเวอร์ชันเกมในเครื่องได้ ไม่สามารถรับข้อมูลการกำหนดค่าการฉีด</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>เกิดข้อผิดพลาดขณะฉีด DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI เปิดใช้งานแล้ว</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>โปรโตคอลการเปิดใช้งานยังไม่ได้ลงทะเบียน โปรดตรวจสอบให้แน่ใจว่า BetterGI ติดตั้งแล้วและเปิดใช้งานอย่างน้อยหนึ่งครั้ง</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>พบปัญหาในการเปิด BetterGI: ไม่พบหน้าต่างหลักของเกม</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>ไฟล์การกำหนดค่าเกมในเครื่องเสียหาย โปรดซ่อมแซมแล้วลองอีกครั้ง</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>เกมกำลังทำงาน</value>
@@ -1045,7 +1057,7 @@
     <value>กำลังรอให้กระบวนการเกมสิ้นสุด</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>เซิร์ฟเวอร์เป้าหมายตรงกับทรัพยากรเกมในเครื่องปัจจุบัน ไม่จำเป็นต้องแปลง</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Snap Hutao ควรรันด้วยสิทธิ์ผู้ดูแลระบบก่อนที่จะใช้ Embedded Yae</value>
@@ -1173,7 +1185,7 @@
     <value>Snap Hutao ของคุณเก่าเกินไป โปรดอัปเดตโดยเร็วที่สุด</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>การดำเนินการทรัพยากรเกมถูกยกเลิกแล้ว</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>การดำเนินการทรัพยากรเกมล้มเหลว</value>
@@ -1578,7 +1590,7 @@
     <value>โปรดเลือกเซิร์ฟเวอร์เกมที่ตรงกับเส้นทางเกมปัจจุบันของคุณ</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>ซ่อมแซมไฟล์การกำหนดค่า</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>เส้นทางการติดตั้งที่เลือกไม่มีอยู่และไม่สามารถสร้างได้</value>
@@ -1590,7 +1602,7 @@
     <value>เส้นทางการติดตั้งที่เลือกไม่ถูกต้อง</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>เกิดข้อผิดพลาดที่ไม่รู้จักขณะตรวจสอบประเภทของไดรฟ์ที่เส้นทางตั้งอยู่ การดาวน์โหลดและการเขียนข้อมูลจะถูกจำกัด หากคุณแน่ใจว่าอุปกรณ์นี้เป็น SSD โปรดติดต่อเรา</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>ไม่ได้เลือกชุดเสียง</value>
@@ -1608,7 +1620,7 @@
     <value>กำลังแปลงไคลเอนต์เกม</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.&gt;สแกนคิวอาร์โค้ด</value>
+    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.>สแกนคิวอาร์โค้ด</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>เพื่อให้แน่ใจว่าผู้เปิดใช้งานฟังก์ชันมีความสามารถในการตัดสินใจอย่างอิสระ เราจะอัปเดตเงื่อนไขการเปิดใช้งานฟังก์ชันเหล่านี้เป็นระยะ หากคุณเป็นผู้สร้างเนื้อหา โปรดอย่าแบ่งปันวิธีการเปิดใช้งานเฉพาะกับผู้ชมของคุณ</value>
@@ -2070,13 +2082,13 @@
     <value>นำเข้าไฟล์ UIGF JSON</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>สร้างไฟล์การกำหนดค่าล้มเหลว</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>เส้นทางเกมถูกล็อก โปรดลองอีกครั้งในภายหลัง</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>เส้นทางเกมว่างเปล่า โปรดตั้งค่าเส้นทางเกมก่อน</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>ไม่สามารถรับการกำหนดค่าการเล่นเกมได้</value>
@@ -2184,7 +2196,7 @@
     <value>เส้นทางเกมไม่ถูกต้อง โปรดตรวจสอบการเชื่อมต่อฮาร์ดแวร์</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>เส้นทางเกมปัจจุบัน: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>สลับเซิร์ฟเวอร์ล้มเหลว</value>
@@ -2193,10 +2205,10 @@
     <value>แก้ไขไฟล์ตั้งค่า</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>ซ่อมแซมล้มเหลว</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>ซ่อมแซมสำเร็จ</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>ยังไม่ได้ตั้งค่าไดเรกทอรีเกม</value>
@@ -2227,6 +2239,12 @@
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>องก์ที่ {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>องก์ที่ {0} อาร์คานัม {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>การท้าทายอาร์คานา {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>ดำเนินการเสร็จสิ้น</value>
@@ -2262,7 +2280,7 @@
     <value>พื้นที่ดิสก์ที่ใช้ไป: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0&gt;无感验证&lt;/0&gt;สำเร็จ</value>
+    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0>无感验证&lt;/0>สำเร็จ</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>กำลังรีเซ็ตทรัพยากรภาพ</value>
@@ -2919,7 +2937,7 @@
     <value>พารามิเตอร์เริ่มต้น</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>เริ่ม Better GI โดยอัตโนมัติสำหรับงานอัตโนมัติหลังจากเกมเปิดตัว</value>
+    <value>พยายามเปิดใช้งานและใช้ BetterGI สำหรับงานอัตโนมัติหลังจากเปิดเกม</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>งานอัตโนมัติ</value>
@@ -2970,10 +2988,10 @@
     <value>การแก้ไขอินเทอร์เฟซพิเศษ</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>เมื่อเปิดใช้งาน "ปรับวิสัยทัศน์" การแสดงหมอกในทุกฉากจะปฏิบัติตามสถานะของสวิตช์ "ลบหมอก" หากเปิดใช้งาน "การแก้ไขอินเทอร์เฟซพิเศษ" ด้วย จะปิดการแสดงผลหมอกโดยบังคับเมื่อวิสัยทัศน์เดิมน้อยกว่าหรือเท่ากับ 30 ซึ่งจะทำให้คุณเห็นอินเทอร์เฟซปกติเช่นการอธิษฐาน/บันทึกการเดินทาง/ตัวละคร แต่จะปิดการแสดงผลหมอกโดยบังคับเมื่อเข้าสู่บางเรื่องราว นี่ไม่ใช่ข้อบกพร่องของซอฟต์แวร์ อย่ารายงานให้เราทราบ</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>วิสัยทัศน์และหมอก</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>สวิตช์ปิดแบนเนอร์แผนที่</value>
@@ -2994,10 +3012,10 @@
     <value>การแทรก</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>เชื่อมต่อกับเกมแล้ว การเปลี่ยนแปลงการตั้งค่าจะสะท้อนไปยังเกมแบบไดนามิก</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>ตัวเลือกการฉีด</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>เมื่อคลิกที่จำนวนที่สามารถผสมได้ในรายละเอียดไอเท็ม จะเปิดหน้าผสมโดยตรงแทนที่จะเป็นแผนที่</value>
@@ -3006,16 +3024,19 @@
     <value>เปลี่ยนเส้นทางไปยังการผสม</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>รับรางวัลด้วยเรซินเข้มข้น</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>รับรางวัลด้วยเรซินเปราะบาง</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>รับรางวัลด้วยเรซินดั้งเดิม</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>รับรางวัลด้วย Primogem</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>รับรางวัลด้วยเรซินชั่วคราว</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>ใช้การป้อนข้อมูลแบบสัมผัส</value>
@@ -3098,6 +3119,9 @@
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>ตรวจหา</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>ที่อยู่ MAC ไม่ตรงกัน อาจจำเป็นต้องเข้าสู่ระบบเกมอีกครั้ง</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>ตรวจหาบัญชี</value>
   </data>
@@ -3108,7 +3132,7 @@
     <value>เปลี่ยนชื่อ</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>แปลง</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>สลับเซิร์ฟเวอร์เกม (CN / Bilibili / Global)</value>
@@ -3135,10 +3159,10 @@
     <value>สลับอัตราเฟรม</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>หากเฟรมเรตไม่สามารถเกิน 60/เฟรมเรตของจอแสดงผลหลังจากเปิดใช้งานฟังก์ชันนี้ แต่ฟังก์ชันอื่นทำงานปกติ แสดงว่านี่ไม่ใช่ข้อบกพร่องของซอฟต์แวร์ อย่ารายงานให้เราทราบ โปรดตรวจสอบด้วยตนเองว่าไม่ได้ปิด (รวมแต่ไม่จำกัดเพียง) V-Sync, ขีดจำกัดเฟรมเรตสูงสุด, การแทรกเฟรมอัจฉริยะ ฯลฯ ใน การตั้งค่าเกม/การตั้งค่าตัวขับการ์ดแสดงผล/การตั้งค่าจอแสดงผล</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>ไม่สามารถปลดล็อคขีดจำกัดเฟรมเรตได้หรือไม่?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>เลื่อนเมาส์ไปที่สวิตช์ฟังก์ชัน/กล่องข้อความเพื่อดูรายละเอียด</value>
@@ -3502,6 +3526,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>การตั้งค่าปุ่มลัดเดียวกันสำหรับฟังก์ชันต่างๆ อาจทำให้เกิดผลลัพธ์ที่ไม่คาดคิด และจำเป็นต้องดำเนินการเพิ่มเติมหรือรีสตาร์ทแอปพลิเคชันเพื่อให้กลับมาทำงานได้ตามปกติ</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>เมื่อตรวจพบอุปกรณ์สัมผัสแบบบูรณาการและเปิดใช้งานฟังก์ชันการฉีดแล้ว จะบังคับเปิดใช้งานโหมดการโต้ตอบด้วยหน้าจอสัมผัสเมื่อเปิดเกม เมื่อไม่ตรวจพบ จะบังคับปิดใช้งาน</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>การตรวจจับอินพุตหน้าจอสัมผัส</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>หลังจากแทนที่แถบงานมาตรฐานด้วยเครื่องมือปรับแต่งระบบ การเปิดใช้งานไอคอนพื้นที่การแจ้งเตือนอาจทำให้: ไม่สามารถโต้ตอบกับไอคอนได้/ไม่สามารถสร้างไอคอนได้อย่างถูกต้อง/Explorer เกิดข้อผิดพลาดหลังรีสตาร์ท/แอปพลิเคชันเกิดข้อผิดพลาดเมื่อเริ่มต้น</value>
@@ -3998,6 +4028,12 @@
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>คาดว่าจะถึงขีดจำกัดการเก็บใน {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>เหรียญเซเรไนต์ถึงขีดจำกัดการเก็บแล้ว</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>จะถึงขีดจำกัดการเก็บใน {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>ยังไม่ได้ปลดล็อก Serenitea Pot</value>
   </data>
@@ -4018,6 +4054,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Original Resin ฟื้นฟูเต็มแล้ว</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>จะฟื้นฟูทั้งหมดใน {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>รีเซ็ตหลังจาก {0:c}</value>

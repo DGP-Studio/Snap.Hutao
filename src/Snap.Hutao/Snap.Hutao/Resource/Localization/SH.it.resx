@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Modalità difficile</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Modalità Lunare</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Modalità normale</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>L'account con nome {0} esiste già</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Rilevate informazioni di accesso di più account, elimina gli account in eccesso nella schermata di accesso del gioco e riprova dopo aver avviato il gioco</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Nessuna informazione di accesso rilevata, avvia il gioco e riprova</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>L'indirizzo MAC di questo dispositivo è cambiato, accedi nuovamente al gioco e riprova</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Rilevati più account corrispondenti, eliminare gli account duplicati</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Per prevenire l'abuso della funzione di iniezione, è necessario accedere con un account miHoYo/HoYoLAB e selezionare un account e un personaggio</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Recupero versione gioco locale fallito, impossibile ottenere informazioni configurazione iniezione</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>Errore durante l'iniezione della DLL: '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI avviato</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Il protocollo di avvio non è registrato. Assicurati che BetterGI sia installato e sia stato eseguito almeno una volta</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>Problema durante l'avvio di BetterGI: finestra principale del gioco non trovata</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>File di configurazione del gioco locale danneggiato, ripara e riprova</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Gioco in esecuzione</value>
@@ -1045,7 +1057,7 @@
     <value>In attesa della chiusura del processo di gioco</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Il server di destinazione corrisponde alle risorse del gioco locale attuali, nessuna conversione necessaria</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Prima di utilizzare Embedded Yae, è necessario eseguire Snap Hutao con privilegi di amministratore</value>
@@ -1173,7 +1185,7 @@ Spazio disponibile: {2}</value>
     <value>La tua versione di Snap Hutao è obsoleta, aggiorna al più presto</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Operazione risorse gioco annullata</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Operazione sulle risorse di gioco fallita</value>
@@ -1578,7 +1590,7 @@ Spazio disponibile: {2}</value>
     <value>Seleziona il server di gioco corrispondente al percorso di gioco attuale</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Ripara file di configurazione</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>Il percorso di installazione selezionato non esiste e non può essere creato</value>
@@ -1590,7 +1602,7 @@ Spazio disponibile: {2}</value>
     <value>Il percorso di installazione selezionato non è valido</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Si è verificato un errore sconosciuto durante il rilevamento del tipo di unità del percorso, il download e la scrittura dei dati saranno limitati. Se sei sicuro che questo dispositivo sia un'unità a stato solido, contattaci.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Nessun pacchetto vocale selezionato</value>
@@ -2070,13 +2082,13 @@ Spazio disponibile: {2}</value>
     <value>Importa il file JSON UIGF</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Creazione file di configurazione fallita</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Percorso del gioco bloccato, riprova più tardi</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Percorso del gioco vuoto, imposta prima il percorso del gioco</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Impossibile ottenere la configurazione della versione del gioco</value>
@@ -2184,7 +2196,7 @@ Spazio disponibile: {2}</value>
     <value>Percorso del gioco non valido, verificare la connessione hardware</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Percorso del gioco attuale: '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Passaggio al server fallito</value>
@@ -2193,10 +2205,10 @@ Spazio disponibile: {2}</value>
     <value>Correggi il file di configurazione</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Riparazione fallita</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Riparazione riuscita</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Directory di gioco non impostata</value>
@@ -2227,6 +2239,12 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>Atto {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>Atto {0} Arcano {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Sfida degli Arcani {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operazione completata</value>
@@ -2919,7 +2937,7 @@ Spazio disponibile: {2}</value>
     <value>Parametri di avvio</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>Avvia e usa Better GI per operazioni automatiche dopo l'avvio del gioco</value>
+    <value>Tenta di avviare e utilizzare BetterGI per attività automatizzate dopo l'avvio del gioco</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Attività automatizzate</value>
@@ -2970,10 +2988,10 @@ Spazio disponibile: {2}</value>
     <value>Correzione interfaccia speciale</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>Dopo aver attivato "Regola campo visivo", la visualizzazione della nebbia in tutte le scene seguirà lo stato dell'interruttore "Rimuovi nebbia". Se "Correzione interfaccia speciale" è attivata, il rendering della nebbia verrà forzatamente disabilitato quando il campo visivo originale è inferiore o uguale a 30. Questo ti permetterà di vedere le interfacce normali come Desiderio/Pass battaglia/Personaggio, ma disabiliterà forzatamente la nebbia durante alcune trame. Questo non è un BUG del software, non segnalarcelo.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Visione e Nebbia</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Interruttore Freddo Banner Mappa</value>
@@ -2994,10 +3012,10 @@ Spazio disponibile: {2}</value>
     <value>Iniezione</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Connesso al gioco, le modifiche alle impostazioni si rifletteranno dinamicamente nel gioco</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Opzioni di iniezione</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Clicca sulla quantità combinabile nei dettagli dell'oggetto per aprire direttamente la pagina di combinazione invece della mappa</value>
@@ -3006,16 +3024,19 @@ Spazio disponibile: {2}</value>
     <value>Reindirizza combinazione</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Riscuoti ricompense con Resina condensata</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Riscuoti ricompense con Resina fragile</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Riscuoti ricompense con Resina originale</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Riscuoti ricompense con Primogemma</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Riscuoti ricompense con Resina transitoria</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Usa input touch</value>
@@ -3098,6 +3119,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Rileva</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>Indirizzo MAC non corrispondente, potrebbe essere necessario accedere nuovamente nel gioco</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Rileva account</value>
   </data>
@@ -3108,7 +3132,7 @@ Spazio disponibile: {2}</value>
     <value>Rinomina</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Converti</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>Cambia server di gioco (CN / Bilibili / Global)</value>
@@ -3135,10 +3159,10 @@ Spazio disponibile: {2}</value>
     <value>Interruttore rapido frequenza fotogrammi</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Se dopo aver attivato questa funzione il frame rate non supera i 60/il frame rate del monitor ma le altre funzioni funzionano normalmente, questo sicuramente non è un BUG del software, non segnalarcelo. Controlla personalmente se nelle impostazioni del gioco/impostazioni del driver della scheda video/impostazioni del monitor non sono disattivate (inclusi ma non limitati a) sincronizzazione verticale, limite frame rate massimo, interpolazione frame intelligente, ecc.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Impossibile sbloccare il limite di frame rate?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Passa con il mouse sull'interruttore della funzione/casella di testo per visualizzare i dettagli</value>
@@ -3502,6 +3526,12 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>L'impostazione della stessa scorciatoia da tastiera per funzioni diverse potrebbe causare risultati imprevisti e richiedere operazioni aggiuntive o il riavvio dell'applicazione per ripristinare il normale funzionamento.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>Quando viene rilevato un dispositivo touch integrato e la funzionalità di iniezione è abilitata, forza l'abilitazione della modalità di interazione touch screen all'avvio del gioco; quando non viene rilevato, forza la disabilitazione</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Rilevamento input touch screen</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Dopo aver sostituito la barra delle applicazioni standard con uno strumento di personalizzazione del sistema, l'abilitazione delle icone nell'area di notifica può causare: impossibilità di interagire con le icone, fallimento nella creazione corretta delle icone, crash di Explorer dopo il riavvio o crash dell'applicazione all'avvio</value>
@@ -3998,6 +4028,12 @@ Spazio disponibile: {2}</value>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Previsto raggiungimento limite di archiviazione {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Monete della Serentezza hanno raggiunto il limite di archiviazione</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>Raggiungerà il limite di archiviazione il {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>La Serenteiera non è stata ancora sbloccata</value>
   </data>
@@ -4018,6 +4054,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>Resina originaria completamente rigenerata</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>Completamente ripristinata il {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Resetta dopo {0:c}</value>

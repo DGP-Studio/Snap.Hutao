@@ -1,6 +1,7 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Globalization;
 using System.Numerics;
 
 namespace Snap.Hutao.Core.Text.Json.Converter;
@@ -10,13 +11,17 @@ internal sealed class HexNumberConverter<T> : JsonConverter<T>
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType is JsonTokenType.String && reader.GetString() is { } str)
+        if (reader.TokenType is JsonTokenType.String)
         {
-            if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase) &&
-                T.TryParse(str.AsSpan(2), System.Globalization.NumberStyles.HexNumber, default, out T hex))
+            if ((reader.ValueSpan.StartsWith("0x"u8) || reader.ValueSpan.StartsWith("0X"u8)) &&
+                T.TryParse(reader.ValueSpan[2..], NumberStyles.HexNumber, default, out T hex))
             {
                 return hex;
             }
+        }
+        else if (reader.TokenType is JsonTokenType.Number && reader.TryGetInt64(out long value))
+        {
+            return T.Parse(reader.ValueSpan, CultureInfo.CurrentCulture);
         }
 
         throw new JsonException();

@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-internal sealed class DailyNote : DailyNoteCommon
+internal sealed class DailyNote : DailyNoteCommon, IJsonOnDeserialized
 {
     #region Binding
     [JsonIgnore]
@@ -22,17 +22,8 @@ internal sealed class DailyNote : DailyNoteCommon
                 return SH.WebDailyNoteResinRecoveryCompleted;
             }
 
-            System.DateTime reach = System.DateTime.Now.AddSeconds(ResinRecoveryTime);
-            int totalDays = (reach - System.DateTime.Today).Days;
-            string day = totalDays switch
-            {
-                0 => SH.WebDailyNoteRecoveryTimeDay0,
-                1 => SH.WebDailyNoteRecoveryTimeDay1,
-                2 => SH.WebDailyNoteRecoveryTimeDay2,
-                _ => SH.FormatWebDailyNoteRecoveryTimeDay(totalDays),
-            };
-
-            return SH.FormatWebDailyNoteResinRecovery(day, reach);
+            DateTimeOffset reach = DeserializeTime.AddSeconds(ResinRecoveryTime);
+            return SH.FormatWebDailyNoteResinRecoveryTargetTime(reach);
         }
     }
 
@@ -78,16 +69,13 @@ internal sealed class DailyNote : DailyNoteCommon
     {
         get
         {
-            System.DateTime reach = System.DateTime.Now.AddSeconds(HomeCoinRecoveryTime);
-            int totalDays = (reach - System.DateTime.Today).Days;
-            string day = totalDays switch
+            if (HomeCoinRecoveryTime == 0)
             {
-                0 => SH.WebDailyNoteRecoveryTimeDay0,
-                1 => SH.WebDailyNoteRecoveryTimeDay1,
-                2 => SH.WebDailyNoteRecoveryTimeDay2,
-                _ => SH.FormatWebDailyNoteRecoveryTimeDay(totalDays),
-            };
-            return SH.FormatWebDailyNoteHomeCoinRecovery(day, reach);
+                return SH.WebDailyNoteHomeCoinRecoveryCompleted;
+            }
+
+            DateTimeOffset reach = DeserializeTime.AddSeconds(HomeCoinRecoveryTime);
+            return SH.FormatWebDailyNoteHomeCoinRecoveryTargetTime(reach);
         }
     }
 
@@ -118,4 +106,11 @@ internal sealed class DailyNote : DailyNoteCommon
 
     [JsonPropertyName("archon_quest_progress")]
     public ArchonQuestProgress ArchonQuestProgress { get; init; } = default!;
+
+    private DateTimeOffset DeserializeTime { get; set; }
+
+    public void OnDeserialized()
+    {
+        DeserializeTime = DateTimeOffset.Now;
+    }
 }

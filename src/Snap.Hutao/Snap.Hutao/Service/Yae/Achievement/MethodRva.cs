@@ -8,9 +8,6 @@ internal sealed class MethodRva
     [JsonPropertyName("doCmd")]
     public required uint DoCmd { get; init; }
 
-    [JsonPropertyName("toUint16")]
-    public required uint ToUInt16 { get; init; }
-
     [JsonPropertyName("updateNormalProp")]
     public required uint UpdateNormalProperty { get; init; }
 
@@ -25,4 +22,16 @@ internal sealed class MethodRva
 
     [JsonPropertyName("simulatePointerClick")]
     public required uint SimulatePointerClick { get; init; }
+
+    [JsonPropertyName("toInt32")]
+    public required uint ToInt32 { get; init; }
+
+    [JsonPropertyName("tcpStatePtr")]
+    public required uint TcpStatePtr { get; init; }
+
+    [JsonPropertyName("sharedInfoPtr")]
+    public required uint SharedInfoPtr { get; init; }
+
+    [JsonPropertyName("decompress")]
+    public required uint Decompress { get; init; }
 }

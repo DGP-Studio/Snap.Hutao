@@ -2,7 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -170,6 +172,21 @@ public sealed class JsonSerializeTest
         Assert.AreEqual("""{"key1":{"$type":"Child","C":3,"B":2,"A":1}}""", result);
     }
 
+    [TestMethod]
+    public void HexConvert()
+    {
+        string json = """
+            {
+                "Number": "0x1A2B3C",
+                "Number2": 1715005
+            }
+            """;
+
+        HexTest test = JsonSerializer.Deserialize<HexTest>(json)!;
+        Assert.AreEqual<uint>(0x1A2B3C, test.Number);
+        Assert.AreEqual<uint>(0x1A2B3D, test.Number2);
+    }
+
     private void HandleDerivedType(JsonTypeInfo info)
     {
         Type? current = info.Type;
@@ -312,5 +329,41 @@ public sealed class JsonSerializeTest
     private class Child : Parent
     {
         public int C { get; set; }
+    }
+
+    private class HexTest
+    {
+        [JsonConverter(typeof(HexNumberConverter<uint>))]
+        public uint Number { get; set; }
+
+        [JsonConverter(typeof(HexNumberConverter<uint>))]
+        public uint Number2 { get; set; }
+    }
+
+    internal sealed class HexNumberConverter<T> : JsonConverter<T>
+        where T : struct, INumberBase<T>
+    {
+        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType is JsonTokenType.String)
+            {
+                if ((reader.ValueSpan.StartsWith("0x"u8) || reader.ValueSpan.StartsWith("0X"u8)) &&
+                    T.TryParse(reader.ValueSpan[2..], NumberStyles.HexNumber, default, out T hex))
+                {
+                    return hex;
+                }
+            }
+            else if (reader.TokenType is JsonTokenType.Number && reader.TryGetInt64(out long value))
+            {
+                return T.Parse(reader.ValueSpan, CultureInfo.CurrentCulture);
+            }
+
+            throw new JsonException();
+        }
+
+        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue($"0x{value:X}");
+        }
     }
 }

@@ -988,10 +988,10 @@
     <value>名称为 {0} 的账号已存在</value>
   </data>
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
-    <value>检测到多个账号的登陆信息，请在游戏登陆界面删除多余的账号并进入游戏后重试</value>
+    <value>检测到多个账号的登录信息，请在游戏登录界面删除多余的账号并进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
-    <value>未检测到登陆信息，请进入游戏后重试</value>
+    <value>未检测到登录信息，请进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
     <value>此设备的 MAC 地址发生变化，请重新登录游戏后再尝试</value>
@@ -1018,7 +1018,7 @@
     <value>在注入 DLL: '{0}' 时发生错误</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI 已启动</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
     <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
@@ -2244,7 +2244,7 @@
     <value>第 {0} 幕 圣牌 {1}</value>
   </data>
   <data name="ViewModelRoleCombatTarot" xml:space="preserve">
-    <value> 圣牌挑战 {0}</value>
+    <value>圣牌挑战 {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -2937,7 +2937,7 @@
     <value>启动参数</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+    <value>在游戏启动后尝试启动并使用 BetterGI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>自动化任务</value>
@@ -3120,7 +3120,7 @@
     <value>检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
-    <value>MAC 地址不匹配，可能需要在游戏中重新登陆</value>
+    <value>MAC 地址不匹配，可能需要在游戏中重新登录</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>检测账号</value>
@@ -3526,6 +3526,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>触屏输入检测</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
@@ -4022,6 +4028,12 @@
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>预计 {0} {1:HH:mm} 达到存储上限</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>洞天宝钱已达存储上限</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>将于 {0:MM.dd HH:mm} 达到存储上限</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>尚未解锁洞天</value>
   </data>
@@ -4042,6 +4054,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹树脂已完全恢复</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>将于 {0:MM.dd HH:mm} 全部恢复</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 后重置</value>

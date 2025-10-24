@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>Mode difficile</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>Mode lunaire</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>Mode normal</value>
@@ -951,7 +954,7 @@
     <value>Échec de la récupération de l'historique des vœux dans Hutao Cloud</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>Échec de la demande de &lt;0&gt;clé de vérification&lt;/0&gt;</value>
+    <value>Échec de la demande de &lt;0>clé de vérification&lt;/0></value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>Le chemin du jeu Genshin Impact n'est pas correctement défini ou n'est pas correct</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Le compte nommé {0} existe déjà</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>Plusieurs comptes de connexion détectés, veuillez supprimer les comptes excédentaires sur l'écran de connexion du jeu et réessayer après être entré dans le jeu</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>Aucune information de connexion détectée, veuillez réessayer après être entré dans le jeu</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>L'adresse MAC de cet appareil a changé, veuillez vous reconnecter au jeu avant de réessayer</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Plusieurs comptes correspondants détectés, veuillez supprimer les comptes en double</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>Pour éviter l'abus de la fonction d'injection, vous devez vous connecter avec un compte miHoYo/HoYoLAB et sélectionner un compte et un personnage</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>Échec de l'obtention de la version locale du jeu, impossible d'obtenir les informations de configuration d'injection</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>Erreur lors de l'injection de la DLL : '{0}'</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI a démarré</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>Le protocole de lancement n'est pas enregistré. Veuillez vous assurer que BetterGI est installé et a été lancé au moins une fois.</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>Problème lors du lancement de BetterGI : fenêtre principale du jeu introuvable</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>Le fichier de configuration local du jeu est corrompu, veuillez le réparer et réessayer</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Processus du jeu en cours d'exécution</value>
@@ -1045,7 +1057,7 @@
     <value>En attente de la fermeture du processus de jeu</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>Le serveur cible correspond aux ressources locales actuelles du jeu, aucune conversion nécessaire</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>Avant d'utiliser Embedded Yae, Snap Hutao doit être exécuté avec des privilèges d'administrateur.</value>
@@ -1173,7 +1185,7 @@ Espace disponible : {2}</value>
     <value>Votre version de Snap Hutao est trop ancienne, veuillez la mettre à jour dès que possible</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>Opération sur les ressources du jeu annulée</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>Échec de l'opération sur les ressources du jeu</value>
@@ -1578,7 +1590,7 @@ Espace disponible : {2}</value>
     <value>Veuillez sélectionner le serveur de jeu correspondant au chemin de jeu actuel</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Réparer le fichier de configuration</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
     <value>Le chemin d'installation sélectionné n'existe pas et ne peut pas être créé</value>
@@ -1590,7 +1602,7 @@ Espace disponible : {2}</value>
     <value>Le chemin d'installation sélectionné n'est pas valide</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>Une erreur inconnue s'est produite lors de la détection du type de lecteur du chemin, le téléchargement et l'écriture des données seront limités. Si vous êtes sûr que cet appareil est un SSD, veuillez nous contacter.</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>Aucun pack de voix sélectionné</value>
@@ -2070,13 +2082,13 @@ Espace disponible : {2}</value>
     <value>Importer le fichier JSON UIGF</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>Échec de la génération du fichier de configuration</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>Le chemin du jeu est verrouillé, veuillez réessayer plus tard</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>Le chemin du jeu est vide, veuillez d'abord définir le chemin du jeu</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>Échec de l'obtention de la configuration de la version du jeu</value>
@@ -2184,7 +2196,7 @@ Espace disponible : {2}</value>
     <value>Chemin de jeu invalide, veuillez vérifier la connexion matérielle</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>Chemin actuel du jeu : '{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Échec du changement de serveur</value>
@@ -2193,10 +2205,10 @@ Espace disponible : {2}</value>
     <value>Réparer le fichier de configuration</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>Échec de la réparation</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>Réparation réussie</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>Le répertoire du jeu n’est pas encore défini.</value>
@@ -2227,6 +2239,12 @@ Espace disponible : {2}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>Acte {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>Acte {0} Arcanum {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>Défi d'Arcana {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Opération terminée</value>
@@ -2919,7 +2937,7 @@ Espace disponible : {2}</value>
     <value>Paramètres de lancement</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>Essayer de démarrer et d'utiliser Better GI pour des tâches d'automatisation après le lancement du jeu</value>
+    <value>Tente de lancer et d'utiliser BetterGI pour les tâches automatisées après le démarrage du jeu</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Tâches automatisées</value>
@@ -2970,10 +2988,10 @@ Espace disponible : {2}</value>
     <value>Correction de l'interface spéciale</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>Après avoir activé « Ajuster le champ de vision », l'affichage du brouillard dans toutes les scènes suivra l'état du commutateur « Supprimer le brouillard ». Si « Correction d'interface spéciale » est également activée, le rendu du brouillard sera forcément désactivé lorsque le champ de vision d'origine est inférieur ou égal à 30. Cela vous permettra de voir les interfaces normales des vœux/compagnonnage/personnages, mais désactivera également forcément le brouillard lors de certaines cinématiques. Ce n'est pas un bogue du logiciel, ne nous le signalez pas.</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>Vision et brouillard</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>Interrupteur à froid de la bannière de la carte</value>
@@ -2994,10 +3012,10 @@ Espace disponible : {2}</value>
     <value>Injection</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>Connecté au jeu, les modifications des paramètres seront reflétées dynamiquement dans le jeu</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>Options d'injection</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>Cliquer sur la quantité synthétisable dans les détails de l'objet ouvre directement la page de synthèse au lieu de la carte</value>
@@ -3006,16 +3024,19 @@ Espace disponible : {2}</value>
     <value>Rediriger la synthèse</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>Récupérer les récompenses avec de la résine condensée</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>Récupérer les récompenses avec de la résine fragile</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>Récupérer les récompenses avec de la résine originelle</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>Récupérer les récompenses avec des primogèmes</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>Récupérer les récompenses avec de la résine transitoire</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Utiliser l'entrée tactile</value>
@@ -3098,6 +3119,9 @@ Espace disponible : {2}</value>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Détecter</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>L'adresse MAC ne correspond pas, il peut être nécessaire de se reconnecter dans le jeu</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>Détecter le compte</value>
   </data>
@@ -3108,7 +3132,7 @@ Espace disponible : {2}</value>
     <value>Renommer</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>Convertir</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切换游戏服务器（国服/渠道服/国际服）</value>
@@ -3135,10 +3159,10 @@ Espace disponible : {2}</value>
     <value>Commutateur chaud de fréquence d'images</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>Si la fréquence d'images ne peut pas dépasser 60/la fréquence d'images de l'écran après avoir activé cette fonction mais que les autres fonctions fonctionnent normalement, ce n'est certainement pas un bogue du logiciel, ne nous le signalez pas. Veuillez vérifier par vous-même si la synchronisation verticale, la limitation du taux de rafraîchissement maximal, l'interpolation d'images intelligente, etc. ne sont pas désactivées (y compris, mais sans s'y limiter) dans les paramètres du jeu/les paramètres du pilote graphique/les paramètres de l'écran.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>Impossible de déverrouiller la limite de fréquence d'images ?</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Passez la souris sur le commutateur de fonctionnalité/la zone de texte pour voir les détails</value>
@@ -3502,6 +3526,12 @@ Espace disponible : {2}</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Définir le même raccourci clavier pour différentes fonctions peut entraîner des résultats inattendus, et des opérations supplémentaires ou un redémarrage de l'application sont nécessaires pour rétablir un fonctionnement normal.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>Lorsqu'un dispositif tactile intégré est détecté et que la fonction d'injection est activée, force l'activation du mode d'interaction tactile lors du lancement du jeu ; lorsqu'aucun n'est détecté, force la désactivation.</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>Détection d'entrée tactile</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Le remplacement de la barre des tâches standard par un outil de personnalisation du système et l'activation des icônes de la zone de notification peuvent entraîner : une impossibilité d'interagir avec les icônes, un échec de création correcte des icônes, des plantages de l'Explorateur après redémarrage, ou des plantages de l'application au lancement</value>
@@ -3998,6 +4028,12 @@ Espace disponible : {2}</value>
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>Prévu d'atteindre la limite de stockage {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>Les pièces de royaume ont atteint la limite de stockage</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>Atteindra la limite de stockage à {0:MM.dd HH:mm}</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>La Sérénithéière n'est pas débloquée</value>
   </data>
@@ -4018,6 +4054,9 @@ Espace disponible : {2}</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>La Résine originelle est complètement restaurée</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>Sera entièrement restauré à {0:MM.dd HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>Réinitialiser après {0:c}</value>

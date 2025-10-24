@@ -180,9 +180,9 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdWeaponSource.IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataDictionaryLevelAvaterGrowCurveSource levelAvaterGrowCurveSource)
+            if (context is IMetadataDictionaryLevelAvatarGrowCurveSource levelAvatarGrowCurveSource)
             {
-                levelAvaterGrowCurveSource.LevelDictionaryAvatarGrowCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync(token).ConfigureAwait(false);
+                levelAvatarGrowCurveSource.LevelDictionaryAvatarGrowCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryLevelMonsterGrowCurveSource monsterGrowCurveSource)
