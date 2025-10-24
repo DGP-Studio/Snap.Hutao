@@ -13,6 +13,7 @@ using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using Windows.Devices.Input;
 
 namespace Snap.Hutao.Service.Game.Island;
 
@@ -100,7 +101,15 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
         pIslandEnvironment->FunctionOffsets = offsets;
-        pIslandEnvironment->UsingTouchScreen = options.UsingTouchScreen.Value;
+
+        if (LocalSetting.Get(SettingKeys.LaunchForceUsingTouchScreenWhenIntegratedTouchPresent, false))
+        {
+            pIslandEnvironment->UsingTouchScreen = IsIntegratedTouchPresent();
+        }
+        else
+        {
+            pIslandEnvironment->UsingTouchScreen = options.UsingTouchScreen.Value;
+        }
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -127,6 +136,24 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->ResinListItemId220007Allowed = options.ResinListItemId220007Allowed.Value;
 
         return pIslandEnvironment->View;
+    }
+
+    private static bool IsIntegratedTouchPresent()
+    {
+        IReadOnlyList<PointerDevice> devices = PointerDevice.GetPointerDevices();
+
+        // ReSharper disable once ForCanBeConvertedToForeach
+        // https://github.com/microsoft/CsWinRT/issues/747
+        for (int i = 0; i < devices.Count; i++)
+        {
+            PointerDevice device = devices[i];
+            if (device is { PointerDeviceType: PointerDeviceType.Touch, IsIntegrated: true })
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static async ValueTask HandleUidChangedAsync(LaunchExecutionContext context, uint uid, CancellationToken token)

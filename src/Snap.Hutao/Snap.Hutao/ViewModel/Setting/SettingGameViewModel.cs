@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
@@ -19,11 +20,10 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 
     public partial AppOptions AppOptions { get; }
 
-    // TODO: Replace with IObservableProperty
-    public int KiloBytesPerSecondLimit
+    public bool ForceUsingTouchScreenWhenIntegratedTouchPresent
     {
-        get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value;
-        set => AppOptions.DownloadSpeedLimitPerSecondInKiloByte.Value = value;
+        get => LocalSetting.Get(SettingKeys.LaunchForceUsingTouchScreenWhenIntegratedTouchPresent, false);
+        set => LocalSetting.Set(SettingKeys.LaunchForceUsingTouchScreenWhenIntegratedTouchPresent, value);
     }
 
     [Command("DeleteGameWebCacheCommand")]

@@ -29,6 +29,7 @@ internal static class SettingKeys
 
     #region Launching
     public const string LaunchExecutionArbitraryLibrary = "LaunchExecutionArbitraryLibrary";
+    public const string LaunchForceUsingTouchScreenWhenIntegratedTouchPresent = "Launch.ForceUsingTouchScreenWhenIntegratedTouchPresent";
     #endregion
 
     #region Overlay
