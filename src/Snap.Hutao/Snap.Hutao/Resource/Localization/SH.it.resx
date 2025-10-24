@@ -3527,6 +3527,12 @@ Spazio disponibile: {2}</value>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>L'impostazione della stessa scorciatoia da tastiera per funzioni diverse potrebbe causare risultati imprevisti e richiedere operazioni aggiuntive o il riavvio dell'applicazione per ripristinare il normale funzionamento.</value>
   </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>触屏输入检测</value>
+  </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>Dopo aver sostituito la barra delle applicazioni standard con uno strumento di personalizzazione del sistema, l'abilitazione delle icone nell'area di notifica può causare: impossibilità di interagire con le icone, fallimento nella creazione corretta delle icone, crash di Explorer dopo il riavvio o crash dell'applicazione all'avvio</value>
   </data>
