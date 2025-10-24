@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -418,6 +418,9 @@
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
     <value>困難模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelLunar" xml:space="preserve">
+    <value>月諭模式</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
     <value>普通模式</value>
@@ -984,6 +987,15 @@
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名稱為 {0} 的帳號已存在</value>
   </data>
+  <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
+    <value>偵測到多個帳號的登入資訊，請在遊戲登入介面刪除多餘的帳號並進入遊戲後重試</value>
+  </data>
+  <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
+    <value>未偵測到登入資訊，請進入遊戲後重試</value>
+  </data>
+  <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
+    <value>此裝置的 MAC 位址發生變化，請重新登入遊戲後再嘗試</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個對應帳號，請刪除重複的帳號</value>
   </data>
@@ -1000,22 +1012,22 @@
     <value>為了防止注入功能被濫用，需要使用米遊社/HoYoLAB 帳號登入並選擇一個帳號與角色</value>
   </data>
   <data name="ServiceGameIslandFileSystemGetGameVersionFailed" xml:space="preserve">
-    <value>获取本地游戏版本失败，无法获取注入配置信息</value>
+    <value>取得本機遊戲版本失敗，無法取得注入配置資訊</value>
   </data>
   <data name="ServiceGameLaunchExecutionArbitraryLibraryInjectionException" xml:space="preserve">
-    <value>在注入 DLL: '{0}' 时发生错误</value>
+    <value>在注入 DLL: '{0}' 時發生錯誤</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI 已启动</value>
+    <value>BetterGI 已啟動</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
-    <value>启动协议尚未注册，请确保 BetterGI 已安装并至少运行一次</value>
+    <value>啟動協議尚未註冊，請確保 BetterGI 已安裝並至少執行一次</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactWaitGameMainWindowException" xml:space="preserve">
-    <value>启动 BetterGI 时遇到问题：未找到游戏主窗口</value>
+    <value>啟動 BetterGI 時遇到問題：未找到遊戲主視窗</value>
   </data>
   <data name="ServiceGameLaunchExecutionCurrentSchemeNull" xml:space="preserve">
-    <value>本地游戏配置文件损坏，请修复后重试</value>
+    <value>本機遊戲設定檔損壞，請修復後重試</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>遊戲程序執行中</value>
@@ -1045,7 +1057,7 @@
     <value>等待遊戲程序退出</value>
   </data>
   <data name="ServiceGameLaunchingEnsureGameResourceShouldNotConvert" xml:space="preserve">
-    <value>目标服务器与当前游戏资源匹配，无需转换</value>
+    <value>目標伺服器與目前遊戲資源匹配，無需轉換</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要胡桃以系統管理員權限執行</value>
@@ -1173,7 +1185,7 @@
     <value>你的胡桃版本過低，請盡快升級</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationCanceledTitle" xml:space="preserve">
-    <value>游戏资源操作已取消</value>
+    <value>遊戲資源操作已取消</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
     <value>遊戲資源操作失敗</value>
@@ -1590,7 +1602,7 @@
     <value>選擇的安裝路徑無效</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryIsSSDCheckFailed" xml:space="preserve">
-    <value>在检测路径所在驱动器的类型时发生了未知的错误，数据下载与写入将会受到限制。如果你确定此设备为固态硬盘，请与我们联系。</value>
+    <value>在偵測路徑所在磁碟機的類型時發生了未知的錯誤，資料下載與寫入將會受到限制。如果你確定此裝置為固態硬碟，請與我們聯絡。</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
     <value>未選擇語音包</value>
@@ -2070,13 +2082,13 @@
     <value>匯入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailed" xml:space="preserve">
-    <value>生成配置文件失败</value>
+    <value>產生設定檔失敗</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathLocked" xml:space="preserve">
-    <value>游戏路径被锁定，请稍后再试</value>
+    <value>遊戲路徑被鎖定，請稍後再試</value>
   </data>
   <data name="ViewModelGameConfigurationCreateFailedGamePathNullOrEmpty" xml:space="preserve">
-    <value>游戏路径为空，请先设置游戏路径</value>
+    <value>遊戲路徑為空，請先設定遊戲路徑</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
     <value>獲取遊戲版本配置失敗</value>
@@ -2184,7 +2196,7 @@
     <value>無效的遊戲路徑，請檢查硬體連接</value>
   </data>
   <data name="ViewModelLaunchGameDisplayGamePath" xml:space="preserve">
-    <value>当前游戏路径：'{0}'</value>
+    <value>目前遊戲路徑：'{0}'</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2193,10 +2205,10 @@
     <value>修複設定檔案</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileFailed" xml:space="preserve">
-    <value>修复失败</value>
+    <value>修復失敗</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSucceed" xml:space="preserve">
-    <value>修复成功</value>
+    <value>修復成功</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
     <value>尚未設定遊戲目錄</value>
@@ -2227,6 +2239,12 @@
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
     <value>第 {0} 幕</value>
+  </data>
+  <data name="ViewModelRoleCombatRoundAndTarot" xml:space="preserve">
+    <value>第 {0} 幕 聖牌 {1}</value>
+  </data>
+  <data name="ViewModelRoleCombatTarot" xml:space="preserve">
+    <value>秘典挑戰 {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -2919,7 +2937,7 @@
     <value>啟動參數</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在遊戲啟動後嘗試啟動並使用 Better GI 進行自動化任務</value>
+    <value>在遊戲啟動後嘗試啟動並使用 BetterGI 進行自動化任務</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>自動化任務</value>
@@ -2970,10 +2988,10 @@
     <value>特殊介面修正</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipSubtitle" xml:space="preserve">
-    <value>启用「调整视野」后，所有场景下的迷雾显示将会遵循「移除迷雾」开关的状态。若同时启用了「特殊界面修正」，则会在原始视野小于等于 30 时，强制禁用迷雾渲染。这会让你看到正常的祈愿/纪行/角色等界面，但是在进入部分剧情时也会强制禁用迷雾。这不属于软件 BUG，不要向我们反馈。</value>
+    <value>啟用「調整視野」後，所有場景下的迷霧顯示將會遵循「移除迷霧」開關的狀態。若同時啟用了「特殊介面修正」，則會在原始視野小於等於 30 時，強制禁用迷霧渲染。這會讓你看到正常的祈願/紀行/角色等介面，但是在進入部分劇情時也會強制禁用迷霧。這不屬於軟體 BUG，不要向我們回報。</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneTeachingTipTitle" xml:space="preserve">
-    <value>视野与迷雾</value>
+    <value>視野與迷霧</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
     <value>地圖橫幅冷開關</value>
@@ -2994,10 +3012,10 @@
     <value>注入</value>
   </data>
   <data name="ViewPageLaunchGameIslandConnected" xml:space="preserve">
-    <value>已连接到游戏，更改设置将会动态反映到游戏中</value>
+    <value>已連線到遊戲，更改設定將會動態反映到遊戲中</value>
   </data>
   <data name="ViewPageLaunchGameIslandOptionsHeader" xml:space="preserve">
-    <value>注入选项</value>
+    <value>注入選項</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>在物品詳情中點擊可合成數量時直接打開合成頁面而不是地圖</value>
@@ -3006,16 +3024,19 @@
     <value>重新導向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowCondensedResinHeader" xml:space="preserve">
-    <value>使用浓缩树脂领取奖励</value>
+    <value>使用濃縮樹脂領取獎勵</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowFragileResinHeader" xml:space="preserve">
-    <value>使用脆弱树脂领取奖励</value>
+    <value>使用脆弱樹脂領取獎勵</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowOriginalResinHeader" xml:space="preserve">
-    <value>使用原粹树脂领取奖励</value>
+    <value>使用原粹樹脂領取獎勵</value>
   </data>
   <data name="ViewPageLaunchGameIslandResinListItemAllowPrimogemHeader" xml:space="preserve">
-    <value>使用原石领取奖励</value>
+    <value>使用原石領取獎勵</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandResinListItemAllowTransientResinHeader" xml:space="preserve">
+    <value>使用須臾樹脂領取獎勵</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>使用觸控輸入</value>
@@ -3098,6 +3119,9 @@
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>偵測</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
+    <value>MAC 位址不匹配，可能需要在遊戲中重新登入</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>偵測帳號</value>
   </data>
@@ -3108,7 +3132,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeAction" xml:space="preserve">
-    <value>转换</value>
+    <value>轉換</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切換遊戲伺服器（陸服 / 渠道服 / 國際服）</value>
@@ -3135,10 +3159,10 @@
     <value>FPS 熱開關</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipSubtitle" xml:space="preserve">
-    <value>若在启用此功能后帧率无法超过 60/显示器帧率 但其他功能正常，那么这一定不是软件 BUG，不要向我们反馈。请自行检查 游戏设置/显卡驱动设置/显示器设置 中是否未关闭（包括但不限于）垂直同步，最大帧率限制，智能插帧等功能。</value>
+    <value>若在啟用此功能後幀率無法超過 60/顯示器幀率 但其他功能正常，那麼這一定不是軟體 BUG，不要向我們回報。請自行檢查 遊戲設定/顯示卡驅動設定/顯示器設定 中是否未關閉（包括但不限於）垂直同步，最大幀率限制，智慧插幀等功能。</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsTeachingTipTitle" xml:space="preserve">
-    <value>无法解锁帧率上限？</value>
+    <value>無法解鎖幀率上限？</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>將滑鼠懸停在功能開關/文字框上查看詳細說明</value>
@@ -3502,6 +3526,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用程式才能恢復正常</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>當偵測到整合式觸控裝置且啟用了注入功能後，在啟動遊戲時強制啟用觸控螢幕互動模式；當未偵測到時，強制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>觸控螢幕輸入偵測</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>使用系統美化工具取代系統標準工作列後啟用通知區域圖示可能會導致：無法與圖示互動/無法正常建立圖示/重新啟動工作管理員後崩潰/啟動程序後崩潰</value>
@@ -3998,6 +4028,12 @@
   <data name="WebDailyNoteHomeCoinRecovery" xml:space="preserve">
     <value>預計 {0} {1:HH:mm} 達到儲存上限</value>
   </data>
+  <data name="WebDailyNoteHomeCoinRecoveryCompleted" xml:space="preserve">
+    <value>洞天寶錢已達儲存上限</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryTargetTime" xml:space="preserve">
+    <value>將於 {0:MM.dd HH:mm} 達到儲存上限</value>
+  </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>尚未解鎖洞天</value>
   </data>
@@ -4018,6 +4054,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹樹脂已完全恢復</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryTargetTime" xml:space="preserve">
+    <value>將於 {0:MM.dd HH:mm} 全部恢復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
     <value>{0:c} 後重設</value>
