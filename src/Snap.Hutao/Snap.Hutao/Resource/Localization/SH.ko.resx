@@ -3527,6 +3527,12 @@
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>다른 기능에 동일한 바로 가기 키를 설정하면 예기치 않은 결과가 발생할 수 있으며, 정상 기능을 복원하려면 추가 작업이나 응용 프로그램 재시작이 필요합니다.</value>
   </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenDescription" xml:space="preserve">
+    <value>当检测到集成式触摸设备且启用了注入功能后，在启动游戏时强制启用触屏交互模式；当未检测到时，强制禁用</value>
+  </data>
+  <data name="ViewPageSettingLaunchForceUsingTouchScreenHeader" xml:space="preserve">
+    <value>触屏输入检测</value>
+  </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>시스템 맞춤 도구로 표준 작업 표시줄을 교체한 후 알림 영역 아이콘을 활성화하면 다음과 같은 문제가 발생할 수 있습니다: 아이콘과 상호 작용할 수 없음/아이콘을 정상적으로 생성할 수 없음/탐색기를 다시 시작한 후 충돌/응용 프로그램 시작 시 충돌</value>
   </data>
