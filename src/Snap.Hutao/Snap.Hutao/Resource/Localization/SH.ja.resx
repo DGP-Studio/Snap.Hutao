@@ -988,10 +988,10 @@
     <value>名前は {0} のアカウントは既に存在します</value>
   </data>
   <data name="ServiceGameAccountRegistryMultipleAccountDetected" xml:space="preserve">
-    <value>複数アカウントのログイン情報を検出しました。ゲームのログイン画面で不要なアカウントを削除し、ゲームを再起動後に再度お試しください</value>
+    <value>检测到多个账号的登录信息，请在游戏登录界面删除多余的账号并进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryNoAccountDetected" xml:space="preserve">
-    <value>ログイン情報が検出されませんでした。ゲーム起動後にもう一度お試しください</value>
+    <value>未检测到登录信息，请进入游戏后重试</value>
   </data>
   <data name="ServiceGameAccountRegistryTryGetFailed" xml:space="preserve">
     <value>本端末の MAC アドレスが変更されました。ゲームに再ログイン後再度お試しください</value>
@@ -1018,7 +1018,7 @@
     <value>DLL: '{0}' の注入中にエラーが発生しました</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactStarted" xml:space="preserve">
-    <value>Better GI が起動しました</value>
+    <value>BetterGI 已启动</value>
   </data>
   <data name="ServiceGameLaunchExecutionBetterGenshinImpactUrlProtocolNotRegistered" xml:space="preserve">
     <value>起動プロトコルがまだ登録されていません。BetterGI がインストールされ、少なくとも一度は実行されていることを確認してください
@@ -2940,7 +2940,7 @@
     <value>起動のパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>ゲーム起動後 Better GI を開始し、任務の自動化を行います。</value>
+    <value>在游戏启动后尝试启动并使用 BetterGI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>任務自動化</value>
@@ -3123,7 +3123,7 @@
     <value>検出</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountExpired" xml:space="preserve">
-    <value>MAC アドレスが一致しません。ゲーム内で再ログインが必要な可能性があります</value>
+    <value>MAC 地址不匹配，可能需要在游戏中重新登录</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
     <value>アカウントを検出</value>
