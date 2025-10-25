@@ -16,7 +16,7 @@ using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control.Effect;
 
-[DependencyProperty<EasingMode>("Easing", NotNull = true, DefaultValue = EasingMode.EaseOut, PropertyChangedCallbackName = nameof(OnAnimationChanged))]
+[DependencyProperty<EasingMode>("Easing", NotNull = true, DefaultValue = EasingMode.EaseInOut, PropertyChangedCallbackName = nameof(OnAnimationChanged))]
 [DependencyProperty<double>("TimeLineFrom", NotNull = true, DefaultValue = 0D, PropertyChangedCallbackName = nameof(OnAnimationChanged))]
 [DependencyProperty<double>("TimeLineTo", NotNull = true, DefaultValue = 1D, PropertyChangedCallbackName = nameof(OnAnimationChanged))]
 [DependencyProperty<double>("Duration", NotNull = true, DefaultValue = 1D, PropertyChangedCallbackName = nameof(OnAnimationChanged))]

@@ -290,13 +290,17 @@
                         Style="{ThemeResource CardPivotStyle}"
                         Transitions="{ThemeResource EntranceThemeTransitions}">
                         <PivotItem
-                            Content="{Binding Announcement.List[0]}"
-                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                            Header="{shuxm:ResourceString Name=ViewPageAnnouncementActivity}"/>
-                        <PivotItem
                             Content="{Binding Announcement.List[1]}"
                             ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                            Header="{shuxm:ResourceString Name=ViewPageAnnouncementGame}"/>
+                            Header="{Binding Announcement.TypeList[1].MI18NName}"/>
+                        <PivotItem
+                            Content="{Binding Announcement.List[0]}"
+                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                            Header="{Binding Announcement.TypeList[0].MI18NName}"/>
+                        <PivotItem
+                            Content="{Binding Announcement.List[2]}"
+                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                            Header="{Binding Announcement.TypeList[2].MI18NName}"/>
                     </Pivot>
                 </ScrollViewer>
             </StackPanel>
