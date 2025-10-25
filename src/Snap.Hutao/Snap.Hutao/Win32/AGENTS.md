@@ -3,7 +3,7 @@
 适用于 `Snap.Hutao/Win32`。
 
 ## 目标
-- 封装 Win32/COM/PInvoke 调用，为上层提供安全、可测试的接口。尽量复用现有封装，避免重复声明。
+- 封装 Win32/COM/PInvoke 调用，为上层提供安全、易复用的接口。尽量复用现有封装，避免重复声明。
 
 ## 编码注意事项
 - 所有 P/Invoke 声明必须标记正确的 `DllImport` 属性（`ExactSpelling`, `SetLastError`, `CharSet` 等）并确保与目标平台匹配。
