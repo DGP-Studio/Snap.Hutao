@@ -34,25 +34,18 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, ImmutableArray<AnnouncementListWrapper> announcementListWrappers)
     {
         // 将公告内容联入公告列表
-        foreach (ref readonly AnnouncementListWrapper listWrapper in announcementListWrappers.AsSpan())
+        foreach (AnnouncementListWrapper listWrapper in announcementListWrappers)
         {
-            foreach (ref readonly WebAnnouncement item in listWrapper.List.AsSpan())
-            {
-                item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
-            }
-        }
-
-        foreach (ref readonly AnnouncementListWrapper listWrapper in announcementListWrappers.AsSpan())
-        {
-            foreach (ref readonly WebAnnouncement item in listWrapper.List.AsSpan())
+            foreach (WebAnnouncement item in listWrapper.List)
             {
                 item.Subtitle = new StringBuilder(item.Subtitle)
                     .Replace("\r<br>", string.Empty)
                     .Replace("<br />", string.Empty)
                     .ToString();
+
                 item.Content = AnnouncementRegex
                     .XmlTimeTagRegex
-                    .Replace(item.Content, x => x.Groups[1].Value);
+                    .Replace(contentMap.GetValueOrDefault(item.AnnId, string.Empty), x => x.Groups[1].Value);
             }
         }
     }
@@ -89,10 +82,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             contents = contentsWrapper.List;
         }
 
-        Dictionary<int, string> contentMap = contents.ToDictionaryIgnoringDuplicateKeys(id => id.AnnId, content => content.Content);
-
-        // 将活动公告置于前方
-        // wrapper.List = wrapper.List.Reverse();
+        Dictionary<int, string> contentMap = contents.ToDictionaryIgnoringDuplicateKeys(content => content.AnnId, content => content.Content);
 
         PreprocessAnnouncements(contentMap, wrapper.List);
         return wrapper;
