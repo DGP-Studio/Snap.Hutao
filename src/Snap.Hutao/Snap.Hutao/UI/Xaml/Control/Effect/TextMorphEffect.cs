@@ -9,6 +9,7 @@ using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
+using Snap.Hutao.UI.Text;
 using System.Numerics;
 using Windows.UI;
 using Windows.UI.Text;
@@ -36,7 +37,6 @@ namespace Snap.Hutao.UI.Xaml.Control.Effect;
 internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
 {
     private const string PartCanvas = "PART_Canvas";
-    private CanvasControl? canvas;
 
     private GaussianBlurEffect? blurEffect;
     private Vector2 centerPoint;
@@ -46,6 +46,8 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
     private CanvasTextFormat? textFormat;
     private string[]? texts;
 
+    private CanvasControl? Canvas { get; set; }
+
     private static object CreateBeginTimeDefaultValue()
     {
         return TimeSpan.FromSeconds(0);
@@ -53,51 +55,51 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
 
     private static object CreateFontWeightDefaultValue()
     {
-        return Microsoft.UI.Text.FontWeights.Bold;
+        return FontWeights.Bold;
     }
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextMorphEffect control = d.As<TextMorphEffect>();
-        if (control is { canvas: not null })
+        if (control is { Canvas: not null })
         {
             if (double.IsNaN(control.BlurAmount))
             {
                 control.BlurAmount = 0f;
             }
 
-            control.canvas.Invalidate();
+            control.Canvas.Invalidate();
         }
     }
 
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextMorphEffect control = d.As<TextMorphEffect>();
-        if (control is { canvas: not null })
+        if (control is { Canvas: not null })
         {
             control.UpdateTextMorph();
-            control.canvas.Invalidate();
+            control.Canvas.Invalidate();
         }
     }
 
     private static void OnResourcePropertyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextMorphEffect control = d.As<TextMorphEffect>();
-        if (control is { canvas: not null })
+        if (control is { Canvas: not null })
         {
-            control.canvas.CreateResources -= control.OnCreateResource;
-            control.canvas.CreateResources += control.OnCreateResource;
-            control.canvas.Invalidate();
+            control.Canvas.CreateResources -= control.OnCreateResource;
+            control.Canvas.CreateResources += control.OnCreateResource;
+            control.Canvas.Invalidate();
         }
     }
 
     private static void OnAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextMorphEffect control = d.As<TextMorphEffect>();
-        if (control is { canvas: not null })
+        if (control is { Canvas: not null })
         {
             control.UpdateTextMorph();
-            control.canvas.Invalidate();
+            control.Canvas.Invalidate();
         }
     }
 
@@ -105,19 +107,19 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
     {
         base.OnApplyTemplate();
 
-        if (canvas is not null)
+        if (Canvas is not null)
         {
-            canvas.Draw -= OnDraw;
-            canvas.CreateResources -= OnCreateResource;
-            canvas.SizeChanged -= OnCanvasSizeChanged;
+            Canvas.Draw -= OnDraw;
+            Canvas.CreateResources -= OnCreateResource;
+            Canvas.SizeChanged -= OnCanvasSizeChanged;
         }
 
-        canvas = GetTemplateChild(PartCanvas) as CanvasControl;
-        if (canvas is not null)
+        Canvas = GetTemplateChild(PartCanvas) as CanvasControl;
+        if (Canvas is not null)
         {
-            canvas.Draw += OnDraw;
-            canvas.CreateResources += OnCreateResource;
-            canvas.SizeChanged += OnCanvasSizeChanged;
+            Canvas.Draw += OnDraw;
+            Canvas.CreateResources += OnCreateResource;
+            Canvas.SizeChanged += OnCanvasSizeChanged;
         }
 
         UpdateTextMorph();
@@ -131,7 +133,7 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
         }
 
         texts = Text.Split(Delimiter);
-        QuarticEase easingFunction = new() { EasingMode = Easing };
+        CircleEase easingFunction = new() { EasingMode = Easing };
         double morphSpeedInSeconds = TimeSpan.FromMilliseconds(MorphSpeed).TotalSeconds;
         morphItems = [];
         for (int i = 0; i < texts.Length; i++)
@@ -163,19 +165,14 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
         };
     }
 
-    public CanvasControl? GetCanvas()
-    {
-        return canvas;
-    }
-
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (canvas is null)
+        if (Canvas is null)
         {
             return;
         }
 
-        centerPoint = canvas.ActualSize / 2;
+        centerPoint = Canvas.ActualSize / 2;
     }
 
     private void OnCreateResource(CanvasControl sender, CanvasCreateResourcesEventArgs args)
@@ -190,32 +187,21 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
             BlurAmount = Convert.ToSingle(BlurAmount)
         };
 
+        // result.R = (src.R * matrix.M11) + (src.G * matrix.M21) + (src.B * matrix.M31) + (src.A * matrix.M41) + matrix.M51
+        // result.G = (src.R * matrix.M12) + (src.G * matrix.M22) + (src.B * matrix.M32) + (src.A * matrix.M42) + matrix.M52
+        // result.B = (src.R * matrix.M13) + (src.G * matrix.M23) + (src.B * matrix.M33) + (src.A * matrix.M43) + matrix.M53
+        // result.A = (src.R * matrix.M14) + (src.G * matrix.M24) + (src.B * matrix.M34) + (src.A * matrix.M44) + matrix.M54
         colorMatrixEffect = new()
         {
             ColorMatrix = new()
             {
-                M11 = 1,
-                M12 = 0,
-                M13 = 0,
-                M14 = 0,
-                M21 = 0,
-                M22 = 1,
-                M23 = 0,
-                M24 = 0,
-                M31 = 0,
-                M32 = 0,
-                M33 = 1,
-                M34 = 0,
-                M41 = 0,
-                M42 = 0,
-                M43 = 0,
-                M44 = 18,
-                M51 = 0,
-                M52 = 0,
-                M53 = 0,
-                M54 = -7
+                M11 = 1, M21 = 0, M31 = 0, M41 = 0, M51 = 0,
+                M12 = 0, M22 = 1, M32 = 0, M42 = 0, M52 = 0,
+                M13 = 0, M23 = 0, M33 = 1, M43 = 0, M53 = 0,
+                M14 = 0, M24 = 0, M34 = 0, M44 = 10, M54 = -4.5f,
             },
-            Source = blurEffect
+            Source = blurEffect,
+            ClampOutput = true,
         };
     }
 
@@ -244,8 +230,7 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
                     centerPoint,
                     new CanvasSolidColorBrush(sender, ColorBrush)
                     {
-                        Opacity = Convert.ToSingle(progress)
-
+                        Opacity = Convert.ToSingle(progress),
                     },
                     textFormat);
             }
@@ -256,6 +241,6 @@ internal partial class TextMorphEffect : Microsoft.UI.Xaml.Controls.Control
         blurEffect.Source = source;
 
         args.DrawingSession.DrawImage(colorMatrixEffect);
-        canvas?.Invalidate();
+        Canvas?.Invalidate();
     }
 }
