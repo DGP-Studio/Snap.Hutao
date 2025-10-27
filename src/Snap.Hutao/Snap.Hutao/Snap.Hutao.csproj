@@ -220,7 +220,6 @@
   <!-- Packages -->
   <ItemGroup>
     <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
-    <PackageReference Include="AngleSharp" Version="1.3.0" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250513-build.2126" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.250513-build.2126" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.250513-build.2126" />

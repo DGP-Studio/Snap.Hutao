@@ -151,8 +151,12 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
             {
                 try
                 {
-                    RuntimeHelpers.EnsureSufficientExecutionStack();
-                    await WebView.EnsureCoreWebView2Async();
+                    CoreWebView2EnvironmentOptions options = new()
+                    {
+                        AdditionalBrowserArguments = "--do-not-de-elevate",
+                    };
+                    CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+                    await WebView.EnsureCoreWebView2Async(environment);
                 }
                 catch (SEHException)
                 {

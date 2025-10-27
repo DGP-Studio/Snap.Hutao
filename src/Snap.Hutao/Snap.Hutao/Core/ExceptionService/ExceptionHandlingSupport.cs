@@ -86,8 +86,14 @@ internal sealed partial class ExceptionHandlingSupport
         // And user can still interact with the UI without any problems.
         CapturedException capturedException = new(id, exception);
 
+        if (SynchronizationContext.Current is not { } syncContext)
+        {
+            ProcessFactory.KillCurrent();
+            return;
+        }
+
 #pragma warning disable SH007
-        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show(Unsafe.Unbox<CapturedException>(state!)), capturedException);
+        syncContext.Post(static state => ExceptionWindow.Show(Unsafe.Unbox<CapturedException>(state!)), capturedException);
 #pragma warning restore SH007
     }
 
