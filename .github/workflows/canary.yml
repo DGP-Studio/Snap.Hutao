@@ -77,7 +77,7 @@ jobs:
 
       - name: Upload signed msix
         if: ${{ success() && steps.merge.outputs.continue == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Snap.Hutao.Canary-${{ steps.cake.outputs.version }}
           path: ${{ github.workspace }}/src/output/Snap.Hutao.Canary-${{ steps.cake.outputs.version }}.msix
