@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Google.Protobuf;
-using Snap.Hutao.Core.Buffers;
 using Snap.Hutao.Core.Protobuf;
 using System.Buffers;
 using System.Runtime.InteropServices;
@@ -26,7 +25,7 @@ internal sealed partial class YaeData : IDisposable
         Dispose();
     }
 
-    public static YaeData SessionEnd { get => new(YaeCommandKind.SessionEnd, MemoryOwner<byte>.Empty, 0); }
+    public static YaeData SessionEnd { get => new(YaeCommandKind.SessionEnd, IMemoryOwner<byte>.Empty, 0); }
 
     public YaeCommandKind Kind { get; }
 

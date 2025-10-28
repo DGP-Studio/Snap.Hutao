@@ -32,7 +32,7 @@ internal sealed partial class AchievementService : IAchievementService
     {
         using (await archives.LockAsync().ConfigureAwait(false))
         {
-            return archives.Value ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            return archives.Value ??= achievementRepository.GetAchievementArchiveCollection().ToAdvancedDbCollectionView(serviceProvider);
         }
     }
 

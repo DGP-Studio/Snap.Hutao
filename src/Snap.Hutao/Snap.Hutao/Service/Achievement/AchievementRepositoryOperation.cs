@@ -30,7 +30,7 @@ internal sealed partial class AchievementRepositoryOperation
 
             (int add, int update) = (0, 0);
 
-            using (TwoEnumerableEnumerator<EntityAchievement, UIAFItem> enumerator = new(oldData, items))
+            using (Core.Collection.Generic.TwoEnumerableEnumerator<EntityAchievement, UIAFItem> enumerator = new(oldData, items))
             {
                 (bool moveEntity, bool moveUIAF) = (true, true);
 
@@ -98,7 +98,7 @@ internal sealed partial class AchievementRepositoryOperation
 
             (int add, int update, int remove) = (0, 0, 0);
 
-            using (TwoEnumerableEnumerator<EntityAchievement, EntityAchievement> enumerator = new(oldData, items))
+            using (Core.Collection.Generic.TwoEnumerableEnumerator<EntityAchievement, EntityAchievement> enumerator = new(oldData, items))
             {
                 (bool moveOld, bool moveNew) = (true, true);
 

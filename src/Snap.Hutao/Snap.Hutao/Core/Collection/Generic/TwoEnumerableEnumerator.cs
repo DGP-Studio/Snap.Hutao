@@ -4,7 +4,7 @@
 using JetBrains.Annotations;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Core.Collection;
+namespace Snap.Hutao.Core.Collection.Generic;
 
 internal sealed partial class TwoEnumerableEnumerator<TFirst, TSecond> : IDisposable
 {

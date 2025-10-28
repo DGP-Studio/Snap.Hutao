@@ -11,14 +11,14 @@ namespace Snap.Hutao.Core.Database;
 internal static class AdvancedDbCollectionViewExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IAdvancedDbCollectionView<TEntity> AsAdvancedDbCollectionView<TEntity>(this IList<TEntity> source, IServiceProvider serviceProvider)
+    public static IAdvancedDbCollectionView<TEntity> ToAdvancedDbCollectionView<TEntity>(this IList<TEntity> source, IServiceProvider serviceProvider)
         where TEntity : class, IPropertyValuesProvider, ISelectable
     {
         return new AdvancedDbCollectionView<TEntity>(source, serviceProvider);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IAdvancedDbCollectionView<TEntityAccess> AsAdvancedDbCollectionView<TEntityAccess, TEntity>(this IList<TEntityAccess> source, IServiceProvider serviceProvider)
+    public static IAdvancedDbCollectionView<TEntityAccess> ToAdvancedDbCollectionView<TEntityAccess, TEntity>(this IList<TEntityAccess> source, IServiceProvider serviceProvider)
         where TEntityAccess : class, IEntityAccess<TEntity>, IPropertyValuesProvider
         where TEntity : class, ISelectable
     {

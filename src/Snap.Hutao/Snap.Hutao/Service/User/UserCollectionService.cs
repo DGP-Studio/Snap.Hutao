@@ -46,7 +46,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                     bindingUsers.Add(user);
                 }
 
-                users = bindingUsers.AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
+                users = bindingUsers.ToAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
 
                 // Since this service is singleton, we can safely subscribe to the event
                 users.CurrentChanged += OnCurrentUserChanged;

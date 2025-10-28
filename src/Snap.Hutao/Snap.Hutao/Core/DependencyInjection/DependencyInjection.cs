@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Windows.Globalization;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
@@ -10,7 +11,6 @@ using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Windows.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 

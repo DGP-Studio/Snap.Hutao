@@ -4,7 +4,7 @@
 using System.Collections;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Core.Collection;
+namespace Snap.Hutao.Core.Collection.Generic;
 
 internal sealed class ImmutableArrayEnumeratorNoThrow<T> : IEnumerator<T>
 {

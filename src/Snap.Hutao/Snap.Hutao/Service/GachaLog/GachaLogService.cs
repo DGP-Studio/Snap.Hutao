@@ -32,7 +32,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            return archives ??= gachaLogRepository.GetGachaArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            return archives ??= gachaLogRepository.GetGachaArchiveCollection().ToAdvancedDbCollectionView(serviceProvider);
         }
     }
 

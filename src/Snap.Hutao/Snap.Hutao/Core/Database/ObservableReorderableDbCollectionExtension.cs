@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Database;
 internal static class ObservableReorderableDbCollectionExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ObservableReorderableDbCollection<TEntity> AsObservableReorderableDbCollection<TEntity>(this IEnumerable<TEntity> source, IServiceProvider serviceProvider)
+    public static ObservableReorderableDbCollection<TEntity> ToObservableReorderableDbCollection<TEntity>(this IEnumerable<TEntity> source, IServiceProvider serviceProvider)
         where TEntity : class, IReorderable
     {
         return source is List<TEntity> list
@@ -20,7 +20,7 @@ internal static class ObservableReorderableDbCollectionExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ObservableReorderableDbCollection<TEntityOnly, TEntity> AsObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
+    public static ObservableReorderableDbCollection<TEntityOnly, TEntity> ToObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
         where TEntityOnly : class, IEntityAccess<TEntity>
         where TEntity : class, IReorderable
     {
@@ -30,10 +30,10 @@ internal static class ObservableReorderableDbCollectionExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static AdvancedDbCollectionView<TEntityOnly, TEntity> AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
+    public static AdvancedDbCollectionView<TEntityOnly, TEntity> ToAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
         where TEntityOnly : class, IPropertyValuesProvider, IEntityAccess<TEntity>
         where TEntity : class, ISelectable, IReorderable
     {
-        return new(AsObservableReorderableDbCollection<TEntityOnly, TEntity>(source, serviceProvider), serviceProvider);
+        return new(ToObservableReorderableDbCollection<TEntityOnly, TEntity>(source, serviceProvider), serviceProvider);
     }
 }

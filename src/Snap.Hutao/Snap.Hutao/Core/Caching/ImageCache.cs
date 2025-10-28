@@ -4,22 +4,27 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Process;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32;
+using System.Collections.Frozen;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
 using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile);
 
 namespace Snap.Hutao.Core.Caching;
 
 [ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IImageCache))]
-internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
+internal sealed partial class ImageCache : IImageCache
 {
+    private static readonly FrozenSet<string> SupportedSchemes =
+    [
+        Uri.UriSchemeHttp,
+        Uri.UriSchemeHttps,
+    ];
+
     private readonly AsyncKeyedLock<ThemeFile> themeFileLocks = new();
     private readonly AsyncKeyedLock<string> downloadLocks = new();
 
@@ -48,10 +53,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public void Remove(Uri uriForCachedItem)
     {
-        string filePath = Path.Combine(CacheFolder, CacheFile.GetHashedFileName(uriForCachedItem.OriginalString));
         try
         {
-            File.Delete(filePath);
+            File.Delete(ImageCacheFile.GetHashedFile(CacheFolder, uriForCachedItem));
         }
         catch
         {
@@ -66,24 +70,24 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
-        Debug.Assert(uri.Scheme is "http" or "https", "Unsupported URI scheme");
+        Debug.Assert(SupportedSchemes.Contains(uri.Scheme), "Unsupported URI scheme");
 
-        CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
-        string themedFileFullPath = cacheFile.GetThemedFilePath(theme);
+        ImageCacheFile imageCacheFile = ImageCacheFile.Create(CacheFolder, uri);
+        string themedFileFullPath = imageCacheFile.GetThemedFile(theme);
 
-        using (await themeFileLocks.LockAsync((theme, cacheFile.HashedFileName)).ConfigureAwait(false))
+        using (await themeFileLocks.LockAsync((theme, imageCacheFile.HashedFileName)).ConfigureAwait(false))
         {
             if (IsFileInvalid(themedFileFullPath))
             {
-                using (await downloadLocks.LockAsync(cacheFile.HashedFileName).ConfigureAwait(false))
+                using (await downloadLocks.LockAsync(imageCacheFile.HashedFileName).ConfigureAwait(false))
                 {
-                    if (IsFileInvalid(cacheFile.DefaultFilePath))
+                    if (IsFileInvalid(imageCacheFile.DefaultFilePath))
                     {
-                        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo("Begin to download file", "Core.Caching.ImageCache", [("Uri", uri.ToString()), ("File", cacheFile.DefaultFilePath)]));
+                        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo("Begin to download file", "Core.Caching.ImageCache", [("Uri", uri.ToString()), ("File", imageCacheFile.DefaultFilePath)]));
 
                         try
                         {
-                            await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFilePath).ConfigureAwait(false);
+                            await downloadOperation.DownloadFileAsync(uri, imageCacheFile.DefaultFilePath).ConfigureAwait(false);
                         }
                         catch (Exception)
                         {
@@ -94,14 +98,14 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 }
             }
 
-            await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
+            await EnsureThemedMonochromeFileExistsAsync(imageCacheFile, theme).ConfigureAwait(false);
             return themedFileFullPath;
         }
     }
 
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        return CacheFile.Create(CacheFolder, StaticResourcesEndpoints.StaticRaw(category, fileName)).DefaultFilePath;
+        return ImageCacheFile.Create(CacheFolder, StaticResourcesEndpoints.StaticRaw(category, fileName)).DefaultFilePath;
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)
@@ -114,7 +118,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         return new FileInfo(file).Length == 0;
     }
 
-    private static async ValueTask EnsureThemedMonochromeFileExistsAsync(CacheFile cacheFile, ElementTheme theme)
+    private static async ValueTask EnsureThemedMonochromeFileExistsAsync(ImageCacheFile imageCacheFile, ElementTheme theme)
     {
         if (theme is ElementTheme.Default)
         {
@@ -123,9 +127,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
         try
         {
-            using (FileStream sourceStream = File.OpenRead(cacheFile.DefaultFilePath))
+            using (FileStream sourceStream = File.OpenRead(imageCacheFile.DefaultFilePath))
             {
-                using (FileStream themeStream = File.Create(cacheFile.GetThemedFilePath(theme)))
+                using (FileStream themeStream = File.Create(imageCacheFile.GetThemedFile(theme)))
                 {
                     await MonoChromeImageConverter.ConvertAndCopyToAsync(theme, sourceStream, themeStream).ConfigureAwait(false);
                 }
@@ -134,47 +138,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         catch (IOException ex)
         {
             throw InternalImageCacheException.Throw("Failed to convert image", ex);
-        }
-    }
-
-    private sealed class CacheFile
-    {
-        private readonly string directory;
-
-        private CacheFile(string directory, string hashedFileName)
-        {
-            this.directory = directory;
-            HashedFileName = hashedFileName;
-        }
-
-        public string HashedFileName { get; }
-
-        [field: MaybeNull]
-        public string DefaultFilePath
-        {
-            get => field ??= Path.GetFullPath(Path.Combine(directory, HashedFileName));
-        }
-
-        public static CacheFile Create(string folder, string url)
-        {
-            return new(folder, GetHashedFileName(url));
-        }
-
-        public static CacheFile Create(string folder, Uri uri)
-        {
-            return new(folder, GetHashedFileName(uri.OriginalString));
-        }
-
-        public static string GetHashedFileName(string url)
-        {
-            return Hash.ToHexString(HashAlgorithmName.SHA1, url);
-        }
-
-        public string GetThemedFilePath(ElementTheme theme)
-        {
-            return theme is ElementTheme.Default
-                ? DefaultFilePath
-                : Path.GetFullPath(Path.Combine(directory, $"{theme}", HashedFileName));
         }
     }
 }

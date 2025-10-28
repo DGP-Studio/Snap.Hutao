@@ -7,12 +7,12 @@ namespace Snap.Hutao.Core.Caching;
 
 internal class InternalImageCacheException : Exception, IInternalException
 {
-    public InternalImageCacheException(string message, Exception innerException)
+    private InternalImageCacheException(string message, Exception innerException)
         : base(message, innerException)
     {
     }
 
-    public InternalImageCacheException(string message)
+    private InternalImageCacheException(string message)
         : base(message)
     {
     }
