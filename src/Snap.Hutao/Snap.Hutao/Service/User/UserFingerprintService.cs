@@ -8,7 +8,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUserFingerprintService))]
 internal sealed partial class UserFingerprintService : IUserFingerprintService
 {

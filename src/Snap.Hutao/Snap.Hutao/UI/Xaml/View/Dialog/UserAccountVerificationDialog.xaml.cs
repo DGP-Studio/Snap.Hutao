@@ -15,7 +15,7 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 internal sealed partial class UserAccountVerificationDialog : ContentDialog, IAigisProvider, INotifyPropertyChanged
 {
     private readonly IContentDialogFactory contentDialogFactory;

@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Hoyolab.Passport;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IUserVerificationService))]
 internal sealed partial class UserVerificationService : IUserVerificationService
 {

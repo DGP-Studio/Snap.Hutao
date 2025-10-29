@@ -19,7 +19,7 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AvatarInfoRepositoryOperation
 {

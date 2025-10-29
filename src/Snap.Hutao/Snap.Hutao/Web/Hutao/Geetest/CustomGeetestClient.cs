@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class CustomGeetestClient
 {

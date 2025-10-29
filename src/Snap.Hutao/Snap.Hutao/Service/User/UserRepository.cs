@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUserRepository))]
 internal sealed partial class UserRepository : IUserRepository
 {

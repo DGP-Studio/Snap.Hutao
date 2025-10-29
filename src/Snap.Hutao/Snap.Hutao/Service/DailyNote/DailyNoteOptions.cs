@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class DailyNoteOptions : DbStoreOptions
 {

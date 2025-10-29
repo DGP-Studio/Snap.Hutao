@@ -13,7 +13,7 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigationRecipient
 {

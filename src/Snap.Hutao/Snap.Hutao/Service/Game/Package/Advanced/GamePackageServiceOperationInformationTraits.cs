@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageServiceOperationInformationTraits
 {

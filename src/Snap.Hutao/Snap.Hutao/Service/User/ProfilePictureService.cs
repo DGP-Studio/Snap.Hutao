@@ -11,7 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IProfilePictureService))]
 internal sealed partial class ProfilePictureService : IProfilePictureService
 {

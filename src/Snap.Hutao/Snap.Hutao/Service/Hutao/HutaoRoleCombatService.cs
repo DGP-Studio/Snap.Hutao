@@ -5,7 +5,7 @@ using Snap.Hutao.Web.Hutao.RoleCombat;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Scoped, typeof(IHutaoRoleCombatService))]
 internal sealed partial class HutaoRoleCombatService : ObjectCacheService, IHutaoRoleCombatService
 {

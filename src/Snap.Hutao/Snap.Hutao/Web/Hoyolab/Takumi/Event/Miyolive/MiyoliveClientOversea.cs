@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MiyoliveClientOversea : IMiyoliveClient
 {

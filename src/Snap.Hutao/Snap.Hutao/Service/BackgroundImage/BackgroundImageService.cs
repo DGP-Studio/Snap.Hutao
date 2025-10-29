@@ -17,7 +17,7 @@ using Windows.Graphics.Imaging;
 
 namespace Snap.Hutao.Service.BackgroundImage;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {

@@ -7,7 +7,7 @@ using Snap.Hutao.ViewModel.Cultivation;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationResinStatisticsService))]
 internal sealed partial class CultivationResinStatisticsService : ICultivationResinStatisticsService
 {

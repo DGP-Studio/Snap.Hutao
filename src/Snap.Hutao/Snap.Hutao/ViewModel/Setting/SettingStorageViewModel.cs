@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -19,7 +20,6 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
@@ -29,9 +29,14 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    public SettingFolderViewModel? CacheFolderView { get; set => SetProperty(ref field, value); }
+    [GeneratedConstructor]
+    public partial SettingStorageViewModel(IServiceProvider serviceProvider);
 
-    public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial SettingFolderViewModel? CacheFolderView { get; set; }
+
+    [ObservableProperty]
+    public partial SettingFolderViewModel? DataFolderView { get; set; }
 
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()

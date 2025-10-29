@@ -12,7 +12,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class SignInClientOversea : ISignInClient

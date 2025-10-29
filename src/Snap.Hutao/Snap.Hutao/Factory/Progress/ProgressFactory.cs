@@ -5,7 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Factory.Progress;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IProgressFactory))]
 internal sealed partial class ProgressFactory : IProgressFactory
 {

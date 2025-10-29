@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.UIGF;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUIGFService))]
 internal sealed partial class UIGFService : IUIGFService
 {

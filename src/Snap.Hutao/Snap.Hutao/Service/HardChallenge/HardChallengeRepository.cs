@@ -7,7 +7,7 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.HardChallenge;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IHardChallengeRepository))]
 internal sealed partial class HardChallengeRepository : IHardChallengeRepository
 {

@@ -14,7 +14,7 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider, INotifyPropertyChanged
 {
     private readonly IUserVerificationService userVerificationService;

@@ -8,7 +8,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 internal abstract partial class ObjectCacheService : ITypeName
 {
     private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(2);

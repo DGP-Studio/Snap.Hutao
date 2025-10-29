@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Metadata;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MetadataService : IMetadataService

@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IInventoryRepository))]
 internal sealed partial class InventoryRepository : IInventoryRepository
 {

@@ -12,7 +12,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Service.Feature;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IFeatureService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class FeatureService : IFeatureService

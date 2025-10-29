@@ -27,7 +27,7 @@ using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.Achievemen
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient, IDisposable

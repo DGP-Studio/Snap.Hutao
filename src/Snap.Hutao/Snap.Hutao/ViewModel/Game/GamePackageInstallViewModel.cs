@@ -20,7 +20,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewModel

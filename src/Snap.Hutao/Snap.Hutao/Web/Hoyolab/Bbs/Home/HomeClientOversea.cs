@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class HomeClientOversea : IHomeClient
 {

@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationRepository))]
 internal sealed partial class CultivationRepository : ICultivationRepository
 {

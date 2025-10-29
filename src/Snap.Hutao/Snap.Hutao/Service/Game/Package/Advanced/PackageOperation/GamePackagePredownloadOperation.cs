@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.Predownload)]
 internal sealed partial class GamePackagePredownloadOperation : GamePackageOperation
 {

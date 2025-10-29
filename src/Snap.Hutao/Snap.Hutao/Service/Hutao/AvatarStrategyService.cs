@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IAvatarStrategyService))]
 internal sealed partial class AvatarStrategyService : IAvatarStrategyService
 {

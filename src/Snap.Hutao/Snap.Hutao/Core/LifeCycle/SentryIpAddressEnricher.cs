@@ -6,7 +6,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class SentryIpAddressEnricher
 {

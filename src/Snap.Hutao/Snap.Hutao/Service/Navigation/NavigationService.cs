@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Navigation.Message;
 
 namespace Snap.Hutao.Service.Navigation;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(INavigationService))]
 internal sealed partial class NavigationService : INavigationService
 {

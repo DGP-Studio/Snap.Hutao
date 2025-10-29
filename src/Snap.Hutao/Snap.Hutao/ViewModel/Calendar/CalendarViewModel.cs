@@ -25,7 +25,7 @@ namespace Snap.Hutao.ViewModel.Calendar;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<CultivationPage>
 {
     private readonly ICultivationService cultivationService;

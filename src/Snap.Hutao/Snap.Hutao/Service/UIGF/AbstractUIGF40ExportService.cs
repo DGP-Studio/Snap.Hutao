@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Snap.Hutao.Service.UIGF;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 internal abstract partial class AbstractUIGF40ExportService : IUIGFExportService
 {
     private readonly JsonSerializerOptions jsonOptions;

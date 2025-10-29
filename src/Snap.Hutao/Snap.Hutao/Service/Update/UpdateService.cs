@@ -15,7 +15,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Update;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUpdateService))]
 internal sealed partial class UpdateService : IUpdateService
 {

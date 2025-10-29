@@ -12,11 +12,14 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
-[ConstructorGenerated]
+
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class ExceptionHandlingSupport
 {
     private readonly ILogger<ExceptionHandlingSupport> logger;
+
+    [GeneratedConstructor]
+    public partial ExceptionHandlingSupport(IServiceProvider serviceProvider);
 
     public static void Initialize(IServiceProvider serviceProvider, Application app)
     {

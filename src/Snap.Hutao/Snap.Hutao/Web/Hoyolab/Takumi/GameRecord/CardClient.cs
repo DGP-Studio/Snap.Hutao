@@ -14,7 +14,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class CardClient
 {

@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiAvatarStrategyComponent
 {

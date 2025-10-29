@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
 [DependencyProperty<NameValue<TimeSpan>>("SelectedServerTimeZoneOffset", CreateDefaultValueCallbackName = nameof(CreateSelectedServerTimeZoneOffsetDefaultValue))]
 [DependencyProperty<bool>("IsUidAttached", NotNull = true)]

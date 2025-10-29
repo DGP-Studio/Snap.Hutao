@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGachaLogRepository))]
 internal sealed partial class GachaLogRepository : IGachaLogRepository
 {

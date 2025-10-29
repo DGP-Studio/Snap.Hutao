@@ -26,7 +26,7 @@ using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGamePackageService))]
 [SuppressMessage("", "CA1001")]
 [SuppressMessage("", "SA1201")]

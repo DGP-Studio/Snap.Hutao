@@ -13,7 +13,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoAsAServiceClient
 {

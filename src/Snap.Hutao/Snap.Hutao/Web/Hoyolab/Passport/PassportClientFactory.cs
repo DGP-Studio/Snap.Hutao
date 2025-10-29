@@ -5,6 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient, typeof(IOverseaSupportFactory<IPassportClient>))]
 internal sealed partial class PassportClientFactory : OverseaSupportFactory<IPassportClient, PassportClient, PassportClientOversea>;

@@ -21,7 +21,7 @@ using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<bool>("Chinese", NotNull = true)]
 [DependencyProperty<bool>("English", NotNull = true)]
 [DependencyProperty<bool>("Japanese", NotNull = true)]

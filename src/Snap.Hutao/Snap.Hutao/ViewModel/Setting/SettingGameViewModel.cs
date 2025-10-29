@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {

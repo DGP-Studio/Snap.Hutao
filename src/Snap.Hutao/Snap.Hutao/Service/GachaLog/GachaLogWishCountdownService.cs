@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGachaLogWishCountdownService))]
 internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountdownService
 {

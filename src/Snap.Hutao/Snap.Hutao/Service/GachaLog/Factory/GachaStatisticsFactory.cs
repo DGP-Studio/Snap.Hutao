@@ -14,7 +14,7 @@ using GachaItem = Snap.Hutao.Model.Entity.GachaItem;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGachaStatisticsFactory))]
 internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {

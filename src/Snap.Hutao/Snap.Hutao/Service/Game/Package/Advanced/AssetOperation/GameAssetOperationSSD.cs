@@ -13,7 +13,7 @@ using System.IO;
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [SuppressMessage("", "SA1202")]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 {

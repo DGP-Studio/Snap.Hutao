@@ -19,7 +19,7 @@ namespace Snap.Hutao.ViewModel.Sign;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);

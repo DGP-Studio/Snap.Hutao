@@ -16,7 +16,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient

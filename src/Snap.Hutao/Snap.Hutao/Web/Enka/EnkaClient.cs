@@ -15,7 +15,7 @@ using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Enka;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class EnkaClient
 {

@@ -9,7 +9,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 {

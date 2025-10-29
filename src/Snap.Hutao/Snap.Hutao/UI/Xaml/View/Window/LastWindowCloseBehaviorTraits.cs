@@ -8,7 +8,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated]
+[GeneratedConstructor]
 internal sealed partial class LastWindowCloseBehaviorTraits
 {
     private readonly IContentDialogFactory contentDialogFactory;

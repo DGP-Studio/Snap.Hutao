@@ -20,7 +20,7 @@ using Snap.Hutao.ViewModel.User;
 namespace Snap.Hutao.ViewModel.Game;
 
 [Service(ServiceLifetime.Singleton)]
-[ConstructorGenerated]
+[GeneratedConstructor]
 internal sealed partial class LaunchGameShared
 {
     private readonly IContentDialogFactory contentDialogFactory;

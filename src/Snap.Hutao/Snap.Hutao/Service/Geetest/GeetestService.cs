@@ -12,7 +12,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Geetest;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGeetestService))]
 internal sealed partial class GeetestService : IGeetestService
 {

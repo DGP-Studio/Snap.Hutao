@@ -6,12 +6,14 @@ using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Core.DataTransfer;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Transient, typeof(IClipboardProvider))]
 internal sealed partial class DefaultClipboardSource : IClipboardProvider
 {
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial DefaultClipboardSource(IServiceProvider serviceProvider);
 
     public async ValueTask<T?> DeserializeFromJsonAsync<T>()
         where T : class

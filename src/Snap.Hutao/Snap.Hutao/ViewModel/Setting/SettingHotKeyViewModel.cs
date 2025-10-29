@@ -8,7 +8,7 @@ using Snap.Hutao.UI.Input.LowLevel;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingHotKeyViewModel : Abstraction.ViewModel
 {

@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IGachaStatisticsSlimFactory))]
 internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
 {

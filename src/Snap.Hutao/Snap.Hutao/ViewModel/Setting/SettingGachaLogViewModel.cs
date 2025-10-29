@@ -16,7 +16,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 {

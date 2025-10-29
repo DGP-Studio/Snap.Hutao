@@ -8,7 +8,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 {
     private readonly IGachaLogHutaoCloudService hutaoCloudService;

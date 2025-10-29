@@ -25,7 +25,7 @@ using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IPackageConverter))]
 internal sealed partial class PackageConverter : IPackageConverter
 {

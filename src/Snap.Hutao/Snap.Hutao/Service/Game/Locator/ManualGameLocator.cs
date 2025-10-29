@@ -6,7 +6,7 @@ using Snap.Hutao.Factory.Picker;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGameLocator), Key = GameLocationSourceKind.Manual)]
 internal sealed partial class ManualGameLocator : IGameLocator
 {

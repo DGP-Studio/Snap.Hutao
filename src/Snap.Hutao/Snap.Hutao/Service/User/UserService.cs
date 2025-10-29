@@ -16,7 +16,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService
 {

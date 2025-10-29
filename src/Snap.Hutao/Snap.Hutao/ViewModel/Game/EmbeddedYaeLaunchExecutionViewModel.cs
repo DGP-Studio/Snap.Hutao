@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class EmbeddedYaeLaunchExecutionViewModel : IViewModelSupportLaunchExecution
 {

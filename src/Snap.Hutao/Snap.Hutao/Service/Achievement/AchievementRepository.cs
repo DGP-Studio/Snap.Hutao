@@ -13,7 +13,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IAchievementRepository))]
 internal sealed partial class AchievementRepository : IAchievementRepository
 {

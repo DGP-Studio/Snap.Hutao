@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class DailyNoteNotificationOperation
 {

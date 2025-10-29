@@ -11,7 +11,7 @@ using WinRT;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [DependencyProperty<IAdvancedCollectionView<AvatarView>>("Avatars")]
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 internal sealed partial class AvatarPropertyMultiAvatarCultivateSelectDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;

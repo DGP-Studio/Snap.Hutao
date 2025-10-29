@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class PassportClient : IPassportClient
 {

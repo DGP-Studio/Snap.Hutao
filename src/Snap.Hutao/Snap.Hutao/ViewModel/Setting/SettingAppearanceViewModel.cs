@@ -12,7 +12,7 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel

@@ -6,10 +6,12 @@ using Snap.Hutao.Factory.Process;
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Service(ServiceLifetime.Singleton)]
-[ConstructorGenerated]
 internal sealed partial class PrivateNamedPipeMessageDispatcher
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial PrivateNamedPipeMessageDispatcher(IServiceProvider serviceProvider);
 
     public void RedirectedActivation(HutaoActivationArguments? args)
     {

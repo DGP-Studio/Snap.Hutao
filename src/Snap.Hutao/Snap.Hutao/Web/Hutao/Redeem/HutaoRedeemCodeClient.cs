@@ -11,7 +11,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Redeem;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoRedeemCodeClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;

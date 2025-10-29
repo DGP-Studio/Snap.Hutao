@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IDailyNoteRepository))]
 internal sealed partial class DailyNoteRepository : IDailyNoteRepository
 {

@@ -6,7 +6,7 @@ using Snap.Hutao.Core.LifeCycle;
 
 namespace Snap.Hutao.Factory.Picker;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IFileSystemPickerInteraction))]
 internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInteraction
 {

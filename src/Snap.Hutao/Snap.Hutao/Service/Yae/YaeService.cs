@@ -22,7 +22,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Yae;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IYaeService))]
 internal sealed partial class YaeService : IYaeService
 {

@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.UIGF;
 
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient, typeof(IUIGFExportService), Key = UIGFVersion.UIGF40)]
 internal sealed partial class UIGF40ExportService : AbstractUIGF40ExportService
 {

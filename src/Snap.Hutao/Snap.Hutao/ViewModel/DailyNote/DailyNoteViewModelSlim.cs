@@ -15,7 +15,7 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<DailyNotePage>
 {
     private readonly IDailyNoteService dailyNoteService;

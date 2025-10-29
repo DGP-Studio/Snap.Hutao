@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.ViewModel

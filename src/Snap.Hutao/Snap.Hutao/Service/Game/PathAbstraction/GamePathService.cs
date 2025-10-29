@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGamePathService))]
 internal sealed partial class GamePathService : IGamePathService
 {

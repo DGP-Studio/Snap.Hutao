@@ -38,7 +38,7 @@ using System.Text.RegularExpressions;
 // ReSharper disable LocalizableElement
 namespace Snap.Hutao.ViewModel;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel

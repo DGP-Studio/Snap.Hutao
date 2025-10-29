@@ -15,7 +15,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.RoleCombat;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoRoleCombatClient
 {

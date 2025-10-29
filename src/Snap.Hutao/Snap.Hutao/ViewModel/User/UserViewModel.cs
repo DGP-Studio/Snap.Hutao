@@ -28,7 +28,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject

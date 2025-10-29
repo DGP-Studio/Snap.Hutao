@@ -20,7 +20,7 @@ using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {

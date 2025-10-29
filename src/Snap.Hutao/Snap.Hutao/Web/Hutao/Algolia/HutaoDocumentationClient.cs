@@ -9,7 +9,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Algolia;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoDocumentationClient
 {
     private const string AlgoliaApiKey = "72d7a9a0f9f0466218ea19988886dce8";

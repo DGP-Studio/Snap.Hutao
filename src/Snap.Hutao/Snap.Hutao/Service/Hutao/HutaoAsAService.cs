@@ -13,7 +13,7 @@ using HutaoAnnouncement = Snap.Hutao.Web.Hutao.HutaoAsAService.Announcement;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IHutaoAsAService))]
 internal sealed partial class HutaoAsAService : IHutaoAsAService
 {

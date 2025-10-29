@@ -14,7 +14,7 @@ using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporter
 {

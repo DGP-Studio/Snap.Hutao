@@ -5,7 +5,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IObjectCacheRepository))]
 internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
 {

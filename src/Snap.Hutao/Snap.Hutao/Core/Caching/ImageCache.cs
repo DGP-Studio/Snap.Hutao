@@ -15,7 +15,6 @@ using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile)
 
 namespace Snap.Hutao.Core.Caching;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache
 {
@@ -29,6 +28,9 @@ internal sealed partial class ImageCache : IImageCache
     private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
+
+    [GeneratedConstructor]
+    public partial ImageCache(IServiceProvider serviceProvider);
 
     private string CacheFolder
     {

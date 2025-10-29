@@ -14,7 +14,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Strategy;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoStrategyClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;

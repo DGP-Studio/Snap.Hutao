@@ -6,13 +6,15 @@ using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Task;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class BetterGenshinImpactNamedPipeServer
 {
     private readonly IAutomationCultivationService automationCultivationService;
     private readonly ILogger<BetterGenshinImpactNamedPipeServer> logger;
     private readonly IAutomationTaskService automationTaskService;
+
+    [GeneratedConstructor]
+    public partial BetterGenshinImpactNamedPipeServer(IServiceProvider serviceProvider);
 
     public PipeResponse DispatchRequest(PipeRequest<JsonElement>? request)
     {

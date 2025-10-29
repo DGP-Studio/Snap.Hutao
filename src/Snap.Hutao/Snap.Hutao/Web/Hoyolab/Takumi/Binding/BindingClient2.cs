@@ -12,7 +12,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class BindingClient2

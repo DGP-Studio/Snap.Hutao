@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(ISpiralAbyssService))]
 internal sealed partial class SpiralAbyssService : ISpiralAbyssService
 {

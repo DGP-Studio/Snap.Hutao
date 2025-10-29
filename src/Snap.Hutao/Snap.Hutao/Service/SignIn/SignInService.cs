@@ -12,7 +12,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.SignIn;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ISignInService))]
 internal sealed partial class SignInService : ISignInService
 {

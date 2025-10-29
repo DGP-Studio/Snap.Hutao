@@ -9,12 +9,15 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Cultivation;
 
-[ConstructorGenerated]
+
 [Service(ServiceLifetime.Singleton, typeof(IAutomationCultivationService))]
 internal sealed partial class AutomationCultivationService : IAutomationCultivationService
 {
     private readonly ICultivationRepository cultivationRepository;
     private readonly IInventoryRepository inventoryRepository;
+
+    [GeneratedConstructor]
+    public partial AutomationCultivationService(IServiceProvider serviceProvider);
 
     public AutomationCultivationProject? GetCurrentProject()
     {

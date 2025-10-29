@@ -8,7 +8,7 @@ using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<string>("Text", PropertyChangedCallbackName = nameof(OnTextChanged))]
 internal sealed partial class ReconfirmDialog : ContentDialog
 {

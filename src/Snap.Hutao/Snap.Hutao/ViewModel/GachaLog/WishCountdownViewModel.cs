@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated(CallBaseConstructor = true)]
+[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class WishCountdownViewModel : Abstraction.ViewModelSlim
 {
     private readonly IGachaLogWishCountdownService gachaLogWishCountdownService;

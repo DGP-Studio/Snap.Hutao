@@ -10,7 +10,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class UserClientOversea : IUserClient

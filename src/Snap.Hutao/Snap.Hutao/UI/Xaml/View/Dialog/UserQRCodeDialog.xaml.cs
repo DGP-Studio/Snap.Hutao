@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<ImageSource>("QRCodeSource")]
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {

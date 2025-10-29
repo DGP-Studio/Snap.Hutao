@@ -13,7 +13,7 @@ using System.Text;
 namespace Snap.Hutao.Web.Hutao;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoPassportClient
 {
     private const string PublicKey = """

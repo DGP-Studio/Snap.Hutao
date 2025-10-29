@@ -16,7 +16,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [Service(ServiceLifetime.Singleton)]
 [SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application

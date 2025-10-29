@@ -19,7 +19,7 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Feedback;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class FeedbackViewModel : Abstraction.ViewModel

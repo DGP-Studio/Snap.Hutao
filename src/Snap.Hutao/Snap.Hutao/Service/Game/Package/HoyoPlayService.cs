@@ -11,7 +11,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IHoyoPlayService))]
 internal sealed partial class HoyoPlayService : IHoyoPlayService
 {

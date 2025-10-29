@@ -18,7 +18,7 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable

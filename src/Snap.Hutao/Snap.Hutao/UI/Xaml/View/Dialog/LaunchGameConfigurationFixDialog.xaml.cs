@@ -7,7 +7,7 @@ using Snap.Hutao.Service.Game.Scheme;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<IEnumerable<LaunchScheme>>("KnownSchemes")]
 [DependencyProperty<LaunchScheme>("SelectedScheme")]
 internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog

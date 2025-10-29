@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Account;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGameInRegistryAccountService))]
 internal sealed partial class GameInRegistryAccountService : IGameInRegistryAccountService
 {

@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel

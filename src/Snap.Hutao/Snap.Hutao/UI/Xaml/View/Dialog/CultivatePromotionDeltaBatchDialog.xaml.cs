@@ -9,7 +9,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<AvatarPromotionDelta>("PromotionDelta", NotNull = true, CreateDefaultValueCallbackName = nameof(CreatePromotionDeltaDefaultValue))]
 internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
 {

@@ -12,7 +12,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<string>("UserName")]
 [DependencyProperty<string>("Password")]
 [DependencyProperty<string>("VerifyCode")]

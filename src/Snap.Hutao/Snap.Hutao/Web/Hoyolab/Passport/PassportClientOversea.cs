@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
+[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class PassportClientOversea : IPassportClient
 {

@@ -13,7 +13,7 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class HutaoUserOptions : ObservableObject
 {

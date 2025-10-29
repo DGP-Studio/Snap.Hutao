@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IInfoBarService))]
 internal sealed partial class InfoBarService : IInfoBarService, IRecipient<InfoBarMessage>
 {

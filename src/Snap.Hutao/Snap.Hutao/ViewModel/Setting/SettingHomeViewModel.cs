@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel

@@ -5,5 +5,5 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
+[GeneratedConstructor(InitializeComponent = true)]
 internal sealed partial class SpiralAbyssUploadRecordHomaNotLoginDialog : ContentDialog;

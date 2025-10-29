@@ -14,7 +14,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[ConstructorGenerated]
+[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IGachaLogService))]
 internal sealed partial class GachaLogService : IGachaLogService
 {
