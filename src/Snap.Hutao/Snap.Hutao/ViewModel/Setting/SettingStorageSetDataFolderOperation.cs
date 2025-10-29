@@ -28,7 +28,7 @@ internal sealed class SettingStorageSetDataFolderOperation
         }
 
         string oldFolderPath = HutaoRuntime.DataDirectory;
-        if (Path.GetFullPath(oldFolderPath).Equals(Path.GetFullPath(newFolderPath), StringComparison.OrdinalIgnoreCase))
+        if (UrlPath.IsEqualOrSubdirectory(oldFolderPath, newFolderPath))
         {
             return false;
         }

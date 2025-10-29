@@ -12,7 +12,7 @@ internal static class StorageFolderExtension
         this StorageFolder sourceFolder,
         string targetFolderFullPath,
         NameCollisionOption nameCollisionOption = NameCollisionOption.ReplaceExisting,
-        CreationCollisionOption creationCollisionOption = CreationCollisionOption.OpenIfExists)
+        CreationCollisionOption creationCollisionOption = CreationCollisionOption.ReplaceExisting)
     {
         Directory.CreateDirectory(targetFolderFullPath);
         StorageFolder targetFolder = await StorageFolder.GetFolderFromPathAsync(targetFolderFullPath);
