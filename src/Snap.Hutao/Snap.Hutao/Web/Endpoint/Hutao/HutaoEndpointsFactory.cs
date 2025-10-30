@@ -6,11 +6,13 @@
 
 namespace Snap.Hutao.Web.Endpoint.Hutao;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IHutaoEndpointsFactory))]
 internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public HutaoEndpointsFactory(IServiceProvider serviceProvider);
 
     public IHutaoEndpoints Create()
     {

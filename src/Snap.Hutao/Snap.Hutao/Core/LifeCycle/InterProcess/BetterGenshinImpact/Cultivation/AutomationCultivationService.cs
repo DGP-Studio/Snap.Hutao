@@ -9,7 +9,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Cultivation;
 
-
 [Service(ServiceLifetime.Singleton, typeof(IAutomationCultivationService))]
 internal sealed partial class AutomationCultivationService : IAutomationCultivationService
 {

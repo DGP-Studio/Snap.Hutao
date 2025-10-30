@@ -11,13 +11,15 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
     private readonly IQuartzService quartzService;
+
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial DailyNoteOptions(IServiceProvider serviceProvider);
 
     public ImmutableArray<NameValue<int>> RefreshTimes { get; } =
     [

@@ -19,13 +19,15 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AvatarInfoRepositoryOperation
 {
     private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial AvatarInfoRepositoryOperation(IServiceProvider serviceProvider);
 
     public async ValueTask<ImmutableArray<EntityAvatarInfo>> UpdateDbAvatarInfosAsync(UserAndUid userAndUid, CancellationToken token)
     {

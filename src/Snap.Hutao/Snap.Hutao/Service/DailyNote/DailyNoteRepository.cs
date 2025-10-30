@@ -8,10 +8,12 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IDailyNoteRepository))]
 internal sealed partial class DailyNoteRepository : IDailyNoteRepository
 {
+    [GeneratedConstructor]
+    public partial DailyNoteRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public bool ContainsUid(string uid)

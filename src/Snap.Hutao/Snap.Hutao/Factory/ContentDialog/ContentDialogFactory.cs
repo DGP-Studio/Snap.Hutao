@@ -7,12 +7,14 @@ using Snap.Hutao.Core.LifeCycle;
 namespace Snap.Hutao.Factory.ContentDialog;
 
 // It's a view factory
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IContentDialogFactory))]
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IContentDialogQueue contentDialogQueue;
+
+    [GeneratedConstructor]
+    public partial ContentDialogFactory(IServiceProvider serviceProvider);
 
     public bool IsDialogShowing { get => contentDialogQueue.IsDialogShowing; }
 

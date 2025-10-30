@@ -27,7 +27,6 @@ using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.Achievemen
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient, IDisposable
@@ -44,6 +43,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly ExclusiveTokenProvider achievementsTokenProvider = new();
 
     private readonly AchievementViewModelScopeContext scopeContext;
+
+    [GeneratedConstructor]
+    public partial AchievementViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {

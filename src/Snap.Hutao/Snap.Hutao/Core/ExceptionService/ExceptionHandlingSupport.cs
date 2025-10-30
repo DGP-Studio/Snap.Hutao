@@ -12,7 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
-
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class ExceptionHandlingSupport
 {

@@ -11,13 +11,15 @@ using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announce
 
 namespace Snap.Hutao.Service.Announcement;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
+
+    [GeneratedConstructor]
+    public partial AnnouncementService(IServiceProvider serviceProvider);
 
     [SuppressMessage("", "SH003")]
     public async ValueTask<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)

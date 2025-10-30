@@ -12,13 +12,16 @@ namespace Snap.Hutao.Factory.ContentDialog;
 [SuppressMessage("", "SH003")]
 [SuppressMessage("", "SH100")]
 [SuppressMessage("", "RS0030")]
-[GeneratedConstructor]
+
 internal sealed partial class ContentDialogQueue : IContentDialogQueue
 {
     private readonly AsyncLock dialogShowLock = new();
 
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial ContentDialogQueue(IServiceProvider serviceProvider);
 
     public bool IsDialogShowing
     {

@@ -15,7 +15,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-[GeneratedConstructor]
+
 [Service(ServiceLifetime.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
@@ -27,6 +27,9 @@ internal sealed partial class AchievementService : IAchievementService
     private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial AchievementService(IServiceProvider serviceProvider);
 
     public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchiveCollectionAsync(CancellationToken token = default)
     {

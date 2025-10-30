@@ -9,10 +9,12 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationRepository))]
 internal sealed partial class CultivationRepository : ICultivationRepository
 {
+    [GeneratedConstructor]
+    public partial CultivationRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectId(Guid projectId)

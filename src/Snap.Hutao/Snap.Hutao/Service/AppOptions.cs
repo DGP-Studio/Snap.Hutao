@@ -16,10 +16,12 @@ using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial AppOptions(IServiceProvider serviceProvider);
+
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
     public Lazy<ImmutableArray<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(static () =>

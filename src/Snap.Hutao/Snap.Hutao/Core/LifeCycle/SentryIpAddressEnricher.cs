@@ -6,12 +6,14 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class SentryIpAddressEnricher
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial SentryIpAddressEnricher(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask ConfigureAsync()
     {

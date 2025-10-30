@@ -7,11 +7,14 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-[GeneratedConstructor]
+
 [Service(ServiceLifetime.Transient, typeof(ISummaryFactory))]
 internal sealed partial class SummaryFactory : ISummaryFactory
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial SummaryFactory(IServiceProvider serviceProvider);
 
     public async ValueTask<Summary> CreateAsync(SummaryFactoryMetadataContext context, IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
     {
