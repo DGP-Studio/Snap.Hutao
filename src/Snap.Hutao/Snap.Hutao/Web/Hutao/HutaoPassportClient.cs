@@ -13,7 +13,6 @@ using System.Text;
 namespace Snap.Hutao.Web.Hutao;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
 internal sealed partial class HutaoPassportClient
 {
     private const string PublicKey = """
@@ -31,6 +30,9 @@ internal sealed partial class HutaoPassportClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoPassportClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse> RequestVerifyAsync(string email, VerifyCodeRequestType requestType, CancellationToken token = default)
     {

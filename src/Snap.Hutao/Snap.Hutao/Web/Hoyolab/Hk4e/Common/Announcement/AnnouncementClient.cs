@@ -10,13 +10,15 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class AnnouncementClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial AnnouncementClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, Region region, CancellationToken token = default)
     {

@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class UserClient : IUserClient
 {
@@ -18,6 +17,9 @@ internal sealed partial class UserClient : IUserClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial UserClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {

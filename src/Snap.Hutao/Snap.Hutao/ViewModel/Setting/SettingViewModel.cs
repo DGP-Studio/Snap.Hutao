@@ -13,7 +13,6 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigationRecipient
 {
@@ -26,6 +25,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
     private readonly WeakReference<Border> weakGachaLogBorder = new(default!);
+
+    [GeneratedConstructor]
+    public partial SettingViewModel(IServiceProvider serviceProvider);
 
     public partial SettingGeetestViewModel Geetest { get; }
 

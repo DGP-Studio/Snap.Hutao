@@ -7,10 +7,12 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.RoleCombat;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IRoleCombatRepository))]
 internal sealed partial class RoleCombatRepository : IRoleCombatRepository
 {
+    [GeneratedConstructor]
+    public partial RoleCombatRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public FrozenDictionary<uint, RoleCombatEntry> GetRoleCombatEntryMapByUid(string uid)

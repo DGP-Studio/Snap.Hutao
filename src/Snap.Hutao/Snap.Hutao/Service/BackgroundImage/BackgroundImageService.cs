@@ -17,7 +17,6 @@ using Windows.Graphics.Imaging;
 
 namespace Snap.Hutao.Service.BackgroundImage;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
@@ -29,6 +28,9 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
     private readonly AppOptions appOptions;
 
     private HashSet<string>? availableBackgroundPathSet;
+
+    [GeneratedConstructor]
+    public partial BackgroundImageService(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult</* shouldRefresh */ bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default)
     {

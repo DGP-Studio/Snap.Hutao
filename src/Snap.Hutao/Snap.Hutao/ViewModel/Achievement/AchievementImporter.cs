@@ -14,11 +14,13 @@ using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporter
 {
     private readonly AchievementImporterScopeContext scopeContext;
+
+    [GeneratedConstructor]
+    public partial AchievementImporter(IServiceProvider serviceProvider);
 
     public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
     {

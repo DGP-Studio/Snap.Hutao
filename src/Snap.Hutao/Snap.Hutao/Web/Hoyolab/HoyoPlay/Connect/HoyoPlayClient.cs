@@ -15,13 +15,15 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HoyoPlayClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HoyoPlayClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<GamePackagesWrapper>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
     {

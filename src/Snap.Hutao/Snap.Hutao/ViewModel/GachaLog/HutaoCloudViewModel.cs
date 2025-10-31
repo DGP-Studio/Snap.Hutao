@@ -17,7 +17,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
@@ -28,6 +27,9 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial HutaoCloudViewModel(IServiceProvider serviceProvider);
 
     public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get; set => SetProperty(ref field, value); }
 

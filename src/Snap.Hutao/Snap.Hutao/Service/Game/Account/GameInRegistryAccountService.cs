@@ -11,7 +11,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Account;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IGameInRegistryAccountService))]
 internal sealed partial class GameInRegistryAccountService : IGameInRegistryAccountService
 {
@@ -21,6 +20,9 @@ internal sealed partial class GameInRegistryAccountService : IGameInRegistryAcco
 
     private readonly AsyncLock gameAccountLock = new();
     private IAdvancedCollectionView<GameAccount>? gameAccounts;
+
+    [GeneratedConstructor]
+    public partial GameInRegistryAccountService(IServiceProvider serviceProvider);
 
     public async ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync()
     {

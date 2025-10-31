@@ -15,7 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.RoleCombat;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(IRoleCombatService))]
 internal sealed partial class RoleCombatService : IRoleCombatService
 {
@@ -25,6 +24,9 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
     private readonly ConcurrentDictionary<PlayerUid, ObservableCollection<RoleCombatView>> roleCombatCollectionCache = [];
     private readonly AsyncLock collectionLock = new();
+
+    [GeneratedConstructor]
+    public partial RoleCombatService(IServiceProvider serviceProvider);
 
     public async ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(RoleCombatMetadataContext context, UserAndUid userAndUid)
     {

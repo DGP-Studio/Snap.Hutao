@@ -5,12 +5,14 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IObjectCacheRepository))]
 internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial ObjectCacheRepository(IServiceProvider serviceProvider);
 
     public partial IServiceProvider ServiceProvider { get; }
 

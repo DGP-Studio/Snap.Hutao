@@ -24,7 +24,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
@@ -39,6 +38,9 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private bool suppressCurrentItemChangedHandling;
     private GachaLogServiceMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial GachaLogViewModel(IServiceProvider serviceProvider);
 
     public partial HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get; }
 

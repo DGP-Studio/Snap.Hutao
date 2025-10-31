@@ -20,7 +20,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
@@ -30,6 +29,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial GuideViewModel(IServiceProvider serviceProvider);
 
     public static string AllCulturesWelcomeText
     {

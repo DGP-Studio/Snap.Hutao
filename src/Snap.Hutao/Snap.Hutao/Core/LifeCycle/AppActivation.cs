@@ -26,7 +26,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]
 internal sealed partial class AppActivation : IAppActivation, IAppActivationActionHandlersAccess
@@ -44,6 +43,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private readonly AsyncLock activateLock = new();
     private int isActivating;
+
+    [GeneratedConstructor]
+    public partial AppActivation(IServiceProvider serviceProvider);
 
     public void RedirectedActivate(HutaoActivationArguments args)
     {

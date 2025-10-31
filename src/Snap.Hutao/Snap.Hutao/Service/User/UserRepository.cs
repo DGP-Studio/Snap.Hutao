@@ -7,10 +7,12 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IUserRepository))]
 internal sealed partial class UserRepository : IUserRepository
 {
+    [GeneratedConstructor]
+    public partial UserRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public void DeleteUserById(Guid id)

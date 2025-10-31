@@ -13,12 +13,14 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
 {
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial GachaLogViewModelSlim(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set; } = [];

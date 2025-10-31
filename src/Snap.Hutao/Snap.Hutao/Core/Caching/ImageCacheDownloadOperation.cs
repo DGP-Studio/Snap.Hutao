@@ -13,7 +13,6 @@ using System.Net.Mime;
 
 namespace Snap.Hutao.Core.Caching;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IImageCacheDownloadOperation))]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
@@ -21,6 +20,9 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHttpClientFactory httpClientFactory;
+
+    [GeneratedConstructor]
+    public partial ImageCacheDownloadOperation(IServiceProvider serviceProvider);
 
     public async ValueTask DownloadFileAsync(Uri uri, ValueFile baseFile)
     {

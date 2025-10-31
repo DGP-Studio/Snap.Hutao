@@ -8,10 +8,12 @@ using Snap.Hutao.Service.Yae;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporterScopeContext
 {
+    [GeneratedConstructor]
+    public partial AchievementImporterScopeContext(IServiceProvider serviceProvider);
+
     public partial IFileSystemPickerInteraction FileSystemPickerInteraction { get; }
 
     public partial JsonSerializerOptions JsonSerializerOptions { get; }

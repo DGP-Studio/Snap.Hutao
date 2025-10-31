@@ -6,11 +6,13 @@ using Snap.Hutao.Web.Request.Builder.Abstraction;
 namespace Snap.Hutao.Web.Request.Builder;
 
 [Service(ServiceLifetime.Singleton, typeof(IHttpRequestMessageBuilderFactory))]
-[ConstructorGenerated]
 internal sealed partial class HttpRequestMessageBuilderFactory : IHttpRequestMessageBuilderFactory
 {
     private readonly JsonHttpContentSerializer jsonHttpContentSerializer;
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial HttpRequestMessageBuilderFactory(IServiceProvider serviceProvider);
 
     public HttpRequestMessageBuilder Create()
     {

@@ -3,11 +3,13 @@
 
 namespace Snap.Hutao.Service.UIGF;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IUIGFService))]
 internal sealed partial class UIGFService : IUIGFService
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial UIGFService(IServiceProvider serviceProvider);
 
     public ValueTask ExportAsync(UIGFExportOptions exportOptions, CancellationToken token = default)
     {

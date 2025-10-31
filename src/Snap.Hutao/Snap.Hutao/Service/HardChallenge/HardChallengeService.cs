@@ -16,7 +16,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.HardChallenge;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(IHardChallengeService))]
 internal sealed partial class HardChallengeService : IHardChallengeService
 {
@@ -26,6 +25,9 @@ internal sealed partial class HardChallengeService : IHardChallengeService
 
     private readonly ConcurrentDictionary<PlayerUid, ObservableCollection<HardChallengeView>> hardChallengeCollectionCache = [];
     private readonly AsyncLock collectionLock = new();
+
+    [GeneratedConstructor]
+    public partial HardChallengeService(IServiceProvider serviceProvider);
 
     public async ValueTask<ObservableCollection<HardChallengeView>> GetHardChallengeViewCollectionAsync(HardChallengeMetadataContext context, UserAndUid userAndUid)
     {

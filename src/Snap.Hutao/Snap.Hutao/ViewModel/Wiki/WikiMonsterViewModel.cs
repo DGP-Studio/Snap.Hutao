@@ -12,7 +12,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
@@ -21,6 +20,9 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
 
     private WikiMonsterMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial WikiMonsterViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedCollectionView<Monster>? Monsters
     {

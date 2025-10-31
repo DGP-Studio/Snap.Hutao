@@ -15,7 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.HardChallenge;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
@@ -27,6 +26,9 @@ internal sealed partial class HardChallengeViewModel : Abstraction.ViewModel, IR
     private readonly IMessenger messenger;
 
     private HardChallengeMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial HardChallengeViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedCollectionView<HardChallengeView>? HardChallengeEntries
     {

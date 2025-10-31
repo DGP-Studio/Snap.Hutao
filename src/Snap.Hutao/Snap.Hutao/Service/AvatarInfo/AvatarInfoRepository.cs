@@ -7,10 +7,12 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IAvatarInfoRepository))]
 internal sealed partial class AvatarInfoRepository : IAvatarInfoRepository
 {
+    [GeneratedConstructor]
+    public partial AvatarInfoRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public ImmutableArray<EntityAvatarInfo> GetAvatarInfoImmutableArrayByUid(string uid)

@@ -9,7 +9,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.ViewModel
@@ -17,6 +16,9 @@ internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.Vie
     private readonly IHutaoRoleCombatStatisticsCache hutaoCache;
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial HutaoRoleCombatDatabaseViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial int RecordTotal { get; set; }

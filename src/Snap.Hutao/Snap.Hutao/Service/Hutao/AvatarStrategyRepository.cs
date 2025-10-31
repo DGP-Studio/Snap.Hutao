@@ -7,10 +7,12 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IAvatarStrategyRepository))]
 internal sealed partial class AvatarStrategyRepository : IAvatarStrategyRepository
 {
+    [GeneratedConstructor]
+    public partial AvatarStrategyRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public AvatarStrategy? GetStrategyByAvatarId(AvatarId avatarId)

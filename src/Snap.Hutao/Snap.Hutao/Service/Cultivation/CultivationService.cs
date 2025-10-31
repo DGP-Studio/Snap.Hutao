@@ -20,7 +20,6 @@ using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {
@@ -33,6 +32,9 @@ internal sealed partial class CultivationService : ICultivationService
     private readonly IInventoryRepository inventoryRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial CultivationService(IServiceProvider serviceProvider);
 
     private AdvancedDbCollectionView<CultivateProject>? projects;
 

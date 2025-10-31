@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class PandaClient
 {
@@ -18,6 +17,9 @@ internal sealed partial class PandaClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial PandaClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<UrlWrapper>> QRCodeFetchAsync(CancellationToken token = default)
     {

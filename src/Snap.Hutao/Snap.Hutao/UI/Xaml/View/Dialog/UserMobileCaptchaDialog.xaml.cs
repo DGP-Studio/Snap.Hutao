@@ -15,12 +15,14 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider, INotifyPropertyChanged
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial UserMobileCaptchaDialog(IServiceProvider serviceProvider);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class UserClientOversea : IUserClient
@@ -19,6 +18,9 @@ internal sealed partial class UserClientOversea : IUserClient
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial UserClientOversea(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {

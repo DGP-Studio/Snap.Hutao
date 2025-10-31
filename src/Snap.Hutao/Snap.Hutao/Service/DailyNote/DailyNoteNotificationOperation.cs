@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class DailyNoteNotificationOperation
 {
@@ -22,6 +21,9 @@ internal sealed partial class DailyNoteNotificationOperation
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial DailyNoteNotificationOperation(IServiceProvider serviceProvider);
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {

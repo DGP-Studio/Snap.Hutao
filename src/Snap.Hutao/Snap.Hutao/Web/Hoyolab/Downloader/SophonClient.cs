@@ -11,7 +11,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Downloader;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class SophonClient : ISophonClient
 {
@@ -19,6 +18,9 @@ internal sealed partial class SophonClient : ISophonClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial SophonClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<SophonBuild>> GetBuildAsync(BranchWrapper branch, CancellationToken token = default)
     {

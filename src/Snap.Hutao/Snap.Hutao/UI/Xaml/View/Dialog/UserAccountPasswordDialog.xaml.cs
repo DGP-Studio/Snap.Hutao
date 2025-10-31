@@ -14,13 +14,15 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider, INotifyPropertyChanged
 {
     private readonly IUserVerificationService userVerificationService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial UserAccountPasswordDialog(IServiceProvider serviceProvider);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

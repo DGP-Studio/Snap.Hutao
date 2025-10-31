@@ -7,10 +7,12 @@ using Snap.Hutao.Service;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class LastWindowCloseBehaviorConfigurationDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial LastWindowCloseBehaviorConfigurationDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, LastWindowCloseBehavior>> GetLastWindowCloseBehaviorAsync()
     {

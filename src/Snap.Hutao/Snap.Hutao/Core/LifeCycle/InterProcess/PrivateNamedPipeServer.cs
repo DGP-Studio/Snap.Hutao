@@ -10,7 +10,6 @@ using System.Security.AccessControl;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
@@ -21,6 +20,9 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     private readonly NamedPipeServerStream serverStream = CreatePipeServerStream();
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly AsyncLock serverLock = new();
+
+    [GeneratedConstructor]
+    public partial PrivateNamedPipeServer(IServiceProvider serviceProvider);
 
     public void Dispose()
     {

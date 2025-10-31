@@ -6,11 +6,13 @@ using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
 internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial AchievementArchiveCreateDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, string>> GetInputAsync()
     {

@@ -11,12 +11,14 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {
     private readonly LaunchOptions launchOptions;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial SettingGameViewModel(IServiceProvider serviceProvider);
 
     public partial AppOptions AppOptions { get; }
 

@@ -22,7 +22,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
@@ -38,6 +37,9 @@ internal sealed partial class SpiralAbyssViewModel : Abstraction.ViewModel, IRec
     private readonly IMessenger messenger;
 
     private SpiralAbyssMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial SpiralAbyssViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
     {

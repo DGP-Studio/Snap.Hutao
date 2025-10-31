@@ -21,7 +21,6 @@ using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<bool>("Chinese", NotNull = true)]
 [DependencyProperty<bool>("English", NotNull = true)]
 [DependencyProperty<bool>("Japanese", NotNull = true)]
@@ -39,6 +38,9 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial LaunchGameInstallGameDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, GameInstallOptions?>> GetGameInstallOptionsAsync()
     {

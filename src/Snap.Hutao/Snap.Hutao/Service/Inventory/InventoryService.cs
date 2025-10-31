@@ -17,7 +17,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IInventoryService))]
 internal sealed partial class InventoryService : IInventoryService
 {
@@ -26,6 +25,9 @@ internal sealed partial class InventoryService : IInventoryService
     private readonly IInventoryRepository inventoryRepository;
     private readonly IUserService userService;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial InventoryService(IServiceProvider serviceProvider);
 
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {

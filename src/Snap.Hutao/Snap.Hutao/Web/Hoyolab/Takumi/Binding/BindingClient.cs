@@ -12,7 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class BindingClient
 {
@@ -20,6 +19,9 @@ internal sealed partial class BindingClient
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial BindingClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesOverseaAwareAsync(User user, CancellationToken token = default)
     {

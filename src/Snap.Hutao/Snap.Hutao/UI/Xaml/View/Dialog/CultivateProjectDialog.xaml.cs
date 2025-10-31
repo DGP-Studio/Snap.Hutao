@@ -10,13 +10,15 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
 [DependencyProperty<NameValue<TimeSpan>>("SelectedServerTimeZoneOffset", CreateDefaultValueCallbackName = nameof(CreateSelectedServerTimeZoneOffsetDefaultValue))]
 [DependencyProperty<bool>("IsUidAttached", NotNull = true)]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial CultivateProjectDialog(IServiceProvider serviceProvider);
 
     [SuppressMessage("", "SA1201")]
     [SuppressMessage("", "CA1822")]

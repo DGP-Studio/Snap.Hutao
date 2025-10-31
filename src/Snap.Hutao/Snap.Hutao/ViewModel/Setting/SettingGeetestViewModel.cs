@@ -9,7 +9,6 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 {
@@ -18,6 +17,9 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial SettingGeetestViewModel(IServiceProvider serviceProvider);
 
     [Command("ConfigureGeetestUrlCommand")]
     private async Task ConfigureGeetestUrlAsync()

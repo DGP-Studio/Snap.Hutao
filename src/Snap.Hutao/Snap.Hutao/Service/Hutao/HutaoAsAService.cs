@@ -13,7 +13,6 @@ using HutaoAnnouncement = Snap.Hutao.Web.Hutao.HutaoAsAService.Announcement;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(IHutaoAsAService))]
 internal sealed partial class HutaoAsAService : IHutaoAsAService
 {
@@ -22,6 +21,9 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 
     private ObservableCollection<HutaoAnnouncement>? announcements;
     private ICommand? dismissCommand;
+
+    [GeneratedConstructor]
+    public partial HutaoAsAService(IServiceProvider serviceProvider);
 
     public async ValueTask<ObservableCollection<HutaoAnnouncement>> GetHutaoAnnouncementCollectionAsync(CancellationToken token = default)
     {

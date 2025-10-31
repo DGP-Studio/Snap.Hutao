@@ -15,7 +15,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.RoleCombat;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoRoleCombatClient
 {
@@ -23,6 +22,9 @@ internal sealed partial class HutaoRoleCombatClient
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoRoleCombatClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<RoleCombatStatisticsItem>> GetStatisticsAsync(bool last = false, CancellationToken token = default)
     {

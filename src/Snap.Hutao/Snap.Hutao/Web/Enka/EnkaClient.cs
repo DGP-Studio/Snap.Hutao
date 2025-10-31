@@ -15,7 +15,6 @@ using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Enka;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class EnkaClient
 {
@@ -26,6 +25,9 @@ internal sealed partial class EnkaClient
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial EnkaClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public ValueTask<EnkaResponse?> GetForwardPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {

@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.PublicData.DeviceFp;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class DeviceFpClient
 {
@@ -18,6 +17,9 @@ internal sealed partial class DeviceFpClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial DeviceFpClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<DeviceFpWrapper>> GetFingerprintAsync(DeviceFpData data, CancellationToken token)
     {

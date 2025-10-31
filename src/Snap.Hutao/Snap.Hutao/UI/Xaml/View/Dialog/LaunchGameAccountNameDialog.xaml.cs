@@ -6,11 +6,13 @@ using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
 internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial LaunchGameAccountNameDialog(IServiceProvider serviceProvider);
 
     public LaunchGameAccountNameDialog(IServiceProvider serviceProvider, string originalName)
         : this(serviceProvider)

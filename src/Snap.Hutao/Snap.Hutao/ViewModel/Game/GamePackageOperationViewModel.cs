@@ -13,7 +13,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
@@ -41,6 +40,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long bytesInstalledLastRefreshTime;
     private long downloadTotalBytes;
     private long installTotalBytes;
+
+    [GeneratedConstructor]
+    public partial GamePackageOperationViewModel(IServiceProvider serviceProvider);
 
     public partial AppOptions AppOptions { get; }
 

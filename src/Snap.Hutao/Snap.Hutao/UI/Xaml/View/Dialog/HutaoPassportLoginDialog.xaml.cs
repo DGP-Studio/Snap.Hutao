@@ -6,12 +6,14 @@ using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty<string>("UserName")]
 [DependencyProperty<string>("Password")]
 internal sealed partial class HutaoPassportLoginDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial HutaoPassportLoginDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, (string? UserName, string? Passport)>> GetInputAsync()
     {

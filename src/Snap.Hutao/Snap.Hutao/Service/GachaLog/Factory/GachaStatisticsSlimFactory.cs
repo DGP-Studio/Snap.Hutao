@@ -10,11 +10,13 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(IGachaStatisticsSlimFactory))]
 internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial GachaStatisticsSlimFactory(IServiceProvider serviceProvider);
 
     public async ValueTask<GachaStatisticsSlim> CreateAsync(GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
     {

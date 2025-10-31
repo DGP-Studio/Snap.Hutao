@@ -14,13 +14,15 @@ using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.WebCache)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IGameService gameService;
     private readonly CultureOptions cultureOptions;
+
+    [GeneratedConstructor]
+    public partial GachaLogQueryWebCacheProvider(IServiceProvider serviceProvider);
 
     [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]
     private static partial Regex VersionRegex { get; }

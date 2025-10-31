@@ -9,7 +9,6 @@ using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.SToken)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
@@ -17,6 +16,9 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     private readonly CultureOptions cultureOptions;
     private readonly IUserService userService;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial GachaLogQuerySTokenProvider(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {

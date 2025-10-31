@@ -13,7 +13,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoAsAServiceClient
 {
@@ -21,6 +20,9 @@ internal sealed partial class HutaoAsAServiceClient
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly CultureOptions cultureOptions;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoAsAServiceClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<ImmutableArray<Announcement>>> GetAnnouncementListAsync(ImmutableArray<long> excludedIds, CancellationToken token = default)
     {

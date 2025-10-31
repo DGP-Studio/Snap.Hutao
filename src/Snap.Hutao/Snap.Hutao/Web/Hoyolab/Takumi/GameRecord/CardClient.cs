@@ -14,7 +14,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class CardClient
 {
@@ -22,6 +21,9 @@ internal sealed partial class CardClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial CardClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<GeetestVerification>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
     {

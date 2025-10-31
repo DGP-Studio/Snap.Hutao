@@ -12,7 +12,6 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Wallpaper;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[ConstructorGenerated(ResolveHttpClient = true)]
 internal sealed partial class HutaoWallpaperClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
@@ -20,6 +19,9 @@ internal sealed partial class HutaoWallpaperClient
     private readonly ILogger<HutaoWallpaperClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoWallpaperClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public ValueTask<Response<Wallpaper>> GetBingWallpaperAsync(CancellationToken token = default)
     {

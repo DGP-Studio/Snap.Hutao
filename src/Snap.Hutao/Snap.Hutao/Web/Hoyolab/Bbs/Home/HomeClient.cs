@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class HomeClient : IHomeClient
 {
@@ -18,6 +17,9 @@ internal sealed partial class HomeClient : IHomeClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HomeClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<NewHomeNewInfo>> GetNewHomeInfoAsync(int gid, CancellationToken token = default)
     {

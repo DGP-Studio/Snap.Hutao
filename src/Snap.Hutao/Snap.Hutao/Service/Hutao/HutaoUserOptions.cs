@@ -13,7 +13,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class HutaoUserOptions : ObservableObject
 {
@@ -26,6 +25,9 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     private readonly AsyncManualResetEvent infoEvent = new();
 
     private AuthTokenExpiration authTokenExpiration;
+
+    [GeneratedConstructor]
+    public partial HutaoUserOptions(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial bool IsLoggedIn { get; set; }

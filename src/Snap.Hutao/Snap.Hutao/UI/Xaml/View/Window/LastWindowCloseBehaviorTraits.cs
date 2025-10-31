@@ -8,13 +8,15 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
 [Service(ServiceLifetime.Transient)]
-[ConstructorGenerated]
 internal sealed partial class LastWindowCloseBehaviorTraits
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
+
+    [GeneratedConstructor]
+    public partial LastWindowCloseBehaviorTraits(IServiceProvider serviceProvider);
 
     public async ValueTask SetAsync(Microsoft.UI.Xaml.Window window)
     {

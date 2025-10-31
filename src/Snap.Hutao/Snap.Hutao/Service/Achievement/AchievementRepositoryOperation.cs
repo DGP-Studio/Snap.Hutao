@@ -13,12 +13,14 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class AchievementRepositoryOperation
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<AchievementRepositoryOperation> logger;
+
+    [GeneratedConstructor]
+    public partial AchievementRepositoryOperation(IServiceProvider serviceProvider);
 
     public ImportResult Merge(Guid archiveId, IEnumerable<UIAFItem> items, bool aggressive)
     {

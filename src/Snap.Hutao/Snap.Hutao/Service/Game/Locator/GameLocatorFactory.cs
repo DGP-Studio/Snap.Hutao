@@ -3,11 +3,13 @@
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IGameLocatorFactory))]
 internal sealed partial class GameLocatorFactory : IGameLocatorFactory
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial GameLocatorFactory(IServiceProvider serviceProvider);
 
     public IGameLocator Create(GameLocationSourceKind source)
     {

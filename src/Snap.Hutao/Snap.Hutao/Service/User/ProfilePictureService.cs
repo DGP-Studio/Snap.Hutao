@@ -11,7 +11,6 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IProfilePictureService))]
 internal sealed partial class ProfilePictureService : IProfilePictureService
 {
@@ -21,6 +20,9 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     private readonly ITaskContext taskContext;
 
     private readonly Lock syncRoot = new();
+
+    [GeneratedConstructor]
+    public partial ProfilePictureService(IServiceProvider serviceProvider);
 
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {

@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
@@ -22,6 +21,9 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private readonly ITaskContext taskContext;
 
     private bool isDisposed;
+
+    [GeneratedConstructor]
+    public partial HotKeyOptions(IServiceProvider serviceProvider);
 
     static unsafe HotKeyOptions()
     {

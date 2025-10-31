@@ -10,7 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MiyoliveClient : IMiyoliveClient
 {
@@ -18,6 +17,9 @@ internal sealed partial class MiyoliveClient : IMiyoliveClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial MiyoliveClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<CodeListWrapper>> RefreshCodeAsync(string actId, CancellationToken token = default)
     {

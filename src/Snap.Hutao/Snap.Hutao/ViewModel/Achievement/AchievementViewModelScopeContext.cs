@@ -9,10 +9,12 @@ using Snap.Hutao.Service.Metadata;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementViewModelScopeContext
 {
+    [GeneratedConstructor]
+    public partial AchievementViewModelScopeContext(IServiceProvider serviceProvider);
+
     public partial IFileSystemPickerInteraction FileSystemPickerInteraction { get; }
 
     public partial ILogger<AchievementViewModelScopeContext> Logger { get; }

@@ -10,7 +10,6 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(IAvatarInfoService))]
 internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
@@ -18,6 +17,9 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
     private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
+
+    [GeneratedConstructor]
+    public partial AvatarInfoService(IServiceProvider serviceProvider);
 
     public async ValueTask<Summary?> GetSummaryAsync(SummaryFactoryMetadataContext context, UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
     {

@@ -6,11 +6,13 @@ using Snap.Hutao.Factory.Picker;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Transient, typeof(IGameLocator), Key = GameLocationSourceKind.Manual)]
 internal sealed partial class ManualGameLocator : IGameLocator
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+
+    [GeneratedConstructor]
+    public partial ManualGameLocator(IServiceProvider serviceProvider);
 
     public ValueTask<ValueResult<bool, string>> LocateSingleGamePathAsync()
     {

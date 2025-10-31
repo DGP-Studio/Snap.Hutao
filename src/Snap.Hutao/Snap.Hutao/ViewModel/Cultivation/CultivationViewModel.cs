@@ -26,7 +26,6 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.ViewModel.Cultivation;
 
 [SuppressMessage("", "CA1001")]
-[ConstructorGenerated]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
@@ -44,6 +43,9 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IMessenger messenger;
 
     private CultivationMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial CultivationViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedDbCollectionView<CultivateProject>? Projects
     {

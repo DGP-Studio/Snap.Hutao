@@ -8,7 +8,6 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Transient, typeof(IAchievementStatisticsService))]
 internal sealed partial class AchievementStatisticsService : IAchievementStatisticsService
 {
@@ -16,6 +15,9 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
 
     private readonly IAchievementRepository achievementRepository;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial AchievementStatisticsService(IServiceProvider serviceProvider);
 
     public async ValueTask<ImmutableArray<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default)
     {

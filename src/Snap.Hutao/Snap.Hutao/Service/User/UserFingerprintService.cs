@@ -8,11 +8,13 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.User;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IUserFingerprintService))]
 internal sealed partial class UserFingerprintService : IUserFingerprintService
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
+
+    [GeneratedConstructor]
+    public partial UserFingerprintService(IServiceProvider serviceProvider);
 
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {

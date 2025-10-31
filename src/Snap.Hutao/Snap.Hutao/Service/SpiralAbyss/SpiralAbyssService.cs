@@ -14,7 +14,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Scoped, typeof(ISpiralAbyssService))]
 internal sealed partial class SpiralAbyssService : ISpiralAbyssService
 {
@@ -24,6 +23,9 @@ internal sealed partial class SpiralAbyssService : ISpiralAbyssService
 
     private readonly ConcurrentDictionary<PlayerUid, ObservableCollection<SpiralAbyssView>> spiralAbyssCollectionCache = [];
     private readonly AsyncLock collectionLock = new();
+
+    [GeneratedConstructor]
+    public partial SpiralAbyssService(IServiceProvider serviceProvider);
 
     public async ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid)
     {

@@ -6,12 +6,14 @@ using Snap.Hutao.Service.Navigation.Message;
 
 namespace Snap.Hutao.Service.Navigation;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(INavigationService))]
 internal sealed partial class NavigationService : INavigationService
 {
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial NavigationService(IServiceProvider serviceProvider);
 
     public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {

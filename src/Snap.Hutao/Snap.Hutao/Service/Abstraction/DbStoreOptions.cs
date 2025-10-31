@@ -9,10 +9,12 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Abstraction;
 
-[ConstructorGenerated]
 internal abstract partial class DbStoreOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial DbStoreOptions(IServiceProvider serviceProvider);
 
     protected IObservableProperty<string> CreateProperty(string key, string defaultValue)
     {

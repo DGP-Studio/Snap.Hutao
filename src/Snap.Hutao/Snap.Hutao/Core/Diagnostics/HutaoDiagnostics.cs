@@ -9,11 +9,13 @@ using Windows.Storage;
 
 namespace Snap.Hutao.Core.Diagnostics;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IHutaoDiagnostics))]
 internal sealed partial class HutaoDiagnostics : IHutaoDiagnostics
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial HutaoDiagnostics(IServiceProvider serviceProvider);
 
     public ApplicationDataContainer LocalSettings { get => ApplicationData.Current.LocalSettings; }
 

@@ -12,7 +12,6 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class CustomGeetestClient
 {
@@ -26,6 +25,9 @@ internal sealed partial class CustomGeetestClient
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial CustomGeetestClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {

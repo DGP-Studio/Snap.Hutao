@@ -12,7 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc5)]
 internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
 {
@@ -20,6 +19,9 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HoyoPlayPassportClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<AuthTicketWrapper>> CreateAuthTicketAsync(User user, CancellationToken token = default)
     {

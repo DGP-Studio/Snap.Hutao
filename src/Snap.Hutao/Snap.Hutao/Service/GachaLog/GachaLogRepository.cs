@@ -11,10 +11,12 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[ConstructorGenerated]
 [Service(ServiceLifetime.Singleton, typeof(IGachaLogRepository))]
 internal sealed partial class GachaLogRepository : IGachaLogRepository
 {
+    [GeneratedConstructor]
+    public partial GachaLogRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public ObservableCollection<GachaArchive> GetGachaArchiveCollection()
