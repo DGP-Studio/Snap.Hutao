@@ -38,7 +38,6 @@ using System.Text.RegularExpressions;
 // ReSharper disable LocalizableElement
 namespace Snap.Hutao.ViewModel;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
@@ -52,6 +51,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ILogger<TestViewModel> logger;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial TestViewModel(IServiceProvider serviceProvider);
 
     public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
 

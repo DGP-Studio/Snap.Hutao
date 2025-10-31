@@ -22,7 +22,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Yae;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IYaeService))]
 internal sealed partial class YaeService : IYaeService
 {
@@ -32,6 +31,9 @@ internal sealed partial class YaeService : IYaeService
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial YaeService(IServiceProvider serviceProvider);
 
     public async ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution viewModel)
     {

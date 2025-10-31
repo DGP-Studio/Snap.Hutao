@@ -5,10 +5,12 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHutaoSpiralAbyssService
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial HutaoSpiralAbyssService(IServiceProvider serviceProvider);
+
     public override string TypeName { get; } = nameof(HutaoSpiralAbyssService);
 
     public async ValueTask<Overview> GetOverviewAsync(bool last = false)

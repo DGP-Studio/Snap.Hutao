@@ -18,7 +18,6 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
@@ -29,6 +28,9 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IDisposable
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
     private readonly App app;
+
+    [GeneratedConstructor]
+    public partial MainViewModel(IServiceProvider serviceProvider);
 
     public static string? Title { get => HutaoRuntime.GetDisplayName(); }
 

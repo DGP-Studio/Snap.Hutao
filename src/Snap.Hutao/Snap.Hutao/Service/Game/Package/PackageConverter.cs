@@ -25,13 +25,15 @@ using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IPackageConverter))]
 internal sealed partial class PackageConverter : IPackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly ILogger<PackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial PackageConverter(IServiceProvider serviceProvider);
 
     public async ValueTask EnsureDeprecatedFilesAndSDKAsync(PackageConverterDeprecationContext context)
     {

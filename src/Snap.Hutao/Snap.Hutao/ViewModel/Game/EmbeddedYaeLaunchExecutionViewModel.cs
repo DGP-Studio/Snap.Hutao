@@ -12,7 +12,6 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class EmbeddedYaeLaunchExecutionViewModel : IViewModelSupportLaunchExecution
 {
@@ -22,6 +21,9 @@ internal sealed partial class EmbeddedYaeLaunchExecutionViewModel : IViewModelSu
     private readonly ITaskContext taskContext;
     private readonly LaunchGameShared shared;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial EmbeddedYaeLaunchExecutionViewModel(IServiceProvider serviceProvider);
 
     public LaunchSchemeFilteredGameAccountsView CurrentSchemeFilteredGameAccountsView { get => field ??= new(Property.Create(false), gameService, taskContext, messenger); }
 

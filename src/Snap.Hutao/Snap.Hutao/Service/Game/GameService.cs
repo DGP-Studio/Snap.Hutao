@@ -10,13 +10,15 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.Service.Game;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGameService))]
 internal sealed partial class GameService : IGameService
 {
     private readonly IGameInRegistryAccountService gameInRegistryAccountService;
     private readonly IGameChannelOptionsService gameChannelOptionsService;
     private readonly IGamePathService gamePathService;
+
+    [GeneratedConstructor]
+    public partial GameService(IServiceProvider serviceProvider);
 
     public ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync()
     {

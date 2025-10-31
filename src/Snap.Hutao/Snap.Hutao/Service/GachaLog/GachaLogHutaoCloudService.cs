@@ -15,7 +15,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IGachaLogHutaoCloudService))]
 internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudService
 {
@@ -23,6 +22,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial GachaLogHutaoCloudService(IServiceProvider serviceProvider);
 
     public async ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {

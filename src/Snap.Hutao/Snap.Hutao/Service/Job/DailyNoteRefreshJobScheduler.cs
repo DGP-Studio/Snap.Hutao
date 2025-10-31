@@ -6,11 +6,13 @@ using Snap.Hutao.Service.DailyNote;
 
 namespace Snap.Hutao.Service.Job;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IJobScheduler))]
 internal sealed partial class DailyNoteRefreshJobScheduler : IJobScheduler
 {
     private readonly DailyNoteOptions dailyNoteOptions;
+
+    [GeneratedConstructor]
+    public partial DailyNoteRefreshJobScheduler(IServiceProvider serviceProvider);
 
     public async ValueTask ScheduleAsync(IScheduler scheduler)
     {

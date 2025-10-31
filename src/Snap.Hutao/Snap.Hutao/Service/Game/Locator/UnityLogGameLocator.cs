@@ -7,11 +7,13 @@ using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGameLocator), Key = GameLocationSourceKind.UnityLog)]
 internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial UnityLogGameLocator(IServiceProvider serviceProvider);
 
     [GeneratedRegex(@".:(?:\\|/).+(?:GenshinImpact|YuanShen)(?=_Data)", RegexOptions.IgnoreCase)]
     private static partial Regex WarmupFileLine { get; }

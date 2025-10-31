@@ -6,5 +6,8 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [Service(ServiceLifetime.Transient, typeof(IDriverMediaTypeAwareFactory<IGameAssetOperation>))]
-[GeneratedConstructor(CallBaseConstructor = true)]
-internal sealed partial class GameAssetOperationFactory : DriverMediaTypeAwareFactory<IGameAssetOperation, GameAssetOperationSSD, GameAssetOperationHDD>;
+internal sealed partial class GameAssetOperationFactory : DriverMediaTypeAwareFactory<IGameAssetOperation, GameAssetOperationSSD, GameAssetOperationHDD>
+{
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial GameAssetOperationFactory(IServiceProvider serviceProvider);
+}

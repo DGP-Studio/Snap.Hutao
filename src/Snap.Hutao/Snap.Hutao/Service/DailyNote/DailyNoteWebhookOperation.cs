@@ -10,13 +10,15 @@ using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNot
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class DailyNoteWebhookOperation
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial DailyNoteWebhookOperation(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public void TryPostDailyNoteToWebhook(PlayerUid playerUid, WebDailyNote dailyNote)
     {

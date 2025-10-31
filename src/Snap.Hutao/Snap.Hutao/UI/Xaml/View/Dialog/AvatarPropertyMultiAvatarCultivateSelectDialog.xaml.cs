@@ -11,10 +11,12 @@ using WinRT;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [DependencyProperty<IAdvancedCollectionView<AvatarView>>("Avatars")]
-[GeneratedConstructor(InitializeComponent = true)]
 internal sealed partial class AvatarPropertyMultiAvatarCultivateSelectDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial AvatarPropertyMultiAvatarCultivateSelectDialog(IServiceProvider serviceProvider);
 
     public ImmutableArray<AvatarView> SelectedAvatars { get; private set; } = [];
 

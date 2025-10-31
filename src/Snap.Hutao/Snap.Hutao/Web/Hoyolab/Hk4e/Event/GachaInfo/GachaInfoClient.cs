@@ -11,13 +11,15 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class GachaInfoClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial GachaInfoClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogTypedQueryOptions options, CancellationToken token = default)
     {

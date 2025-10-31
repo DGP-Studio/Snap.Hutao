@@ -21,7 +21,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Metadata;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MetadataService : IMetadataService
@@ -39,6 +38,9 @@ internal sealed partial class MetadataService : IMetadataService
 
     private FrozenSet<string>? fileNames;
     private volatile bool isInitialized;
+
+    [GeneratedConstructor]
+    public partial MetadataService(IServiceProvider serviceProvider);
 
     public partial IMemoryCache MemoryCache { get; }
 

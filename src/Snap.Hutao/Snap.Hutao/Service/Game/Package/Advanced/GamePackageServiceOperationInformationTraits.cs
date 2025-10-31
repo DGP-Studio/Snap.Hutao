@@ -13,11 +13,13 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageServiceOperationInformationTraits
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor]
+    public partial GamePackageServiceOperationInformationTraits(IServiceProvider serviceProvider);
 
     public async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndPrepareAsync(GamePackageOperationContext context)
     {

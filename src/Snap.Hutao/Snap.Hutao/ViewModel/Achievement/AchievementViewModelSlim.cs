@@ -12,9 +12,11 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial AchievementViewModelSlim(IServiceProvider serviceProvider);
+
     [ObservableProperty]
     public partial ImmutableArray<AchievementStatistics> StatisticsList { get; set; } = [];
 

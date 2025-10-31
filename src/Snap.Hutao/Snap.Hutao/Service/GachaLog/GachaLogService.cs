@@ -14,7 +14,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped, typeof(IGachaLogService))]
 internal sealed partial class GachaLogService : IGachaLogService
 {
@@ -27,6 +26,9 @@ internal sealed partial class GachaLogService : IGachaLogService
 
     private readonly AsyncLock archivesLock = new();
     private IAdvancedDbCollectionView<GachaArchive>? archives;
+
+    [GeneratedConstructor]
+    public partial GachaLogService(IServiceProvider serviceProvider);
 
     public async ValueTask<IAdvancedDbCollectionView<GachaArchive>> GetArchiveCollectionAsync()
     {

@@ -12,7 +12,6 @@ using System.Net.Http.Headers;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class PassportClientOversea : IPassportClient
 {
@@ -20,6 +19,9 @@ internal sealed partial class PassportClientOversea : IPassportClient
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial PassportClientOversea(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {

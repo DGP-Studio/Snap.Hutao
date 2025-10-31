@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<string>("UserName")]
 [DependencyProperty<string>("NewUserName")]
 [DependencyProperty<string>("VerifyCode")]
@@ -22,6 +21,9 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial HutaoPassportResetUsernameDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, (string? UserName, string? NewUserName, string? VerifyCode, string? NewVerifyCode)>> GetInputAsync(string? userName)
     {

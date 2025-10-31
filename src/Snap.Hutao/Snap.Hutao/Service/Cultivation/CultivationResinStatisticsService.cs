@@ -7,11 +7,13 @@ using Snap.Hutao.ViewModel.Cultivation;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ICultivationResinStatisticsService))]
 internal sealed partial class CultivationResinStatisticsService : ICultivationResinStatisticsService
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial CultivationResinStatisticsService(IServiceProvider serviceProvider);
 
     public async ValueTask<ResinStatistics> GetResinStatisticsAsync(IEnumerable<StatisticsCultivateItem> statisticsCultivateItems, CancellationToken token)
     {

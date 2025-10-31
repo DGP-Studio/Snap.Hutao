@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 namespace Snap.Hutao.Service.Job;
 
 [Service(ServiceLifetime.Singleton, typeof(IQuartzService))]
-[GeneratedConstructor]
 [SuppressMessage("", "SH003")]
 internal sealed partial class QuartzService : IQuartzService, IDisposable
 {
@@ -17,6 +16,9 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
     private readonly IServiceProvider serviceProvider;
 
     private IScheduler? scheduler;
+
+    [GeneratedConstructor]
+    public partial QuartzService(IServiceProvider serviceProvider);
 
     public async Task StartAsync(CancellationToken token = default)
     {

@@ -7,12 +7,14 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Metadata;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class MetadataOptions
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly CultureOptions cultureOptions;
+
+    [GeneratedConstructor]
+    public partial MetadataOptions(IServiceProvider serviceProvider);
 
     [field: MaybeNull]
     public string FallbackDataFolder

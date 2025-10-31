@@ -15,7 +15,6 @@ using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNot
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IDailyNoteService))]
 internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
@@ -28,6 +27,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
     private readonly AsyncLock entriesLock = new();
     private ObservableCollection<DailyNoteEntry>? entries;
+
+    [GeneratedConstructor]
+    public partial DailyNoteService(IServiceProvider serviceProvider);
 
     public void Receive(UserRemovedMessage message)
     {

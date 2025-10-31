@@ -13,7 +13,6 @@ using System.IO;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<ImageSource>("QRCodeSource")]
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
@@ -25,6 +24,9 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private readonly CancellationTokenSource userManualCancellationTokenSource = new();
     private bool disposed;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial UserQRCodeDialog(IServiceProvider serviceProvider);
 
     ~UserQRCodeDialog()
     {

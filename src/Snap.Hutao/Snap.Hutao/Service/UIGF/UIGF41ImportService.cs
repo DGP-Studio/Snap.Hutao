@@ -3,6 +3,9 @@
 
 namespace Snap.Hutao.Service.UIGF;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient, typeof(IUIGFImportService), Key = UIGFVersion.UIGF41)]
-internal sealed partial class UIGF41ImportService : AbstractUIGF40ImportService;
+internal sealed partial class UIGF41ImportService : AbstractUIGF40ImportService
+{
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial UIGF41ImportService(IServiceProvider serviceProvider);
+}

@@ -24,7 +24,6 @@ using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
@@ -38,6 +37,9 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IMessenger messenger;
 
     private WikiWeaponMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial WikiWeaponViewModel(IServiceProvider serviceProvider);
 
     public IAdvancedCollectionView<Weapon>? Weapons
     {

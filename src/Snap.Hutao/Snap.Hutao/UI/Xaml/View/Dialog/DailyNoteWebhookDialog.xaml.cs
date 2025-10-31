@@ -6,11 +6,13 @@ using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<string>("Text")]
 internal sealed partial class DailyNoteWebhookDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial DailyNoteWebhookDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, string?>> GetInputUrlAsync()
     {

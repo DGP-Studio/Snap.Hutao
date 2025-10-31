@@ -15,10 +15,12 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class LaunchOptions : DbStoreOptions, IRestrictedGamePathAccess
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial LaunchOptions(IServiceProvider serviceProvider);
+
     [field: MaybeNull]
     public static IObservableProperty<bool> IsGameRunning { get => field ??= GameLifeCycle.IsGameRunningProperty; }
 

@@ -7,13 +7,15 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IGamePathService))]
 internal sealed partial class GamePathService : IGamePathService
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial GamePathService(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, string>> SilentLocateGamePathAsync()
     {

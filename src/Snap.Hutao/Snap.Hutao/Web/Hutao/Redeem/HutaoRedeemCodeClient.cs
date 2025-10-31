@@ -11,12 +11,14 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Redeem;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoRedeemCodeClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoRedeemCodeClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<RedeemUseResult>> UseRedeemCodeAsync(string? accessToken, RedeemUseRequest request, CancellationToken token = default)
     {

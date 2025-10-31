@@ -7,10 +7,12 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ISpiralAbyssRepository))]
 internal sealed partial class SpiralAbyssRepository : ISpiralAbyssRepository
 {
+    [GeneratedConstructor]
+    public partial SpiralAbyssRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public FrozenDictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid)

@@ -20,7 +20,6 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>,
     IViewModelSupportLaunchExecution,
     IRecipient<UserAndUidChangedMessage>
@@ -30,6 +29,9 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial LaunchGameViewModelSlim(IServiceProvider serviceProvider);
 
     public partial LaunchGameShared Shared { get; }
 

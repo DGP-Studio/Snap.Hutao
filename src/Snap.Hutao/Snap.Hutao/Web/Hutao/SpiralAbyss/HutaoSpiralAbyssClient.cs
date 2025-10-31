@@ -18,7 +18,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoSpiralAbyssClient
 {
@@ -26,6 +25,9 @@ internal sealed partial class HutaoSpiralAbyssClient
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoSpiralAbyssClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {

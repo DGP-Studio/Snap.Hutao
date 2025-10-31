@@ -10,12 +10,14 @@ using Snap.Hutao.Core.Scripting;
 
 namespace Snap.Hutao.ViewModel.Scripting;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial ScriptingViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial string? InputScript { get; set; }

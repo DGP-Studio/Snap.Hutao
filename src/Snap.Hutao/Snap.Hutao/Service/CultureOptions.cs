@@ -10,10 +10,12 @@ using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial CultureOptions(IServiceProvider serviceProvider);
+
     public static ImmutableArray<NameCultureInfoValue> Cultures { get; } = SupportedCultures.GetValues();
 
     public ImmutableArray<NameValue<DayOfWeek>> DayOfWeeks { get => !field.IsDefaultOrEmpty ? field : field = ImmutableCollectionsNameValue.FromEnum<DayOfWeek>(CurrentCulture.Value.DateTimeFormat.GetDayName); }

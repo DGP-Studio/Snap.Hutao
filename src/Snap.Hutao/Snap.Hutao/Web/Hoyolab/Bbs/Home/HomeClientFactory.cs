@@ -5,6 +5,9 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient, typeof(IOverseaSupportFactory<IHomeClient>))]
-internal sealed partial class HomeClientFactory : OverseaSupportFactory<IHomeClient, HomeClient, HomeClientOversea>;
+internal sealed partial class HomeClientFactory : OverseaSupportFactory<IHomeClient, HomeClient, HomeClientOversea>
+{
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial HomeClientFactory(IServiceProvider serviceProvider);
+}

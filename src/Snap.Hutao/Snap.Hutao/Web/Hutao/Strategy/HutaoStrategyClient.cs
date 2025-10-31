@@ -14,13 +14,15 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Strategy;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoStrategyClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoStrategyClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>> GetStrategyAllAsync(CancellationToken token = default)
     {

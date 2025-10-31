@@ -33,7 +33,6 @@ using CalculatorItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemH
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>, IDisposable
@@ -42,6 +41,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private SummaryFactoryMetadataContext? metadataContext;
+
+    [GeneratedConstructor]
+    public partial AvatarPropertyViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial Summary? Summary { get; set; }

@@ -8,11 +8,13 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.Predownload)]
 internal sealed partial class GamePackagePredownloadOperation : GamePackageOperation
 {
     private readonly JsonSerializerOptions jsonOptions;
+
+    [GeneratedConstructor]
+    public partial GamePackagePredownloadOperation(IServiceProvider serviceProvider);
 
     public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
     {

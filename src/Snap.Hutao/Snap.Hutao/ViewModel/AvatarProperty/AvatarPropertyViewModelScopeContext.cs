@@ -10,10 +10,12 @@ using Snap.Hutao.Service.User;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AvatarPropertyViewModelScopeContext
 {
+    [GeneratedConstructor]
+    public partial AvatarPropertyViewModelScopeContext(IServiceProvider serviceProvider);
+
     public partial IContentDialogFactory ContentDialogFactory { get; }
 
     public partial IServiceScopeFactory ServiceScopeFactory { get; }

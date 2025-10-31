@@ -7,10 +7,12 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.HardChallenge;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IHardChallengeRepository))]
 internal sealed partial class HardChallengeRepository : IHardChallengeRepository
 {
+    [GeneratedConstructor]
+    public partial HardChallengeRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public FrozenDictionary<uint, HardChallengeEntry> GetHardChallengeMapByUid(string uid)

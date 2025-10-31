@@ -13,10 +13,12 @@ using System.IO;
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [SuppressMessage("", "SA1202")]
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Transient)]
 internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial GameAssetOperationHDD(IServiceProvider serviceProvider);
+
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)
     {
         foreach (SophonDecodedManifest manifest in remoteBuild.Manifests)

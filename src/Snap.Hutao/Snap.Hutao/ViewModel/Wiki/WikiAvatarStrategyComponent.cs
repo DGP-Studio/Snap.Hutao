@@ -11,13 +11,15 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class WikiAvatarStrategyComponent
 {
     private readonly IAvatarStrategyService avatarStrategyService;
     private readonly CultureOptions cultureOptions;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial WikiAvatarStrategyComponent(IServiceProvider serviceProvider);
 
     public bool IsBilibiliAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
 

@@ -6,5 +6,8 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 namespace Snap.Hutao.Web.Hoyolab.Downloader;
 
 [Service(ServiceLifetime.Transient, typeof(IOverseaSupportFactory<ISophonClient>))]
-[GeneratedConstructor(CallBaseConstructor = true)]
-internal sealed partial class SophonClientFactory : OverseaSupportFactory<ISophonClient, SophonClient, SophonClientOversea>;
+internal sealed partial class SophonClientFactory : OverseaSupportFactory<ISophonClient, SophonClient, SophonClientOversea>
+{
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial SophonClientFactory(IServiceProvider serviceProvider);
+}

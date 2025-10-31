@@ -19,7 +19,6 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
@@ -33,6 +32,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial GamePackageViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(LocalVersionText), nameof(IsUpdateAvailable))]

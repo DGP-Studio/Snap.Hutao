@@ -16,7 +16,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient
@@ -25,6 +24,9 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial GameRecordClientOversea(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {

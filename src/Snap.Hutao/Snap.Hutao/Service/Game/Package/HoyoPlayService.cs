@@ -11,11 +11,13 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IHoyoPlayService))]
 internal sealed partial class HoyoPlayService : IHoyoPlayService
 {
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial HoyoPlayService(IServiceProvider serviceProvider);
 
     public ValueTask<ValueResult<bool, GameBranchesWrapper>> TryGetBranchesAsync(LaunchScheme scheme)
     {

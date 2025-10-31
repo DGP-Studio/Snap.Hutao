@@ -10,7 +10,6 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUserCollectionService))]
 internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
 {
@@ -23,6 +22,9 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     private readonly AsyncLock collectionLocker = new();
 
     private AdvancedDbCollectionView<BindingUser, EntityUser>? users;
+
+    [GeneratedConstructor]
+    public partial UserCollectionService(IServiceProvider serviceProvider);
 
     public async ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
     {

@@ -9,7 +9,6 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao.Algolia;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoDocumentationClient
 {
     private const string AlgoliaApiKey = "72d7a9a0f9f0466218ea19988886dce8";
@@ -18,6 +17,9 @@ internal sealed partial class HutaoDocumentationClient
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoDocumentationClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<AlgoliaResponse?> QueryAsync(string query, string language, CancellationToken token = default)
     {

@@ -21,7 +21,6 @@ using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
@@ -30,6 +29,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly App app;
+
+    [GeneratedConstructor]
+    public partial NotifyIconViewModel(IServiceProvider serviceProvider);
 
     public static string Title
     {

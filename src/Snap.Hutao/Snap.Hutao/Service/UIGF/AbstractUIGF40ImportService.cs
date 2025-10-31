@@ -9,11 +9,13 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.UIGF;
 
-[GeneratedConstructor]
 internal abstract partial class AbstractUIGF40ImportService : IUIGFImportService
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial AbstractUIGF40ImportService(IServiceProvider serviceProvider);
 
     public async ValueTask ImportAsync(UIGFImportOptions importOptions, CancellationToken token = default)
     {

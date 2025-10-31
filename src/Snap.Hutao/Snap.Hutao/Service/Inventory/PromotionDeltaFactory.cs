@@ -15,13 +15,15 @@ using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 
 namespace Snap.Hutao.Service.Inventory;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class PromotionDeltaFactory
 {
     private readonly ILogger<PromotionDeltaFactory> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly IMemoryCache memoryCache;
+
+    [GeneratedConstructor]
+    public partial PromotionDeltaFactory(IServiceProvider serviceProvider);
 
     public async ValueTask<ImmutableArray<AvatarPromotionDelta>> GetAsync(ICultivationMetadataContext context, UserAndUid userAndUid)
     {

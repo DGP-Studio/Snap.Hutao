@@ -12,7 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Service.Feature;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IFeatureService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class FeatureService : IFeatureService
@@ -21,6 +20,9 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache memoryCache;
+
+    [GeneratedConstructor]
+    public partial FeatureService(IServiceProvider serviceProvider);
 
     public ValueTask<IslandFeature2?> GetIslandFeatureAsync(string tag)
     {

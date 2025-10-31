@@ -7,12 +7,14 @@ using Snap.Hutao.Service.Game.Scheme;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[GeneratedConstructor(InitializeComponent = true)]
 [DependencyProperty<IEnumerable<LaunchScheme>>("KnownSchemes")]
 [DependencyProperty<LaunchScheme>("SelectedScheme")]
 internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
+
+    [GeneratedConstructor(InitializeComponent = true)]
+    public partial LaunchGameConfigurationFixDialog(IServiceProvider serviceProvider);
 
     public async ValueTask<ValueResult<bool, LaunchScheme?>> GetLaunchSchemeAsync()
     {

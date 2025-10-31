@@ -7,13 +7,15 @@ using Snap.Hutao.Web.Hoyolab.Passport;
 
 namespace Snap.Hutao.Service.User;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IUserVerificationService))]
 internal sealed partial class UserVerificationService : IUserVerificationService
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
+
+    [GeneratedConstructor]
+    public partial UserVerificationService(IServiceProvider serviceProvider);
 
     public async ValueTask<bool> TryVerifyAsync(IVerifyProvider provider, string? rawRisk, bool isOversea, CancellationToken token = default)
     {

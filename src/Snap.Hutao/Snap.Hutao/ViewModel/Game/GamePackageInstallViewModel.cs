@@ -20,7 +20,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Singleton)]
 internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewModel
@@ -30,6 +29,9 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial GamePackageInstallViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(RemoteVersionText))]

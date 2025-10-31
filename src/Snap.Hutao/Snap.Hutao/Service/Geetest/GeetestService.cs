@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Geetest;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGeetestService))]
 internal sealed partial class GeetestService : IGeetestService
 {
@@ -22,6 +21,9 @@ internal sealed partial class GeetestService : IGeetestService
     private readonly ITaskContext taskContext;
     private readonly CardClient cardClient;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial GeetestService(IServiceProvider serviceProvider);
 
     public async ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, bool isOversea, CancellationToken token = default)
     {

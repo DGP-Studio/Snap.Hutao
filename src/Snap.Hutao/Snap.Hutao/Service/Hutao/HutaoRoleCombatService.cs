@@ -5,10 +5,12 @@ using Snap.Hutao.Web.Hutao.RoleCombat;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[GeneratedConstructor(CallBaseConstructor = true)]
 [Service(ServiceLifetime.Scoped, typeof(IHutaoRoleCombatService))]
 internal sealed partial class HutaoRoleCombatService : ObjectCacheService, IHutaoRoleCombatService
 {
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial HutaoRoleCombatService(IServiceProvider serviceProvider);
+
     public override string TypeName { get; } = nameof(HutaoRoleCombatService);
 
     public async ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync()

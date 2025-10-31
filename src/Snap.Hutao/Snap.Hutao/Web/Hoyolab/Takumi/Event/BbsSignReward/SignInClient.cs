@@ -14,7 +14,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
-[GeneratedConstructor(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class SignInClient : ISignInClient
@@ -25,6 +24,9 @@ internal sealed partial class SignInClient : ISignInClient
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial SignInClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {

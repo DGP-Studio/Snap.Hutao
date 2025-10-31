@@ -12,12 +12,14 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hutao;
 
 [HttpClient(HttpClientConfiguration.Default)]
-[GeneratedConstructor(ResolveHttpClient = true)]
 internal sealed partial class HutaoInfrastructureClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HttpClient httpClient;
+
+    [GeneratedConstructor]
+    public partial HutaoInfrastructureClient(IServiceProvider serviceProvider, HttpClient httpClient);
 
     public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
     {

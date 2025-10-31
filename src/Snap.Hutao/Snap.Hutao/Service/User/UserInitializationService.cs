@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.User;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IUserInitializationService))]
 internal sealed partial class UserInitializationService : IUserInitializationService
 {
@@ -20,6 +19,9 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     private readonly IProfilePictureService profilePictureService;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial UserInitializationService(IServiceProvider serviceProvider);
 
     public ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User entity, CancellationToken token = default)
     {

@@ -7,10 +7,12 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(IInventoryRepository))]
 internal sealed partial class InventoryRepository : IInventoryRepository
 {
+    [GeneratedConstructor]
+    public partial InventoryRepository(IServiceProvider serviceProvider);
+
     public partial IServiceProvider ServiceProvider { get; }
 
     public void RemoveInventoryItemRangeByProjectId(Guid projectId)

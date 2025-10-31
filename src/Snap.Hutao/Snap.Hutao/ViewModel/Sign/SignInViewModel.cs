@@ -19,7 +19,6 @@ namespace Snap.Hutao.ViewModel.Sign;
 
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Transient)]
-[GeneratedConstructor(CallBaseConstructor = true)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
@@ -34,6 +33,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private bool updating;
     private int totalSignDay;
     private SignInRewardReSignInfo? resignInfo;
+
+    [GeneratedConstructor(CallBaseConstructor = true)]
+    public partial SignInViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial IAdvancedCollectionView<AwardView>? Awards { get; set; }

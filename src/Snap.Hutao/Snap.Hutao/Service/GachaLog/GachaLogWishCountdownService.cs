@@ -13,11 +13,13 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Transient, typeof(IGachaLogWishCountdownService))]
 internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountdownService
 {
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial GachaLogWishCountdownService(IServiceProvider serviceProvider);
 
     public async ValueTask<WishCountdownBundle> GetWishCountdownBundleAsync(GachaLogWishCountdownServiceMetadataContext context)
     {

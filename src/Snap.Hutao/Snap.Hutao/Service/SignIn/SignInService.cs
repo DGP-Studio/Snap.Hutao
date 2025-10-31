@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.SignIn;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Singleton, typeof(ISignInService))]
 internal sealed partial class SignInService : ISignInService
 {
@@ -20,6 +19,9 @@ internal sealed partial class SignInService : ISignInService
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial SignInService(IServiceProvider serviceProvider);
 
     public async ValueTask<bool> ClaimSignInRewardAsync(UserAndUid userAndUid, CancellationToken token = default)
     {

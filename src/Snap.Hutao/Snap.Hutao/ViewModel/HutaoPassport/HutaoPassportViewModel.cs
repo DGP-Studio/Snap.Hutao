@@ -11,7 +11,6 @@ using Snap.Hutao.UI.Xaml.View.Page;
 
 namespace Snap.Hutao.ViewModel.HutaoPassport;
 
-[GeneratedConstructor]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
@@ -19,6 +18,9 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial HutaoPassportViewModel(IServiceProvider serviceProvider);
 
     public partial HutaoUserOptions HutaoUserOptions { get; }
 

@@ -10,7 +10,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.ViewModel
@@ -18,6 +17,9 @@ internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.Vi
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
+
+    [GeneratedConstructor]
+    public partial HutaoSpiralAbyssDatabaseViewModel(IServiceProvider serviceProvider);
 
     [ObservableProperty]
     public partial ImmutableArray<AvatarRankView> AvatarUsageRanks { get; set; }

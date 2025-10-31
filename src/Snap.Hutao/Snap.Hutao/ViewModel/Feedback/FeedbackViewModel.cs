@@ -19,7 +19,6 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Feedback;
 
-[GeneratedConstructor]
 [BindableCustomPropertyProvider]
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
@@ -30,6 +29,9 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
+
+    [GeneratedConstructor]
+    public partial FeedbackViewModel(IServiceProvider serviceProvider);
 
     public static HttpProxyUsingSystemProxy DynamicHttpProxy { get => HttpProxyUsingSystemProxy.Instance; }
 
