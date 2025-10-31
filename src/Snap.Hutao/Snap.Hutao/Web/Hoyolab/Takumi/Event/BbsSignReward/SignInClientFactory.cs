@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
-
 [Service(ServiceLifetime.Transient, typeof(IOverseaSupportFactory<ISignInClient>))]
 internal sealed partial class SignInClientFactory : OverseaSupportFactory<ISignInClient, SignInClient, SignInClientOversea>
 {

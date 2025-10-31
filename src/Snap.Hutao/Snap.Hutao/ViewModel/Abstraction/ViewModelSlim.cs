@@ -11,7 +11,6 @@ using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-
 internal abstract partial class ViewModelSlim : ObservableObject
 {
     [GeneratedConstructor]

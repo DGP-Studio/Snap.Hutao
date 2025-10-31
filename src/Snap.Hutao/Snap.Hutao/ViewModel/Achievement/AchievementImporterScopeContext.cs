@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Yae;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-
 [Service(ServiceLifetime.Scoped)]
 internal sealed partial class AchievementImporterScopeContext
 {
